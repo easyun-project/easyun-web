@@ -28,13 +28,8 @@ jobs:
       - name: build prod
         run: npm run build:prod
         working-directory: ./
-      - name: run server
-        run: nohup npm run server &
-        working-directory: ./
       - name: install live-server
         run: npm install -g live-server
-      - name: start easyun
-        run: nohup live-server dist --port=8088 &
       - name: Deploy to my EC2 instance
         uses: easingthemes/ssh-deploy@v2.1.5
         env:
@@ -43,4 +38,9 @@ jobs:
           REMOTE_HOST: ${{secrets.TOKYO_IP}}
           REMOTE_USER: "ec2-user"
           TARGET: "/home/ec2-user/easyun-web"
+      - name: start easyun
+        run: nohup live-server dist --port=8088 &
+      - name: run server
+        run: nohup npm run server &
+        working-directory: ./
 
