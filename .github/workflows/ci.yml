@@ -1,18 +1,42 @@
 name: Push-to-EC2
 
-on: push
+on:
+  push:
+    branches: [ develop,master ]
+  pull_request:
+    branches: [ develop,master ]
 
 jobs:
   deploy:
     name: Push to EC2 Instance
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout the code
-        uses: actions/checkout@v1
+    strategy:
+      matrix:
+        node-version: [ 16.x ]
 
+    steps:
       - name: Deploy to my EC2 instance
         uses: easingthemes/ssh-deploy@v2.1.5
+      - name: Code Checkout
+          uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: npm install
+        run: npm install
+        working-directory: ./
+      - name: build prod
+        run: npm run build:prod
+        working-directory: ./
+      - name: run server
+        run: npm run server
+        working-directory: ./
+      - name: install live-server
+        run: npm install -g live-server
+      - name: start easyun
+        run: live-server dist --port=8088
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY_TOKYO }}
           SOURCE: "./"
