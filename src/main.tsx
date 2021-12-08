@@ -13,6 +13,7 @@ import Home from '@/views/Home';
 import DataCenter from '@/views/DataCenter';
 import Resource from '@/views/Resource';
 import AddServer from '@/views/Resource/AddServer';
+import Storage from './views/Resource/Storage';
 import AddBucket from '@/views/Resource/Storage/AddBucket';
 import AddDisk from '@/views/Resource/Storage/AddDisk/insex';
 import LoginPage from '@/views/Login';
@@ -31,6 +32,7 @@ const App = (): JSX.Element => {
 					<Route path="addServer" element={<AddServer/>}/>
 					<Route path="addBucket" element={<AddBucket/>}/>
 					<Route path="addDisk" element={<AddDisk/>}/>
+					<Route path="storage" element={<Storage/>}/>
 				</Route>
 				<Route path="login" element={<LoginPage/>}/>
 				<Route path="404" element={<NotFound/>}/>
