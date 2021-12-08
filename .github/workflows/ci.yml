@@ -20,6 +20,12 @@ jobs:
         uses: actions/checkout@v2
       - name: Deploy to my EC2 instance
         uses: easingthemes/ssh-deploy@v2.1.5
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY_TOKYO }}
+          SOURCE: "./"
+          REMOTE_HOST: ${{secrets.TOKYO_IP}}
+          REMOTE_USER: "ec2-user"
+          TARGET: "/home/ec2-user/easyun-web"
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -37,9 +43,4 @@ jobs:
         run: npm install -g live-server
       - name: start easyun
         run: live-server dist --port=8088
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY_TOKYO }}
-          SOURCE: "./"
-          REMOTE_HOST: ${{secrets.TOKYO_IP}}
-          REMOTE_USER: "ec2-user"
-          TARGET: "/home/ec2-user/easyun-web"
+
