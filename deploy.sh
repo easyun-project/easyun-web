@@ -18,4 +18,4 @@ cp /home/ec2-user/ecosystem.json ecosystem.json
 pm2 start ecosystem.json
 
 echo "start client"
-nohup live-server dist --port=8088
+nohup live-server dist --port=8888
