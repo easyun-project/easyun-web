@@ -16,6 +16,6 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY_TOKYO }}
           SOURCE: "./"
-          REMOTE_HOST: ${{secrests.TOKYO_IP}}
+          REMOTE_HOST: ${{secrets.TOKYO_IP}}
           REMOTE_USER: "ec2-user"
           TARGET: "/home/ec2-user/easyun-web"
