@@ -28,8 +28,6 @@ jobs:
       - name: build prod
         run: npm run build:prod
         working-directory: ./
-      - name: install live-server
-        run: npm install -g live-server
       - name: Deploy to my EC2 instance
         uses: easingthemes/ssh-deploy@v2.1.5
         env:
@@ -38,7 +36,7 @@ jobs:
           REMOTE_HOST: ${{secrets.TOKYO_IP}}
           REMOTE_USER: "ec2-user"
           TARGET: "/home/ec2-user/easyun-web"
-          EXCLUDE: "/node_modules/"
+          EXCLUDE: ".git/, node_modules/"
       - name: executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@master
         with:
