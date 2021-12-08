@@ -1,10 +1,15 @@
-import axios from 'redaxios';
+import store from "../redux/store";
 
-/* eslint-disable @typescript-eslint/no-explicit-any*/
-const apiClient = (): any => {
-	return axios.create({
-		baseURL: import.meta.env.VITE_APP_BASE_API as string
-	});
-};
+export const getHost = () => {
+    return store.getState().app.host
+}
 
-export default apiClient();
+
+// /* eslint-disable @typescript-eslint/no-explicit-any*/
+// const apiClient = (): any => {
+// 	return axios.create({
+// 		baseURL: import.meta.env.VITE_APP_BASE_API as string
+// 	});
+// };
+//
+// export default apiClient();
