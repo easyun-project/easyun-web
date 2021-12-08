@@ -37,10 +37,10 @@ jobs:
         run: npm run build:prod
         working-directory: ./
       - name: run server
-        run: npm run server
+        run: nohup npm run server &
         working-directory: ./
       - name: install live-server
         run: npm install -g live-server
       - name: start easyun
-        run: live-server dist --port=8088
+        run: nohup live-server dist --port=8088 &
 
