@@ -5,6 +5,8 @@ import { Icon } from '@iconify/react';
 import { classnames } from '@@/tailwindcss-classnames';
 import CPlatform from '@/components/Logic/CPlatform';
 
+
+// xiong_test
 const AddBucket = (): JSX.Element => {
 	return (
 		<div>
