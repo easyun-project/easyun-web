@@ -38,9 +38,11 @@ jobs:
           REMOTE_HOST: ${{secrets.TOKYO_IP}}
           REMOTE_USER: "ec2-user"
           TARGET: "/home/ec2-user/easyun-web"
-      - name: start easyun
-        run: nohup live-server dist --port=8088 &
-      - name: run server
-        run: nohup npm run server &
-        working-directory: ./
+      - name: executing remote ssh commands using ssh key
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.TOKYO_IP }}
+            username: "ec2-user"
+            key: ${{ secrets.EC2_SSH_KEY_TOKYO }}
+            script: sh deploy.sh
 
