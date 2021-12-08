@@ -8,12 +8,11 @@ echo "Update app from Git"
 git pull
 
 echo "Install app dependencies"
-sudo rm -rf node_modules package-lock.json
-sudo npm install
+npm install
 
 echo "Build your app"
-sudo npm run build
+npm run build
 
 echo "Run new PM2 action"
-sudo cp /home/ecosystem.json ecosystem.json
-sudo pm2 start ecosystem.json
+cp /home/ecosystem.json ecosystem.json
+pm2 start ecosystem.json
