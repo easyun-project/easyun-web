@@ -43,6 +43,6 @@ jobs:
           host: ${{ secrets.TOKYO_IP }}
           username: "ec2-user"
           key: ${{ secrets.EC2_SSH_KEY_TOKYO }}
-          script: sh deploy.sh
+          script: sh easyun-web/deploy.sh
 
 
