@@ -16,6 +16,3 @@ npm run build
 echo "Run new PM2 action"
 cp /home/ec2-user/ecosystem.json ecosystem.json
 pm2 start ecosystem.json
-
-echo "start client"
-nohup live-server dist --port=8888
