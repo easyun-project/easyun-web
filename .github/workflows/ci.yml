@@ -11,23 +11,9 @@ jobs:
     name: Push to EC2 Instance
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [ 16.x ]
-
     steps:
       - name: Code Checkout
         uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: npm install
-        run: npm install
-        working-directory: ./
-      - name: build prod
-        run: npm run build:prod
-        working-directory: ./
       - name: Deploy to my EC2 instance
         uses: easingthemes/ssh-deploy@main
         env:
