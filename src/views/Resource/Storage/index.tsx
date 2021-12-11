@@ -10,7 +10,8 @@ import { useNavigate } from 'react-router-dom';
 
 const Storage = (): JSX.Element => {
 	const navigate = useNavigate();
-	const storageList = [{bucketName:'bucket-easyyun-test219',bucketUrl:'bucket-easyyun-test219',storageType:'storage bucket',isPrivate:'All objects are privite',region:'Virginia'}];
+	const storageList = [{bucketName:'bucket-easyun-test219',bucketUrl:'bucket-easyyun-test219',storageType:'storage bucket',isPrivate:'All objects are privite',region:'Virginia'},
+							{bucketName:'bucket-easyun-test331',bucketUrl:'bucket-easyyun-test331',storageType:'storage bucket',isPrivate:'Individual objects can be public',region:'Singapore'}];
 	return (
 		<div>
 			<CHeader />
@@ -93,7 +94,9 @@ const Storage = (): JSX.Element => {
 						</div>
 					</div>
 				</div>
-			):(<div><div>
+			):(<div>
+			<div className={classnames('flex','flex-row','justify-between','items-center')}>
+			<div className={classnames('text-center')}>
 				Sort by Type
 			</div>
 			<div>
@@ -145,8 +148,9 @@ const Storage = (): JSX.Element => {
 				>
                 				Add NAS
 				</CButton>
-			</div>
-			<div>
+			</div></div>
+			
+			<div className={classnames('flex','flex-row')}>
 				{storageList.map((storageInfo)=>{return <CStorageCard key={storageInfo.bucketName} {...storageInfo}/>;})}
 			</div>
 			</div>)}
