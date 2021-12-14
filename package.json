@@ -15,7 +15,7 @@
   "dependencies": {
     "@koa/router": "^10.1.1",
     "@reduxjs/toolkit": "^1.6.1",
-    "daisyui": "^1.16.2",
+    "antd": "^4.17.3",
     "i18next": "^20.6.1",
     "i18next-browser-languagedetector": "^6.1.2",
     "koa": "^2.13.4",
