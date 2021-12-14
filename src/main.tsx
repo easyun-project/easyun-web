@@ -19,6 +19,7 @@ import LoginPage from '@/views/Login';
 import Account from '@/views/Account';
 import appService from "@/service/appService";
 import {hostAction} from "@/redux/appSlice";
+import 'antd/dist/antd.css'
 
 
 const App = (): JSX.Element => {
