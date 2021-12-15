@@ -19,7 +19,7 @@ import LoginPage from '@/views/Login';
 import Account from '@/views/Account';
 import appService from "@/service/appService";
 import {hostAction} from "@/redux/appSlice";
-import 'antd/dist/antd.css'
+import "antd/dist/antd.less"; //原有是antd.css  只需要改为less就可以啦
 
 
 const App = (): JSX.Element => {
@@ -58,12 +58,10 @@ const App = (): JSX.Element => {
 
 
 ReactDOM.render(
-    <React.StrictMode>
-        <BrowserRouter>
-            <Provider store={store}>
-                <App/>
-            </Provider>
-        </BrowserRouter>
-    </React.StrictMode>,
+    <BrowserRouter>
+        <Provider store={store}>
+            <App/>
+        </Provider>
+    </BrowserRouter>,
     document.getElementById('root')
 );

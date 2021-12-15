@@ -13,7 +13,11 @@ const DataCenter = (): JSX.Element => {
 	return (
 		<div>
 			<CHeader/>
-			<div className={classnames('ml-5', 'mt-2')}>Easy DataCenter Networking</div>
+			<div className={classnames('my-3')}>
+				<Icon icon="ant-design:plus-circle-twotone" width="25" className={classnames('inline-block','mx-1')}  fr={undefined} />
+				Create New Cloud DataCenter
+			</div>
+			<div className={classnames('ml-5', 'mt-2')}>Easyun DataCenter Networking</div>
 			<div className={classnames('ml-24')}>Region:
 				<Icon className={classnames('inline-block','mx-1')} icon="emojione-v1:flag-for-japan" color="gray" width="25" height="25" fr={undefined} />
                 japan(ap-northeast-1)</div>
@@ -23,6 +27,7 @@ const DataCenter = (): JSX.Element => {
 			</div>
 			<CSubnet index={1} isPublic={true} classes={classnames('w-96', 'inline-block')}/>
 			<CSubnet index={2} isPublic={true} classes={classnames('w-96', 'inline-block')}/>
+			<br/>
 			<CSubnet index={1} isPublic={false} classes={classnames('w-96', 'inline-block')}/>
 			<CSubnet index={2} isPublic={false} classes={classnames('w-96', 'inline-block')}/>
 
