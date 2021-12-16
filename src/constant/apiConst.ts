@@ -9,7 +9,7 @@ export const UserLogin = 'api/v1/user/auth';
 
 
 // Storage s3存储 常量名以Storage开头
-
+export const AddBucket = 'api/v1/storage/add_bucket';
 
 // database 数据库 常量名以Database开头
 
