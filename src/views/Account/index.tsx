@@ -8,6 +8,7 @@ const Account = (): JSX.Element => {
 	return(
 		<div>
 			<CHeader/>
+			<div>test</div>
 			<CUserCenter/>
 			<CFooter />
 		</div>
