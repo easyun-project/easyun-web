@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {CHeader} from '@/components/Logic/CHeader';
 import {CFooter} from '@/components/Logic/CFooter';
 import {CSubnet} from '@/components/Logic/CSubnet';
@@ -14,15 +14,15 @@ import {DefaultDataCenter} from "@/constant/result";
 const DataCenter = (): JSX.Element => {
     const navigate = useNavigate();
     let dispatch = useDispatch();
+    const [data, setData] = useState<DefaultDataCenter>()
 
-    const getDefaultDataCenterData = async () => {
-        const result = await dataCenterService.getDefault<DefaultDataCenter>()
-        console.log(result)
-    }
-
-    useEffect(()=>{
-        getDefaultDataCenterData()
-    })
+    useEffect(() => {
+        const func = async () => {
+            const result = await dataCenterService.getDefault<DefaultDataCenter>()
+            setData(result)
+        }
+        func()
+    }, [])
 
 
     return (
