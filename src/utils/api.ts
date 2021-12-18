@@ -1,7 +1,7 @@
-import store from "../redux/store";
+import appService from "@/service/appService";
 
 export const getHost = () => {
-    return store.getState().app.host
+    return appService.getHost()
 }
 
 

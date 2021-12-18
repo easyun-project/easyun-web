@@ -23,16 +23,6 @@ import "antd/dist/antd.less"; //原有是antd.css  只需要改为less就可以�
 
 
 const App = (): JSX.Element => {
-    let dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(async () => {
-            let host = await appService.getHost();
-            if (host) {
-                dispatch(hostAction(host))
-            }
-        });
-    }, [])
-
     return (
         <Suspense fallback={<CFullLoading/>}>
             <Routes>
