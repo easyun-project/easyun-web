@@ -3,6 +3,11 @@ export interface Result<T> {
     message: string,
     detail: T
 }
+export interface User {
+  account_id: string;
+  aws_type: string;
+  role: string;
+}
 
 export const fail = async (): Promise<undefined> => {
     return undefined
