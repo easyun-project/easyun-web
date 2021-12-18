@@ -19,40 +19,40 @@ import AddDisk from '@/views/Resource/Storage/AddDisk/insex';
 import LoginPage from '@/views/Login';
 import Account from '@/views/Account';
 
+import 'antd/dist/antd.css';
 
 const App = (): JSX.Element => {
-	return (
-		<Suspense fallback={<CFullLoading/>}>
-			<Routes>
-				<Route path="/" element={<LoginPage/>}/>
-				<Route path="home" element={<Home/>}/>
-				<Route path="dataCenter" element={<DataCenter/>}/>
-				<Route path="resource">
-					<Route index element={<Resource/>}/>
-					<Route path="addServer" element={<AddServer/>}/>
-					<Route path="addBucket" element={<AddBucket/>}/>
-					<Route path="addDisk" element={<AddDisk/>}/>
-					<Route path="storage" element={<Storage/>}/>
-				</Route>
-				<Route path="login" element={<LoginPage/>}/>
-				<Route path="404" element={<NotFound/>}/>
-				{/* <Route
+  return (
+    <Suspense fallback={<CFullLoading />}>
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="home" element={<Home />} />
+        <Route path="dataCenter" element={<DataCenter />} />
+        <Route path="resource">
+          <Route index element={<Resource />} />
+          <Route path="addServer" element={<AddServer />} />
+          <Route path="addBucket" element={<AddBucket />} />
+          <Route path="addDisk" element={<AddDisk />} />
+          <Route path="storage" element={<Storage />} />
+        </Route>
+        <Route path="login" element={<LoginPage />} />
+        <Route path="404" element={<NotFound />} />
+        {/* <Route
 					path="*"
 					element={<Navigate to="/"/>}/> */}
-				<Route path='account' element={<Account/>}/>
-			</Routes>
-		</Suspense>
-	);
+        <Route path="account" element={<Account />} />
+      </Routes>
+    </Suspense>
+  );
 };
 
-
 ReactDOM.render(
-	<React.StrictMode>
-		<BrowserRouter>
-			<Provider store={store}>
-				<App/>
-			</Provider>
-		</BrowserRouter>
-	</React.StrictMode>,
-	document.getElementById('root')
+  <React.StrictMode>
+    <BrowserRouter>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </BrowserRouter>
+  </React.StrictMode>,
+  document.getElementById('root')
 );

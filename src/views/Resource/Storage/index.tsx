@@ -6,6 +6,10 @@ import { CButton } from '@/components/Common/CButton';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
+import { Menu, Dropdown } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
+
+import bucketManage from '@/service/addBucket';
 
 const WithoutStorage = (): JSX.Element => {
   const navigate = useNavigate();
@@ -198,10 +202,26 @@ const WithStorage = (props): JSX.Element => {
 };
 
 const Storage = (): JSX.Element => {
+  const bucketListRes = bucketManage.listBucket();
   const navigate = useNavigate();
-  const storageList = [{bucketName:'bucket-easyun-test219',bucketUrl:'bucket-easyyun-test219',storageType:'storage bucket',isPrivate:'All objects are privite',region:'Virginia'},
-  						{bucketName:'bucket-easyun-test331',bucketUrl:'bucket-easyyun-test331',storageType:'storage bucket',isPrivate:'Individual objects can be public',region:'Singapore'}];
-//   const storageList = [];
+  //   const storageList = bucketListRes.data;
+  const storageList = [
+    {
+      bucketName: 'bucket-easyun-test219',
+      bucketUrl: 'bucket-easyyun-test219',
+      storageType: 'storage bucket',
+      isPrivate: 'All objects are privite',
+      region: 'Virginia',
+    },
+    {
+      bucketName: 'bucket-easyun-test331',
+      bucketUrl: 'bucket-easyyun-test331',
+      storageType: 'storage bucket',
+      isPrivate: 'Individual objects can be public',
+      region: 'Singapore',
+    },
+  ];
+  //   const storageList = [];
 
   return (
     <div>

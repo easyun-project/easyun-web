@@ -4,6 +4,7 @@ import { CFooter } from '@/components/Logic/CFooter';
 import { Icon } from '@iconify/react';
 import { classnames } from '@@/tailwindcss-classnames';
 import { CButton } from '@/components/Common/CButton';
+import { useNavigate } from 'react-router-dom';
 
 import bucketManage from '@/service/addBucket';
 
@@ -14,6 +15,7 @@ const AddBucket = (): JSX.Element => {
   const [bucketName, changeBucketName] = useState(defaultBucketName);
   const [bucketEncryption, changeBucketEncryp] = useState(false);
   const [versioningConfiguration, changeVerConfig] = useState(true);
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -211,19 +213,19 @@ const AddBucket = (): JSX.Element => {
             'my-5'
           )}
           click={async () => {
-            console.log({
-              bucketName,
-              versioningConfiguration: versioningConfiguration ? 'Enabled' : 'Suspended',
-              bucketEncryption: bucketEncryption.toString(),
-              region,
-            });
-            const res = await bucketManage.addBucket({
-              bucketName,
-              versioningConfiguration: versioningConfiguration ? 'Enabled' : 'Suspended',
-              bucketEncryption: bucketEncryption.toString(),
-              region,
-            });
-            console.log(res.data);
+            const res = await bucketManage
+              .addBucket({
+                bucketName,
+                versioningConfiguration: versioningConfiguration ? 'Enabled' : 'Suspended',
+                bucketEncryption: bucketEncryption.toString(),
+                region,
+              })
+              .then(() => {
+                alert('创建成功');
+              })
+              .then(() => {
+                navigate('/resource/storage');
+              });
           }}
         >
           Create
