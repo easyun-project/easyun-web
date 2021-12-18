@@ -41,15 +41,6 @@ interface Tag {
     Value: string;
 }
 
-
-// {
-//         "create_date": "2021-12-18 11:05:39.606044",
-//         "keypair": [
-//         "{'Keypair filename', 'key-easyun-user.pem'}"
-//     ],
-//         "region_name": "us-east-1",
-// },
-
 export interface DataCenterModel {
     azs: string[],
     create_date: string,
@@ -63,8 +54,9 @@ interface Subnet {
     SubnetId: string;
     CidrBlock: string;
     AvailableIpAddressCount: string;
+    keypair: Keypair
 }
 
-interface Keypair{
-
+interface Keypair {
+    filename: string
 }
