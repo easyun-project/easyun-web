@@ -5,6 +5,7 @@
 export const UserLogin = '/api/v1/user/auth';
 export const AwsInfo = "/api/v1.0/aws_info";
 // dataCenter 数据中心相关内容 常量名以DataCenter开头
+export const DataCenterDefault = "/api/v1/datacenter/default"
 
 // Server 服务器 常量名以Server开头
 
