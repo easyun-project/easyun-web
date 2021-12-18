@@ -29,7 +29,7 @@ const LoginPage = (): JSX.Element => {
             return;
         }
         const res = await userService.login<LoginRes>(username, password);
-        console.log(res.data);
+        console.log(res);
         navigate('/home');
     };
 
