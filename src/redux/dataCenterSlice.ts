@@ -1,28 +1,67 @@
-import {createSlice} from '@reduxjs/toolkit';
-import {DataCenterModel, UserModel} from "@/constant/result";
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {DataCenterModel, DefaultDataCenterModel} from "@/constant/result";
+import DataCenterService from "@/service/dataCenterService";
 
-const updateUser = 'dataCenter/all';
+const updateDefaultDataCenter = 'dataCenter/updateDefaultDataCenterAction';
 
 
-export const getDataCenterAction = (): { payload: {}; type: string } => {
+export const updateDefaultDataCenterAction = (defaultDataCenter): { payload: DefaultDataCenterModel; type: string } => {
     return {
-        type: updateUser,
-        payload: {},
+        type: updateDefaultDataCenter,
+        payload: defaultDataCenter,
     };
 };
 
-const dataCenter: DataCenterModel | undefined = undefined
+export const getDataCenter = createAsyncThunk(
+    'dataCenter/getDataCenter',
+    async (token: string) => {
+        return await DataCenterService.getDataCenter(token)
+    }
+);
+
+export const getDefaultDataCenter = createAsyncThunk(
+    'dataCenter/getDefaultDataCenter',
+    async (token: string) => {
+        return await DataCenterService.getDefault(token)
+    }
+);
+
+export interface DataCenterState {
+    loading: boolean,
+    dataCenter: DataCenterModel | undefined,
+    defaultDataCenter: DefaultDataCenterModel | undefined,
+}
+
+const initialState: DataCenterState = {
+    loading: false,
+    dataCenter: undefined,
+    defaultDataCenter: undefined
+};
+
 
 export const dataCenterSlice = createSlice({
     name: 'dataCenter',
-    initialState: {
-        user: dataCenter
-    },
+    initialState,
     reducers: {
-        // updateUser(state, action) {
-        //     state.user = action.payload;
-        //     console.log(state.user)
-        // }
+        updateDefaultDataCenterAction(state, action) {
+            state.defaultDataCenter = action.payload;
+        }
     },
+    extraReducers: (builder) => {
+        builder.addCase(getDataCenter.fulfilled, (state: DataCenterState, action) => {
+            state.loading = false;
+            state.dataCenter = action.payload;
+        });
+        builder.addCase(getDataCenter.pending, (state: DataCenterState) => {
+            state.loading = true;
+        });
+        builder.addCase(getDefaultDataCenter.fulfilled, (state: DataCenterState, action) => {
+            state.loading = false;
+            state.defaultDataCenter = action.payload;
+        });
+        builder.addCase(getDefaultDataCenter.pending, (state: DataCenterState) => {
+            state.loading = true;
+        });
+    }
 });
 export default dataCenterSlice.reducer;

@@ -16,11 +16,13 @@ const initUser: UserModel | undefined = undefined
 export const userSlice = createSlice({
     name: 'user',
     initialState: {
+        loading: true,
         user: initUser
     },
     reducers: {
         updateUser(state, action) {
             state.user = action.payload;
+            console.log(state.user)
         }
     },
 });
