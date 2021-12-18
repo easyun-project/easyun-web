@@ -4,6 +4,17 @@ export interface Result<T> {
     detail: T
 }
 
+export const fail = async (): Promise<undefined> => {
+    return undefined
+}
+
+
+export interface User {
+    account_id: string | undefined;
+    account_type: string | undefined;
+    type: string | undefined;
+    token: string | undefined;
+}
 
 export interface DefaultDataCenter {
     az: string;
