@@ -3,7 +3,7 @@
 
 // User 用户登陆、改密、个人中心等，常量名以User开头
 export const UserLogin = '/api/v1/user/auth';
-
+export const AwsInfo = "/api/v1.0/aws_info";
 // dataCenter 数据中心相关内容 常量名以DataCenter开头
 
 // Server 服务器 常量名以Server开头
@@ -22,3 +22,4 @@ export const UserLogin = '/api/v1/user/auth';
 // containers 容器 常量名以Container开头
 
 // dashboard  面板 常量名以Dashboard开头
+
