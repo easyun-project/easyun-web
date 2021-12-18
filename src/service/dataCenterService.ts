@@ -18,7 +18,6 @@ export interface CreateDataCenterParams {
 }
 
 export default class DataCenterService {
-
     /**
      * 获取数据中心默认参数
      */
@@ -40,4 +39,5 @@ export default class DataCenterService {
             headers: getHeader(token)
         });
         return result.status == 200;
+    }
 }

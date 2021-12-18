@@ -4,7 +4,7 @@ import {Icon} from '@iconify/react';
 
 interface CSecurityGroupProps {
     classes?: TTailwindString;
-    title?: string
+    title: string | undefined
 }
 
 const CSecurityGroup = (props: CSecurityGroupProps): JSX.Element => {
