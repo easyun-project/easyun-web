@@ -211,19 +211,19 @@ const AddBucket = (): JSX.Element => {
             'my-5'
           )}
           click={async () => {
-            const res = await bucketManage.addBucket({
-              bucketName,
-              versioningConfiguration: versioningConfiguration ? 'Enabled' : 'Suspended',
-              bucketEncryption,
-              region,
-            });
-            console.log(res.data);
             console.log({
               bucketName,
               versioningConfiguration: versioningConfiguration ? 'Enabled' : 'Suspended',
-              bucketEncryption,
+              bucketEncryption: bucketEncryption.toString(),
               region,
             });
+            const res = await bucketManage.addBucket({
+              bucketName,
+              versioningConfiguration: versioningConfiguration ? 'Enabled' : 'Suspended',
+              bucketEncryption: bucketEncryption.toString(),
+              region,
+            });
+            console.log(res.data);
           }}
         >
           Create
