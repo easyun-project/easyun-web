@@ -6,6 +6,8 @@ export const UserLogin = '/api/v1/user/auth';
 
 // dataCenter 数据中心相关内容 常量名以DataCenter开头
 export const DataCenterDefault = "/api/v1/datacenter/default"
+export const CreateDataCenter = "/api/v1/datacenter/add_dc"
+
 
 // Server 服务器 常量名以Server开头
 

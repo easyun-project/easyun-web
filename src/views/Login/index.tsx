@@ -11,7 +11,7 @@ import {Input, message, Modal} from "antd";
 import appService from "@/service/appService";
 import {useDispatch} from "react-redux";
 import {hostAction} from "@/redux/appSlice";
-import {User} from "@/constant/result";
+import {UserModel} from "@/constant/result";
 import {userAction} from "@/redux/userSlice";
 
 const LoginPage = (): JSX.Element => {
@@ -24,7 +24,7 @@ const LoginPage = (): JSX.Element => {
         if (!username || !password) {
             return;
         }
-        const loginRes = await userService.login<User | undefined>(username, password);
+        const loginRes = await userService.login<UserModel | undefined>(username, password);
         if (loginRes) {
             dispatch(userAction(loginRes))
             navigate('/home');

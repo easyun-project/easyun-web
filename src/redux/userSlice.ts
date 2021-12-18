@@ -1,17 +1,17 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {User} from "@/constant/result";
+import {UserModel} from "@/constant/result";
 
 const updateUser = 'user/updateUser';
 
 
-export const userAction = (user: User): { payload: User; type: string } => {
+export const userAction = (user: UserModel): { payload: UserModel; type: string } => {
     return {
         type: updateUser,
         payload: user,
     };
 };
 
-const initUser: User | undefined = undefined
+const initUser: UserModel | undefined = undefined
 
 export const userSlice = createSlice({
     name: 'user',
