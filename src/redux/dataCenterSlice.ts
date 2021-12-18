@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {DataCenterModel, DefaultDataCenterModel} from "@/constant/result";
 import DataCenterService from "@/service/dataCenterService";
+import {DataCenterModel, DefaultDataCenterModel} from "@/constant/dataCenter";
 
 const updateDefaultDataCenter = 'dataCenter/updateDefaultDataCenterAction';
 
@@ -33,7 +33,7 @@ export interface DataCenterState {
 }
 
 const initialState: DataCenterState = {
-    loading: false,
+    loading: true,
     dataCenter: undefined,
     defaultDataCenter: undefined
 };

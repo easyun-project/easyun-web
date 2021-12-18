@@ -12,7 +12,7 @@ import NotFound from '@/views/NotFound';
 import Home from '@/views/Home';
 import DataCenter from '@/views/DataCenter';
 import Resource from '@/views/Resource';
-import AddServer from '@/views/Resource/AddServer';
+import AddServer from '@/views/Resource/Server/AddServer';
 import AddBucket from '@/views/Resource/Storage/AddBucket';
 import AddDisk from '@/views/Resource/Storage/AddDisk/insex';
 import LoginPage from '@/views/Login';

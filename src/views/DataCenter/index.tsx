@@ -11,7 +11,7 @@ import {useDispatch, useSelector} from "react-redux";
 import dataCenterService, {CreateDataCenterParams} from "@/service/dataCenterService";
 import {message} from "antd";
 import {RootState} from "@/redux/store";
-import {getDefaultDataCenter, updateDefaultDataCenterAction} from "@/redux/dataCenterSlice";
+import {getDefaultDataCenter} from "@/redux/dataCenterSlice";
 
 
 const DataCenter = (): JSX.Element => {

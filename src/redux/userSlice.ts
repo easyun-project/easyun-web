@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {UserModel} from "@/constant/result";
+import {UserModel} from "@/constant/user";
 
 const updateUser = 'user/updateUser';
 
@@ -22,7 +22,6 @@ export const userSlice = createSlice({
     reducers: {
         updateUser(state, action) {
             state.user = action.payload;
-            console.log(state.user)
         }
     },
 });

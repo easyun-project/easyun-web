@@ -2,6 +2,7 @@ import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import userStore from '@/redux/userSlice';
 import appStore from '@/redux/appSlice';
 import dataCenterStore from '@/redux/dataCenterSlice';
+import serverStore from '@/redux/serverSlice';
 import storageSession from 'redux-persist/lib/storage/session'
 import {persistReducer, persistStore} from 'redux-persist';
 
@@ -9,7 +10,8 @@ import {persistReducer, persistStore} from 'redux-persist';
 let reducer = {
     user: userStore,
     app: appStore,
-    dataCenter: dataCenterStore
+    dataCenter: dataCenterStore,
+    server: serverStore
 };
 
 const storageConfig = {

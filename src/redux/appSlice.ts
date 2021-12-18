@@ -5,7 +5,7 @@ export interface AppState {
 }
 
 const initialState: AppState = {
-    loading: false,
+    loading: true,
 }
 
 export const userSlice = createSlice({

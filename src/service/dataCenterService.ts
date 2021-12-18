@@ -1,7 +1,7 @@
-import {CreateDataCenter, DataCenterAll, DataCenterDefault, UserLogin} from '@/constant/apiConst';
-import {DataCenterModel, DefaultDataCenterModel, Result} from '@/constant/result';
+import {CreateDataCenter, DataCenterAll, DataCenterDefault} from '@/constant/apiConst';
 import axios from "redaxios";
 import {getHeader, getHost} from "@/utils/api";
+import {DataCenterModel, DefaultDataCenterModel} from "@/constant/dataCenter";
 
 // 创建数据中心需要的参数
 export interface CreateDataCenterParams {
@@ -53,11 +53,10 @@ export default class DataCenterService {
      */
     static async getDataCenter(token): Promise<DataCenterModel | undefined> {
         let url = getHost() + DataCenterAll;
-        let result = await axios.get(url,{
+        let result = await axios.get(url, {
             headers: getHeader(token)
         });
         if (result.status == 200) {
-            console.log(result.data.detail)
             return result.data.detail as DataCenterModel;
         }
         return undefined
