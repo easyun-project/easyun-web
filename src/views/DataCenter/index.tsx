@@ -16,11 +16,15 @@ import {RootState} from "@/redux/store";
 
 const DataCenter = (): JSX.Element => {
     const navigate = useNavigate();
+
     const [data, setData] = useState<DefaultDataCenterModel>()
 
     const userState = useSelector((state: RootState) => {
         return state.user.user
     })
+
+    let dispatch = useDispatch();
+    const [data, setData] = useState<DefaultDataCenter>()
 
     useEffect(() => {
         const func = async () => {
@@ -40,8 +44,6 @@ const DataCenter = (): JSX.Element => {
             }
             message.info("创建数据中心失败")
         }
-
-
     }
 
 

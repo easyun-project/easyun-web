@@ -40,6 +40,4 @@ export default class DataCenterService {
             headers: getHeader(token)
         });
         return result.status == 200;
-
-    }
 }
