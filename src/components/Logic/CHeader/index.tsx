@@ -8,7 +8,6 @@ import {DownOutlined} from "@ant-design/icons";
 const menu = () => {
     const handleMenuClick = (e) => {
         message.info(`Click on menu item => ${e.key}.`);
-        console.log('click', e);
     }
 
     return (

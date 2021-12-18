@@ -7,22 +7,44 @@ import CSecurityGroup from '@/components/Logic/CSecurityGrop';
 import {CButton} from '@/components/Common/CButton';
 import {Icon} from '@iconify/react';
 import {useNavigate} from 'react-router-dom';
-import {useDispatch} from "react-redux";
-import dataCenterService from "@/service/dataCenterService";
-import {DefaultDataCenter} from "@/constant/result";
+import {useSelector} from "react-redux";
+import dataCenterService, {CreateDataCenterParams} from "@/service/dataCenterService";
+import {DefaultDataCenterModel} from "@/constant/result";
+import {message} from "antd";
+import {RootState} from "@/redux/store";
+
 
 const DataCenter = (): JSX.Element => {
     const navigate = useNavigate();
+
+    const [data, setData] = useState<DefaultDataCenterModel>()
+
+    const userState = useSelector((state: RootState) => {
+        return state.user.user
+    })
+
     let dispatch = useDispatch();
     const [data, setData] = useState<DefaultDataCenter>()
 
     useEffect(() => {
         const func = async () => {
-            const result = await dataCenterService.getDefault<DefaultDataCenter>()
+            const result = await dataCenterService.getDefault()
             setData(result)
         }
         func()
     }, [])
+
+    // 创建数据中心
+    const createDateCenter = async (params: CreateDataCenterParams) => {
+        if (userState) {
+            const created = await dataCenterService.createDataCenter(userState!.token, params)
+            if (created) {
+                navigate('/resource');
+                return
+            }
+            message.info("创建数据中心失败")
+        }
+    }
 
 
     return (
@@ -37,23 +59,25 @@ const DataCenter = (): JSX.Element => {
             <div className={classnames('ml-24')}>Region:
                 <Icon className={classnames('inline-block', 'mx-1')} icon="emojione-v1:flag-for-japan" color="gray"
                       width="25" height="25" fr={undefined}/>
-                japan(ap-northeast-1)
+                {data?.az}
             </div>
             <div className={classnames('ml-5')}>
                 <span className={classnames('mr-2')}>IPv4 CIDR block:</span>
-                <input className={classnames('border')} type="text"/>
+                <input className={classnames('border')} type="text" defaultValue={data?.vpc_cidr}/>
             </div>
-            <CSubnet index={1} isPublic={true} classes={classnames('w-96', 'inline-block')}/>
-            <CSubnet index={2} isPublic={true} classes={classnames('w-96', 'inline-block')}/>
+            <CSubnet subnet={data?.pub_subnet1} index={1} isPublic={true} classes={classnames('w-96', 'inline-block')}/>
+            <CSubnet subnet={data?.pub_subnet2} index={2} isPublic={true} classes={classnames('w-96', 'inline-block')}/>
             <br/>
-            <CSubnet index={1} isPublic={false} classes={classnames('w-96', 'inline-block')}/>
-            <CSubnet index={2} isPublic={false} classes={classnames('w-96', 'inline-block')}/>
+            <CSubnet subnet={data?.pri_subnet1} index={1} isPublic={false}
+                     classes={classnames('w-96', 'inline-block')}/>
+            <CSubnet subnet={data?.pri_subnet2} index={2} isPublic={false}
+                     classes={classnames('w-96', 'inline-block')}/>
 
 
             <div className={classnames('ml-5', 'mt-10')}>Easyun DataCenter Security Group</div>
-            <CSecurityGroup classes={classnames('mx-5', 'w-64', 'inline-block')}/>
-            <CSecurityGroup classes={classnames('mx-5', 'w-64', 'inline-block')}/>
-            <CSecurityGroup classes={classnames('mx-5', 'w-64', 'inline-block')}/>
+            <CSecurityGroup title={data?.secure_group1} classes={classnames('mx-5', 'w-64', 'inline-block')}/>
+            <CSecurityGroup title={data?.secure_group2} classes={classnames('mx-5', 'w-64', 'inline-block')}/>
+            <CSecurityGroup title={data?.secure_group3} classes={classnames('mx-5', 'w-64', 'inline-block')}/>
 
             <div className={classnames('flex', 'justify-center', 'm-16')}>
                 <CButton click={() => {
@@ -63,7 +87,19 @@ const DataCenter = (): JSX.Element => {
                           width="20" height="20" fr={undefined}/>
                     Back</CButton>
                 <CButton click={() => {
-                    navigate('/resource');
+                    const params: CreateDataCenterParams = {
+                        keypair: data?.key,
+                        private_subnet_1: data?.pri_subnet1,
+                        private_subnet_2: data?.pri_subnet2,
+                        public_subnet_1: data?.pub_subnet1,
+                        public_subnet_2: data?.pri_subnet2,
+                        region: data?.region,
+                        sgs1_flag: '111',
+                        sgs2_flag: '111',
+                        sgs3_flag: '111',
+                        vpc_cidr: data?.vpc_cidr,
+                    }
+                    createDateCenter(params)
                 }} classes={classnames('bg-yellow-550', 'text-white', 'rounded-2xl', 'w-32', 'px-5')}>Create</CButton>
             </div>
 
