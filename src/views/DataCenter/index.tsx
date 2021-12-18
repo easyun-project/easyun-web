@@ -7,7 +7,7 @@ import CSecurityGroup from '@/components/Logic/CSecurityGrop';
 import {CButton} from '@/components/Common/CButton';
 import {Icon} from '@iconify/react';
 import {useNavigate} from 'react-router-dom';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import dataCenterService, {CreateDataCenterParams} from "@/service/dataCenterService";
 import {DefaultDataCenterModel} from "@/constant/result";
 import {message} from "antd";
@@ -24,8 +24,6 @@ const DataCenter = (): JSX.Element => {
     })
 
     let dispatch = useDispatch();
-    const [data, setData] = useState<DefaultDataCenter>()
-
     useEffect(() => {
         const func = async () => {
             const result = await dataCenterService.getDefault()

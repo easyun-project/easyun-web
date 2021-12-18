@@ -26,8 +26,8 @@ const Account = (): JSX.Element => {
     const res = await accountService.getUserInfo();
     setInfo({
       account_id: res.detail.account_id,
-      aws_type: res.detail.aws_type,
-      role: res.detail.role,
+      aws_type: res.detail.account_id,
+      role: res.detail.type,
     });
   };
   useEffect(() => {
@@ -112,7 +112,7 @@ const Account = (): JSX.Element => {
                 onClick={openMangerAwsProfile}
               >
                 <div>Manager your AWS profile</div>
-                <Icon icon="ri:share-box-fill" />
+                <Icon icon="ri:share-box-fill" fr={undefined} />
               </div>
             </li>
             <li>Nofification contacts</li>
@@ -127,13 +127,13 @@ const Account = (): JSX.Element => {
           <Row className="yellow-text-color">
             <Col span={12}>
               <div onClick={addEmail} className="flex-align-center">
-                <Icon icon="fluent:add-12-filled" />
+                <Icon icon="fluent:add-12-filled" fr={undefined} />
                 Add email address
               </div>
             </Col>
             <Col span={12} className="flex-align-center">
               <div onClick={addSMS} className="flex-align-center">
-                <Icon icon="fluent:add-12-filled" />
+                <Icon icon="fluent:add-12-filled" fr={undefined} />
                 Add SMS number
               </div>
             </Col>
@@ -146,11 +146,11 @@ const Account = (): JSX.Element => {
               onClick={createSSHKey}
             >
               <div>Create New</div>
-              <Icon icon="fluent:add-12-filled" />
+              <Icon icon="fluent:add-12-filled" fr={undefined} />
             </div>
             <div className="text-icon-box" onClick={uploadSSHKey}>
               <div>Upload New</div>
-              <Icon icon="eva:upload-fill" />
+              <Icon icon="eva:upload-fill" fr={undefined} />
             </div>
           </div>
           <Radio.Group onChange={onChange} value={count}>
@@ -164,12 +164,11 @@ const Account = (): JSX.Element => {
                       onClick={downloadSSHItem}
                     >
                       <div>Download</div>
-                      <Icon icon="ant-design:download-outlined" />
+                      <Icon icon="ant-design:download-outlined" fr={undefined} />
                     </div>
                     <Icon
-                      className="text-icon-box"
-                      icon="fluent:delete-off-20-regular"
-                    />
+                        className="text-icon-box"
+                        icon="fluent:delete-off-20-regular" fr={undefined}                    />
                   </div>
                 </div>
               </Radio>
@@ -182,12 +181,11 @@ const Account = (): JSX.Element => {
                       onClick={downloadSSHItem}
                     >
                       <div>Download</div>
-                      <Icon icon="ant-design:download-outlined" />
+                      <Icon icon="ant-design:download-outlined" fr={undefined} />
                     </div>
                     <Icon
-                      className="text-icon-box"
-                      icon="fluent:delete-off-20-regular"
-                    />
+                        className="text-icon-box"
+                        icon="fluent:delete-off-20-regular" fr={undefined}                    />
                   </div>
                 </div>
               </Radio>
@@ -214,7 +212,7 @@ const Account = (): JSX.Element => {
                   onClick={openIAMconsle}
                 >
                   <div>Go to the IAM console.</div>
-                  <Icon icon="ri:share-box-fill" />
+                  <Icon icon="ri:share-box-fill" fr={undefined} />
                 </div>
               </li>
             </ul>

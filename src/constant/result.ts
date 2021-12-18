@@ -3,11 +3,6 @@ export interface Result<T> {
     message: string,
     detail: T
 }
-export interface User {
-  account_id: string;
-  aws_type: string;
-  role: string;
-}
 
 export const fail = async (): Promise<undefined> => {
     return undefined
@@ -29,9 +24,9 @@ export interface DefaultDataCenterModel {
     pub_subnet1: string;
     pub_subnet2: string;
     region: string;
-    secure_group1: string,
-    secure_group2: string,
-    secure_group3: string,
+    secure_group1: string | undefined,
+    secure_group2: string | undefined,
+    secure_group3: string | undefined,
     tag_spec: DataCenterTagSpec;
     vpc_cidr: string;
 }
