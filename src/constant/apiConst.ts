@@ -7,6 +7,7 @@ export const AwsInfo = "/api/v1.0/aws_info";
 // dataCenter 数据中心相关内容 常量名以DataCenter开头
 export const DataCenterDefault = "/api/v1/datacenter/default"
 export const CreateDataCenter = "/api/v1/datacenter/add_dc"
+export const DataCenterAll = "/api/v1/datacenter/all"
 
 
 // Server 服务器 常量名以Server开头

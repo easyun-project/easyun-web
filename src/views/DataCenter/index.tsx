@@ -23,10 +23,10 @@ const DataCenter = (): JSX.Element => {
         return state.user.user
     })
 
-    let dispatch = useDispatch();
     useEffect(() => {
+        console.log(userState)
         const func = async () => {
-            const result = await dataCenterService.getDefault()
+            const result = await dataCenterService.getDefault(userState!.token)
             setData(result)
         }
         func()

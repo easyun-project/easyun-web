@@ -10,7 +10,6 @@ import userService from '@/service/userService';
 import {Input, message, Modal} from "antd";
 import appService from "@/service/appService";
 import {useDispatch} from "react-redux";
-import {hostAction} from "@/redux/appSlice";
 import {UserModel} from "@/constant/result";
 import {userAction} from "@/redux/userSlice";
 
@@ -43,12 +42,8 @@ const LoginPage = (): JSX.Element => {
             message.info("请输入您服务器的地址")
             return
         }
-        const result = appService.setHost(host)
-        if (result) {
-            dispatch(hostAction(host))
-            setIsModalVisible(false);
-        }
-
+        appService.setHost(host)
+        setIsModalVisible(false);
     };
 
     const handleCancel = () => {

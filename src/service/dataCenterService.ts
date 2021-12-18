@@ -1,4 +1,4 @@
-import {CreateDataCenter, DataCenterDefault, UserLogin} from '@/constant/apiConst';
+import {CreateDataCenter, DataCenterAll, DataCenterDefault, UserLogin} from '@/constant/apiConst';
 import {DefaultDataCenterModel, Result} from '@/constant/result';
 import axios from "redaxios";
 import {getHeader, getHost} from "@/utils/api";
@@ -21,9 +21,11 @@ export default class DataCenterService {
     /**
      * 获取数据中心默认参数
      */
-    static async getDefault(): Promise<DefaultDataCenterModel> {
+    static async getDefault(token): Promise<DefaultDataCenterModel> {
         let url = getHost() + DataCenterDefault;
-        const result = await axios.get(url);
+        const result = await axios.get(url,{
+            headers: getHeader(token)
+        });
         return result.data as DefaultDataCenterModel;
     }
 
@@ -34,10 +36,18 @@ export default class DataCenterService {
      */
     static async createDataCenter(token: string, params: CreateDataCenterParams): Promise<boolean> {
         let url = getHost() + CreateDataCenter;
-
         let result = await axios.post(url, params, {
             headers: getHeader(token)
         });
+        return result.status == 200;
+    }
+
+    /**
+     * 获取dataCenter
+     */
+    static async getDataCenter(): Promise<any> {
+        let url = getHost() + DataCenterAll;
+        let result = await axios.get(url);
         return result.status == 200;
     }
 }
