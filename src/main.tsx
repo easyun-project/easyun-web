@@ -17,6 +17,7 @@ import AddBucket from '@/views/Resource/Storage/AddBucket';
 import AddDisk from '@/views/Resource/Storage/AddDisk/insex';
 import LoginPage from '@/views/Login';
 import Account from '@/views/Account';
+import Event from '@/views/Event';
 import {PersistGate} from "redux-persist/integration/react"; //原有是antd.css  只需要改为less就可以啦
 import "antd/dist/antd.less";
 import ServerDetail from "@/views/Resource/Server/ServerDetail";
@@ -39,6 +40,7 @@ const App = (): JSX.Element => {
                 <Route path="login" element={<LoginPage/>}/>
                 <Route path="404" element={<NotFound/>}/>
                 <Route path='account' element={<Account/>}/>
+                <Route path="event" element={<Event />} />
             </Routes>
         </Suspense>
     );

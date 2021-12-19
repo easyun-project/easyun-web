@@ -23,11 +23,11 @@ const Account = (): JSX.Element => {
     role: "",
   });
   const getAwsInfo = async () => {
-    const res = await accountService.getUserInfo();
+    const res = await accountService.getAwsInfo();
     setInfo({
       account_id: res.detail.account_id,
-      aws_type: res.detail.account_id,
-      role: res.detail.type,
+      aws_type: res.detail.aws_type,
+      role: res.detail.role,
     });
   };
   useEffect(() => {
@@ -78,10 +78,10 @@ const Account = (): JSX.Element => {
       <Row className="content-body">
         <Col span={12}>
           <div>
-            <div>
+            <div className="color-black-weight800">
               Account ID:{info.account_id}[{info.aws_type}]
             </div>
-            <div>sercurity-credentials {info.role}</div>
+            <div>sercurity-credentials: {info.role}</div>
           </div>
         </Col>
 
@@ -164,11 +164,16 @@ const Account = (): JSX.Element => {
                       onClick={downloadSSHItem}
                     >
                       <div>Download</div>
-                      <Icon icon="ant-design:download-outlined" fr={undefined} />
+                      <Icon
+                        icon="ant-design:download-outlined"
+                        fr={undefined}
+                      />
                     </div>
                     <Icon
-                        className="text-icon-box"
-                        icon="fluent:delete-off-20-regular" fr={undefined}                    />
+                      className="text-icon-box"
+                      icon="fluent:delete-off-20-regular"
+                      fr={undefined}
+                    />
                   </div>
                 </div>
               </Radio>
@@ -181,11 +186,16 @@ const Account = (): JSX.Element => {
                       onClick={downloadSSHItem}
                     >
                       <div>Download</div>
-                      <Icon icon="ant-design:download-outlined" fr={undefined} />
+                      <Icon
+                        icon="ant-design:download-outlined"
+                        fr={undefined}
+                      />
                     </div>
                     <Icon
-                        className="text-icon-box"
-                        icon="fluent:delete-off-20-regular" fr={undefined}                    />
+                      className="text-icon-box"
+                      icon="fluent:delete-off-20-regular"
+                      fr={undefined}
+                    />
                   </div>
                 </div>
               </Radio>
