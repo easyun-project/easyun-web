@@ -1,5 +1,3 @@
-
-
 export interface ServerModel {
     ebs: number,
     ins_type: string,
@@ -13,55 +11,27 @@ export interface ServerModel {
     vcpu: number,
 }
 
-export const serverColumns = [
-    {
-        title: 'Instance ID',
-        dataIndex: 'svr_id',
-        key: 'svr_id',
-    },
-    {
-        title: 'Name(tag)',
-        dataIndex: 'svr_name',
-        key: 'svr_name',
-    },
-    {
-        title: 'Instance state',
-        dataIndex: 'svr_state',
-        key: 'svr_state',
-    },
-    {
-        title: 'Instance type',
-        dataIndex: 'ins_type',
-        key: 'ins_type',
-    },
-    {
-        title: 'vCPU',
-        dataIndex: 'vcpu',
-        key: 'vcpu',
-    },
-    {
-        title: 'RAM',
-        dataIndex: 'ram',
-        key: 'ram',
-    },
-    {
-        title: 'Storage(EBS)',
-        dataIndex: 'ebs',
-        key: 'ebs',
-    },
-    {
-        title: 'OS',
-        dataIndex: 'os',
-        key: 'os',
-    },
-    {
-        title: 'Region & AZ',
-        dataIndex: 'rg_az',
-        key: 'rg_az',
-    },
-    {
-        title: 'Public IPv4',
-        dataIndex: 'pub_ip',
-        key: 'pub_ip',
-    },
-];
+
+export interface SeverDetailModel {
+    IamInstanceProfile: string,
+    ImageId: string
+    ImageName: string
+    ImagePath: string
+    ServerState: string
+    InstanceId: string
+    InstanceType: string
+    KeyName: string
+    LaunchTime: string
+    Memory: string
+    Monitoring: string
+    PlatformDetails: string
+    PrivateDnsName: string,
+    IpName: string,
+    PrivateIpAddress: string,
+    PublicIpAddress: string,
+    PublicDnsName: string
+    UsageOperation: string
+    VCpu: number,
+    VirtualizationType: string
+}
+
