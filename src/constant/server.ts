@@ -1,5 +1,3 @@
-
-
 export interface ServerModel {
     ebs: number,
     ins_type: string,
@@ -12,3 +10,25 @@ export interface ServerModel {
     svr_state: string,
     vcpu: number,
 }
+
+
+export interface SeverDetailModel {
+    IamInstanceProfile: string,
+    ImageId: string
+    ImageName: string
+    ImagePath: string
+    InstanceId: string
+    InstanceType: string
+    KeyName: string
+    LaunchTime: string
+    Memory: string
+    Monitoring: string
+    PlatformDetails: string
+    PrivateDnsName: string,
+    PrivateIpAddress: string,
+    PublicDnsName: string
+    UsageOperation: string
+    VCpu: number,
+    VirtualizationType: string
+}
+

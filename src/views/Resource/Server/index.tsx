@@ -10,6 +10,7 @@ import {CButton} from "@/components/Common/CButton";
 import {useNavigate} from "react-router-dom";
 import {Button, Dropdown, Menu, message} from "antd";
 import {DownOutlined} from "@ant-design/icons";
+import ServerDetail from "@/views/Resource/Server/ServerDetail";
 
 
 export const serverColumns = [
@@ -162,6 +163,7 @@ export const ServerList = () => {
                     </CButton>
                 </div>
                 <ResourceTable dataSource={serverDataSource} columns={serverColumns}/>
+                {/*<ServerDetail server={serverDataSource[1]}/>*/}
             </>
         )
     } else {

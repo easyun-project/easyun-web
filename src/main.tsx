@@ -19,6 +19,7 @@ import LoginPage from '@/views/Login';
 import Account from '@/views/Account';
 import {PersistGate} from "redux-persist/integration/react"; //原有是antd.css  只需要改为less就可以啦
 import "antd/dist/antd.less";
+import ServerDetail from "@/views/Resource/Server/ServerDetail";
 
 
 const App = (): JSX.Element => {
@@ -36,9 +37,6 @@ const App = (): JSX.Element => {
                 </Route>
                 <Route path="login" element={<LoginPage/>}/>
                 <Route path="404" element={<NotFound/>}/>
-                {/* <Route
-					path="*"
-					element={<Navigate to="/"/>}/> */}
                 <Route path='account' element={<Account/>}/>
             </Routes>
         </Suspense>
