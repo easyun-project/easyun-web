@@ -17,6 +17,7 @@ export interface SeverDetailModel {
     ImageId: string
     ImageName: string
     ImagePath: string
+    ServerState: string
     InstanceId: string
     InstanceType: string
     KeyName: string
@@ -25,7 +26,9 @@ export interface SeverDetailModel {
     Monitoring: string
     PlatformDetails: string
     PrivateDnsName: string,
+    IpName: string,
     PrivateIpAddress: string,
+    PublicIpAddress: string,
     PublicDnsName: string
     UsageOperation: string
     VCpu: number,

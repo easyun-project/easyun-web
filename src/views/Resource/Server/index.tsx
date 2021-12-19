@@ -7,18 +7,20 @@ import {getServerList} from "@/redux/serverSlice";
 import {classnames} from "@@/tailwindcss-classnames";
 import {CPartialLoading} from "@/components/Common/CPartialLoading";
 import {CButton} from "@/components/Common/CButton";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {Button, Dropdown, Menu, message} from "antd";
 import {DownOutlined} from "@ant-design/icons";
-import ServerDetail from "@/views/Resource/Server/ServerDetail";
-
 
 export const serverColumns = [
     {
         title: 'Instance ID',
         dataIndex: 'svr_id',
         key: 'svr_id',
-        render: text => <a className={classnames('text-blue-500','underline')}>{text}</a>,
+        render: text => <Link
+            to={`server/${text}`}
+            className={classnames('text-blue-500', 'underline')}>
+            {text}
+        </Link>
     },
     {
         title: 'Name(tag)',
@@ -96,9 +98,6 @@ const actionMenu = () => {
                 <Menu.Item key="Restart">
                     Restart
                 </Menu.Item>
-                <Menu.Item key="Delete">
-                    Delete
-                </Menu.Item>
             </Menu>
         ))
 }
@@ -145,20 +144,20 @@ export const ServerList = () => {
     } else if (serverDataSource) {
         return (
             <>
-                <div id="operation" className={classnames('my-3','float-right')}>
-                    <Dropdown overlay={actionMenu} className={classnames('inline-block','mr-2')}>
+                <div id="operation" className={classnames('my-3', 'float-right')}>
+                    <Dropdown overlay={actionMenu} className={classnames('inline-block', 'mr-2')}>
                         <Button>
                             Actions <DownOutlined/>
                         </Button>
                     </Dropdown>
-                    <Dropdown overlay={modifyMenu} className={classnames('inline-block','mr-2')}>
+                    <Dropdown overlay={modifyMenu} className={classnames('inline-block', 'mr-2')}>
                         <Button>
                             Modify <DownOutlined/>
                         </Button>
                     </Dropdown>
                     <CButton
                         click={() => navigate('/addServer')}
-                        classes={classnames('inline-block', 'bg-yellow-550','mr-3', 'block', 'text-white', 'rounded-3xl', 'px-5', 'py-1')}>
+                        classes={classnames('inline-block', 'bg-yellow-550', 'mr-3', 'block', 'text-white', 'rounded-3xl', 'px-5', 'py-1')}>
                         Add Server
                     </CButton>
                 </div>

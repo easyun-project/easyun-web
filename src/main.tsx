@@ -32,6 +32,7 @@ const App = (): JSX.Element => {
                 <Route path="resource">
                     <Route index element={<Resource/>}/>
                     <Route path="addServer" element={<AddServer/>}/>
+                    <Route path="server/:serverId" element={<ServerDetail/>}/>
                     <Route path="addBucket" element={<AddBucket/>}/>
                     <Route path="addDisk" element={<AddDisk/>}/>
                 </Route>
