@@ -1,21 +1,3 @@
-export interface Result<T> {
-    stats_code: number,
-    message: string,
-    detail: T
-}
-
-export const fail = async (): Promise<undefined> => {
-    return undefined
-}
-
-
-export interface UserModel {
-  account_id: string;
-  account_type: string;
-  type: string;
-  token: string;
-}
-
 export interface DefaultDataCenterModel {
     az: string;
     key: string;
@@ -60,12 +42,5 @@ interface Subnet {
 interface Keypair {
     filename: string
 }
-export interface AwsInfoModel {
-  role: string;
-  account_id: string;
-  aws_type: string;
-}
 
-export interface EventLogListModel{
-    
-}
+
