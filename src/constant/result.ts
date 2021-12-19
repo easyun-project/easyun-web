@@ -10,10 +10,10 @@ export const fail = async (): Promise<undefined> => {
 
 
 export interface UserModel {
-    account_id: string;
-    account_type: string;
-    type: string;
-    token: string;
+  account_id: string;
+  account_type: string;
+  type: string;
+  token: string;
 }
 
 export interface DefaultDataCenterModel {
@@ -59,4 +59,13 @@ interface Subnet {
 
 interface Keypair {
     filename: string
+}
+export interface AwsInfoModel {
+  role: string;
+  account_id: string;
+  aws_type: string;
+}
+
+export interface EventLogListModel{
+    
 }

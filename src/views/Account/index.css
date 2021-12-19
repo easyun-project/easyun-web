@@ -50,3 +50,7 @@
 .pointer {
     cursor:pointer
 }
+.color-black-weight800{
+    color: #040404;
+    font-weight: 800;
+}

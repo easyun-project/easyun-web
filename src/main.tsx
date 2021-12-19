@@ -17,6 +17,7 @@ import AddBucket from '@/views/Resource/Storage/AddBucket';
 import AddDisk from '@/views/Resource/Storage/AddDisk/insex';
 import LoginPage from '@/views/Login';
 import Account from '@/views/Account';
+import Event from "@/views/Event";
 import appService from "@/service/appService";
 import {hostAction} from "@/redux/appSlice";
 import "antd/dist/antd.less"; //原有是antd.css  只需要改为less就可以啦
@@ -24,25 +25,26 @@ import "antd/dist/antd.less"; //原有是antd.css  只需要改为less就可以�
 
 const App = (): JSX.Element => {
     return (
-        <Suspense fallback={<CFullLoading/>}>
-            <Routes>
-                <Route path="/" element={<LoginPage/>}/>
-                <Route path="home" element={<Home/>}/>
-                <Route path="dataCenter" element={<DataCenter/>}/>
-                <Route path="resource">
-                    <Route index element={<Resource/>}/>
-                    <Route path="addServer" element={<AddServer/>}/>
-                    <Route path="addBucket" element={<AddBucket/>}/>
-                    <Route path="addDisk" element={<AddDisk/>}/>
-                </Route>
-                <Route path="login" element={<LoginPage/>}/>
-                <Route path="404" element={<NotFound/>}/>
-                {/* <Route
+      <Suspense fallback={<CFullLoading />}>
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="home" element={<Home />} />
+          <Route path="dataCenter" element={<DataCenter />} />
+          <Route path="resource">
+            <Route index element={<Resource />} />
+            <Route path="addServer" element={<AddServer />} />
+            <Route path="addBucket" element={<AddBucket />} />
+            <Route path="addDisk" element={<AddDisk />} />
+          </Route>
+          <Route path="login" element={<LoginPage />} />
+          <Route path="404" element={<NotFound />} />
+          {/* <Route
 					path="*"
 					element={<Navigate to="/"/>}/> */}
-                <Route path='account' element={<Account/>}/>
-            </Routes>
-        </Suspense>
+          <Route path="account" element={<Account />} />
+          <Route path="event" element={<Event />} />
+        </Routes>
+      </Suspense>
     );
 };
 
