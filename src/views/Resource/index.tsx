@@ -5,6 +5,8 @@ import {useNavigate} from 'react-router-dom';
 import {Table, Tabs} from "antd";
 import {classnames} from "@@/tailwindcss-classnames";
 import {CButton} from "@/components/Common/CButton";
+import {ServerModel} from "@/constant/server";
+import {ServerList} from "@/views/Resource/Server";
 
 const {TabPane} = Tabs;
 
@@ -16,7 +18,7 @@ interface NotDataProps {
 }
 
 
-const NoResource = (props: NotDataProps) => {
+export const NoResource = (props: NotDataProps) => {
     const navigate = useNavigate();
 
     return (
@@ -39,302 +41,17 @@ const NoResource = (props: NotDataProps) => {
 
 
 interface TableProps {
-    dataSource: object[];
+    dataSource: ServerModel[] | undefined | object[];
     columns: object[]
 }
 
-const ResourceTable = (props: TableProps) => {
+export const ResourceTable = (props: TableProps) => {
     return (
         <Table bordered={true} dataSource={props.dataSource} columns={props.columns}/>
     )
 }
-
-const serverDataSource = [
-    {
-        instanceId: 'i-obajb812jn6689n',
-        name: 'Web_server_pro',
-        instanceState: "Running",
-        instanceType: 't3a.medium',
-        vCPU: 2,
-        RAM: 4,
-        storage: '32G',
-        os: 'Amazon Linux',
-        regionAndAZ: 'cn-northeast-1a',
-        publicIpv4: '53.644.16.22'
-    },
-    {
-        instanceId: 'i-obajb812jn6689n',
-        name: 'Web_server_pro',
-        instanceState: "Running",
-        instanceType: 't3a.medium',
-        vCPU: 2,
-        RAM: 4,
-        storage: '32G',
-        os: 'Amazon Linux',
-        regionAndAZ: 'cn-northeast-1a',
-        publicIpv4: '53.644.16.22'
-    }, {
-        instanceId: 'i-obajb812jn6689n',
-        name: 'Web_server_pro',
-        instanceState: "Running",
-        instanceType: 't3a.medium',
-        vCPU: 2,
-        RAM: 4,
-        storage: '32G',
-        os: 'Amazon Linux',
-        regionAndAZ: 'cn-northeast-1a',
-        publicIpv4: '53.644.16.22'
-    }, {
-        instanceId: 'i-obajb812jn6689n',
-        name: 'Web_server_pro',
-        instanceState: "Running",
-        instanceType: 't3a.medium',
-        vCPU: 2,
-        RAM: 4,
-        storage: '32G',
-        os: 'Amazon Linux',
-        regionAndAZ: 'cn-northeast-1a',
-        publicIpv4: '53.644.16.22'
-    }, {
-        instanceId: 'i-obajb812jn6689n',
-        name: 'Web_server_pro',
-        instanceState: "Running",
-        instanceType: 't3a.medium',
-        vCPU: 2,
-        RAM: 4,
-        storage: '32G',
-        os: 'Amazon Linux',
-        regionAndAZ: 'cn-northeast-1a',
-        publicIpv4: '53.644.16.22'
-    }, {
-        instanceId: 'i-obajb812jn6689n',
-        name: 'Web_server_pro',
-        instanceState: "Running",
-        instanceType: 't3a.medium',
-        vCPU: 2,
-        RAM: 4,
-        storage: '32G',
-        os: 'Amazon Linux',
-        regionAndAZ: 'cn-northeast-1a',
-        publicIpv4: '53.644.16.22'
-    }, {
-        instanceId: 'i-obajb812jn6689n',
-        name: 'Web_server_pro',
-        instanceState: "Running",
-        instanceType: 't3a.medium',
-        vCPU: 2,
-        RAM: 4,
-        storage: '32G',
-        os: 'Amazon Linux',
-        regionAndAZ: 'cn-northeast-1a',
-        publicIpv4: '53.644.16.22'
-    }, {
-        instanceId: 'i-obajb812jn6689n',
-        name: 'Web_server_pro',
-        instanceState: "Running",
-        instanceType: 't3a.medium',
-        vCPU: 2,
-        RAM: 4,
-        storage: '32G',
-        os: 'Amazon Linux',
-        regionAndAZ: 'cn-northeast-1a',
-        publicIpv4: '53.644.16.22'
-    }, {
-        instanceId: 'i-obajb812jn6689n',
-        name: 'Web_server_pro',
-        instanceState: "Running",
-        instanceType: 't3a.medium',
-        vCPU: 2,
-        RAM: 4,
-        storage: '32G',
-        os: 'Amazon Linux',
-        regionAndAZ: 'cn-northeast-1a',
-        publicIpv4: '53.644.16.22'
-    }, {
-        instanceId: 'i-obajb812jn6689n',
-        name: 'Web_server_pro',
-        instanceState: "Running",
-        instanceType: 't3a.medium',
-        vCPU: 2,
-        RAM: 4,
-        storage: '32G',
-        os: 'Amazon Linux',
-        regionAndAZ: 'cn-northeast-1a',
-        publicIpv4: '53.644.16.22'
-    }, {
-        instanceId: 'i-obajb812jn6689n',
-        name: 'Web_server_pro',
-        instanceState: "Running",
-        instanceType: 't3a.medium',
-        vCPU: 2,
-        RAM: 4,
-        storage: '32G',
-        os: 'Amazon Linux',
-        regionAndAZ: 'cn-northeast-1a',
-        publicIpv4: '53.644.16.22'
-    }, {
-        instanceId: 'i-obajb812jn6689n',
-        name: 'Web_server_pro',
-        instanceState: "Running",
-        instanceType: 't3a.medium',
-        vCPU: 2,
-        RAM: 4,
-        storage: '32G',
-        os: 'Amazon Linux',
-        regionAndAZ: 'cn-northeast-1a',
-        publicIpv4: '53.644.16.22'
-    }, {
-        instanceId: 'i-obajb812jn6689n',
-        name: 'Web_server_pro',
-        instanceState: "Running",
-        instanceType: 't3a.medium',
-        vCPU: 2,
-        RAM: 4,
-        storage: '32G',
-        os: 'Amazon Linux',
-        regionAndAZ: 'cn-northeast-1a',
-        publicIpv4: '53.644.16.22'
-    }, {
-        instanceId: 'i-obajb812jn6689n',
-        name: 'Web_server_pro',
-        instanceState: "Running",
-        instanceType: 't3a.medium',
-        vCPU: 2,
-        RAM: 4,
-        storage: '32G',
-        os: 'Amazon Linux',
-        regionAndAZ: 'cn-northeast-1a',
-        publicIpv4: '53.644.16.22'
-    }, {
-        instanceId: 'i-obajb812jn6689n',
-        name: 'Web_server_pro',
-        instanceState: "Running",
-        instanceType: 't3a.medium',
-        vCPU: 2,
-        RAM: 4,
-        storage: '32G',
-        os: 'Amazon Linux',
-        regionAndAZ: 'cn-northeast-1a',
-        publicIpv4: '53.644.16.22'
-    }, {
-        instanceId: 'i-obajb812jn6689n',
-        name: 'Web_server_pro',
-        instanceState: "Running",
-        instanceType: 't3a.medium',
-        vCPU: 2,
-        RAM: 4,
-        storage: '32G',
-        os: 'Amazon Linux',
-        regionAndAZ: 'cn-northeast-1a',
-        publicIpv4: '53.644.16.22'
-    }, {
-        instanceId: 'i-obajb812jn6689n',
-        name: 'Web_server_pro',
-        instanceState: "Running",
-        instanceType: 't3a.medium',
-        vCPU: 2,
-        RAM: 4,
-        storage: '32G',
-        os: 'Amazon Linux',
-        regionAndAZ: 'cn-northeast-1a',
-        publicIpv4: '53.644.16.22'
-    }, {
-        instanceId: 'i-obajb812jn6689n',
-        name: 'Web_server_pro',
-        instanceState: "Running",
-        instanceType: 't3a.medium',
-        vCPU: 2,
-        RAM: 4,
-        storage: '32G',
-        os: 'Amazon Linux',
-        regionAndAZ: 'cn-northeast-1a',
-        publicIpv4: '53.644.16.22'
-    }, {
-        instanceId: 'i-obajb812jn6689n',
-        name: 'Web_server_pro',
-        instanceState: "Running",
-        instanceType: 't3a.medium',
-        vCPU: 2,
-        RAM: 4,
-        storage: '32G',
-        os: 'Amazon Linux',
-        regionAndAZ: 'cn-northeast-1a',
-        publicIpv4: '53.644.16.22'
-    }, {
-        instanceId: 'i-obajb812jn6689n',
-        name: 'Web_server_pro',
-        instanceState: "Running",
-        instanceType: 't3a.medium',
-        vCPU: 2,
-        RAM: 4,
-        storage: '32G',
-        os: 'Amazon Linux',
-        regionAndAZ: 'cn-northeast-1a',
-        publicIpv4: '53.644.16.22'
-    },
-
-];
-
-const serverColumns = [
-    {
-        title: 'Instance ID',
-        dataIndex: 'instanceId',
-        key: 'instanceId',
-    },
-    {
-        title: 'Name(tag)',
-        dataIndex: 'name',
-        key: 'name',
-    },
-    {
-        title: 'Instance state',
-        dataIndex: 'instanceState',
-        key: 'instanceState',
-    },
-    {
-        title: 'Instance type',
-        dataIndex: 'instanceType',
-        key: 'instanceType',
-    },
-    {
-        title: 'vCPU',
-        dataIndex: 'vCPU',
-        key: 'vCPU',
-    },
-    {
-        title: 'RAM',
-        dataIndex: 'RAM',
-        key: 'RAM',
-    },
-    {
-        title: 'Storage(EBS)',
-        dataIndex: 'storage',
-        key: 'storage',
-    },
-    {
-        title: 'OS',
-        dataIndex: 'os',
-        key: 'os',
-    },
-    {
-        title: 'Region & AZ',
-        dataIndex: 'regionAndAZ',
-        key: 'regionAndAZ',
-    },
-    {
-        title: 'Public IPv4',
-        dataIndex: 'publicIpv4',
-        key: 'publicIpv4',
-    },
-];
-
-
 export const Resource = (): JSX.Element => {
-    const [value, setValue] = React.useState(0);
-
-
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-        setValue(newValue);
     };
 
     return (
@@ -343,12 +60,10 @@ export const Resource = (): JSX.Element => {
                 <CHeader/>
                 <Tabs className={classnames('pl-3')} defaultActiveKey="1">
                     <TabPane tab="Server" key="Server">
-                        {/*<NoResource resourceName={"server"} buttonName={"Add Server"} routePath={"/AddServer"}/>*/}
-                        <ResourceTable dataSource={serverDataSource} columns={serverColumns}/>
+                        <ServerList/>
                     </TabPane>
                     <TabPane tab="Storage" key="Storage">
                         <NoResource resourceName={"storage"} buttonName={"Add Storage"} routePath={"/AddStorage"}/>
-
                     </TabPane>
                     <TabPane tab="Databases" key="Databases">
                         <NoResource resourceName={"databases"} buttonName={"Add Databases"}

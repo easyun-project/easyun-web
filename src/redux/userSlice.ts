@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {UserModel} from "@/constant/result";
+import {UserModel} from "@/constant/user";
 
 const updateUser = 'user/updateUser';
 
@@ -16,6 +16,7 @@ const initUser: UserModel | undefined = undefined
 export const userSlice = createSlice({
     name: 'user',
     initialState: {
+        loading: true,
         user: initUser
     },
     reducers: {

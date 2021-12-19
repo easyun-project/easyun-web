@@ -4,20 +4,39 @@ import {CFooter} from '@/components/Logic/CFooter';
 import {CButton} from '@/components/Common/CButton';
 import {classnames} from '@@/tailwindcss-classnames';
 import {useNavigate} from 'react-router-dom';
+import {useDispatch, useSelector} from "react-redux";
+import {getDataCenter} from "@/redux/dataCenterSlice";
+import {RootState} from "@/redux/store";
 
 const Home = (): JSX.Element => {
+    const dispatch = useDispatch();
+    let navigate = useNavigate();
+
+    const userState = useSelector((state: RootState) => {
+        return state.user.user
+    });
+    const dataCenterState = useSelector((state: RootState) => {
+        return state.dataCenter
+    });
 
     useEffect(() => {
+        dispatch(getDataCenter(userState!.token));
+    }, [dispatch]);
 
-    },[])
 
-    return (
-        <div>
-            <CHeader/>
-            <NoData/>
-            <CFooter/>
-        </div>
-    )
+    const dataCenter = dataCenterState.dataCenter
+    if (dataCenter) {
+        navigate("/resource")
+        return <div/>
+    } else {
+        return (
+            <div>
+                <CHeader/>
+                <NoData/>
+                <CFooter/>
+            </div>
+        )
+    }
 };
 
 

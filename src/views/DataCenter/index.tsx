@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {CHeader} from '@/components/Logic/CHeader';
 import {CFooter} from '@/components/Logic/CFooter';
 import {CSubnet} from '@/components/Logic/CSubnet';
@@ -9,28 +9,27 @@ import {Icon} from '@iconify/react';
 import {useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 import dataCenterService, {CreateDataCenterParams} from "@/service/dataCenterService";
-import {DefaultDataCenterModel} from "@/constant/result";
 import {message} from "antd";
 import {RootState} from "@/redux/store";
+import {getDefaultDataCenter} from "@/redux/dataCenterSlice";
 
 
 const DataCenter = (): JSX.Element => {
     const navigate = useNavigate();
 
-    const [data, setData] = useState<DefaultDataCenterModel>()
-
     const userState = useSelector((state: RootState) => {
         return state.user.user
     })
 
+    const dataCenterState = useSelector((state: RootState) => {
+        return state.dataCenter
+    })
+    const data = dataCenterState.defaultDataCenter
+
+    let dispatch = useDispatch();
     useEffect(() => {
-        console.log(userState)
-        const func = async () => {
-            const result = await dataCenterService.getDefault(userState!.token)
-            setData(result)
-        }
-        func()
-    }, [])
+        dispatch(getDefaultDataCenter(userState!.token))
+    }, [dispatch])
 
     // 创建数据中心
     const createDateCenter = async (params: CreateDataCenterParams) => {

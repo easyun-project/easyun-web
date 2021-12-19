@@ -11,6 +11,8 @@ export const DataCenterAll = "/api/v1/datacenter/all"
 
 
 // Server 服务器 常量名以Server开头
+export const ServerList = "/api/v1/server/list_all"
+
 
 
 // Storage s3存储 常量名以Storage开头
