@@ -1,8 +1,7 @@
 import React from "react";
 import { CHeader } from "@/components/Logic/CHeader";
 import { CFooter } from "@/components/Logic/CFooter";
-import eventService from "@/service/eventService";
-import "./index.css";
+// import "./index.css";
 
 import { Icon } from "@iconify/react";
 import { Row, Col, Table } from "antd";

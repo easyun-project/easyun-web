@@ -58,33 +58,35 @@ export const Resource = (): JSX.Element => {
         <>
             <div>
                 <CHeader/>
-                <Tabs className={classnames('pl-3')} defaultActiveKey="1">
-                    <TabPane tab="Server" key="Server">
-                        <ServerList/>
-                    </TabPane>
-                    <TabPane tab="Storage" key="Storage">
-                        <NoResource resourceName={"storage"} buttonName={"Add Storage"} routePath={"/AddStorage"}/>
-                    </TabPane>
-                    <TabPane tab="Databases" key="Databases">
-                        <NoResource resourceName={"databases"} buttonName={"Add Databases"}
-                                    routePath={"/AddDatabases"}/>
+                <div className={classnames('ml-3')}>
+                    <Tabs defaultActiveKey="1">
+                        <TabPane tab="Server" key="Server">
+                            <ServerList/>
+                        </TabPane>
+                        <TabPane tab="Storage" key="Storage">
+                            <NoResource resourceName={"storage"} buttonName={"Add Storage"} routePath={"/AddStorage"}/>
+                        </TabPane>
+                        <TabPane tab="Databases" key="Databases">
+                            <NoResource resourceName={"databases"} buttonName={"Add Databases"}
+                                        routePath={"/AddDatabases"}/>
 
-                    </TabPane>
-                    <TabPane tab="Networking" key="Networking">
-                        <NoResource resourceName={"networking"} buttonName={"Add Networking"}
-                                    routePath={"/AddNetworking"}/>
+                        </TabPane>
+                        <TabPane tab="Networking" key="Networking">
+                            <NoResource resourceName={"networking"} buttonName={"Add Networking"}
+                                        routePath={"/AddNetworking"}/>
 
-                    </TabPane>
-                    <TabPane tab="Containers" key="Containers">
-                        <NoResource resourceName={"containers"} buttonName={"Add Container"}
-                                    routePath={"/AddContainer"}/>
+                        </TabPane>
+                        <TabPane tab="Containers" key="Containers">
+                            <NoResource resourceName={"containers"} buttonName={"Add Container"}
+                                        routePath={"/AddContainer"}/>
 
-                    </TabPane>
-                    <TabPane tab="Backups" key="Backups">
-                        <NoResource resourceName={"backups"} buttonName={"Add Backup"} routePath={"/AddBackup"}/>
+                        </TabPane>
+                        <TabPane tab="Backups" key="Backups">
+                            <NoResource resourceName={"backups"} buttonName={"Add Backup"} routePath={"/AddBackup"}/>
 
-                    </TabPane>
-                </Tabs>
+                        </TabPane>
+                    </Tabs>
+                </div>
             </div>
             <CFooter/></>
     );
