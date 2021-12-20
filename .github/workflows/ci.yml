@@ -1,0 +1,63 @@
+name: Push-to-EC2
+
+on:
+  push:
+    branches: [ develop,master ]
+  pull_request:
+    branches: [ develop,master ]
+
+jobs:
+  ci-staging:
+    name: Push to EC2 Instance stging
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/deploy/staging' || startsWith(github.ref, 'refs/heads/hotfix/')
+
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v2
+      - name: Deploy to my EC2 instance
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY_TOKYO }}
+          SOURCE: "./"
+          REMOTE_HOST: ${{secrets.TOKYO_IP}}
+          REMOTE_USER: "ec2-user"
+          TARGET: "/home/ec2-user/easyun-web"
+          EXCLUDE: ".git/, node_modules/"
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.TOKYO_IP }}
+          username: "ec2-user"
+          key: ${{ secrets.EC2_SSH_KEY_TOKYO }}
+          script: sh easyun-web/deploy.sh
+
+
+  ci-production:
+    name: Push to EC2 Instance prod
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v2
+      - name: Deploy to my EC2 instance
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY_TOKYO }}
+          SOURCE: "./"
+          REMOTE_HOST: ${{secrets.TOKYO_IP}}
+          REMOTE_USER: "ec2-user"
+          TARGET: "/home/ec2-user/easyun-web"
+          EXCLUDE: ".git/, node_modules/"
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.TOKYO_IP }}
+          username: "ec2-user"
+          key: ${{ secrets.EC2_SSH_KEY_TOKYO }}
+          script: sh easyun-web/deploy.sh
+
+
+
+

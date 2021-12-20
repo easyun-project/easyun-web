@@ -1,10 +1,15 @@
-import { configureStore } from '@reduxjs/toolkit';
-import personReducer from '@/redux/userSlice';
+import {configureStore} from '@reduxjs/toolkit';
+import userStore from '@/redux/userSlice';
+import appStore from '@/redux/appSlice';
 
 const store = configureStore({
-	reducer: {
-		person: personReducer,
-	},
+    reducer: {
+        user: userStore,
+        app: appStore,
+    },
 });
+
+
+export type RootState = ReturnType<typeof store.getState>
 
 export default store;
