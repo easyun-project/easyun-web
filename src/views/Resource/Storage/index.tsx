@@ -6,8 +6,6 @@ import { CButton } from '@/components/Common/CButton';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
-import { Menu, Dropdown } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
 
 import bucketManage from '@/service/addBucket';
 
@@ -204,7 +202,7 @@ const WithStorage = (props): JSX.Element => {
 const Storage = (): JSX.Element => {
   const bucketListRes = bucketManage.listBucket();
   const navigate = useNavigate();
-  //   const storageList = bucketListRes.data;
+  // const storageList = bucketListRes.data;
   const storageList = [
     {
       bucketName: 'bucket-easyun-test219',
@@ -221,7 +219,7 @@ const Storage = (): JSX.Element => {
       region: 'Singapore',
     },
   ];
-  //   const storageList = [];
+  // const storageList = [];
 
   return (
     <div>
