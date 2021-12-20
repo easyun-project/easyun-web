@@ -5,6 +5,8 @@ import { Icon } from '@iconify/react';
 import { classnames } from '@@/tailwindcss-classnames';
 import { CButton } from '@/components/Common/CButton';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 import bucketManage from '@/service/addBucket';
 
@@ -16,6 +18,9 @@ const AddBucket = (): JSX.Element => {
   const [bucketEncryption, changeBucketEncryp] = useState(false);
   const [versioningConfiguration, changeVerConfig] = useState(true);
   const navigate = useNavigate();
+  const userState = useSelector((state: RootState) => {
+    return state.user.user;
+  });
 
   return (
     <div>
@@ -219,7 +224,7 @@ const AddBucket = (): JSX.Element => {
                 versioningConfiguration: versioningConfiguration ? 'Enabled' : 'Suspended',
                 bucketEncryption: bucketEncryption.toString(),
                 region,
-              })
+              },userState?.token)
               .then(() => {
                 alert('创建成功');
               })

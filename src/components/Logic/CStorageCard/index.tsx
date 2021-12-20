@@ -3,6 +3,8 @@ import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { Menu, Dropdown } from 'antd';
 import bucketManage from '@/service/addBucket';
+import { RootState } from '@/redux/store';
+import { useDispatch, useSelector } from 'react-redux';
 
 interface StorageCardInfo {
   class?: TTailwindString;
@@ -15,6 +17,9 @@ interface StorageCardInfo {
 
 const CStorageCard = (props: StorageCardInfo): JSX.Element => {
   const { bucketName, storageType, isPrivate, region } = props;
+  const userState = useSelector((state: RootState) => {
+    return state.user.user;
+  });
   const menu = (
     <Menu>
       <Menu.Item disabled>
@@ -25,7 +30,9 @@ const CStorageCard = (props: StorageCardInfo): JSX.Element => {
       <Menu.Item
         danger
         onClick={async () => {
-          const res = await bucketManage.deleteBucket(bucketName).then(() => alert('删除成功'));
+          const res = await bucketManage
+            .deleteBucket(bucketName, userState?.token)
+            .then(() => alert('删除成功'));
         }}
       >
         Delete
