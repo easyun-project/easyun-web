@@ -1,22 +1,17 @@
 import {useTranslation} from 'react-i18next';
 
-import React, {createRef, LegacyRef, useState} from 'react';
+import React, {createRef, useState} from 'react';
 import {CButton} from '@/components/Common/CButton';
 import {classnames} from '@@/tailwindcss-classnames';
 import {Icon} from '@iconify/react';
 import {useNavigate} from 'react-router-dom';
 
 import userService from '@/service/userService';
-import {Button, Dropdown, Input, Menu, message, Modal} from "antd";
-import {DownOutlined, UserOutlined} from "@ant-design/icons";
+import {Input, message, Modal} from "antd";
 import appService from "@/service/appService";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "@/redux/store";
-import {hostAction} from "@/redux/appSlice";
-
-interface LoginRes {
-    token: string,
-}
+import {useDispatch} from "react-redux";
+import {UserModel} from "@/constant/result";
+import {userAction} from "@/redux/userSlice";
 
 const LoginPage = (): JSX.Element => {
     const navigate = useNavigate();
@@ -28,9 +23,11 @@ const LoginPage = (): JSX.Element => {
         if (!username || !password) {
             return;
         }
-        const res = await userService.login<LoginRes>(username, password);
-        console.log(res.data);
-        navigate('/home');
+        const loginRes = await userService.login<UserModel | undefined>(username, password);
+        if (loginRes) {
+            dispatch(userAction(loginRes))
+            navigate('/home');
+        }
     };
 
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -45,12 +42,8 @@ const LoginPage = (): JSX.Element => {
             message.info("请输入您服务器的地址")
             return
         }
-        const result = await appService.setHost(host)
-        if (result) {
-            dispatch(hostAction(host))
-            setIsModalVisible(false);
-        }
-
+        appService.setHost(host)
+        setIsModalVisible(false);
     };
 
     const handleCancel = () => {

@@ -3,10 +3,19 @@
 
 // User 用户登陆、改密、个人中心等，常量名以User开头
 export const UserLogin = '/api/v1/user/auth';
-
+export const AwsInfo = "/api/v1.0/aws_info";
 // dataCenter 数据中心相关内容 常量名以DataCenter开头
+export const DataCenterDefault = "/api/v1/datacenter/default"
+export const CreateDataCenter = "/api/v1/datacenter/add_dc"
+// 事件日志
+export const EventLogList = "/api/v1/event/log";
+
+export const DataCenterAll = "/api/v1/datacenter/all"
 
 // Server 服务器 常量名以Server开头
+export const ServerList = "/api/v1/server/list_all"
+export const ServerDetail = "/api/v1/server/detail/"
+
 
 
 // Storage s3存储 常量名以Storage开头
@@ -24,3 +33,4 @@ export const DeleteBucket = 'http://54.156.105.123:6660/api/v1.0/storage/delete_
 // containers 容器 常量名以Container开头
 
 // dashboard  面板 常量名以Dashboard开头
+

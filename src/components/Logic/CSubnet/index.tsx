@@ -6,6 +6,7 @@ interface Props {
     index: number;
     isPublic: boolean;
     classes?: TTailwindString;
+	subnet?: string
 }
 
 export const CSubnet = (props: Props): JSX.Element => {
@@ -34,7 +35,7 @@ export const CSubnet = (props: Props): JSX.Element => {
 				<div className="grid grid-cols-5 gap-4">
 					<div className="col-span-2">ipv4 CIDR Block</div>
 					<div className="col-span-3">
-						<input className={classnames('h-6', 'border', 'w-40')}/>
+						<input defaultValue={props.subnet} className={classnames('h-6', 'border', 'w-40')}/>
 					</div>
 				</div>
 				<div className="grid grid-cols-5 gap-4">

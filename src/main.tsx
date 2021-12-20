@@ -1,8 +1,8 @@
-import React, {Suspense, useEffect} from 'react';
+import React, {Suspense} from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter, Routes} from 'react-router-dom';
-import {Provider, useDispatch} from 'react-redux';
-import store from '@/redux/store';
+import {Provider} from 'react-redux';
+import store, {persist} from '@/redux/store';
 import '@/assets/styles/index.css';
 
 import '@/i18n';
@@ -12,29 +12,19 @@ import NotFound from '@/views/NotFound';
 import Home from '@/views/Home';
 import DataCenter from '@/views/DataCenter';
 import Resource from '@/views/Resource';
-import AddServer from '@/views/Resource/AddServer';
-import Storage from './views/Resource/Storage';
+import AddServer from '@/views/Resource/Server/AddServer';
 import AddBucket from '@/views/Resource/Storage/AddBucket';
 import AddDisk from '@/views/Resource/Storage/AddDisk/insex';
 import LoginPage from '@/views/Login';
 import Account from '@/views/Account';
-import appService from "@/service/appService";
-import {hostAction} from "@/redux/appSlice";
-import "antd/dist/antd.less"; //原有是antd.css  只需要改为less就可以啦
+import Event from '@/views/Event';
+import {PersistGate} from "redux-persist/integration/react"; //原有是antd.css  只需要改为less就可以啦
+import "antd/dist/antd.less";
+import ServerDetail from "@/views/Resource/Server/ServerDetail";
 
 import 'antd/dist/antd.css';
 
 const App = (): JSX.Element => {
-    let dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(async () => {
-            let host = await appService.getHost();
-            if (host) {
-                dispatch(hostAction(host))
-            }
-        });
-    }, [])
-
     return (
         <Suspense fallback={<CFullLoading/>}>
             <Routes>
@@ -44,15 +34,14 @@ const App = (): JSX.Element => {
                 <Route path="resource">
                     <Route index element={<Resource/>}/>
                     <Route path="addServer" element={<AddServer/>}/>
+                    <Route path="server/:serverId" element={<ServerDetail/>}/>
                     <Route path="addBucket" element={<AddBucket/>}/>
                     <Route path="addDisk" element={<AddDisk/>}/>
                 </Route>
                 <Route path="login" element={<LoginPage/>}/>
                 <Route path="404" element={<NotFound/>}/>
-                {/* <Route
-					path="*"
-					element={<Navigate to="/"/>}/> */}
                 <Route path='account' element={<Account/>}/>
+                <Route path="event" element={<Event />} />
             </Routes>
         </Suspense>
     );
@@ -60,9 +49,11 @@ const App = (): JSX.Element => {
 
 ReactDOM.render(
     <BrowserRouter>
-        <Provider store={store}>
-            <App/>
-        </Provider>
+        <PersistGate loading={null} persistor={persist}>
+            <Provider store={store}>
+                <App/>
+            </Provider>
+        </PersistGate>
     </BrowserRouter>,
     document.getElementById('root')
 );

@@ -1,14 +1,13 @@
-import axios from 'redaxios';
+const hostKey = 'host';
 
 export default class appService {
-    static async getHost(): Promise<string> {
-        const result = await axios.get(`${window.location.protocol}//${window.location.hostname}:8088/config`)
-        return result.data
+    static getHost(): string {
+        let host = localStorage.getItem(hostKey);
+        return host as string;
     }
 
-    static async setHost(host: string): Promise<string> {
-        const result = await axios.post(`${window.location.protocol}//${window.location.hostname}:8088/config`, {host})
-        return result.data
+    static setHost(host: string) {
+        localStorage.setItem(hostKey, host);
     }
 
 }
