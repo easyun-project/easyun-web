@@ -19,7 +19,9 @@ export const ServerDetail = "/api/v1/server/detail/"
 
 
 // Storage s3存储 常量名以Storage开头
-
+export const AddBucket = 'http://54.156.105.123:6660/api/v1.0/storage/add_bucket';
+export const ListBucket = 'http://54.156.105.123:6660/api/v1.0/storage/list'
+export const DeleteBucket = 'http://54.156.105.123:6660/api/v1.0/storage/delete_bucket'
 
 // database 数据库 常量名以Database开头
 
