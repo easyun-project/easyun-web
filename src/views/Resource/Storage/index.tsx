@@ -223,9 +223,7 @@ const Storage = (): JSX.Element => {
 
   return (
     <div>
-      <CHeader />
       {storageList.length === 0 ? <WithoutStorage /> : <WithStorage storageList={storageList} />}
-      <CFooter />
     </div>
   );
 };

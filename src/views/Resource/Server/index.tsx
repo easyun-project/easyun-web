@@ -156,7 +156,7 @@ export const ServerList = () => {
                         </Button>
                     </Dropdown>
                     <CButton
-                        click={() => navigate('/addServer')}
+                        click={() => navigate('/resource/addServer')}
                         classes={classnames('inline-block', 'bg-yellow-550', 'mr-3', 'block', 'text-white', 'rounded-3xl', 'px-5', 'py-1')}>
                         Add Server
                     </CButton>

@@ -7,6 +7,7 @@ import {classnames} from "@@/tailwindcss-classnames";
 import {CButton} from "@/components/Common/CButton";
 import {ServerModel} from "@/constant/server";
 import {ServerList} from "@/views/Resource/Server";
+import Storage from './Storage';
 
 const {TabPane} = Tabs;
 
@@ -64,7 +65,7 @@ export const Resource = (): JSX.Element => {
                             <ServerList/>
                         </TabPane>
                         <TabPane tab="Storage" key="Storage">
-                            <NoResource resourceName={"storage"} buttonName={"Add Storage"} routePath={"/AddStorage"}/>
+                            <Storage/>
                         </TabPane>
                         <TabPane tab="Databases" key="Databases">
                             <NoResource resourceName={"databases"} buttonName={"Add Databases"}
