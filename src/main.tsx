@@ -26,36 +26,36 @@ import ServerDetail from '@/views/Resource/Server/ServerDetail';
 import 'antd/dist/antd.css';
 
 const App = (): JSX.Element => {
-  return (
-    <Suspense fallback={<CFullLoading />}>
-      <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="home" element={<Home />} />
-        <Route path="dataCenter" element={<DataCenter />} />
-        <Route path="resource">
-          <Route index element={<Resource />} />
-          <Route path="storage" element={<Storage />} />
-          <Route path="addServer" element={<AddServer />} />
-          <Route path="server/:serverId" element={<ServerDetail />} />
-          <Route path="addBucket" element={<AddBucket />} />
-          <Route path="addDisk" element={<AddDisk />} />
-        </Route>
-        <Route path="login" element={<LoginPage />} />
-        <Route path="404" element={<NotFound />} />
-        <Route path="account" element={<Account />} />
-        <Route path="event" element={<Event />} />
-      </Routes>
-    </Suspense>
-  );
+    return (
+        <Suspense fallback={<CFullLoading />}>
+            <Routes>
+                <Route path="/" element={<LoginPage />} />
+                <Route path="home" element={<Home />} />
+                <Route path="dataCenter" element={<DataCenter />} />
+                <Route path="resource">
+                    <Route index element={<Resource />} />
+                    <Route path="storage" element={<Storage />} />
+                    <Route path="addServer" element={<AddServer />} />
+                    <Route path="server/:serverId" element={<ServerDetail />} />
+                    <Route path="addBucket" element={<AddBucket />} />
+                    <Route path="addDisk" element={<AddDisk />} />
+                </Route>
+                <Route path="login" element={<LoginPage />} />
+                <Route path="404" element={<NotFound />} />
+                <Route path="account" element={<Account />} />
+                <Route path="event" element={<Event />} />
+            </Routes>
+        </Suspense>
+    );
 };
 
 ReactDOM.render(
-  <BrowserRouter>
-    <PersistGate loading={null} persistor={persist}>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </PersistGate>
-  </BrowserRouter>,
-  document.getElementById('root')
+    <BrowserRouter>
+        <PersistGate loading={null} persistor={persist}>
+            <Provider store={store}>
+                <App />
+            </Provider>
+        </PersistGate>
+    </BrowserRouter>,
+    document.getElementById('root')
 );

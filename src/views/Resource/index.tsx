@@ -2,11 +2,11 @@ import * as React from 'react';
 import {CHeader} from '@/components/Logic/CHeader';
 import {CFooter} from '@/components/Logic/CFooter';
 import {useNavigate} from 'react-router-dom';
-import {Table, Tabs} from "antd";
-import {classnames} from "@@/tailwindcss-classnames";
-import {CButton} from "@/components/Common/CButton";
-import {ServerModel} from "@/constant/server";
-import {ServerList} from "@/views/Resource/Server";
+import {Table, Tabs} from 'antd';
+import {classnames} from '@@/tailwindcss-classnames';
+import {CButton} from '@/components/Common/CButton';
+import {ServerModel} from '@/constant/server';
+import {ServerList} from '@/views/Resource/Server';
 import Storage from './Storage';
 
 const {TabPane} = Tabs;
@@ -36,9 +36,9 @@ export const NoResource = (props: NotDataProps) => {
                 </CButton>
             </div>
         </div>
-    )
+    );
 
-}
+};
 
 
 interface TableProps {
@@ -49,11 +49,11 @@ interface TableProps {
 export const ResourceTable = (props: TableProps) => {
     return (
         <Table bordered={true} dataSource={props.dataSource} columns={props.columns}/>
-    )
-}
+    );
+};
 export const Resource = (): JSX.Element => {
-    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    };
+    // const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    // };
 
     return (
         <>
@@ -68,22 +68,22 @@ export const Resource = (): JSX.Element => {
                             <Storage/>
                         </TabPane>
                         <TabPane tab="Databases" key="Databases">
-                            <NoResource resourceName={"databases"} buttonName={"Add Databases"}
-                                        routePath={"/AddDatabases"}/>
+                            <NoResource resourceName={'databases'} buttonName={'Add Databases'}
+                                routePath={'/AddDatabases'}/>
 
                         </TabPane>
                         <TabPane tab="Networking" key="Networking">
-                            <NoResource resourceName={"networking"} buttonName={"Add Networking"}
-                                        routePath={"/AddNetworking"}/>
+                            <NoResource resourceName={'networking'} buttonName={'Add Networking'}
+                                routePath={'/AddNetworking'}/>
 
                         </TabPane>
                         <TabPane tab="Containers" key="Containers">
-                            <NoResource resourceName={"containers"} buttonName={"Add Container"}
-                                        routePath={"/AddContainer"}/>
+                            <NoResource resourceName={'containers'} buttonName={'Add Container'}
+                                routePath={'/AddContainer'}/>
 
                         </TabPane>
                         <TabPane tab="Backups" key="Backups">
-                            <NoResource resourceName={"backups"} buttonName={"Add Backup"} routePath={"/AddBackup"}/>
+                            <NoResource resourceName={'backups'} buttonName={'Add Backup'} routePath={'/AddBackup'}/>
 
                         </TabPane>
                     </Tabs>
