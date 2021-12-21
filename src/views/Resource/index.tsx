@@ -1,15 +1,15 @@
 import * as React from 'react';
-import {CHeader} from '@/components/Logic/CHeader';
-import {CFooter} from '@/components/Logic/CFooter';
-import {useNavigate} from 'react-router-dom';
-import {Table, Tabs} from 'antd';
-import {classnames} from '@@/tailwindcss-classnames';
-import {CButton} from '@/components/Common/CButton';
-import {ServerModel} from '@/constant/server';
-import {ServerList} from '@/views/Resource/Server';
+import { CHeader } from '@/components/Logic/CHeader';
+import { CFooter } from '@/components/Logic/CFooter';
+import { useNavigate } from 'react-router-dom';
+import { Table, Tabs } from 'antd';
+import { classnames } from '@@/tailwindcss-classnames';
+import { CButton } from '@/components/Common/CButton';
+import { ServerModel } from '@/constant/server';
+import { ServerList } from '@/views/Resource/Server';
 import Storage from './Storage';
 
-const {TabPane} = Tabs;
+const { TabPane } = Tabs;
 
 interface NotDataProps {
     resourceName: string,

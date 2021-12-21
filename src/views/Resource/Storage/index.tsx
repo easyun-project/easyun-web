@@ -1,13 +1,15 @@
 import * as React from 'react';
 // import { CHeader } from '@/components/Logic/CHeader';
 // import { CFooter } from '@/components/Logic/CFooter';
+import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
 import CStorageCard from '@/components/Logic/CStorageCard';
 import { CButton } from '@/components/Common/CButton';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 
-// import bucketManage from '@/service/addBucket';
+import bucketManage from '@/service/addBucket';
 
 const WithoutStorage = (): JSX.Element => {
     const navigate = useNavigate();
@@ -200,8 +202,10 @@ const WithStorage = (props): JSX.Element => {
 };
 
 const Storage = (): JSX.Element => {
-    // const bucketListRes = bucketManage.listBucket();
-    // const storageList = bucketListRes.data;
+    const token = useSelector((state: RootState) => {
+        return state.user.user.token;
+    });
+    // const async Buckets = ()=>{ await bucketManage.listBucket(token).then(console.log("请求完成"))} ;
     const storageList = [
         {
             bucketName: 'bucket-easyun-test219',
