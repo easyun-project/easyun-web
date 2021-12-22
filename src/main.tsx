@@ -22,7 +22,7 @@ import Event from '@/views/Event';
 import { PersistGate } from 'redux-persist/integration/react'; //原有是antd.css  只需要改为less就可以啦
 import 'antd/dist/antd.less';
 import ServerDetail from '@/views/Resource/Server/ServerDetail';
-
+import Dashboard from './views/Dashboard';
 import 'antd/dist/antd.css';
 
 const App = (): JSX.Element => {
@@ -32,6 +32,7 @@ const App = (): JSX.Element => {
                 <Route path="/" element={<LoginPage />} />
                 <Route path="home" element={<Home />} />
                 <Route path="dataCenter" element={<DataCenter />} />
+                <Route path="dashboard" element={<Dashboard />} />
                 <Route path="resource">
                     <Route index element={<Resource />} />
                     <Route path="storage" element={<Storage />} />
