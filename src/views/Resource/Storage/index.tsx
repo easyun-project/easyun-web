@@ -205,7 +205,8 @@ const Storage = (): JSX.Element => {
     const token = useSelector((state: RootState) => {
         return state.user.user.token;
     });
-    // const async Buckets = ()=>{ await bucketManage.listBucket(token).then(console.log("请求完成"))} ;
+    const m = bucketManage.listBucket(token).then((data)=>{console.log(data);}) ;
+    console.log(m);
     const storageList = [
         {
             bucketName: 'bucket-easyun-test219',
