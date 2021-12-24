@@ -58,7 +58,7 @@ export const Resource = (): JSX.Element => {
     return (
         <>
             <div>
-                <CHeader/>
+                {/* <CHeader/> */}
                 <div className={classnames('ml-3')}>
                     <Tabs defaultActiveKey="1">
                         <TabPane tab="Server" key="Server">
@@ -89,7 +89,8 @@ export const Resource = (): JSX.Element => {
                     </Tabs>
                 </div>
             </div>
-            <CFooter/></>
+            {/* <CFooter/> */}
+        </>
     );
 };
 

@@ -8,8 +8,12 @@ import { CButton } from '@/components/Common/CButton';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
+import { CPartialLoading } from '@/components/Common/CPartialLoading';
+import { useState, useEffect } from 'react';
 
 import bucketManage from '@/service/addBucket';
+
+
 
 const WithoutStorage = (): JSX.Element => {
     const navigate = useNavigate();
@@ -152,7 +156,7 @@ const WithStorage = (props): JSX.Element => {
                             'h-10',
                             'w-32',
                             'px-5',
-                            'my-5'
+                            'm-5'
                         )}
                     >
             Add Bucket
@@ -162,13 +166,14 @@ const WithStorage = (props): JSX.Element => {
                             navigate('/resource/addDisk');
                         }}
                         classes={classnames(
-                            'bg-yellow-550',
+                            'cursor-not-allowed',
+                            'bg-gray-500',
                             'text-white',
                             'rounded-3xl',
                             'h-10',
                             'w-32',
                             'px-5',
-                            'my-5'
+                            'm-5'
                         )}
                     >
             Add Disk
@@ -178,13 +183,14 @@ const WithStorage = (props): JSX.Element => {
                             navigate('/resource/addDisk');
                         }}
                         classes={classnames(
-                            'bg-yellow-550',
+                            'cursor-not-allowed',
+                            'bg-gray-500',
                             'text-white',
                             'rounded-3xl',
                             'h-10',
                             'w-32',
                             'px-5',
-                            'my-5'
+                            'm-5'
                         )}
                     >
             Add NAS
@@ -192,9 +198,9 @@ const WithStorage = (props): JSX.Element => {
                 </div>
             </div>
 
-            <div className={classnames('flex', 'flex-row')}>
+            <div className={classnames('flex','flex-wrap','justify-items-center')}>
                 {props.storageList.map((storageInfo) => {
-                    return <CStorageCard key={storageInfo.bucketName} {...storageInfo} />;
+                    return <CStorageCard key={storageInfo.Name} {...storageInfo}/>;
                 })}
             </div>
         </div>
@@ -202,34 +208,46 @@ const WithStorage = (props): JSX.Element => {
 };
 
 const Storage = (): JSX.Element => {
+    const [storageLoading, changeStorageLoading] = useState(false);
+    // const [storageList,changeStorageList] = useState([]);
+
     const token = useSelector((state: RootState) => {
         return state.user.user.token;
     });
-    const m = bucketManage.listBucket(token).then((data)=>{console.log(data);}) ;
-    console.log(m);
-    const storageList = [
-        {
-            bucketName: 'bucket-easyun-test219',
-            bucketUrl: 'bucket-easyyun-test219',
-            storageType: 'storage bucket',
-            isPrivate: 'All objects are privite',
-            region: 'Virginia',
-        },
-        {
-            bucketName: 'bucket-easyun-test331',
-            bucketUrl: 'bucket-easyyun-test331',
-            storageType: 'storage bucket',
-            isPrivate: 'Individual objects can be public',
-            region: 'Singapore',
-        },
-    ];
-    // const storageList = [];
 
-    return (
-        <div>
-            {storageList.length === 0 ? <WithoutStorage /> : <WithStorage storageList={storageList} />}
-        </div>
-    );
+    const storageList = [
+        { Name: 'string1',
+            bucketStatus: 'string',
+            bucketRegion: 'string' },
+        { Name: 'string2',
+            bucketStatus: 'string',
+            bucketRegion: 'string' },
+        { Name: 'string3',
+            bucketStatus: 'string',
+            bucketRegion: 'string' },
+        { Name: 'string4',
+            bucketStatus: 'string',
+            bucketRegion: 'string' },
+        { Name: 'string5',
+            bucketStatus: 'string',
+            bucketRegion: 'string' }
+    ];
+    // useEffect(()=>{
+    //     bucketManage.listBucket(token).then((data:any)=>{
+    //         changeStorageLoading(false);
+    //         changeStorageList(data.detail[0].bucketList);});
+    // },[]);
+
+    if (storageLoading) {
+        return (
+            <CPartialLoading classes={classnames('h-96')}/>
+        );}
+    else {
+        return (
+            <div>
+                {storageList.length === 0 ? <WithoutStorage /> : <WithStorage storageList={storageList}/>}
+            </div>
+        );}
 };
 
 export default Storage;
