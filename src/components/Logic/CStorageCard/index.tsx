@@ -5,8 +5,10 @@ import { Menu, Dropdown } from 'antd';
 import bucketManage from '@/service/addBucket';
 import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { deleteStorage } from '@/redux/storageSlice';
 
-interface StorageCardInfo {
+export interface StorageCardInfo {
   class?: TTailwindString;
   bucketUrl?: string;
   storageType?: string;
@@ -21,6 +23,7 @@ const CStorageCard = (props: StorageCardInfo): JSX.Element => {
     const userState = useSelector((state: RootState) => {
         return state.user.user;
     });
+    const dispatch = useDispatch();
     const menu = (
         <Menu>
             <Menu.Item disabled key="manage">
@@ -33,7 +36,13 @@ const CStorageCard = (props: StorageCardInfo): JSX.Element => {
                 key="delete"
                 onClick={async () => {const res = await bucketManage
                     .deleteBucket(Name, userState?.token)
-                    .then(() => alert('删除成功'));}
+                    .then(
+                        () => {alert('删除成功');
+                            // dispatch(deleteStorage(Name));
+                            // console.log('发送请求')
+                        }
+                    );
+                }
                 }
             >
         Delete

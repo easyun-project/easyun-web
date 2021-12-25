@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { CHeader } from '@/components/Logic/CHeader';
-import { CFooter } from '@/components/Logic/CFooter';
+// import { CHeader } from '@/components/Logic/CHeader';
+// import { CFooter } from '@/components/Logic/CFooter';
 import { useNavigate } from 'react-router-dom';
 import { Table, Tabs } from 'antd';
 import { classnames } from '@@/tailwindcss-classnames';

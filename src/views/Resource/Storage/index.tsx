@@ -2,7 +2,6 @@ import * as React from 'react';
 // import { CHeader } from '@/components/Logic/CHeader';
 // import { CFooter } from '@/components/Logic/CFooter';
 import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
 import CStorageCard from '@/components/Logic/CStorageCard';
 import { CButton } from '@/components/Common/CButton';
 import { classnames } from '@@/tailwindcss-classnames';
@@ -10,7 +9,9 @@ import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { CPartialLoading } from '@/components/Common/CPartialLoading';
 import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
+import { updateStorage } from '@/redux/storageSlice';
 import bucketManage from '@/service/addBucket';
 
 
@@ -208,35 +209,43 @@ const WithStorage = (props): JSX.Element => {
 };
 
 const Storage = (): JSX.Element => {
-    const [storageLoading, changeStorageLoading] = useState(false);
-    // const [storageList,changeStorageList] = useState([]);
+    const [storageLoading, changeStorageLoading] = useState(true);
+    const dispatch = useDispatch();
+    // const storageState = useSelector((state: RootState) => {
+    //     return state.storage;
+    // });
 
     const token = useSelector((state: RootState) => {
         return state.user.user.token;
     });
 
-    const storageList = [
-        { Name: 'string1',
-            bucketStatus: 'string',
-            bucketRegion: 'string' },
-        { Name: 'string2',
-            bucketStatus: 'string',
-            bucketRegion: 'string' },
-        { Name: 'string3',
-            bucketStatus: 'string',
-            bucketRegion: 'string' },
-        { Name: 'string4',
-            bucketStatus: 'string',
-            bucketRegion: 'string' },
-        { Name: 'string5',
-            bucketStatus: 'string',
-            bucketRegion: 'string' }
-    ];
-    // useEffect(()=>{
-    //     bucketManage.listBucket(token).then((data:any)=>{
-    //         changeStorageLoading(false);
-    //         changeStorageList(data.detail[0].bucketList);});
-    // },[]);
+    // const storageList = [
+    //     { Name: 'string1',
+    //         bucketStatus: 'string',
+    //         bucketRegion: 'string' },
+    //     { Name: 'string2',
+    //         bucketStatus: 'string',
+    //         bucketRegion: 'string' },
+    //     { Name: 'string3',
+    //         bucketStatus: 'string',
+    //         bucketRegion: 'string' },
+    //     { Name: 'string4',
+    //         bucketStatus: 'string',
+    //         bucketRegion: 'string' },
+    //     { Name: 'string5',
+    //         bucketStatus: 'string',
+    //         bucketRegion: 'string' }
+    // ];
+    useEffect(()=>{
+        bucketManage.listBucket(token).then((data:any)=>{
+            changeStorageLoading(false);
+            dispatch(updateStorage(data.detail[0].bucketList));
+        });
+    },[]);
+
+    const storageList = useSelector((state: RootState) => {
+        return state.storage.storageList;
+    });
 
     if (storageLoading) {
         return (
