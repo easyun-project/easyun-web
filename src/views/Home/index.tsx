@@ -19,9 +19,9 @@ const Home = (): JSX.Element => {
         return state.dataCenter;
     });
 
-    useEffect(() => {
-        dispatch(getDataCenter(userState!.token));
-    }, [dispatch]);
+    // useEffect(() => {
+    //     dispatch(getDataCenter(userState!.token));
+    // }, [dispatch]);
 
 
     const dataCenter = dataCenterState.dataCenter;

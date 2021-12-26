@@ -8,7 +8,13 @@ module.exports = {
                 yellow: {
                     650: '#f5922f',
                     550: '#dd6b10'
-                },
+                }
+            },
+            minHeight: {
+                20: '20vh'
+            },
+            minWidth: {
+                30: '500px'
             }
         }
     },
