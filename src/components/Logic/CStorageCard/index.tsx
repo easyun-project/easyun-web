@@ -34,13 +34,14 @@ const CStorageCard = (props: StorageCardInfo): JSX.Element => {
             <Menu.Item
                 danger
                 key="delete"
-                onClick={async () => {const res = await bucketManage
-                    .deleteBucket(Name, userState?.token)
-                    .then(
-                        () => {alert('删除成功');
-                            dispatch(deleteStorage(Name));
-                        }
-                    );
+                onClick={async () => {
+                    const res = await bucketManage
+                        .deleteBucket(Name, userState?.token)
+                        .then(
+                            () => {alert('删除成功');
+                                dispatch(deleteStorage(Name));
+                            }
+                        );
                 }
                 }
             >
