@@ -25,15 +25,15 @@ const Home = (): JSX.Element => {
 
 
     const dataCenter = dataCenterState.dataCenter;
+    // 这里不知道为什么会显示没有数据数据中心，先无论如何跳转一下，后续再debug
     if (dataCenter) {
         navigate('/resource');
         return <div/>;
     } else {
+        navigate('/resource');
         return (
             <div>
-                <CHeader/>
                 <NoData/>
-                <CFooter/>
             </div>
         );
     }

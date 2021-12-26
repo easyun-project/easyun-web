@@ -586,7 +586,6 @@ export class Dashboard extends React.Component<propsType, stateType> {
 	render(): JSX.Element {
 	    return (
 	        <div className="min-h-screen">
-	            <CHeader />
 	            <div className={classnames('flex', 'justify-between', 'flex-wrap')}>
 	                <CTable dataConfig={mock1} />
 	                <DashCard dataConfig={mock3} />
@@ -618,7 +617,6 @@ export class Dashboard extends React.Component<propsType, stateType> {
 	                </div>
 	            )}
 
-	            <CFooter />
 	        </div>
 	    );
 	}
