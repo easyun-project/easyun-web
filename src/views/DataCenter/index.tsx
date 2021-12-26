@@ -1,61 +1,60 @@
-import React, {useEffect} from 'react';
-import {CHeader} from '@/components/Logic/CHeader';
-import {CFooter} from '@/components/Logic/CFooter';
-import {CSubnet} from '@/components/Logic/CSubnet';
-import {classnames} from '@@/tailwindcss-classnames';
+import React, { useEffect } from 'react';
+// import { CHeader } from '@/components/Logic/CHeader';
+// import { CFooter } from '@/components/Logic/CFooter';
+import { CSubnet } from '@/components/Logic/CSubnet';
+import { classnames } from '@@/tailwindcss-classnames';
 import CSecurityGroup from '@/components/Logic/CSecurityGrop';
-import {CButton} from '@/components/Common/CButton';
-import {Icon} from '@iconify/react';
-import {useNavigate} from 'react-router-dom';
-import {useDispatch, useSelector} from "react-redux";
-import dataCenterService, {CreateDataCenterParams} from "@/service/dataCenterService";
-import {message} from "antd";
-import {RootState} from "@/redux/store";
-import {getDefaultDataCenter} from "@/redux/dataCenterSlice";
+import { CButton } from '@/components/Common/CButton';
+import { Icon } from '@iconify/react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import dataCenterService, { CreateDataCenterParams } from '@/service/dataCenterService';
+import { message } from 'antd';
+import { RootState } from '@/redux/store';
+import { getDefaultDataCenter } from '@/redux/dataCenterSlice';
 
 
 const DataCenter = (): JSX.Element => {
     const navigate = useNavigate();
 
     const userState = useSelector((state: RootState) => {
-        return state.user.user
-    })
+        return state.user.user;
+    });
 
     const dataCenterState = useSelector((state: RootState) => {
-        return state.dataCenter
-    })
-    const data = dataCenterState.defaultDataCenter
+        return state.dataCenter;
+    });
+    const data = dataCenterState.defaultDataCenter;
 
-    let dispatch = useDispatch();
+    const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getDefaultDataCenter(userState?.token))
-    }, [dispatch])
+        dispatch(getDefaultDataCenter(userState?.token));
+    }, [dispatch]);
 
     // 创建数据中心
     const createDateCenter = async (params: CreateDataCenterParams) => {
         if (userState) {
-            const created = await dataCenterService.createDataCenter(userState!.token, params)
+            const created = await dataCenterService.createDataCenter(userState!.token, params);
             if (created) {
                 navigate('/resource');
-                return
+                return;
             }
-            message.info("创建数据中心失败")
+            message.info('创建数据中心失败');
         }
-    }
+    };
 
 
     return (
         <div>
-            <CHeader/>
             <div className={classnames('my-3')}>
                 <Icon icon="ant-design:plus-circle-twotone" width="25" className={classnames('inline-block', 'mx-1')}
-                      fr={undefined}/>
+                    fr={undefined}/>
                 Create New Cloud DataCenter
             </div>
             <div className={classnames('ml-5', 'mt-2')}>Easyun DataCenter Networking</div>
             <div className={classnames('ml-24')}>Region:
                 <Icon className={classnames('inline-block', 'mx-1')} icon="emojione-v1:flag-for-japan" color="gray"
-                      width="25" height="25" fr={undefined}/>
+                    width="25" height="25" fr={undefined}/>
                 {data?.az}
             </div>
             <div className={classnames('ml-5')}>
@@ -66,9 +65,9 @@ const DataCenter = (): JSX.Element => {
             <CSubnet subnet={data?.pub_subnet2} index={2} isPublic={true} classes={classnames('w-96', 'inline-block')}/>
             <br/>
             <CSubnet subnet={data?.pri_subnet1} index={1} isPublic={false}
-                     classes={classnames('w-96', 'inline-block')}/>
+                classes={classnames('w-96', 'inline-block')}/>
             <CSubnet subnet={data?.pri_subnet2} index={2} isPublic={false}
-                     classes={classnames('w-96', 'inline-block')}/>
+                classes={classnames('w-96', 'inline-block')}/>
 
 
             <div className={classnames('ml-5', 'mt-10')}>Easyun DataCenter Security Group</div>
@@ -81,7 +80,7 @@ const DataCenter = (): JSX.Element => {
                     navigate('/home');
                 }} classes={classnames('bg-gray-400', 'text-white', 'rounded-2xl', 'w-32', 'h-9', 'mx-5')}>
                     <Icon className={classnames('inline-block', 'mr-2')} icon="akar-icons:arrow-left" color="white"
-                          width="20" height="20" fr={undefined}/>
+                        width="20" height="20" fr={undefined}/>
                     Back</CButton>
                 <CButton click={() => {
                     const params: CreateDataCenterParams = {
@@ -95,12 +94,11 @@ const DataCenter = (): JSX.Element => {
                         sgs2_flag: '111',
                         sgs3_flag: '111',
                         vpc_cidr: data?.vpc_cidr,
-                    }
-                    createDateCenter(params)
+                    };
+                    createDateCenter(params);
                 }} classes={classnames('bg-yellow-550', 'text-white', 'rounded-2xl', 'w-32', 'px-5')}>Create</CButton>
             </div>
 
-            <CFooter/>
         </div>
     );
 };

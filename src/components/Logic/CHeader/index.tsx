@@ -2,60 +2,77 @@ import React from 'react';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
-import { Dropdown, Menu, message } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import { Menu } from 'antd';
+import { useState } from 'react';
 
-const menu = () => {
-    const handleMenuClick = (e) => {
-        message.info(`Click on menu item => ${e.key}.`);
-    };
-    return (
-        <Menu onClick={handleMenuClick}>
-            <Menu.Item key="Home">Home</Menu.Item>
-            <Menu.Item key="Dashboard">Dashboard</Menu.Item>
-            <Menu.Item key="Event">Event</Menu.Item>
-            <Menu.Item key="Account">Account</Menu.Item>
-        </Menu>
-    );
-};
+// const menu = () => {
+//     // const navigate = useNavigate();
+//     const handleMenuClick = (e) => {
+//         // e.target
+//         // navigate(`/${e.target.value}`)
+//         // console.log(`/${}`);
+//         message.info(`Click on menu item => ${e.key}.`);
+//     };
+//     return (
+//         <Menu onClick={handleMenuClick}>
+//             <Menu.Item key="Home">Home</Menu.Item>
+//             <Menu.Item key="Dashboard">Dashboard</Menu.Item>
+//             <Menu.Item key="Event">Event</Menu.Item>
+//             <Menu.Item key="Account">Account</Menu.Item>
+//         </Menu>
+//     );
+// };
 
 export const CHeader = (): JSX.Element => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [selectedIndex, setSelectedIndex] = React.useState(1);
     const open = Boolean(anchorEl);
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-
+    // const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    //     setAnchorEl(event.currentTarget);
+    // };
+    const [current, changeCurrent] = useState('Home');
     const navigate = useNavigate();
+    const handleClick = (e)=>{
+        console.log(e.key);
+        changeCurrent(e.key);
+        navigate(`/${e.key}`);};
 
-    const handleMenuItemClick = (
-        event: React.MouseEvent<HTMLElement>,
-        index: number
-    ) => {
-        setSelectedIndex(index);
-        setAnchorEl(null);
-    };
 
-    const container = classnames(
-        'bg-gray-600',
-        'text-white',
-        'text-3xl',
-        'h-16',
-        'flex',
-        'items-center'
-    );
-    const content = classnames('ml-6', 'flex-none', 'cursor-pointer');
+
+
+    // const handleMenuItemClick = (
+    //     event: React.MouseEvent<HTMLElement>,
+    //     index: number
+    // ) => {
+    //     setSelectedIndex(index);
+    //     setAnchorEl(null);
+    // };
+
+    // const container = classnames(
+    //     'bg-gray-600',
+    //     'text-white',
+    //     'text-3xl',
+    //     'h-16',
+    //     'flex',
+    //     'items-center'
+    // );
+    // const content = classnames('ml-6', 'flex-none', 'cursor-pointer');
     return (
-        <div className={container}>
-            <span className={content} onClick={() => navigate('/home')}>
+        <div className={classnames('flex','flex-row','items-center','bg-gray-600','text-white','text-3xl','p-2')}>
+            <span className={classnames('mx-6','cursor-pointer')} onClick={() => navigate('/home')}>
         Easyun
             </span>
-            <Dropdown overlay={menu} className={classnames('ml-32')}>
+            {/* <Dropdown overlay={menu} className={classnames('ml-32')}>
                 <span>
           Home <DownOutlined />
                 </span>
-            </Dropdown>
+            </Dropdown> */}
+            <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" className={classnames('w-1/3', 'bg-gray-600','text-white','text-xl')}>
+                <Menu.Item key="Home">Home</Menu.Item>
+                <Menu.Item key="Dashboard">Dashboard</Menu.Item>
+                <Menu.Item key="Event">Event</Menu.Item>
+                <Menu.Item key="Account">Account</Menu.Item>
+            </Menu>
             <div
                 className={classnames(
                     'absolute',
@@ -83,7 +100,6 @@ export const CHeader = (): JSX.Element => {
                     hFlip={true}
                     fr={undefined}
                 />
-
                 <span
                     id="setting"
                     className={classnames('cursor-pointer', 'inline-flex')}
@@ -106,7 +122,6 @@ export const CHeader = (): JSX.Element => {
                         fr={undefined}
                     />
                 </span>
-
                 <span id="username" className={'mx-5'} style={{ color: '#5c6f9a' }}>
           admin
                 </span>

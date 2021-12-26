@@ -1,6 +1,6 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {ServerModel, SeverDetailModel} from "@/constant/server";
-import serverService, {ServerDetailParams} from "@/service/serverService";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { ServerModel, SeverDetailModel } from '@/constant/server';
+import serverService, { ServerDetailParams } from '@/service/serverService';
 
 export interface ServerState {
     loading: boolean,
@@ -12,12 +12,12 @@ const initialState: ServerState = {
     loading: true,
     servers: [],
     currentServer: undefined
-}
+};
 
 export const getServerList = createAsyncThunk(
     'server/getServerList',
     async (token: string) => {
-        return await serverService.getServerList(token)
+        return await serverService.getServerList(token);
     }
 );
 
@@ -25,7 +25,7 @@ export const getServerList = createAsyncThunk(
 export const getServerDetail = createAsyncThunk(
     'server/getServerDetail',
     async (params: ServerDetailParams) => {
-        return await serverService.getServerDetail(params)
+        return await serverService.getServerDetail(params);
     }
 );
 
@@ -43,7 +43,7 @@ export const serverSlice = createSlice({
         });
         builder.addCase(getServerDetail.fulfilled, (state: ServerState, action) => {
             state.loading = false;
-            state.currentServer = action.payload
+            state.currentServer = action.payload;
         });
         builder.addCase(getServerDetail.pending, (state: ServerState) => {
             state.loading = true;
