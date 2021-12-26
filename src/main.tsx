@@ -20,14 +20,10 @@ import NotFound from '@/views/NotFound';
 import Home from '@/views/Home';
 import DataCenter from '@/views/DataCenter';
 import Resource from '@/views/Resource';
-import Storage from './views/Resource/Storage';
-import AddServer from '@/views/Resource/Server/AddServer';
-import AddBucket from '@/views/Resource/Storage/AddBucket';
-import AddDisk from '@/views/Resource/Storage/AddDisk/insex';
+import Dashboard from './views/Dashboard';
 import LoginPage from '@/views/Login';
 import Account from '@/views/Account';
 import Event from '@/views/Event';
-import ServerDetail from '@/views/Resource/Server/ServerDetail';
 import { CFullLoading } from '@/components/Common/CFullLoading';
 import { CHeader } from './components/Logic/CHeader';
 import { CFooter } from './components/Logic/CFooter';
@@ -38,14 +34,14 @@ const AppRouter = (): JSX.Element => {
         <Routes>
             <Route path="home" element={<Home />} />
             <Route path="dataCenter" element={<DataCenter />} />
-            <Route path="resource">
-                <Route index element={<Resource />} />
-                <Route path="storage" element={<Storage />} />
+            <Route path="resource/*" element={<Resource />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            {/* <Route index element={<Resource />} />
+                 <Route path="storage" element={<Storage />} />
                 <Route path="addServer" element={<AddServer />} />
                 <Route path="server/:serverId" element={<ServerDetail />} />
                 <Route path="addBucket" element={<AddBucket />} />
-                <Route path="addDisk" element={<AddDisk />} />
-            </Route>
+                <Route path="addDisk" element={<AddDisk />} /> */}
             <Route path="404" element={<NotFound />} />
             <Route path="account" element={<Account />} />
             <Route path="event" element={<Event />} />

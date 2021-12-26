@@ -8,6 +8,14 @@ import { CButton } from '@/components/Common/CButton';
 import { ServerModel } from '@/constant/server';
 import { ServerList } from '@/views/Resource/Server';
 import Storage from './Storage';
+import AddServer from '@/views/Resource/Server/AddServer';
+import AddBucket from '@/views/Resource/Storage/AddBucket';
+import AddDisk from '@/views/Resource/Storage/AddDisk/insex';
+import ServerDetail from '@/views/Resource/Server/ServerDetail';
+import { Menu } from 'antd';
+import { useState } from 'react';
+import { Route } from 'react-router';
+import { Routes } from 'react-router-dom';
 
 const { TabPane } = Tabs;
 
@@ -54,13 +62,42 @@ export const ResourceTable = (props: TableProps) => {
 export const Resource = (): JSX.Element => {
     // const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     // };
-
+    const [current, changeCurrent] = useState('server');
+    const navigate = useNavigate();
+    const handleClick = (e)=>{
+        console.log(e.key);
+        changeCurrent(e.key);
+        navigate(`/resource/${e.key}`);};
     return (
         <>
             <div>
                 {/* <CHeader/> */}
-                <div className={classnames('ml-3')}>
-                    <Tabs defaultActiveKey="1">
+                <div className={classnames('ml-3','min-h-screen')}>
+                    <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" >
+                        <Menu.Item key="server">Server</Menu.Item>
+                        <Menu.Item key="storage">Storage</Menu.Item>
+                        <Menu.Item key="databases">Databases</Menu.Item>
+                        <Menu.Item key="networking">Networking</Menu.Item>
+                        <Menu.Item key="containers">Containers</Menu.Item>
+                        <Menu.Item key="backups">Backups</Menu.Item>
+                    </Menu>
+                    <Routes>
+                        <Route path="/" element={<ServerList/>} />
+                        <Route path="server" element={<ServerList/>} />
+                        <Route path="storage" element={<Storage />} />
+                        <Route path="addServer" element={<AddServer />} />
+                        <Route path="server/:serverId" element={<ServerDetail />} />
+                        <Route path="addBucket" element={<AddBucket />} />
+                        <Route path="addDisk" element={<AddDisk />} />
+                        <Route path="databases" element={<NoResource resourceName={'databases'} buttonName={'Add Databases'}
+                            routePath={'/AddDatabases'}/>} />
+                        <Route path="networking" element={<NoResource resourceName={'networking'} buttonName={'Add Networking'}
+                            routePath={'/AddNetworking'}/>} />
+                        <Route path="containers" element={<NoResource resourceName={'containers'} buttonName={'Add Container'}
+                            routePath={'/AddContainer'}/>} />
+                        <Route path="backups" element={<NoResource resourceName={'backups'} buttonName={'Add Backup'} routePath={'/AddBackup'}/>} />
+                    </Routes >
+                    {/* <Tabs defaultActiveKey="1">
                         <TabPane tab="Server" key="Server">
                             <ServerList/>
                         </TabPane>
@@ -86,7 +123,7 @@ export const Resource = (): JSX.Element => {
                             <NoResource resourceName={'backups'} buttonName={'Add Backup'} routePath={'/AddBackup'}/>
 
                         </TabPane>
-                    </Tabs>
+                    </Tabs> */}
                 </div>
             </div>
             {/* <CFooter/> */}

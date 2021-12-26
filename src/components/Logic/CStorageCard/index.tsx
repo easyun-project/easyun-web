@@ -31,6 +31,7 @@ const CStorageCard = (props: StorageCardInfo): JSX.Element => {
           Manage (disabled)
                 </a>
             </Menu.Item>
+            {/* 删除按钮目前只要后端返回成功，就会直接在前端页面把那个桶删掉。 */}
             <Menu.Item
                 danger
                 key="delete"
