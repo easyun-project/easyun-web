@@ -240,7 +240,12 @@ const Storage = (): JSX.Element => {
         bucketManage.listBucket(token).then((data:any)=>{
             changeStorageLoading(false);
             dispatch(updateStorage(data.detail[0].bucketList));
-        });
+        },
+        ()=>{
+            changeStorageLoading(false);
+            alert('网络错误，请刷新');
+        }
+        );
     },[]);
 
     const storageList = useSelector((state: RootState) => {

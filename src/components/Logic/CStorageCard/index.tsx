@@ -38,8 +38,7 @@ const CStorageCard = (props: StorageCardInfo): JSX.Element => {
                     .deleteBucket(Name, userState?.token)
                     .then(
                         () => {alert('删除成功');
-                            // dispatch(deleteStorage(Name));
-                            // console.log('发送请求')
+                            dispatch(deleteStorage(Name));
                         }
                     );
                 }

@@ -13,15 +13,15 @@ export const EventLogList = '/api/v1/event/log';
 export const DataCenterAll = '/api/v1/datacenter/all';
 
 // Server 服务器 常量名以Server开头
-export const ServerList = '/api/v1/server/list_all';
+export const ServerList = '/api/v1/server/list';
 export const ServerDetail = '/api/v1/server/detail/';
 
 
 
 // Storage s3存储 常量名以Storage开头
-export const AddBucket = 'http://54.156.105.123:6660/api/v1.0/storage/add_bucket';
-export const ListBucket = 'http://54.156.105.123:6660/api/v1.0/storage/list_bucket';
-export const DeleteBucket = 'http://54.156.105.123:6660/api/v1.0/storage/delete_bucket';
+export const AddBucket = '/api/v1.0/storage/add_bucket';
+export const ListBucket = '/api/v1.0/storage/list_bucket';
+export const DeleteBucket = '/api/v1.0/storage/delete_bucket';
 
 // database 数据库 常量名以Database开头
 

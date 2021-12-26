@@ -20,11 +20,12 @@ export const storageSlice = createSlice({
         // 删除制定name的值
         deleteStorage: (state,action) =>{
             for (let i = 0, len = state.storageList.length; i < len; i++) {
-                if (state.storageList.find((obj)=>{return obj.Name === action.payload;})?.Name === action.payload){
-                    console.log(action.payload,i);
-                    // 删除从索引为i开始的1个值
-                    state.storageList.splice(i,1);
-                }
+                console.log(state.storageList, i);
+                // if (state.storageList.find((obj)=>{return obj.Name === action.payload;})?.Name === action.payload){
+                //     console.log(action.payload,i);
+                //     // 删除从索引为i开始的1个值
+                //     state.storageList.splice(i,1);
+                // }
 
             }
         }
