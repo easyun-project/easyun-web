@@ -1,6 +1,7 @@
 import React from 'react';
 import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
+// import { useState } from 'react';
 
 
 export interface CAmiProps {
@@ -23,14 +24,13 @@ export const CAmi = (props: CAmiProps): JSX.Element => {
         'Windows':'microsoft-windows',
     };
     return(
-        <div className={classnames('flex','flex-row','items-center','m-3','w-56')}>
-
+        <button className={classnames('flex','flex-row','items-center','m-3','w-56','focus:outline-none','focus:ring','focus:border-blue-300')}>
             <Icon icon={`logos:${icons[props.imgName.split(' ')[0]]}`} width="30" fr={undefined}/>
-            <div className={classnames('ml-3')}><div className={classnames('text-black','font-semibold')}>{props.imgName}</div>
+            <div className={classnames('ml-3','text-left')}>
+                <div className={classnames('text-black','font-semibold')}>{props.imgName}</div>
                 <div className={classnames('text-gray-400')}>{props.imgVersion}</div>
             </div>
-
-        </div>);
+        </button>);
 };
 
 
@@ -166,7 +166,7 @@ const CAmis = (): JSX.Element => {
         }
     ];
     return (
-        <div id="select-your-ami">
+        <div id="select-your-ami" >
             select your image(AMI)
             <div className={classnames('flex','flex-row','flex-wrap','items-center','m-3')}>
                 {amis.map((aminInfo)=><CAmi key={aminInfo.imgID} {...aminInfo}/>)}

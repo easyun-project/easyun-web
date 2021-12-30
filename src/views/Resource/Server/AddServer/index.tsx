@@ -6,8 +6,9 @@ import { classnames } from '@@/tailwindcss-classnames';
 import CPlatform from '@/components/Logic/CPlatform';
 import { CButton } from '@/components/Common/CButton';
 import CAmis from '@/components/Logic/CAmi';
-import CSecurityGroup from '@/components/Logic/CSecurityGroup';
+// import CSecurityGroup from '@/components/Logic/CSecurityGroup';
 import CSecOpt from '@/components/Logic/CSecurityGroup/CSecOpt';
+import DiskConfiguration from './DiskConfiguration';
 
 const AddServer = (): JSX.Element => {
     return (
@@ -58,9 +59,7 @@ const AddServer = (): JSX.Element => {
 
             </div>
 
-            <div id="disk-configuration">
-
-            </div>
+            <DiskConfiguration />
 
             <div id="select-security-group">
                 <CSecOpt />

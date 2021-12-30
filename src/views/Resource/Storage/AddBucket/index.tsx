@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { CHeader } from '@/components/Logic/CHeader';
-import { CFooter } from '@/components/Logic/CFooter';
 import { Icon } from '@iconify/react';
 import { classnames } from '@@/tailwindcss-classnames';
 import { CButton } from '@/components/Common/CButton';

@@ -8,6 +8,7 @@ module.exports = {
         'eslint:recommended', //采用eslint的默认建议
         'plugin:react/recommended', //采用react的默认建议
         'plugin:@typescript-eslint/recommended', //采用typescript的默认建议
+        'prettier', //采用prettier代码风格
     ],
     parser: '@typescript-eslint/parser',
     parserOptions: {
@@ -17,7 +18,7 @@ module.exports = {
         ecmaVersion: 12,
         sourceType: 'module',
     },
-    plugins: ['react', '@typescript-eslint',],
+    plugins: ['react', '@typescript-eslint', 'eslint-plugin-prettier'],
     rules: {
         indent: ['error', 4], //缩进采用4个空格
         'linebreak-style': ['error', 'unix'], //换行符采用unix风格的LF
