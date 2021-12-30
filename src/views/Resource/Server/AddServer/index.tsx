@@ -5,6 +5,9 @@ import { Icon } from '@iconify/react';
 import { classnames } from '@@/tailwindcss-classnames';
 import CPlatform from '@/components/Logic/CPlatform';
 import { CButton } from '@/components/Common/CButton';
+import CAmis from '@/components/Logic/CAmi';
+import CSecurityGroup from '@/components/Logic/CSecurityGroup';
+import CSecOpt from '@/components/Logic/CSecurityGroup/CSecOpt';
 
 const AddServer = (): JSX.Element => {
     return (
@@ -49,10 +52,73 @@ const AddServer = (): JSX.Element => {
                 <CPlatform/>
             </div>
 
-            <div id="select-your-ami">
+            <CAmis />
+
+            <div id="select-your-instance">
 
             </div>
 
+            <div id="disk-configuration">
+
+            </div>
+
+            <div id="select-security-group">
+                <CSecOpt />
+            </div>
+
+            <div id="select-networking">
+
+            </div>
+
+            <div id="select-SSH-keys">
+
+            </div>
+
+            <div id="create-buttons">
+                <div>
+                    <CButton
+                        classes={classnames(
+                            'bg-gray-500',
+                            'text-white',
+                            'rounded-3xl',
+                            'h-10',
+                            'w-32',
+                            'px-5',
+                            'm-5'
+                        )}
+                    >
+          Back
+                    </CButton>
+                    <CButton
+                        classes={classnames(
+                            'bg-yellow-550',
+                            'text-white',
+                            'rounded-3xl',
+                            'h-10',
+                            'w-32',
+                            'px-5',
+                            'm-5'
+                        )}
+                        // click={async () => {
+                        //     await bucketManage
+                        //         .addBucket({
+                        //             bucketName,
+                        //             versioningConfiguration: versioningConfiguration ? 'Enabled' : 'Suspended',
+                        //             bucketEncryption: bucketEncryption.toString(),
+                        //             region,
+                        //         },userState?.token)
+                        //         .then(() => {
+                        //             alert('创建成功');
+                        //         })
+                        //         .then(() => {
+                        //             navigate('/resource/storage');
+                        //         });
+                        // }}
+                    >
+          Create
+                    </CButton>
+                </div>
+            </div>
         </div>
     );
 };

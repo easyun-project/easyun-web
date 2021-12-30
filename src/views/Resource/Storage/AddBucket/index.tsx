@@ -24,7 +24,6 @@ const AddBucket = (): JSX.Element => {
 
     return (
         <div>
-            <CHeader />
             <div id="add-s3bucket-title" className={classnames('mx-5', 'my-8', 'text-3xl')}>
                 <Icon
                     className={classnames('mx-5', 'inline-block')}
@@ -236,7 +235,6 @@ const AddBucket = (): JSX.Element => {
           Create
                 </CButton>
             </div>
-            <CFooter />
         </div>
     );
 };

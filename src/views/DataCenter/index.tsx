@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 // import { CFooter } from '@/components/Logic/CFooter';
 import { CSubnet } from '@/components/Logic/CSubnet';
 import { classnames } from '@@/tailwindcss-classnames';
-import CSecurityGroup from '@/components/Logic/CSecurityGrop';
+import CSecurityGroup from '@/components/Logic/CSecurityGroup';
 import { CButton } from '@/components/Common/CButton';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
