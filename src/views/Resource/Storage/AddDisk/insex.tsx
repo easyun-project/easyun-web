@@ -1,9 +1,6 @@
 import React from 'react';
 import { CHeader } from '@/components/Logic/CHeader';
 import { CFooter } from '@/components/Logic/CFooter';
-// import { Icon } from '@iconify/react';
-// import { classnames } from '@@/tailwindcss-classnames';
-// import CPlatform from '@/components/Logic/CPlatform';
 
 const AddDisk = (): JSX.Element => {
     return (

@@ -1,9 +1,7 @@
-import {defineConfig} from 'vite';
+import { defineConfig } from 'vite';
 import reactRefresh from '@vitejs/plugin-react-refresh';
 import * as path from 'path';
-import {existsSync} from 'fs';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+import { existsSync } from 'fs';
 import dotenv from 'dotenv';
 
 // Dotenv 是一个零依赖的模块，它能将环境变量中的变量从 .env 文件加载到 process.env 中
@@ -25,7 +23,7 @@ export default defineConfig({
         preprocessorOptions: {
             less: {
                 modifyVars: {
-                    "primary-color": "#f5922f", //全局样式
+                    'primary-color': '#f5922f', //全局样式
                 },
                 javascriptEnabled: true,
             },
