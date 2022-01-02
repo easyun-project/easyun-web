@@ -1,7 +1,7 @@
-import {CreateDataCenter, DataCenterAll, DataCenterDefault} from '@/constant/apiConst';
-import axios from "redaxios";
-import {getHeader, getHost} from "@/utils/api";
-import {DataCenterModel, DefaultDataCenterModel} from "@/constant/dataCenter";
+import { CreateDataCenter, DataCenterAll, DataCenterDefault } from '@/constant/apiConst';
+import axios from 'redaxios';
+import { getHeader, getHost } from '@/utils/api';
+import { DataCenterModel, DefaultDataCenterModel } from '@/constant/dataCenter';
 
 // 创建数据中心需要的参数
 export interface CreateDataCenterParams {
@@ -22,14 +22,14 @@ export default class DataCenterService {
      * 获取数据中心默认参数
      */
     static async getDefault(token): Promise<DefaultDataCenterModel | undefined> {
-        let url = getHost() + DataCenterDefault;
+        const url = getHost() + DataCenterDefault;
         const result = await axios.get(url, {
             headers: getHeader(token)
         });
         if (result.status == 200) {
-            return result.data.detail as DefaultDataCenterModel
+            return result.data.detail as DefaultDataCenterModel;
         }
-        return undefined
+        return undefined;
     }
 
     /**
@@ -38,27 +38,27 @@ export default class DataCenterService {
      * @param params
      */
     static async createDataCenter(token: string, params: CreateDataCenterParams): Promise<boolean> {
-        let url = getHost() + CreateDataCenter;
-        let result = await axios.post(url, params, {
+        const url = getHost() + CreateDataCenter;
+        const result = await axios.post(url, params, {
             headers: getHeader(token)
         });
         if (result.status == 200) {
-            return result.data.detail
+            return result.data.detail;
         }
-        return false
+        return false;
     }
 
     /**
      * 获取dataCenter
      */
     static async getDataCenter(token): Promise<DataCenterModel | undefined> {
-        let url = getHost() + DataCenterAll;
-        let result = await axios.get(url, {
+        const url = getHost() + DataCenterAll;
+        const result = await axios.get(url, {
             headers: getHeader(token)
         });
         if (result.status == 200) {
             return result.data.detail as DataCenterModel;
         }
-        return undefined
+        return undefined;
     }
 }

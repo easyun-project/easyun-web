@@ -1,17 +1,17 @@
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
-import React, {createRef, useState} from 'react';
-import {CButton} from '@/components/Common/CButton';
-import {classnames} from '@@/tailwindcss-classnames';
-import {Icon} from '@iconify/react';
-import {useNavigate} from 'react-router-dom';
+import React, { createRef, useState } from 'react';
+import { CButton } from '@/components/Common/CButton';
+import { classnames } from '@@/tailwindcss-classnames';
+import { Icon } from '@iconify/react';
+import { useNavigate } from 'react-router-dom';
 
 import userService from '@/service/userService';
-import {Input, message, Modal} from "antd";
-import appService from "@/service/appService";
-import {useDispatch} from "react-redux";
-import {UserModel} from "@/constant/result";
-import {userAction} from "@/redux/userSlice";
+import { Input, message, Modal } from 'antd';
+import appService from '@/service/appService';
+import { useDispatch } from 'react-redux';
+import { userAction } from '@/redux/userSlice';
+import { UserModel } from '@/constant/user';
 
 const LoginPage = (): JSX.Element => {
     const navigate = useNavigate();
@@ -25,7 +25,7 @@ const LoginPage = (): JSX.Element => {
         }
         const loginRes = await userService.login<UserModel | undefined>(username, password);
         if (loginRes) {
-            dispatch(userAction(loginRes))
+            dispatch(userAction(loginRes));
             navigate('/home');
         }
     };
@@ -39,10 +39,10 @@ const LoginPage = (): JSX.Element => {
     const handleOk = async () => {
         const host = configRef.current?.input.value;
         if (!host) {
-            message.info("请输入您服务器的地址")
-            return
+            message.info('请输入您服务器的地址');
+            return;
         }
-        appService.setHost(host)
+        appService.setHost(host);
         setIsModalVisible(false);
     };
 
@@ -51,7 +51,7 @@ const LoginPage = (): JSX.Element => {
     };
 
 
-    const {t, i18n} = useTranslation();
+    const { t, i18n } = useTranslation();
     const lang = i18n.language === 'ja' ? 'en' : 'ja';
     console.log(lang);
     const container = classnames('bg-gray-600', 'text-white', 'text-3xl', 'h-16', 'flex', 'items-center');
@@ -63,16 +63,16 @@ const LoginPage = (): JSX.Element => {
                     <div>
                         Easyun
                         <span onClick={showModal} className={classnames('float-right', 'mr-40', 'cursor-pointer')}>
-							<Icon className={classnames('ml-10', 'inline-block')} icon="ant-design:setting-filled"
-                                  color="#5c6f9a" width="25" height="25"
-                                  hFlip={true} fr={undefined}/>
-							<Icon className={classnames('ml-3', 'inline-block')} icon="iconoir:nav-arrow-down"
-                                  color="#5c6f9a" width="25" height="25"
-                                  hFlip={true} fr={undefined}/>
-						</span>
+                            <Icon className={classnames('ml-10', 'inline-block')} icon="ant-design:setting-filled"
+                                color="#5c6f9a" width="25" height="25"
+                                hFlip={true} fr={undefined}/>
+                            <Icon className={classnames('ml-3', 'inline-block')} icon="iconoir:nav-arrow-down"
+                                color="#5c6f9a" width="25" height="25"
+                                hFlip={true} fr={undefined}/>
+                        </span>
                         <Modal title="配置服务器地址" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
                             <Input value={configRef.current?.state.value} ref={configRef}
-                                   placeholder='please your server url'/>
+                                placeholder='please your server url'/>
                         </Modal>
                     </div>
                 </div>
@@ -80,21 +80,21 @@ const LoginPage = (): JSX.Element => {
             <div
                 className={classnames('flex', 'justify-center', 'items-center', 'w-full', 'h-full', 'mt-36')}>
                 <div id="login-container"
-                     className={classnames('w-4/12', 'border', 'p-8')}>
+                    className={classnames('w-4/12', 'border', 'p-8')}>
                     <div id="login-content">
                         <div id="login-title" className={classnames('m-2', 'mb-5', 'font-bold', 'text-lg')}>
                             {t('Login')}
                         </div>
 
                         <input type='text'
-                               ref={usernameRef}
-                               placeholder='Enter your username'
-                               className={classnames(classes)}/>
+                            ref={usernameRef}
+                            placeholder='Enter your username'
+                            className={classnames(classes)}/>
 
                         <input type='password'
-                               ref={passwordRef}
-                               placeholder='Enter your password'
-                               className={classnames(classes)}/>
+                            ref={passwordRef}
+                            placeholder='Enter your password'
+                            className={classnames(classes)}/>
 
 
                         <div className={classnames('flex', 'justify-center')}>

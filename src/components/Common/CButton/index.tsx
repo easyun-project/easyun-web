@@ -1,5 +1,5 @@
 import React from 'react';
-import {classnames, TTailwindString} from '@@/tailwindcss-classnames';
+import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
 
 export interface CButtonProps {
     children;
@@ -8,9 +8,9 @@ export interface CButtonProps {
 }
 
 export const CButton = (props: CButtonProps): JSX.Element => {
-	return <button
-		onClick={props.click}
-		className={classnames(props.classes)}>
-		{props.children}
-	</button>;
+    return <button
+        onClick={props.click}
+        className={classnames(props.classes)}>
+        {props.children}
+    </button>;
 };

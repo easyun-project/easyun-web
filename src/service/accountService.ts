@@ -1,9 +1,8 @@
-
 import { AwsInfo } from '@/constant/apiConst';
-import { Result, AwsInfoModel } from '@/constant/result';
 import axios from 'redaxios';
+import { AwsInfoModel } from '@/constant/awsInfo';
+import { Result } from '@/constant/result';
 import { getHeader, getHost } from '@/utils/api';
-import { UserModel } from '@/constant/user';
 
 export default class userService {
     static async getAwsInfo(token: string): Promise<Result<AwsInfoModel>> {

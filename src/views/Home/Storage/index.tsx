@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { updateStorage } from '@/redux/storageSlice';
 import bucketManage from '@/service/addBucket';
+import { UserModel } from '@/constant/user';
 
 
 
@@ -216,7 +217,8 @@ export const StoragePage = (): JSX.Element => {
     // });
 
     const token = useSelector((state: RootState) => {
-        return state.user.user.token;
+        const user = state.user.user as unknown as UserModel;
+        return user.token;
     });
 
     // const storageList = [

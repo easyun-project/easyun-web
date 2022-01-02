@@ -10,11 +10,11 @@ export interface CPartialLoadingProps {
 }
 
 export const CPartialLoading = (props: CPartialLoadingProps): JSX.Element => {
-	const common = classnames('flex', 'w-full', 'items-center', 'justify-center');
-	return <div className={classnames(common, props.classes)}>
-		<ReactLoading
-			type={props.type || 'spokes'}
-			color={props.color || 'gray'}
-		/>
-	</div>;
+    const common = classnames('flex', 'w-full', 'items-center', 'justify-center');
+    return <div className={classnames(common, props.classes)}>
+        <ReactLoading
+            type={props.type || 'spokes'}
+            color={props.color || 'gray'}
+        />
+    </div>;
 };
