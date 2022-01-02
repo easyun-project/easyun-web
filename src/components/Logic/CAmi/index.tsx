@@ -69,7 +69,7 @@ const CAmi = (): JSX.Element => {
     ];
     return (
         <div>
-			
+
         </div>
     );
 };

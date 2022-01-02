@@ -48,7 +48,12 @@ export const CTable = (props: PropsType): JSX.Element => {
     );
     const iconCircle = (light: boolean): JSX.Element => (
         <span>
-            <Icon className={'ml-5'} icon='akar-icons:circle-fill' color={light ? '#ffc000' : '#afabab'} width='25' height='25' fr={undefined} />
+            <Icon className={'ml-5'}
+                icon='akar-icons:circle-fill'
+                color={light ? '#ffc000' : '#afabab'}
+                width='25'
+                height='25'
+                fr={undefined} />
         </span>
     );
     return (

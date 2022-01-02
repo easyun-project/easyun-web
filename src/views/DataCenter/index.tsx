@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react';
-// import { CHeader } from '@/components/Logic/CHeader';
-// import { CFooter } from '@/components/Logic/CFooter';
 import { CSubnet } from '@/components/Logic/CSubnet';
 import { classnames } from '@@/tailwindcss-classnames';
 import CSecurityGroup from '@/components/Logic/CSecurityGrop';

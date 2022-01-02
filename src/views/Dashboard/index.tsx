@@ -1,11 +1,8 @@
 import React from 'react';
 import { CTable } from '@/components/Common/CTable';
-import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
-import { Icon } from '@iconify/react';
+import { classnames } from '@@/tailwindcss-classnames';
 import { CCard } from '@/components/Common/CCard';
-import { DashCard } from '@/components/Pages/dashbords/DashCard';
-import { CHeader } from '@/components/Logic/CHeader';
-import { CFooter } from '@/components/Logic/CFooter';
+import { DashCard } from '@/components/DashCard';
 
 const mock1 = {
     config: {

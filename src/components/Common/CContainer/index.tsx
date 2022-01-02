@@ -10,5 +10,5 @@ export interface ContainerProps {
 }
 
 export const CContainer = (props: ContainerProps): JSX.Element => {
-	return props.loading ? <CPartialLoading classes={props.classes}/> : props.component;
+    return props.loading ? <CPartialLoading classes={props.classes}/> : props.component;
 };
