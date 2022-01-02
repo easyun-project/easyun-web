@@ -64,7 +64,7 @@ const WithoutStorage = (): JSX.Element => {
                         </div>
                         <CButton
                             click={() => {
-                                navigate('/resource/addBucket');
+                                navigate('/home/addBucket');
                             }}
                             classes={classnames(
                                 'bg-yellow-550',
@@ -118,7 +118,7 @@ const WithoutStorage = (): JSX.Element => {
                         </div>
                         <CButton
                             click={() => {
-                                navigate('/resource/addDisk');
+                                navigate('/home/addDisk');
                             }}
                             classes={classnames(
                                 'bg-yellow-550',
@@ -148,7 +148,7 @@ const WithStorage = (props): JSX.Element => {
                 <div>
                     <CButton
                         click={() => {
-                            navigate('/resource/addBucket');
+                            navigate('/home/addBucket');
                         }}
                         classes={classnames(
                             'bg-yellow-550',
@@ -164,7 +164,7 @@ const WithStorage = (props): JSX.Element => {
                     </CButton>
                     <CButton
                         click={() => {
-                            navigate('/resource/addDisk');
+                            navigate('/home/addDisk');
                         }}
                         classes={classnames(
                             'cursor-not-allowed',
@@ -181,7 +181,7 @@ const WithStorage = (props): JSX.Element => {
                     </CButton>
                     <CButton
                         click={() => {
-                            navigate('/resource/addDisk');
+                            navigate('/home/addDisk');
                         }}
                         classes={classnames(
                             'cursor-not-allowed',
@@ -208,7 +208,7 @@ const WithStorage = (props): JSX.Element => {
     );
 };
 
-const Storage = (): JSX.Element => {
+export const StoragePage = (): JSX.Element => {
     const [storageLoading, changeStorageLoading] = useState(true);
     const dispatch = useDispatch();
     // const storageState = useSelector((state: RootState) => {

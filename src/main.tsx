@@ -17,9 +17,7 @@ import '@/i18n';
 
 //视图与组件
 import NotFound from '@/views/NotFound';
-import Home from '@/views/Home';
 import DataCenter from '@/views/DataCenter';
-import Resource from '@/views/Resource';
 import Dashboard from './views/Dashboard';
 import LoginPage from '@/views/Login';
 import Account from '@/views/Account';
@@ -27,14 +25,14 @@ import Event from '@/views/Event';
 import { CFullLoading } from '@/components/Common/CFullLoading';
 import { CHeader } from './components/Logic/CHeader';
 import { CFooter } from './components/Logic/CFooter';
+import { Home } from '@/views/Home';
 
 const AppRouter = (): JSX.Element => {
     return(<>
         <CHeader/>
         <Routes>
-            <Route path="home" element={<Home />} />
             <Route path="dataCenter" element={<DataCenter />} />
-            <Route path="resource/*" element={<Resource />} />
+            <Route path="home/*" element={<Home />} />
             <Route path="dashboard" element={<Dashboard />} />
             {/* <Route index element={<Resource />} />
                  <Route path="storage" element={<Storage />} />

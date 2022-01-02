@@ -36,7 +36,7 @@ const DataCenter = (): JSX.Element => {
         if (userState) {
             const created = await dataCenterService.createDataCenter(userState!.token, params);
             if (created) {
-                navigate('/resource');
+                navigate('/home');
                 return;
             }
             message.info('创建数据中心失败');

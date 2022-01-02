@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { NoResource, ResourceTable } from '@/views/Resource';
+import { NoResource, ResourceTable } from '@/views/home';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { getServerList } from '@/redux/serverSlice';
@@ -156,7 +156,7 @@ export const ServerList = () => {
                         </Button>
                     </Dropdown>
                     <CButton
-                        click={() => navigate('/resource/addServer')}
+                        click={() => navigate('/home/addServer')}
                         classes={classnames('inline-block', 'bg-yellow-550', 'mr-3', 'block', 'text-white', 'rounded-3xl', 'px-5', 'py-1')}>
                         Add Server
                     </CButton>
