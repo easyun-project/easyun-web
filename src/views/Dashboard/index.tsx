@@ -576,7 +576,7 @@ export class Dashboard extends React.Component<propsType, stateType> {
     }
 
 	switchViewHandler = (view = 'Graphical'): any => {
-	    const bol = view === 'List' ? true : false;
+	    const bol = view === 'List';
 	    this.setState({ flag: bol });
 	};
 
