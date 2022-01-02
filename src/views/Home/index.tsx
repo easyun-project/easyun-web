@@ -1,59 +1,130 @@
-import React, { useEffect } from 'react';
-import { CHeader } from '@/components/Logic/CHeader';
-import { CFooter } from '@/components/Logic/CFooter';
-import { CButton } from '@/components/Common/CButton';
+import * as React from 'react';
+import { useState } from 'react';
+import { Routes, useNavigate } from 'react-router-dom';
+import { Menu, Table } from 'antd';
 import { classnames } from '@@/tailwindcss-classnames';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { getDataCenter } from '@/redux/dataCenterSlice';
-import { RootState } from '@/redux/store';
+import { CButton } from '@/components/Common/CButton';
+import { ServerModel } from '@/constant/server';
+import { Route } from 'react-router';
+import AddServer from '@/views/Home/Server/AddServer';
+import AddBucket from '@/views/Home/Storage/AddBucket';
+import { ServerList } from '@/views/Home/Server';
+import { ServerDetail } from '@/views/Home/Server/ServerDetail';
+import { StoragePage } from '@/views/Home/Storage/index';
+import AddDisk from '@/views/Home/Storage/AddDisk';
 
-const Home = (): JSX.Element => {
-    const dispatch = useDispatch();
+
+interface NotDataProps {
+    resourceName: string,
+    buttonName: string,
+    routePath: string
+
+}
+
+
+export const NoResource = (props: NotDataProps) => {
     const navigate = useNavigate();
 
-    const userState = useSelector((state: RootState) => {
-        return state.user.user;
-    });
-    const dataCenterState = useSelector((state: RootState) => {
-        return state.dataCenter;
-    });
-
-    // useEffect(() => {
-    //     dispatch(getDataCenter(userState!.token));
-    // }, [dispatch]);
-
-
-    const dataCenter = dataCenterState.dataCenter;
-    // 这里不知道为什么会显示没有数据数据中心，先无论如何跳转一下，后续再debug
-    if (dataCenter) {
-        navigate('/resource');
-        return <div/>;
-    } else {
-        navigate('/resource');
-        return (
-            <div>
-                <NoData/>
-            </div>
-        );
-    }
-};
-
-
-const NoData = (): JSX.Element => {
-    const navigate = useNavigate();
     return (
         <div className={classnames('m-20', 'flex', 'flex-col', 'items-center', 'h-screen')}>
-            <div className={classnames('text-3xl', 'm-10')}>you have no datacenter right now.</div>
+            <div className={classnames('text-3xl', 'm-1')}>you have no {props.resourceName} right now.</div>
+            <div className={classnames('text-sm', 'm-1')}>
+                Add a cloud {props.resourceName} and get started with Easyun!
+            </div>
             <div>
                 <CButton
-                    click={() => navigate('/datacenter')}
-                    classes={classnames('bg-yellow-550', 'block', 'text-white', 'rounded-3xl', 'px-5', 'py-3')}>Add
-                    Datacenter
+                    click={() => navigate(props.routePath)}
+                    classes={classnames('bg-yellow-550', 'block', 'text-white', 'rounded-3xl', 'px-5', 'py-3')}>
+                    {props.buttonName}
                 </CButton>
             </div>
         </div>
     );
+
 };
+
+
+interface TableProps {
+    dataSource: ServerModel[] | undefined | object[];
+    columns: object[]
+}
+
+export const ResourceTable = (props: TableProps) => {
+    return (
+        <Table bordered={true} dataSource={props.dataSource} columns={props.columns}/>
+    );
+};
+export const Home = (): JSX.Element => {
+    // const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    // };
+    const [current, changeCurrent] = useState('server');
+    const navigate = useNavigate();
+    const handleClick = (e)=>{
+        console.log(e.key);
+        changeCurrent(e.key);
+        navigate(`/home/${e.key}`);};
+    return (
+        <>
+            <div>
+                {/* <CHeader/> */}
+                <div className={classnames('ml-3','min-h-screen')}>
+                    <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" >
+                        <Menu.Item key="server">Server</Menu.Item>
+                        <Menu.Item key="storage">Storage</Menu.Item>
+                        <Menu.Item key="databases">Databases</Menu.Item>
+                        <Menu.Item key="networking">Networking</Menu.Item>
+                        <Menu.Item key="containers">Containers</Menu.Item>
+                        <Menu.Item key="backups">Backups</Menu.Item>
+                    </Menu>
+                    <Routes>
+                        <Route path="/" element={<ServerList/>} />
+                        <Route path="server" element={<ServerList/>} />
+                        <Route path="storage" element={<StoragePage />} />
+                        <Route path="addServer" element={<AddServer />} />
+                        <Route path="server/:serverId" element={<ServerDetail />} />
+                        <Route path="addBucket" element={<AddBucket />} />
+                        <Route path="addDisk" element={<AddDisk />} />
+                        <Route path="databases" element={<NoResource resourceName={'databases'} buttonName={'Add Databases'}
+                            routePath={'/AddDatabases'}/>} />
+                        <Route path="networking" element={<NoResource resourceName={'networking'} buttonName={'Add Networking'}
+                            routePath={'/AddNetworking'}/>} />
+                        <Route path="containers" element={<NoResource resourceName={'containers'} buttonName={'Add Container'}
+                            routePath={'/AddContainer'}/>} />
+                        <Route path="backups" element={<NoResource resourceName={'backups'} buttonName={'Add Backup'} routePath={'/AddBackup'}/>} />
+                    </Routes >
+                    {/* <Tabs defaultActiveKey="1">
+                        <TabPane tab="Server" key="Server">
+                            <ServerList/>
+                        </TabPane>
+                        <TabPane tab="Storage" key="Storage">
+                            <Storage/>
+                        </TabPane>
+                        <TabPane tab="Databases" key="Databases">
+                            <NoResource resourceName={'databases'} buttonName={'Add Databases'}
+                                routePath={'/AddDatabases'}/>
+
+                        </TabPane>
+                        <TabPane tab="Networking" key="Networking">
+                            <NoResource resourceName={'networking'} buttonName={'Add Networking'}
+                                routePath={'/AddNetworking'}/>
+
+                        </TabPane>
+                        <TabPane tab="Containers" key="Containers">
+                            <NoResource resourceName={'containers'} buttonName={'Add Container'}
+                                routePath={'/AddContainer'}/>
+
+                        </TabPane>
+                        <TabPane tab="Backups" key="Backups">
+                            <NoResource resourceName={'backups'} buttonName={'Add Backup'} routePath={'/AddBackup'}/>
+
+                        </TabPane>
+                    </Tabs> */}
+                </div>
+            </div>
+            {/* <CFooter/> */}
+        </>
+    );
+};
+
 
 export default Home;
