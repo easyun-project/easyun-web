@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { updateStorage } from '@/redux/storageSlice';
 import bucketManage from '@/service/addBucket';
+import { UserModel } from '@/constant/user';
 
 
 
@@ -64,7 +65,7 @@ const WithoutStorage = (): JSX.Element => {
                         </div>
                         <CButton
                             click={() => {
-                                navigate('/resource/addBucket');
+                                navigate('/home/addBucket');
                             }}
                             classes={classnames(
                                 'bg-yellow-550',
@@ -118,7 +119,7 @@ const WithoutStorage = (): JSX.Element => {
                         </div>
                         <CButton
                             click={() => {
-                                navigate('/resource/addDisk');
+                                navigate('/home/addDisk');
                             }}
                             classes={classnames(
                                 'bg-yellow-550',
@@ -148,7 +149,7 @@ const WithStorage = (props): JSX.Element => {
                 <div>
                     <CButton
                         click={() => {
-                            navigate('/resource/addBucket');
+                            navigate('/home/addBucket');
                         }}
                         classes={classnames(
                             'bg-yellow-550',
@@ -164,7 +165,7 @@ const WithStorage = (props): JSX.Element => {
                     </CButton>
                     <CButton
                         click={() => {
-                            navigate('/resource/addDisk');
+                            navigate('/home/addDisk');
                         }}
                         classes={classnames(
                             'cursor-not-allowed',
@@ -181,7 +182,7 @@ const WithStorage = (props): JSX.Element => {
                     </CButton>
                     <CButton
                         click={() => {
-                            navigate('/resource/addDisk');
+                            navigate('/home/addDisk');
                         }}
                         classes={classnames(
                             'cursor-not-allowed',
@@ -208,7 +209,7 @@ const WithStorage = (props): JSX.Element => {
     );
 };
 
-const Storage = (): JSX.Element => {
+export const StoragePage = (): JSX.Element => {
     const [storageLoading, changeStorageLoading] = useState(true);
     const dispatch = useDispatch();
     // const storageState = useSelector((state: RootState) => {
@@ -216,7 +217,8 @@ const Storage = (): JSX.Element => {
     // });
 
     const token = useSelector((state: RootState) => {
-        return state.user.user.token;
+        const user = state.user.user as unknown as UserModel;
+        return user.token;
     });
 
     // const storageList = [

@@ -1,10 +1,8 @@
 import React from 'react';
-import { CHeader } from '@/components/Logic/CHeader';
-import { CFooter } from '@/components/Logic/CFooter';
 // import "./index.css";
-
 import { Icon } from '@iconify/react';
-import { Row, Col, Table } from 'antd';
+import { Col, Row, Table } from 'antd';
+
 const Event = (): JSX.Element => {
     const columns = [
         {
@@ -80,7 +78,7 @@ const Event = (): JSX.Element => {
                                 onClick={openCloudWatch}
                             >
                                 <div className="left-text">Amazon CloudWatch Events</div>
-                                <Icon icon="ri:share-box-fill" />
+                                <Icon icon="ri:share-box-fill" fr={undefined} />
                             </div>
                         </Col>
                         <Col span={8} offset={8}>
@@ -88,7 +86,7 @@ const Event = (): JSX.Element => {
                                 <div className="left-text">
                   Last refreshed less than 1 min ago
                                 </div>
-                                <Icon className="yellow-text-color" icon="ci:refresh" />
+                                <Icon className="yellow-text-color" icon="ci:refresh" fr={undefined} />
                             </div>
                         </Col>
                     </Row>

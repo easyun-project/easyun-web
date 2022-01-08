@@ -2,7 +2,7 @@ const hostKey = 'host';
 
 export default class appService {
     static getHost(): string {
-        let host = localStorage.getItem(hostKey);
+        const host = localStorage.getItem(hostKey);
         return host as string;
     }
 

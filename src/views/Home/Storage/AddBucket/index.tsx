@@ -226,7 +226,7 @@ const AddBucket = (): JSX.Element => {
                                 alert('创建成功');
                             })
                             .then(() => {
-                                navigate('/resource/storage');
+                                navigate('/home/storage');
                             });
                     }}
                 >

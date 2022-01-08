@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react';
-// import { CHeader } from '@/components/Logic/CHeader';
-// import { CFooter } from '@/components/Logic/CFooter';
 import { CSubnet } from '@/components/Logic/CSubnet';
 import { classnames } from '@@/tailwindcss-classnames';
 import CSecurityGroup from '@/components/Logic/CSecurityGroup';
@@ -36,7 +34,7 @@ const DataCenter = (): JSX.Element => {
         if (userState) {
             const created = await dataCenterService.createDataCenter(userState!.token, params);
             if (created) {
-                navigate('/resource');
+                navigate('/home');
                 return;
             }
             message.info('创建数据中心失败');

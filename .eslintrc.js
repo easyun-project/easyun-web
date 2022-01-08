@@ -3,6 +3,8 @@ module.exports = {
     env: {
         browser: true,
         es2021: true,
+        amd: true,
+        node: true
     },
     extends: [
         'eslint:recommended', //采用eslint的默认建议
@@ -20,6 +22,7 @@ module.exports = {
     },
     plugins: ['react', '@typescript-eslint', 'eslint-plugin-prettier'],
     rules: {
+        'no-mixed-spaces-and-tabs': 0, // disable rule
         indent: ['error', 4], //缩进采用4个空格
         'linebreak-style': ['error', 'unix'], //换行符采用unix风格的LF
         quotes: ['error', 'single'], //文本采用单引号

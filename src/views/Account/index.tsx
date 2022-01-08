@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
-import { CHeader } from '@/components/Logic/CHeader';
-import { CFooter } from '@/components/Logic/CFooter';
 import './index.css';
 import {
     Row,
@@ -15,6 +12,9 @@ import {
 } from 'antd';
 import { Icon } from '@iconify/react';
 import accountService from '@/service/accountService';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+
 const Account = (): JSX.Element => {
     const [count, setCount] = useState(1);
     const [info, setInfo] = useState({
@@ -22,8 +22,11 @@ const Account = (): JSX.Element => {
         aws_type: '',
         role: '',
     });
+    const userState = useSelector((state: RootState) => {
+        return state.user.user;
+    });
     const getAwsInfo = async () => {
-        const res = await accountService.getAwsInfo();
+        const res = await accountService.getAwsInfo(userState.token);
         setInfo({
             account_id: res.detail.account_id,
             aws_type: res.detail.aws_type,
@@ -77,7 +80,7 @@ const Account = (): JSX.Element => {
                 <Col span={12}>
                     <div>
                         <div className="color-black-weight800">
-              Account ID:{info.account_id}[{info.aws_type}]
+                            Account ID:{info.account_id}[{info.aws_type}]
                         </div>
                         <div>sercurity-credentials: {info.role}</div>
                     </div>
@@ -87,12 +90,12 @@ const Account = (): JSX.Element => {
                     <div>
                         <div>
                             <Checkbox checked={freeChecked} onChange={onChangeFree}>
-                Free Tier Reminder
+                                Free Tier Reminder
                             </Checkbox>
                         </div>
                         <div>
-              Activation data:{' '}
-                            <DatePicker size="small" onChange={onChangeActivationData} />
+                            Activation data:{' '}
+                            <DatePicker size="small" onChange={onChangeActivationData}/>
                         </div>
                     </div>
                 </Col>
@@ -110,7 +113,7 @@ const Account = (): JSX.Element => {
                                 onClick={openMangerAwsProfile}
                             >
                                 <div>Manager your AWS profile</div>
-                                <Icon icon="ri:share-box-fill" fr={undefined} />
+                                <Icon icon="ri:share-box-fill" fr={undefined}/>
                             </div>
                         </li>
                         <li>Nofification contacts</li>
@@ -118,21 +121,21 @@ const Account = (): JSX.Element => {
                     <Row>
                         <Col span={12}>Email notification are supported in AWS Regions</Col>
                         <Col span={12}>
-              SMS(text message) notifications are supported in AWS Regions Where
-              the Amazon Simple Notification Service is available.
+                            SMS(text message) notifications are supported in AWS Regions Where
+                            the Amazon Simple Notification Service is available.
                         </Col>
                     </Row>
                     <Row className="yellow-text-color">
                         <Col span={12}>
                             <div onClick={addEmail} className="flex-align-center">
-                                <Icon icon="fluent:add-12-filled" fr={undefined} />
-                Add email address
+                                <Icon icon="fluent:add-12-filled" fr={undefined}/>
+                                Add email address
                             </div>
                         </Col>
                         <Col span={12} className="flex-align-center">
                             <div onClick={addSMS} className="flex-align-center">
-                                <Icon icon="fluent:add-12-filled" fr={undefined} />
-                Add SMS number
+                                <Icon icon="fluent:add-12-filled" fr={undefined}/>
+                                Add SMS number
                             </div>
                         </Col>
                     </Row>
@@ -144,11 +147,11 @@ const Account = (): JSX.Element => {
                             onClick={createSSHKey}
                         >
                             <div>Create New</div>
-                            <Icon icon="fluent:add-12-filled" fr={undefined} />
+                            <Icon icon="fluent:add-12-filled" fr={undefined}/>
                         </div>
                         <div className="text-icon-box" onClick={uploadSSHKey}>
                             <div>Upload New</div>
-                            <Icon icon="eva:upload-fill" fr={undefined} />
+                            <Icon icon="eva:upload-fill" fr={undefined}/>
                         </div>
                     </div>
                     <Radio.Group onChange={onChange} value={count}>
@@ -200,7 +203,7 @@ const Account = (): JSX.Element => {
                         </Space>
                     </Radio.Group>
                     <div className="margin-top-10 color-gray">
-            you can store up to 100 keys per AWS Region.
+                        you can store up to 100 keys per AWS Region.
                     </div>
                 </Card>
                 <Card
@@ -209,8 +212,8 @@ const Account = (): JSX.Element => {
                     style={{ width: '100%' }}
                 >
                     <div className="color-gray">
-            if you want to use AWS API. you must create API access keys setion
-            of the AWS console.
+                        if you want to use AWS API. you must create API access keys setion
+                        of the AWS console.
                     </div>
                     <div>
                         <ul className="list-style-disc">
@@ -220,7 +223,7 @@ const Account = (): JSX.Element => {
                                     onClick={openIAMconsle}
                                 >
                                     <div>Go to the IAM console.</div>
-                                    <Icon icon="ri:share-box-fill" fr={undefined} />
+                                    <Icon icon="ri:share-box-fill" fr={undefined}/>
                                 </div>
                             </li>
                         </ul>

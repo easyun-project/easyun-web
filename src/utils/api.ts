@@ -1,6 +1,6 @@
 import appService from '@/service/appService';
 
-export const getHost = () :string=> {
+export const getHost = () => {
     return appService.getHost();
 };
 
