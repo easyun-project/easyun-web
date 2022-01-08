@@ -1,7 +1,7 @@
-import {defineConfig} from 'vite';
+import { defineConfig } from 'vite';
 import reactRefresh from '@vitejs/plugin-react-refresh';
 import * as path from 'path';
-import {existsSync} from 'fs';
+import { existsSync } from 'fs';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import dotenv from 'dotenv';
@@ -25,7 +25,7 @@ export default defineConfig({
         preprocessorOptions: {
             less: {
                 modifyVars: {
-                    "primary-color": "#f5922f", //全局样式
+                    'primary-color': '#f5922f', //全局样式
                 },
                 javascriptEnabled: true,
             },
