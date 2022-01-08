@@ -7,10 +7,14 @@ import CAmis from '@/components/Logic/CAmi';
 // import CSecurityGroup from '@/components/Logic/CSecurityGroup';
 import CSecOpt from '@/components/Logic/CSecurityGroup/CSecOpt';
 import DiskConfiguration from './DiskConfiguration';
-import {  Input, Select, Cascader } from 'antd';
+import InstanceList from './InstanceList';
+import SSHkeys from './SSHkeys';
+import { Cascader } from 'antd';
+import { CSubnet } from '@/components/Logic/CSubnet';
+import Networking from './Networking';
+
 
 const AddServer = (): JSX.Element => {
-    const { Option } = Select;
     const options = [
         {
             value: '通用计算型',
@@ -231,115 +235,6 @@ const AddServer = (): JSX.Element => {
             ],
         },
     ];
-    const instances = [
-        {
-            'InstanceType': 'c5.4xlarge',
-            'Memory': 32,
-            'Network': 'Up to 10 Gigabit',
-            'Price': {
-                'currency': 'USD',
-                'value': 496.40000000000003
-            },
-            'VCpu': 16
-        },
-        {
-            'InstanceType': 'c5.xlarge',
-            'Memory': 8,
-            'Network': 'Up to 10 Gigabit',
-            'Price': {
-                'currency': 'USD',
-                'value': 124.10000000000001
-            },
-            'VCpu': 4
-        },
-        {
-            'InstanceType': 'c5.12xlarge',
-            'Memory': 96,
-            'Network': '12 Gigabit',
-            'Price': {
-                'currency': 'USD',
-                'value': 1489.2
-            },
-            'VCpu': 48
-        },
-        {
-            'InstanceType': 'c5.24xlarge',
-            'Memory': 192,
-            'Network': '25 Gigabit',
-            'Price': {
-                'currency': 'USD',
-                'value': 2978.4
-            },
-            'VCpu': 96
-        },
-        {
-            'InstanceType': 'c5.9xlarge',
-            'Memory': 72,
-            'Network': '10 Gigabit',
-            'Price': {
-                'currency': 'USD',
-                'value': 1116.9
-            },
-            'VCpu': 36
-        },
-        {
-            'InstanceType': 'c5.metal',
-            'Memory': 192,
-            'Network': '25 Gigabit',
-            'Price': {
-                'currency': 'USD',
-                'value': 2978.4
-            },
-            'VCpu': 96
-        },
-        {
-            'InstanceType': 'c5.large',
-            'Memory': 4,
-            'Network': 'Up to 10 Gigabit',
-            'Price': {
-                'currency': 'USD',
-                'value': 62.050000000000004
-            },
-            'VCpu': 2
-        },
-        {
-            'InstanceType': 'c5.2xlarge',
-            'Memory': 16,
-            'Network': 'Up to 10 Gigabit',
-            'Price': {
-                'currency': 'USD',
-                'value': 248.20000000000002
-            },
-            'VCpu': 8
-        },
-        {
-            'InstanceType': 'c5.18xlarge',
-            'Memory': 144,
-            'Network': '25 Gigabit',
-            'Price': {
-                'currency': 'USD',
-                'value': 2233.8
-            },
-            'VCpu': 72
-        }
-    ];
-    const sgs = [
-        {
-            'sgDes': 'default VPC security group',
-            'sgId': 'sg-0a818f9a74c0657ad',
-            'tagName': 'easyun-sg-default'
-        },
-        {
-            'sgDes': 'allow web application access',
-            'sgId': 'sg-02f0f5390e1cba746',
-            'tagName': 'easyun-sg-webapp'
-        },
-        {
-            'sgDes': 'allow database access',
-            'sgId': 'sg-05df5c8e8396d06e9',
-            'tagName': 'easyun-sg-database'
-        }
-    ];
     return (
         <div>
             <div id="add-cloud-server-title" className={classnames('m-5')}>
@@ -387,8 +282,9 @@ const AddServer = (): JSX.Element => {
             <div id="select-your-instance">
                 <div>select your instance type</div>
                 <Cascader style={{ width: '20%' }} options={options} placeholder="选择实例类型" />
+                <InstanceList />
             </div>
-            <div>select your disk</div>
+            <div>setting your disk</div>
             <DiskConfiguration />
 
             <div id="select-security-group">
@@ -396,11 +292,12 @@ const AddServer = (): JSX.Element => {
             </div>
 
             <div id="select-networking">
-
+                <CSubnet index={1} isPublic={false}/>
+                <Networking />
             </div>
 
             <div id="select-SSH-keys">
-
+                <SSHkeys/>
             </div>
 
             <div id="create-buttons">

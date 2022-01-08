@@ -11,7 +11,7 @@ const DiskConfiguration = () :JSX.Element=>{
     const [encryption, changeEncryption] = useState(true);
     return(
         <div id="disk-configuration">
-            <div className={classnames('w-1/2','border','rounded','flex','flex-col')}>
+            <div className={classnames('w-96','border','rounded','flex','flex-col')}>
                 <div className={classnames('flex','flex-row','m-2')}>
                     <span><Icon icon="icon-park-outline:solid-state-disk" width="64" fr={undefined}/> </span>
                     <div className={classnames('mx-3','flex-grow')}>
