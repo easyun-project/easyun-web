@@ -1,10 +1,17 @@
 import appService from '@/service/appService';
+import store from '@/redux/store';
 
-export const getHost = () => {
+interface tokenHeader{
+    'Authorization': string;
+}
+
+export const getHost = ():string=> {
     return appService.getHost();
 };
 
-export const getHeader = (token) => {
+export const getHeader = ():tokenHeader => {
+
+    const token = store.getState().user.user.token;
     return {
         'Authorization': 'Bearer ' + token
     };

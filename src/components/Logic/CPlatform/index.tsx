@@ -11,6 +11,7 @@ const CPlatform = (): JSX.Element => {
         setSelect(platform);
         return;
     };
+    const selectedStyle = classnames('border-2','border-yellow-550');
 
     const containerClasses = classnames('cursor-pointer', 'inline-flex', 'items-center', 'w-32', 'm-5', 'grid', 'grid-cols-2');
     // if (selected === '') {
@@ -23,7 +24,7 @@ const CPlatform = (): JSX.Element => {
                 onClick={() => {
                     handleSelect('linux');
                 }}
-                className={classnames(containerClasses,)}>
+                className={classnames(containerClasses,selected === 'linux' ? selectedStyle : undefined)}>
                 <Icon icon="logos:linux-tux" width="50" height="50" fr={undefined}/>
                 <span>Linux/Unix</span>
             </div>
@@ -32,36 +33,25 @@ const CPlatform = (): JSX.Element => {
                 onClick={() => {
                     handleSelect('windows');
                 }}
-                className={classnames(containerClasses)}>
+                className={classnames(containerClasses,selected === 'windows' ? selectedStyle : undefined)}>
                 <Icon icon="logos:microsoft-windows" width="50" height="50"
                     fr={undefined}/>
                 <span>Microsoft<br/> Windows</span>
             </div>
-            <div
+            {/* <div
                 onClick={() => {
                     handleSelect('macos');
                 }}
                 className={classnames(containerClasses)}>
                 <Icon icon="wpf:mac-os" width="50" height="50" fr={undefined}/>
                 <span>Macos</span>
-            </div>
+            </div> */}
 
 
 
         </div>
     );
 
-};
-
-
-interface PlatformProps {
-	platform: PlatformType;
-}
-
-const Platform = (props: PlatformProps) => {
-    return (
-        <div>Platform</div>
-    );
 };
 
 

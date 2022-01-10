@@ -216,30 +216,13 @@ export const StoragePage = (): JSX.Element => {
     //     return state.storage;
     // });
 
-    const token = useSelector((state: RootState) => {
-        const user = state.user.user as unknown as UserModel;
-        return user.token;
-    });
+    // const token = useSelector((state: RootState) => {
+    //     const user = state.user.user as unknown as UserModel;
+    //     return user.token;
+    // });
 
-    // const storageList = [
-    //     { Name: 'string1',
-    //         bucketStatus: 'string',
-    //         bucketRegion: 'string' },
-    //     { Name: 'string2',
-    //         bucketStatus: 'string',
-    //         bucketRegion: 'string' },
-    //     { Name: 'string3',
-    //         bucketStatus: 'string',
-    //         bucketRegion: 'string' },
-    //     { Name: 'string4',
-    //         bucketStatus: 'string',
-    //         bucketRegion: 'string' },
-    //     { Name: 'string5',
-    //         bucketStatus: 'string',
-    //         bucketRegion: 'string' }
-    // ];
     useEffect(()=>{
-        bucketManage.listBucket(token).then((data:any)=>{
+        bucketManage.listBucket().then((data:any)=>{
             changeStorageLoading(false);
             dispatch(updateStorage(data.detail[0].bucketList));
         },

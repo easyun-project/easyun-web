@@ -12,6 +12,8 @@ import { ServerList } from '@/views/Home/Server';
 import { ServerDetail } from '@/views/Home/Server/ServerDetail';
 import { StoragePage } from '@/views/Home/Storage/index';
 import AddDisk from '@/views/Home/Storage/AddDisk';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 
 interface NotDataProps {
