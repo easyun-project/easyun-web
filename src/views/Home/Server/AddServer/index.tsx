@@ -240,7 +240,7 @@ const AddServer = (): JSX.Element => {
     ];
     const [arch, changeArch] = useState('x86_64');
     const [platform, changePlatform] = useState('linux');
-    const [amis, changeAmis] = useState('loading');
+    const [amis, changeAmis] = useState<'loading'|amiInfo[]>('loading');
     const [selectedAmi, changeSelectedAmi] = useState('');
     useEffect( ()=>{
         console.log(arch,platform);
