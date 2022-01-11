@@ -3,12 +3,19 @@ import { ServerDetail, ServerList, ServerImages, ServerInstypes } from '@/consta
 import axios from 'redaxios';
 import { ServerModel, SeverDetailModel } from '@/constant/server';
 import { Result } from '@/constant/result';
+import { amiInfo } from '@/components/Logic/CAmi';
 
-interface params {
+interface instypesParams {
     'dcRegion': string;
-    'imgCode': 'linux'|'windows';
+    'insCode': 'linux'|'windows';
     'insArch': 'x86_64'|'arm64';
     'insFamily': string;
+};
+
+interface imagesParams {
+    'dcRegion': string;
+    'imgArch': string;
+    'imgPlatform': string;
 };
 
 export interface ServerDetailParams {
@@ -46,10 +53,21 @@ export default class serverService {
     }
 
     /**
-     * 获取server detail
+     * 获取可用的images
      */
-    static async getServerImages<T>(params:params): Promise<Result<T>> {
+    static async getServerImages(params:imagesParams): Promise<amiInfo[]> {
         const url = getHost() + ServerImages;
+        const result = await axios.post(url, params,{
+            headers: getHeader()
+        });
+        return result.data.detail;
+    }
+
+    /**
+     * 获取可用的instypes
+     */
+    static async getServerInstypes<T>(params:instypesParams): Promise<Result<T>> {
+        const url = getHost() + ServerInstypes;
         const result = await axios.post(url, params,{
             headers: getHeader()
         });

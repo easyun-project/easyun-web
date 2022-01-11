@@ -12,6 +12,9 @@ import SSHkeys from './SSHkeys';
 import { Cascader } from 'antd';
 import { CSubnet } from '@/components/Logic/CSubnet';
 import Networking from './Networking';
+import { useState,useEffect } from 'react';
+import serverService from '@/service/serverService';
+import { amiInfo } from '@/components/Logic/CAmi';
 
 
 const AddServer = (): JSX.Element => {
@@ -235,6 +238,24 @@ const AddServer = (): JSX.Element => {
             ],
         },
     ];
+    const [arch, changeArch] = useState('x86_64');
+    const [platform, changePlatform] = useState('linux');
+    const [amis, changeAmis] = useState('loading');
+    const [selectedAmi, changeSelectedAmi] = useState('');
+    useEffect( ()=>{
+        console.log(arch,platform);
+        changeAmis('loading');
+        serverService.getServerImages({
+            'dcRegion': 'us-east-1',
+            'imgArch': arch,
+            'imgPlatform': platform, }).then((res:amiInfo[]) => {
+            changeAmis(res);
+        });
+
+    },[arch,platform]);
+    useEffect( ()=>{
+        console.log(arch,platform,selectedAmi);
+    },[selectedAmi]);
     return (
         <div>
             <div id="add-cloud-server-title" className={classnames('m-5')}>
@@ -255,29 +276,33 @@ const AddServer = (): JSX.Element => {
             </div>
 
             <div id="select-your-platform">
+                {/* 下面的组件用于选择服务器架构 */}
                 <div className={classnames('flex', 'flex-row','items-center','p-3', 'm-3')}>
                     <div> select a platform </div>
                     <CButton classes={classnames(
-                        'bg-yellow-550',
+                        arch === 'x86_64' ? 'bg-yellow-550' : 'bg-gray-400',
                         'text-white',
                         'rounded-3xl',
                         'h-10',
                         'w-32',
                         'px-5',
-                        'm-5')}>64-bit(x86)</CButton>
+                        'm-5')}
+                    click = {()=>{changeArch('x86_64');}}>64-bit(x86)</CButton>
                     <CButton classes={classnames(
-                        'bg-yellow-550',
+                        arch === 'arm64' ? 'bg-yellow-550' : 'bg-gray-400',
                         'text-white',
                         'rounded-3xl',
                         'h-10',
                         'w-32',
                         'px-5',
-                        'm-5')}>64-bit(arm)</CButton>
+                        'm-5')}
+                    click = {()=>{changeArch('arm64');}}>64-bit(arm)</CButton>
                 </div>
-                <CPlatform/>
+                {/* 下面的用于选择操作系统 */}
+                <CPlatform platform={platform} changePlatform={changePlatform}/>
             </div>
 
-            <CAmis />
+            <CAmis amis={amis} selectedAmi={selectedAmi} changeSelectedAmi={changeSelectedAmi}/>
 
             <div id="select-your-instance">
                 <div>select your instance type</div>

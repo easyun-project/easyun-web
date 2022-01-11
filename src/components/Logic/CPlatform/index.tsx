@@ -2,13 +2,19 @@ import React, { useState } from 'react';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 
-type PlatformType = 'linux' | 'windows' | 'macos'
+interface platformProps{
+    platform :string
+    changePlatform: React.Dispatch<React.SetStateAction<string>>
+}
 
-const CPlatform = (): JSX.Element => {
-    const [selected, setSelect] = useState('linux');
+type PlatformType = 'linux' | 'windows'
+
+const CPlatform = (props:platformProps): JSX.Element => {
+    // const [selected, setSelect] = useState('linux');
+    const { platform, changePlatform } = props;
 
     const handleSelect = (platform: PlatformType): void => {
-        setSelect(platform);
+        changePlatform(platform);
         return;
     };
     const selectedStyle = classnames('border-2','border-yellow-550');
@@ -24,7 +30,7 @@ const CPlatform = (): JSX.Element => {
                 onClick={() => {
                     handleSelect('linux');
                 }}
-                className={classnames(containerClasses,selected === 'linux' ? selectedStyle : undefined)}>
+                className={classnames(containerClasses,platform === 'linux' ? selectedStyle : undefined)}>
                 <Icon icon="logos:linux-tux" width="50" height="50" fr={undefined}/>
                 <span>Linux/Unix</span>
             </div>
@@ -33,7 +39,7 @@ const CPlatform = (): JSX.Element => {
                 onClick={() => {
                     handleSelect('windows');
                 }}
-                className={classnames(containerClasses,selected === 'windows' ? selectedStyle : undefined)}>
+                className={classnames(containerClasses,platform === 'windows' ? selectedStyle : undefined)}>
                 <Icon icon="logos:microsoft-windows" width="50" height="50"
                     fr={undefined}/>
                 <span>Microsoft<br/> Windows</span>

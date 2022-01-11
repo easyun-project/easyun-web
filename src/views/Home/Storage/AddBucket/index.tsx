@@ -95,99 +95,103 @@ const AddBucket = (): JSX.Element => {
                 {/* 两个开关组件，点击图标可以改变状态. */}
                 {/* 加密管理组件 */}
                 <div className={classnames('flex', 'flex-row')}>
-                    {bucketEncryption ? (
-                        <div>
-                            <Icon
-                                className={classnames('mx-5')}
-                                icon="bi:toggle-on"
-                                color="#ce6627"
-                                width="50"
-                                height="50"
-                                fr={undefined}
-                                onClick={() => {
-                                    changeBucketEncryp(!bucketEncryption);
-                                }}
-                            />
-                            <div className={classnames('flex', 'flex-col')}>
-                                <div className={classnames('mx-5', 'text-black', 'font-bold')}>
+                    {bucketEncryption
+                        ? (
+                            <div>
+                                <Icon
+                                    className={classnames('mx-5')}
+                                    icon="bi:toggle-on"
+                                    color="#ce6627"
+                                    width="50"
+                                    height="50"
+                                    fr={undefined}
+                                    onClick={() => {
+                                        changeBucketEncryp(!bucketEncryption);
+                                    }}
+                                />
+                                <div className={classnames('flex', 'flex-col')}>
+                                    <div className={classnames('mx-5', 'text-black', 'font-bold')}>
                   Encryption is enabled
-                                </div>
-                                <div className={classnames('mx-5', 'max-w-lg', 'text-gray-400')}>
+                                    </div>
+                                    <div className={classnames('mx-5', 'max-w-lg', 'text-gray-400')}>
                   Automatiacally encrypt new objects stored in this bucket. Default Server-side
                   encryption by Amazon S3 key (SSE-S3).
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ) : (
-                        <div>
-                            <Icon
-                                className={classnames('mx-5')}
-                                icon="bi:toggle-off"
-                                color="#7c898a"
-                                width="50"
-                                height="50"
-                                fr={undefined}
-                                onClick={() => {
-                                    changeBucketEncryp(!bucketEncryption);
-                                }}
-                            />
-                            <div className={classnames('flex', 'flex-col')}>
-                                <div className={classnames('mx-5', 'text-black', 'font-bold')}>
+                        )
+                        : (
+                            <div>
+                                <Icon
+                                    className={classnames('mx-5')}
+                                    icon="bi:toggle-off"
+                                    color="#7c898a"
+                                    width="50"
+                                    height="50"
+                                    fr={undefined}
+                                    onClick={() => {
+                                        changeBucketEncryp(!bucketEncryption);
+                                    }}
+                                />
+                                <div className={classnames('flex', 'flex-col')}>
+                                    <div className={classnames('mx-5', 'text-black', 'font-bold')}>
                   Encryption is disabled
-                                </div>
-                                <div className={classnames('mx-5', 'max-w-lg', 'text-gray-400')}>
+                                    </div>
+                                    <div className={classnames('mx-5', 'max-w-lg', 'text-gray-400')}>
                   New objects stored in this bucket will not be automatiacally encrypted.
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    )}
+                        )}
           &nbsp;
                     {/* 版本管理组件 */}
-                    {versioningConfiguration ? (
-                        <div>
-                            <Icon
-                                className={classnames('mx-5')}
-                                icon="bi:toggle-on"
-                                color="#ce6627"
-                                width="50"
-                                height="50"
-                                fr={undefined}
-                                onClick={() => {
-                                    changeVerConfig(!versioningConfiguration);
-                                }}
-                            />
-                            <div className={classnames('flex', 'flex-col')}>
-                                <div className={classnames('mx-5', 'text-black', 'font-bold')}>
+                    {versioningConfiguration
+                        ? (
+                            <div>
+                                <Icon
+                                    className={classnames('mx-5')}
+                                    icon="bi:toggle-on"
+                                    color="#ce6627"
+                                    width="50"
+                                    height="50"
+                                    fr={undefined}
+                                    onClick={() => {
+                                        changeVerConfig(!versioningConfiguration);
+                                    }}
+                                />
+                                <div className={classnames('flex', 'flex-col')}>
+                                    <div className={classnames('mx-5', 'text-black', 'font-bold')}>
                   Versioning is enabled
-                                </div>
-                                <div className={classnames('mx-5', 'text-gray-400')}>
+                                    </div>
+                                    <div className={classnames('mx-5', 'text-gray-400')}>
                   Changed versions of your object will be stored.
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ) : (
-                        <div>
-                            <Icon
-                                className={classnames('mx-5')}
-                                icon="bi:toggle-off"
-                                color="#7c898a"
-                                width="50"
-                                height="50"
-                                fr={undefined}
-                                onClick={() => {
-                                    changeVerConfig(!versioningConfiguration);
-                                }}
-                            />
-                            <div className={classnames('flex', 'flex-col')}>
-                                <div className={classnames('mx-5', 'text-black', 'font-bold')}>
+                        )
+                        : (
+                            <div>
+                                <Icon
+                                    className={classnames('mx-5')}
+                                    icon="bi:toggle-off"
+                                    color="#7c898a"
+                                    width="50"
+                                    height="50"
+                                    fr={undefined}
+                                    onClick={() => {
+                                        changeVerConfig(!versioningConfiguration);
+                                    }}
+                                />
+                                <div className={classnames('flex', 'flex-col')}>
+                                    <div className={classnames('mx-5', 'text-black', 'font-bold')}>
                   Versioning is disabled
-                                </div>
-                                <div className={classnames('mx-5', 'text-gray-400')}>
+                                    </div>
+                                    <div className={classnames('mx-5', 'text-gray-400')}>
                   Changed versions of your object are not being stored.
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    )}
+                        )}
                 </div>
             </div>
             <div>
