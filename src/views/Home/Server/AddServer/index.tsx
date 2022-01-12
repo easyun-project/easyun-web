@@ -13,6 +13,7 @@ import { Cascader } from 'antd';
 import Networking from './Networking';
 import { useState,useEffect } from 'react';
 import serverService from '@/service/serverService';
+import DataCenterService from '@/service/dataCenterService';
 import { amiInfo } from '@/components/Logic/CAmi';
 import { InsType } from './InstanceList';
 
@@ -246,6 +247,9 @@ const AddServer = (): JSX.Element => {
     const [insTypes, changeInsTypes] = useState<'loading' | InsType[]>('loading');
     const [selectedIns, changeselectedIns] = useState('');
     const [selectedSubnet, changeSelectedSubnet] = useState('');
+    const [secgroup, changeSecgroup] = useState('');
+    const secgroups = [];
+    const subnets = [];
 
     useEffect( ()=>{
         console.log(arch,platform);
@@ -259,6 +263,7 @@ const AddServer = (): JSX.Element => {
     [arch, platform]);
     useEffect( ()=>{
         console.log(arch, platform,selectedAmi,selectedIns,selectedSubnet);
+        console.log(secgroups,subnets);
     }, [arch, platform,selectedAmi,selectedIns,selectedSubnet]);
     useEffect(() => {
         changeInsTypes('loading');
@@ -270,6 +275,10 @@ const AddServer = (): JSX.Element => {
         }).then(res => changeInsTypes(res));
     },
     [arch, platform, insFamily]);
+    useEffect(()=>{
+        const m = DataCenterService.getSecgroup('Easyun').then((res)=>{console.log(res);});
+        const n = DataCenterService.getSubnet('Easyun').then((res)=>{console.log(res);});
+    }, []);
     return (
         <div>
             <div id="add-cloud-server-title" className={classnames('m-5')}>
@@ -330,7 +339,7 @@ const AddServer = (): JSX.Element => {
             <DiskConfiguration />
 
             <div id="select-security-group">
-                <CSecOpt />
+                <CSecOpt/>
             </div>
 
             <div id="select-networking">
