@@ -4,7 +4,7 @@ import { Icon } from '@iconify/react';
 
 interface platformProps{
     platform :string
-    changePlatform: React.Dispatch<React.SetStateAction<string>>
+    changePlatform: React.Dispatch<React.SetStateAction<'linux'|'windows'>>
 }
 
 type PlatformType = 'linux' | 'windows'

@@ -2,12 +2,13 @@ import { getHeader, getHost } from '@/utils/api';
 import { ServerDetail, ServerList, ServerImages, ServerInstypes } from '@/constant/apiConst';
 import axios from 'redaxios';
 import { ServerModel, SeverDetailModel } from '@/constant/server';
-import { Result } from '@/constant/result';
+// import { Result } from '@/constant/result';
 import { amiInfo } from '@/components/Logic/CAmi';
+import { InsType } from '@/views/Home/Server/AddServer/InstanceList';
 
 interface instypesParams {
     'dcRegion': string;
-    'insCode': 'linux'|'windows';
+    'imgCode': 'linux'|'windows';
     'insArch': 'x86_64'|'arm64';
     'insFamily': string;
 };
@@ -66,7 +67,7 @@ export default class serverService {
     /**
      * 获取可用的instypes
      */
-    static async getServerInstypes<T>(params:instypesParams): Promise<Result<T>> {
+    static async getServerInstypes(params:instypesParams): Promise<InsType[]> {
         const url = getHost() + ServerInstypes;
         const result = await axios.post(url, params,{
             headers: getHeader()

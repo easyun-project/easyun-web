@@ -10,11 +10,11 @@ import DiskConfiguration from './DiskConfiguration';
 import InstanceList from './InstanceList';
 import SSHkeys from './SSHkeys';
 import { Cascader } from 'antd';
-import { CSubnet } from '@/components/Logic/CSubnet';
 import Networking from './Networking';
 import { useState,useEffect } from 'react';
 import serverService from '@/service/serverService';
 import { amiInfo } from '@/components/Logic/CAmi';
+import { InsType } from './InstanceList';
 
 
 const AddServer = (): JSX.Element => {
@@ -23,10 +23,10 @@ const AddServer = (): JSX.Element => {
             value: '通用计算型',
             label: '通用计算型',
             children: [
-                {
-                    value: 'Mac',
-                    label: 'Mac',
-                },
+                // {
+                //     value: 'Mac',
+                //     label: 'Mac',
+                // },
                 {
                     value: 'T4g',
                     label: 'T4g',
@@ -55,14 +55,14 @@ const AddServer = (): JSX.Element => {
                     value: 'M5a',
                     label: 'M5a',
                 },
-                {
-                    value: 'M5n',
-                    label: 'M5n',
-                },
-                {
-                    value: 'M5zn',
-                    label: 'M5zn',
-                },
+                // {
+                //     value: 'M5n',
+                //     label: 'M5n',
+                // },
+                // {
+                //     value: 'M5zn',
+                //     label: 'M5zn',
+                // },
                 {
                     value: 'M4',
                     label: 'M4',
@@ -81,10 +81,10 @@ const AddServer = (): JSX.Element => {
                     value: 'C6g',
                     label: 'C6g',
                 },
-                {
-                    value: 'C6gn',
-                    label: 'C6gn',
-                },
+                // {
+                //     value: 'C6gn',
+                //     label: 'C6gn',
+                // },
                 {
                     value: 'C6i',
                     label: 'C6i',
@@ -97,10 +97,10 @@ const AddServer = (): JSX.Element => {
                     value: 'C5a',
                     label: 'C5a',
                 },
-                {
-                    value: 'C5n',
-                    label: 'C5n',
-                },
+                // {
+                //     value: 'C5n',
+                //     label: 'C5n',
+                // },
                 {
                     value: 'C4',
                     label: 'C4',
@@ -135,22 +135,22 @@ const AddServer = (): JSX.Element => {
                     value: 'R4',
                     label: 'R4',
                 },
-                {
-                    value: 'X2gd',
-                    label: 'X2gd',
-                },
-                {
-                    value: 'X1e',
-                    label: 'X1e',
-                },
+                // {
+                //     value: 'X2gd',
+                //     label: 'X2gd',
+                // },
+                // {
+                //     value: 'X1e',
+                //     label: 'X1e',
+                // },
                 {
                     value: 'X1',
                     label: 'X1',
                 },
-                {
-                    value: '内存增强型',
-                    label: '内存增强型',
-                },
+                // {
+                //     value: '内存增强型',
+                //     label: '内存增强型',
+                // },
                 {
                     value: 'z1d',
                     label: 'z1d',
@@ -238,24 +238,38 @@ const AddServer = (): JSX.Element => {
             ],
         },
     ];
-    const [arch, changeArch] = useState('x86_64');
-    const [platform, changePlatform] = useState('linux');
+    const [arch, changeArch] = useState<'x86_64'|'arm64'>('x86_64');
+    const [platform, changePlatform] = useState<'linux'|'windows'>('linux');
     const [amis, changeAmis] = useState<'loading'|amiInfo[]>('loading');
     const [selectedAmi, changeSelectedAmi] = useState('');
+    const [insFamily, changeInsFamily] = useState('a1');
+    const [insTypes, changeInsTypes] = useState<'loading' | InsType[]>('loading');
+    const [selectedIns, changeselectedIns] = useState('');
+    const [selectedSubnet, changeSelectedSubnet] = useState('');
+
     useEffect( ()=>{
         console.log(arch,platform);
         changeAmis('loading');
         serverService.getServerImages({
             'dcRegion': 'us-east-1',
             'imgArch': arch,
-            'imgPlatform': platform, }).then((res:amiInfo[]) => {
-            changeAmis(res);
-        });
-
-    },[arch,platform]);
+            'imgPlatform': platform,
+        }).then((res: amiInfo[]) => changeAmis(res));
+    },
+    [arch, platform]);
     useEffect( ()=>{
-        console.log(arch,platform,selectedAmi);
-    },[selectedAmi]);
+        console.log(arch, platform,selectedAmi,selectedIns,selectedSubnet);
+    }, [arch, platform,selectedAmi,selectedIns,selectedSubnet]);
+    useEffect(() => {
+        changeInsTypes('loading');
+        serverService.getServerInstypes({
+            'dcRegion':'us-east-1',
+            'imgCode': platform,
+            'insArch': arch,
+            'insFamily': insFamily.toLowerCase(),
+        }).then(res => changeInsTypes(res));
+    },
+    [arch, platform, insFamily]);
     return (
         <div>
             <div id="add-cloud-server-title" className={classnames('m-5')}>
@@ -306,10 +320,13 @@ const AddServer = (): JSX.Element => {
 
             <div id="select-your-instance">
                 <div>select your instance type</div>
-                <Cascader style={{ width: '20%' }} options={options} placeholder="选择实例类型" />
-                <InstanceList />
+                {/* e是级联菜单中被选定的值，是一个列表 */}
+                <Cascader style={{ width: '20%' }} options={options} placeholder="选择实例类型" onChange={ (e)=>changeInsFamily(e[1])}/>
+                {/* 在获取到insType的值后，渲染列表 */}
+                <InstanceList insTypes={insTypes} changeselectefIns={ changeselectedIns}/>
             </div>
             <div>setting your disk</div>
+
             <DiskConfiguration />
 
             <div id="select-security-group">
@@ -317,8 +334,7 @@ const AddServer = (): JSX.Element => {
             </div>
 
             <div id="select-networking">
-                <CSubnet index={1} isPublic={false}/>
-                <Networking />
+                <Networking changeSelectedSubnet={ changeSelectedSubnet }/>
             </div>
 
             <div id="select-SSH-keys">

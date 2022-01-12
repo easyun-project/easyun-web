@@ -15,7 +15,8 @@ interface subnetData{
 interface subnetProps extends subnetData{
     setSelected : React.Dispatch<React.SetStateAction<string>>;
     key?:React.Key;
-    classes?:TTailwindString;
+    classes?: TTailwindString;
+    changeSelectedSubnet: React.Dispatch<React.SetStateAction<string>>;
 }
 
 function Subnet(props:subnetProps):JSX.Element{
@@ -27,7 +28,9 @@ function Subnet(props:subnetProps):JSX.Element{
     }
     return(
         <button value={props.subnetId}
-            onClick={(e)=>props.setSelected(e.currentTarget.value)}
+            onClick={(e) => {
+                props.setSelected(e.currentTarget.value);
+                props.changeSelectedSubnet(e.currentTarget.value);}}
             className={classnames(classes,'rounded-lg','w-40','h-20','m-2','flex','flex-col','justify-center','items-center')}>
             {props.subnetType === 'public'
                 ? <Icon className={classnames('relative', 'top-0', 'right-0', 'float-right')}
@@ -42,7 +45,7 @@ function Subnet(props:subnetProps):JSX.Element{
     );
 }
 
-export default function Networking():JSX.Element {
+export default function Networking(props: {changeSelectedSubnet:React.Dispatch<React.SetStateAction<string>>}):JSX.Element {
     const [selected, setSelected] = useState('');
     const columns = [
         {
@@ -115,6 +118,7 @@ export default function Networking():JSX.Element {
                         undefined}
                     key={network.subnetId}
                     setSelected={setSelected}
+                    changeSelectedSubnet={ props.changeSelectedSubnet}
                     {...network}
                 />)}
         </div>
