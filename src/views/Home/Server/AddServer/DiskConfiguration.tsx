@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Switch, Input, Select } from 'antd';
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 
-const DiskConfiguration = () :JSX.Element=>{
+const DiskConfiguration = (props) :JSX.Element=>{
     const { Option } = Select;
     const [diskType, changeDiskType] = useState('Standard');
     const [encryption, changeEncryption] = useState(true);
@@ -43,7 +43,7 @@ const DiskConfiguration = () :JSX.Element=>{
                 <div className={classnames('flex','flex-row','justify-between','border-t-2','border-gray-300','border-dashed','ml-12','mr-6','p-2')}>
                     <div>
                         <span>Disk path:</span>
-                        <span className={classnames('font-bold')}>/dev/sda1</span>
+                        <span className={classnames('font-bold')}>{props.disk}</span>
                     </div>
                     <div>
                         <span>Encryption</span>
@@ -57,6 +57,20 @@ const DiskConfiguration = () :JSX.Element=>{
                     </div>
                 </div>
             </div>
-        </div>);};
+        </div>);
+};
 
-export default DiskConfiguration;
+interface DiskProps {
+    disks: string[]
+    changedisks: React.Dispatch<React.SetStateAction<string[]>>
+}
+
+const DiskConfigurations = (props:DiskProps): JSX.Element => {
+    return (
+        <div>
+            {props.disks.map((disk) => { <DiskConfiguration disk={disk}/>; })}
+        </div>
+    );
+};
+
+export default DiskConfigurations;

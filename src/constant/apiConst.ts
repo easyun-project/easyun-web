@@ -3,15 +3,17 @@
 
 // User 用户登陆、改密、个人中心等，常量名以User开头
 export const UserLogin = '/api/v1/user/auth';
-export const AwsInfo = '/api/v1/account/aws_info';
+export const AwsInfo = '/api/v1/account/account/aws_info';
+export const GetSSHKeys = '/api/v1/account/account/ssh-keys';
+
 // dataCenter 数据中心相关内容 常量名以DataCenter开头
 export const DataCenterDefault = '/api/v1/datacenter/default';
 export const CreateDataCenter = '/api/v1/datacenter/add_dc';
 export const GetSubnet = '/api/v1/datacenter/subnet/';
 export const GetSecgroup = '/api/v1/datacenter/secgroup/';
+
 // 事件日志
 export const EventLogList = '/api/v1/event/log';
-
 export const DataCenterAll = '/api/v1/datacenter/all';
 
 // Server 服务器 常量名以Server开头
@@ -30,9 +32,12 @@ export const DeleteBucket = '/api/v1.0/storage/delete_bucket';
 
 // networking 网络 常量名以Networking开头
 
+
 // backups  备份 常量名以Backup开头
 
+
 // containers 容器 常量名以Container开头
+
 
 // dashboard  面板 常量名以Dashboard开头
 

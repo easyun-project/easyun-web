@@ -3,22 +3,32 @@ import { Card,Space,Radio,message } from 'antd';
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
 
-export default function SSHkeys():JSX.Element {
-    const keyPairs = [
-        {
-            'keyName': 'key_easyun_dev1',
-            'pemUrl': 'http://127.0.0.1:6660/download/keyname01'
-        },
-        {
-            'keyName': 'key_easyun_user1',
-            'pemUrl': 'http://127.0.0.1:6660/download/keyname02'
-        },
-        {
-            'keyName': 'key_easyun_user2',
-            'pemUrl': 'http://127.0.0.1:6660/download/keyname03'
-        }
-    ];
+
+export interface KeyInfo {
+    keyName: string
+    pemUrl:string
+}
+
+interface SSHkeysProps {
+    keyPairs: KeyInfo[]
+    changeSelectedKey: React.Dispatch<React.SetStateAction<string>>
+}
+
+export default function SSHkeys(props: SSHkeysProps): JSX.Element {
+
+    // const { keyPairs, changeSelectedKey } = props;
+    // 由于现在keypairs是空的，所以现在写一个测试值
+    const { changeSelectedKey } = props;
+    const keyPairs = [{
+        keyName: 'test1',
+        pemUrl:'test1'
+    },{
+        keyName: 'test2',
+        pemUrl:'test2'
+    }];
     const [selected, setSelected] = useState(keyPairs[0].keyName);
+    // changeSelectedKey(selected);
+
     const downloadSSHItem = () => {
         message.warning(selected);
     };
@@ -27,7 +37,9 @@ export default function SSHkeys():JSX.Element {
             <div className="flex-align-center yellow-text-color">
             </div>
             <Radio.Group
-                onChange={e => setSelected(e.target.value)}
+                onChange={e => {
+                    setSelected(e.target.value);
+                    changeSelectedKey(e.target.value);}}
                 defaultValue={keyPairs[0].keyName}>
                 <Space direction="vertical">
                     {keyPairs.map((keyPair)=>

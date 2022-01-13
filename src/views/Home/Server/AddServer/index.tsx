@@ -6,7 +6,7 @@ import { CButton } from '@/components/Common/CButton';
 import CAmis from '@/components/Logic/CAmi';
 // import CSecurityGroup from '@/components/Logic/CSecurityGroup';
 import CSecOpt from '@/components/Logic/CSecurityGroup/CSecOpt';
-import DiskConfiguration from './DiskConfiguration';
+import DiskConfigurations from './DiskConfiguration';
 import InstanceList from './InstanceList';
 import SSHkeys from './SSHkeys';
 import { Cascader } from 'antd';
@@ -14,8 +14,11 @@ import Networking from './Networking';
 import { useState,useEffect } from 'react';
 import serverService from '@/service/serverService';
 import DataCenterService from '@/service/dataCenterService';
+import accoutService from '@/service/accountService';
 import { amiInfo } from '@/components/Logic/CAmi';
 import { InsType } from './InstanceList';
+import { CSecOptInfo } from '@/components/Logic/CSecurityGroup/CSecOpt';
+import { KeyInfo } from './SSHkeys';
 
 
 const AddServer = (): JSX.Element => {
@@ -246,11 +249,17 @@ const AddServer = (): JSX.Element => {
     const [insFamily, changeInsFamily] = useState('a1');
     const [insTypes, changeInsTypes] = useState<'loading' | InsType[]>('loading');
     const [selectedIns, changeselectedIns] = useState('');
+    const [secgroups, changeSecgroups] = useState<CSecOptInfo[]>([]);
+    const [slectedSecgroups, changeSlectedSecgroups] = useState<string[]>([]);
+    const [subnets, changeSubnets] = useState([]);
     const [selectedSubnet, changeSelectedSubnet] = useState('');
-    const [secgroup, changeSecgroup] = useState('');
-    const secgroups = [];
-    const subnets = [];
+    const [keyPairs, changeKeyPairs] = useState<KeyInfo[]>([]);
+    const [selectedKey, changeSelectedKey] = useState('');
+    const [disks,changedisks] = useState(['/dev/sda1','/dev/sda2']);
 
+    useEffect( ()=>{
+        console.log(arch, platform,selectedAmi,selectedIns,selectedSubnet,slectedSecgroups,selectedKey);
+    }, [arch, platform,selectedAmi,selectedIns,selectedSubnet,slectedSecgroups,selectedKey]);
     useEffect( ()=>{
         console.log(arch,platform);
         changeAmis('loading');
@@ -261,10 +270,6 @@ const AddServer = (): JSX.Element => {
         }).then((res: amiInfo[]) => changeAmis(res));
     },
     [arch, platform]);
-    useEffect( ()=>{
-        console.log(arch, platform,selectedAmi,selectedIns,selectedSubnet);
-        console.log(secgroups,subnets);
-    }, [arch, platform,selectedAmi,selectedIns,selectedSubnet]);
     useEffect(() => {
         changeInsTypes('loading');
         serverService.getServerInstypes({
@@ -276,8 +281,9 @@ const AddServer = (): JSX.Element => {
     },
     [arch, platform, insFamily]);
     useEffect(()=>{
-        const m = DataCenterService.getSecgroup('Easyun').then((res)=>{console.log(res);});
-        const n = DataCenterService.getSubnet('Easyun').then((res)=>{console.log(res);});
+        DataCenterService.getSecgroup('Easyun').then((res) => changeSecgroups(res));
+        DataCenterService.getSubnet('Easyun').then((res) => changeSubnets(res));
+        accoutService.getSSHKeys().then((res) => changeKeyPairs(res));
     }, []);
     return (
         <div>
@@ -326,29 +332,16 @@ const AddServer = (): JSX.Element => {
             </div>
 
             <CAmis amis={amis} selectedAmi={selectedAmi} changeSelectedAmi={changeSelectedAmi}/>
-
-            <div id="select-your-instance">
-                <div>select your instance type</div>
-                {/* e是级联菜单中被选定的值，是一个列表 */}
-                <Cascader style={{ width: '20%' }} options={options} placeholder="选择实例类型" onChange={ (e)=>changeInsFamily(e[1])}/>
-                {/* 在获取到insType的值后，渲染列表 */}
-                <InstanceList insTypes={insTypes} changeselectefIns={ changeselectedIns}/>
-            </div>
+            <div>select your instance type</div>
+            {/* e是级联菜单中被选定的值，是一个列表 */}
+            <Cascader style={{ width: '20%' }} options={options} placeholder="选择实例类型" onChange={ (e)=>changeInsFamily(e[1])}/>
+            {/* 在获取到insType的值后，渲染列表 */}
+            <InstanceList insTypes={insTypes} changeselectefIns={ changeselectedIns}/>
             <div>setting your disk</div>
-
-            <DiskConfiguration />
-
-            <div id="select-security-group">
-                <CSecOpt/>
-            </div>
-
-            <div id="select-networking">
-                <Networking changeSelectedSubnet={ changeSelectedSubnet }/>
-            </div>
-
-            <div id="select-SSH-keys">
-                <SSHkeys/>
-            </div>
+            <DiskConfigurations disks={disks} changedisks={ changedisks} />
+            <CSecOpt secgroups={secgroups} changeSlectedSecgroups={changeSlectedSecgroups}/>
+            <Networking subnets={ subnets } changeSelectedSubnet={ changeSelectedSubnet }/>
+            <SSHkeys keyPairs={ keyPairs } changeSelectedKey={ changeSelectedKey }/>
 
             <div id="create-buttons">
                 <div>

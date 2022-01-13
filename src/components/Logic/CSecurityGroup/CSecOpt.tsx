@@ -2,30 +2,25 @@ import React from 'react';
 import { classnames } from '@@/tailwindcss-classnames';
 import { useState } from 'react';
 
-const CSecOpt = (): JSX.Element => {
-    const sgs = [
-        {
-            'sgDes': 'default VPC security group',
-            'sgId': 'sg-0a818f9a74c0657ad',
-            'tagName': 'easyun-sg-default'
-        },
-        {
-            'sgDes': 'allow web application access',
-            'sgId': 'sg-02f0f5390e1cba746',
-            'tagName': 'easyun-sg-webapp'
-        },
-        {
-            'sgDes': 'allow database access',
-            'sgId': 'sg-05df5c8e8396d06e9',
-            'tagName': 'easyun-sg-database'
-        }
-    ];
+interface CSecOptProps {
+    secgroups: CSecOptInfo[]
+    changeSlectedSecgroups:React.Dispatch<React.SetStateAction<string[]>>
+}
+
+export interface CSecOptInfo {
+    sgId: string
+    tagName: string
+
+}
+
+const CSecOpt = (props:CSecOptProps): JSX.Element => {
+    const { secgroups,changeSlectedSecgroups } = props;
     const [current, setcurrent] = useState(['easyun-sg-default']);
     const currentStyle = classnames('border-2', 'rounded-lg','border-yellow-550', 'm-5','h-20', 'w-20', 'text-center','align-middle','inline-block');
     const otherStyle = classnames('border-2', 'rounded-lg','border-blue-900', 'm-5','h-20', 'w-20', 'text-center','align-middle','inline-block');
     return (
         <div>
-            {sgs.map((item)=>
+            {secgroups.map((item)=>
                 <button
                     className={current.includes(item.tagName) ? currentStyle : otherStyle}
                     key={item.sgId}
@@ -36,6 +31,7 @@ const CSecOpt = (): JSX.Element => {
                             tobeChanged.splice(tobeChanged.indexOf(e.currentTarget.value), 1) :
                             tobeChanged.push(e.currentTarget.value);
                         setcurrent(tobeChanged);
+                        changeSlectedSecgroups(tobeChanged);
                     }
                     }>
                     {item.tagName}
