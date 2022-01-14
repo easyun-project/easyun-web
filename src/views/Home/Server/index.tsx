@@ -118,7 +118,7 @@ const modifyMenu = () => {
             </Menu>
         ));
 };
-export const ServerList = () => {
+export const ServerList = ():JSX.Element => {
     const navigate = useNavigate();
     const userState = useSelector((state: RootState) => {
         return state.user.user;
