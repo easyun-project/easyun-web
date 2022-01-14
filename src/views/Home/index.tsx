@@ -79,11 +79,11 @@ export const Home = (): JSX.Element => {
                         <Menu.Item key="backups">Backups</Menu.Item>
                     </Menu>
                     <Routes>
-                        <Route path="/" element={<ServerList/>} />
+                        <Route path="/" element={<ServerList />} />
+                        <Route path="server/:serverId" element={<ServerDetail />} />
                         <Route path="server" element={<ServerList/>} />
                         <Route path="storage" element={<StoragePage />} />
                         <Route path="addServer" element={<AddServer />} />
-                        <Route path="server/:serverId" element={<ServerDetail />} />
                         <Route path="addBucket" element={<AddBucket />} />
                         <Route path="addDisk" element={<AddDisk />} />
                         <Route path="databases" element={<NoResource resourceName={'databases'} buttonName={'Add Databases'}
