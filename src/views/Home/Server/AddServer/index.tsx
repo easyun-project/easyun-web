@@ -19,6 +19,7 @@ import { amiInfo } from '@/components/Logic/CAmi';
 import { InsType } from './InstanceList';
 import { CSecOptInfo } from '@/components/Logic/CSecurityGroup/CSecOpt';
 import { KeyInfo } from './SSHkeys';
+import { DiskInfo } from './DiskConfiguration';
 
 
 const AddServer = (): JSX.Element => {
@@ -242,6 +243,8 @@ const AddServer = (): JSX.Element => {
             ],
         },
     ];
+    const [tagName, changeTagName] = useState('NewServerName');
+    const [svrNumber, changeSvrNumber] = useState(1);
     const [arch, changeArch] = useState<'x86_64'|'arm64'>('x86_64');
     const [platform, changePlatform] = useState<'linux'|'windows'>('linux');
     const [amis, changeAmis] = useState<'loading'|amiInfo[]>('loading');
@@ -255,11 +258,20 @@ const AddServer = (): JSX.Element => {
     const [selectedSubnet, changeSelectedSubnet] = useState('');
     const [keyPairs, changeKeyPairs] = useState<KeyInfo[]>([]);
     const [selectedKey, changeSelectedKey] = useState('');
-    const [disks,changedisks] = useState(['/dev/sda1','/dev/sda2']);
+    const [disks, changeDisks] = useState<DiskInfo[]>([{
+        'DviceName': '/sda1',
+        'Ebs': {
+            'DeleteOnTermination': true,
+            'VolumnSize': 16,
+            'VolumnType': 'gp2',
+            'VolumnIOPS': 3000,
+            'VolumnThruputs': 125,
+            'VolumnEncryption': true
+        } }]);
 
     useEffect( ()=>{
-        console.log(arch, platform,selectedAmi,selectedIns,selectedSubnet,slectedSecgroups,selectedKey);
-    }, [arch, platform,selectedAmi,selectedIns,selectedSubnet,slectedSecgroups,selectedKey]);
+        console.log(tagName,svrNumber,arch, platform,selectedAmi,selectedIns,selectedSubnet,slectedSecgroups,selectedKey,disks);
+    }, [tagName,svrNumber,arch, platform,selectedAmi,selectedIns,selectedSubnet,slectedSecgroups,selectedKey,disks]);
     useEffect( ()=>{
         console.log(arch,platform);
         changeAmis('loading');
@@ -296,11 +308,13 @@ const AddServer = (): JSX.Element => {
             <div id="identify-your-server-form">
                 <div className={classnames('mx-5')}>Identify your server</div>
                 <div className={classnames('mb-5', 'mt-2', 'mx-2')}>
-                    <input className={classnames('border', 'w-72', 'h-10', 'px-1', 'py-3', 'mx-3')} type="text"/>
+                    <input className={classnames('border', 'w-72', 'h-10', 'px-1', 'py-3', 'mx-3')} type="text"
+                        defaultValue={tagName}
+                        onChange={e=>changeTagName(e.target.value)}/>
                     <span className={classnames('text-gray-500')}>x</span>
                     <input min={1} max={99} defaultValue={'1'} maxLength={2}
                         className={classnames('border', 'w-14', 'py-1', 'px-2', 'h-10', 'mx-3')}
-                        type="number"/>
+                        type="number" onChange={e=> changeSvrNumber(parseInt(e.target.value)) }/>
                 </div>
             </div>
 
@@ -338,7 +352,7 @@ const AddServer = (): JSX.Element => {
             {/* 在获取到insType的值后，渲染列表 */}
             <InstanceList insTypes={insTypes} changeselectefIns={ changeselectedIns}/>
             <div>setting your disk</div>
-            <DiskConfigurations disks={disks} changedisks={ changedisks} />
+            <DiskConfigurations disks={disks} changeDisks={changeDisks} />
             <CSecOpt secgroups={secgroups} changeSlectedSecgroups={changeSlectedSecgroups}/>
             <Networking subnets={ subnets } changeSelectedSubnet={ changeSelectedSubnet }/>
             <SSHkeys keyPairs={ keyPairs } changeSelectedKey={ changeSelectedKey }/>
@@ -368,6 +382,23 @@ const AddServer = (): JSX.Element => {
                             'px-5',
                             'm-5'
                         )}
+                        click={() => {
+                            serverService.addServer({
+                                'BlockDeviceMappings': disks,
+                                'ImageId': selectedAmi,
+                                'InstanceType': selectedIns,
+                                'KeyName': selectedKey,
+                                'SecurityGroupIds': slectedSecgroups,
+                                'SubnetId': selectedSubnet,
+                                'dcName': 'Easyun',
+                                'dcRegion': 'us-east-1',
+                                'svrNumber':svrNumber,
+                                'tagName': tagName
+                            }).then(
+                                () => alert('创建成功'),
+                                () => alert('创建失败'),
+                            );
+                        } }
                         // click={async () => {
                         //     await bucketManage
                         //         .addBucket({

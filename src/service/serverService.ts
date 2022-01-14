@@ -1,5 +1,5 @@
 import { getHeader, getHost } from '@/utils/api';
-import { ServerDetail, ServerList, ServerImages, ServerInstypes } from '@/constant/apiConst';
+import { ServerDetail, ServerList, ServerImages, ServerInstypes,AddServer } from '@/constant/apiConst';
 import axios from 'redaxios';
 import { ServerModel, SeverDetailModel } from '@/constant/server';
 // import { Result } from '@/constant/result';
@@ -69,6 +69,17 @@ export default class serverService {
      */
     static async getServerInstypes(params:instypesParams): Promise<InsType[]> {
         const url = getHost() + ServerInstypes;
+        const result = await axios.post(url, params,{
+            headers: getHeader()
+        });
+        return result.data.detail;
+    }
+
+    /**
+     * 获取可用的instypes
+     */
+    static async addServer(params:any): Promise<InsType[]> {
+        const url = getHost() + AddServer;
         const result = await axios.post(url, params,{
             headers: getHeader()
         });
