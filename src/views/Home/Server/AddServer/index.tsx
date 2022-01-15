@@ -14,7 +14,7 @@ import Networking from './Networking';
 import { useState,useEffect } from 'react';
 import serverService from '@/service/serverService';
 import DataCenterService from '@/service/dataCenterService';
-import accoutService from '@/service/accountService';
+import AccountService from '@/service/accountService';
 import { amiInfo } from '@/components/Logic/CAmi';
 import { InsType } from './InstanceList';
 import { CSecOptInfo } from '@/components/Logic/CSecurityGroup/CSecOpt';
@@ -295,7 +295,7 @@ const AddServer = (): JSX.Element => {
     useEffect(()=>{
         DataCenterService.getSecgroup('Easyun').then((res) => changeSecgroups(res));
         DataCenterService.getSubnet('Easyun').then((res) => changeSubnets(res));
-        accoutService.getSSHKeys().then((res) => changeKeyPairs(res));
+        AccountService.getSSHKeys().then((res) => changeKeyPairs(res));
     }, []);
     return (
         <div>
