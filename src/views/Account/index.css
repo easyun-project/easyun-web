@@ -54,3 +54,7 @@
     color: #040404;
     font-weight: 800;
 }
+.item-row-box{
+    display: flex;
+    align-items: center;
+}

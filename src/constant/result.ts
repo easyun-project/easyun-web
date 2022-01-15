@@ -5,8 +5,8 @@ export interface Result<T> {
 }
 
 export const fail = async (): Promise<undefined> => {
-    return undefined
-}
+    return undefined;
+};
 
 
 export interface UserModel {
@@ -60,12 +60,25 @@ interface Subnet {
 interface Keypair {
     filename: string
 }
+export interface keyItem {
+  keyName: string;
+  pemUrl: string;
+}
+
 export interface AwsInfoModel {
-  role: string;
-  account_id: string;
-  aws_type: string;
+  awsInfo: {
+    accountID: string;
+    accountType: string;
+    role: string;
+  };
+  freeTier: {
+    atvDate: string;
+    enRemind: boolean;
+    icoStatus: string;
+  };
+  keyList: never[];
 }
 
 export interface EventLogListModel{
-    
+
 }

@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { CHeader } from '@/components/Logic/CHeader';
 import { CFooter } from '@/components/Logic/CFooter';
 import './index.css';
+import moment from 'moment';
+import _ from 'lodash';
 import {
     Row,
     Col,
@@ -12,22 +14,26 @@ import {
     Checkbox,
     DatePicker,
     message,
+    Switch,
 } from 'antd';
 import { Icon } from '@iconify/react';
 import accountService from '@/service/accountService';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 const Account = (): JSX.Element => {
+    const userState = useSelector((state: RootState) => {
+        return state.user.user;
+    });
     const [count, setCount] = useState(1);
     const [info, setInfo] = useState({
-        account_id: '',
-        aws_type: '',
-        role: '',
+        awsInfo: { accountID: '', accountType: '', role: '' },
+        freeTier: { atvDate: '', enRemind: false, icoStatus:'' },
+        keyList: [],
     });
     const getAwsInfo = async () => {
-        const res = await accountService.getAwsInfo();
+        const res = await accountService.getAwsInfo(userState?.token);
         setInfo({
-            account_id: res.detail.account_id,
-            aws_type: res.detail.aws_type,
-            role: res.detail.role,
+            ...res.detail
         });
     };
     useEffect(() => {
@@ -36,14 +42,22 @@ const Account = (): JSX.Element => {
     const onChange = (e) => {
         setCount(e.target.value);
     };
-    const [freeChecked, setFreeChecked] = useState(true);
-    const onChangeFree = (e) => {
-        setFreeChecked(e.target.checked);
+    const onChangeFree = (value) => {
+        const copy = _.cloneDeep(info);
+        copy.freeTier.enRemind = value;
+        setInfo({
+            ...copy,
+        });
     };
-    const [activationData, setActivationData] = useState('');
+    // const [activationData, setActivationData] = useState('');
     const onChangeActivationData = (date, dateString) => {
-        console.log(date, dateString);
-        setActivationData(dateString);
+        console.log(info, dateString);
+        const copy = _.cloneDeep(info);
+        copy.freeTier.atvDate = dateString;
+        setInfo({
+            ...copy,
+        });
+        //setActivationData(dateString);
     };
     const openMangerAwsProfile = () => {
         const url = 'https://console.aws.amazon.com/billing/home/?region=us-east-1#/account';
@@ -77,23 +91,9 @@ const Account = (): JSX.Element => {
                 <Col span={12}>
                     <div>
                         <div className="color-black-weight800">
-              Account ID:{info.account_id}[{info.aws_type}]
+                Account ID:{info.awsInfo.accountID}[{info.awsInfo.accountType}]
                         </div>
-                        <div>sercurity-credentials: {info.role}</div>
-                    </div>
-                </Col>
-
-                <Col span={12}>
-                    <div>
-                        <div>
-                            <Checkbox checked={freeChecked} onChange={onChangeFree}>
-                Free Tier Reminder
-                            </Checkbox>
-                        </div>
-                        <div>
-              Activation data:{' '}
-                            <DatePicker size="small" onChange={onChangeActivationData} />
-                        </div>
+                        <div>sercurity-credentials: {info.awsInfo.role}</div>
                     </div>
                 </Col>
             </Row>
@@ -116,28 +116,66 @@ const Account = (): JSX.Element => {
                         <li>Nofification contacts</li>
                     </ul>
                     <Row>
-                        <Col span={12}>Email notification are supported in AWS Regions</Col>
                         <Col span={12}>
-              SMS(text message) notifications are supported in AWS Regions Where
-              the Amazon Simple Notification Service is available.
+                Email notification are supported in AWS Regions
+                        </Col>
+                        <Col span={12}>
+                SMS(text message) notifications are supported in AWS Regions
+                Where the Amazon Simple Notification Service is available.
                         </Col>
                     </Row>
                     <Row className="yellow-text-color">
                         <Col span={12}>
                             <div onClick={addEmail} className="flex-align-center">
                                 <Icon icon="fluent:add-12-filled" fr={undefined} />
-                Add email address
+                  Add email address
                             </div>
                         </Col>
                         <Col span={12} className="flex-align-center">
                             <div onClick={addSMS} className="flex-align-center">
                                 <Icon icon="fluent:add-12-filled" fr={undefined} />
-                Add SMS number
+                  Add SMS number
                             </div>
                         </Col>
                     </Row>
                 </Card>
-                <Card className="card-item" title="SSH keys" style={{ width: '100%' }}>
+                <Card
+                    className="card-item"
+                    title="Reminder"
+                    style={{ width: '100%' }}
+                >
+                    <Col span={12}>
+                        <div>
+                            <div className="flex-center">
+                                <div className="margin-right-10">
+                                    <Switch
+                                        checked={info.freeTier.enRemind}
+                                        onChange={onChangeFree}
+                                    ></Switch>
+                                </div>
+                                <div>Free Tier Reminder</div>
+                            </div>
+                            <div className="flex-center">
+                                <div className="margin-right-10">Activation data:</div>
+                                <DatePicker
+                                    format="YYYY-MM-DD"
+                                    value={
+                                        info.freeTier.atvDate
+                                            ? moment(info.freeTier.atvDate, 'YYYY-MM-DD')
+                                            : undefined
+                                    }
+                                    size="small"
+                                    onChange={onChangeActivationData}
+                                />
+                            </div>
+                        </div>
+                    </Col>
+                </Card>
+                <Card
+                    className="card-item"
+                    title="SSH keys"
+                    style={{ width: '100%' }}
+                >
                     <div className="flex-align-center yellow-text-color">
                         <div
                             className="text-icon-box margin-right-10"
@@ -153,54 +191,36 @@ const Account = (): JSX.Element => {
                     </div>
                     <Radio.Group onChange={onChange} value={count}>
                         <Space direction="vertical">
-                            <Radio value={1}>
-                                <div className="sshkey-radio-row">
-                                    <div>key-easyun-user</div>
-                                    <div className="flex-center">
-                                        <div
-                                            className="text-icon-box margin-right-10"
-                                            onClick={downloadSSHItem}
-                                        >
-                                            <div>Download</div>
-                                            <Icon
-                                                icon="ant-design:download-outlined"
-                                                fr={undefined}
-                                            />
+                            {info.keyList.map((item, index) => {
+                                return (
+                                    <Radio value={index} key={index}>
+                                        <div className="sshkey-radio-row">
+                                            <div>{item.keyName}</div>
+                                            <div className="flex-center">
+                                                <div
+                                                    className="text-icon-box margin-right-10"
+                                                    onClick={downloadSSHItem}
+                                                >
+                                                    <div>Download</div>
+                                                    <Icon
+                                                        icon="ant-design:download-outlined"
+                                                        fr={undefined}
+                                                    />
+                                                </div>
+                                                <Icon
+                                                    className="text-icon-box"
+                                                    icon="fluent:delete-off-20-regular"
+                                                    fr={undefined}
+                                                />
+                                            </div>
                                         </div>
-                                        <Icon
-                                            className="text-icon-box"
-                                            icon="fluent:delete-off-20-regular"
-                                            fr={undefined}
-                                        />
-                                    </div>
-                                </div>
-                            </Radio>
-                            <Radio value={2}>
-                                <div className="sshkey-radio-row">
-                                    <div>key-easyun-dev</div>
-                                    <div className="flex-center">
-                                        <div
-                                            className="text-icon-box margin-right-10"
-                                            onClick={downloadSSHItem}
-                                        >
-                                            <div>Download</div>
-                                            <Icon
-                                                icon="ant-design:download-outlined"
-                                                fr={undefined}
-                                            />
-                                        </div>
-                                        <Icon
-                                            className="text-icon-box"
-                                            icon="fluent:delete-off-20-regular"
-                                            fr={undefined}
-                                        />
-                                    </div>
-                                </div>
-                            </Radio>
+                                    </Radio>
+                                );
+                            })}
                         </Space>
                     </Radio.Group>
                     <div className="margin-top-10 color-gray">
-            you can store up to 100 keys per AWS Region.
+              you can store up to 100 keys per AWS Region.
                     </div>
                 </Card>
                 <Card
@@ -209,8 +229,8 @@ const Account = (): JSX.Element => {
                     style={{ width: '100%' }}
                 >
                     <div className="color-gray">
-            if you want to use AWS API. you must create API access keys setion
-            of the AWS console.
+              if you want to use AWS API. you must create API access keys setion
+              of the AWS console.
                     </div>
                     <div>
                         <ul className="list-style-disc">
