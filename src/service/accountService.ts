@@ -5,7 +5,7 @@ import { Result } from '@/constant/result';
 import { getHeader, getHost } from '@/utils/api';
 import { KeyInfo } from '@/views/Home/Server/AddServer/SSHkeys';
 
-export default class accoutService {
+export default class AccountService {
     static async getAwsInfo(): Promise<Result<AwsInfoModel>> {
         const url = getHost() + AwsInfo;
         const header = getHeader();
