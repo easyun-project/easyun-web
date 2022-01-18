@@ -16,8 +16,8 @@ const initialState: ServerState = {
 
 export const getServerList = createAsyncThunk(
     'server/getServerList',
-    async (token: string) => {
-        return await serverService.getServerList(token);
+    async () => {
+        return await serverService.getServerList();
     }
 );
 

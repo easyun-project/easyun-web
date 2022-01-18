@@ -1,4 +1,5 @@
 export interface ServerModel {
+    key?:string
     ebs: number,
     ins_type: string,
     os: string,

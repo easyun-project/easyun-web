@@ -32,7 +32,7 @@ const DataCenter = (): JSX.Element => {
     // 创建数据中心
     const createDateCenter = async (params: CreateDataCenterParams) => {
         if (userState) {
-            const created = await dataCenterService.createDataCenter(userState!.token, params);
+            const created = await dataCenterService.createDataCenter(params);
             if (created) {
                 navigate('/home');
                 return;

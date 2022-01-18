@@ -26,8 +26,7 @@ interface DiskProps {
 
 const DiskConfiguration = (props:DiskProps) :JSX.Element=>{
     const { Option } = Select;
-    const { disks } = props;
-    const { disk, changeDisks,index } = props;
+    const { disks, disk, changeDisks,index } = props;
     const [diskType, changeDiskType] = useState('Standard');
     const [encryption, changeEncryption] = useState(true);
     const [volumnSize, changeVolumnSize] = useState(8);

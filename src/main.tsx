@@ -33,15 +33,10 @@ const AppRouter = (): JSX.Element => {
             <Route path="dataCenter" element={<DataCenter />} />
             <Route path="home/*" element={<Home />} />
             <Route path="dashboard" element={<Dashboard />} />
-            {/* <Route index element={<Resource />} />
-                 <Route path="storage" element={<Storage />} />
-                <Route path="addServer" element={<AddServer />} />
-                <Route path="server/:serverId" element={<ServerDetail />} />
-                <Route path="addBucket" element={<AddBucket />} />
-                <Route path="addDisk" element={<AddDisk />} /> */}
-            <Route path="404" element={<NotFound />} />
+            {/* <Route path="404" element={<NotFound />} /> */}
             <Route path="account" element={<Account />} />
             <Route path="event" element={<Event />} />
+            <Route path="*" element={<NotFound />} />
         </Routes>
         <CFooter />
     </>);

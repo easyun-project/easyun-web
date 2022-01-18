@@ -26,7 +26,7 @@ const LoginPage = (): JSX.Element => {
         const loginRes = await userService.login<UserModel | undefined>(username, password);
         if (loginRes) {
             dispatch(userAction(loginRes));
-            navigate('/home');
+            navigate('/home/server');
         }
     };
 
