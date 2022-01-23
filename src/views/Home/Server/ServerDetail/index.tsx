@@ -11,6 +11,7 @@ import { ServerDetailParams } from '@/service/serverService';
 import { CPartialLoading } from '@/components/Common/CPartialLoading';
 import Detail from './Detail';
 import Disk from './Disk';
+import Security from './Security';
 
 
 
@@ -117,6 +118,7 @@ export const ServerDetail = ():JSX.Element => {
                 </TabPane>
 
                 <TabPane tab="Security" key="Security">
+                    <Security/>
                 </TabPane>
 
                 <TabPane tab="Tags" key="Tags">

@@ -2,12 +2,17 @@ import React from 'react';
 import { Card,Space,Radio,message } from 'antd';
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
+import { TablePaginationConfig } from 'antd';
 
 
 export interface KeyInfo {
     keyName: string
     pemUrl:string
 }
+
+
+const s = { page: false as object };
+
 
 interface SSHkeysProps {
     keyPairs: KeyInfo[]

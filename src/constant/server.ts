@@ -1,15 +1,15 @@
 export interface ServerModel {
     key?:string
-    ebs: number,
-    ins_type: string,
-    os: string,
-    pub_ip: string,
-    ram: number,
-    rg_az: string,
-    svr_id: string,
-    svr_name: string,
-    svr_state: string,
-    vcpu: number,
+    azName: string
+    ebsSize: number
+    insType: string
+    osName: string
+    pubIp: string
+    ramSize: number
+    svrId: string
+    svrName: string
+    svrState: string
+    vpuNumb: number
 }
 
 
