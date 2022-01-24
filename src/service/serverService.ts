@@ -31,8 +31,9 @@ export default class serverService {
     static async getServerList(): Promise<ServerModel[]> {
         const url = getHost() + ServerList;
         const result = await axios.get(url, {
-            headers: getHeader()
-        });
+            headers: getHeader(),
+            params:{ dc:'Easyun' }
+        },);
         if (result.status == 200) {
             return result.data.detail as ServerModel[];
         }
