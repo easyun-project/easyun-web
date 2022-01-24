@@ -16,6 +16,8 @@ import bucketManage from '@/service/addBucket';
 import { UserModel } from '@/constant/user';
 
 
+import stbucket from '@@/src/assets/images/stbucket.png';
+import stdisk from '@@/src/assets/images/stdisk.png';
 
 const WithoutStorage = (): JSX.Element => {
     const navigate = useNavigate();
@@ -40,7 +42,7 @@ const WithoutStorage = (): JSX.Element => {
                     )}
                 >
                     <img
-                        src="../src/assets/images/stbucket.png"
+                        src={ stbucket }
                         alt="stbucket.png"
                         className={classnames('w-40', 'h-40')}
                     />
@@ -94,7 +96,7 @@ const WithoutStorage = (): JSX.Element => {
                     )}
                 >
                     <img
-                        src="../src/assets/images/stdisk.png"
+                        src={ stdisk }
                         alt="stdisk.png"
                         className={classnames('w-40', 'h-40')}
                     />
