@@ -59,8 +59,8 @@ export const CHeader = (): JSX.Element => {
     // const content = classnames('ml-6', 'flex-none', 'cursor-pointer');
     return (
         <div className={classnames('flex','flex-row','items-center','bg-gray-600','text-white','text-3xl','p-2')}>
-            <span className={classnames('mx-6','cursor-pointer')} onClick={() => navigate('/home/server')}>
-        Easyun
+            <span className={classnames('mx-6','cursor-pointer','flex')} onClick={() => navigate('/home/server')}>
+                <img src="../src/assets/images/logo_easyun/logo_easyun03.svg" alt="logo_easyun03.svg" width='150'/>
             </span>
             {/* <Dropdown overlay={menu} className={classnames('ml-32')}>
                 <span>
