@@ -12,6 +12,7 @@ import { CPartialLoading } from '@/components/Common/CPartialLoading';
 import Detail from './Detail';
 import Disk from './Disk';
 import Security from './Security';
+import Connect from './Connect';
 
 
 
@@ -125,6 +126,7 @@ export const ServerDetail = ():JSX.Element => {
                 </TabPane>
 
                 <TabPane tab="Connect" key="Connect">
+                    <Connect />
                 </TabPane>
             </Tabs>
 

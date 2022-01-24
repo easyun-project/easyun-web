@@ -26,6 +26,7 @@ import { CHeader } from './components/Logic/CHeader';
 import { CFooter } from './components/Logic/CFooter';
 import { Home } from '@/views/Home';
 
+
 const AppRouter = (): JSX.Element => {
     return(<>
         <CHeader/>

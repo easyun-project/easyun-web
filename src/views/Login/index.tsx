@@ -13,6 +13,8 @@ import { useDispatch } from 'react-redux';
 import { userAction } from '@/redux/userSlice';
 import { UserModel } from '@/constant/user';
 
+import logo3 from '@@/src/assets/images/logo_easyun/logo_easyun03.svg';
+
 const LoginPage = (): JSX.Element => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -60,7 +62,7 @@ const LoginPage = (): JSX.Element => {
         <div>
             <div className={classnames('flex', 'flex-row',  'items-center', 'bg-gray-600')}>
                 <div className={classnames('flex-grow','ml-10')}>
-                    <img src="../src/assets/images/logo_easyun/logo_easyun03.svg" alt="logo_easyun03.svg" width='150' />
+                    <img src={ logo3 } alt="logo_easyun03.svg" width='150' />
                 </div>
                 <span onClick={showModal} className={classnames('float-right', 'mr-10', 'cursor-pointer')}>
                     <Icon className={classnames('ml-10', 'inline-block')} icon="ant-design:setting-filled"
