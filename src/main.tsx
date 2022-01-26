@@ -35,7 +35,7 @@ const AppRouter = (): JSX.Element => {
             <Route path="home/*" element={<Home />} />
             <Route path="dashboard" element={<Dashboard />} />
             {/* <Route path="404" element={<NotFound />} /> */}
-            <Route path="account" element={<Account />} />
+            <Route path="account/*" element={<Account />} />
             <Route path="event" element={<Event />} />
             <Route path="*" element={<NotFound />} />
         </Routes>

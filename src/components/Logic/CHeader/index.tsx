@@ -73,7 +73,7 @@ export const CHeader = (): JSX.Element => {
                 <Menu.Item key="home/server">Home</Menu.Item>
                 <Menu.Item key="dashboard">Dashboard</Menu.Item>
                 <Menu.Item key="event">Event</Menu.Item>
-                <Menu.Item key="account">Account</Menu.Item>
+                <Menu.Item key="account/profile">Account</Menu.Item>
             </Menu>
             <div
                 className={classnames(
