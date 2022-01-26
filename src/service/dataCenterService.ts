@@ -1,4 +1,4 @@
-import { CreateDataCenter, DataCenterAll, DataCenterDefault } from '@/constant/apiConst';
+import { CreateDataCenter, DataCenterAll, DataCenterDefault,GetSecgroup,GetSubnet } from '@/constant/apiConst';
 import axios from 'redaxios';
 import { getHeader, getHost } from '@/utils/api';
 import { DataCenterModel, DefaultDataCenterModel } from '@/constant/dataCenter';
@@ -21,10 +21,10 @@ export default class DataCenterService {
     /**
      * 获取数据中心默认参数
      */
-    static async getDefault(token): Promise<DefaultDataCenterModel | undefined> {
+    static async getDefault(): Promise<DefaultDataCenterModel | undefined> {
         const url = getHost() + DataCenterDefault;
         const result = await axios.get(url, {
-            headers: getHeader(token)
+            headers: getHeader()
         });
         if (result.status == 200) {
             return result.data.detail as DefaultDataCenterModel;
@@ -37,10 +37,10 @@ export default class DataCenterService {
      * @param token
      * @param params
      */
-    static async createDataCenter(token: string, params: CreateDataCenterParams): Promise<boolean> {
+    static async createDataCenter(params: CreateDataCenterParams): Promise<boolean> {
         const url = getHost() + CreateDataCenter;
         const result = await axios.post(url, params, {
-            headers: getHeader(token)
+            headers: getHeader()
         });
         if (result.status == 200) {
             return result.data.detail;
@@ -51,13 +51,41 @@ export default class DataCenterService {
     /**
      * 获取dataCenter
      */
-    static async getDataCenter(token): Promise<DataCenterModel | undefined> {
+    static async getDataCenter(): Promise<DataCenterModel | undefined> {
         const url = getHost() + DataCenterAll;
         const result = await axios.get(url, {
-            headers: getHeader(token)
+            headers: getHeader()
         });
         if (result.status == 200) {
             return result.data.detail as DataCenterModel;
+        }
+        return undefined;
+    }
+
+    /**
+     * 获取subnet
+     */
+    static async getSubnet(dcName:string):Promise<any>{
+        const url = getHost() + GetSubnet + dcName;
+        const result = await axios.get(url, {
+            headers: getHeader()
+        });
+        if (result.status == 200) {
+            return result.data.detail;
+        }
+        return undefined;
+    }
+
+    /**
+     * 获取secgroup安全组
+     */
+    static async getSecgroup(dcName:string):Promise<any>{
+        const url = getHost() + GetSecgroup + dcName;
+        const result = await axios.get(url, {
+            headers: getHeader()
+        });
+        if (result.status == 200) {
+            return result.data.detail;
         }
         return undefined;
     }

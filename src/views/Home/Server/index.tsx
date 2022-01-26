@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { NoResource, ResourceTable } from '@/views/home';
+import { NoResource, ResourceTable } from '@/views/Home';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { getServerList } from '@/redux/serverSlice';
@@ -14,24 +14,24 @@ import { DownOutlined } from '@ant-design/icons';
 export const serverColumns = [
     {
         title: 'Instance ID',
-        dataIndex: 'svr_id',
-        key: 'svr_id',
-        render: text => <Link
-            to={`server/${text}`}
+        dataIndex: 'svrId',
+        key: 'svrId',
+        render: (text:string):React.ReactNode => <Link
+            to={`${text}`}
             className={classnames('text-blue-500', 'underline')}>
             {text}
         </Link>
     },
     {
         title: 'Name(tag)',
-        dataIndex: 'svr_name',
-        key: 'svr_name',
+        dataIndex: 'svrName',
+        key: 'svrName',
     },
     {
         title: 'Instance state',
-        dataIndex: 'svr_state',
-        key: 'svr_state',
-        render: text => {
+        dataIndex: 'svrState',
+        key: 'svrState',
+        render: (text:string):React.ReactNode => {
             if (text === 'running') {
                 return <span className={classnames('text-green-400')}>{text}</span>;
             } else if (text === 'stopped') {
@@ -41,40 +41,40 @@ export const serverColumns = [
     },
     {
         title: 'Instance type',
-        dataIndex: 'ins_type',
-        key: 'ins_type',
+        dataIndex: 'insType',
+        key: 'insType',
     },
     {
         title: 'vCPU',
-        dataIndex: 'vcpu',
-        key: 'vcpu',
+        dataIndex: 'vpuNumb',
+        key: 'vpuNumb',
     },
     {
         title: 'RAM',
-        dataIndex: 'ram',
-        key: 'ram',
-        render: text => <span>{text}GiB</span>,
+        dataIndex: 'ramSize',
+        key: 'ramSize',
+        render: (text:string):React.ReactNode => <span>{text}GiB</span>,
     },
     {
         title: 'Storage(EBS)',
-        dataIndex: 'ebs',
-        key: 'ebs',
-        render: text => <span>{text}GB</span>,
+        dataIndex: 'ebsSize',
+        key: 'ebsSize',
+        render: (text:string):React.ReactNode => <span>{text}GB</span>,
     },
     {
         title: 'OS',
-        dataIndex: 'os',
-        key: 'os',
+        dataIndex: 'osName',
+        key: 'osName',
     },
     {
         title: 'Region & AZ',
-        dataIndex: 'rg_az',
-        key: 'rg_az',
+        dataIndex: 'azName',
+        key: 'azName',
     },
     {
         title: 'Public IPv4',
-        dataIndex: 'pub_ip',
-        key: 'pub_ip',
+        dataIndex: 'pubIp',
+        key: 'pubIp',
     },
 ];
 
@@ -118,11 +118,11 @@ const modifyMenu = () => {
             </Menu>
         ));
 };
-export const ServerList = () => {
+export const ServerList = ():JSX.Element => {
     const navigate = useNavigate();
-    const userState = useSelector((state: RootState) => {
-        return state.user.user;
-    });
+    // const userState = useSelector((state: RootState) => {
+    //     return state.user.user;
+    // });
 
     const serverState = useSelector((state: RootState) => {
         return state.server;
@@ -130,12 +130,11 @@ export const ServerList = () => {
 
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getServerList(userState!.token));
+        dispatch(getServerList());
     }, [dispatch]);
 
     const serverDataSource = serverState.servers;
-    console.log(serverState);
-
+    const newServerDataSource = serverDataSource.map((item)=> ({ ...item, 'key':item.svrId }));
 
     if (serverState.loading) {
         return (
@@ -161,7 +160,7 @@ export const ServerList = () => {
                         Add Server
                     </CButton>
                 </div>
-                <ResourceTable dataSource={serverDataSource} columns={serverColumns}/>
+                <ResourceTable dataSource={newServerDataSource} columns={serverColumns}/>
                 {/*<ServerDetail server={serverDataSource[1]}/>*/}
             </>
         );

@@ -61,15 +61,17 @@ export const CTable = (props: PropsType): JSX.Element => {
             {isShowTitle ? <div className={classnames('p-4', 'border-b', 'w-auto')}>{title}</div> : null}
             <div>
                 <table className={classnames('table', 'w-full', 'border-collapse')}>
-                    {isShowTableHeader ? (
-                        <thead className={`${classnames('table-row-group')} ${tabelRowTitleClassNames}`}>
-                            {tableTitle.map((row, index) => (
-                                <th key={index} className={classnames('font-medium', 'text-sm', 'tracking-wide', 'table-cell', 'border-b', 'border-gray-200', 'p-4', 'text-left', 'text-gray-600')}>
-                                    {row}
-                                </th>
-                            ))}
-                        </thead>
-                    ) : null}
+                    {isShowTableHeader
+                        ? (
+                            <thead className={`${classnames('table-row-group')} ${tabelRowTitleClassNames}`}>
+                                {tableTitle.map((row, index) => (
+                                    <th key={index} className={classnames('font-medium', 'text-sm', 'tracking-wide', 'table-cell', 'border-b', 'border-gray-200', 'p-4', 'text-left', 'text-gray-600')}>
+                                        {row}
+                                    </th>
+                                ))}
+                            </thead>
+                        )
+                        : null}
                     <tbody className={classnames('table-row-group')}>
                         {data.map((row, index) => (
                             <tr key={index} className={classnames('table-row', 'align-middle', 'outline-none')}>

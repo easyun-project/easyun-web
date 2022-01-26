@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { Menu } from 'antd';
 import { useState } from 'react';
 
+import logo3 from '@@/src/assets/images/logo_easyun/logo_easyun03.svg';
+
 // const menu = () => {
 //     // const navigate = useNavigate();
 //     const handleMenuClick = (e) => {
@@ -59,8 +61,8 @@ export const CHeader = (): JSX.Element => {
     // const content = classnames('ml-6', 'flex-none', 'cursor-pointer');
     return (
         <div className={classnames('flex','flex-row','items-center','bg-gray-600','text-white','text-3xl','p-2')}>
-            <span className={classnames('mx-6','cursor-pointer')} onClick={() => navigate('/home')}>
-        Easyun
+            <span className={classnames('mx-6','cursor-pointer','flex')} onClick={() => navigate('/home/server')}>
+                <img src={ logo3 } alt="logo_easyun03.svg" width='150'/>
             </span>
             {/* <Dropdown overlay={menu} className={classnames('ml-32')}>
                 <span>
@@ -68,10 +70,10 @@ export const CHeader = (): JSX.Element => {
                 </span>
             </Dropdown> */}
             <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" className={classnames('w-1/3', 'bg-gray-600','text-white','text-xl')}>
-                <Menu.Item key="Home">Home</Menu.Item>
-                <Menu.Item key="Dashboard">Dashboard</Menu.Item>
-                <Menu.Item key="Event">Event</Menu.Item>
-                <Menu.Item key="Account">Account</Menu.Item>
+                <Menu.Item key="home/server">Home</Menu.Item>
+                <Menu.Item key="dashboard">Dashboard</Menu.Item>
+                <Menu.Item key="event">Event</Menu.Item>
+                <Menu.Item key="account">Account</Menu.Item>
             </Menu>
             <div
                 className={classnames(
