@@ -10,7 +10,6 @@ import store, { persist } from '@/redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 
 //样式
-import 'antd/dist/antd.css';
 import 'antd/dist/antd.less';//原有是antd.css  只需要改为less就可以啦
 import '@/assets/styles/index.css';
 import '@/i18n';
@@ -27,6 +26,7 @@ import { CHeader } from './components/Logic/CHeader';
 import { CFooter } from './components/Logic/CFooter';
 import { Home } from '@/views/Home';
 
+
 const AppRouter = (): JSX.Element => {
     return(<>
         <CHeader/>
@@ -34,15 +34,10 @@ const AppRouter = (): JSX.Element => {
             <Route path="dataCenter" element={<DataCenter />} />
             <Route path="home/*" element={<Home />} />
             <Route path="dashboard" element={<Dashboard />} />
-            {/* <Route index element={<Resource />} />
-                 <Route path="storage" element={<Storage />} />
-                <Route path="addServer" element={<AddServer />} />
-                <Route path="server/:serverId" element={<ServerDetail />} />
-                <Route path="addBucket" element={<AddBucket />} />
-                <Route path="addDisk" element={<AddDisk />} /> */}
-            <Route path="404" element={<NotFound />} />
+            {/* <Route path="404" element={<NotFound />} /> */}
             <Route path="account" element={<Account />} />
             <Route path="event" element={<Event />} />
+            <Route path="*" element={<NotFound />} />
         </Routes>
         <CFooter />
     </>);

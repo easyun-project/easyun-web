@@ -20,9 +20,10 @@ export const CSubnet = (props: Props): JSX.Element => {
     return (
         <div className={classnames(classes, 'mx-3', 'my-2')}>
             {
-                props.isPublic ? <Icon className={classnames('relative', 'float-right', 'text-transparent')}
-                    width="25" height="25"
-                    icon="ant-design:lock-outlined" fr={undefined}/> :
+                props.isPublic ?
+                    <Icon className={classnames('relative', 'float-right', 'text-transparent')}
+                        width="25" height="25"
+                        icon="ant-design:lock-outlined" fr={undefined}/> :
                     <Icon className={classnames('relative', 'top-0', 'right-0', 'float-right')}
                         icon="ant-design:lock-outlined"
                         width="25" height="25"

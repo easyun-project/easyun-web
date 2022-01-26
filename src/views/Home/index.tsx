@@ -1,17 +1,29 @@
+//react 相关
 import * as React from 'react';
 import { useState } from 'react';
+import { Route } from 'react-router';
 import { Routes, useNavigate } from 'react-router-dom';
+
+//redux相关
+// import { useSelector } from 'react-redux';
+// import { RootState } from '@/redux/store';
+
+//UI 相关
 import { Menu, Table } from 'antd';
 import { classnames } from '@@/tailwindcss-classnames';
 import { CButton } from '@/components/Common/CButton';
+
+//数据模型
 import { ServerModel } from '@/constant/server';
-import { Route } from 'react-router';
+
+//视图与组件
 import AddServer from '@/views/Home/Server/AddServer';
 import AddBucket from '@/views/Home/Storage/AddBucket';
+import AddDisk from '@/views/Home/Storage/AddDisk';
+import NotFound from '../NotFound';
 import { ServerList } from '@/views/Home/Server';
 import { ServerDetail } from '@/views/Home/Server/ServerDetail';
 import { StoragePage } from '@/views/Home/Storage/index';
-import AddDisk from '@/views/Home/Storage/AddDisk';
 
 
 interface NotDataProps {
@@ -22,7 +34,7 @@ interface NotDataProps {
 }
 
 
-export const NoResource = (props: NotDataProps) => {
+export const NoResource = (props: NotDataProps):JSX.Element => {
     const navigate = useNavigate();
 
     return (
@@ -45,11 +57,11 @@ export const NoResource = (props: NotDataProps) => {
 
 
 interface TableProps {
-    dataSource: ServerModel[] | undefined | object[];
-    columns: object[]
+    dataSource: ServerModel[] | undefined | any[];
+    columns: any[]
 }
 
-export const ResourceTable = (props: TableProps) => {
+export const ResourceTable = (props: TableProps):JSX.Element => {
     return (
         <Table bordered={true} dataSource={props.dataSource} columns={props.columns}/>
     );
@@ -66,7 +78,6 @@ export const Home = (): JSX.Element => {
     return (
         <>
             <div>
-                {/* <CHeader/> */}
                 <div className={classnames('ml-3','min-h-screen')}>
                     <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" >
                         <Menu.Item key="server">Server</Menu.Item>
@@ -77,11 +88,11 @@ export const Home = (): JSX.Element => {
                         <Menu.Item key="backups">Backups</Menu.Item>
                     </Menu>
                     <Routes>
-                        <Route path="/" element={<ServerList/>} />
-                        <Route path="server" element={<ServerList/>} />
+                        <Route path="server/:serverId" element={<ServerDetail />} />
+                        <Route path="server" element={<ServerList/>}>
+                        </Route>
                         <Route path="storage" element={<StoragePage />} />
                         <Route path="addServer" element={<AddServer />} />
-                        <Route path="server/:serverId" element={<ServerDetail />} />
                         <Route path="addBucket" element={<AddBucket />} />
                         <Route path="addDisk" element={<AddDisk />} />
                         <Route path="databases" element={<NoResource resourceName={'databases'} buttonName={'Add Databases'}
@@ -89,8 +100,9 @@ export const Home = (): JSX.Element => {
                         <Route path="networking" element={<NoResource resourceName={'networking'} buttonName={'Add Networking'}
                             routePath={'/AddNetworking'}/>} />
                         <Route path="containers" element={<NoResource resourceName={'containers'} buttonName={'Add Container'}
-                            routePath={'/AddContainer'}/>} />
+                            routePath={'/AddContainer'}/>   } />
                         <Route path="backups" element={<NoResource resourceName={'backups'} buttonName={'Add Backup'} routePath={'/AddBackup'}/>} />
+                        <Route path="*" element={<NotFound />} />
                     </Routes >
                     {/* <Tabs defaultActiveKey="1">
                         <TabPane tab="Server" key="Server">
