@@ -26,7 +26,7 @@ const Account = (): JSX.Element => {
         return state.user.user;
     });
     const getAwsInfo = async () => {
-        const res = await accountService.getAwsInfo(userState.token);
+        const res = await accountService.getAwsInfo();
         setInfo({
             account_id: res.detail.account_id,
             aws_type: res.detail.aws_type,
