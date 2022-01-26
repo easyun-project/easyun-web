@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 
 import bucketManage from '@/service/addBucket';
+import { BucketInfo } from '@/constant/bucketInfo';
 
 const AddBucket = (): JSX.Element => {
     const defaultBucketName = 'bucket-easyun-test' + parseInt(Math.random() * 900 + 100 + '', 10);
@@ -219,20 +220,20 @@ const AddBucket = (): JSX.Element => {
                         'my-5'
                     )}
                     click={async () => {
-                        await bucketManage
-                            .addBucket({
-                                bucketName,
-                                versioningConfiguration: versioningConfiguration ? 'Enabled' : 'Suspended',
-                                bucketEncryption: bucketEncryption.toString(),
-                                region,
-                            },userState?.token)
-                            .then(() => {
-                                alert('创建成功');
-                            })
-                            .then(() => {
-                                navigate('/home/storage');
-                            });
-                    }}
+                        const bucketInfo = {
+                            bucketName: bucketName,
+                            versioningConfiguration: versioningConfiguration ? 'Enabled' : 'Suspended',
+                            bucketEncryption: bucketEncryption.toString(),
+                            region: region,
+                        };
+                        const data = await bucketManage
+                            .addBucket<BucketInfo>(bucketInfo);
+                        if (data) {
+                            alert('创建成功');
+                            navigate('/home/storage');
+                        }
+                    }
+                    }
                 >
           Create
                 </CButton>

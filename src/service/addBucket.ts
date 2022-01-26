@@ -1,11 +1,12 @@
 import { getHeader, getHost } from '@/utils/api';
-import { AddBucket,ListBucket,DeleteBucket } from '@/constant/apiConst';
+import { AddBucket, DeleteBucket, ListBucket } from '@/constant/apiConst';
 import { Result } from '@/constant/result';
 import axios from 'redaxios';
+import { BucketInfo } from '@/constant/bucketInfo';
 
 export default class bucketManage {
 
-    static async addBucket<T>(addBucketInfo:any): Promise<Result<T>> {
+    static async addBucket<T>(addBucketInfo:BucketInfo): Promise<Result<T>> {
         const url = getHost() + AddBucket;
         const result = await axios.post(url, addBucketInfo,{
             headers: getHeader()
