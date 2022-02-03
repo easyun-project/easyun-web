@@ -41,4 +41,5 @@ export const DeleteBucket = '/api/v1.0/storage/delete_bucket';
 
 
 // dashboard  面板 常量名以Dashboard开头
-
+export const DashBoardDatacenter = '/api/v1/dashboard/summary/datacenter';
+export const DashBoardHealth = '/api/v1/dashboard/summary/health';
