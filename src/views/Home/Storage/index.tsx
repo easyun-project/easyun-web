@@ -13,7 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { updateStorage } from '@/redux/storageSlice';
 import bucketManage from '@/service/addBucket';
-import { UserModel } from '@/constant/user';
+// import { UserModel } from '@/constant/user';
 
 import stbucket from '@@/src/assets/images/stbucket.png';
 import stdisk from '@@/src/assets/images/stdisk.png';

@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
-import { Input, Tooltip } from 'antd';
+import { Input } from 'antd';
 import { ArrowRightOutlined, TagOutlined } from '@ant-design/icons';
-import { userSlice } from '@/redux/userSlice';
 
 export default function Tags() {
     const [serverTags, changeServerTags] = useState<Record<string, string>>({ 'Env': 'Dev', 'Project': 'Blog' });
