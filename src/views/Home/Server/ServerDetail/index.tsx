@@ -14,6 +14,7 @@ import Disk from './Disk';
 import Security from './Security';
 import Connect from './Connect';
 import Network from './Network';
+import Tags from './Tags';
 
 
 
@@ -120,10 +121,11 @@ export const ServerDetail = ():JSX.Element => {
                 </TabPane>
 
                 <TabPane tab="Security" key="Security">
-                    <Security/>
+                    <Security />
                 </TabPane>
 
                 <TabPane tab="Tags" key="Tags">
+                    <Tags />
                 </TabPane>
 
                 <TabPane tab="Connect" key="Connect">

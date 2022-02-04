@@ -37,7 +37,7 @@ const CStorageCard = (props: StorageCardInfo): JSX.Element => {
                 key="delete"
                 onClick={async () => {
                     const res = await bucketManage
-                        .deleteBucket(Name, userState?.token)
+                        .deleteBucket(Name)
                         .then(
                             () => {alert('删除成功');
                                 dispatch(deleteStorage(Name));

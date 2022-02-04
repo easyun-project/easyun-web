@@ -4,6 +4,18 @@ import { useState } from 'react';
 import { Tooltip, Switch, Input, Select } from 'antd';
 import { QuestionCircleOutlined,CloseOutlined, CheckOutlined } from '@ant-design/icons';
 import { classnames } from '@@/tailwindcss-classnames';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+
+function ExistDisk(props) {
+    return (
+        <div className={classnames('rounded-border', 'w-96', 'm-2')}>
+            <span><Icon icon="icon-park-outline:solid-state-disk" width="64" fr={undefined} /> </span>
+            <div className={classnames('mx-3','flex-grow')}>disk</div>
+        </div>
+    );
+}
+
 
 
 export default function Disk():JSX.Element {
@@ -13,8 +25,15 @@ export default function Disk():JSX.Element {
     const [volumnIOPS, changeVolumnIOPS] = useState(3000);
     const [volumnThruputs, changeVolumnThruputs] = useState(125);
     const { Option } = Select;
+    const currentServerDisks = useSelector((state: RootState) => {
+        if (state.server.currentServer)
+        { return state.server.currentServer['BlockDeviceMappings']; }
+    });
+    console.log(currentServerDisks);
     return (
         <>
+            <div className={classnames('flex','flex-row','flex-wrap')}> {currentServerDisks.map((disk) => <ExistDisk key={ disk['DeviceName']}/>)}</div>
+
             <div className='flex flex-row items-center'>
                 <p>Block storage disk</p>
                 <Tooltip placement="topLeft" title={'text'}>
