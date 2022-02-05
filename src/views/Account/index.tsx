@@ -12,8 +12,8 @@ import {
 } from 'antd';
 import { Icon } from '@iconify/react';
 import accountService from '@/service/accountService';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
+// import { useSelector } from 'react-redux';
+// import { RootState } from '@/redux/store';
 
 const Account = (): JSX.Element => {
     const [count, setCount] = useState(1);
@@ -22,11 +22,11 @@ const Account = (): JSX.Element => {
         aws_type: '',
         role: '',
     });
-    const userState = useSelector((state: RootState) => {
-        return state.user.user;
-    });
+    // const userState = useSelector((state: RootState) => {
+    //     return state.user.user;
+    // });
     const getAwsInfo = async () => {
-        const res = await accountService.getAwsInfo(userState.token);
+        const res = await accountService.getAwsInfo();
         setInfo({
             account_id: res.detail.account_id,
             aws_type: res.detail.aws_type,
