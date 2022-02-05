@@ -14,15 +14,15 @@ export const updateDefaultDataCenterAction = (defaultDataCenter): { payload: Def
 
 export const getDataCenter = createAsyncThunk(
     'dataCenter/getDataCenter',
-    async (token: string) => {
-        return await DataCenterService.getDataCenter(token);
+    async () => {
+        return await DataCenterService.getDataCenter();
     }
 );
 
 export const getDefaultDataCenter = createAsyncThunk(
     'dataCenter/getDefaultDataCenter',
-    async (token: string) => {
-        return await DataCenterService.getDefault(token);
+    async () => {
+        return await DataCenterService.getDefault();
     }
 );
 
