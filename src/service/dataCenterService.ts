@@ -1,4 +1,4 @@
-import { CreateDataCenter, DataCenterAll, DataCenterDefault,GetSecgroup,GetSubnet } from '@/constant/apiConst';
+import { CreateDataCenter, DataCenterAll, DataCenterDefault,GetSecgroup,GetSubnet,DataCenterEip } from '@/constant/apiConst';
 import axios from 'redaxios';
 import { getHeader, getHost } from '@/utils/api';
 import { DataCenterModel, DefaultDataCenterModel } from '@/constant/dataCenter';
@@ -82,6 +82,20 @@ export default class DataCenterService {
     static async getSecgroup(dcName:string):Promise<any>{
         const url = getHost() + GetSecgroup + dcName;
         const result = await axios.get(url, {
+            headers: getHeader()
+        });
+        if (result.status == 200) {
+            return result.data.detail;
+        }
+        return undefined;
+    }
+
+    /**
+     * 添加eip
+     */
+    static async createEip(dcName:string):Promise<any>{
+        const url = getHost() + DataCenterEip;
+        const result = await axios.post(url, { dcName },{
             headers: getHeader()
         });
         if (result.status == 200) {

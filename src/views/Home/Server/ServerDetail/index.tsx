@@ -13,6 +13,8 @@ import Detail from './Detail';
 import Disk from './Disk';
 import Security from './Security';
 import Connect from './Connect';
+import Network from './Network';
+import Tags from './Tags';
 
 
 
@@ -22,9 +24,9 @@ const { TabPane } = Tabs;
 export const ServerDetail = ():JSX.Element => {
     const params = useParams();
     const serverId = params.serverId;
-    const userState = useSelector((state: RootState) => {
-        return state.user.user;
-    });
+    // const userState = useSelector((state: RootState) => {
+    //     return state.user.user;
+    // });
     const serverState = useSelector((state: RootState) => {
         return state.server;
     });
@@ -32,8 +34,7 @@ export const ServerDetail = ():JSX.Element => {
     const dispatch = useDispatch();
     useEffect(() => {
         const params: ServerDetailParams = {
-            serverId: serverId!,
-            token: userState!.token
+            serverId: serverId!
         };
         dispatch(getServerDetail(params));
     }, [dispatch]);
@@ -116,13 +117,15 @@ export const ServerDetail = ():JSX.Element => {
                 </TabPane>
 
                 <TabPane tab="Networking" key="Networking">
+                    <Network />
                 </TabPane>
 
                 <TabPane tab="Security" key="Security">
-                    <Security/>
+                    <Security />
                 </TabPane>
 
                 <TabPane tab="Tags" key="Tags">
+                    <Tags />
                 </TabPane>
 
                 <TabPane tab="Connect" key="Connect">
