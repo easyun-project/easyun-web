@@ -1,5 +1,5 @@
 import { getHeader, getHost } from '@/utils/api';
-import {DashBoardDatacenter, DashBoardHealth} from '@/constant/apiConst';
+import {DashBoardDatacenter, DashBoardGraphical, DashBoardHealth} from '@/constant/apiConst';
 import axios from 'redaxios';
 
 export default class dashboard {
@@ -23,6 +23,21 @@ export default class dashboard {
      */
     static async getHealth(){
         const url = getHost() + DashBoardHealth;
+        const result = await axios.get(url,{
+            headers: getHeader(),
+            params:{ dc:'Easyun' }
+        });
+        if (result.status == 200) {
+            return result.data.detail;
+        }
+        return undefined;
+    }
+
+    /**
+     * 获取全部资源Graphical看板 Summary
+     */
+    static async getGraphical(){
+        const url = getHost() + DashBoardGraphical;
         const result = await axios.get(url,{
             headers: getHeader(),
             params:{ dc:'Easyun' }

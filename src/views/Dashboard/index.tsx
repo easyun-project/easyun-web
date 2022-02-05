@@ -24,7 +24,6 @@ type HealthType = {
         url: string
     }>
 }
-
 type GraphicalType = {
     [key: string]: {
         showIcon?: boolean,
@@ -96,89 +95,220 @@ export const Dashboard = (props): JSX.Element => {
         alarms: { iaNum: 0, isNum: 0, okNum: 0 },
         dashboards: []
     });
-    const graphicalData: GraphicalType = {
-        Server: {
+    const [graphicalData, setGraphicalData] = useState<GraphicalType>({
+        server: {
             cardTitle: 'Sever Summary',
             showIcon: true,
             content: {
                 leftData: {
-                    value: '1111',
+                    key: 'sumNum',
+                    value: null,
                     unit: 'VM(S)'
                 },
                 rightData: [
                     {
+                        key: 'runNum',
                         icon: {
                             name: 'akar-icons:circle-fill',
                             color: '#92d050'
                         },
                         label: 'Running',
-                        value: 15
+                        value: null
                     },
                     {
+                        key: 'stopNum',
                         icon: {
                             name: 'akar-icons:circle-fill',
                             color: '#afabab'
                         },
                         label: 'Stop',
-                        value: 15
+                        value: null
                     },
                     {
+                        key: 'vcpuNum',
                         label: 'vCPU',
-                        value: 15
+                        value: null
                     },
                     {
+                        key: 'ramSize',
                         label: 'RAM',
-                        value: 15
+                        value: null
                     },
                 ]
             }
         },
-        Database: {
+        database: {
             cardTitle: 'Database Summary',
             content: {
                 leftData: {
-                    value: '7',
+                    key: 'sumNum',
+                    value: null,
                     unit: 'Instance(s)'
                 },
                 rightData: [
                     {
+                        key: 'mysqlNmb',
                         label: 'RDS MySQL',
-                        value: 3
+                        value: null
                     },
                     {
+                        key: 'mariaNum',
                         label: 'RDS MariaDB',
-                        value: 15
+                        value: null
+                    }, {
+                        key: 'postgreNum',
+                        label: 'RDS PostgresSQL',
+                        value: null
+                    }, {
+                        key: 'auroraNum',
+                        label: 'Aurora Provisioned',
+                        value: null
+                    }, {
+                        key: 'cacheNum',
+                        label: 'ElasticCache',
+                        value: null
                     },
                 ]
             }
         },
-        Network: {
+        network: {
             cardTitle: 'Network Summary',
             content: {
                 leftData: {
-                    value: '7',
+                    key: 'sumNum',
+                    value: null,
                     unit: 'Instance(s)'
                 },
                 rightData: [
                     {
-                        label: 'RDS MySQL',
-                        value: 3
+                        key: 'pubNum',
+                        label: 'Public subnet',
+                        value: null
                     },
                     {
-                        label: 'RDS MariaDB',
-                        value: 15
+                        key: 'priNum',
+                        label: 'Private subnet',
+                        value: null
+                    }, {
+                        key: 'igwNum',
+                        label: 'Internet Gateway',
+                        value: null
+                    }, {
+                        key: 'natNum',
+                        label: 'NAT Gateway',
+                        value: null
+                    }, {
+                        key: 'sgNum',
+                        label: 'Security Group',
+                        value: null
                     },
                 ]
             }
         },
-    };
+        st_object: {
+            cardTitle: 'Object Storage Summary',
+            content: {
+                leftData: {
+                    key: 'sumNum',
+                    value: null,
+                    unit: 'Instance(s)'
+                },
+                rightData: [
+                    {
+                        key: 'objSize',
+                        label: 'Total storage',
+                        value: null
+                    },
+                    {
+                        key: 'objNum',
+                        label: 'Object count',
+                        value: null
+                    }, {
+                        key: 'pubNum',
+                        label: 'Public Access',
+                        value: null
+                    }, {
+                        key: 'encNum',
+                        label: 'Encryption',
+                        value: null
+                    }
+                ]
+            }
+        },
+        st_block: {
+            cardTitle: 'Block Storage Summary',
+            content: {
+                leftData: {
+                    key: 'sumNum',
+                    value: null,
+                    unit: 'Instance(s)'
+                },
+                rightData: [
+                    {
+                        key: 'blcSize',
+                        label: 'Total Capacity',
+                        value: null
+                    },
+                    {
+                        key: 'useNum',
+                        label: 'In-use',
+                        value: null
+                    },
+                    {
+                        key: 'avaNum',
+                        label: 'Available',
+                        value: null
+                    },
+                    {
+                        key: 'encNum',
+                        label: 'Encryption',
+                        value: null
+                    },
+                ]
+            }
+        },
+        st_file: {
+            cardTitle: 'File Storage Summary',
+            content: {
+                leftData: {
+                    key: 'sumNum',
+                    value: null,
+                    unit: 'Instance(s)'
+                },
+                rightData: [
+                    {
+                        key: 'efsNum',
+                        label: 'EFS(Linux)',
+                        value: null
+                    },
+                    {
+                        key: 'efsSize',
+                        label: 'Total size',
+                        value: null
+                    }, {
+                        key: 'fsxNum',
+                        label: 'FSx(Windows)',
+                        value: null
+                    }, {
+                        key: 'fsxSize',
+                        label: 'Total size',
+                        value: null
+                    },
+                ]
+            }
+        },
+    });
 
 
     useEffect(() => {
         getDatacenter();
         getHealth();
+        getGraphical();
     }, []);
 
+    /**
+     * 获取首行数据 DataCenter
+     */
     const getDatacenter = () => {
         const temp = { ...tableList };
         dashboard.getDatacenter().then(res => {
@@ -187,9 +317,31 @@ export const Dashboard = (props): JSX.Element => {
         });
     };
 
+    /**
+     * 获取首行数据 Health
+     */
     const getHealth = () => {
         dashboard.getHealth().then(res => {
             setHealth(res);
+        });
+    };
+
+    const getGraphical = () => {
+        const temp = { ...graphicalData };
+        dashboard.getGraphical().then(res => {
+            res.forEach(item => {
+                const { leftData, rightData } = temp[item.type]['content'];
+                leftData.value = item.data.sumNum;
+                // 循环匹配对应的key值
+                Object.keys(item.data).map(dataItem => {
+                    rightData.map(rightItem => {
+                        if (rightItem.key === dataItem) {
+                            rightItem.value = item.data[dataItem];
+                        }
+                    });
+                });
+            });
+            setGraphicalData(temp);
         });
     };
 
@@ -213,21 +365,26 @@ export const Dashboard = (props): JSX.Element => {
                 <div className={classnames('text-lg')}>CloudWatch Dashboards(Favorite):</div>
                 <ul className="CloudWatch">
                     {health.dashboards.map((item, index) => (
-                        <li key={index}>
-                            <div className={classnames('flex','items-center')}>
+                        <li key={index} onClick={() => goView(item.url)}>
+                            <div className={classnames('py-1', 'text-blue-400')}>
+                                <span>{item.title}</span>
                                 <Icon
+                                    className={classnames('inline')}
                                     icon="akar-icons:link-out"
                                     width="20"
                                     height="20"
                                     fr={undefined}
                                 />
-                                <p>{item.title}</p>
                             </div>
                         </li>
                     ))}
                 </ul>
             </div>
         </div>;
+    };
+
+    const goView = (url) => {
+        window.location.href = url;
     };
 
     return (
@@ -237,8 +394,12 @@ export const Dashboard = (props): JSX.Element => {
                 <DashCard cardTitle={'healthy Summary'} content={healthyView()}/>
             </div>
             <div className={classnames('grid', 'grid-cols-3', 'gap-4')}>
-                <DashCard type='Graphical' {...graphicalData['Server']} />
-                <DashCard type='Graphical' {...graphicalData['Database']} />
+                <DashCard type='Graphical' {...graphicalData['server']} />
+                <DashCard type='Graphical' {...graphicalData['database']} />
+                <DashCard type='Graphical' {...graphicalData['network']} />
+                <DashCard type='Graphical' {...graphicalData['st_object']} />
+                <DashCard type='Graphical' {...graphicalData['st_block']} />
+                <DashCard type='Graphical' {...graphicalData['st_file']} />
             </div>
         </div>
     );
