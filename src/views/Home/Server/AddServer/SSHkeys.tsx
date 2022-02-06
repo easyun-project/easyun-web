@@ -6,8 +6,9 @@ import { TablePaginationConfig } from 'antd';
 
 
 export interface KeyInfo {
-    keyName: string
-    pemUrl:string
+  id: number;
+  key_name: string;
+  region: string;
 }
 
 

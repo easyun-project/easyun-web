@@ -1,9 +1,9 @@
-import { AwsInfo,GetSSHKeys } from '@/constant/apiConst';
+import { AwsInfo, SSHKeys, FreeTier } from '@/constant/apiConst';
 import axios from 'redaxios';
-import { AwsInfoModel } from '@/constant/awsInfo';
+import { AwsInfoModel, freeTierGET, freeTierPUT, IsshkeyItem } from '@/constant/awsInfo';
 import { Result } from '@/constant/result';
 import { getHeader, getHost } from '@/utils/api';
-import { KeyInfo } from '@/views/Home/Server/AddServer/SSHkeys';
+
 
 export default class AccountService {
     static async getAwsInfo(): Promise<Result<AwsInfoModel>> {
@@ -12,10 +12,32 @@ export default class AccountService {
         const result = await axios.get(url, { headers: header });
         return result.data;
     }
-    static async getSSHKeys(): Promise<KeyInfo[]> {
-        const url = getHost() + GetSSHKeys;
+    static async getSSHKeys(): Promise<IsshkeyItem[]> {
+        const url = getHost() + SSHKeys;
         const headers = getHeader();
         const result = await axios.get(url, { headers: headers });
         return result.data.detail;
+    }
+    static async getFreeTier(): Promise<freeTierGET> {
+        const headers = getHeader();
+        const url = getHost() + FreeTier;
+        const result = await axios.get(url, { headers: headers });
+        return result.data.detail;
+    }
+    static async putFreeTire(obj: freeTierPUT): Promise<freeTierGET> {
+        const headers = getHeader();
+        const url = getHost() + FreeTier;
+        const result = await axios.put(url, obj, { headers: headers });
+        return result.data.detail;
+    }
+    static downSSHKeyItemUrl(id:string):string{
+        const url = getHost() + SSHKeys + '/' + id;
+        return url;
+    }
+    static async deleteSSHKeyItem(id:string){
+        const url = getHost() + SSHKeys + '/' + id;
+        const headers = getHeader();
+        const result = await axios.delete(url, { headers: headers });
+        return result.data;
     }
 }

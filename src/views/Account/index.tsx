@@ -1,20 +1,25 @@
 import React, { useState } from 'react';
 import { Route } from 'react-router';
-import { Routes, useNavigate } from 'react-router-dom';
+import { Routes, useNavigate, useLocation } from 'react-router-dom';
 import { Menu } from 'antd';
 import { classnames } from '@@/tailwindcss-classnames';
 import Profile from './profile';
 import Quotas from './quotas';
 import Reminder from './reminder';
-import Ssh_keys from './ssh_keys';
+import Keypair from './keypair';
 const Home = (): JSX.Element => {
-    const [current, changeCurrent] = useState('server');
+    const [current, changeCurrent] = useState('profile');
     const navigate = useNavigate();
+    const location = useLocation();
+    // 刷新时 保持定位一致
+    const url_route_pathname = location.pathname.split('/')[2];
+    if (current !== url_route_pathname) changeCurrent(url_route_pathname);
     const handleClick = (e) => {
         console.log(e.key);
         changeCurrent(e.key);
         navigate(`/account/${e.key}`);
     };
+
     return (
         <div>
             <div className={classnames('ml-3', 'min-h-screen')}>
@@ -23,17 +28,19 @@ const Home = (): JSX.Element => {
                     selectedKeys={[current]}
                     mode="horizontal"
                 >
-                    <Menu.Item key="proile">Proile</Menu.Item>
+                    <Menu.Item key="profile">profile</Menu.Item>
                     <Menu.Item key="reminder">Reminder</Menu.Item>
-                    <Menu.Item key="ssh_keys">SSH Keys</Menu.Item>
+                    <Menu.Item key="keypair">Keypair</Menu.Item>
                     <Menu.Item key="quotas">Quotas</Menu.Item>
                 </Menu>
-                <Routes>
-                    <Route path="proile" element={<Profile />}></Route>
-                    <Route path="reminder" element={<Reminder />} />
-                    <Route path="ssh_keys" element={<Ssh_keys />} />
-                    <Route path="quotas" element={<Quotas />} />
-                </Routes>
+                <div className={classnames('p-12')}>
+                    <Routes>
+                        <Route path="profile" element={<Profile />}></Route>
+                        <Route path="reminder" element={<Reminder />} />
+                        <Route path="keypair" element={<Keypair />} />
+                        <Route path="quotas" element={<Quotas />} />
+                    </Routes>
+                </div>
             </div>
         </div>
     );
