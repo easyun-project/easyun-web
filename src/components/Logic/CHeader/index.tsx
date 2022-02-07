@@ -85,10 +85,44 @@ export const CHeader = (): JSX.Element => {
             <Menu.Item key="account">Account</Menu.Item>
         </Menu>);
     return (
-        <div className={classnames('flex','flex-row','items-center','bg-gray-600','text-white','text-3xl','p-2')}>
-            <span className={classnames('mx-6','cursor-pointer','flex')} onClick={() => navigate('/home/server')}>
-                <img src={ logo3 } alt="logo_easyun03.svg" width='150'/>
+        <div
+            className={classnames(
+                'flex',
+                'flex-row',
+                'items-center',
+                'bg-gray-600',
+                'text-white',
+                'text-3xl',
+                'p-2'
+            )}
+        >
+            <span
+                className={classnames('mx-6', 'cursor-pointer', 'flex')}
+                onClick={() => navigate('/home/server')}
+            >
+                <img src={logo3} alt="logo_easyun03.svg" width="150" />
             </span>
+            {/* <Dropdown overlay={menu} className={classnames('ml-32')}>
+                <span>
+          Home <DownOutlined />
+                </span>
+            </Dropdown> */}
+            <Menu
+                onClick={handleClick}
+                selectedKeys={[current]}
+                mode="horizontal"
+                className={classnames(
+                    'w-1/3',
+                    'bg-gray-600',
+                    'text-white',
+                    'text-xl'
+                )}
+            >
+                <Menu.Item key="home/server">Home</Menu.Item>
+                <Menu.Item key="dashboard">Dashboard</Menu.Item>
+                <Menu.Item key="event">Event</Menu.Item>
+                <Menu.Item key="account/profile">Account</Menu.Item>
+            </Menu>
             <span className={classnames('items-center')}>
                 <Dropdown overlay={menu}>
                     <a  className="ant-dropdown-link" onClick={e => e.preventDefault()}>
@@ -146,9 +180,12 @@ export const CHeader = (): JSX.Element => {
                     />
                 </span>
                 <span id="username" className={'mx-5'} style={{ color: '#5c6f9a' }}>
-          admin
+            admin
                 </span>
-                <span id="user" className={classnames('cursor-pointer', 'inline-flex')}>
+                <span
+                    id="user"
+                    className={classnames('cursor-pointer', 'inline-flex')}
+                >
                     <Icon
                         className={classnames('ml-2', 'inline-block')}
                         icon="bi:person-fill"
