@@ -353,7 +353,7 @@ const AddServer = (): JSX.Element => {
             <InstanceList insTypes={insTypes} changeselectefIns={ changeselectedIns}/>
             <div>setting your disk</div>
             <DiskConfigurations disks={disks} changeDisks={changeDisks} />
-            <CSecOpt secgroups={secgroups} changeSlectedSecgroups={changeSlectedSecgroups}/>
+            <CSecOpt multi={ true } secgroups={secgroups} changeSlectedSecgroups={changeSlectedSecgroups}/>
             <Networking subnets={ subnets } changeSelectedSubnet={ changeSelectedSubnet }/>
             <SSHkeys keyPairs={ keyPairs } changeSelectedKey={ changeSelectedKey }/>
 

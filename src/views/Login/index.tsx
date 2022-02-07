@@ -25,10 +25,18 @@ const LoginPage = (): JSX.Element => {
         if (!username || !password) {
             return;
         }
-        const loginRes = await userService.login<UserModel | undefined>(username, password);
+        const loginRes = await userService.login<UserModel>(username, password);
         if (loginRes) {
             dispatch(userAction(loginRes));
             navigate('/home/server');
+            //设置一个定时任务-每隔一个小时更新token
+            setInterval(
+                () => {
+                    userService.login<UserModel>(username, password).then((reLoginRes) => { dispatch(userAction(reLoginRes));});
+                },
+                3600000
+            );
+
         }
     };
 

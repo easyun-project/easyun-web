@@ -11,6 +11,7 @@ export const getHeader = ():any=> {
 
     const token = store.getState().user.user.token;
     return {
-        'Authorization': 'Bearer ' + token
+        'Authorization': 'Bearer ' + token,
+        'region':'us-east-1'
     };
 };

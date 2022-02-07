@@ -5,7 +5,7 @@ import axios from 'redaxios';
 
 export default class bucketManage {
 
-    static async addBucket<T>(addBucketInfo:any,token:string): Promise<Result<T>> {
+    static async addBucket<T>(addBucketInfo:any): Promise<Result<T>> {
         const url = getHost() + AddBucket;
         const result = await axios.post(url, addBucketInfo,{
             headers: getHeader()
@@ -21,7 +21,7 @@ export default class bucketManage {
         return result.data as Result<T>;
     }
 
-    static async deleteBucket<T>(deleteBucketInfo:string,token:string):Promise<Result<T>>{
+    static async deleteBucket<T>(deleteBucketInfo:string):Promise<Result<T>>{
         const url = getHost() + DeleteBucket;
         const result = await axios.post(url,{ bucketName:deleteBucketInfo },{
             headers: getHeader()
