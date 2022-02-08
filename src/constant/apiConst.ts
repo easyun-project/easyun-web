@@ -44,3 +44,4 @@ export const DeleteBucket = '/api/v1.0/storage/delete_bucket';
 export const DashBoardDatacenter = '/api/v1/dashboard/summary/datacenter';
 export const DashBoardHealth = '/api/v1/dashboard/summary/health';
 export const DashBoardGraphical = '/api/v1/dashboard/summary/resource';
+export const DashBoardInventory = '/api/v1/dashboard/inventory';

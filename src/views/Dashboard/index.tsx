@@ -85,11 +85,260 @@ export const Dashboard = (props): JSX.Element => {
                 dataSource: []
             }
         },
-        // server: {
-        //     cardTitle: 'Server List',
-        // },
-        // Database: {},
-        // storageList: {}
+        server: {
+            cardTitle: 'Server List',
+            config: {
+                pagination: false,
+                bordered: true,
+            },
+            data: {
+                columns: [
+                    {
+                        title: 'Instance ID',
+                        dataIndex: '',
+                        key: '',
+                    },
+                    {
+                        title: 'Name（tag）',
+                        dataIndex: 'serverName',
+                        key: 'serverName',
+                    },
+                    {
+                        title: 'State',
+                        dataIndex: 'serverState',
+                        key: 'serverState',
+                    },
+                    {
+                        title: 'Instance type',
+                        dataIndex: 'serverType',
+                        key: 'serverType',
+                    },
+                    {
+                        title: 'vCPU',
+                        dataIndex: 'serverVcpu',
+                        key: 'serverVcpu',
+                    },
+                    {
+                        title: 'RAM',
+                        dataIndex: 'serverRam',
+                        key: 'serverRam',
+                    },
+                    {
+                        title: 'Storage（EBS）',
+                        dataIndex: 'serverStorage',
+                        key: 'serverStorage',
+                    },
+                    {
+                        title: 'OS',
+                        dataIndex: 'serverOs',
+                        key: 'serverOs',
+                    },
+                    {
+                        title: 'Region & AZ',
+                        dataIndex: 'serverAvailabilityZone',
+                        key: 'serverAvailabilityZone',
+                    },
+                    {
+                        title: 'Public IPv4',
+                        dataIndex: 'publicIp',
+                        key: 'publicIp',
+                    },
+                    {
+                        title: 'Launch time',
+                        dataIndex: 'launchTime',
+                        key: 'launchTime',
+                    }
+                ],
+                dataSource: []
+            }
+        },
+        st_block: {
+            cardTitle: 'Block Storage list',
+            config: {
+                pagination: false,
+                bordered: true,
+            },
+            data: {
+                columns: [
+                    {
+                        title: 'Disk ID',
+                        dataIndex: 'diskID',
+                        key: 'diskID',
+                    },
+                    {
+                        title: 'Name（tag）',
+                        dataIndex: 'attachSvr',
+                        key: 'attachSvr',
+                    },
+                    {
+                        title: 'Ebs type',
+                        dataIndex: 'diskType',
+                        key: 'diskType',
+                    },
+                    {
+                        title: 'Totle Size',
+                        dataIndex: 'totalSize',
+                        key: 'totalSize',
+                    },
+                    {
+                        title: 'Iops',
+                        dataIndex: 'diskIops',
+                        key: 'diskIops',
+                    },
+                    {
+                        title: 'Throughput',
+                        dataIndex: 'diskThruput',
+                        key: 'diskThruput',
+                    },
+                    {
+                        title: 'Encrypted',
+                        dataIndex: 'diskEncrypt',
+                        key: 'diskEncrypt',
+                        render: (diskEncrypt) => {
+                            return <div>{diskEncrypt.toString()}</div>;
+                        }
+                    },
+                    {
+                        title: 'Volume state',
+                        dataIndex: 'diskState',
+                        key: 'diskState',
+                    },
+                    {
+                        title: 'Attached',
+                        dataIndex: 'attachSvr',
+                        key: 'attachSvr',
+                    },
+                    {
+                        title: 'Device path',
+                        dataIndex: 'attachPath',
+                        key: 'attachPath',
+                    },
+                    {
+                        title: 'Availability Zone',
+                        dataIndex: 'diskAz',
+                        key: 'diskAz',
+                    },
+                    {
+                        title: 'Created date',
+                        dataIndex: 'createDate',
+                        key: 'createDate',
+                    }
+                ],
+                dataSource: []
+            }
+        },
+        st_object: {
+            cardTitle: 'Object Storage list',
+            config: {
+                pagination: false,
+                bordered: true,
+            },
+            data: {
+                columns: [
+                    {
+                        title: 'Identifier',
+                        dataIndex: 'bucketIdentifier',
+                        key: 'bucketIdentifier',
+                    },
+                    {
+                        title: 'Region',
+                        dataIndex: 'bucketRegion',
+                        key: 'bucketRegion',
+                    },
+                    {
+                        title: 'Access',
+                        dataIndex: 'bucketAccess',
+                        key: 'bucketAccess',
+                    },
+                    {
+                        title: 'Default encryption',
+                        dataIndex: 'bucketEncryption',
+                        key: 'bucketEncryption',
+                        render: (bucketEncryption) => {
+                            return <div>{bucketEncryption.toString()}</div>;
+                        }
+                    },
+                    {
+                        title: 'Versioning',
+                        dataIndex: 'bucketVersiong',
+                        key: 'bucketVersiong',
+                    },
+                    {
+                        title: 'Creation date',
+                        dataIndex: 'createDate',
+                        key: 'createDate',
+                    },
+                ],
+                dataSource: []
+            }
+        },
+        database: {
+            cardTitle: 'Object Storage list',
+            config: {
+                pagination: false,
+                bordered: true,
+            },
+            data: {
+                columns: [
+                    {
+                        title: 'DB Identifier',
+                        dataIndex: '',
+                        key: '',
+                    },
+                    {
+                        title: 'Role',
+                        dataIndex: '',
+                        key: '',
+                    },
+                    {
+                        title: 'Engine',
+                        dataIndex: '',
+                        key: '',
+                    },
+                    {
+                        title: 'Status',
+                        dataIndex: '',
+                        key: '',
+                    },
+                    {
+                        title: 'Size',
+                        dataIndex: '',
+                        key: '',
+                    },
+                    {
+                        title: 'vCPU',
+                        dataIndex: '',
+                        key: '',
+                    },
+                    {
+                        title: 'RAM',
+                        dataIndex: '',
+                        key: '',
+                    },
+                    {
+                        title: 'Storage',
+                        dataIndex: '',
+                        key: '',
+                    },
+                    {
+                        title: 'Region & AZ',
+                        dataIndex: '',
+                        key: '',
+                    },
+                    {
+                        title: 'Endpoint',
+                        dataIndex: '',
+                        key: '',
+                    },
+                    {
+                        title: 'Launch time',
+                        dataIndex: '',
+                        key: '',
+                    },
+                ],
+                dataSource: []
+            }
+        },
     });
     const [health, setHealth] = useState<HealthType>({
         alarms: { iaNum: 0, isNum: 0, okNum: 0 },
@@ -298,12 +547,14 @@ export const Dashboard = (props): JSX.Element => {
             }
         },
     });
-
+    const [isShowGraphical, setIsShowGraphical] = useState<boolean>(true);
+    const [listShow, setListShow] = useState<Array<string>>([]);
 
     useEffect(() => {
         getDatacenter();
         getHealth();
         getGraphical();
+        getInventory();
     }, []);
 
     /**
@@ -345,6 +596,20 @@ export const Dashboard = (props): JSX.Element => {
         });
     };
 
+    const getInventory = () => {
+        const temp = { ...tableList };
+        dashboard.getInventory().then(res => {
+            const showList: Array<string> = [];
+            res.forEach(item => {
+                if (item.data.length > 0 && temp[item.type]) {
+                    showList.push(item.type);
+                    temp[item.type].data.dataSource = item.data;
+                }
+            });
+            setListShow(showList);
+        });
+    };
+
     const tableView = (type) => {
         return <AntdTable key={type}
             config={tableList[type]['config']}
@@ -354,7 +619,7 @@ export const Dashboard = (props): JSX.Element => {
     const healthyView = () => {
         return <div className={classnames('grid', 'grid-cols-2', 'h-full')}>
             <div className={classnames('text-base')}>
-                <div className={classnames('text-lg')}>Alarms:</div>
+                <div className={classnames('text-lg', 'font-bold')}>Alarms:</div>
                 <div className="Alarms">
                     <div>In alarm({health.alarms.iaNum})</div>
                     <div>Insufficient data({health.alarms.isNum})</div>
@@ -362,7 +627,9 @@ export const Dashboard = (props): JSX.Element => {
                 </div>
             </div>
             <div className={classnames('text-base')}>
-                <div className={classnames('text-lg')}>CloudWatch Dashboards(Favorite):</div>
+                <div className={classnames('text-lg', 'font-bold')}>
+                    CloudWatch Dashboards(<span className={'font-normal'}>Favorite</span>):
+                </div>
                 <ul className="CloudWatch">
                     {health.dashboards.map((item, index) => (
                         <li key={index} onClick={() => goView(item.url)}>
@@ -387,20 +654,47 @@ export const Dashboard = (props): JSX.Element => {
         window.location.href = url;
     };
 
+    const changeShow = (item) => {
+        item === 'Graphical' ? setIsShowGraphical(true) : setIsShowGraphical(false);
+    };
+
     return (
         <div className={classnames('min-h-screen', 'p-3', 'space-y-4')}>
             <div className={classnames('grid', 'grid-cols-2', 'gap-4')}>
                 <DashCard cardTitle={tableList['dataCenter']['cardTitle']} content={tableView('dataCenter')}/>
                 <DashCard cardTitle={'healthy Summary'} content={healthyView()}/>
             </div>
-            <div className={classnames('grid', 'grid-cols-3', 'gap-4')}>
-                <DashCard type='Graphical' {...graphicalData['server']} />
-                <DashCard type='Graphical' {...graphicalData['database']} />
-                <DashCard type='Graphical' {...graphicalData['network']} />
-                <DashCard type='Graphical' {...graphicalData['st_object']} />
-                <DashCard type='Graphical' {...graphicalData['st_block']} />
-                <DashCard type='Graphical' {...graphicalData['st_file']} />
+            <div className={classnames('flex', 'justify-end')}>
+                <div className={classnames('flex', 'justify-end', 'items-center', 'border-2', 'rounded-md', 'p-2')}>
+                    <div>View:</div>
+                    <div className={classnames('p-2', { 'font-semibold': isShowGraphical })}
+                        onClick={() => changeShow('Graphical')}>Graphical
+                    </div>
+                    <div>|</div>
+                    <div className={classnames('pl-2', { 'font-semibold': !isShowGraphical })}
+                        onClick={() => changeShow('List')}>List
+                    </div>
+                </div>
             </div>
+            {
+                isShowGraphical ?
+                    <div className={classnames('grid', 'grid-cols-3', 'gap-4')}>
+                        <DashCard type='Graphical' {...graphicalData['server']} />
+                        <DashCard type='Graphical' {...graphicalData['database']} />
+                        <DashCard type='Graphical' {...graphicalData['network']} />
+                        <DashCard type='Graphical' {...graphicalData['st_object']} />
+                        <DashCard type='Graphical' {...graphicalData['st_block']} />
+                        <DashCard type='Graphical' {...graphicalData['st_file']} />
+                    </div>
+                    :
+                    <div className={classnames('space-y-4')}>
+                        {
+                            listShow && listShow.map((item, index) => (
+                                <DashCard key={index} cardTitle={tableList[item]['cardTitle']} content={tableView(item)}/>
+                            ))
+                        }
+                    </div>
+            }
         </div>
     );
 

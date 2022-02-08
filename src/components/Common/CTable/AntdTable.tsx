@@ -9,7 +9,8 @@ export interface TableConfig {
     scroll?: {
         x?: number | true | string;
         y?: number | string;
-    }
+    },
+    bordered?: boolean
 }
 
 export interface TableProp {
