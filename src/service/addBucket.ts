@@ -22,7 +22,7 @@ export default class bucketManage {
         return result.data as Result<T>;
     }
 
-    static async deleteBucket<T>(deleteBucketInfo:string,token:string):Promise<Result<T>>{
+    static async deleteBucket<T>(deleteBucketInfo:string):Promise<Result<T>>{
         const url = getHost() + DeleteBucket;
         const result = await axios.post(url,{ bucketName:deleteBucketInfo },{
             headers: getHeader()

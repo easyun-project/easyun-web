@@ -4,13 +4,14 @@
 // User 用户登陆、改密、个人中心等，常量名以User开头
 export const UserLogin = '/api/v1/user/auth';
 export const AwsInfo = '/api/v1/account/aws_info';
-export const GetSSHKeys = '/api/v1/account/ssh_keys';
-
+export const SSHKeys = '/api/v1/account/ssh_keys';
+export const FreeTier = '/api/v1/account/free_tier';
 // dataCenter 数据中心相关内容 常量名以DataCenter开头
 export const DataCenterDefault = '/api/v1/datacenter/default';
 export const CreateDataCenter = '/api/v1/datacenter/add_dc';
 export const GetSubnet = '/api/v1/datacenter/subnet/';
 export const GetSecgroup = '/api/v1/datacenter/secgroup/';
+export const DataCenterEip = '/api/v1/datacenter/eip';
 
 // 事件日志
 export const EventLogList = '/api/v1/event/log';
@@ -25,7 +26,7 @@ export const AddServer = '/api/v1/server/add';
 
 // Storage s3存储 常量名以Storage开头
 export const AddBucket = '/api/v1.0/storage/add_bucket';
-export const ListBucket = '/api/v1.0/storage/list_bucket';
+export const ListBucket = '/api/v1/storage/object/bucket';
 export const DeleteBucket = '/api/v1.0/storage/delete_bucket';
 
 // database 数据库 常量名以Database开头

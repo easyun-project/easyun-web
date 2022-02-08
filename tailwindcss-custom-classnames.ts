@@ -11,3 +11,6 @@ export default MyCustomType;
 type MyCustomType =
 	| 'bg-yellow-550'
 	| 'bg-yellow-650'
+	| 'btn-yellow'
+	| 'rounded-border'
+	| 'active-border'

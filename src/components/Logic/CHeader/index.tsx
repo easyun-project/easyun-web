@@ -2,8 +2,9 @@ import React from 'react';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
-import { Menu } from 'antd';
+import { Menu,Dropdown  } from 'antd';
 import { useState } from 'react';
+import { DownOutlined } from '@ant-design/icons';
 
 import logo3 from '@@/src/assets/images/logo_easyun/logo_easyun03.svg';
 
@@ -35,9 +36,25 @@ export const CHeader = (): JSX.Element => {
     const [current, changeCurrent] = useState('Home');
     const navigate = useNavigate();
     const handleClick = (e)=>{
-        console.log(e.key);
+        console.log(e.currentTarget);
         changeCurrent(e.key);
-        navigate(`/${e.key}`);};
+        navigate(`/${e.key}`);
+    };
+
+    const getTitle = (key: string) => {
+        switch (key) {
+        case 'home/server':
+            return 'Home';
+        case 'dashboard':
+            return 'Dashboard';
+        case 'event':
+            return 'Event';
+        case 'account':
+            return 'Account';
+        default:
+            return 'Home';
+        }
+    };
 
 
 
@@ -59,22 +76,60 @@ export const CHeader = (): JSX.Element => {
     //     'items-center'
     // );
     // const content = classnames('ml-6', 'flex-none', 'cursor-pointer');
+
+    const menu = (
+        <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" className={classnames('text-xl')}>
+            <Menu.Item key="home/server">Home</Menu.Item>
+            <Menu.Item key="dashboard">Dashboard</Menu.Item>
+            <Menu.Item key="event">Event</Menu.Item>
+            <Menu.Item key="account">Account</Menu.Item>
+        </Menu>);
     return (
-        <div className={classnames('flex','flex-row','items-center','bg-gray-600','text-white','text-3xl','p-2')}>
-            <span className={classnames('mx-6','cursor-pointer','flex')} onClick={() => navigate('/home/server')}>
-                <img src={ logo3 } alt="logo_easyun03.svg" width='150'/>
+        <div
+            className={classnames(
+                'flex',
+                'flex-row',
+                'items-center',
+                'bg-gray-600',
+                'text-white',
+                'text-3xl',
+                'p-2'
+            )}
+        >
+            <span
+                className={classnames('mx-6', 'cursor-pointer', 'flex')}
+                onClick={() => navigate('/home/server')}
+            >
+                <img src={logo3} alt="logo_easyun03.svg" width="150" />
             </span>
             {/* <Dropdown overlay={menu} className={classnames('ml-32')}>
                 <span>
           Home <DownOutlined />
                 </span>
             </Dropdown> */}
-            <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" className={classnames('w-1/3', 'bg-gray-600','text-white','text-xl')}>
+            <Menu
+                onClick={handleClick}
+                selectedKeys={[current]}
+                mode="horizontal"
+                className={classnames(
+                    'w-1/3',
+                    'bg-gray-600',
+                    'text-white',
+                    'text-xl'
+                )}
+            >
                 <Menu.Item key="home/server">Home</Menu.Item>
                 <Menu.Item key="dashboard">Dashboard</Menu.Item>
                 <Menu.Item key="event">Event</Menu.Item>
-                <Menu.Item key="account">Account</Menu.Item>
+                <Menu.Item key="account/profile">Account</Menu.Item>
             </Menu>
+            <span className={classnames('items-center')}>
+                <Dropdown overlay={menu}>
+                    <a  className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                        {getTitle(current)}
+                        <DownOutlined /> </a>
+                </Dropdown>
+            </span>
             <div
                 className={classnames(
                     'absolute',
@@ -125,9 +180,12 @@ export const CHeader = (): JSX.Element => {
                     />
                 </span>
                 <span id="username" className={'mx-5'} style={{ color: '#5c6f9a' }}>
-          admin
+            admin
                 </span>
-                <span id="user" className={classnames('cursor-pointer', 'inline-flex')}>
+                <span
+                    id="user"
+                    className={classnames('cursor-pointer', 'inline-flex')}
+                >
                     <Icon
                         className={classnames('ml-2', 'inline-block')}
                         icon="bi:person-fill"

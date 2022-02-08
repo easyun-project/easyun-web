@@ -19,8 +19,7 @@ interface imagesParams {
 }
 
 export interface ServerDetailParams {
-    token: string;
-    serverId: string;
+    serverId: string
 }
 
 export default class serverService {
