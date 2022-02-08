@@ -7,7 +7,6 @@ import { Routes, useNavigate } from 'react-router-dom';
 //redux相关
 // import { useSelector } from 'react-redux';
 // import { RootState } from '@/redux/store';
-
 //UI 相关
 import { Menu, Table } from 'antd';
 import { classnames } from '@@/tailwindcss-classnames';
@@ -23,7 +22,7 @@ import AddDisk from '@/views/Home/Storage/AddDisk';
 import NotFound from '../NotFound';
 import { ServerList } from '@/views/Home/Server';
 import { ServerDetail } from '@/views/Home/Server/ServerDetail';
-import { StoragePage } from '@/views/Home/Storage/index';
+import { StoragePage } from '@/views/Home/Storage';
 
 
 interface NotDataProps {

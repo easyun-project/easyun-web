@@ -1,4 +1,3 @@
-import appService from '@/service/appService';
 import store from '@/redux/store';
 
 export const getHost = ():string=> {

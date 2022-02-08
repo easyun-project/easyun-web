@@ -26,7 +26,7 @@ const DataCenter = (): JSX.Element => {
 
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getDefaultDataCenter(userState?.token));
+        dispatch(getDefaultDataCenter());
     }, [dispatch]);
 
     // 创建数据中心
