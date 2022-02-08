@@ -426,7 +426,7 @@ export const Dashboard = (props): JSX.Element => {
                 leftData: {
                     key: 'sumNum',
                     value: null,
-                    unit: 'Instance(s)'
+                    unit: 'Subnet(s)'
                 },
                 rightData: [
                     {
@@ -460,7 +460,7 @@ export const Dashboard = (props): JSX.Element => {
                 leftData: {
                     key: 'sumNum',
                     value: null,
-                    unit: 'Instance(s)'
+                    unit: 'Bucket(s)'
                 },
                 rightData: [
                     {
@@ -490,7 +490,7 @@ export const Dashboard = (props): JSX.Element => {
                 leftData: {
                     key: 'sumNum',
                     value: null,
-                    unit: 'Instance(s)'
+                    unit: 'TiB(Free)'
                 },
                 rightData: [
                     {
@@ -522,7 +522,7 @@ export const Dashboard = (props): JSX.Element => {
                 leftData: {
                     key: 'sumNum',
                     value: null,
-                    unit: 'Instance(s)'
+                    unit: 'FS(s)'
                 },
                 rightData: [
                     {
@@ -547,6 +547,7 @@ export const Dashboard = (props): JSX.Element => {
             }
         },
     });
+    // tabs切换，true-Graphical面板,false-list面板
     const [isShowGraphical, setIsShowGraphical] = useState<boolean>(true);
     const [listShow, setListShow] = useState<Array<string>>([]);
 
@@ -576,7 +577,9 @@ export const Dashboard = (props): JSX.Element => {
             setHealth(res);
         });
     };
-
+    /**
+     * 获取Graphical面板
+     */
     const getGraphical = () => {
         const temp = { ...graphicalData };
         dashboard.getGraphical().then(res => {
@@ -596,6 +599,11 @@ export const Dashboard = (props): JSX.Element => {
         });
     };
 
+    /**
+     * 获取list面板数据
+     * 根据接口返回type,存入tableList对应字段的dataSource
+     * 后端接口有数据且tableList存在相应字段，存入showList进行展示
+     */
     const getInventory = () => {
         const temp = { ...tableList };
         dashboard.getInventory().then(res => {
@@ -610,18 +618,25 @@ export const Dashboard = (props): JSX.Element => {
         });
     };
 
+    /**
+     * 展示表格数据
+     * @param type ：对应tableList中key值
+     */
     const tableView = (type) => {
         return <AntdTable key={type}
             config={tableList[type]['config']}
             data={tableList[type]['data']}/>;
     };
 
+    /**
+     * 首行数据healthy面板展示
+     */
     const healthyView = () => {
         return <div className={classnames('grid', 'grid-cols-2', 'h-full')}>
             <div className={classnames('text-base')}>
                 <div className={classnames('text-lg', 'font-bold')}>Alarms:</div>
                 <div className="Alarms">
-                    <div className={classnames('flex','items-center','text-red-600')}>
+                    <div className={classnames('flex', 'items-center', 'text-red-600')}>
                         <Icon
                             icon="bi:exclamation-triangle"
                             width="20"
@@ -630,7 +645,7 @@ export const Dashboard = (props): JSX.Element => {
                         />
                         In alarm({health.alarms.iaNum})
                     </div>
-                    <div className={classnames('flex','items-center','text-gray-400')}>
+                    <div className={classnames('flex', 'items-center', 'text-gray-400')}>
                         <Icon
                             icon="ic:outline-more"
                             width="20"
@@ -640,7 +655,7 @@ export const Dashboard = (props): JSX.Element => {
                         />
                         Insufficient data({health.alarms.isNum})
                     </div>
-                    <div className={classnames('flex','items-center','text-green-600')}>
+                    <div className={classnames('flex', 'items-center', 'text-green-600')}>
                         <Icon
                             icon="bi:check-circle"
                             width="20"
@@ -675,10 +690,19 @@ export const Dashboard = (props): JSX.Element => {
         </div>;
     };
 
+    /**
+     * 跳转外部链接
+     * @param url
+     */
     const goView = (url) => {
         window.location.href = url;
     };
 
+    /**
+     * 控制展示面板
+     * @param item : Graphical-展示Graphical面板
+     *               List - 展示list面板
+     */
     const changeShow = (item) => {
         item === 'Graphical' ? setIsShowGraphical(true) : setIsShowGraphical(false);
     };
