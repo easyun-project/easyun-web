@@ -621,9 +621,34 @@ export const Dashboard = (props): JSX.Element => {
             <div className={classnames('text-base')}>
                 <div className={classnames('text-lg', 'font-bold')}>Alarms:</div>
                 <div className="Alarms">
-                    <div>In alarm({health.alarms.iaNum})</div>
-                    <div>Insufficient data({health.alarms.isNum})</div>
-                    <div>OK({health.alarms.okNum})</div>
+                    <div className={classnames('flex','items-center','text-red-600')}>
+                        <Icon
+                            icon="bi:exclamation-triangle"
+                            width="20"
+                            height="20"
+                            fr={undefined}
+                        />
+                        In alarm({health.alarms.iaNum})
+                    </div>
+                    <div className={classnames('flex','items-center','text-gray-400')}>
+                        <Icon
+                            icon="ic:outline-more"
+                            width="20"
+                            height="20"
+                            rotate={2}
+                            fr={undefined}
+                        />
+                        Insufficient data({health.alarms.isNum})
+                    </div>
+                    <div className={classnames('flex','items-center','text-green-600')}>
+                        <Icon
+                            icon="bi:check-circle"
+                            width="20"
+                            height="20"
+                            fr={undefined}
+                        />
+                        OK({health.alarms.okNum})
+                    </div>
                 </div>
             </div>
             <div className={classnames('text-base')}>
