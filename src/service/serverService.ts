@@ -3,7 +3,7 @@ import { ServerDetail, ServerList, ServerImages, ServerInstypes,AddServer } from
 import axios from 'redaxios';
 import { ServerModel, SeverDetailModel } from '@/constant/server';
 import { amiInfo } from '@/components/Logic/CAmi';
-import { InsType } from '@/views/Home/Server/AddServer/InstanceList';
+import { InsType } from '@/views/Resource/Server/AddServer/InstanceList';
 
 interface insTypeParams {
     dcRegion: string;

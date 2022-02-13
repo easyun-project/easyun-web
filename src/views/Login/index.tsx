@@ -28,7 +28,7 @@ const LoginPage = (): JSX.Element => {
         const loginRes = await userService.login<UserModel>(username, password);
         if (loginRes) {
             dispatch(userAction(loginRes));
-            navigate('/home/server');
+            navigate('/resource/server');
             //设置一个定时任务-每隔一个小时更新token
             setInterval(
                 () => {

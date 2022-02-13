@@ -18,7 +18,7 @@ export const EventLogList = '/api/v1/event/log';
 export const DataCenterAll = '/api/v1/datacenter/all';
 
 // Server 服务器 常量名以Server开头
-export const ServerList = '/api/v1/server/list';
+export const ServerList = '/api/v1/server';
 export const ServerDetail = '/api/v1/server/detail/';
 export const ServerImages = '/api/v1/server/images';
 export const ServerInstypes = '/api/v1/server/instypes';
