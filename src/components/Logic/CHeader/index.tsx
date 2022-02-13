@@ -43,7 +43,7 @@ export const CHeader = (): JSX.Element => {
 
     const getTitle = (key: string) => {
         switch (key) {
-        case 'resource/server':
+        case 'home':
             return 'Home';
         case 'dashboard':
             return 'Dashboard';
@@ -59,7 +59,7 @@ export const CHeader = (): JSX.Element => {
 
     const menu = (
         <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" className={classnames('text-xl')}>
-            <Menu.Item key="resource/server">Home</Menu.Item>
+            <Menu.Item key="home">Home</Menu.Item>
             <Menu.Item key="dashboard">Dashboard</Menu.Item>
             <Menu.Item key="event">Event</Menu.Item>
             <Menu.Item key="account">Account</Menu.Item>
@@ -78,7 +78,7 @@ export const CHeader = (): JSX.Element => {
         >
             <span
                 className={classnames('mx-6', 'cursor-pointer', 'flex')}
-                onClick={() => navigate('/resource/server')}
+                onClick={() => navigate('/home')}
             >
                 <img src={logo3} alt="logo_easyun03.svg" width="150" />
             </span>
