@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 
+export type RightUnitValue = {
+    unit: string,
+    value: string | number | null
+}
+
 export interface RightData {
     key: string
     icon?: {
@@ -9,7 +14,7 @@ export interface RightData {
         color: string
     },
     label: string
-    value: string | number | null
+    value: RightUnitValue | string | number | null
 }
 
 export interface GraphicalData {
@@ -28,7 +33,7 @@ interface PropsType {
     content: any | GraphicalData
 }
 
-export const DashCard = (props): JSX.Element => {
+export const DashCard = (props: PropsType): JSX.Element => {
     const { cardTitle, content, type, showIcon } = props;
     const [titleHeight, setTitleHeight] = useState('');
 
@@ -62,7 +67,7 @@ export const DashCard = (props): JSX.Element => {
                     <div className={classnames('p-6', 'text-base')}>
                         {
                             content['rightData'].map((item, index) => (
-                                <div key={index} className={classnames('grid', 'grid-cols-3','items-center')}>
+                                <div key={index} className={classnames('grid', 'grid-cols-3', 'items-center')}>
                                     <div className={classnames('flex', 'items-center', 'col-span-2')}>
                                         {showIcon &&
                                               <div className={classnames('w-1/4')}>
@@ -72,7 +77,12 @@ export const DashCard = (props): JSX.Element => {
                                         }
                                         <div>{item.label}:</div>
                                     </div>
-                                    <div>{item.value}</div>
+                                    {
+                                        // 判断是否为携带单位对象
+                                        item['value'] instanceof Object ?
+                                            <div>{item['value']['value'] + ' ' + item['value']['unit']}</div>
+                                            : <div>{item['value']}</div>
+                                    }
                                 </div>
                             ))
                         }

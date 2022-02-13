@@ -95,58 +95,61 @@ export const Dashboard = (props): JSX.Element => {
                 columns: [
                     {
                         title: 'Instance ID',
-                        dataIndex: '',
-                        key: '',
+                        dataIndex: 'svrId',
+                        key: 'svrId',
                     },
                     {
                         title: 'Name（tag）',
-                        dataIndex: 'serverName',
-                        key: 'serverName',
+                        dataIndex: 'tagName',
+                        key: 'tagName',
                     },
                     {
                         title: 'State',
-                        dataIndex: 'serverState',
-                        key: 'serverState',
+                        dataIndex: 'svrState',
+                        key: 'svrState',
                     },
                     {
                         title: 'Instance type',
-                        dataIndex: 'serverType',
-                        key: 'serverType',
+                        dataIndex: 'insType',
+                        key: 'insType',
                     },
                     {
                         title: 'vCPU',
-                        dataIndex: 'serverVcpu',
-                        key: 'serverVcpu',
+                        dataIndex: 'vpuNum',
+                        key: 'vpuNum',
                     },
                     {
                         title: 'RAM',
-                        dataIndex: 'serverRam',
-                        key: 'serverRam',
+                        dataIndex: 'ramSize',
+                        key: 'ramSize',
                     },
                     {
                         title: 'Storage（EBS）',
-                        dataIndex: 'serverStorage',
-                        key: 'serverStorage',
+                        dataIndex: 'diskSize',
+                        key: 'diskSize',
+                        render: diskSize => {
+                            return <div>{diskSize} GiB</div>;
+                        }
                     },
                     {
                         title: 'OS',
-                        dataIndex: 'serverOs',
-                        key: 'serverOs',
+                        dataIndex: 'osName',
+                        key: 'osName',
                     },
                     {
                         title: 'Region & AZ',
-                        dataIndex: 'serverAvailabilityZone',
-                        key: 'serverAvailabilityZone',
+                        dataIndex: 'azName',
+                        key: 'azName',
                     },
                     {
                         title: 'Public IPv4',
-                        dataIndex: 'publicIp',
-                        key: 'publicIp',
+                        dataIndex: 'priIp',
+                        key: 'priIp',
                     },
                     {
                         title: 'Launch time',
-                        dataIndex: 'launchTime',
-                        key: 'launchTime',
+                        dataIndex: 'createDate',
+                        key: 'createDate',
                     }
                 ],
                 dataSource: []
@@ -273,7 +276,7 @@ export const Dashboard = (props): JSX.Element => {
             }
         },
         database: {
-            cardTitle: 'Object Storage list',
+            cardTitle: 'Database list',
             config: {
                 pagination: false,
                 bordered: true,
@@ -282,58 +285,63 @@ export const Dashboard = (props): JSX.Element => {
                 columns: [
                     {
                         title: 'DB Identifier',
-                        dataIndex: '',
-                        key: '',
+                        dataIndex: 'dbiId',
+                        key: 'dbiId',
                     },
                     {
                         title: 'Role',
-                        dataIndex: '',
-                        key: '',
+                        dataIndex: 'rdsRole',
+                        key: 'rdsRole',
                     },
                     {
                         title: 'Engine',
-                        dataIndex: '',
-                        key: '',
+                        dataIndex: 'dbiEngine',
+                        key: 'dbiEngine',
+                    },
+                    {
+                        title: 'Version',
+                        dataIndex: 'engineVer',
+                        key: 'engineVer',
                     },
                     {
                         title: 'Status',
-                        dataIndex: '',
-                        key: '',
+                        dataIndex: 'dbiStatus',
+                        key: 'dbiStatus',
                     },
                     {
                         title: 'Size',
-                        dataIndex: '',
-                        key: '',
+                        dataIndex: 'dbiSize',
+                        key: 'dbiSize',
                     },
                     {
                         title: 'vCPU',
-                        dataIndex: '',
-                        key: '',
+                        dataIndex: 'vcpuNum',
+                        key: 'vcpuNum',
                     },
                     {
                         title: 'RAM',
-                        dataIndex: '',
-                        key: '',
+                        dataIndex: 'ramSize',
+                        key: 'ramSize',
                     },
                     {
                         title: 'Storage',
-                        dataIndex: '',
-                        key: '',
+                        dataIndex: 'volumeSize',
+                        key: 'volumeSize',
                     },
                     {
                         title: 'Region & AZ',
-                        dataIndex: '',
-                        key: '',
+                        dataIndex: 'dbiAz',
+                        key: 'dbiAz',
                     },
                     {
-                        title: 'Endpoint',
-                        dataIndex: '',
-                        key: '',
+                        title: 'Multi-AZ',
+                        dataIndex: 'multiAz',
+                        key: 'multiAz',
                     },
                     {
-                        title: 'Launch time',
-                        dataIndex: '',
-                        key: '',
+                        title: 'Create Time',
+                        dataIndex: 'createTime',
+                        key: 'createTime',
                     },
                 ],
                 dataSource: []
@@ -396,7 +404,7 @@ export const Dashboard = (props): JSX.Element => {
                 },
                 rightData: [
                     {
-                        key: 'mysqlNmb',
+                        key: 'mysqlNum',
                         label: 'RDS MySQL',
                         value: null
                     },
@@ -555,7 +563,7 @@ export const Dashboard = (props): JSX.Element => {
         getDatacenter();
         getHealth();
         // 下面的函数会导致页面崩溃，需要debug
-        // getGraphical();
+        getGraphical();
         getInventory();
     }, []);
 
