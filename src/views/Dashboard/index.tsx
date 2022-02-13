@@ -71,7 +71,7 @@ export const Dashboard = (props): JSX.Element => {
                                 empty: '#afabab'
                             };
                             return <Icon icon='akar-icons:circle-fill' color={color[azStatus]} width='20'
-                                height='20'/>;
+                                height='20' fr={undefined}/>;
                         },
                     }, {
                         title: '',
@@ -554,7 +554,8 @@ export const Dashboard = (props): JSX.Element => {
     useEffect(() => {
         getDatacenter();
         getHealth();
-        getGraphical();
+        // 下面的函数会导致页面崩溃，需要debug
+        // getGraphical();
         getInventory();
     }, []);
 

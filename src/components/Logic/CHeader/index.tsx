@@ -43,7 +43,7 @@ export const CHeader = (): JSX.Element => {
 
     const getTitle = (key: string) => {
         switch (key) {
-        case 'home/server':
+        case 'resource/server':
             return 'Home';
         case 'dashboard':
             return 'Dashboard';
@@ -57,29 +57,9 @@ export const CHeader = (): JSX.Element => {
     };
 
 
-
-
-    // const handleMenuItemClick = (
-    //     event: React.MouseEvent<HTMLElement>,
-    //     index: number
-    // ) => {
-    //     setSelectedIndex(index);
-    //     setAnchorEl(null);
-    // };
-
-    // const container = classnames(
-    //     'bg-gray-600',
-    //     'text-white',
-    //     'text-3xl',
-    //     'h-16',
-    //     'flex',
-    //     'items-center'
-    // );
-    // const content = classnames('ml-6', 'flex-none', 'cursor-pointer');
-
     const menu = (
         <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" className={classnames('text-xl')}>
-            <Menu.Item key="home/server">Home</Menu.Item>
+            <Menu.Item key="resource/server">Home</Menu.Item>
             <Menu.Item key="dashboard">Dashboard</Menu.Item>
             <Menu.Item key="event">Event</Menu.Item>
             <Menu.Item key="account">Account</Menu.Item>
@@ -98,31 +78,10 @@ export const CHeader = (): JSX.Element => {
         >
             <span
                 className={classnames('mx-6', 'cursor-pointer', 'flex')}
-                onClick={() => navigate('/home/server')}
+                onClick={() => navigate('/resource/server')}
             >
                 <img src={logo3} alt="logo_easyun03.svg" width="150" />
             </span>
-            {/* <Dropdown overlay={menu} className={classnames('ml-32')}>
-                <span>
-          Home <DownOutlined />
-                </span>
-            </Dropdown> */}
-            <Menu
-                onClick={handleClick}
-                selectedKeys={[current]}
-                mode="horizontal"
-                className={classnames(
-                    'w-1/3',
-                    'bg-gray-600',
-                    'text-white',
-                    'text-xl'
-                )}
-            >
-                <Menu.Item key="home/server">Home</Menu.Item>
-                <Menu.Item key="dashboard">Dashboard</Menu.Item>
-                <Menu.Item key="event">Event</Menu.Item>
-                <Menu.Item key="account/profile">Account</Menu.Item>
-            </Menu>
             <span className={classnames('items-center')}>
                 <Dropdown overlay={menu}>
                     <a  className="ant-dropdown-link" onClick={e => e.preventDefault()}>

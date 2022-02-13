@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { NoResource, ResourceTable } from '@/views/Home';
+import { NoResource, ResourceTable } from '@/views/Resource';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { getServerList } from '@/redux/serverSlice';

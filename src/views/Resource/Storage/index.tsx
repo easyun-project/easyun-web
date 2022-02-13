@@ -150,7 +150,7 @@ const WithStorage = (props): JSX.Element => {
                 <div>
                     <CButton
                         click={() => {
-                            navigate('/home/addBucket');
+                            navigate('/resource/addBucket');
                         }}
                         classes={classnames(
                             'bg-yellow-550',
@@ -166,7 +166,7 @@ const WithStorage = (props): JSX.Element => {
                     </CButton>
                     <CButton
                         click={() => {
-                            navigate('/home/addDisk');
+                            navigate('/resource/addDisk');
                         }}
                         classes={classnames(
                             'cursor-not-allowed',
@@ -183,7 +183,7 @@ const WithStorage = (props): JSX.Element => {
                     </CButton>
                     <CButton
                         click={() => {
-                            navigate('/home/addDisk');
+                            navigate('/resource/addDisk');
                         }}
                         classes={classnames(
                             'cursor-not-allowed',
