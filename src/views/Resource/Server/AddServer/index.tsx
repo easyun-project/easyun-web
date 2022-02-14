@@ -276,19 +276,19 @@ const AddServer = (): JSX.Element => {
         console.log(arch,platform);
         changeAmis('loading');
         serverService.getServerImages({
-            'dcRegion': 'us-east-1',
-            'imgArch': arch,
-            'imgPlatform': platform,
+            os:platform,
+            arch,
+            dc:'Easyun'
         }).then((res: amiInfo[]) => changeAmis(res));
     },
     [arch, platform]);
     useEffect(() => {
         changeInsTypes('loading');
         serverService.getServerInstypes({
-            'dcRegion':'us-east-1',
-            'imgCode': platform,
-            'insArch': arch,
-            'insFamily': insFamily.toLowerCase(),
+            arch,
+            os: platform,
+            family: insFamily.toLowerCase(),
+            dc:'Easyun'
         }).then(res => changeInsTypes(res));
     },
     [arch, platform, insFamily]);

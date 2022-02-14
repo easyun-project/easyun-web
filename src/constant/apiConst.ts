@@ -6,6 +6,7 @@ export const UserLogin = '/api/v1/user/auth';
 export const AwsInfo = '/api/v1/account/aws_info';
 export const SSHKeys = '/api/v1/account/ssh_keys';
 export const FreeTier = '/api/v1/account/free_tier';
+
 // dataCenter 数据中心相关内容 常量名以DataCenter开头
 export const DataCenterDefault = '/api/v1/datacenter/default';
 export const CreateDataCenter = '/api/v1/datacenter/add_dc';
@@ -20,8 +21,9 @@ export const DataCenterAll = '/api/v1/datacenter/all';
 // Server 服务器 常量名以Server开头
 export const ServerList = '/api/v1/server';
 export const ServerDetail = '/api/v1/server/detail/';
-export const ServerImages = '/api/v1/server/images';
-export const ServerInstypes = '/api/v1/server/instypes';
+export const ServerImages = '/api/v1/server/param/image';
+export const ServerInstypes = '/api/v1/server/param/instype';
+export const ServerInsfamily = '/api/v1/server/param/insfamily';
 export const AddServer = '/api/v1/server/add';
 
 // Storage s3存储 常量名以Storage开头

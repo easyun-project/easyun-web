@@ -24,8 +24,8 @@ export const serverColumns = [
     },
     {
         title: 'Name(tag)',
-        dataIndex: 'svrName',
-        key: 'svrName',
+        dataIndex: 'tagName',
+        key: 'tagName',
     },
     {
         title: 'Instance state',
@@ -46,8 +46,8 @@ export const serverColumns = [
     },
     {
         title: 'vCPU',
-        dataIndex: 'vpuNumb',
-        key: 'vpuNumb',
+        dataIndex: 'vpuNum',
+        key: 'vpuNum',
     },
     {
         title: 'RAM',
@@ -57,8 +57,8 @@ export const serverColumns = [
     },
     {
         title: 'Storage(EBS)',
-        dataIndex: 'ebsSize',
-        key: 'ebsSize',
+        dataIndex: 'volumeSize',
+        key: 'volumeSize',
         render: (text:string):React.ReactNode => <span>{text}GB</span>,
     },
     {
@@ -120,10 +120,6 @@ const modifyMenu = () => {
 };
 export const ServerList = ():JSX.Element => {
     const navigate = useNavigate();
-    // const userState = useSelector((state: RootState) => {
-    //     return state.user.user;
-    // });
-
     const serverState = useSelector((state: RootState) => {
         return state.server;
     });
