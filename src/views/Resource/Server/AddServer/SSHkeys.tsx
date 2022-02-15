@@ -2,17 +2,12 @@ import React from 'react';
 import { Card,Space,Radio,message } from 'antd';
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
-import { TablePaginationConfig } from 'antd';
+import { classnames } from '@@/tailwindcss-classnames';
+import { IsshkeyItem } from '@/constant/awsInfo';
+// import { TablePaginationConfig } from 'antd';
 
 
-export interface KeyInfo {
-  id: number;
-  key_name: string;
-  region: string;
-}
-
-
-const s = { page: false as object };
+export type KeyInfo = IsshkeyItem
 
 
 interface SSHkeysProps {
@@ -21,52 +16,65 @@ interface SSHkeysProps {
 }
 
 export default function SSHkeys(props: SSHkeysProps): JSX.Element {
-
-    // const { keyPairs, changeSelectedKey } = props;
-    // 由于现在keypairs是空的，所以现在写一个测试值
-    const { changeSelectedKey } = props;
-    const keyPairs = [{
-        keyName: 'test1',
-        pemUrl:'test1'
-    },{
-        keyName: 'test2',
-        pemUrl:'test2'
-    }];
-    const [selected, setSelected] = useState(keyPairs[0].keyName);
+    const { changeSelectedKey, keyPairs } = props;
+    const [selected, setSelected] = useState('');
     // changeSelectedKey(selected);
 
     const downloadSSHItem = () => {
         message.warning(selected);
     };
     return (
-        <Card className="card-item" title="SSH keys" style={{ width: '100%' }}>
-            <div className="flex-align-center yellow-text-color">
-            </div>
+        <Card className={classnames('w-1/2')} title="SSH keys">
             <Radio.Group
                 onChange={e => {
                     setSelected(e.target.value);
-                    changeSelectedKey(e.target.value);}}
-                defaultValue={keyPairs[0].keyName}>
-                <Space direction="vertical">
+                    changeSelectedKey(e.target.value);}}>
+                <div className={classnames('flex','flex-col')}>
                     {keyPairs.map((keyPair)=>
-                        <Radio key={keyPair.keyName} value={keyPair.keyName}>
-                            <div className="sshkey-radio-row">
-                                <div>{keyPair.keyName}</div>
-                                <div className="flex-center">
-                                    <div
-                                        className="text-icon-box margin-right-10"
+                        <Radio key={keyPair.key_name} value={keyPair.key_name}>
+                            <div key={keyPair.id}
+                                className={classnames(
+                                    'flex',
+                                    'items-center',
+                                    'justify-between',
+                                    'border-b-2',
+                                )}>
+                                <div >
+                                    <Icon fr={undefined}
+                                        className={classnames(
+                                            'mr-2'
+                                        )}
+                                        icon="codicon:key"
+                                        width="18"
+                                        height="18"
+                                        color='#dd6b10'
+                                        rotate={3}
+                                        display='inline'
+                                    />
+                                    <span>{keyPair.key_name}</span>
+                                </div>
+                                <div
+                                    className={classnames(
+                                        'items-center',
+                                        'text-yellow-550'
+                                    )}
+                                >
+                                    <span>Download</span>
+                                    <Icon fr={undefined}
                                         onClick={downloadSSHItem}
-                                    >
-                                        <div>Download</div>
-                                        <Icon
-                                            icon="ant-design:download-outlined"
-                                            fr={undefined}
-                                        />
-                                    </div>
+                                        className={classnames(
+                                            'ml-2',
+                                            'mr-10'
+                                        )}
+                                        icon="entypo:download"
+                                        width="18"
+                                        height="18"
+                                        display='inline'
+                                    />
                                 </div>
                             </div>
-                        </Radio>)}
-                </Space>
+                        </Radio>)}</div>
+
             </Radio.Group>
         </Card>
     );

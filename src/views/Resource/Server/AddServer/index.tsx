@@ -20,6 +20,13 @@ import { InsType } from './InstanceList';
 import { CSecOptInfo } from '@/components/Logic/CSecurityGroup/CSecOpt';
 import { KeyInfo } from './SSHkeys';
 import { DiskInfo } from './DiskConfiguration';
+import { SubnetInfo } from './Networking';
+
+export interface InsTypeFamily {
+    familyDes: string
+    insFamily: string
+    insType:string
+}
 
 
 const AddServer = (): JSX.Element => {
@@ -243,18 +250,19 @@ const AddServer = (): JSX.Element => {
             ],
         },
     ];
+    const [instypeFamily, changeInstypeFamily] = useState<InsTypeFamily[]>([]);
     const [tagName, changeTagName] = useState('NewServerName');
     const [svrNumber, changeSvrNumber] = useState(1);
     const [arch, changeArch] = useState<'x86_64'|'arm64'>('x86_64');
-    const [platform, changePlatform] = useState<'linux'|'windows'>('linux');
-    const [amis, changeAmis] = useState<'loading'|amiInfo[]>('loading');
+    const [os, changeOs] = useState<'linux'|'windows'>('linux');
     const [selectedAmi, changeSelectedAmi] = useState('');
     const [insFamily, changeInsFamily] = useState('a1');
+    const [amis, changeAmis] = useState<'loading'|amiInfo[]>('loading');
     const [insTypes, changeInsTypes] = useState<'loading' | InsType[]>('loading');
     const [selectedIns, changeselectedIns] = useState('');
     const [secgroups, changeSecgroups] = useState<CSecOptInfo[]>([]);
     const [slectedSecgroups, changeSlectedSecgroups] = useState<string[]>([]);
-    const [subnets, changeSubnets] = useState([]);
+    const [subnets, changeSubnets] = useState<SubnetInfo[]>([]);
     const [selectedSubnet, changeSelectedSubnet] = useState('');
     const [keyPairs, changeKeyPairs] = useState<KeyInfo[]>([]);
     const [selectedKey, changeSelectedKey] = useState('');
@@ -268,33 +276,52 @@ const AddServer = (): JSX.Element => {
             'VolumnThruputs': 125,
             'VolumnEncryption': true
         } }]);
+    const generateOptions = (family:InsTypeFamily[])=>{
+        console.log(family);
+        const haha:Record<string, string>[] = [];
+        family.map(
+            (insfamily)=>{
+                haha.push({ value:insfamily.insFamily,label:insfamily.insFamily });
+            }
+        );
+        console.log(haha);
+    };
 
     useEffect( ()=>{
-        console.log(tagName,svrNumber,arch, platform,selectedAmi,selectedIns,selectedSubnet,slectedSecgroups,selectedKey,disks);
-    }, [tagName,svrNumber,arch, platform,selectedAmi,selectedIns,selectedSubnet,slectedSecgroups,selectedKey,disks]);
+        console.log(tagName,svrNumber,arch, os,selectedAmi,selectedIns,selectedSubnet,slectedSecgroups,selectedKey,disks);
+    }, [tagName,svrNumber,arch, os,selectedAmi,selectedIns,selectedSubnet,slectedSecgroups,selectedKey,disks]);
     useEffect( ()=>{
-        console.log(arch,platform);
+        console.log(arch,os);
         changeAmis('loading');
         serverService.getServerImages({
-            os:platform,
+            os:os,
             arch,
             dc:'Easyun'
         }).then((res: amiInfo[]) => changeAmis(res));
     },
-    [arch, platform]);
+    [arch, os]);
     useEffect(() => {
         changeInsTypes('loading');
         serverService.getServerInstypes({
             arch,
-            os: platform,
+            os: os,
             family: insFamily.toLowerCase(),
             dc:'Easyun'
         }).then(res => changeInsTypes(res));
+        serverService.getServerInsfamily({
+            arch,
+            dc:'Easyun'
+        }).then(res=>
+        {
+            changeInstypeFamily(res);
+            // generateOptions(res);
+        }
+        );
     },
-    [arch, platform, insFamily]);
+    [arch, os, insFamily]);
     useEffect(()=>{
         DataCenterService.getSecgroup('Easyun').then((res) => changeSecgroups(res));
-        DataCenterService.getSubnet('Easyun').then((res) => changeSubnets(res));
+        DataCenterService.getSubnet({ dc:'Easyun' }).then((res) => changeSubnets(res));
         AccountService.getSSHKeys().then((res) => changeKeyPairs(res));
     }, []);
     return (
@@ -342,7 +369,7 @@ const AddServer = (): JSX.Element => {
                     click = {()=>{changeArch('arm64');}}>64-bit(arm)</CButton>
                 </div>
                 {/* 下面的用于选择操作系统 */}
-                <CPlatform platform={platform} changePlatform={changePlatform}/>
+                <CPlatform platform={os} changePlatform={changeOs}/>
             </div>
 
             <CAmis amis={amis} selectedAmi={selectedAmi} changeSelectedAmi={changeSelectedAmi}/>
@@ -391,7 +418,6 @@ const AddServer = (): JSX.Element => {
                                 'SecurityGroupIds': slectedSecgroups,
                                 'SubnetId': selectedSubnet,
                                 'dcName': 'Easyun',
-                                'dcRegion': 'us-east-1',
                                 'svrNumber':svrNumber,
                                 'tagName': tagName
                             }).then(

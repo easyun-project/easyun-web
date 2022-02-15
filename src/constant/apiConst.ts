@@ -10,8 +10,8 @@ export const FreeTier = '/api/v1/account/free_tier';
 // dataCenter 数据中心相关内容 常量名以DataCenter开头
 export const DataCenterDefault = '/api/v1/datacenter/default';
 export const CreateDataCenter = '/api/v1/datacenter/add_dc';
-export const GetSubnet = '/api/v1/datacenter/subnet/';
-export const GetSecgroup = '/api/v1/datacenter/secgroup/';
+export const GetSubnet = '/api/v1/datacenter/subnet';
+export const GetSecgroup = '/api/v1/datacenter/secgroup';
 export const DataCenterEip = '/api/v1/datacenter/eip';
 
 // 事件日志

@@ -3,11 +3,11 @@ import { Table } from 'antd';
 
 export interface InsType {
     key?:React.Key;
-    InstanceType: string;
-    Memory: number;
-    Network: string;
-    VCpu: number;
-    Price:{
+    insType: string;
+    memSize: number;
+    netSpeed: string;
+    vcpuNum: number;
+    monthPrice:{
         currency:string,
         value:number,
     };
@@ -18,29 +18,31 @@ export default function InstanceList(props: {insTypes:'loading'|InsType[], chang
     const columns = [
         {
             title: 'Type',
-            dataIndex: 'InstanceType',
-            key: 'Type',
+            dataIndex: 'insType',
+            key: 'insType',
         },
         {
             title: 'Processing',
-            dataIndex: 'VCpu',
-            key: 'Processing',
+            dataIndex: 'vcpuNum',
+            key: 'vcpuNum',
         },
         {
             title: 'Memory',
-            dataIndex: 'Memory',
-            key: 'Memory',
+            dataIndex: 'memSize',
+            key: 'memSize',
         },
         {
             title: 'Network',
-            dataIndex: 'Network',
-            key: 'Network',
+            dataIndex: 'netSpeed',
+            key: 'netSpeed',
         },
         {
             title: 'Price',
-            dataIndex: 'Price',
-            key: 'Price',
-            render: text => text.value
+            dataIndex: 'monthPrice',
+            key: 'monthPrice',
+            render: text => {
+                text.currency === 'USD';
+                return '$' + text.value.toFixed(2);}
         },
     ];
 
@@ -138,7 +140,7 @@ export default function InstanceList(props: {insTypes:'loading'|InsType[], chang
     // ];
     const instances = props.insTypes;
     if (instances !== 'loading') {
-        const instance = instances.map((item: InsType) => { item.key = item.InstanceType; return item; });
+        const instance = instances.map((item: InsType) => { item.key = item.insType; return item; });
         return (
             <Table rowSelection={{
                 type: 'radio',

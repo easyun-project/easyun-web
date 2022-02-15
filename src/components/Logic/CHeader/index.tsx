@@ -58,7 +58,7 @@ export const CHeader = (): JSX.Element => {
 
 
     const menu = (
-        <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" className={classnames('text-xl')}>
+        <Menu onClick={handleClick} selectedKeys={[current]} mode="vertical" className={classnames('text-xl')}>
             <Menu.Item key="home">Home</Menu.Item>
             <Menu.Item key="dashboard">Dashboard</Menu.Item>
             <Menu.Item key="event">Event</Menu.Item>
