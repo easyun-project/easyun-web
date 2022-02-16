@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card,Space,Radio,message } from 'antd';
+import { Card,Radio,message } from 'antd';
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import { classnames } from '@@/tailwindcss-classnames';
@@ -39,7 +39,10 @@ export default function SSHkeys(props: SSHkeysProps): JSX.Element {
                                     'justify-between',
                                     'border-b-2',
                                 )}>
-                                <div >
+                                <div className={classnames(
+                                    'flex',
+                                    'w-96'
+                                )}>
                                     <Icon fr={undefined}
                                         className={classnames(
                                             'mr-2'
@@ -55,7 +58,7 @@ export default function SSHkeys(props: SSHkeysProps): JSX.Element {
                                 </div>
                                 <div
                                     className={classnames(
-                                        'items-center',
+                                        'flex',
                                         'text-yellow-550'
                                     )}
                                 >

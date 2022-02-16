@@ -23,233 +23,23 @@ import { DiskInfo } from './DiskConfiguration';
 import { SubnetInfo } from './Networking';
 
 export interface InsTypeFamily {
-    familyDes: string
-    insFamily: string
-    insType:string
+    catdesCode:string
+    catgName:string
+    familyDes:string
+    familyName:string
 }
+
+type Option = {
+value: string
+label: string
+children: {
+    value: string
+    label: string,}[],
+}[]
 
 
 const AddServer = (): JSX.Element => {
-    const options = [
-        {
-            value: '通用计算型',
-            label: '通用计算型',
-            children: [
-                // {
-                //     value: 'Mac',
-                //     label: 'Mac',
-                // },
-                {
-                    value: 'T4g',
-                    label: 'T4g',
-                },
-                {
-                    value: 'T3',
-                    label: 'T3',
-                },
-                {
-                    value: 'T2',
-                    label: 'T2',
-                },
-                {
-                    value: 'M6g',
-                    label: 'M6g',
-                },
-                {
-                    value: 'M6i',
-                    label: 'M6i',
-                },
-                {
-                    value: 'M5',
-                    label: 'M5',
-                },
-                {
-                    value: 'M5a',
-                    label: 'M5a',
-                },
-                // {
-                //     value: 'M5n',
-                //     label: 'M5n',
-                // },
-                // {
-                //     value: 'M5zn',
-                //     label: 'M5zn',
-                // },
-                {
-                    value: 'M4',
-                    label: 'M4',
-                },
-                {
-                    value: 'A1',
-                    label: 'A1',
-                },
-            ],
-        },
-        {
-            value: '计算优化型',
-            label: '计算优化型',
-            children: [
-                {
-                    value: 'C6g',
-                    label: 'C6g',
-                },
-                // {
-                //     value: 'C6gn',
-                //     label: 'C6gn',
-                // },
-                {
-                    value: 'C6i',
-                    label: 'C6i',
-                },
-                {
-                    value: 'C5',
-                    label: 'C5',
-                },
-                {
-                    value: 'C5a',
-                    label: 'C5a',
-                },
-                // {
-                //     value: 'C5n',
-                //     label: 'C5n',
-                // },
-                {
-                    value: 'C4',
-                    label: 'C4',
-                }
-            ],
-        },
-        {
-            value: '内存优化型',
-            label: '内存优化型',
-            children: [
-                {
-                    value: 'R6g',
-                    label: 'R6g',
-                },
-                {
-                    value: 'R5',
-                    label: 'R5',
-                },
-                {
-                    value: 'R5a',
-                    label: 'R5a',
-                },
-                {
-                    value: 'R5b',
-                    label: 'R5b',
-                },
-                {
-                    value: 'R5n',
-                    label: 'R5n',
-                },
-                {
-                    value: 'R4',
-                    label: 'R4',
-                },
-                // {
-                //     value: 'X2gd',
-                //     label: 'X2gd',
-                // },
-                // {
-                //     value: 'X1e',
-                //     label: 'X1e',
-                // },
-                {
-                    value: 'X1',
-                    label: 'X1',
-                },
-                // {
-                //     value: '内存增强型',
-                //     label: '内存增强型',
-                // },
-                {
-                    value: 'z1d',
-                    label: 'z1d',
-                }
-            ],
-        },
-        {
-            value: '加速计算型',
-            label: '加速计算型',
-            children: [
-                {
-                    value: 'P4',
-                    label: 'P4',
-                },
-                {
-                    value: 'P3',
-                    label: 'P3',
-                },
-                {
-                    value: 'P2',
-                    label: 'P2',
-                },
-                {
-                    value: 'DL1',
-                    label: 'DL1',
-                },
-                {
-                    value: 'Inf1',
-                    label: 'Inf1',
-                },
-                {
-                    value: 'G5',
-                    label: 'G5',
-                },
-                {
-                    value: 'G4dn',
-                    label: 'G4dn',
-                },
-                {
-                    value: 'G4ad',
-                    label: 'G4ad',
-                },
-                {
-                    value: 'G3',
-                    label: 'G3',
-                },
-                {
-                    value: 'F1',
-                    label: 'F1',
-                },
-                {
-                    value: 'VT1',
-                    label: 'VT1',
-                }
-            ],
-        },
-        {
-            value: '存储优化型',
-            label: '存储优化型',
-            children: [
-                {
-                    value: 'I3',
-                    label: 'I3',
-                },
-                {
-                    value: 'I3en',
-                    label: 'I3en',
-                },
-                {
-                    value: 'D2',
-                    label: 'D2',
-                },
-                {
-                    value: 'D3',
-                    label: 'D3',
-                },
-                {
-                    value: 'D3en',
-                    label: 'D3en',
-                },
-                {
-                    value: 'H1',
-                    label: 'H1',
-                },
-            ],
-        },
-    ];
+    const [insfamilyOptions, changeInsfamilyOptions] = useState<Option>();
     const [instypeFamily, changeInstypeFamily] = useState<InsTypeFamily[]>([]);
     const [tagName, changeTagName] = useState('NewServerName');
     const [svrNumber, changeSvrNumber] = useState(1);
@@ -278,13 +68,56 @@ const AddServer = (): JSX.Element => {
         } }]);
     const generateOptions = (family:InsTypeFamily[])=>{
         console.log(family);
-        const haha:Record<string, string>[] = [];
+        const options:Option = [
+            {
+                value: 'General Purpose',
+                label: 'General Purpose',
+                children: [],
+            },
+            {
+                value: 'Compute Optimized',
+                label: 'Compute Optimized',
+                children: [],
+            },
+            {
+                value: 'Memory Optimized',
+                label: 'Memory Optimized',
+                children: [],
+            },
+            {
+                value: 'Accelerated Computing',
+                label: 'Accelerated Computing',
+                children: [],
+            },
+            {
+                value: 'Storage Optimized',
+                label: 'Storage Optimized',
+                children: [],
+            },
+        ];
         family.map(
-            (insfamily)=>{
-                haha.push({ value:insfamily.insFamily,label:insfamily.insFamily });
+            (item)=>{
+                switch (item.catdesCode){
+                case 'GP':
+                    options[0].children.push({ value:item.familyName,label:item.familyName });
+                    break;
+                case 'CO':
+                    options[1].children.push({ value:item.familyName,label:item.familyName });
+                    break;
+                case 'MO':
+                    options[2].children.push({ value:item.familyName,label:item.familyName });
+                    break;
+                case 'AC':
+                    options[3].children.push({ value:item.familyName,label:item.familyName });
+                    break;
+                case 'SO':
+                    options[4].children.push({ value:item.familyName,label:item.familyName });
+                    break;
+                }
             }
         );
-        console.log(haha);
+        console.log(options);
+        changeInsfamilyOptions(options);
     };
 
     useEffect( ()=>{
@@ -301,6 +134,7 @@ const AddServer = (): JSX.Element => {
     },
     [arch, os]);
     useEffect(() => {
+
         changeInsTypes('loading');
         serverService.getServerInstypes({
             arch,
@@ -308,13 +142,14 @@ const AddServer = (): JSX.Element => {
             family: insFamily.toLowerCase(),
             dc:'Easyun'
         }).then(res => changeInsTypes(res));
+
         serverService.getServerInsfamily({
             arch,
             dc:'Easyun'
         }).then(res=>
         {
             changeInstypeFamily(res);
-            // generateOptions(res);
+            generateOptions(res);
         }
         );
     },
@@ -375,7 +210,10 @@ const AddServer = (): JSX.Element => {
             <CAmis amis={amis} selectedAmi={selectedAmi} changeSelectedAmi={changeSelectedAmi}/>
             <div>select your instance type</div>
             {/* e是级联菜单中被选定的值，是一个列表 */}
-            <Cascader style={{ width: '20%' }} options={options} placeholder="选择实例类型" onChange={ (e)=>changeInsFamily(e[1])}/>
+            <Cascader style={{ width: '20%' }} options={insfamilyOptions} placeholder="选择实例类型"
+                onChange={ (e)=>{
+                    if(e[1]){changeInsFamily(e[1]);}
+                }} changeOnSelect/>
             {/* 在获取到insType的值后，渲染列表 */}
             <InstanceList insTypes={insTypes} changeselectefIns={ changeselectedIns}/>
             <div>setting your disk</div>
