@@ -56,8 +56,7 @@ export default function InstanceList(props: {insTypes:'loading'|InsType[], chang
                     // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
                     props.changeselectefIns(selectedRowKeys.toString());
                 },
-            }} dataSource={instance} columns={columns}
-            loading={instances === 'loading'}/>
+            }} dataSource={instance} columns={columns}/>
         );
     }
     else {return (

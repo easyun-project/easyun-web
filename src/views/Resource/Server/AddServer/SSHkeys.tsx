@@ -6,9 +6,7 @@ import { classnames } from '@@/tailwindcss-classnames';
 import { IsshkeyItem } from '@/constant/awsInfo';
 // import { TablePaginationConfig } from 'antd';
 
-
 export type KeyInfo = IsshkeyItem
-
 
 interface SSHkeysProps {
     keyPairs: KeyInfo[]
