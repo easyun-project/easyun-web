@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 
@@ -25,7 +25,8 @@ const CPlatform = (props:platformProps): JSX.Element => {
     // }
 
     return (
-        <div className={classnames('flex','flex-row')}>
+        <div className={classnames('flex','items-center')}>
+            <div>select your arch</div>
             <div
                 onClick={() => {
                     handleSelect('linux');

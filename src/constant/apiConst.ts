@@ -11,7 +11,7 @@ export const FreeTier = '/api/v1/account/free_tier';
 export const DataCenterDefault = '/api/v1/datacenter/default';
 export const CreateDataCenter = '/api/v1/datacenter/add_dc';
 export const GetSubnet = '/api/v1/datacenter/subnet';
-export const GetSecgroup = '/api/v1/datacenter/secgroup';
+export const GetSecgroup = '/api/v1/datacenter/secgroup/list';
 export const DataCenterEip = '/api/v1/datacenter/eip';
 
 // 事件日志

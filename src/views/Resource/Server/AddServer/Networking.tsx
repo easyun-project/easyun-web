@@ -57,37 +57,9 @@ interface NetworkingProps {
 
 export default function Networking(props: NetworkingProps):JSX.Element {
     const [selected, setSelected] = useState('');
-    // const columns = [
-    //     {
-    //         title: 'us-east-1a',
-    //         dataIndex: 'InstanceType',
-    //         key: 'us-east-1a',
-    //     },
-    //     {
-    //         title: 'us-east-1b',
-    //         dataIndex: 'VCpu',
-    //         key: 'us-east-1b',
-    //     },
-    //     {
-    //         title: 'us-east-1c',
-    //         dataIndex: 'Memory',
-    //         key: 'us-east-1c',
-    //     },
-    //     {
-    //         title: 'us-east-1d',
-    //         dataIndex: 'Network',
-    //         key: 'us-east-1d',
-    //     },
-    //     {
-    //         title: 'us-east-1e',
-    //         dataIndex: 'Price',
-    //         key: 'us-east-1e',
-    //         render: text => text.value
-    //     },
-    // ];
     const { subnets } = props;
     return (
-        <div>
+        <div className={classnames('flex')}>
             {subnets.map((network:SubnetInfo) =>
                 <Subnet
                     classes={network.subnetId === selected ?

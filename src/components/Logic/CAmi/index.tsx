@@ -67,12 +67,9 @@ const CAmis = (props:CAmisProps): JSX.Element => {
     }
     else{
         return (
-            <div id="select-your-ami" >
-            select your image(AMI)
-                <div className={classnames('flex','flex-row','flex-wrap','items-center','m-3')}>
-                    {amis.map((amiInfo)=><CAmi classes={selectedAmi === amiInfo.imgID ? classnames('border-2','border-yellow-550') : undefined}
-                        key={amiInfo.imgID} {...amiInfo} changeSelectedAmi={changeSelectedAmi}/>)}
-                </div>
+            <div className={classnames('flex','flex-row','flex-wrap','items-center')}>
+                {amis.map((amiInfo)=><CAmi classes={selectedAmi === amiInfo.imgID ? classnames('border-2','border-yellow-550') : undefined}
+                    key={amiInfo.imgID} {...amiInfo} changeSelectedAmi={changeSelectedAmi}/>)}
             </div>);
     }
 };

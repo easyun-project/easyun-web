@@ -22,6 +22,13 @@ interface DatacenterParams{
     dc:string
 }
 
+interface SecGroupInfo{
+    sgDes: string
+    sgId: string
+    sgName: string
+    tagName: string
+}
+
 export default class DataCenterService {
     /**
      * 获取数据中心默认参数
@@ -82,15 +89,13 @@ export default class DataCenterService {
     /**
      * 获取secgroup安全组
      */
-    static async getSecgroup(dcName:string):Promise<any>{
-        const url = getHost() + GetSecgroup + dcName;
+    static async getSecgroup(params:DatacenterParams):Promise<SecGroupInfo[]>{
+        const url = getHost() + GetSecgroup;
         const result = await axios.get(url, {
+            params,
             headers: getHeader()
         });
-        if (result.status == 200) {
-            return result.data.detail;
-        }
-        return undefined;
+        return result.data.detail;
     }
 
     /**

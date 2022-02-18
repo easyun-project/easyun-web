@@ -11,6 +11,8 @@ interface CSecOptProps {
 export interface CSecOptInfo {
     sgId: string
     tagName: string
+    sgDes?: string
+    sgName: string
 }
 
 const CSecOpt = (props:CSecOptProps): JSX.Element => {
@@ -22,14 +24,14 @@ const CSecOpt = (props:CSecOptProps): JSX.Element => {
         <div>
             {secgroups.map((item)=>
                 <button
-                    className={current.includes(item.tagName) ? currentStyle : otherStyle}
+                    className={current.includes(item.sgName) ? currentStyle : otherStyle}
                     key={item.sgId}
-                    value={item.tagName}
+                    value={item.sgName}
                     onClick={
                         multi
                             ? (e) => {
                                 const tobeChanged = [...current];
-                                current.includes(item.tagName)
+                                current.includes(item.sgName)
                                     ? tobeChanged.splice(tobeChanged.indexOf(e.currentTarget.value), 1)
                                     : tobeChanged.push(e.currentTarget.value);
                                 setcurrent(tobeChanged);
@@ -40,7 +42,7 @@ const CSecOpt = (props:CSecOptProps): JSX.Element => {
                                 changeSlectedSecgroups([e.currentTarget.value]);
                             } }
                 >
-                    {item.tagName}
+                    {item.sgName}
                 </button>)}
         </div>
     );
