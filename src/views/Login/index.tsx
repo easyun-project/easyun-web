@@ -68,7 +68,7 @@ const LoginPage = (): JSX.Element => {
     const classes = classnames('w-9/12', 'h-12', 'border', 'border-gray-400', 'rounded', 'mx-2', 'my-10', 'p-5');
     return (
         <div>
-            <div className={classnames('flex', 'flex-row',  'items-center', 'bg-gray-600')}>
+            <div className={classnames('flex', 'items-center', 'bg-gray-600')}>
                 <div className={classnames('flex-grow','ml-10')}>
                     <img src={ logo3 } alt="logo_easyun03.svg" width='150' />
                 </div>

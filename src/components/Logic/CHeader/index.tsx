@@ -68,25 +68,24 @@ export const CHeader = (): JSX.Element => {
         <div
             className={classnames(
                 'flex',
-                'flex-row',
                 'items-center',
                 'bg-gray-600',
                 'text-white',
                 'text-3xl',
-                'p-2'
             )}
         >
             <span
-                className={classnames('mx-6', 'cursor-pointer', 'flex')}
+                className={classnames('mx-10', 'cursor-pointer', 'flex')}
                 onClick={() => navigate('/home')}
             >
                 <img src={logo3} alt="logo_easyun03.svg" width="150" />
             </span>
-            <span className={classnames('items-center')}>
+            <span >
                 <Dropdown overlay={menu}>
-                    <a  className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                        {getTitle(current)}
-                        <DownOutlined /> </a>
+                    <a   className={classnames('flex','items-baseline')} onClick={e => e.preventDefault()}>
+                        <span className={classnames('text-3xl')}>{getTitle(current)}</span>
+                        <DownOutlined style={{ fontSize: '20px' }}/>
+                    </a>
                 </Dropdown>
             </span>
             <div
@@ -103,8 +102,8 @@ export const CHeader = (): JSX.Element => {
                     className={classnames('cursor-pointer')}
                     icon="fa:heartbeat"
                     color="#9fbe8a"
-                    width="40"
-                    height="40"
+                    width="30"
+                    height="30"
                     fr={undefined}
                 />
                 <Icon
@@ -138,9 +137,6 @@ export const CHeader = (): JSX.Element => {
                         fr={undefined}
                     />
                 </span>
-                <span id="username" className={'mx-5'} style={{ color: '#5c6f9a' }}>
-            admin
-                </span>
                 <span
                     id="user"
                     className={classnames('cursor-pointer', 'inline-flex')}
@@ -162,6 +158,9 @@ export const CHeader = (): JSX.Element => {
                         hFlip={true}
                         fr={undefined}
                     />
+                </span>
+                <span id="username" className={classnames('mx-5','text-lg')} style={{ color: '#5c6f9a' }}>
+            admin
                 </span>
             </div>
         </div>
