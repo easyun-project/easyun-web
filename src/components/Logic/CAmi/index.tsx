@@ -26,7 +26,7 @@ export const CAmi = (props: CAmiProps): JSX.Element => {
         'Windows':'microsoft-windows',
     };
     return(
-        <button className={classnames('flex','flex-row','items-center','m-3','w-56',classes)}
+        <button className={classnames('flex','items-center','p-2',classes)}
             onClick={()=>{changeSelectedAmi(imgID);}}>
             <Icon icon={`logos:${icons[osName.split(' ')[0]]}`} width="30" fr={undefined}/>
             <div className={classnames('ml-3','text-left')}>
@@ -67,8 +67,8 @@ const CAmis = (props:CAmisProps): JSX.Element => {
     }
     else{
         return (
-            <div className={classnames('flex','flex-row','flex-wrap','items-center')}>
-                {amis.map((amiInfo)=><CAmi classes={selectedAmi === amiInfo.imgID ? classnames('border-2','border-yellow-550') : undefined}
+            <div className={classnames('grid','grid-cols-5','gap-4','items-center')}>
+                {amis.map((amiInfo)=><CAmi classes={selectedAmi === amiInfo.imgID ? classnames('rounded-border','border-yellow-550') : undefined}
                     key={amiInfo.imgID} {...amiInfo} changeSelectedAmi={changeSelectedAmi}/>)}
             </div>);
     }

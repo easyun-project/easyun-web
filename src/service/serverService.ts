@@ -106,9 +106,9 @@ export default class serverService {
     /**
      * 获取可用的instypes
      */
-    static async addServer(params:AddServiceParams): Promise<InsType[]> {
+    static async addServer(data:AddServiceParams): Promise<InsType[]> {
         const url = getHost() + AddServer;
-        const result = await axios.post(url, params,{
+        const result = await axios.post(url, data,{
             headers: getHeader()
         });
         return result.data.detail;

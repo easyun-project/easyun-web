@@ -66,7 +66,7 @@ const AddServer = (): JSX.Element => {
     const [selectedKey, changeSelectedKey] = useState('');
     // disk
     const [disks, changeDisks] = useState<DiskInfo[]>([{
-        'DviceName': '/sda1',
+        'DviceName': '/dev/sda1',
         'Ebs': {
             'DeleteOnTermination': true,
             'VolumnSize': 16,
@@ -192,7 +192,7 @@ const AddServer = (): JSX.Element => {
             <Card title="Select your server os and arch" className={classnames('rounded-border','mt-5')}>
                 {/* 下面的组件用于选择服务器架构 */}
                 <div className={classnames('flex','items-center')}>
-                    <div> select a platform </div>
+                    <div> select your server arch </div>
                     <CButton classes={classnames(
                         arch === 'x86_64' ? 'bg-yellow-550' : 'bg-gray-400',
                         'text-white',
@@ -234,7 +234,7 @@ const AddServer = (): JSX.Element => {
                 <DiskConfigurations disks={disks} changeDisks={changeDisks} />
             </Card>
 
-            <Card title="Setting your security groups" className={classnames('rounded-border','mt-5')}>
+            <Card title="Setting your security groups" className={classnames('rounded-border','mt-5')} extra={<span>you can choose more than one </span>}>
                 <CSecOpt multi={ true } secgroups={secgroups} changeSlectedSecgroups={changeSlectedSecgroups}/>
             </Card>
 
@@ -273,7 +273,7 @@ const AddServer = (): JSX.Element => {
                             'm-5'
                         )}
                         click={() => {
-                            serverService.addServer({
+                            console.log({
                                 'BlockDeviceMappings': disks,
                                 'ImageId': selectedAmi,
                                 'InstanceType': selectedIns,
@@ -283,26 +283,22 @@ const AddServer = (): JSX.Element => {
                                 'dcName': 'Easyun',
                                 'svrNumber':svrNumber,
                                 'tagName': tagName
-                            }).then(
-                                () => alert('创建成功'),
-                                () => alert('创建失败'),
-                            );
+                            });
+                            // serverService.addServer({
+                            //     'BlockDeviceMappings': disks,
+                            //     'ImageId': selectedAmi,
+                            //     'InstanceType': selectedIns,
+                            //     'KeyName': selectedKey,
+                            //     'SecurityGroupIds': slectedSecgroups,
+                            //     'SubnetId': selectedSubnet,
+                            //     'dcName': 'Easyun',
+                            //     'svrNumber':svrNumber,
+                            //     'tagName': tagName
+                            // }).then(
+                            //     () => alert('创建成功'),
+                            //     () => alert('创建失败'),
+                            // );
                         } }
-                        // click={async () => {
-                        //     await bucketManage
-                        //         .addBucket({
-                        //             bucketName,
-                        //             versioningConfiguration: versioningConfiguration ? 'Enabled' : 'Suspended',
-                        //             bucketEncryption: bucketEncryption.toString(),
-                        //             region,
-                        //         },userState?.token)
-                        //         .then(() => {
-                        //             alert('创建成功');
-                        //         })
-                        //         .then(() => {
-                        //             navigate('/resource/storage');
-                        //         });
-                        // }}
                     >
           Create
                     </CButton>

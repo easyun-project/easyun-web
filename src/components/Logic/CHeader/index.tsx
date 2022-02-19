@@ -27,9 +27,9 @@ import logo3 from '@@/src/assets/images/logo_easyun/logo_easyun03.svg';
 // };
 
 export const CHeader = (): JSX.Element => {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [selectedIndex, setSelectedIndex] = React.useState(1);
-    const open = Boolean(anchorEl);
+    // const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    // const [selectedIndex, setSelectedIndex] = React.useState(1);
+    // const open = Boolean(anchorEl);
     // const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     //     setAnchorEl(event.currentTarget);
     // };

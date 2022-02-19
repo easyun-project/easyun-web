@@ -24,14 +24,14 @@ const CSecOpt = (props:CSecOptProps): JSX.Element => {
         <div>
             {secgroups.map((item)=>
                 <button
-                    className={current.includes(item.sgName) ? currentStyle : otherStyle}
+                    className={current.includes(item.sgId) ? currentStyle : otherStyle}
                     key={item.sgId}
-                    value={item.sgName}
+                    value={item.sgId}
                     onClick={
                         multi
                             ? (e) => {
                                 const tobeChanged = [...current];
-                                current.includes(item.sgName)
+                                current.includes(item.sgId)
                                     ? tobeChanged.splice(tobeChanged.indexOf(e.currentTarget.value), 1)
                                     : tobeChanged.push(e.currentTarget.value);
                                 setcurrent(tobeChanged);

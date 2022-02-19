@@ -151,7 +151,7 @@ export const ServerList = ():JSX.Element => {
                         </Button>
                     </Dropdown>
                     <CButton
-                        click={() => navigate('/resource/addServer')}
+                        click={() => navigate('/resource/server/add')}
                         classes={classnames('inline-block', 'bg-yellow-550', 'mr-3', 'block', 'text-white', 'rounded-3xl', 'px-5', 'py-1')}>
                         Add Server
                     </CButton>
@@ -170,12 +170,12 @@ export const ServerList = ():JSX.Element => {
                         </Button>
                     </Dropdown>
                     <CButton
-                        click={() => navigate('/addServer')}
+                        click={() => navigate('server/add')}
                         classes={classnames('inline-block', 'bg-yellow-550', 'block', 'text-white', 'rounded-3xl', 'px-5', 'py-1')}>
                         Add Server
                     </CButton>
                 </div>
-                <NoResource resourceName={'server'} buttonName={'add server'} routePath={'/addServer'}/>
+                <NoResource resourceName={'server'} buttonName={'add server'} routePath={'server/add'}/>
             </>
         );
     }

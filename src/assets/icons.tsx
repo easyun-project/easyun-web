@@ -25,6 +25,13 @@ export default function icons() {
             />
             Create new disk
         </button>
+        删除图标
+        <Icon fr={undefined}
+            icon="clarity:times-line"
+            className={classnames('inline-block','mx-1', 'cursor-pointer')}
+            width="24" height="24"
+            color='#dd6b10'
+            onClick={() => console.log('delete') }/>
 
     </div>;
 }
