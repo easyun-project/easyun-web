@@ -7,6 +7,7 @@ import bucketManage from '@/service/addBucket';
 // import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { deleteStorage } from '@/redux/storageSlice';
+import stbucket from '@@/src/assets/images/stbucket.png';
 
 export interface StorageCardInfo {
   class?: TTailwindString;
@@ -66,7 +67,7 @@ const CStorageCard = (props: StorageCardInfo): JSX.Element => {
         >
             <div className={classnames('flex', 'flex-row', 'mb-2')}>
                 <img
-                    src="../src/assets/images/stbucket.png"
+                    src={stbucket}
                     alt="stbucket.png"
                     className={classnames('w-12', 'h-12')}
                 />

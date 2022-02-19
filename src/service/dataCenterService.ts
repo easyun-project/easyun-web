@@ -2,6 +2,7 @@ import { CreateDataCenter, DataCenterAll, DataCenterDefault,GetSecgroup,GetSubne
 import axios from 'redaxios';
 import { getHeader, getHost } from '@/utils/api';
 import { DataCenterModel, DefaultDataCenterModel } from '@/constant/dataCenter';
+import { SubnetInfo } from '@/views/Resource/Server/AddServer/Networking';
 
 // 创建数据中心需要的参数
 export interface CreateDataCenterParams {
@@ -15,6 +16,17 @@ export interface CreateDataCenterParams {
     sgs2_flag?: string,
     sgs3_flag?: string,
     vpc_cidr?: string
+}
+
+interface DatacenterParams{
+    dc:string
+}
+
+interface SecGroupInfo{
+    sgDes: string
+    sgId: string
+    sgName: string
+    tagName: string
 }
 
 export default class DataCenterService {
@@ -65,29 +77,25 @@ export default class DataCenterService {
     /**
      * 获取subnet
      */
-    static async getSubnet(dcName:string):Promise<any>{
-        const url = getHost() + GetSubnet + dcName;
+    static async getSubnet(params:DatacenterParams):Promise<SubnetInfo[]>{
+        const url = getHost() + GetSubnet;
         const result = await axios.get(url, {
+            params,
             headers: getHeader()
         });
-        if (result.status == 200) {
-            return result.data.detail;
-        }
-        return undefined;
+        return result.data.detail;
     }
 
     /**
      * 获取secgroup安全组
      */
-    static async getSecgroup(dcName:string):Promise<any>{
-        const url = getHost() + GetSecgroup + dcName;
+    static async getSecgroup(params:DatacenterParams):Promise<SecGroupInfo[]>{
+        const url = getHost() + GetSecgroup;
         const result = await axios.get(url, {
+            params,
             headers: getHeader()
         });
-        if (result.status == 200) {
-            return result.data.detail;
-        }
-        return undefined;
+        return result.data.detail;
     }
 
     /**

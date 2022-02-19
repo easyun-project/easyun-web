@@ -24,8 +24,8 @@ export const serverColumns = [
     },
     {
         title: 'Name(tag)',
-        dataIndex: 'svrName',
-        key: 'svrName',
+        dataIndex: 'tagName',
+        key: 'tagName',
     },
     {
         title: 'Instance state',
@@ -46,8 +46,8 @@ export const serverColumns = [
     },
     {
         title: 'vCPU',
-        dataIndex: 'vpuNumb',
-        key: 'vpuNumb',
+        dataIndex: 'vpuNum',
+        key: 'vpuNum',
     },
     {
         title: 'RAM',
@@ -57,8 +57,8 @@ export const serverColumns = [
     },
     {
         title: 'Storage(EBS)',
-        dataIndex: 'ebsSize',
-        key: 'ebsSize',
+        dataIndex: 'volumeSize',
+        key: 'volumeSize',
         render: (text:string):React.ReactNode => <span>{text}GB</span>,
     },
     {
@@ -120,10 +120,6 @@ const modifyMenu = () => {
 };
 export const ServerList = ():JSX.Element => {
     const navigate = useNavigate();
-    // const userState = useSelector((state: RootState) => {
-    //     return state.user.user;
-    // });
-
     const serverState = useSelector((state: RootState) => {
         return state.server;
     });
@@ -155,7 +151,7 @@ export const ServerList = ():JSX.Element => {
                         </Button>
                     </Dropdown>
                     <CButton
-                        click={() => navigate('/home/addServer')}
+                        click={() => navigate('/resource/server/add')}
                         classes={classnames('inline-block', 'bg-yellow-550', 'mr-3', 'block', 'text-white', 'rounded-3xl', 'px-5', 'py-1')}>
                         Add Server
                     </CButton>
@@ -174,12 +170,12 @@ export const ServerList = ():JSX.Element => {
                         </Button>
                     </Dropdown>
                     <CButton
-                        click={() => navigate('/addServer')}
+                        click={() => navigate('server/add')}
                         classes={classnames('inline-block', 'bg-yellow-550', 'block', 'text-white', 'rounded-3xl', 'px-5', 'py-1')}>
                         Add Server
                     </CButton>
                 </div>
-                <NoResource resourceName={'server'} buttonName={'add server'} routePath={'/addServer'}/>
+                <NoResource resourceName={'server'} buttonName={'add server'} routePath={'server/add'}/>
             </>
         );
     }

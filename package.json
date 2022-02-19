@@ -16,6 +16,7 @@
     "@ant-design/icons": "^4.7.0",
     "@reduxjs/toolkit": "^1.6.1",
     "antd": "^4.17.3",
+    "browserslist": "^4.19.1",
     "i18next": "^20.6.1",
     "i18next-browser-languagedetector": "^6.1.2",
     "qs": "^6.10.1",

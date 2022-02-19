@@ -77,7 +77,7 @@ export const Resource = (): JSX.Element => {
     return (
         <>
             <div>
-                <div className={classnames('ml-3','min-h-screen')}>
+                <div className={classnames('m-3','min-h-screen')}>
                     <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" >
                         <Menu.Item key="server">Server</Menu.Item>
                         <Menu.Item key="storage">Storage</Menu.Item>
@@ -88,12 +88,12 @@ export const Resource = (): JSX.Element => {
                     </Menu>
                     <Routes>
                         <Route path="server/:serverId" element={<ServerDetail />} />
+                        <Route path="server/add" element={<AddServer />} />
                         <Route path="server" element={<ServerList/>}>
                         </Route>
                         <Route path="storage" element={<StoragePage />} />
-                        <Route path="addServer" element={<AddServer />} />
                         <Route path="addBucket" element={<AddBucket />} />
-                        <Route path="addDisk" element={<AddDisk />} />
+                        <Route path="block/add" element={<AddDisk />} />
                         <Route path="databases" element={<NoResource resourceName={'databases'} buttonName={'Add Databases'}
                             routePath={'/AddDatabases'}/>} />
                         <Route path="networking" element={<NoResource resourceName={'networking'} buttonName={'Add Networking'}

@@ -4,15 +4,19 @@ import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
 
-interface subnetData{
-    az: string;
-    cidr: string;
-    freeIps: number;
-    subnetId: string;
-    subnetType:string;
-    tagName:string;}
+export interface SubnetInfo{
+      avlipNum: number
+      cidrBlock: string
+      isMappubip: boolean
+      subnetAz: string
+      subnetId: string
+      subnetState: string
+      subnetType: string
+      subnetVpc: string
+      tagName: string
+}
 
-interface SubnetProps extends subnetData{
+interface SubnetProps extends SubnetInfo{
     setSelected : React.Dispatch<React.SetStateAction<string>>;
     key?:React.Key;
     classes?: TTailwindString;
@@ -21,7 +25,7 @@ interface SubnetProps extends subnetData{
 
 function Subnet(props: SubnetProps): JSX.Element{
     let { classes } = props;
-    const { subnetType,subnetId,tagName,cidr, setSelected, changeSelectedSubnet } = props;
+    const { subnetType,subnetId,tagName,cidrBlock, setSelected, changeSelectedSubnet } = props;
     if (subnetType === 'public') {
         classes = classnames(classes, 'bg-green-50');
     } else {
@@ -41,50 +45,22 @@ function Subnet(props: SubnetProps): JSX.Element{
                 : undefined}
             <div className={classnames('font-bold')}>{tagName.split(' ')[0]}</div>
             <div className={classnames('font-bold')}>{tagName.replace('Public','').replace('private','')}</div>
-            <div>({cidr})</div>
+            <div>({cidrBlock})</div>
         </button>
     );
 }
 
 interface NetworkingProps {
     changeSelectedSubnet: React.Dispatch<React.SetStateAction<string>>
-    subnets: subnetData[]
+    subnets: SubnetInfo[]
 }
 
 export default function Networking(props: NetworkingProps):JSX.Element {
     const [selected, setSelected] = useState('');
-    // const columns = [
-    //     {
-    //         title: 'us-east-1a',
-    //         dataIndex: 'InstanceType',
-    //         key: 'us-east-1a',
-    //     },
-    //     {
-    //         title: 'us-east-1b',
-    //         dataIndex: 'VCpu',
-    //         key: 'us-east-1b',
-    //     },
-    //     {
-    //         title: 'us-east-1c',
-    //         dataIndex: 'Memory',
-    //         key: 'us-east-1c',
-    //     },
-    //     {
-    //         title: 'us-east-1d',
-    //         dataIndex: 'Network',
-    //         key: 'us-east-1d',
-    //     },
-    //     {
-    //         title: 'us-east-1e',
-    //         dataIndex: 'Price',
-    //         key: 'us-east-1e',
-    //         render: text => text.value
-    //     },
-    // ];
     const { subnets } = props;
     return (
-        <div>
-            {subnets.map((network:subnetData) =>
+        <div className={classnames('flex')}>
+            {subnets.map((network:SubnetInfo) =>
                 <Subnet
                     classes={network.subnetId === selected ?
                         classnames('border-2','border-yellow-550') :
