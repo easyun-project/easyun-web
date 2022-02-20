@@ -5,10 +5,10 @@ import axios from 'redaxios';
 import { getHost, getHeader } from '@/utils/api';
 
 export default class userService {
-    static async getAwsInfo(token:string): Promise<Result<AwsInfoModel>> {
+    static async getAwsInfo(): Promise<Result<AwsInfoModel>> {
         const url = getHost() + AwsInfo;
         const result = await axios.get(url, {
-            headers: getHeader(token),
+            headers: getHeader(),
         });
         return result.data;
     }
