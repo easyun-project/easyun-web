@@ -62,7 +62,12 @@ interface TableProps {
 
 export const ResourceTable = (props: TableProps):JSX.Element => {
     return (
-        <Table bordered={true} dataSource={props.dataSource} columns={props.columns}/>
+        <Table bordered={true} dataSource={props.dataSource} columns={props.columns} rowSelection={{
+            type: 'checkbox',
+            onChange:(selectedRowKeys:React.Key[],selectedRows: ServerModel[])=>{
+                console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+            }
+        }}/>
     );
 };
 export const Resource = (): JSX.Element => {
@@ -103,33 +108,6 @@ export const Resource = (): JSX.Element => {
                         <Route path="backups" element={<NoResource resourceName={'backups'} buttonName={'Add Backup'} routePath={'/AddBackup'}/>} />
                         <Route path="*" element={<NotFound />} />
                     </Routes >
-                    {/* <Tabs defaultActiveKey="1">
-                        <TabPane tab="Server" key="Server">
-                            <ServerList/>
-                        </TabPane>
-                        <TabPane tab="Storage" key="Storage">
-                            <Storage/>
-                        </TabPane>
-                        <TabPane tab="Databases" key="Databases">
-                            <NoResource resourceName={'databases'} buttonName={'Add Databases'}
-                                routePath={'/AddDatabases'}/>
-
-                        </TabPane>
-                        <TabPane tab="Networking" key="Networking">
-                            <NoResource resourceName={'networking'} buttonName={'Add Networking'}
-                                routePath={'/AddNetworking'}/>
-
-                        </TabPane>
-                        <TabPane tab="Containers" key="Containers">
-                            <NoResource resourceName={'containers'} buttonName={'Add Container'}
-                                routePath={'/AddContainer'}/>
-
-                        </TabPane>
-                        <TabPane tab="Backups" key="Backups">
-                            <NoResource resourceName={'backups'} buttonName={'Add Backup'} routePath={'/AddBackup'}/>
-
-                        </TabPane>
-                    </Tabs> */}
                 </div>
             </div>
             {/* <CFooter/> */}

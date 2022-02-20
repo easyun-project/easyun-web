@@ -1,11 +1,12 @@
 import { getHeader, getHost } from '@/utils/api';
-import { ServerDetail, ServerList, ServerImages, ServerInstypes, ServerInsfamily, AddServer } from '@/constant/apiConst';
+import { ServerDetail, ServerList, ServerImages, ServerInstypes, ServerInsfamily, AddServer,ServerAction } from '@/constant/apiConst';
 import axios from 'redaxios';
 import { ServerModel, SeverDetailModel } from '@/constant/server';
 import { amiInfo } from '@/components/Logic/CAmi';
 import { InsType } from '@/views/Resource/Server/AddServer/InstanceList';
 import { InsTypeFamily } from '@/views/Resource/Server/AddServer';
-import { DiskInfo } from '@/views/Resource/Server/AddServer/DiskConfiguration';;
+import { DiskInfo } from '@/views/Resource/Server/AddServer/DiskConfiguration';import React from 'react';
+;
 
 interface insTypeParams {
     os?: 'linux'|'windows'
@@ -34,6 +35,12 @@ interface AddServiceParams {
   'dcName': string
   'svrNumber': number
   'tagName': string
+}
+
+interface DeleteServerInfo{
+      currState: string
+      preState: string
+      svrId: string
 }
 
 export default class serverService {
@@ -109,6 +116,29 @@ export default class serverService {
     static async addServer(data:AddServiceParams): Promise<InsType[]> {
         const url = getHost() + AddServer;
         const result = await axios.post(url, data,{
+            headers: getHeader()
+        });
+        return result.data.detail;
+    }
+
+    /**
+     * 改变Server的状态，支持start、stop、restart
+     */
+    static async changeServerState(data): Promise<React.Key[]> {
+        const url = getHost() + ServerAction;
+        const result = await axios.post(url, data,{
+            headers: getHeader()
+        });
+        return result.data.detail;
+    }
+
+    /**
+     * 删除server
+     */
+    static async deleteServerState(data): Promise<DeleteServerInfo[]> {
+        const url = getHost() + AddServer;
+        const result = await axios.delete(url, {
+            data,
             headers: getHeader()
         });
         return result.data.detail;

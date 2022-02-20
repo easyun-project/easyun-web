@@ -1,6 +1,5 @@
 // App 跟应用相关的不好分类的都放这里
 
-
 // User 用户登陆、改密、个人中心等，常量名以User开头
 export const UserLogin = '/api/v1/user/auth';
 export const AwsInfo = '/api/v1/account/aws_info';
@@ -24,7 +23,8 @@ export const ServerDetail = '/api/v1/server/detail/';
 export const ServerImages = '/api/v1/server/param/image';
 export const ServerInstypes = '/api/v1/server/param/instype';
 export const ServerInsfamily = '/api/v1/server/param/insfamily';
-export const AddServer = '/api/v1/server/add';
+export const AddServer = '/api/v1/server';
+export const ServerAction = '/api/v1/server/action';
 
 // Storage s3存储 常量名以Storage开头
 export const AddBucket = '/api/v1.0/storage/add_bucket';

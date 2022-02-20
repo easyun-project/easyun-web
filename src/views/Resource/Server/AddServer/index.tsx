@@ -22,6 +22,8 @@ import { KeyInfo } from './SSHkeys';
 import { DiskInfo } from './DiskConfiguration';
 import { SubnetInfo } from './Networking';
 
+import { useNavigate } from 'react-router-dom';
+
 export interface InsTypeFamily {
     catdesCode:string
     catgName:string
@@ -39,6 +41,7 @@ children: {
 
 
 const AddServer = (): JSX.Element => {
+    const navigate = useNavigate();
     //server tag and name
     const [tagName, changeTagName] = useState('NewServerName');
     const [svrNumber, changeSvrNumber] = useState(1);
@@ -66,14 +69,14 @@ const AddServer = (): JSX.Element => {
     const [selectedKey, changeSelectedKey] = useState('');
     // disk
     const [disks, changeDisks] = useState<DiskInfo[]>([{
-        'DviceName': '/dev/sda1',
+        'DeviceName': '/dev/sda1',
         'Ebs': {
             'DeleteOnTermination': true,
-            'VolumnSize': 16,
-            'VolumnType': 'gp2',
-            'VolumnIOPS': 3000,
-            'VolumnThruputs': 125,
-            'VolumnEncryption': true
+            'VolumeSize': 16,
+            'VolumeType': 'gp2',
+            'VolumeIOPS': 3000,
+            'VolumeThruputs': 125,
+            'Encrypted': true
         } }]);
 
     const generateOptions = (family:InsTypeFamily[])=>{
@@ -273,7 +276,7 @@ const AddServer = (): JSX.Element => {
                             'm-5'
                         )}
                         click={() => {
-                            console.log({
+                            serverService.addServer({
                                 'BlockDeviceMappings': disks,
                                 'ImageId': selectedAmi,
                                 'InstanceType': selectedIns,
@@ -283,21 +286,11 @@ const AddServer = (): JSX.Element => {
                                 'dcName': 'Easyun',
                                 'svrNumber':svrNumber,
                                 'tagName': tagName
-                            });
-                            // serverService.addServer({
-                            //     'BlockDeviceMappings': disks,
-                            //     'ImageId': selectedAmi,
-                            //     'InstanceType': selectedIns,
-                            //     'KeyName': selectedKey,
-                            //     'SecurityGroupIds': slectedSecgroups,
-                            //     'SubnetId': selectedSubnet,
-                            //     'dcName': 'Easyun',
-                            //     'svrNumber':svrNumber,
-                            //     'tagName': tagName
-                            // }).then(
-                            //     () => alert('创建成功'),
-                            //     () => alert('创建失败'),
-                            // );
+                            }).then(
+                                () => {alert('创建成功');
+                                    navigate('/resource/server');},
+                                () => alert('创建失败'),
+                            );
                         } }
                     >
           Create

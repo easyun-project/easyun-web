@@ -6,14 +6,14 @@ import { Switch, Input, Select } from 'antd';
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 
 export interface DiskInfo {
-    'DviceName': string,
+    'DeviceName': string,
     'Ebs': {
             'DeleteOnTermination': true,
-            'VolumnSize': number,
-            'VolumnType': string,
-            'VolumnIOPS'?: number,
-            'VolumnThruputs'?: number,
-            'VolumnEncryption': boolean
+            'VolumeSize': number,
+            'VolumeType': string,
+            'VolumeIOPS'?: number,
+            'VolumeThruputs'?: number,
+            'Encrypted': boolean
     }
 }
 
@@ -29,9 +29,9 @@ const DiskConfiguration = (props:DiskProps) :JSX.Element=>{
     const { disks, disk, changeDisks,index } = props;
     const [diskType, changeDiskType] = useState('gp2');
     const [encryption, changeEncryption] = useState(true);
-    const [volumnSize, changeVolumnSize] = useState(8);
-    const [volumnIOPS, changeVolumnIOPS] = useState(3000);
-    const [volumnThruputs, changeVolumnThruputs] = useState(125);
+    const [volumeSize, changeVolumeSize] = useState(8);
+    const [volumeIOPS, changeVolumeIOPS] = useState(3000);
+    const [volumeThruputs, changeVolumeThruputs] = useState(125);
     useEffect(() => {
         // console.log({
         //     'DviceName': disk['DviceName'],
@@ -47,14 +47,14 @@ const DiskConfiguration = (props:DiskProps) :JSX.Element=>{
         if (diskType === 'gp3' || diskType === 'gp2') {
             // console.log(disks[index]);
             disks[index] = {
-                'DviceName': disk['DviceName'],
+                'DeviceName': disk['DeviceName'],
                 'Ebs': {
                     'DeleteOnTermination': true,
-                    'VolumnSize': volumnSize,
-                    'VolumnType': diskType,
-                    'VolumnIOPS': volumnIOPS,
-                    'VolumnThruputs': volumnThruputs,
-                    'VolumnEncryption': encryption }
+                    'VolumeSize': volumeSize,
+                    'VolumeType': diskType,
+                    'VolumeIOPS': volumeIOPS,
+                    'VolumeThruputs': volumeThruputs,
+                    'Encrypted': encryption }
 
             };
             changeDisks([...disks]);
@@ -63,14 +63,14 @@ const DiskConfiguration = (props:DiskProps) :JSX.Element=>{
         else if (diskType === 'io1' || diskType === 'io2') {
             // console.log(disks[index]);
             disks[index] =  {
-                'DviceName': disk['DviceName'],
+                'DeviceName': disk['DeviceName'],
                 'Ebs': {
                     'DeleteOnTermination': true,
-                    'VolumnSize': volumnSize,
-                    'VolumnType': diskType,
-                    'VolumnIOPS': volumnIOPS,
+                    'VolumeSize': volumeSize,
+                    'VolumeType': diskType,
+                    'VolumeIOPS': volumeIOPS,
                     // 'VolumnThruputs': volumnThruputs,
-                    'VolumnEncryption': encryption }
+                    'Encrypted': encryption }
 
             };
             changeDisks([...disks]);
@@ -78,21 +78,21 @@ const DiskConfiguration = (props:DiskProps) :JSX.Element=>{
         else {
             // console.log(disks[index]);
             disks[index] = {
-                'DviceName': disk['DviceName'],
+                'DeviceName': disk['DeviceName'],
                 'Ebs': {
                     'DeleteOnTermination': true,
-                    'VolumnSize': volumnSize,
-                    'VolumnType': diskType,
+                    'VolumeSize': volumeSize,
+                    'VolumeType': diskType,
                     // 'VolumnIOPS': volumnIOPS,
                     // 'VolumnThruputs': volumnThruputs,
-                    'VolumnEncryption': encryption,
+                    'Encrypted': encryption,
                 }
 
             };
             changeDisks([...disks]);
         }
 
-    },[diskType,encryption,volumnSize,volumnIOPS,volumnThruputs]);
+    },[diskType,encryption,volumeSize,volumeIOPS,volumeThruputs]);
     return(
         <div className={classnames('w-4/5','rounded-border','flex','flex-col','mt-2','mr-2')}>
             <div className={classnames('flex','flex-row','m-2')}>
@@ -100,26 +100,26 @@ const DiskConfiguration = (props:DiskProps) :JSX.Element=>{
                 <div className={classnames('mx-3','flex-grow')}>
                     <span >Disk type:</span>
                     <Select defaultValue={ diskType } className={classnames('w-48')} onChange={value=>changeDiskType(value)} size='small'>
-                        <Option value="Standard">Magnetic(standard)</Option>
+                        <Option value="standard">Magnetic(standard)</Option>
                         <Option value="gp2">General Purpose SSD(gp2)</Option>
                         <Option value="gp3">General Purpose SSD(gp3)</Option>
                         <Option value="io1">Provisioned IOPS SSD(io1)</Option>
                         <Option value="io2">Provisioned IOPS SSD(io2)</Option>
                     </Select>
-                    <div className={classnames('flex','flex-row','mt-2','justify-between')}>
-                        <div className={classnames('flex','flex-row')}>
+                    <div className={classnames('flex','mt-2','justify-between')}>
+                        <div className={classnames('flex')}>
                             <span>size(GiB):</span>
-                            <Input className={classnames('w-12')} type="text" size='small' maxLength={2} defaultValue={8} onChange={(e)=>changeVolumnSize(parseInt(e.target.value))}/>
+                            <Input className={classnames('w-12')} type="text" size='small' maxLength={2} defaultValue={8} onChange={(e)=>changeVolumeSize(parseInt(e.target.value))}/>
                         </div>
-                        <div className={classnames('flex','flex-row')}>
+                        <div className={classnames('flex')}>
                             <span>IOPS:</span>
-                            <Input className={classnames('w-12')} disabled={diskType === 'Standard'} type="text" size='small' maxLength={5} defaultValue={3000}
-                                onChange={(e) => changeVolumnIOPS(parseInt(e.target.value))} />
+                            <Input className={classnames('w-12')} disabled={diskType === 'standard'} type="text" size='small' maxLength={5} defaultValue={3000}
+                                onChange={(e) => changeVolumeIOPS(parseInt(e.target.value))} />
                         </div>
-                        <div className={classnames('flex','flex-row')}>
+                        <div className={classnames('flex')}>
                             <span>Thruputs(MB/s):</span>
-                            <Input className={classnames('w-12')} disabled={['Standard', 'Io1', 'Io2'].includes(diskType)} type="text" size='small' maxLength={5} defaultValue={125}
-                                onChange={(e) => changeVolumnThruputs(parseInt(e.target.value))} />
+                            <Input className={classnames('w-12')} disabled={['standard', 'Io1', 'Io2'].includes(diskType)} type="text" size='small' maxLength={5} defaultValue={125}
+                                onChange={(e) => changeVolumeThruputs(parseInt(e.target.value))} />
                         </div>
                     </div>
                 </div>
@@ -141,7 +141,7 @@ const DiskConfiguration = (props:DiskProps) :JSX.Element=>{
             <div className={classnames('flex','flex-row','justify-between','border-t-2','border-gray-300','border-dashed','ml-12','mr-6','p-2')}>
                 <div>
                     <span>Disk path:</span>
-                    <span className={classnames('font-bold')}>{disk['DviceName']}</span>
+                    <span className={classnames('font-bold')}>{disk['DeviceName']}</span>
                 </div>
                 <div>
                     <span>Encryption</span>
@@ -175,14 +175,14 @@ const DiskConfigurations = (props: DisksProps): JSX.Element => {
                 const lastNum = parseInt(lastDisk.replace('/dev/sda',''));
                 const newDisk = '/sda' + (lastNum + 1).toString();
                 changeDisks([...disks,{
-                    'DviceName': newDisk,
+                    'DeviceName': newDisk,
                     'Ebs': {
                         'DeleteOnTermination': true,
-                        'VolumnSize': 16,
-                        'VolumnType': 'gp2',
-                        'VolumnIOPS': 3000,
-                        'VolumnThruputs': 125,
-                        'VolumnEncryption': true
+                        'VolumeSize': 16,
+                        'VolumeType': 'gp2',
+                        'VolumeIOPS': 3000,
+                        'VolumeThruputs': 125,
+                        'Encrypted': true
                     } }]);
             }} className={classnames('inline', 'text-yellow-550','ml-12','mt-2')}>
                 <Icon fr={undefined}

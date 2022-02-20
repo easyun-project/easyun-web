@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { useEffect } from 'react';
-import { NoResource, ResourceTable } from '@/views/Resource';
+import { useEffect,useState } from 'react';
+import { NoResource } from '@/views/Resource';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { getServerList } from '@/redux/serverSlice';
@@ -8,8 +8,10 @@ import { classnames } from '@@/tailwindcss-classnames';
 import { CPartialLoading } from '@/components/Common/CPartialLoading';
 import { CButton } from '@/components/Common/CButton';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, Dropdown, Menu, message } from 'antd';
+import { Button, Dropdown, Menu, message,Table } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
+import serverService from '@/service/serverService';
+// import { ServerModel } from '@/constant/server';
 
 export const serverColumns = [
     {
@@ -26,17 +28,23 @@ export const serverColumns = [
         title: 'Name(tag)',
         dataIndex: 'tagName',
         key: 'tagName',
+        sorter: (a, b) => a.tagName.length - b.tagName.length,
     },
     {
         title: 'Instance state',
         dataIndex: 'svrState',
         key: 'svrState',
+        sorter: (a, b) => {
+            const order = ['pending','running','shutting-down','stopped','terminated'];
+            return order.indexOf(a.svrState) - order.indexOf(b.svrState);},
+
         render: (text:string):React.ReactNode => {
-            if (text === 'running') {
+            if (text === 'running' || text === 'pending') {
                 return <span className={classnames('text-green-400')}>{text}</span>;
-            } else if (text === 'stopped') {
+            } else if (text === 'stopped' || text === 'shutting-down') {
                 return <span className={classnames('text-gray-500')}>{text}</span>;
             }
+            else {return <span className={classnames('text-red-500')}>{text}</span>;}
         },
     },
     {
@@ -48,17 +56,20 @@ export const serverColumns = [
         title: 'vCPU',
         dataIndex: 'vpuNum',
         key: 'vpuNum',
+        sorter: (a, b) => a.vpuNum - b.vpuNum,
     },
     {
         title: 'RAM',
         dataIndex: 'ramSize',
         key: 'ramSize',
+        sorter: (a, b) => a.ramSize - b.ramSize,
         render: (text:string):React.ReactNode => <span>{text}GiB</span>,
     },
     {
         title: 'Storage(EBS)',
         dataIndex: 'volumeSize',
         key: 'volumeSize',
+        sorter: (a, b) => a.volumeSize - b.volumeSize,
         render: (text:string):React.ReactNode => <span>{text}GB</span>,
     },
     {
@@ -78,29 +89,7 @@ export const serverColumns = [
     },
 ];
 
-const actionMenu = () => {
-    const handleMenuClick = (e) => {
-        message.info(`Click on menu item => ${e.key}.`);
-    };
 
-    return (
-        (
-            <Menu onClick={handleMenuClick}>
-                <Menu.Item key="Start">
-                    Start
-                </Menu.Item>
-                <Menu.Item key="Stop">
-                    Stop
-                </Menu.Item>
-                <Menu.Item key="Delete">
-                    Delete
-                </Menu.Item>
-                <Menu.Item key="Restart">
-                    Restart
-                </Menu.Item>
-            </Menu>
-        ));
-};
 const modifyMenu = () => {
     const handleMenuClick = (e) => {
         message.info(`Click on menu item => ${e.key}.`);
@@ -118,19 +107,63 @@ const modifyMenu = () => {
             </Menu>
         ));
 };
+
 export const ServerList = ():JSX.Element => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const serverState = useSelector((state: RootState) => {
         return state.server;
     });
+    const serverDataSource = serverState.servers;
 
-    const dispatch = useDispatch();
+    const [selectedServers, changeSelectedServers] = useState<React.Key[]>([]);
+
     useEffect(() => {
         dispatch(getServerList());
     }, [dispatch]);
 
-    const serverDataSource = serverState.servers;
+
     const newServerDataSource = serverDataSource.map((item)=> ({ ...item, 'key':item.svrId }));
+    const actionMenu = (
+        <Menu onClick={(e) => {
+            if (e.key === 'delete'){
+                if (window.confirm('Are you sure to delete(irrevocable)?')){
+                    serverService.deleteServerState({ svrIds: selectedServers }).then(
+                        ()=>{alert('delete success');
+                            dispatch(getServerList());},
+                        ()=>alert('delete failed')
+                    );
+                }
+            }
+            else{
+                serverService.changeServerState({
+                    action: e.key,
+                    svr_ids: selectedServers
+                }).then(
+                    ()=>alert('action success'),
+                    ()=>alert('action failed')
+                );
+            }
+
+            // console.log(selectedServers);
+        }}>
+            <Menu.Item key="start">
+                    Start
+            </Menu.Item>
+            <Menu.Item key="stop">
+                    Stop
+            </Menu.Item>
+            <Menu.Item key="restart">
+                    Restart
+            </Menu.Item>
+            <Menu.Item danger key="delete">
+                    Delete
+            </Menu.Item>
+        </Menu>
+    );
+
+
 
     if (serverState.loading) {
         return (
@@ -156,8 +189,12 @@ export const ServerList = ():JSX.Element => {
                         Add Server
                     </CButton>
                 </div>
-                <ResourceTable dataSource={newServerDataSource} columns={serverColumns}/>
-                {/*<ServerDetail server={serverDataSource[1]}/>*/}
+                <Table bordered={true} dataSource={newServerDataSource} columns={serverColumns} rowSelection={{
+                    type: 'checkbox',
+                    onChange:(selectedRowKeys:React.Key[])=>{
+                        changeSelectedServers(selectedRowKeys);
+                    }
+                }}/>
             </>
         );
     } else {

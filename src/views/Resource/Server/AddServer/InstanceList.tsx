@@ -25,11 +25,13 @@ export default function InstanceList(props: {insTypes:'loading'|InsType[], chang
             title: 'Processing',
             dataIndex: 'vcpuNum',
             key: 'vcpuNum',
+            sorter: (a, b) => a.vcpuNum - b.vcpuNum,
         },
         {
             title: 'Memory',
             dataIndex: 'memSize',
             key: 'memSize',
+            sorter: (a, b) => a.memSize - b.memSize,
         },
         {
             title: 'Network',
@@ -40,6 +42,7 @@ export default function InstanceList(props: {insTypes:'loading'|InsType[], chang
             title: 'Price',
             dataIndex: 'monthPrice',
             key: 'monthPrice',
+            sorter: (a, b) => a.monthPrice.value - b.monthPrice.value,
             render: text => {
                 text.currency === 'USD';
                 return '$' + text.value.toFixed(2);}
