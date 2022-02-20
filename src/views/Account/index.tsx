@@ -31,7 +31,7 @@ const Account = (): JSX.Element => {
         keyList: [],
     });
     const getAwsInfo = async () => {
-        const res = await accountService.getAwsInfo(userState?.token);
+        const res = await accountService.getAwsInfo();
         setInfo({
             ...res.detail
         });
