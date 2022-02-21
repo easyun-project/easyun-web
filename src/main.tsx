@@ -13,7 +13,6 @@ import { PersistGate } from 'redux-persist/integration/react';
 import 'antd/dist/antd.less';//原有是antd.css  只需要改为less就可以啦
 import '@/assets/styles/index.css';
 import '@/i18n';
-
 //视图与组件
 import NotFound from '@/views/NotFound';
 import Home from './views/Home';
