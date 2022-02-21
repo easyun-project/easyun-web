@@ -8,6 +8,7 @@ import { getHeader, getHost } from '@/utils/api';
 export default class AccountService {
     static async getAwsInfo(): Promise<Result<AwsInfoModel>> {
         const url = getHost() + AwsInfo;
+//         const result = await axios.get(url, {headers: getHeader(),});
         const header = getHeader();
         const result = await axios.get(url, { headers: header });
         return result.data;

@@ -33,7 +33,7 @@ export default class DataCenterService {
     /**
      * 获取数据中心默认参数
      */
-    static async getDefault(): Promise<DefaultDataCenterModel | undefined> {
+    static async getDefault(token): Promise<DefaultDataCenterModel | undefined> {
         const url = getHost() + DataCenterDefault;
         const result = await axios.get(url, {
             headers: getHeader()
@@ -49,10 +49,10 @@ export default class DataCenterService {
      * @param token
      * @param params
      */
-    static async createDataCenter(params: CreateDataCenterParams): Promise<boolean> {
+    static async createDataCenter(token: string, params: CreateDataCenterParams): Promise<boolean> {
         const url = getHost() + CreateDataCenter;
         const result = await axios.post(url, params, {
-            headers: getHeader()
+            headers: getHeader(token)
         });
         if (result.status == 200) {
             return result.data.detail;
@@ -63,10 +63,10 @@ export default class DataCenterService {
     /**
      * 获取dataCenter
      */
-    static async getDataCenter(): Promise<DataCenterModel | undefined> {
+    static async getDataCenter(token): Promise<DataCenterModel | undefined> {
         const url = getHost() + DataCenterAll;
         const result = await axios.get(url, {
-            headers: getHeader()
+            headers: getHeader(token)
         });
         if (result.status == 200) {
             return result.data.detail as DataCenterModel;
