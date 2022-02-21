@@ -26,9 +26,10 @@ export const AddServer = '/api/v1/server/add';
 
 // Storage s3存储 常量名以Storage开头
 export const AddBucket = '/api/v1.0/storage/add_bucket';
-export const ListBucket = '/api/v1/storage/object/bucket';
+// export const ListBucket = '/api/v1/storage/object/bucket';
+export const ListBucket = '/api/v1/storage/bucket?dc=Easyun';
 export const DeleteBucket = '/api/v1.0/storage/delete_bucket';
-
+export const StorageGetBucket = 'api/v1/storage/bucket/'
 // database 数据库 常量名以Database开头
 
 
