@@ -66,7 +66,7 @@ const WithoutStorage = (): JSX.Element => {
                         </div>
                         <CButton
                             click={() => {
-                                navigate('/home/addBucket');
+                                navigate('/resource/storage/object/add');
                             }}
                             classes={classnames(
                                 'bg-yellow-550',
@@ -120,7 +120,7 @@ const WithoutStorage = (): JSX.Element => {
                         </div>
                         <CButton
                             click={() => {
-                                navigate('/home/addDisk');
+                                navigate('/resource/storage/block/add');
                             }}
                             classes={classnames(
                                 'bg-yellow-550',
@@ -150,7 +150,7 @@ const WithStorage = (props): JSX.Element => {
                 <div>
                     <CButton
                         click={() => {
-                            navigate('/resource/addBucket');
+                            navigate('/resource/storage/object/add');
                         }}
                         classes={classnames(
                             'bg-yellow-550',
@@ -166,7 +166,7 @@ const WithStorage = (props): JSX.Element => {
                     </CButton>
                     <CButton
                         click={() => {
-                            navigate('/resource/addDisk');
+                            navigate('/resource/storage/block/add');
                         }}
                         classes={classnames(
                             'cursor-not-allowed',
@@ -183,7 +183,8 @@ const WithStorage = (props): JSX.Element => {
                     </CButton>
                     <CButton
                         click={() => {
-                            navigate('/resource/addDisk');
+                            // TODO 
+                            navigate('/resource/storage/block/add');
                         }}
                         classes={classnames(
                             'cursor-not-allowed',
