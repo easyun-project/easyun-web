@@ -7,45 +7,48 @@ import bucketManage from '@/service/addBucket';
 // import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { deleteStorage } from '@/redux/storageSlice';
+import { useNavigate } from 'react-router-dom';
 
 export interface StorageCardInfo {
-  class?: TTailwindString;
-  bucketUrl?: string;
-  storageType?: string;
-  CreationDate?:string;
-  Name: string;
-  bucketStatus: string;
-  bucketRegion: string;
+    class?: TTailwindString;
+    bucketUrl?: string;
+    stType?: string;
+    CreationDate?: string;
+    bktName: string;
+    statusMsg: string;
+    bktRegion: string;
 }
 
 const CStorageCard = (props: StorageCardInfo): JSX.Element => {
-    const { Name, bucketStatus, bucketRegion } = props;
+    const { bktName, statusMsg, bktRegion, stType } = props;
+    const navigate = useNavigate()
     // const userState = useSelector((state: RootState) => {
     //     return state.user.user;
     // });
     const dispatch = useDispatch();
     const menu = (
         <Menu>
-            <Menu.Item disabled key="manage">
-                <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
-          Manage (disabled)
-                </a>
+            <Menu.Item key="manage" onClick={() => {
+                navigate(`/resource/storage/object/${bktName}`, { state: props })
+            }}>
+                Manage
             </Menu.Item>
             {/* 删除按钮目前只要后端返回成功，就会直接在前端页面把那个桶删掉。 */}
             <Menu.Item
                 danger
                 key="delete"
                 onClick={() => {
-                    bucketManage.deleteBucket(Name)
+                    bucketManage.deleteBucket(bktName)
                         .then(
-                            () => {alert('删除成功');
-                                dispatch(deleteStorage(Name));
+                            () => {
+                                alert('删除成功');
+                                dispatch(deleteStorage(bktName));
                             }
                         );
                 }
                 }
             >
-        Delete
+                Delete
             </Menu.Item>
         </Menu>
     );
@@ -71,8 +74,12 @@ const CStorageCard = (props: StorageCardInfo): JSX.Element => {
                     className={classnames('w-12', 'h-12')}
                 />
                 <div className={classnames('flex-grow')}>
-                    <div className={classnames('text-blue-600')}>{Name}</div>
-                    <div className={classnames('text-xs', 'text-gray-500')}>S3 bucket</div>
+                    <div className={classnames('text-blue-600')}>
+                        <span className='cursor-pointer' onClick={() => {
+                            navigate(`/resource/storage/object/${bktName}`, { state: props })
+                        }}>{bktName}</span>
+                    </div>
+                    <div className={classnames('text-xs', 'text-gray-500')}>{stType}</div>
                 </div>
                 <Dropdown overlay={menu}>
                     <Icon
@@ -92,8 +99,8 @@ const CStorageCard = (props: StorageCardInfo): JSX.Element => {
                     'border-dashed'
                 )}
             >
-                <div className={classnames('text-xs', 'text-gray-500')}>{bucketStatus}</div>
-                <div className={classnames('text-xs', 'text-gray-500', 'pr-5')}>{bucketRegion}</div>
+                <div className={classnames('text-xs', 'text-gray-500')}>{statusMsg}</div>
+                <div className={classnames('text-xs', 'text-gray-500', 'pr-5')}>{bktRegion}</div>
             </div>
         </div>
     );
