@@ -18,12 +18,12 @@ export default function Network():JSX.Element {
                 <div className={classnames('text-2xl')}>IPv4 networking</div>
                 <div className={classnames('text-gray-600')}>The public IP address of your instance is accessible to the internet.</div>
                 <div className={classnames('text-gray-600')}>The private IP address is accessible only to other resources in your Datacenter.</div>
-                <div className={classnames('flex', 'flex-row','mt-6','mb-2')}>
+                <div className={classnames('flex','mt-6','mb-2')}>
                     <div className={classnames('w-1/3')}>
                         <div className={classnames('text-gray-400')}>PUBLIC IP</div>
-                        <div className={classnames('rounded-border','mr-4')}>
+                        <div className={classnames('rounded-border','mr-4','p-2')}>
                             {/* <div>{currentServerState.PublicIpAddress}</div> */}
-                            <div className={classnames('text-2xl', 'font-bold')}>54.173.113.2</div>
+                            <div className={classnames('text-2xl', 'font-bold')}>{currentServerState.svrNetworking.publicIp ? currentServerState.svrNetworking.publicIp : 'Null'}</div>
                             { hasPublicIP
                                 ? (<><button onClick={ ()=>DataCenterService.createEip('Easyun')}
                                     className={classnames('inline', 'text-yellow-550')}>
@@ -52,8 +52,8 @@ export default function Network():JSX.Element {
                     </div>
                     <div className={classnames('w-1/3')}>
                         <div className={classnames('text-gray-400')}>PRIVATE IP</div>
-                        <div className={classnames('rounded-border')}>
-                            <div className={classnames('text-2xl','font-bold')}>{currentServerState.PrivateIpAddress}</div>
+                        <div className={classnames('rounded-border','p-2')}>
+                            <div className={classnames('text-2xl','font-bold')}>{currentServerState.svrNetworking.privateIp ? currentServerState.svrNetworking.privateIp : 'Null'}</div>
                             <div className={classnames('text-blue-500')}>
                                 <a href="https://aws.amazon.com/cn/ec2" target="_blank" rel="noreferrer">
                                     What is this for?

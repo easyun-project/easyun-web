@@ -174,7 +174,7 @@ export default function Disk():JSX.Element {
     const [isAdding, changeIsAdding] = useState(false);
     const currentServerDisks = useSelector((state: RootState) => {
         if (state.server.currentServer)
-        { return state.server.currentServer['BlockDeviceMappings']; }
+        { return state.server.currentServer.svrDisk; }
     });
     // console.log(currentServerDisks);
     return (
