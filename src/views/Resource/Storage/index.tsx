@@ -24,8 +24,8 @@ const WithoutStorage = (): JSX.Element => {
         <div className={classnames('flex', 'flex-col', 'justify-center', 'items-center', 'm-10')}>
             <div className={classnames('text-3xl')}> Store your data on Cloud.</div>
             <div className={classnames('text-gray-700', 'my-2')}>
-        Storage resource allow you to increase the amount of data storage availiable to your AWS
-        Cloud resources.
+                Storage resource allow you to increase the amount of data storage availiable to your AWS
+                Cloud resources.
             </div>
             <div className={classnames('flex', 'flex-row')}>
                 <div
@@ -41,20 +41,20 @@ const WithoutStorage = (): JSX.Element => {
                     )}
                 >
                     <img
-                        src={ stbucket }
+                        src={stbucket}
                         alt="stbucket.png"
                         className={classnames('w-40', 'h-40')}
                     />
                     <div>
                         <div className={classnames('font-bold')}>Bucket</div>
                         <div>
-              A bucket is a cloud storage resource availiable in the Amazon Lightsail object storage
-              service. Buckets are used to store objects, which consist of data and its descriptive
-              metadata.
+                            A bucket is a cloud storage resource availiable in the Amazon Lightsail object storage
+                            service. Buckets are used to store objects, which consist of data and its descriptive
+                            metadata.
                         </div>
                         <div className={classnames('text-blue-500')}>
                             <a href="https://aws.amazon.com/cn/ec2" target="_blank" rel="noreferrer">
-                Learn more about buckets
+                                Learn more about buckets
                                 <Icon
                                     className={classnames('inline-block', 'mx-1', 'text-blue-500')}
                                     icon="akar-icons:link-out"
@@ -78,7 +78,7 @@ const WithoutStorage = (): JSX.Element => {
                                 'my-5'
                             )}
                         >
-              Add Bucket
+                            Add Bucket
                         </CButton>
                     </div>
                 </div>
@@ -95,20 +95,20 @@ const WithoutStorage = (): JSX.Element => {
                     )}
                 >
                     <img
-                        src={ stdisk }
+                        src={stdisk}
                         alt="stdisk.png"
                         className={classnames('w-40', 'h-40')}
                     />
                     <div>
                         <div className={classnames('font-bold')}>Disk</div>
                         <div>
-              Disks are storage volumes that you can mount as hard drivers on your Lightsail
-              instances. A disk persists independently from the life of the instance it is attached
-              to.
+                            Disks are storage volumes that you can mount as hard drivers on your Lightsail
+                            instances. A disk persists independently from the life of the instance it is attached
+                            to.
                         </div>
                         <div className={classnames('text-blue-500')}>
                             <a href="https://aws.amazon.com/cn/ec2" target="_blank" rel="noreferrer">
-                Learn more about Disk
+                                Learn more about Disk
                                 <Icon
                                     className={classnames('inline-block', 'mx-1', 'text-blue-500')}
                                     icon="akar-icons:link-out"
@@ -132,7 +132,7 @@ const WithoutStorage = (): JSX.Element => {
                                 'my-5'
                             )}
                         >
-              Add Disk
+                            Add Disk
                         </CButton>
                     </div>
                 </div>
@@ -162,7 +162,7 @@ const WithStorage = (props): JSX.Element => {
                             'm-5'
                         )}
                     >
-            Add Bucket
+                        Add Bucket
                     </CButton>
                     <CButton
                         click={() => {
@@ -179,7 +179,7 @@ const WithStorage = (props): JSX.Element => {
                             'm-5'
                         )}
                     >
-            Add Disk
+                        Add Disk
                     </CButton>
                     <CButton
                         click={() => {
@@ -196,14 +196,14 @@ const WithStorage = (props): JSX.Element => {
                             'm-5'
                         )}
                     >
-            Add NAS
+                        Add NAS
                     </CButton>
                 </div>
             </div>
 
-            <div className={classnames('flex','flex-wrap','justify-items-center')}>
+            <div className={classnames('flex', 'flex-wrap', 'justify-items-center')}>
                 {props.storageList.map((storageInfo) => {
-                    return <CStorageCard key={storageInfo.Name} {...storageInfo}/>;
+                    return <CStorageCard key={storageInfo.bktName} {...storageInfo} />;
                 })}
             </div>
         </div>
@@ -222,17 +222,18 @@ export const StoragePage = (): JSX.Element => {
     //     return user.token;
     // });
 
-    useEffect(()=>{
-        bucketManage.listBucket().then((data:any)=>{
+    useEffect(() => {
+        bucketManage.listBucket().then((data: any) => {
             changeStorageLoading(false);
-            dispatch(updateStorage(data.detail[0].bucketList));
+            dispatch(updateStorage(data.detail));
+            // dispatch(updateStorage(data.detail[0].bucketList));
         },
-        ()=>{
-            changeStorageLoading(false);
-            alert('网络错误，请刷新');
-        }
+            () => {
+                changeStorageLoading(false);
+                alert('网络错误，请刷新');
+            }
         );
-    },[]);
+    }, []);
 
     const storageList = useSelector((state: RootState) => {
         return state.storage.storageList;
@@ -240,14 +241,16 @@ export const StoragePage = (): JSX.Element => {
 
     if (storageLoading) {
         return (
-            <CPartialLoading classes={classnames('h-96')}/>
-        );}
+            <CPartialLoading classes={classnames('h-96')} />
+        );
+    }
     else {
         return (
             <div>
-                {storageList.length === 0 ? <WithoutStorage /> : <WithStorage storageList={storageList}/>}
+                {storageList?.length === 0 ? <WithoutStorage /> : <WithStorage storageList={storageList} />}
             </div>
-        );}
+        );
+    }
 };
 
 export default Storage;
