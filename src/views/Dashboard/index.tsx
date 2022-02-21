@@ -400,8 +400,8 @@ export const Dashboard = (props): JSX.Element => {
                     },
                     {
                         title: 'IPv4 CIDR',
-                        dataIndex: 'engineVer',
-                        key: 'engineVer',
+                        dataIndex: 'cidrBlock',
+                        key: 'cidrBlock',
                     },
                     {
                         title: 'Available IPv4',
