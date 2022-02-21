@@ -12,7 +12,7 @@ export interface dataConfigType {
 	rightData: rightDataType[];
 }
 export interface rightDataType {
-	icon?: boolean | iconType;
+	icon?: iconType;
 	label: string;
 	value: string | number;
 }

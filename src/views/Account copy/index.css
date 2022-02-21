@@ -1,0 +1,56 @@
+.content-body{
+    padding: 10px 50px;
+}
+.yellow-text-color{
+      color:#e49151
+}
+.address-sms-text{
+    color:#e49151
+}
+.flex-align-center{
+    display: flex !important;
+    align-items: center;
+}
+.sshkey-radio-row{
+    width: 700px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #eaeded;
+}
+.text-icon-box{
+    display: flex;
+    color:#e49151;
+    align-items: center;
+}
+.text-icon-box > div{
+    margin-right: 10px;
+}
+.margin-right-10{
+    margin-right: 10px;
+}
+.margin-top-10 {
+    margin-right: 10px;
+}
+.color-gray {
+    color: #9c9c9c;
+}
+.list-style-disc {
+    list-style: disc;
+}
+.flex-center{
+    display: flex;
+    align-items: center;
+}
+.color-link{
+    color:#3c89c5
+}
+.card-item{
+    margin: 10px 0 !important;
+}
+.pointer {
+    cursor:pointer
+}
+.color-black-weight800{
+    color: #040404;
+    font-weight: 800;
+}

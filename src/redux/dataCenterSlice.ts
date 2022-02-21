@@ -1,6 +1,6 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import DataCenterService from "@/service/dataCenterService";
-import {DataCenterModel, DefaultDataCenterModel} from "@/constant/dataCenter";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import DataCenterService from '@/service/dataCenterService';
+import { DataCenterModel, DefaultDataCenterModel } from '@/constant/dataCenter';
 
 const updateDefaultDataCenter = 'dataCenter/updateDefaultDataCenterAction';
 
@@ -14,15 +14,15 @@ export const updateDefaultDataCenterAction = (defaultDataCenter): { payload: Def
 
 export const getDataCenter = createAsyncThunk(
     'dataCenter/getDataCenter',
-    async (token: string) => {
-        return await DataCenterService.getDataCenter(token)
+    async () => {
+        return await DataCenterService.getDataCenter();
     }
 );
 
 export const getDefaultDataCenter = createAsyncThunk(
     'dataCenter/getDefaultDataCenter',
-    async (token: string) => {
-        return await DataCenterService.getDefault(token)
+    async () => {
+        return await DataCenterService.getDefault();
     }
 );
 

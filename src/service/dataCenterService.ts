@@ -1,7 +1,8 @@
-import { CreateDataCenter, DataCenterAll, DataCenterDefault } from '@/constant/apiConst';
+import { CreateDataCenter, DataCenterAll, DataCenterDefault,GetSecgroup,GetSubnet,DataCenterEip } from '@/constant/apiConst';
 import axios from 'redaxios';
 import { getHeader, getHost } from '@/utils/api';
 import { DataCenterModel, DefaultDataCenterModel } from '@/constant/dataCenter';
+import { SubnetInfo } from '@/views/Resource/Server/AddServer/Networking';
 
 // 创建数据中心需要的参数
 export interface CreateDataCenterParams {
@@ -17,6 +18,17 @@ export interface CreateDataCenterParams {
     vpc_cidr?: string
 }
 
+interface DatacenterParams{
+    dc:string
+}
+
+interface SecGroupInfo{
+    sgDes: string
+    sgId: string
+    sgName: string
+    tagName: string
+}
+
 export default class DataCenterService {
     /**
      * 获取数据中心默认参数
@@ -24,7 +36,7 @@ export default class DataCenterService {
     static async getDefault(token): Promise<DefaultDataCenterModel | undefined> {
         const url = getHost() + DataCenterDefault;
         const result = await axios.get(url, {
-            headers: getHeader(token)
+            headers: getHeader()
         });
         if (result.status == 200) {
             return result.data.detail as DefaultDataCenterModel;
@@ -58,6 +70,44 @@ export default class DataCenterService {
         });
         if (result.status == 200) {
             return result.data.detail as DataCenterModel;
+        }
+        return undefined;
+    }
+
+    /**
+     * 获取subnet
+     */
+    static async getSubnet(params:DatacenterParams):Promise<SubnetInfo[]>{
+        const url = getHost() + GetSubnet;
+        const result = await axios.get(url, {
+            params,
+            headers: getHeader()
+        });
+        return result.data.detail;
+    }
+
+    /**
+     * 获取secgroup安全组
+     */
+    static async getSecgroup(params:DatacenterParams):Promise<SecGroupInfo[]>{
+        const url = getHost() + GetSecgroup;
+        const result = await axios.get(url, {
+            params,
+            headers: getHeader()
+        });
+        return result.data.detail;
+    }
+
+    /**
+     * 添加eip
+     */
+    static async createEip(dcName:string):Promise<any>{
+        const url = getHost() + DataCenterEip;
+        const result = await axios.post(url, { dcName },{
+            headers: getHeader()
+        });
+        if (result.status == 200) {
+            return result.data.detail;
         }
         return undefined;
     }

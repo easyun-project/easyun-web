@@ -2,8 +2,11 @@ import React from 'react';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
-import { Menu } from 'antd';
+import { Menu,Dropdown  } from 'antd';
 import { useState } from 'react';
+import { DownOutlined } from '@ant-design/icons';
+
+import logo3 from '@@/src/assets/images/logo_easyun/logo_easyun03.svg';
 
 // const menu = () => {
 //     // const navigate = useNavigate();
@@ -24,55 +27,67 @@ import { useState } from 'react';
 // };
 
 export const CHeader = (): JSX.Element => {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [selectedIndex, setSelectedIndex] = React.useState(1);
-    const open = Boolean(anchorEl);
+    // const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    // const [selectedIndex, setSelectedIndex] = React.useState(1);
+    // const open = Boolean(anchorEl);
     // const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     //     setAnchorEl(event.currentTarget);
     // };
     const [current, changeCurrent] = useState('Home');
     const navigate = useNavigate();
     const handleClick = (e)=>{
-        console.log(e.key);
+        console.log(e.currentTarget);
         changeCurrent(e.key);
-        navigate(`/${e.key}`);};
+        navigate(`/${e.key}`);
+    };
+
+    const getTitle = (key: string) => {
+        switch (key) {
+        case 'home':
+            return 'Home';
+        case 'dashboard':
+            return 'Dashboard';
+        case 'event':
+            return 'Event';
+        case 'account':
+            return 'Account';
+        default:
+            return 'Home';
+        }
+    };
 
 
-
-
-    // const handleMenuItemClick = (
-    //     event: React.MouseEvent<HTMLElement>,
-    //     index: number
-    // ) => {
-    //     setSelectedIndex(index);
-    //     setAnchorEl(null);
-    // };
-
-    // const container = classnames(
-    //     'bg-gray-600',
-    //     'text-white',
-    //     'text-3xl',
-    //     'h-16',
-    //     'flex',
-    //     'items-center'
-    // );
-    // const content = classnames('ml-6', 'flex-none', 'cursor-pointer');
+    const menu = (
+        <Menu onClick={handleClick} selectedKeys={[current]} mode="vertical" className={classnames('text-xl')}>
+            <Menu.Item key="home">Home</Menu.Item>
+            <Menu.Item key="dashboard">Dashboard</Menu.Item>
+            <Menu.Item key="event">Event</Menu.Item>
+            <Menu.Item key="account">Account</Menu.Item>
+        </Menu>);
     return (
-        <div className={classnames('flex','flex-row','items-center','bg-gray-600','text-white','text-3xl','p-2')}>
-            <span className={classnames('mx-6','cursor-pointer')} onClick={() => navigate('/home')}>
-        Easyun
+        <div
+            className={classnames(
+                'flex',
+                'items-center',
+                'bg-gray-600',
+                'text-white',
+                'text-3xl',
+            )}
+        >
+            <span
+                className={classnames('mx-10', 'cursor-pointer', 'flex')}
+                onClick={() => navigate('/home')}
+            >
+                <img src={logo3} alt="logo_easyun03.svg" width="150" />
             </span>
-            {/* <Dropdown overlay={menu} className={classnames('ml-32')}>
-                <span>
-          Home <DownOutlined />
-                </span>
-            </Dropdown> */}
-            <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" className={classnames('w-1/3', 'bg-gray-600','text-white','text-xl')}>
-                <Menu.Item key="Home">Home</Menu.Item>
-                <Menu.Item key="Dashboard">Dashboard</Menu.Item>
-                <Menu.Item key="Event">Event</Menu.Item>
-                <Menu.Item key="Account">Account</Menu.Item>
-            </Menu>
+            <span >
+                <Dropdown overlay={menu}>
+                    <a   className={classnames('flex','items-baseline')} onClick={e => e.preventDefault()}>
+                        <span className={classnames('text-3xl')}>{getTitle(current)}</span>
+                        <DownOutlined style={{ fontSize: '20px' }}/>
+                    </a>
+                </Dropdown>
+            </span>
             <div
                 className={classnames(
                     'absolute',
@@ -87,8 +102,8 @@ export const CHeader = (): JSX.Element => {
                     className={classnames('cursor-pointer')}
                     icon="fa:heartbeat"
                     color="#9fbe8a"
-                    width="40"
-                    height="40"
+                    width="30"
+                    height="30"
                     fr={undefined}
                 />
                 <Icon
@@ -122,10 +137,10 @@ export const CHeader = (): JSX.Element => {
                         fr={undefined}
                     />
                 </span>
-                <span id="username" className={'mx-5'} style={{ color: '#5c6f9a' }}>
-          admin
-                </span>
-                <span id="user" className={classnames('cursor-pointer', 'inline-flex')}>
+                <span
+                    id="user"
+                    className={classnames('cursor-pointer', 'inline-flex')}
+                >
                     <Icon
                         className={classnames('ml-2', 'inline-block')}
                         icon="bi:person-fill"
@@ -143,6 +158,9 @@ export const CHeader = (): JSX.Element => {
                         hFlip={true}
                         fr={undefined}
                     />
+                </span>
+                <span id="username" className={classnames('mx-5','text-lg')} style={{ color: '#5c6f9a' }}>
+            admin
                 </span>
             </div>
         </div>

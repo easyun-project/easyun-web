@@ -1,5 +1,5 @@
-import {createSlice} from '@reduxjs/toolkit';
-import {UserModel} from "@/constant/user";
+import { createSlice } from '@reduxjs/toolkit';
+import { UserModel } from '@/constant/user';
 
 const updateUser = 'user/updateUser';
 
@@ -11,7 +11,14 @@ export const userAction = (user: UserModel): { payload: UserModel; type: string 
     };
 };
 
-const initUser: UserModel | undefined = undefined
+// const initUser: UserModel | undefined = undefined;
+
+const initUser = {
+    account_id: '',
+    account_type: '',
+    type: '',
+    token: '',
+};
 
 export const userSlice = createSlice({
     name: 'user',

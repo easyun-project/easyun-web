@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { useEffect } from 'react';
-import { NoResource, ResourceTable } from '@/views/Resource';
+import { useEffect,useState } from 'react';
+import { NoResource } from '@/views/Resource';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { getServerList } from '@/redux/serverSlice';
@@ -8,99 +8,88 @@ import { classnames } from '@@/tailwindcss-classnames';
 import { CPartialLoading } from '@/components/Common/CPartialLoading';
 import { CButton } from '@/components/Common/CButton';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, Dropdown, Menu, message } from 'antd';
+import { Button, Dropdown, Menu, message,Table } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
+import serverService from '@/service/serverService';
+// import { ServerModel } from '@/constant/server';
 
 export const serverColumns = [
     {
         title: 'Instance ID',
-        dataIndex: 'svr_id',
-        key: 'svr_id',
-        render: text => <Link
-            to={`server/${text}`}
+        dataIndex: 'svrId',
+        key: 'svrId',
+        render: (text:string):React.ReactNode => <Link
+            to={`${text}`}
             className={classnames('text-blue-500', 'underline')}>
             {text}
         </Link>
     },
     {
         title: 'Name(tag)',
-        dataIndex: 'svr_name',
-        key: 'svr_name',
+        dataIndex: 'tagName',
+        key: 'tagName',
+        sorter: (a, b) => a.tagName.length - b.tagName.length,
     },
     {
         title: 'Instance state',
-        dataIndex: 'svr_state',
-        key: 'svr_state',
-        render: text => {
-            if (text === 'running') {
+        dataIndex: 'svrState',
+        key: 'svrState',
+        sorter: (a, b) => {
+            const order = ['pending','running','shutting-down','stopped','terminated'];
+            return order.indexOf(a.svrState) - order.indexOf(b.svrState);},
+
+        render: (text:string):React.ReactNode => {
+            if (text === 'running' || text === 'pending') {
                 return <span className={classnames('text-green-400')}>{text}</span>;
-            } else if (text === 'stopped') {
+            } else if (text === 'stopped' || text === 'shutting-down') {
                 return <span className={classnames('text-gray-500')}>{text}</span>;
             }
+            else {return <span className={classnames('text-red-500')}>{text}</span>;}
         },
     },
     {
         title: 'Instance type',
-        dataIndex: 'ins_type',
-        key: 'ins_type',
+        dataIndex: 'insType',
+        key: 'insType',
     },
     {
         title: 'vCPU',
-        dataIndex: 'vcpu',
-        key: 'vcpu',
+        dataIndex: 'vpuNum',
+        key: 'vpuNum',
+        sorter: (a, b) => a.vpuNum - b.vpuNum,
     },
     {
         title: 'RAM',
-        dataIndex: 'ram',
-        key: 'ram',
-        render: text => <span>{text}GiB</span>,
+        dataIndex: 'ramSize',
+        key: 'ramSize',
+        sorter: (a, b) => a.ramSize - b.ramSize,
+        render: (text:string):React.ReactNode => <span>{text}GiB</span>,
     },
     {
         title: 'Storage(EBS)',
-        dataIndex: 'ebs',
-        key: 'ebs',
-        render: text => <span>{text}GB</span>,
+        dataIndex: 'volumeSize',
+        key: 'volumeSize',
+        sorter: (a, b) => a.volumeSize - b.volumeSize,
+        render: (text:string):React.ReactNode => <span>{text}GB</span>,
     },
     {
         title: 'OS',
-        dataIndex: 'os',
-        key: 'os',
+        dataIndex: 'osName',
+        key: 'osName',
     },
     {
         title: 'Region & AZ',
-        dataIndex: 'rg_az',
-        key: 'rg_az',
+        dataIndex: 'azName',
+        key: 'azName',
     },
     {
         title: 'Public IPv4',
-        dataIndex: 'pub_ip',
-        key: 'pub_ip',
+        dataIndex: 'pubIp',
+        key: 'pubIp',
     },
 ];
 
-const actionMenu = () => {
-    const handleMenuClick = (e) => {
-        message.info(`Click on menu item => ${e.key}.`);
-    };
 
-    return (
-        (
-            <Menu onClick={handleMenuClick}>
-                <Menu.Item key="Start">
-                    Start
-                </Menu.Item>
-                <Menu.Item key="Stop">
-                    Stop
-                </Menu.Item>
-                <Menu.Item key="Delete">
-                    Delete
-                </Menu.Item>
-                <Menu.Item key="Restart">
-                    Restart
-                </Menu.Item>
-            </Menu>
-        ));
-};
 const modifyMenu = () => {
     const handleMenuClick = (e) => {
         message.info(`Click on menu item => ${e.key}.`);
@@ -118,23 +107,62 @@ const modifyMenu = () => {
             </Menu>
         ));
 };
-export const ServerList = () => {
+
+export const ServerList = ():JSX.Element => {
     const navigate = useNavigate();
-    const userState = useSelector((state: RootState) => {
-        return state.user.user;
-    });
+    const dispatch = useDispatch();
 
     const serverState = useSelector((state: RootState) => {
         return state.server;
     });
+    const serverDataSource = serverState.servers;
 
-    const dispatch = useDispatch();
+    const [selectedServers, changeSelectedServers] = useState<React.Key[]>([]);
+
     useEffect(() => {
-        dispatch(getServerList(userState!.token));
+        dispatch(getServerList());
     }, [dispatch]);
 
-    const serverDataSource = serverState.servers;
-    console.log(serverState);
+
+    const newServerDataSource = serverDataSource.map((item)=> ({ ...item, 'key':item.svrId }));
+    const actionMenu = (
+        <Menu onClick={(e) => {
+            if (e.key === 'delete'){
+                if (window.confirm('Are you sure to delete(irrevocable)?')){
+                    serverService.deleteServerState({ svrIds: selectedServers }).then(
+                        ()=>{alert('delete success');
+                            dispatch(getServerList());},
+                        ()=>alert('delete failed')
+                    );
+                }
+            }
+            else{
+                serverService.changeServerState({
+                    action: e.key,
+                    svr_ids: selectedServers
+                }).then(
+                    ()=>alert('action success'),
+                    ()=>alert('action failed')
+                );
+            }
+
+            // console.log(selectedServers);
+        }}>
+            <Menu.Item key="start">
+                    Start
+            </Menu.Item>
+            <Menu.Item key="stop">
+                    Stop
+            </Menu.Item>
+            <Menu.Item key="restart">
+                    Restart
+            </Menu.Item>
+            <Menu.Item danger key="delete">
+                    Delete
+            </Menu.Item>
+        </Menu>
+    );
+
 
 
     if (serverState.loading) {
@@ -156,13 +184,17 @@ export const ServerList = () => {
                         </Button>
                     </Dropdown>
                     <CButton
-                        click={() => navigate('/resource/addServer')}
+                        click={() => navigate('/resource/server/add')}
                         classes={classnames('inline-block', 'bg-yellow-550', 'mr-3', 'block', 'text-white', 'rounded-3xl', 'px-5', 'py-1')}>
                         Add Server
                     </CButton>
                 </div>
-                <ResourceTable dataSource={serverDataSource} columns={serverColumns}/>
-                {/*<ServerDetail server={serverDataSource[1]}/>*/}
+                <Table bordered={true} dataSource={newServerDataSource} columns={serverColumns} rowSelection={{
+                    type: 'checkbox',
+                    onChange:(selectedRowKeys:React.Key[])=>{
+                        changeSelectedServers(selectedRowKeys);
+                    }
+                }}/>
             </>
         );
     } else {
@@ -175,12 +207,12 @@ export const ServerList = () => {
                         </Button>
                     </Dropdown>
                     <CButton
-                        click={() => navigate('/addServer')}
+                        click={() => navigate('server/add')}
                         classes={classnames('inline-block', 'bg-yellow-550', 'block', 'text-white', 'rounded-3xl', 'px-5', 'py-1')}>
                         Add Server
                     </CButton>
                 </div>
-                <NoResource resourceName={'server'} buttonName={'add server'} routePath={'/addServer'}/>
+                <NoResource resourceName={'server'} buttonName={'add server'} routePath={'server/add'}/>
             </>
         );
     }

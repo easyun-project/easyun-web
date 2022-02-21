@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
-// import { CHeader } from '@/components/Logic/CHeader';
-// import { CFooter } from '@/components/Logic/CFooter';
 import { CSubnet } from '@/components/Logic/CSubnet';
 import { classnames } from '@@/tailwindcss-classnames';
-import CSecurityGroup from '@/components/Logic/CSecurityGrop';
+import CSecurityGroup from '@/components/Logic/CSecurityGroup';
 import { CButton } from '@/components/Common/CButton';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
@@ -28,15 +26,15 @@ const DataCenter = (): JSX.Element => {
 
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getDefaultDataCenter(userState?.token));
+        dispatch(getDefaultDataCenter());
     }, [dispatch]);
 
     // 创建数据中心
     const createDateCenter = async (params: CreateDataCenterParams) => {
         if (userState) {
-            const created = await dataCenterService.createDataCenter(userState!.token, params);
+            const created = await dataCenterService.createDataCenter(params);
             if (created) {
-                navigate('/resource');
+                navigate('/home');
                 return;
             }
             message.info('创建数据中心失败');

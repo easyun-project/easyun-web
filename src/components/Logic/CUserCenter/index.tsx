@@ -1,11 +1,11 @@
 import React from 'react';
 
 const CUserCenter = (): JSX.Element => {
-	return (
-		<div>
+    return (
+        <div>
 			user center
-		</div>
-	);
+        </div>
+    );
 };
 
 export default CUserCenter;

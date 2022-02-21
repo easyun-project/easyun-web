@@ -1,59 +1,83 @@
-import React, { useEffect } from 'react';
-import { CHeader } from '@/components/Logic/CHeader';
-import { CFooter } from '@/components/Logic/CFooter';
-import { CButton } from '@/components/Common/CButton';
+import React from 'react';
 import { classnames } from '@@/tailwindcss-classnames';
+import { Menu, Dropdown } from 'antd';
+import { Icon } from '@iconify/react';
+import stbucket from '@@/src/assets/images/stbucket.png';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { getDataCenter } from '@/redux/dataCenterSlice';
-import { RootState } from '@/redux/store';
 
-const Home = (): JSX.Element => {
-    const dispatch = useDispatch();
+
+export default function Home():JSX.Element {
     const navigate = useNavigate();
-
-    const userState = useSelector((state: RootState) => {
-        return state.user.user;
-    });
-    const dataCenterState = useSelector((state: RootState) => {
-        return state.dataCenter;
-    });
-
-    // useEffect(() => {
-    //     dispatch(getDataCenter(userState!.token));
-    // }, [dispatch]);
-
-
-    const dataCenter = dataCenterState.dataCenter;
-    // 这里不知道为什么会显示没有数据数据中心，先无论如何跳转一下，后续再debug
-    if (dataCenter) {
-        navigate('/resource');
-        return <div/>;
-    } else {
-        navigate('/resource');
-        return (
-            <div>
-                <NoData/>
-            </div>
-        );
-    }
-};
-
-
-const NoData = (): JSX.Element => {
-    const navigate = useNavigate();
+    const menu = (
+        <Menu>
+            <Menu.Item key="resource" onClick={()=>navigate('/resource')}>
+          Resource
+            </Menu.Item>
+            <Menu.Item key="manage" onClick={()=>navigate('/datacenter')}>
+          Manage
+            </Menu.Item>
+            <Menu.Item
+                danger
+                key="delete"
+                onClick={() => console.log('click delete')
+                }
+            >
+        Delete
+            </Menu.Item>
+        </Menu>
+    );
+    const Name = 'Easyun';
+    const Vpc = 'Vpc';
+    const CIDR = 'CIDR: 10.10.0.0';
+    const Region = 'US-East';
     return (
-        <div className={classnames('m-20', 'flex', 'flex-col', 'items-center', 'h-screen')}>
-            <div className={classnames('text-3xl', 'm-10')}>you have no datacenter right now.</div>
-            <div>
-                <CButton
-                    click={() => navigate('/datacenter')}
-                    classes={classnames('bg-yellow-550', 'block', 'text-white', 'rounded-3xl', 'px-5', 'py-3')}>Add
-                    Datacenter
-                </CButton>
+        <div className={classnames('min-h-screen')}>
+            <div
+                className={classnames(
+                    'flex',
+                    'flex-col',
+                    'bg-gray-200',
+                    'border',
+                    'w-96',
+                    'rounded',
+                    'p-2',
+                    'mx-8',
+                    'my-4',
+                )}
+            >
+                <div className={classnames('flex', 'flex-row', 'mb-2')}>
+                    <img
+                        src={stbucket}
+                        alt="stbucket.png"
+                        className={classnames('w-12', 'h-12')}
+                    />
+                    <div className={classnames('flex-grow')}>
+                        <a href='/resource' className={classnames('text-blue-600') }>{Name}</a>
+                        <div className={classnames('text-xs', 'text-gray-500')}>{Vpc}</div>
+                    </div>
+                    <Dropdown overlay={menu}>
+                        <Icon
+                            icon="fluent:more-vertical-20-filled"
+                            fr={undefined}
+                            className={classnames('cursor-pointer', 'hover:bg-yellow-650')}
+                        />
+                    </Dropdown>
+                </div>
+                <div
+                    className={classnames(
+                        'flex',
+                        'flex-row',
+                        'justify-between',
+                        'border-t-2',
+                        'border-gray-300',
+                        'border-dashed'
+                    )}
+                >
+                    <div className={classnames('text-xs', 'text-gray-500')}>{CIDR}</div>
+                    <div className={classnames('text-xs', 'text-gray-500', 'pr-5')}>{Region}</div>
+                </div>
             </div>
         </div>
-    );
-};
 
-export default Home;
+    );
+}

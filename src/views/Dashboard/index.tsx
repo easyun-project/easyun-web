@@ -1,625 +1,761 @@
-import React from 'react';
-import { CTable } from '@/components/Common/CTable';
-import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
+import React, { useEffect, useState } from 'react';
+import { classnames } from '@@/tailwindcss-classnames';
+import { AntdTable, TableConfig, TableProp } from '@/components/Common/CTable/AntdTable';
 import { Icon } from '@iconify/react';
-import { CCard } from '@/components/Common/CCard';
-import { DashCard } from '@/components/Pages/dashbords/DashCard';
-import { CHeader } from '@/components/Logic/CHeader';
-import { CFooter } from '@/components/Logic/CFooter';
+import { DashCard, GraphicalData } from '@/components/DashboardCommon/DashCard';
+import './index.less';
+import dashboard from '@/service/dashboard';
 
-const mock1 = {
-    config: {
-        isShowTitle: true,
-        isShowTableHeader: false,
-        title: 'DataCenter Summary'
+type TableType = {
+    [key: string]: {
+        cardTitle?: string,
+        config: TableConfig,
+        data: TableProp
+    }
+}
+type HealthType = {
+    alarms: {
+        iaNum: number,
+        isNum: number,
+        okNum: number,
     },
-    tableTitle: ['name', 'country', 'light', 'Subnet'],
-    data: [
-        {
-            name: 'us-east-1a',
-            country: {
-                icon: 'china',
-                text: 'US East(N.Virginia)'
+    dashboards: Array<{
+        title: string,
+        url: string
+    }>
+}
+type GraphicalType = {
+    [key: string]: {
+        showIcon?: boolean,
+        cardTitle: string,
+        content: GraphicalData
+    }
+}
+
+export const Dashboard = (props): JSX.Element => {
+    const [tableList, setTableList] = useState<TableType>({
+        dataCenter: {
+            cardTitle: 'DataCenter Summary',
+            config: {
+                showHeader: false,
+                pagination: false,
             },
-            light: true,
-            subnet: '2 Subnet'
+            data: {
+                columns: [
+                    {
+                        title: '',
+                        dataIndex: 'azName',
+                        key: 'azName',
+                    }, {
+                        title: '',
+                        dataIndex: 'dcRegion',
+                        key: 'dcRegion',
+                        render: dcRegion => {
+                            return <div>
+                                <span className={classnames('inline-block', 'pr-1', 'h-4')}>
+                                    <Icon className={'ml-5'} icon={`twemoji:flag-for-flag-${dcRegion?.icon}`}
+                                        color='#5c6f9a'
+                                        width='25' height='25'
+                                        fr={undefined}/>
+                                </span>
+                                <span>{dcRegion?.name}</span>
+                            </div>;
+                        }
+                    }, {
+                        title: '',
+                        dataIndex: 'azStatus',
+                        key: 'azStatus',
+                        render: (azStatus) => {
+                            const color = {
+                                running: '#92d050',
+                                empty: '#afabab'
+                            };
+                            return <Icon icon='akar-icons:circle-fill' color={color[azStatus]} width='20'
+                                height='20' fr={undefined}/>;
+                        },
+                    }, {
+                        title: '',
+                        dataIndex: 'subnetNum',
+                        key: 'subnetNum',
+                        render: (subnetNum) => {
+                            return subnetNum ? `${subnetNum} Subnet` : '-';
+                        }
+                    },
+                ],
+                dataSource: []
+            }
         },
-        {
-            name: 'us-east-1a',
-            country: {
-                icon: 'united-states',
-                text: 'US East(N.Virginia)'
+        server: {
+            cardTitle: 'Server List',
+            config: {
+                pagination: false,
+                bordered: true,
             },
-            light: true,
-            subnet: '2 Subnet'
+            data: {
+                columns: [
+                    {
+                        title: 'Instance ID',
+                        dataIndex: 'svrId',
+                        key: 'svrId',
+                    },
+                    {
+                        title: 'Name（tag）',
+                        dataIndex: 'tagName',
+                        key: 'tagName',
+                    },
+                    {
+                        title: 'State',
+                        dataIndex: 'svrState',
+                        key: 'svrState',
+                    },
+                    {
+                        title: 'Instance type',
+                        dataIndex: 'insType',
+                        key: 'insType',
+                    },
+                    {
+                        title: 'vCPU',
+                        dataIndex: 'vpuNum',
+                        key: 'vpuNum',
+                    },
+                    {
+                        title: 'RAM',
+                        dataIndex: 'ramSize',
+                        key: 'ramSize',
+                    },
+                    {
+                        title: 'Storage（EBS）',
+                        dataIndex: 'diskSize',
+                        key: 'diskSize',
+                        render: diskSize => {
+                            return <div>{diskSize} GiB</div>;
+                        }
+                    },
+                    {
+                        title: 'OS',
+                        dataIndex: 'osName',
+                        key: 'osName',
+                    },
+                    {
+                        title: 'Region & AZ',
+                        dataIndex: 'azName',
+                        key: 'azName',
+                    },
+                    {
+                        title: 'Public IPv4',
+                        dataIndex: 'priIp',
+                        key: 'priIp',
+                    },
+                    {
+                        title: 'Launch time',
+                        dataIndex: 'createDate',
+                        key: 'createDate',
+                    }
+                ],
+                dataSource: []
+            }
         },
-        {
-            name: 'us-east-1a',
-            country: {
-                icon: 'sweden',
-                text: 'US East(N.Virginia)'
+        st_block: {
+            cardTitle: 'Block Storage list',
+            config: {
+                pagination: false,
+                bordered: true,
             },
-            light: false,
-            subnet: '2 Subnet'
+            data: {
+                columns: [
+                    {
+                        title: 'Disk ID',
+                        dataIndex: 'diskID',
+                        key: 'diskID',
+                    },
+                    {
+                        title: 'Name（tag）',
+                        dataIndex: 'attachSvr',
+                        key: 'attachSvr',
+                    },
+                    {
+                        title: 'Ebs type',
+                        dataIndex: 'diskType',
+                        key: 'diskType',
+                    },
+                    {
+                        title: 'Totle Size',
+                        dataIndex: 'totalSize',
+                        key: 'totalSize',
+                    },
+                    {
+                        title: 'Iops',
+                        dataIndex: 'diskIops',
+                        key: 'diskIops',
+                    },
+                    {
+                        title: 'Throughput',
+                        dataIndex: 'diskThruput',
+                        key: 'diskThruput',
+                    },
+                    {
+                        title: 'Encrypted',
+                        dataIndex: 'diskEncrypt',
+                        key: 'diskEncrypt',
+                        render: (diskEncrypt) => {
+                            return <div>{diskEncrypt.toString()}</div>;
+                        }
+                    },
+                    {
+                        title: 'Volume state',
+                        dataIndex: 'diskState',
+                        key: 'diskState',
+                    },
+                    {
+                        title: 'Attached',
+                        dataIndex: 'attachSvr',
+                        key: 'attachSvr',
+                    },
+                    {
+                        title: 'Device path',
+                        dataIndex: 'attachPath',
+                        key: 'attachPath',
+                    },
+                    {
+                        title: 'Availability Zone',
+                        dataIndex: 'diskAz',
+                        key: 'diskAz',
+                    },
+                    {
+                        title: 'Created date',
+                        dataIndex: 'createDate',
+                        key: 'createDate',
+                    }
+                ],
+                dataSource: []
+            }
         },
-        {
-            name: 'us-east-1a',
-            country: {
-                icon: 'bahrain',
-                text: 'US East(N.Virginia)'
+        st_object: {
+            cardTitle: 'Object Storage list',
+            config: {
+                pagination: false,
+                bordered: true,
             },
-            light: false,
-            subnet: '2 Subnet'
+            data: {
+                columns: [
+                    {
+                        title: 'Identifier',
+                        dataIndex: 'bucketIdentifier',
+                        key: 'bucketIdentifier',
+                    },
+                    {
+                        title: 'Region',
+                        dataIndex: 'bucketRegion',
+                        key: 'bucketRegion',
+                    },
+                    {
+                        title: 'Access',
+                        dataIndex: 'bucketAccess',
+                        key: 'bucketAccess',
+                    },
+                    {
+                        title: 'Default encryption',
+                        dataIndex: 'bucketEncryption',
+                        key: 'bucketEncryption',
+                        render: (bucketEncryption) => {
+                            return <div>{bucketEncryption.toString()}</div>;
+                        }
+                    },
+                    {
+                        title: 'Versioning',
+                        dataIndex: 'bucketVersiong',
+                        key: 'bucketVersiong',
+                    },
+                    {
+                        title: 'Creation date',
+                        dataIndex: 'createDate',
+                        key: 'createDate',
+                    },
+                ],
+                dataSource: []
+            }
         },
-        {
-            name: 'us-east-1a',
-            country: {
-                icon: 'brazil',
-                text: 'US East(N.Virginia)'
+        database: {
+            cardTitle: 'Database list',
+            config: {
+                pagination: false,
+                bordered: true,
             },
-            light: false,
-            subnet: '2 Subnet'
+            data: {
+                columns: [
+                    {
+                        title: 'DB Identifier',
+                        dataIndex: 'dbiId',
+                        key: 'dbiId',
+                    },
+                    {
+                        title: 'Role',
+                        dataIndex: 'rdsRole',
+                        key: 'rdsRole',
+                    },
+                    {
+                        title: 'Engine',
+                        dataIndex: 'dbiEngine',
+                        key: 'dbiEngine',
+                    },
+                    {
+                        title: 'Version',
+                        dataIndex: 'engineVer',
+                        key: 'engineVer',
+                    },
+                    {
+                        title: 'Status',
+                        dataIndex: 'dbiStatus',
+                        key: 'dbiStatus',
+                    },
+                    {
+                        title: 'Size',
+                        dataIndex: 'dbiSize',
+                        key: 'dbiSize',
+                    },
+                    {
+                        title: 'vCPU',
+                        dataIndex: 'vcpuNum',
+                        key: 'vcpuNum',
+                    },
+                    {
+                        title: 'RAM',
+                        dataIndex: 'ramSize',
+                        key: 'ramSize',
+                    },
+                    {
+                        title: 'Storage',
+                        dataIndex: 'volumeSize',
+                        key: 'volumeSize',
+                    },
+                    {
+                        title: 'Region & AZ',
+                        dataIndex: 'dbiAz',
+                        key: 'dbiAz',
+                    },
+                    {
+                        title: 'Multi-AZ',
+                        dataIndex: 'multiAz',
+                        key: 'multiAz',
+                    },
+                    {
+                        title: 'Create Time',
+                        dataIndex: 'createTime',
+                        key: 'createTime',
+                    },
+                ],
+                dataSource: []
+            }
         },
-        {
-            name: 'us-east-1a',
-            country: {
-                icon: 'japan',
-                text: 'US East(N.Virginia)'
-            },
-            light: false,
-            subnet: '2 Subnet'
+    });
+    const [health, setHealth] = useState<HealthType>({
+        alarms: { iaNum: 0, isNum: 0, okNum: 0 },
+        dashboards: []
+    });
+    const [graphicalData, setGraphicalData] = useState<GraphicalType>({
+        server: {
+            cardTitle: 'Sever Summary',
+            showIcon: true,
+            content: {
+                leftData: {
+                    key: 'sumNum',
+                    value: null,
+                    unit: 'VM(S)'
+                },
+                rightData: [
+                    {
+                        key: 'runNum',
+                        icon: {
+                            name: 'akar-icons:circle-fill',
+                            color: '#92d050'
+                        },
+                        label: 'Running',
+                        value: null
+                    },
+                    {
+                        key: 'stopNum',
+                        icon: {
+                            name: 'akar-icons:circle-fill',
+                            color: '#afabab'
+                        },
+                        label: 'Stop',
+                        value: null
+                    },
+                    {
+                        key: 'vcpuNum',
+                        label: 'vCPU',
+                        value: null
+                    },
+                    {
+                        key: 'ramSize',
+                        label: 'RAM',
+                        value: null
+                    },
+                ]
+            }
         },
-        {
-            name: 'us-east-1a',
-            country: {
-                icon: 'canada',
-                text: 'US East(N.Virginia)'
-            },
-            light: false,
-            subnet: '2 Subnet'
+        database: {
+            cardTitle: 'Database Summary',
+            content: {
+                leftData: {
+                    key: 'sumNum',
+                    value: null,
+                    unit: 'Instance(s)'
+                },
+                rightData: [
+                    {
+                        key: 'mysqlNum',
+                        label: 'RDS MySQL',
+                        value: null
+                    },
+                    {
+                        key: 'mariaNum',
+                        label: 'RDS MariaDB',
+                        value: null
+                    }, {
+                        key: 'postgreNum',
+                        label: 'RDS PostgresSQL',
+                        value: null
+                    }, {
+                        key: 'auroraNum',
+                        label: 'Aurora Provisioned',
+                        value: null
+                    }, {
+                        key: 'cacheNum',
+                        label: 'ElasticCache',
+                        value: null
+                    },
+                ]
+            }
         },
-        {
-            name: 'us-east-1a',
-            country: {
-                icon: 'united-kingdom',
-                text: 'US East(N.Virginia)'
-            },
-            light: false,
-            subnet: '2 Subnet'
-        }
-    ]
+        network: {
+            cardTitle: 'Network Summary',
+            content: {
+                leftData: {
+                    key: 'sumNum',
+                    value: null,
+                    unit: 'Subnet(s)'
+                },
+                rightData: [
+                    {
+                        key: 'pubNum',
+                        label: 'Public subnet',
+                        value: null
+                    },
+                    {
+                        key: 'priNum',
+                        label: 'Private subnet',
+                        value: null
+                    }, {
+                        key: 'igwNum',
+                        label: 'Internet Gateway',
+                        value: null
+                    }, {
+                        key: 'natNum',
+                        label: 'NAT Gateway',
+                        value: null
+                    }, {
+                        key: 'sgNum',
+                        label: 'Security Group',
+                        value: null
+                    },
+                ]
+            }
+        },
+        st_object: {
+            cardTitle: 'Object Storage Summary',
+            content: {
+                leftData: {
+                    key: 'sumNum',
+                    value: null,
+                    unit: 'Bucket(s)'
+                },
+                rightData: [
+                    {
+                        key: 'objSize',
+                        label: 'Total storage',
+                        value: null
+                    },
+                    {
+                        key: 'objNum',
+                        label: 'Object count',
+                        value: null
+                    }, {
+                        key: 'pubNum',
+                        label: 'Public Access',
+                        value: null
+                    }, {
+                        key: 'encNum',
+                        label: 'Encryption',
+                        value: null
+                    }
+                ]
+            }
+        },
+        st_block: {
+            cardTitle: 'Block Storage Summary',
+            content: {
+                leftData: {
+                    key: 'sumNum',
+                    value: null,
+                    unit: 'TiB(Free)'
+                },
+                rightData: [
+                    {
+                        key: 'blcSize',
+                        label: 'Total Capacity',
+                        value: null
+                    },
+                    {
+                        key: 'useNum',
+                        label: 'In-use',
+                        value: null
+                    },
+                    {
+                        key: 'avaNum',
+                        label: 'Available',
+                        value: null
+                    },
+                    {
+                        key: 'encNum',
+                        label: 'Encryption',
+                        value: null
+                    },
+                ]
+            }
+        },
+        st_file: {
+            cardTitle: 'File Storage Summary',
+            content: {
+                leftData: {
+                    key: 'sumNum',
+                    value: null,
+                    unit: 'FS(s)'
+                },
+                rightData: [
+                    {
+                        key: 'efsNum',
+                        label: 'EFS(Linux)',
+                        value: null
+                    },
+                    {
+                        key: 'efsSize',
+                        label: 'Total size',
+                        value: null
+                    }, {
+                        key: 'fsxNum',
+                        label: 'FSx(Windows)',
+                        value: null
+                    }, {
+                        key: 'fsxSize',
+                        label: 'Total size',
+                        value: null
+                    },
+                ]
+            }
+        },
+    });
+    // tabs切换，true-Graphical面板,false-list面板
+    const [isShowGraphical, setIsShowGraphical] = useState<boolean>(true);
+    const [listShow, setListShow] = useState<Array<string>>([]);
+
+    useEffect(() => {
+        getDatacenter();
+        getHealth();
+        // 下面的函数会导致页面崩溃，需要debug
+        getGraphical();
+        getInventory();
+    }, []);
+
+    /**
+     * 获取首行数据 DataCenter
+     */
+    const getDatacenter = () => {
+        const temp = { ...tableList };
+        dashboard.getDatacenter().then(res => {
+            temp['dataCenter']['data']['dataSource'] = res;
+            setTableList(temp);
+        });
+    };
+
+    /**
+     * 获取首行数据 Health
+     */
+    const getHealth = () => {
+        dashboard.getHealth().then(res => {
+            setHealth(res);
+        });
+    };
+    /**
+     * 获取Graphical面板
+     */
+    const getGraphical = () => {
+        const temp = { ...graphicalData };
+        dashboard.getGraphical().then(res => {
+            res.forEach(item => {
+                const { leftData, rightData } = temp[item.type]['content'];
+                leftData.value = item.data.sumNum;
+                // 循环匹配对应的key值
+                Object.keys(item.data).map(dataItem => {
+                    rightData.map(rightItem => {
+                        if (rightItem.key === dataItem) {
+                            rightItem.value = item.data[dataItem];
+                        }
+                    });
+                });
+            });
+            setGraphicalData(temp);
+        });
+    };
+
+    /**
+     * 获取list面板数据
+     * 根据接口返回type,存入tableList对应字段的dataSource
+     * 后端接口有数据且tableList存在相应字段，存入showList进行展示
+     */
+    const getInventory = () => {
+        const temp = { ...tableList };
+        dashboard.getInventory().then(res => {
+            const showList: Array<string> = [];
+            res.forEach(item => {
+                if (item.data.length > 0 && temp[item.type]) {
+                    showList.push(item.type);
+                    temp[item.type].data.dataSource = item.data;
+                }
+            });
+            setListShow(showList);
+        });
+    };
+
+    /**
+     * 展示表格数据
+     * @param type ：对应tableList中key值
+     */
+    const tableView = (type) => {
+        return <AntdTable key={type}
+            config={tableList[type]['config']}
+            data={tableList[type]['data']}/>;
+    };
+
+    /**
+     * 首行数据healthy面板展示
+     */
+    const healthyView = () => {
+        return <div className={classnames('grid', 'grid-cols-2', 'h-full')}>
+            <div className={classnames('text-base')}>
+                <div className={classnames('text-lg', 'font-bold')}>Alarms:</div>
+                <div className="Alarms">
+                    <div className={classnames('flex', 'items-center', 'text-red-600')}>
+                        <Icon
+                            icon="bi:exclamation-triangle"
+                            width="20"
+                            height="20"
+                            fr={undefined}
+                        />
+                        In alarm({health.alarms.iaNum})
+                    </div>
+                    <div className={classnames('flex', 'items-center', 'text-gray-400')}>
+                        <Icon
+                            icon="ic:outline-more"
+                            width="20"
+                            height="20"
+                            rotate={2}
+                            fr={undefined}
+                        />
+                        Insufficient data({health.alarms.isNum})
+                    </div>
+                    <div className={classnames('flex', 'items-center', 'text-green-600')}>
+                        <Icon
+                            icon="bi:check-circle"
+                            width="20"
+                            height="20"
+                            fr={undefined}
+                        />
+                        OK({health.alarms.okNum})
+                    </div>
+                </div>
+            </div>
+            <div className={classnames('text-base')}>
+                <div className={classnames('text-lg', 'font-bold')}>
+                    CloudWatch Dashboards(<span className={'font-normal'}>Favorite</span>):
+                </div>
+                <ul className="CloudWatch">
+                    {health.dashboards.map((item, index) => (
+                        <li key={index} onClick={() => goView(item.url)}>
+                            <div className={classnames('py-1', 'text-blue-400')}>
+                                <span>{item.title}</span>
+                                <Icon
+                                    className={classnames('inline')}
+                                    icon="akar-icons:link-out"
+                                    width="20"
+                                    height="20"
+                                    fr={undefined}
+                                />
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </div>;
+    };
+
+    /**
+     * 跳转外部链接
+     * @param url
+     */
+    const goView = (url) => {
+        window.location.href = url;
+    };
+
+    /**
+     * 控制展示面板
+     * @param item : Graphical-展示Graphical面板
+     *               List - 展示list面板
+     */
+    const changeShow = (item) => {
+        item === 'Graphical' ? setIsShowGraphical(true) : setIsShowGraphical(false);
+    };
+
+    return (
+        <div className={classnames('min-h-screen', 'p-3', 'space-y-4')}>
+            <div className={classnames('grid', 'grid-cols-2', 'gap-4')}>
+                <DashCard cardTitle={tableList['dataCenter']['cardTitle']} content={tableView('dataCenter')}/>
+                <DashCard cardTitle={'healthy Summary'} content={healthyView()}/>
+            </div>
+            <div className={classnames('flex', 'justify-end')}>
+                <div className={classnames('flex', 'justify-end', 'items-center', 'border-2', 'rounded-md', 'p-2')}>
+                    <div>View:</div>
+                    <div className={classnames('p-2', { 'font-semibold': isShowGraphical })}
+                        onClick={() => changeShow('Graphical')}>Graphical
+                    </div>
+                    <div>|</div>
+                    <div className={classnames('pl-2', { 'font-semibold': !isShowGraphical })}
+                        onClick={() => changeShow('List')}>List
+                    </div>
+                </div>
+            </div>
+            {
+                isShowGraphical ?
+                    <div className={classnames('grid', 'grid-cols-3', 'gap-4')}>
+                        <DashCard type='Graphical' {...graphicalData['server']} />
+                        <DashCard type='Graphical' {...graphicalData['database']} />
+                        <DashCard type='Graphical' {...graphicalData['network']} />
+                        <DashCard type='Graphical' {...graphicalData['st_object']} />
+                        <DashCard type='Graphical' {...graphicalData['st_block']} />
+                        <DashCard type='Graphical' {...graphicalData['st_file']} />
+                    </div>
+                    :
+                    <div className={classnames('space-y-4')}>
+                        {
+                            listShow && listShow.map((item, index) => (
+                                <DashCard key={index} cardTitle={tableList[item]['cardTitle']} content={tableView(item)}/>
+                            ))
+                        }
+                    </div>
+            }
+        </div>
+    );
+
 };
-const mock2 = [
-    {
-        title: 'Server Summary',
-        leftData: {
-            quantity: '25',
-            name: 'VM',
-            description: '(s)'
-        },
-        rightData: [
-            {
-                icon: {
-                    name: 'akar-icons:circle-fill',
-                    color: '#92d050'
-                },
-                label: 'Running:',
-                value: '15'
-            },
-            {
-                icon: {
-                    name: 'akar-icons:circle-fill',
-                    color: '#afabab'
-                },
-                label: 'Stop:',
-                value: '4'
-            },
-            {
-                icon: false,
-                label: 'cCPU:',
-                value: '76'
-            },
-            {
-                icon: false,
-                label: 'RAM:',
-                value: '119'
-            }
-        ]
-    },
-    {
-        title: 'Database Summary',
-        leftData: {
-            quantity: '7',
-            name: 'instance',
-            description: '(s)'
-        },
-        rightData: [
-            {
-                label: 'RDS MySQL:',
-                value: '3'
-            },
-            {
-                label: 'RDS MariaDB:',
-                value: '2'
-            },
-            {
-                label: 'RDS POSTgreSQL:',
-                value: '1'
-            },
-            {
-                label: 'Aurora Provisioned:',
-                value: '0'
-            },
-            {
-                label: 'ElastiCache:',
-                value: '1'
-            }
-        ]
-    },
-    {
-        title: 'Server Summary',
-        leftData: {
-            quantity: '25',
-            name: 'VM',
-            description: '(s)'
-        },
-        rightData: [
-            {
-                icon: {
-                    name: 'akar-icons:circle-fill',
-                    color: '#92d050'
-                },
-                label: 'Running:',
-                value: '15'
-            },
-            {
-                icon: {
-                    name: 'akar-icons:circle-fill',
-                    color: ''
-                },
-                label: 'Stop:',
-                value: '4'
-            },
-            {
-                icon: false,
-                label: 'cCPU:',
-                value: '76'
-            },
-            {
-                icon: false,
-                label: 'RAM:',
-                value: '119'
-            }
-        ]
-    },
-    {
-        title: 'Database Summary',
-        leftData: {
-            quantity: '7',
-            name: 'instance',
-            description: '(s)'
-        },
-        rightData: [
-            {
-                label: 'RDS MySQL:',
-                value: '3'
-            },
-            {
-                label: 'RDS MariaDB:',
-                value: '2'
-            },
-            {
-                label: 'RDS POSTgreSQL:',
-                value: '1'
-            },
-            {
-                label: 'Aurora Provisioned:',
-                value: '0'
-            },
-            {
-                label: 'ElastiCache:',
-                value: '1'
-            }
-        ]
-    },
-    {
-        title: 'Server Summary',
-        leftData: {
-            quantity: '25',
-            name: 'VM',
-            description: '(s)'
-        },
-        rightData: [
-            {
-                icon: {
-                    name: 'akar-icons:circle-fill',
-                    color: '#92d050'
-                },
-                label: 'Running:',
-                value: '15'
-            },
-            {
-                icon: {
-                    name: 'akar-icons:circle-fill',
-                    color: ''
-                },
-                label: 'Stop:',
-                value: '4'
-            },
-            {
-                icon: false,
-                label: 'cCPU:',
-                value: '76'
-            },
-            {
-                icon: false,
-                label: 'RAM:',
-                value: '119'
-            }
-        ]
-    },
-    {
-        title: 'Database Summary',
-        leftData: {
-            quantity: '7',
-            name: 'instance',
-            description: '(s)'
-        },
-        rightData: [
-            {
-                label: 'RDS MySQL:',
-                value: '3'
-            },
-            {
-                label: 'RDS MariaDB:',
-                value: '2'
-            },
-            {
-                label: 'RDS POSTgreSQL:',
-                value: '1'
-            },
-            {
-                label: 'Aurora Provisioned:',
-                value: '0'
-            },
-            {
-                label: 'ElastiCache:',
-                value: '1'
-            }
-        ]
-    }
-];
-const mock3 = {
-    title: 'helthy Summary',
-    leftData: {
-        title: 'Alarms:',
-        listData: [
-            { icon: 'emojione:white-heavy-check-mark', label: 'In alarm', value: 0 },
-            { icon: 'emojione:white-heavy-check-mark', label: 'Insufficient data', value: 0 },
-            { icon: 'emojione:white-heavy-check-mark', label: 'OK', value: 0 }
-        ]
-    },
-    rightData: {
-        title: 'CloudWatch Dashbords(Favorite):',
-        listData: [
-            {
-                icon: 'bx:bx-link-external',
-                label: '',
-                value: 'Easyun Overview'
-            },
-            {
-                icon: 'bx:bx-link-external',
-                label: '',
-                value: 'Easyun Overview'
-            },
-            {
-                icon: 'bx:bx-link-external',
-                label: '',
-                value: 'Easyun Overview'
-            },
-            {
-                icon: 'bx:bx-link-external',
-                label: '',
-                value: 'Easyun Overview'
-            }
-        ]
-    }
-};
-const mock5 = [
-    {
-        config: {
-            isShowTitle: true,
-            isShowTableHeader: true,
-            title: 'Serve List',
-            isFull: true,
-            tabelRowTitleClassNames: classnames('bg-gray-300'),
-            tabbelColumnTitleClassNames: classnames('text-blue-500', 'underline')
-        },
-        tableTitle: ['Instance ID', 'Name(Tag)', 'State', 'instance type', 'vCPU', 'RAM', 'Storage(EBS)', 'OS', 'Region & AZ', 'Public IPv4', 'Launch Time'],
-        data: [
-            {
-                InstanceID: 'i-0f5asf056asfasf0',
-                name: 'ec2-ins-xx1',
-                State: 'Running',
-                instanceType: 't2.micro',
-                vCPU: '2',
-                RAM: '4',
-                Storage: '8 Gib',
-                OS: 'Ubuntu',
-                'Region & AZ': 'ap-northeast-1b',
-                'Public IPv4': '54.169.51.72',
-                'Launch Time': '08/01 17:21'
-            },
-            {
-                InstanceID: 'i-0f5asf056asfasf0',
-                name: 'ec2-ins-xx1',
-                State: 'Running',
-                instanceType: 't2.micro',
-                vCPU: '2',
-                RAM: '4',
-                Storage: '8 Gib',
-                OS: 'Ubuntu',
-                'Region & AZ': 'ap-northeast-1b',
-                'Public IPv4': '54.169.51.72',
-                'Launch Time': '08/01 17:21'
-            },
-            {
-                InstanceID: 'i-0f5asf056asfasf0',
-                name: 'ec2-ins-xx1',
-                State: 'Running',
-                instanceType: 't2.micro',
-                vCPU: '2',
-                RAM: '4',
-                Storage: '8 Gib',
-                OS: 'Ubuntu',
-                'Region & AZ': 'ap-northeast-1b',
-                'Public IPv4': '54.169.51.72',
-                'Launch Time': '08/01 17:21'
-            },
-            {
-                InstanceID: 'i-0f5asf056asfasf0',
-                name: 'ec2-ins-xx1',
-                State: 'Running',
-                instanceType: 't2.micro',
-                vCPU: '2',
-                RAM: '4',
-                Storage: '8 Gib',
-                OS: 'Ubuntu',
-                'Region & AZ': 'ap-northeast-1b',
-                'Public IPv4': '54.169.51.72',
-                'Launch Time': '08/01 17:21'
-            },
-            {
-                InstanceID: 'i-0f5asf056asfasf0',
-                name: 'ec2-ins-xx1',
-                State: 'Running',
-                instanceType: 't2.micro',
-                vCPU: '2',
-                RAM: '4',
-                Storage: '8 Gib',
-                OS: 'Ubuntu',
-                'Region & AZ': 'ap-northeast-1b',
-                'Public IPv4': '54.169.51.72',
-                'Launch Time': '08/01 17:21'
-            }
-        ]
-    },
-    {
-        config: {
-            isShowTitle: true,
-            isShowTableHeader: true,
-            title: 'Serve List',
-            isFull: true,
-            tabelRowTitleClassNames: classnames('bg-gray-300'),
-            tabbelColumnTitleClassNames: classnames('text-blue-500', 'underline')
-        },
-        tableTitle: ['Instance ID', 'Name(Tag)', 'State', 'instance type', 'vCPU', 'RAM', 'Storage(EBS)', 'OS', 'Region & AZ', 'Public IPv4', 'Launch Time'],
-        data: [
-            {
-                InstanceID: 'i-0f5asf056asfasf0',
-                name: 'ec2-ins-xx1',
-                State: 'Running',
-                instanceType: 't2.micro',
-                vCPU: '2',
-                RAM: '4',
-                Storage: '8 Gib',
-                OS: 'Ubuntu',
-                'Region & AZ': 'ap-northeast-1b',
-                'Public IPv4': '54.169.51.72',
-                'Launch Time': '08/01 17:21'
-            },
-            {
-                InstanceID: 'i-0f5asf056asfasf0',
-                name: 'ec2-ins-xx1',
-                State: 'Running',
-                instanceType: 't2.micro',
-                vCPU: '2',
-                RAM: '4',
-                Storage: '8 Gib',
-                OS: 'Ubuntu',
-                'Region & AZ': 'ap-northeast-1b',
-                'Public IPv4': '54.169.51.72',
-                'Launch Time': '08/01 17:21'
-            },
-            {
-                InstanceID: 'i-0f5asf056asfasf0',
-                name: 'ec2-ins-xx1',
-                State: 'Running',
-                instanceType: 't2.micro',
-                vCPU: '2',
-                RAM: '4',
-                Storage: '8 Gib',
-                OS: 'Ubuntu',
-                'Region & AZ': 'ap-northeast-1b',
-                'Public IPv4': '54.169.51.72',
-                'Launch Time': '08/01 17:21'
-            },
-            {
-                InstanceID: 'i-0f5asf056asfasf0',
-                name: 'ec2-ins-xx1',
-                State: 'Running',
-                instanceType: 't2.micro',
-                vCPU: '2',
-                RAM: '4',
-                Storage: '8 Gib',
-                OS: 'Ubuntu',
-                'Region & AZ': 'ap-northeast-1b',
-                'Public IPv4': '54.169.51.72',
-                'Launch Time': '08/01 17:21'
-            },
-            {
-                InstanceID: 'i-0f5asf056asfasf0',
-                name: 'ec2-ins-xx1',
-                State: 'Running',
-                instanceType: 't2.micro',
-                vCPU: '2',
-                RAM: '4',
-                Storage: '8 Gib',
-                OS: 'Ubuntu',
-                'Region & AZ': 'ap-northeast-1b',
-                'Public IPv4': '54.169.51.72',
-                'Launch Time': '08/01 17:21'
-            }
-        ]
-    },
-    {
-        config: {
-            isShowTitle: true,
-            isShowTableHeader: true,
-            title: 'Serve List',
-            isFull: true,
-            tabelRowTitleClassNames: classnames('bg-gray-300'),
-            tabbelColumnTitleClassNames: classnames('text-blue-500', 'underline')
-        },
-        tableTitle: ['Instance ID', 'Name(Tag)', 'State', 'instance type', 'vCPU', 'RAM', 'Storage(EBS)', 'OS', 'Region & AZ', 'Public IPv4', 'Launch Time'],
-        data: [
-            {
-                InstanceID: 'i-0f5asf056asfasf0',
-                name: 'ec2-ins-xx1',
-                State: 'Running',
-                instanceType: 't2.micro',
-                vCPU: '2',
-                RAM: '4',
-                Storage: '8 Gib',
-                OS: 'Ubuntu',
-                'Region & AZ': 'ap-northeast-1b',
-                'Public IPv4': '54.169.51.72',
-                'Launch Time': '08/01 17:21'
-            },
-            {
-                InstanceID: 'i-0f5asf056asfasf0',
-                name: 'ec2-ins-xx1',
-                State: 'Running',
-                instanceType: 't2.micro',
-                vCPU: '2',
-                RAM: '4',
-                Storage: '8 Gib',
-                OS: 'Ubuntu',
-                'Region & AZ': 'ap-northeast-1b',
-                'Public IPv4': '54.169.51.72',
-                'Launch Time': '08/01 17:21'
-            },
-            {
-                InstanceID: 'i-0f5asf056asfasf0',
-                name: 'ec2-ins-xx1',
-                State: 'Running',
-                instanceType: 't2.micro',
-                vCPU: '2',
-                RAM: '4',
-                Storage: '8 Gib',
-                OS: 'Ubuntu',
-                'Region & AZ': 'ap-northeast-1b',
-                'Public IPv4': '54.169.51.72',
-                'Launch Time': '08/01 17:21'
-            },
-            {
-                InstanceID: 'i-0f5asf056asfasf0',
-                name: 'ec2-ins-xx1',
-                State: 'Running',
-                instanceType: 't2.micro',
-                vCPU: '2',
-                RAM: '4',
-                Storage: '8 Gib',
-                OS: 'Ubuntu',
-                'Region & AZ': 'ap-northeast-1b',
-                'Public IPv4': '54.169.51.72',
-                'Launch Time': '08/01 17:21'
-            },
-            {
-                InstanceID: 'i-0f5asf056asfasf0',
-                name: 'ec2-ins-xx1',
-                State: 'Running',
-                instanceType: 't2.micro',
-                vCPU: '2',
-                RAM: '4',
-                Storage: '8 Gib',
-                OS: 'Ubuntu',
-                'Region & AZ': 'ap-northeast-1b',
-                'Public IPv4': '54.169.51.72',
-                'Launch Time': '08/01 17:21'
-            }
-        ]
-    }
-];
-
-interface propsType {
-	config?: string;
-}
-
-interface stateType {
-	flag: boolean;
-}
-
-export class Dashboard extends React.Component<propsType, stateType> {
-    constructor(props: propsType) {
-        super(props);
-        this.state = {
-            flag: false
-        };
-    }
-
-	switchViewHandler = (view = 'Graphical'): any => {
-	    const bol = view === 'List' ? true : false;
-	    this.setState({ flag: bol });
-	};
-
-	render(): JSX.Element {
-	    return (
-	        <div className="min-h-screen">
-	            <div className={classnames('flex', 'justify-between', 'flex-wrap')}>
-	                <CTable dataConfig={mock1} />
-	                <DashCard dataConfig={mock3} />
-	            </div>
-	            <div className={this.state.flag ? classnames('flex', 'mx-4', 'items-center', 'justify-between') : classnames('flex', 'mx-4', 'items-center', 'justify-end')}>
-	                {this.state.flag ? <div className={classnames('font-semibold', 'text-3xl')}>Cloud Resource</div> : null}
-	                <div className={classnames('border-yellow-500', 'inline-block', 'border', 'p-2')}>
-	                    <span>View: </span>
-	                    <span className={`${classnames('cursor-pointer')} ${this.state.flag ? 'font-normal' : 'font-semibold'}`} onClick={this.switchViewHandler.bind(this, 'Graphical')}>
-							Graphical
-	                    </span>
-	                    <span className={classnames('p-2')}>|</span>
-	                    <span className={`${classnames('cursor-pointer')} ${this.state.flag ? 'font-semibold' : 'font-normal'}`} onClick={this.switchViewHandler.bind(this, 'List')}>
-							List
-	                    </span>
-	                </div>
-	            </div>
-	            {this.state.flag ? (
-	                <div>
-	                    {mock5.map((item, index) => (
-	                        <CTable dataConfig={item} key={index} />
-	                    ))}
-	                </div>
-	            ) : (
-	                <div className={classnames('flex', 'flex-wrap')}>
-	                    {mock2.map((item, index) => (
-	                        <CCard dataConfig={item} key={index} />
-	                    ))}
-	                </div>
-	            )}
-
-	        </div>
-	    );
-	}
-}
 
 export default Dashboard;
