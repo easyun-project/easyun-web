@@ -6,7 +6,7 @@ export const getHost = ():string=> {
     return 'http://54.156.105.123:6660';
 };
 
-export const getHeader = ():any=> {
+export const getHeader = ():Record<string,string>=> {
 
     const token = store.getState().user.user.token;
     return {

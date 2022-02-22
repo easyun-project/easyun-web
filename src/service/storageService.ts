@@ -1,10 +1,10 @@
 import { getHeader, getHost } from '@/utils/api';
-import { AddBucket, DeleteBucket, ListBucket } from '@/constant/apiConst';
+import { AddBucket, DeleteBucket, ListBucket,VolumeOperate } from '@/constant/apiConst';
 import { Result } from '@/constant/result';
 import axios from 'redaxios';
-import { BucketInfo } from '@/constant/bucketInfo';
+import { BucketInfo,VolumeDetail } from '@/constant/storage';
 
-export default class bucketManage {
+export default class storageService {
 
     static async addBucket<T>(addBucketInfo:BucketInfo): Promise<Result<T>> {
         const url = getHost() + AddBucket;
@@ -28,5 +28,14 @@ export default class bucketManage {
             headers: getHeader()
         });
         return result.data as Result<T>;
+    }
+
+    static async getVolumeDetail(volumeId:string):Promise<VolumeDetail>{
+        const url = getHost() + VolumeOperate + '/' + volumeId;
+        const result = await axios.get(url,{
+            params: { dc:'Easyun' },
+            headers: getHeader()
+        });
+        return result.data.detail;
     }
 }

@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 
-import bucketManage from '@/service/addBucket';
-import { BucketInfo } from '@/constant/bucketInfo';
+import bucketManage from '@/service/storageService';
+import { BucketInfo } from '@/constant/storage';
 
 const AddBucket = (): JSX.Element => {
     const defaultBucketName = 'bucket-easyun-test' + parseInt(Math.random() * 900 + 100 + '', 10);

@@ -78,10 +78,11 @@ export default function Security():JSX.Element {
     const [slectedSecgroups,changeSlectedSecgroups] = useState<string[]>([]);
     if (currentServerState) {
         // 由于返回的字段与之前的定义不同，所以需要做一下转化
-        const secGroups = currentServerState['SecurityGroups'].map((sec) => {
-            const newSec = { sgId: '', tagName: '' };
-            newSec.sgId = sec['GroupId'];
-            newSec.tagName = sec['GroupName'];
+        const secGroups = currentServerState.svrSecurity.map((sec) => {
+            const newSec = { sgId: '', tagName: '',sgName:'' };
+            newSec.sgId = sec['sgId'];
+            newSec.tagName = sec['sgName'];
+            newSec.sgName = sec['sgName'];
             return newSec;
         });
 

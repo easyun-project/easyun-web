@@ -2,7 +2,7 @@ import React from 'react';
 import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { Menu, Dropdown } from 'antd';
-import bucketManage from '@/service/addBucket';
+import bucketManage from '@/service/storageService';
 // import { RootState } from '@/redux/store';
 // import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';

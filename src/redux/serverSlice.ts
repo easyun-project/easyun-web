@@ -48,6 +48,9 @@ export const serverSlice = createSlice({
         builder.addCase(getServerDetail.pending, (state: ServerState) => {
             state.loading = true;
         });
+        builder.addCase(getServerDetail.rejected, (state: ServerState) => {
+            state.loading = false;
+        });
     }
 });
 export default serverSlice.reducer;

@@ -49,10 +49,7 @@ export interface SeverDetailModel {
       'vCpu': number,
       'virtualization': string,
     },
-    'svrSecurity': {
-      'sgId': string[]
-      'sgName': string[]
-    },
+    'svrSecurity': Record<'sgId'|'sgName',string>[],
     'svrTags': {
       'tags': {'Key': string,
           'Value': string}[]

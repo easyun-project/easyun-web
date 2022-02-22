@@ -1,15 +1,25 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { Tooltip, Switch, Input, Select } from 'antd';
 import { QuestionCircleOutlined,CloseOutlined, CheckOutlined } from '@ant-design/icons';
 import { classnames } from '@@/tailwindcss-classnames';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { Menu, Dropdown } from 'antd';
+import storageService from '@/service/storageService';
+import { VolumeDetail } from '@/constant/storage';
 
-function ExistDisk(props) {
-    console.log(props);
+interface DiskProps{
+    volumeId:string
+}
+
+function ExistDisk(props:DiskProps) {
+    const [diskInfo, changeDiskInfo] = useState<'loading'|VolumeDetail>('loading');
+    useEffect(
+        ()=>{storageService.getVolumeDetail(props.volumeId).then(
+            (res)=>changeDiskInfo(res)
+        );},[]);
     const menu = (
         <Menu>
             <Menu.Item key="detach"
@@ -23,15 +33,17 @@ function ExistDisk(props) {
             </Menu.Item>
         </Menu>
     );
-    return (
+    if(diskInfo === 'loading')
+    {return(<div>loading</div>);}
+    else {return (
         <div className={classnames('rounded-border', 'w-1/2', 'm-2')}>
             <div className={classnames('flex','flex-row','m-2')}>
-                <span><Icon icon={ props.index === 0 ? 'icon-park-outline:folder-settings' : 'icon-park-outline:solid-state-disk'} width="64" fr={undefined}/> </span>
+                <span><Icon icon={ diskInfo?.volAttach.diskType === 'system' ? 'icon-park-outline:folder-settings' : 'icon-park-outline:solid-state-disk'} width="64" fr={undefined}/> </span>
                 <div className={classnames('mx-3', 'flex-grow')}>
                     <div className={classnames('flex', 'flex-row')}>
-                        <span className={classnames('flex-grow','font-bold')}>{ props.index === 0 ? 'System Disk' : 'User Disk'}</span>
+                        <span className={classnames('flex-grow','font-bold')}>{ diskInfo?.volAttach.diskType === 'system' ? 'System Disk' : 'User Disk'}</span>
 
-                        { props.index === 0
+                        { diskInfo?.volAttach?.diskType  === 'system'
                             ? undefined
                             : <Dropdown overlay={menu}>
                                 <Icon
@@ -75,7 +87,7 @@ function ExistDisk(props) {
                 </div> */}
             </div>
         </div>
-    );
+    );}
 }
 
 interface NewDiskProps {
@@ -172,10 +184,7 @@ function NewDisk(props:NewDiskProps) {
 
 export default function Disk():JSX.Element {
     const [isAdding, changeIsAdding] = useState(false);
-    const currentServerDisks = useSelector((state: RootState) => {
-        if (state.server.currentServer)
-        { return state.server.currentServer.svrDisk; }
-    });
+    const currentServerDisks = useSelector((state: RootState) => state.server.currentServer?.svrDisk);
     // console.log(currentServerDisks);
     return (
         <>
@@ -185,7 +194,7 @@ export default function Disk():JSX.Element {
                     <QuestionCircleOutlined />
                 </Tooltip>
             </div>
-            <div className={classnames('flex', 'flex-row', 'flex-wrap')}> {currentServerDisks.map((disk, index) => <ExistDisk key={disk['DeviceName']} index={ index } {...disk} />)}</div>
+            <div className={classnames('flex', 'flex-row', 'flex-wrap')}> {currentServerDisks?.volumeIds.map((volumeId) => <ExistDisk key={volumeId} volumeId={volumeId}/>)}</div>
             {isAdding
                 ? <NewDisk changeIsAdding={ changeIsAdding }/>
                 : <button onClick={() => changeIsAdding(true)}
