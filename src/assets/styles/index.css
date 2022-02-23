@@ -25,6 +25,9 @@ code {
 .fill-available {
 	width: -webkit-fill-available;
 }
+.ant-tree-list-holder-inner,.anticon svg {
+	vertical-align: baseline;
+}
 
 @layer components {
   .btn-blue {

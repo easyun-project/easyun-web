@@ -29,7 +29,7 @@ export const AddServer = '/api/v1/server';
 export const ServerAction = '/api/v1/server/action';
 
 // Storage s3存储 常量名以St开头
-export const StBucketPath = '/api/v1.0/storage/bucket';
+export const StBucketPath = '/api/v1/storage/bucket';
 export const StBucketList = '/api/v1/storage/bucket/list';
 export const StBucketObject = '/api/v1.0/storage/bucket/object';
 export const StVolumePath = '/api/v1.0/storage/volume';

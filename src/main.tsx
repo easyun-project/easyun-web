@@ -28,8 +28,8 @@ import { CFooter } from './components/Logic/CFooter';
 
 
 const AppRouter = (): JSX.Element => {
-    return(<>
-        <CHeader/>
+    return (<>
+        <CHeader />
         <Routes>
             <Route path="dataCenter/*" element={<DataCenter />} />
             <Route path="home/*" element={<Home />} />
@@ -51,7 +51,7 @@ const App = (): JSX.Element => {
             <Routes>
                 <Route path="/" element={<LoginPage />} />
                 <Route path="login" element={<LoginPage />} />
-                <Route path ="*" element={< AppRouter />} />
+                <Route path="*" element={< AppRouter />} />
             </Routes>
         </Suspense>
     );
