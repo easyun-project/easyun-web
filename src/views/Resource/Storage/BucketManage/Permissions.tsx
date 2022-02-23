@@ -6,8 +6,9 @@
 import React from 'react'
 import permissionLogo from '@/assets/images/stbucket.png'
 import { Tree } from 'antd'
-import { EditOutlined, ExportOutlined } from '@ant-design/icons'
+import { EditOutlined } from '@ant-design/icons'
 import { withEdit } from '@/utils/hoc'
+import { Icon } from '@iconify/react'
 
 const PermissionCard = ({ statusMsg, changePermission }) => {
     return (
@@ -18,7 +19,7 @@ const PermissionCard = ({ statusMsg, changePermission }) => {
                 </div>
                 <div className='ml-5 flex-grow'>
                     <div className='font-bold'>{statusMsg}</div>
-                    <div className='text-gray-500 leading-tight'>Your objects are readable only by you or anyone you gime access to.</div>
+                    <div className='text-gray-500 leading-tight'>Your objects are readable only by you or anyone you give access to.</div>
                 </div>
                 <div className='mr-5 text-yellow-600 cursor-pointer' onClick={() => changePermission()}>
                     <p><EditOutlined /> Change permissions</p>
@@ -66,7 +67,7 @@ export default function Permissions({ bucketData }) {
         <div className='p-2'>
             <p className='text-2xl'>Bucket access permissions</p>
             <p>Manage the anonymous access to objects in this bucket.You can make all objects private or public(read-only).Alternatively, you can keep your bucket private while making individual objects public(read-only).</p>
-            <p className='text-blue-500 font-semibold mt-2 mb-1 cursor-pointer' onClick={() => { window.open() }}>Learn more ablout bucket permissions <ExportOutlined /></p>
+            <p className='text-blue-500 font-semibold mt-2 mb-1 cursor-pointer' onClick={() => { window.open("https://aws.amazon.com/cn/s3/?nc2=type_a") }}>Learn more ablout bucket permissions <Icon className='inline' icon="ri:share-box-fill" fr={undefined} /></p>
             <PermissionCard statusMsg={bucketData.statusMsg} changePermission={toggleShow} />
             <PermissionTreeA treeData={treeData} />
         </div>

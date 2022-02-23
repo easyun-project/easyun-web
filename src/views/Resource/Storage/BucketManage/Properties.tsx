@@ -1,6 +1,7 @@
 import React from 'react'
-import { CheckOutlined, CloseOutlined, ExportOutlined, InfoCircleOutlined } from '@ant-design/icons'
+import { CheckOutlined, CloseOutlined, InfoCircleOutlined } from '@ant-design/icons'
 import { Switch } from 'antd'
+import { Icon } from '@iconify/react'
 
 export default function Properties(bucketData) {
     const handleSwtichChange = (key) => {
@@ -33,7 +34,7 @@ export default function Properties(bucketData) {
                 <div className='w-7/12'>
                     <p className='text-2xl my-2'>Object versioning</p>
                     <p className='text-gray-500 font-semibold'>Enable versioning to store ervery change to your object as a version.Versioning can help you recover objects from accidental deletion or overwrite.</p>
-                    <p className='text-blue-500 font-semibold mt-2 mb-1 cursor-pointer' onClick={() => { window.open() }}>Learn more ablout bucket permissions <ExportOutlined /></p>
+                    <p className='text-blue-500 font-semibold mt-2 mb-1 cursor-pointer' onClick={() => { window.open("https://aws.amazon.com/cn/s3/?nc2=type_a") }}>Learn more ablout versioning <Icon className='inline' icon="ri:share-box-fill" fr={undefined} /></p>
                     <div className='flex items-center my-3'>
                         <div>
                             <Switch
