@@ -1,7 +1,8 @@
-import { CreateDataCenter, DataCenterAll, DataCenterDefault,GetSecgroup,GetSubnet,DataCenterEip } from '@/constant/apiConst';
+import { DataCenterPath, DataCenterAdd, DataCenterAll, DataCenterDefault,DcmSubnet,DcmSecgroup,DcmStaticip } from '@/constant/apiConst';
 import axios from 'redaxios';
 import { getHeader, getHost } from '@/utils/api';
 import { DataCenterModel, DefaultDataCenterModel } from '@/constant/dataCenter';
+import { SubnetInfo } from '@/views/Resource/Server/AddServer/Networking';
 
 // 创建数据中心需要的参数
 export interface CreateDataCenterParams {
@@ -17,11 +18,22 @@ export interface CreateDataCenterParams {
     vpc_cidr?: string
 }
 
+interface DatacenterParams{
+    dc:string
+}
+
+interface SecGroupInfo{
+    sgDes: string
+    sgId: string
+    sgName: string
+    tagName: string
+}
+
 export default class DataCenterService {
     /**
      * 获取数据中心默认参数
      */
-    static async getDefault(): Promise<DefaultDataCenterModel | undefined> {
+    static async getDefault(token): Promise<DefaultDataCenterModel | undefined> {
         const url = getHost() + DataCenterDefault;
         const result = await axios.get(url, {
             headers: getHeader()
@@ -37,8 +49,8 @@ export default class DataCenterService {
      * @param token
      * @param params
      */
-    static async createDataCenter(params: CreateDataCenterParams): Promise<boolean> {
-        const url = getHost() + CreateDataCenter;
+    static async createDataCenter(token: string, params: CreateDataCenterParams): Promise<boolean> {
+        const url = getHost() + DataCenterAdd;
         const result = await axios.post(url, params, {
             headers: getHeader()
         });
@@ -51,7 +63,7 @@ export default class DataCenterService {
     /**
      * 获取dataCenter
      */
-    static async getDataCenter(): Promise<DataCenterModel | undefined> {
+    static async getDataCenter(token): Promise<DataCenterModel | undefined> {
         const url = getHost() + DataCenterAll;
         const result = await axios.get(url, {
             headers: getHeader()
@@ -65,36 +77,32 @@ export default class DataCenterService {
     /**
      * 获取subnet
      */
-    static async getSubnet(dcName:string):Promise<any>{
-        const url = getHost() + GetSubnet + dcName;
+    static async getSubnet(params:DatacenterParams):Promise<SubnetInfo[]>{
+        const url = getHost() + DcmSubnet;
         const result = await axios.get(url, {
+            params,
             headers: getHeader()
         });
-        if (result.status == 200) {
-            return result.data.detail;
-        }
-        return undefined;
+        return result.data.detail;
     }
 
     /**
      * 获取secgroup安全组
      */
-    static async getSecgroup(dcName:string):Promise<any>{
-        const url = getHost() + GetSecgroup + dcName;
+    static async getSecgroup(params:DatacenterParams):Promise<SecGroupInfo[]>{
+        const url = getHost() + DcmSecgroup;
         const result = await axios.get(url, {
+            params,
             headers: getHeader()
         });
-        if (result.status == 200) {
-            return result.data.detail;
-        }
-        return undefined;
+        return result.data.detail;
     }
 
     /**
      * 添加eip
      */
     static async createEip(dcName:string):Promise<any>{
-        const url = getHost() + DataCenterEip;
+        const url = getHost() + DcmStaticip;
         const result = await axios.post(url, { dcName },{
             headers: getHeader()
         });

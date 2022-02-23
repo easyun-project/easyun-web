@@ -28,7 +28,7 @@ const LoginPage = (): JSX.Element => {
         const loginRes = await userService.login<UserModel>(username, password);
         if (loginRes) {
             dispatch(userAction(loginRes));
-            navigate('/resource/server');
+            navigate('/home');
             //设置一个定时任务-每隔一个小时更新token
             setInterval(
                 () => {
@@ -68,7 +68,7 @@ const LoginPage = (): JSX.Element => {
     const classes = classnames('w-9/12', 'h-12', 'border', 'border-gray-400', 'rounded', 'mx-2', 'my-10', 'p-5');
     return (
         <div>
-            <div className={classnames('flex', 'flex-row',  'items-center', 'bg-gray-600')}>
+            <div className={classnames('flex', 'items-center', 'bg-gray-600')}>
                 <div className={classnames('flex-grow','ml-10')}>
                     <img src={ logo3 } alt="logo_easyun03.svg" width='150' />
                 </div>

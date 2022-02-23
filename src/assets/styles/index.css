@@ -37,7 +37,7 @@ code {
 	 @apply py-2 px-4 bg-yellow-550 text-white font-semibold rounded-lg shadow-md hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-75; 
   }
   .rounded-border{
-	  @apply border rounded-xl p-2; 
+	  @apply border rounded-xl; 
   }
   .active-border{
 	  @apply rounded-border border-dashed border-yellow-550

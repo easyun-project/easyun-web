@@ -7,14 +7,14 @@ export interface CAmiProps {
     children?;
     classes?: TTailwindString;
     click?: () => void;
-    imgName: string;
-    imgVersion: string;
+    osName: string;
+    osVersion: string;
     imgID: string,
     changeSelectedAmi:React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const CAmi = (props: CAmiProps): JSX.Element => {
-    const { imgID,imgName,changeSelectedAmi,imgVersion,classes } = props;
+    const { imgID,osName,changeSelectedAmi,osVersion,classes } = props;
     // 通过imgName的第一个单词判断需要使用iconify:logos的哪个logo
     const icons = {
         'Debian':'debian',
@@ -26,32 +26,32 @@ export const CAmi = (props: CAmiProps): JSX.Element => {
         'Windows':'microsoft-windows',
     };
     return(
-        <button className={classnames('flex','flex-row','items-center','m-3','w-56',classes)}
+        <button className={classnames('flex','items-center','p-2',classes)}
             onClick={()=>{changeSelectedAmi(imgID);}}>
-            <Icon icon={`logos:${icons[imgName.split(' ')[0]]}`} width="30" fr={undefined}/>
+            <Icon icon={`logos:${icons[osName.split(' ')[0]]}`} width="30" fr={undefined}/>
             <div className={classnames('ml-3','text-left')}>
-                <div className={classnames('text-black','font-semibold')}>{imgName}</div>
-                <div className={classnames('text-gray-400')}>{imgVersion}</div>
+                <div className={classnames('text-black','font-semibold')}>{osName}</div>
+                <div className={classnames('text-gray-400')}>{osVersion}</div>
             </div>
         </button>);
 };
 
 
 export interface amiInfo{
-    'imgCode': string,
+    'osCode': string,
     'imgDescription': string,
     'imgID': string,
-    'imgName': string,
-    'imgVersion': string,
-    'root_device_disk': {
+    'osName': string,
+    'osVersion': string,
+    'rootDevice': {
         'DeleteOnTermination': boolean,
         'Encrypted': boolean,
         'SnapshotId': string,
         'VolumeSize': number,
         'VolumeType': string,
     },
-    'root_device_name': string,
-    'root_device_type': string,
+    'devicePath': string,
+    'deviceType': string,
 }
 
 type CAmisProps = {amis:amiInfo[]|'loading',
@@ -67,12 +67,9 @@ const CAmis = (props:CAmisProps): JSX.Element => {
     }
     else{
         return (
-            <div id="select-your-ami" >
-            select your image(AMI)
-                <div className={classnames('flex','flex-row','flex-wrap','items-center','m-3')}>
-                    {amis.map((amiInfo)=><CAmi classes={selectedAmi === amiInfo.imgID ? classnames('border-2','border-yellow-550') : undefined}
-                        key={amiInfo.imgID} {...amiInfo} changeSelectedAmi={changeSelectedAmi}/>)}
-                </div>
+            <div className={classnames('grid','grid-cols-5','gap-4','items-center')}>
+                {amis.map((amiInfo)=><CAmi classes={selectedAmi === amiInfo.imgID ? classnames('rounded-border','border-yellow-550') : undefined}
+                    key={amiInfo.imgID} {...amiInfo} changeSelectedAmi={changeSelectedAmi}/>)}
             </div>);
     }
 };

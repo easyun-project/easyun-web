@@ -27,9 +27,9 @@ import logo3 from '@@/src/assets/images/logo_easyun/logo_easyun03.svg';
 // };
 
 export const CHeader = (): JSX.Element => {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [selectedIndex, setSelectedIndex] = React.useState(1);
-    const open = Boolean(anchorEl);
+    // const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    // const [selectedIndex, setSelectedIndex] = React.useState(1);
+    // const open = Boolean(anchorEl);
     // const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     //     setAnchorEl(event.currentTarget);
     // };
@@ -43,7 +43,7 @@ export const CHeader = (): JSX.Element => {
 
     const getTitle = (key: string) => {
         switch (key) {
-        case 'resource/server':
+        case 'home':
             return 'Home';
         case 'dashboard':
             return 'Dashboard';
@@ -58,8 +58,8 @@ export const CHeader = (): JSX.Element => {
 
 
     const menu = (
-        <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" className={classnames('text-xl')}>
-            <Menu.Item key="resource/server">Home</Menu.Item>
+        <Menu onClick={handleClick} selectedKeys={[current]} mode="vertical" className={classnames('text-xl')}>
+            <Menu.Item key="home">Home</Menu.Item>
             <Menu.Item key="dashboard">Dashboard</Menu.Item>
             <Menu.Item key="event">Event</Menu.Item>
             <Menu.Item key="account">Account</Menu.Item>
@@ -68,25 +68,24 @@ export const CHeader = (): JSX.Element => {
         <div
             className={classnames(
                 'flex',
-                'flex-row',
                 'items-center',
                 'bg-gray-600',
                 'text-white',
                 'text-3xl',
-                'p-2'
             )}
         >
             <span
-                className={classnames('mx-6', 'cursor-pointer', 'flex')}
-                onClick={() => navigate('/resource/server')}
+                className={classnames('mx-10', 'cursor-pointer', 'flex')}
+                onClick={() => navigate('/home')}
             >
                 <img src={logo3} alt="logo_easyun03.svg" width="150" />
             </span>
-            <span className={classnames('items-center')}>
+            <span >
                 <Dropdown overlay={menu}>
-                    <a  className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                        {getTitle(current)}
-                        <DownOutlined /> </a>
+                    <a   className={classnames('flex','items-baseline')} onClick={e => e.preventDefault()}>
+                        <span className={classnames('text-3xl')}>{getTitle(current)}</span>
+                        <DownOutlined style={{ fontSize: '20px' }}/>
+                    </a>
                 </Dropdown>
             </span>
             <div
@@ -103,8 +102,8 @@ export const CHeader = (): JSX.Element => {
                     className={classnames('cursor-pointer')}
                     icon="fa:heartbeat"
                     color="#9fbe8a"
-                    width="40"
-                    height="40"
+                    width="30"
+                    height="30"
                     fr={undefined}
                 />
                 <Icon
@@ -138,9 +137,6 @@ export const CHeader = (): JSX.Element => {
                         fr={undefined}
                     />
                 </span>
-                <span id="username" className={'mx-5'} style={{ color: '#5c6f9a' }}>
-            admin
-                </span>
                 <span
                     id="user"
                     className={classnames('cursor-pointer', 'inline-flex')}
@@ -162,6 +158,9 @@ export const CHeader = (): JSX.Element => {
                         hFlip={true}
                         fr={undefined}
                     />
+                </span>
+                <span id="username" className={classnames('mx-5','text-lg')} style={{ color: '#5c6f9a' }}>
+            admin
                 </span>
             </div>
         </div>

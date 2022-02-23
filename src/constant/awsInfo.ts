@@ -10,10 +10,10 @@ export interface freeTierPUT {
   active_date: string;
 }
 export interface IsshkeyItem {
-  id: string;
+  id: number;
   key_name: string;
   region: string;
-  item_name: string;
+  item_name?: string;
 }
 export interface IQuotasItem {
   id: string;

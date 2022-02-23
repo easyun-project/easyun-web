@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 
@@ -17,15 +17,16 @@ const CPlatform = (props:platformProps): JSX.Element => {
         changePlatform(platform);
         return;
     };
-    const selectedStyle = classnames('border-2','border-yellow-550');
+    const selectedStyle = classnames('rounded-border','border-yellow-550');
 
-    const containerClasses = classnames('cursor-pointer', 'inline-flex', 'items-center', 'w-32', 'm-5', 'grid', 'grid-cols-2');
+    const containerClasses = classnames('cursor-pointer', 'items-center', 'w-32','mx-5','p-1', 'grid', 'grid-cols-2');
     // if (selected === '') {
     //
     // }
 
     return (
-        <div className={classnames('flex','flex-row')}>
+        <div className={classnames('flex','items-center')}>
+            <div> select your server os </div>
             <div
                 onClick={() => {
                     handleSelect('linux');
