@@ -30,6 +30,9 @@ export default class storageService {
         return result.data as Result<T>;
     }
 
+    /**
+     * 获取可用的volume的detail信息
+     */
     static async getVolumeDetail(volumeId:string):Promise<VolumeDetail>{
         const url = getHost() + VolumeOperate + '/' + volumeId;
         const result = await axios.get(url,{

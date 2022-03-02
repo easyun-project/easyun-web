@@ -12,6 +12,7 @@ import { Button, Dropdown, Menu, message,Table } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import serverService from '@/service/serverService';
 // import { ServerModel } from '@/constant/server';
+import { LoadingOutlined } from '@ant-design/icons';
 
 export const serverColumns = [
     {
@@ -118,6 +119,7 @@ export const ServerList = ():JSX.Element => {
     const serverDataSource = serverState.servers;
 
     const [selectedServers, changeSelectedServers] = useState<React.Key[]>([]);
+    const [acting,changeActing] = useState(false);
 
     useEffect(() => {
         dispatch(getServerList());
@@ -127,6 +129,7 @@ export const ServerList = ():JSX.Element => {
     const newServerDataSource = serverDataSource.map((item)=> ({ ...item, 'key':item.svrId }));
     const actionMenu = (
         <Menu onClick={(e) => {
+            changeActing(true);
             if (e.key === 'delete'){
                 if (window.confirm('Are you sure to delete(irrevocable)?')){
                     serverService.deleteServerState({ svrIds: selectedServers }).then(
@@ -141,8 +144,15 @@ export const ServerList = ():JSX.Element => {
                     action: e.key,
                     svr_ids: selectedServers
                 }).then(
-                    ()=>alert('action success'),
-                    ()=>alert('action failed')
+                    ()=>{
+                        alert('action success');
+                        dispatch(getServerList());
+                        changeActing(false);
+                    },
+                    ()=>{
+                        alert('action failed');
+                        changeActing(false);
+                    }
                 );
             }
 
@@ -175,7 +185,7 @@ export const ServerList = ():JSX.Element => {
                 <div id="operation" className={classnames('my-3', 'float-right')}>
                     <Dropdown overlay={actionMenu} className={classnames('inline-block', 'mr-2')}>
                         <Button>
-                            Actions <DownOutlined />
+                            Actions {acting ? <LoadingOutlined className={classnames('align-middle')} /> : <DownOutlined /> }
                         </Button>
                     </Dropdown>
                     <Dropdown overlay={modifyMenu} className={classnames('inline-block', 'mr-2')}>

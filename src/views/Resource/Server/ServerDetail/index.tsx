@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Icon } from '@iconify/react';
-import { CButton } from '@/components/Common/CButton';
 import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
 import { Col, message, Row, Tabs } from 'antd';
 import { useParams } from 'react-router-dom';
@@ -84,27 +83,17 @@ export const ServerDetail = ():JSX.Element => {
                             Status:
                             <span className={classnames(color, 'ml-2')}>{server.svrProperty.status}</span>
                         </div>
-                        <CButton
-                            click={() => {
-                                message.info('I think you stop the instance');
-                            }}
-                            classes={classnames('mr-2', 'inline-block', 'bg-yellow-550', 'block', 'text-white', 'rounded-3xl', 'px-5', 'py-2')}>
+                        <div className={classnames('flex')}>
+                            <button className={classnames('btn-yellow','w-32','m-5')} onClick={()=>message.info('I think you stop the instance')}>
                             Stop
-                        </CButton>
-                        <CButton
-                            click={() => {
-                                message.info('I think you reboot the instance');
-                            }}
-                            classes={classnames('mr-2', 'inline-block', 'bg-yellow-550', 'block', 'text-white', 'rounded-3xl', 'px-5', 'py-2')}>
+                            </button>
+                            <button className={classnames('btn-yellow','w-32','m-5')} onClick={()=>message.info('I think you reboot the instance')}>
                             Restart
-                        </CButton>
-                        <CButton
-                            click={() => {
-                                message.error('I think you delete the instance');
-                            }}
-                            classes={classnames('inline-block', 'bg-red-700', 'block', 'text-white', 'rounded-3xl', 'px-5', 'py-2')}>
-                            Delete instance
-                        </CButton>
+                            </button>
+                            <button className={classnames('btn-red','w-32','m-5')} onClick={()=>message.info('I think you delete the instance')}>
+                            Delete
+                            </button>
+                        </div>
                     </div>
                 </Col>
             </Row>

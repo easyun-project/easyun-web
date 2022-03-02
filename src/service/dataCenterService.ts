@@ -1,7 +1,7 @@
 import { CreateDataCenter, DataCenterAll, DataCenterDefault,GetSecgroup,GetSubnet,DataCenterEip } from '@/constant/apiConst';
 import axios from 'redaxios';
 import { getHeader, getHost } from '@/utils/api';
-import { DataCenterModel, DefaultDataCenterModel } from '@/constant/dataCenter';
+import { DataCenterModel, DefaultDataCenterModel,EipInfoSimple } from '@/constant/dataCenter';
 import { SubnetInfo } from '@/views/Resource/Server/AddServer/Networking';
 
 // 创建数据中心需要的参数
@@ -110,5 +110,17 @@ export default class DataCenterService {
             return result.data.detail;
         }
         return undefined;
+    }
+
+    /**
+     * 获取eip基础信息
+     */
+    static async listEipInfo(dc:string):Promise<EipInfoSimple[]>{
+        const url = getHost() + DataCenterEip + '/list';
+        const result = await axios.get(url,{
+            params:{ dc },
+            headers: getHeader()
+        });
+        return result.data.detail;
     }
 }

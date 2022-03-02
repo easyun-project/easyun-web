@@ -13,5 +13,6 @@ type MyCustomType =
 	| 'bg-yellow-650'
 	| 'btn-yellow'
 	| 'btn-gray'
+	| 'btn-red'
 	| 'rounded-border'
 	| 'active-border'

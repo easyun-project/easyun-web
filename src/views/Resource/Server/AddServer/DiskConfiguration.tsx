@@ -167,13 +167,13 @@ const DiskConfigurations = (props: DisksProps): JSX.Element => {
     return (
         <>
             <div className={classnames('grid','grid-cols-2','gap-4','justify-items-center')}>
-                {disks.map((disk, index) => <DiskConfiguration index={ index } disk={disk} key={disk['DviceName']} disks={disks} changeDisks={changeDisks} />)}
+                {disks.map((disk, index) => <DiskConfiguration index={ index } disk={disk} key={disk.DeviceName} disks={disks} changeDisks={changeDisks} />)}
             </div>
 
             <button onClick={() => {
-                const lastDisk = disks[disks.length - 1]['DviceName'];
+                const lastDisk = disks[disks.length - 1].DeviceName;
                 const lastNum = parseInt(lastDisk.replace('/dev/sda',''));
-                const newDisk = '/sda' + (lastNum + 1).toString();
+                const newDisk = '/dev/sda' + (lastNum + 1).toString();
                 changeDisks([...disks,{
                     'DeviceName': newDisk,
                     'Ebs': {

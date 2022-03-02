@@ -13,6 +13,14 @@ export interface DefaultDataCenterModel {
     vpc_cidr: string;
 }
 
+export interface EipInfoSimple{
+      alloId: string
+      assoId: string
+      isAvailable: boolean
+      pubIp: string
+      tagName: string
+}
+
 interface DataCenterTagSpec {
     ResourceType: string;
     Tag: Tag[]
