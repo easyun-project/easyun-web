@@ -5,6 +5,8 @@ import { Icon } from '@iconify/react';
 import { DashCard, GraphicalData } from '@/components/DashboardCommon/DashCard';
 import './index.less';
 import dashboard from '@/service/dashboard';
+import TimeUtil from '@/utils/time';
+import FlagUtil from '@/utils/flagUtil';
 
 type TableType = {
     [key: string]: {
@@ -51,9 +53,10 @@ export const Dashboard = (props): JSX.Element => {
                         dataIndex: 'dcRegion',
                         key: 'dcRegion',
                         render: dcRegion => {
+                            console.log(dcRegion);
                             return <div>
                                 <span className={classnames('inline-block', 'pr-1', 'h-4')}>
-                                    <Icon className={'ml-5'} icon={`twemoji:flag-for-flag-${dcRegion?.icon}`}
+                                    <Icon className={'ml-5'} icon={FlagUtil.getFlagIcon(dcRegion?.icon)}
                                         color='#5c6f9a'
                                         width='25' height='25'
                                         fr={undefined}/>
@@ -90,8 +93,8 @@ export const Dashboard = (props): JSX.Element => {
             config: {
                 pagination: false,
                 bordered: true,
-                scroll:{
-                    y:300
+                scroll: {
+                    y: 300
                 }
             },
             data: {
@@ -153,6 +156,9 @@ export const Dashboard = (props): JSX.Element => {
                         title: 'Launch time',
                         dataIndex: 'launchTime',
                         key: 'launchTime',
+                        render: launchTime => {
+                            return TimeUtil.utcConvertTimeZone({ date: launchTime });
+                        }
                     }
                 ],
                 dataSource: []
@@ -163,8 +169,8 @@ export const Dashboard = (props): JSX.Element => {
             config: {
                 pagination: false,
                 bordered: true,
-                scroll:{
-                    y:300
+                scroll: {
+                    y: 300
                 }
             },
             data: {
@@ -236,6 +242,9 @@ export const Dashboard = (props): JSX.Element => {
                         title: 'Create time',
                         dataIndex: 'createTime',
                         key: 'createTime',
+                        render: createTime => {
+                            return TimeUtil.utcConvertTimeZone({ date: createTime });
+                        }
                     }
                 ],
                 dataSource: []
@@ -246,8 +255,8 @@ export const Dashboard = (props): JSX.Element => {
             config: {
                 pagination: false,
                 bordered: true,
-                scroll:{
-                    y:300
+                scroll: {
+                    y: 300
                 }
             },
             data: {
@@ -284,6 +293,9 @@ export const Dashboard = (props): JSX.Element => {
                         title: 'Create time',
                         dataIndex: 'createTime',
                         key: 'createTime',
+                        render: createTime => {
+                            return TimeUtil.utcConvertTimeZone({ date: createTime });
+                        }
                     },
                 ],
                 dataSource: []
@@ -294,8 +306,8 @@ export const Dashboard = (props): JSX.Element => {
             config: {
                 pagination: false,
                 bordered: true,
-                scroll:{
-                    y:300
+                scroll: {
+                    y: 300
                 }
             },
             data: {
@@ -362,6 +374,9 @@ export const Dashboard = (props): JSX.Element => {
                         title: 'Create Time',
                         dataIndex: 'createTime',
                         key: 'createTime',
+                        render: createTime => {
+                            return TimeUtil.utcConvertTimeZone({ date: createTime });
+                        }
                     },
                 ],
                 dataSource: []
@@ -372,8 +387,8 @@ export const Dashboard = (props): JSX.Element => {
             config: {
                 pagination: false,
                 bordered: true,
-                scroll:{
-                    y:300
+                scroll: {
+                    y: 300
                 }
             },
             data: {
@@ -422,7 +437,7 @@ export const Dashboard = (props): JSX.Element => {
                         title: 'Auto-assign Pub IP',
                         dataIndex: 'isMappubip',
                         key: 'isMappubip',
-                        render:(isMappubip)=>{
+                        render: (isMappubip) => {
                             return <div>{isMappubip?.toString()}</div>;
                         }
                     },
@@ -435,8 +450,8 @@ export const Dashboard = (props): JSX.Element => {
             config: {
                 pagination: false,
                 bordered: true,
-                scroll:{
-                    y:300
+                scroll: {
+                    y: 300
                 }
             },
             data: {
@@ -693,6 +708,7 @@ export const Dashboard = (props): JSX.Element => {
     const [isShowGraphical, setIsShowGraphical] = useState<boolean>(true);
     const [listShow, setListShow] = useState<Array<string>>([]);
 
+
     useEffect(() => {
         getDatacenter();
         getHealth();
@@ -853,7 +869,8 @@ export const Dashboard = (props): JSX.Element => {
     return (
         <div className={classnames('min-h-screen', 'p-3', 'space-y-4')}>
             <div className={classnames('grid', 'grid-cols-2', 'gap-4')}>
-                <DashCard height={'h-60'} cardTitle={tableList['dataCenter']['cardTitle']} content={tableView('dataCenter')}/>
+                <DashCard height={'h-60'} cardTitle={tableList['dataCenter']['cardTitle']}
+                    content={tableView('dataCenter')}/>
                 <DashCard height={'h-60'} cardTitle={'healthy Summary'} content={healthyView()}/>
             </div>
             <div className={classnames('flex', 'justify-end')}>
