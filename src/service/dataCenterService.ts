@@ -1,4 +1,13 @@
-import { DataCenterPath, DataCenterAdd, DataCenterAll, DataCenterDefault,DcmSubnet,DcmSecgroup,DcmStaticip } from '@/constant/apiConst';
+import {
+    DataCenterPath,
+    DataCenterAdd,
+    DataCenterAll,
+    DataCenterDefault,
+    DcmSubnet,
+    DcmSecgroup,
+    DcmStaticip,
+    DataCenterList
+} from '@/constant/apiConst';
 import axios from 'redaxios';
 import { getHeader, getHost } from '@/utils/api';
 import { DataCenterModel, DefaultDataCenterModel,EipInfoSimple,DataCenterInfo } from '@/constant/dataCenter';
@@ -135,5 +144,19 @@ export default class DataCenterService {
             headers: getHeader()
         });
         return result.data.detail;
+    }
+    /*
+     * 获取数据中心列表(概要信息)
+     * PS：dashboard中需要通过此接口获取dc列表
+     */
+    static async getDataCenterList() {
+        const url = getHost() + DataCenterList;
+        const result = await axios.get(url, {
+            headers: getHeader()
+        });
+        if (result.status == 200) {
+            return result.data.detail;
+        }
+        return undefined;
     }
 }

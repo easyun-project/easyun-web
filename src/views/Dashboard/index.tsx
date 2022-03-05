@@ -7,6 +7,10 @@ import './index.less';
 import dashboard from '@/service/dashboard';
 import TimeUtil from '@/utils/time';
 import FlagUtil from '@/utils/flagUtil';
+import DataCenterService from '@/service/dataCenterService';
+import { Select } from 'antd';
+
+const { Option } = Select;
 
 type TableType = {
     [key: string]: {
@@ -53,7 +57,6 @@ export const Dashboard = (props): JSX.Element => {
                         dataIndex: 'dcRegion',
                         key: 'dcRegion',
                         render: dcRegion => {
-                            console.log(dcRegion);
                             return <div>
                                 <span className={classnames('inline-block', 'pr-1', 'h-4')}>
                                     <Icon className={'ml-5'} icon={FlagUtil.getFlagIcon(dcRegion?.icon)}
@@ -100,7 +103,7 @@ export const Dashboard = (props): JSX.Element => {
             data: {
                 columns: [
                     {
-                        title: 'Instance ID',
+                        title: 'Server ID',
                         dataIndex: 'svrId',
                         key: 'svrId',
                     },
@@ -661,7 +664,7 @@ export const Dashboard = (props): JSX.Element => {
                         value: null
                     },
                     {
-                        key: 'avaNum',
+                        key: 'avlNum',
                         label: 'Available',
                         value: null
                     },
@@ -673,7 +676,7 @@ export const Dashboard = (props): JSX.Element => {
                 ]
             }
         },
-        st_file: {
+        st_files: {
             cardTitle: 'File Storage Summary',
             content: {
                 leftData: {
@@ -707,22 +710,34 @@ export const Dashboard = (props): JSX.Element => {
     // tabs切换，true-Graphical面板,false-list面板
     const [isShowGraphical, setIsShowGraphical] = useState<boolean>(true);
     const [listShow, setListShow] = useState<Array<string>>([]);
-
+    const [dcList, setDictList] = useState<Array<any>>([]);
+    const [dcName, setDcName] = useState<string>('');
 
     useEffect(() => {
-        getDatacenter();
-        getHealth();
-        // 下面的函数会导致页面崩溃，需要debug
-        getGraphical();
-        getInventory();
+        getDataCenterList();
     }, []);
+
+    useEffect(() => {
+        if (dcName) {
+            getDatacenter();
+            getHealth();
+            getGraphical();
+            getInventory();
+        }
+    }, [dcName]);
+
+    const getDataCenterList = () => {
+        DataCenterService.getDataCenterList().then(res => {
+            setDictList(res);
+        });
+    };
 
     /**
      * 获取首行数据 DataCenter
      */
     const getDatacenter = () => {
         const temp = { ...tableList };
-        dashboard.getDatacenter().then(res => {
+        dashboard.getDatacenter({ dcName }).then(res => {
             temp['dataCenter']['data']['dataSource'] = res;
             setTableList(temp);
         });
@@ -732,7 +747,7 @@ export const Dashboard = (props): JSX.Element => {
      * 获取首行数据 Health
      */
     const getHealth = () => {
-        dashboard.getHealth().then(res => {
+        dashboard.getHealth({ dcName }).then(res => {
             setHealth(res);
         });
     };
@@ -741,8 +756,9 @@ export const Dashboard = (props): JSX.Element => {
      */
     const getGraphical = () => {
         const temp = { ...graphicalData };
-        dashboard.getGraphical().then(res => {
+        dashboard.getGraphical({ dcName }).then(res => {
             res.forEach(item => {
+                console.log(item.type);
                 const { leftData, rightData } = temp[item.type]['content'];
                 leftData.value = item.data.sumNum;
                 // 循环匹配对应的key值
@@ -765,7 +781,7 @@ export const Dashboard = (props): JSX.Element => {
      */
     const getInventory = () => {
         const temp = { ...tableList };
-        dashboard.getInventory().then(res => {
+        dashboard.getInventory({ dcName }).then(res => {
             const showList: Array<string> = [];
             res.forEach(item => {
                 if (item.data.length > 0 && temp[item.type]) {
@@ -802,7 +818,7 @@ export const Dashboard = (props): JSX.Element => {
                             height="20"
                             fr={undefined}
                         />
-                        In alarm({health.alarms.iaNum})
+                        <span className={classnames('pl-1')}>In alarm({health.alarms.iaNum})</span>
                     </div>
                     <div className={classnames('flex', 'items-center', 'text-gray-400')}>
                         <Icon
@@ -812,7 +828,7 @@ export const Dashboard = (props): JSX.Element => {
                             rotate={2}
                             fr={undefined}
                         />
-                        Insufficient data({health.alarms.isNum})
+                        <span className={classnames('pl-1')}>Insufficient data({health.alarms.isNum})</span>
                     </div>
                     <div className={classnames('flex', 'items-center', 'text-green-600')}>
                         <Icon
@@ -821,7 +837,7 @@ export const Dashboard = (props): JSX.Element => {
                             height="20"
                             fr={undefined}
                         />
-                        OK({health.alarms.okNum})
+                        <span className={classnames('pl-1')}>OK({health.alarms.okNum})</span>
                     </div>
                 </div>
             </div>
@@ -849,6 +865,13 @@ export const Dashboard = (props): JSX.Element => {
         </div>;
     };
 
+    const dictView = () => {
+        const domList = dcList.map(item => {
+            return <Option key={item.vpcID} value={item.dcName}>{item.dcName}</Option>;
+        });
+        return domList;
+    };
+
     /**
      * 跳转外部链接
      * @param url
@@ -863,11 +886,21 @@ export const Dashboard = (props): JSX.Element => {
      *               List - 展示list面板
      */
     const changeShow = (item) => {
-        item === 'Graphical' ? setIsShowGraphical(true) : setIsShowGraphical(false);
+        setIsShowGraphical(item === 'Graphical');
+    };
+
+    const changeDictName = (dcName) => {
+        setDcName(dcName);
     };
 
     return (
         <div className={classnames('min-h-screen', 'p-3', 'space-y-4')}>
+            <div className={classnames('flex', 'justify-end', 'items-center')}>
+                <span>当前数据中心：</span>
+                <Select onChange={changeDictName} className={classnames('w-32')}>
+                    {dictView()}
+                </Select>
+            </div>
             <div className={classnames('grid', 'grid-cols-2', 'gap-4')}>
                 <DashCard height={'h-60'} cardTitle={tableList['dataCenter']['cardTitle']}
                     content={tableView('dataCenter')}/>
@@ -889,18 +922,18 @@ export const Dashboard = (props): JSX.Element => {
             {
                 isShowGraphical ?
                     <div className={classnames('grid', 'grid-cols-3', 'gap-4')}>
-                        <DashCard type='Graphical' {...graphicalData['server']} />
-                        <DashCard type='Graphical' {...graphicalData['database']} />
-                        <DashCard type='Graphical' {...graphicalData['network']} />
-                        <DashCard type='Graphical' {...graphicalData['st_object']} />
-                        <DashCard type='Graphical' {...graphicalData['st_block']} />
-                        <DashCard type='Graphical' {...graphicalData['st_file']} />
+                        {
+                            Object.keys(graphicalData).map((type) => {
+                                return <DashCard key={type} type='Graphical' {...graphicalData[type]} />;
+                            })
+                        }
                     </div>
                     :
                     <div className={classnames('space-y-4')}>
                         {
                             listShow && listShow.map((item, index) => (
-                                <DashCard key={index} cardTitle={tableList[item]['cardTitle']} content={tableView(item)}/>
+                                <DashCard key={item} cardTitle={tableList[item]['cardTitle']}
+                                    content={tableView(item)}/>
                             ))
                         }
                     </div>

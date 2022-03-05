@@ -54,9 +54,9 @@ export const DashCard = (props: PropsType): JSX.Element => {
     return (
         <div className={classnames('rounded-md', 'border', 'border-gray-300')}>
             {cardTitle &&
-              <div id='cardTitle' className={classnames('border-b', 'border-gray-300', 'p-2')}>
-                  <p className={classnames('font-bold', 'text-xl')}>{cardTitle}</p>
-              </div>
+                  <div id='cardTitle' className={classnames('border-b', 'border-gray-300', 'p-2')}>
+                      <p className={classnames('font-bold', 'text-xl')}>{cardTitle}</p>
+                  </div>
             }
             {type === 'Graphical' ?
                 <div className={classnames('grid', 'grid-cols-2')} style={{ height: `calc(${titleHeight})` }}>
@@ -71,18 +71,20 @@ export const DashCard = (props: PropsType): JSX.Element => {
                                 <div key={index} className={classnames('grid', 'grid-cols-3', 'items-center')}>
                                     <div className={classnames('flex', 'items-center', 'col-span-2')}>
                                         {showIcon &&
-                                      <div className={classnames('w-1/4')}>
-                                          <Icon icon={item.icon?.name} color={item.icon?.color} width='20'
-                                              height='20'/>
-                                      </div>
+                                              <div className={classnames('w-1/4')}>
+                                                  <Icon icon={item.icon?.name} color={item.icon?.color} width='20'
+                                                      height='20'/>
+                                              </div>
                                         }
                                         <div>{item.label}:</div>
                                     </div>
                                     {
-                                    // 判断是否为携带单位对象
+                                        // 判断是否为携带单位对象
                                         item['value'] instanceof Object ?
-                                            <div>{item['value']['value'] + ' ' + item['value']['unit']}</div>
-                                            : <div>{item['value']}</div>
+                                            <div>
+                                                <span>{item['value']['value']}</span>{' ' + item['value']['unit']}
+                                            </div>
+                                            : <div><span>{item['value']}</span></div>
                                     }
                                 </div>
                             ))
