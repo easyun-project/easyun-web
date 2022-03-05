@@ -64,7 +64,7 @@ const FlagUtil = {
      * @param code 国家对应的编码
      * @return @iconify插件所需要的参数 String
      */
-    getFlagIcon(code) {
+    getFlagIcon(code:string) {
         return flag[code].icon;
     }
 };
