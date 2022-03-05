@@ -61,3 +61,30 @@ export interface DataCenterInfo {
     vpcCidr: string
     vpcID:string
 }
+
+export interface SecGroupDetail{
+      'ibPermissions':
+        {
+          'FromPort': number
+          'IpProtocol': string
+          'IpRanges': Record<string,string>[],
+          'Ipv6Ranges': string[],
+          'PrefixListIds': string[],
+          'ToPort': number
+          'UserIdGroupPairs': string[]
+        }[],
+      'ibrulesNum': number
+      'obPermissions':
+        {
+          'IpProtocol': string
+          'IpRanges': Record<string,string>[]
+          'Ipv6Ranges': string[]
+          'PrefixListIds': string[]
+          'UserIdGroupPairs': string[]
+        }[],
+      'obrulesNum': number
+      'sgDes': string
+      'sgId': string
+      'sgName': string
+      'tagName': string
+    }

@@ -35,9 +35,9 @@ function DataCenterCard(props:DataCenterInfo) {
             </Menu.Item>
         </Menu>
     );
-    const handleClick = (e)=>{
-        console.log(e.target);
-        dispatch(updateCurrentDc(props));};
+    const handleClick = ()=>{
+        dispatch(updateCurrentDc(props));
+    };
     return (
         <div
             className={classnames(

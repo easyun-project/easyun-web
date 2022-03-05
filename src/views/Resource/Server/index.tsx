@@ -14,6 +14,8 @@ import serverService from '@/service/serverService';
 // import { ServerModel } from '@/constant/server';
 import { LoadingOutlined } from '@ant-design/icons';
 
+import { getDataCenterSecgroup } from '@/redux/dataCenterSlice';
+
 export const serverColumns = [
     {
         title: 'Instance ID',
@@ -117,12 +119,16 @@ export const ServerList = ():JSX.Element => {
         return state.server;
     });
     const serverDataSource = serverState.servers;
+    const dc = useSelector((state: RootState) => {
+        return state.dataCenter.currentDc.basicInfo!.dcName;
+    });
 
     const [selectedServers, changeSelectedServers] = useState<React.Key[]>([]);
     const [acting,changeActing] = useState(false);
 
     useEffect(() => {
         dispatch(getServerList());
+        dispatch(getDataCenterSecgroup({ dc }));
     }, [dispatch]);
 
 

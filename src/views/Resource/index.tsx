@@ -96,7 +96,7 @@ export const Resource = (): JSX.Element => {
                     <Routes>
                         <Route path="server/:serverId" element={<ServerDetail />} />
                         <Route path="server" element={<ServerList />} />
-                        <Route path="addServer" element={<AddServer />} />
+                        <Route path="server/add" element={<AddServer />} />
 
                         <Route path="storage" element={<StoragePage />} />
                         <Route path='storage/object/:bktId' element={<BucketManage />} />
