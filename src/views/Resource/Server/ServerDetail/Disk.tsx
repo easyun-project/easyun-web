@@ -1,15 +1,28 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
-import { useState } from 'react';
-import { Tooltip, Switch, Input, Select } from 'antd';
+import { useState,useEffect } from 'react';
+import { Tooltip, Switch, Select,Skeleton,Popover } from 'antd';
 import { QuestionCircleOutlined,CloseOutlined, CheckOutlined } from '@ant-design/icons';
 import { classnames } from '@@/tailwindcss-classnames';
-import { useSelector } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { Menu, Dropdown } from 'antd';
+import { Menu, Dropdown,InputNumber,Input } from 'antd';
+import storageService from '@/service/storageService';
+import { VolumeDetail,VolumeTypeInfo } from '@/constant/storage';
+import { AddVolumeParams } from '@/constant/storage';
+import { getServerDetail } from '@/redux/serverSlice';
 
-function ExistDisk(props) {
-    console.log(props);
+interface DiskProps{
+    volumeId:string
+}
+
+function ExistDisk(props:DiskProps) {
+    const [diskInfo, changeDiskInfo] = useState<'loading'|VolumeDetail>('loading');
+    useEffect(
+        ()=>{storageService.getVolumeDetail(props.volumeId).then(
+            res=>changeDiskInfo(res),
+            error=>console.log(error)
+        );},[]);
     const menu = (
         <Menu>
             <Menu.Item key="detach"
@@ -23,59 +36,53 @@ function ExistDisk(props) {
             </Menu.Item>
         </Menu>
     );
-    return (
-        <div className={classnames('rounded-border', 'w-1/2', 'm-2')}>
-            <div className={classnames('flex','flex-row','m-2')}>
-                <span><Icon icon={ props.index === 0 ? 'icon-park-outline:folder-settings' : 'icon-park-outline:solid-state-disk'} width="64" fr={undefined}/> </span>
-                <div className={classnames('mx-3', 'flex-grow')}>
-                    <div className={classnames('flex', 'flex-row')}>
-                        <span className={classnames('flex-grow','font-bold')}>{ props.index === 0 ? 'System Disk' : 'User Disk'}</span>
+    if(diskInfo === 'loading')
+    {return(<Skeleton active />);}
+    else {
+        const { volumeBasic,volumeConfig } = diskInfo;
+        return (
+            <div className={classnames('rounded-border', 'm-2','2xl:w-1/3','lg:w-1/2','md:w-96')}>
+                <div className={classnames('flex','m-2')}>
+                    <span><Icon icon={ diskInfo.volumeAttach?.diskType === 'system' ? 'icon-park-outline:folder-settings' : 'icon-park-outline:solid-state-disk'} width="64" fr={undefined}/> </span>
+                    <div className={classnames('mx-3', 'flex-grow')}>
+                        <div className={classnames('flex')}>
+                            <span className={classnames('flex-grow','font-bold')}>{ diskInfo.volumeAttach?.diskType === 'system' ? 'System Disk' : 'User Disk'}</span>
 
-                        { props.index === 0
-                            ? undefined
-                            : <Dropdown overlay={menu}>
-                                <Icon
-                                    icon="fluent:more-vertical-20-filled"
-                                    fr={undefined}
-                                    className={classnames('cursor-pointer', 'hover:bg-yellow-650')}
-                                />
-                            </Dropdown>}
-                    </div>
+                            { diskInfo.volumeAttach?.diskType  === 'system'
+                                ? undefined
+                                : <Dropdown overlay={menu}>
+                                    <Icon
+                                        icon="fluent:more-vertical-20-filled"
+                                        fr={undefined}
+                                        className={classnames('cursor-pointer', 'hover:bg-yellow-650')}
+                                    />
+                                </Dropdown>}
+                        </div>
 
-                    <div className={classnames('flex','flex-row','mt-2','justify-between')}>
-                        <div className={classnames('flex','flex-row')}>
-                            <span>size(GiB):</span>
-                            <span>16GB</span>
-                        </div>
-                        <div className={classnames('flex','flex-row')}>
-                            <span>IOPS:</span>
-                            <span>3000</span>
-                        </div>
-                        <div className={classnames('flex','flex-row')}>
-                            <span>Thruputs(MB/s):</span>
-                            <span>125</span>
+                        <div className={classnames('flex','mt-2','justify-between')}>
+                            <div className={classnames('flex','flex-row')}>
+                                <span>size(GiB):</span>
+                                <span>{volumeConfig?.volumeSize}GB</span>
+                            </div>
+                            <div className={classnames('flex','flex-row')}>
+                                <span>IOPS:</span>
+                                <span>{volumeConfig?.volumeIops}</span>
+                            </div>
+                            <div className={classnames('flex','flex-row')}>
+                                <span>Thruputs(MB/s):</span>
+                                <span>{volumeConfig?.volumeThruput ? volumeConfig.volumeThruput : 'Null'}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className={classnames('flex','flex-row','justify-between','border-t-2','border-gray-300','border-dashed','ml-12','mr-6','p-2')}>
-                <div>
-                    <span>Disk path:</span>
-                    <span className={classnames('font-bold')}>{ props['DeviceName']}</span>
+                <div className={classnames('flex','justify-between','border-t-2','border-gray-300','border-dashed','ml-12','mr-6','p-2')}>
+                    <div>
+                        <span>Disk path:</span>
+                        <span className={classnames('font-bold')}>{ volumeBasic?.attachPath}</span>
+                    </div>
                 </div>
-                {/* <div>
-                    <span>Encryption</span>
-                    <Switch
-                        checkedChildren={<CheckOutlined />}
-                        unCheckedChildren={<CloseOutlined />}
-                        defaultChecked
-                        onChange = {()=>
-                            console.log('encrypt')}
-                    />
-                </div> */}
             </div>
-        </div>
-    );
+        );}
 }
 
 interface NewDiskProps {
@@ -83,56 +90,72 @@ interface NewDiskProps {
 }
 
 function NewDisk(props:NewDiskProps) {
+    const dispatch = useDispatch();
     const { Option } = Select;
     const { changeIsAdding } = props;
-    const [diskType, changeDiskType] = useState('Standard');
+    const InstanceId = useSelector((state: RootState) => {
+        return state.server.currentServer!.svrProperty.instanceId;
+    });
+    const [diskType, changeDiskType] = useState('standard');
     const [encryption, changeEncryption] = useState(true);
     const [volumnSize, changeVolumnSize] = useState(8);
     const [volumnIOPS, changeVolumnIOPS] = useState(3000);
     const [volumnThruputs, changeVolumnThruputs] = useState(125);
+    const [devicePath, changeDevicePath] = useState('dev/sdb');
+    const volumeTypeInfo = VolumeTypeInfo[diskType];
     return (
-        <div className={classnames('flex','flex-row','items-center')}>
+        <div className={classnames('flex','items-center')}>
             {/* 添加disk框体 */}
-            <div className={classnames('active-border','w-1/2','m-2','flex','flex-col')}>
-                <div className={classnames('flex','flex-row','m-2')}>
+            <div className={classnames('active-border','m-2','flex','flex-col','2xl:w-1/3','lg:w-1/2','md:w-96')}>
+                <div className={classnames('flex','m-2')}>
                     <span><Icon icon="icon-park-outline:solid-state-disk" width="64" fr={undefined}/> </span>
                     <div className={classnames('mx-3','flex-grow')}>
                         <span >Disk type:</span>
-                        <Select defaultValue={ 'Standard' } onChange={value=>changeDiskType(value)} size='small'>
-                            <Option value="Standard">Magnetic(standard)</Option>
-                            <Option value="gp2">General Purpose SSD(gp2)</Option>
-                            <Option value="gp3">General Purpose SSD(gp3)</Option>
-                            <Option value="io1">Provisioned IOPS SSD(io1)</Option>
-                            <Option value="io2">Provisioned IOPS SSD(io2)</Option>
+                        <Select className={classnames('w-1/2')} defaultValue={ 'standard' } onChange={value=>changeDiskType(value)} size='small'>
+                            {Object.keys(VolumeTypeInfo).map(key=><Option value={key} key={key}>{VolumeTypeInfo[key].typeDesc}</Option>)}
                         </Select>
-                        <div className={classnames('flex','flex-row','mt-2','justify-between')}>
-                            <div className={classnames('flex','flex-row')}>
+                        <div className={classnames('flex','mt-2','justify-between')}>
+                            <div>
                                 <span>size(GiB):</span>
-                                <Input className={classnames('w-12')} type="text" size='small' maxLength={2} defaultValue={8} onChange={(e)=>changeVolumnSize(parseInt(e.target.value))}/>
+                                <Popover content={
+                                    `max:${volumeTypeInfo.volumeSize?.at(1)} min:${volumeTypeInfo.volumeSize?.at(0)}`
+                                } title="Tips">
+                                    <InputNumber className={classnames('w-16')} size='small' min={volumeTypeInfo.volumeSize?.at(0)} max={volumeTypeInfo.volumeSize?.at(1)} defaultValue={8} onChange={(value)=>changeVolumnSize(value)}/>
+                                </Popover>
                             </div>
-                            <div className={classnames('flex','flex-row')}>
+                            <div>
                                 <span>IOPS:</span>
-                                <Input className={classnames('w-12')} disabled={diskType === 'Standard'} type="text" size='small' maxLength={5} defaultValue={3000}
-                                    onChange={(e) => changeVolumnIOPS(parseInt(e.target.value))} />
+                                <Popover content={
+                                    `max:${volumeTypeInfo.volumeIops?.at(1)} min:${volumeTypeInfo.volumeIops?.at(0)}`
+                                } title="Tips">
+                                    <InputNumber className={classnames('w-16')} disabled={!volumeTypeInfo.volumeIops} size='small' min={volumeTypeInfo.volumeIops?.at(0)} max={volumeTypeInfo.volumeIops?.at(1)} defaultValue={3000}
+                                        onChange={(value) => changeVolumnIOPS(value)} />
+                                </Popover>
+
                             </div>
-                            <div className={classnames('flex','flex-row')}>
+                            <div>
                                 <span>Thruputs(MB/s):</span>
-                                <Input className={classnames('w-12')} disabled={['Standard', 'Io1', 'Io2'].includes(diskType)} type="text" size='small' maxLength={5} defaultValue={125}
-                                    onChange={(e) => changeVolumnThruputs(parseInt(e.target.value))} />
+                                <Popover content={
+                                    `max:${volumeTypeInfo.volumeThruput?.at(1)} min:${volumeTypeInfo.volumeThruput?.at(0)}`
+                                } title="Tips">
+                                    <InputNumber className={classnames('w-16')} disabled={!volumeTypeInfo.volumeThruput} size='small' min={volumeTypeInfo.volumeThruput?.at(0)} max={volumeTypeInfo.volumeThruput?.at(1)} defaultValue={125}
+                                        onChange={(value) => changeVolumnThruputs(value)} />
+                                </Popover>
+
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className={classnames('flex','flex-row','justify-between','border-t-2','border-gray-300','border-dashed','ml-12','mr-6','p-2')}>
-                    <div>
+                <div className={classnames('flex','justify-between','border-t-2','border-gray-300','border-dashed','ml-12','mr-6','p-2')}>
+                    <div className={classnames('flex')}>
                         <span>Disk path:</span>
-                        <span className={classnames('font-bold')}>{'dev/sdb'}</span>
+                        <Input className={classnames('w-24')} type="text" size='small' defaultValue={'dev/sdb'} onChange={(e)=>changeDevicePath(e.target.value)}/>
                     </div>
                     <div>
-                        <span>Encryption</span>
+                        <span className={classnames('mr-2')}>Encryption</span>
                         <Switch
-                            checkedChildren={<CheckOutlined />}
-                            unCheckedChildren={<CloseOutlined />}
+                            checkedChildren={<CheckOutlined className={classnames('align-middle')}/>}
+                            unCheckedChildren={<CloseOutlined className={classnames('align-middle')}/>}
                             defaultChecked
                             onChange = {()=>
                                 changeEncryption(!encryption)}
@@ -155,13 +178,32 @@ function NewDisk(props:NewDiskProps) {
                     width="24" height="24"
                     color="green"
                     onClick={() => {
-                        console.log({
-                            diskType,
-                            encryption,
-                            volumnIOPS,
-                            volumnSize,
-                            volumnThruputs
-                        });
+                        const params:AddVolumeParams = {
+                            VolumeType:diskType,
+                            Encrypted:encryption,
+                            Size:volumnSize,
+                            InstanceId,
+                            Device:devicePath
+                        };
+                        switch (diskType){
+                        case 'io1':
+                        case 'io2':
+                            params.Iops = volumnIOPS;
+                            break;
+                        case 'gp3':
+                            params.Iops = volumnIOPS;
+                            params.Throughput = volumnThruputs;
+                            break;
+                        }
+                        storageService.addVolume(params).then(
+                            res=>console.log(res),
+                            error=>console.log(error)
+                        );
+                        dispatch(getServerDetail({
+                            serverId: InstanceId
+                        }));
+
+
                         changeIsAdding(false);
                     }} />
             </div>
@@ -172,10 +214,7 @@ function NewDisk(props:NewDiskProps) {
 
 export default function Disk():JSX.Element {
     const [isAdding, changeIsAdding] = useState(false);
-    const currentServerDisks = useSelector((state: RootState) => {
-        if (state.server.currentServer)
-        { return state.server.currentServer['BlockDeviceMappings']; }
-    });
+    const currentServerDisks = useSelector((state: RootState) => state.server.currentServer?.svrDisk);
     // console.log(currentServerDisks);
     return (
         <>
@@ -185,7 +224,7 @@ export default function Disk():JSX.Element {
                     <QuestionCircleOutlined />
                 </Tooltip>
             </div>
-            <div className={classnames('flex', 'flex-row', 'flex-wrap')}> {currentServerDisks.map((disk, index) => <ExistDisk key={disk['DeviceName']} index={ index } {...disk} />)}</div>
+            <div > {currentServerDisks?.volumeIds.map((volumeId) => <ExistDisk key={volumeId} volumeId={volumeId}/>)}</div>
             {isAdding
                 ? <NewDisk changeIsAdding={ changeIsAdding }/>
                 : <button onClick={() => changeIsAdding(true)}

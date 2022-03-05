@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import DataCenterService from '@/service/dataCenterService';
 import { DataCenterModel, DefaultDataCenterModel } from '@/constant/dataCenter';
+import { DataCenterInfo } from '@/constant/dataCenter';
 
 const updateDefaultDataCenter = 'dataCenter/updateDefaultDataCenterAction';
 
@@ -30,12 +31,19 @@ export interface DataCenterState {
     loading: boolean,
     dataCenter: DataCenterModel | undefined,
     defaultDataCenter: DefaultDataCenterModel | undefined,
+    currentDc:
+    {
+        basicInfo:DataCenterInfo|undefined
+    }
 }
 
 const initialState: DataCenterState = {
     loading: true,
     dataCenter: undefined,
-    defaultDataCenter: undefined
+    defaultDataCenter: undefined,
+    currentDc:{
+        basicInfo:undefined
+    }
 };
 
 
@@ -45,6 +53,9 @@ export const dataCenterSlice = createSlice({
     reducers: {
         updateDefaultDataCenterAction(state, action) {
             state.defaultDataCenter = action.payload;
+        },
+        updateCurrentDc(state, action){
+            state.currentDc.basicInfo = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -65,3 +76,4 @@ export const dataCenterSlice = createSlice({
     }
 });
 export default dataCenterSlice.reducer;
+export const {  updateCurrentDc } = dataCenterSlice.actions;

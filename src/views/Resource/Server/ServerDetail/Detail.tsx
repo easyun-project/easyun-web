@@ -6,6 +6,7 @@ import { classnames,  } from '@@/tailwindcss-classnames';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 
+
 export default function Detail():JSX.Element {
     const serverState = useSelector((state: RootState) => {
         return state.server;
@@ -15,57 +16,58 @@ export default function Detail():JSX.Element {
         <>
             <div id='instanceId'>
                         Instance Id:
-                <CopyToClipboard text={server.InstanceId}
+                <CopyToClipboard text={server.svrProperty.instanceId}
                     onCopy={() => {
                         message.success('copied to clipboard!');
                     }}>
                     <span>
                         <Icon width={20} className={classnames('inline-block', 'mx-2')} icon="ep:document-copy"
                             fr={undefined}/>
-                        {server.InstanceId}</span>
+                        {server.svrProperty.instanceId}</span>
                 </CopyToClipboard>
             </div>
 
             <div>
-                        Launch Time: {server.LaunchTime}
+                        Launch Time: {server.svrProperty.launchTime}
             </div>
 
             <div id='hostnameType' className={classnames('mt-4')}>
                 <div>Hostname Type</div>
                 <div id='ipName'>
                             IP name:
-                    <CopyToClipboard text={server.IpName}
+                    <CopyToClipboard text={server.svrNetworking.privateIp}
                         onCopy={() => {
                             message.success('copied to clipboard!');
                         }}>
                         <span>
                             <Icon width={20} className={classnames('inline-block', 'mx-2')} icon="ep:document-copy"
                                 fr={undefined}/>
-                            {server.IpName}</span>
+                            {server.svrProperty.privateIpv4Dns}</span>
                     </CopyToClipboard>
                 </div>
                 <div id='privateIpDNS'>
                             Private Ipv4 DNS:
-                    <CopyToClipboard text={server.PrivateDnsName}
+                    <CopyToClipboard text={server.svrProperty.privateIpv4Dns}
                         onCopy={() => {
                             message.success('copied to clipboard!');
                         }}>
                         <span>
                             <Icon width={20} className={classnames('inline-block', 'mx-2')} icon="ep:document-copy"
                                 fr={undefined}/>
-                            {server.PrivateDnsName}</span>
+                            {server.svrProperty.privateIpv4Dns}
+                        </span>
                     </CopyToClipboard>
                 </div>
                 <div id='publicIpDNS'>
                             Public Ipv4 DNS:
-                    <CopyToClipboard text={server.PublicDnsName}
+                    <CopyToClipboard text={server.svrProperty.publicIpv4Dns}
                         onCopy={() => {
                             message.success('copied to clipboard!');
                         }}>
                         <span>
                             <Icon width={20} className={classnames('inline-block', 'mx-2')} icon="ep:document-copy"
                                 fr={undefined}/>
-                            {server.PublicDnsName}</span>
+                            {server.svrProperty.publicIpv4Dns}</span>
                     </CopyToClipboard>
                 </div>
             </div>
@@ -74,26 +76,26 @@ export default function Detail():JSX.Element {
                 <Row>
                     <Col span={8}>
                         <div>
-                                    Platform details: {server.PlatformDetails}
+                                    Platform details: {server.svrProperty.platformDetails}
                         </div>
 
                         <div>
-                                    Virtualization: {server.VirtualizationType}
+                                    Virtualization: {server.svrProperty.virtualization}
                         </div>
 
                         <div>
-                                    Tenancy: {}
+                                    Tenancy: {server.svrProperty.tenancy}
                         </div>
                         <div>
-                                    Usage operation: {server.UsageOperation}
-                        </div>
-
-                        <div>
-                                    Monitoring: {server.Monitoring}
+                                    Usage operation: {server.svrProperty.usageOperation}
                         </div>
 
                         <div>
-                                    Termination protection: {}
+                                    Monitoring: {server.svrProperty.monitoring}
+                        </div>
+
+                        <div>
+                                    Termination protection: {server.svrProperty.terminationProtection}
                         </div>
 
                     </Col>
@@ -103,69 +105,69 @@ export default function Detail():JSX.Element {
                     <Col span={8}>
                         <div id='amiId'>
                                     AMI ID:
-                            <CopyToClipboard text={server.ImageId}
+                            <CopyToClipboard text={server.svrProperty.amiId}
                                 onCopy={() => {
                                     message.success('copied to clipboard!');
                                 }}>
                                 <span>
                                     <Icon width={20} className={classnames('inline-block', 'mx-2')} icon="ep:document-copy"
                                         fr={undefined}/>
-                                    {server.ImageId}</span>
+                                    {server.svrProperty.amiId}</span>
                             </CopyToClipboard>
                         </div>
 
                         <div id='amiName'>
                                     AMI Name:
-                            <CopyToClipboard text={server.ImageName}
+                            <CopyToClipboard text={server.svrProperty.amiName}
                                 onCopy={() => {
                                     message.success('copied to clipboard!');
                                 }}>
                                 <span>
                                     <Icon width={20} className={classnames('inline-block', 'mx-2')} icon="ep:document-copy"
                                         fr={undefined}/>
-                                    {server.ImageName}
+                                    {server.svrProperty.amiName}
                                 </span>
                             </CopyToClipboard>
                         </div>
 
                         <div id='amiPath'>
                                     AMI Path:
-                            <CopyToClipboard text={server.ImagePath}
+                            <CopyToClipboard text={server.svrProperty.amiPath}
                                 onCopy={() => {
                                     message.success('copied to clipboard!');
                                 }}>
                                 <span>
                                     <Icon width={20} className={classnames('inline-block', 'mx-2')} icon="ep:document-copy"
                                         fr={undefined}/>
-                                    {server.ImagePath}
+                                    {server.svrProperty.amiPath}
                                 </span>
                             </CopyToClipboard>
                         </div>
 
                         <div id='keyPairName'>
                                     Key pair name:
-                            <CopyToClipboard text={server.KeyName}
+                            <CopyToClipboard text={server.svrProperty.keyPairName}
                                 onCopy={() => {
                                     message.success('copied to clipboard!');
                                 }}>
                                 <span>
                                     <Icon width={20} className={classnames('inline-block', 'mx-2')} icon="ep:document-copy"
                                         fr={undefined}/>
-                                    {server.KeyName}
+                                    {server.svrProperty.keyPairName}
                                 </span>
                             </CopyToClipboard>
                         </div>
 
                         <div id='iamRole'>
                                     IAM Role:
-                            <CopyToClipboard text={server.IamInstanceProfile}
+                            <CopyToClipboard text={server.svrProperty.iamRole}
                                 onCopy={() => {
                                     message.success('copied to clipboard!');
                                 }}>
                                 <span>
                                     <Icon width={20} className={classnames('inline-block', 'mx-2')} icon="ep:document-copy"
                                         fr={undefined}/>
-                                    {server.IamInstanceProfile}
+                                    {server.svrProperty.iamRole}
                                 </span>
                             </CopyToClipboard>
                         </div>

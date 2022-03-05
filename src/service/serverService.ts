@@ -1,12 +1,12 @@
 import { getHeader, getHost } from '@/utils/api';
-import { ServerDetail, ServerList, ServerImages, ServerInstypes, ServerInsfamily, AddServer,ServerAction } from '@/constant/apiConst';
+import { ServerDetail, ServerList, ServerImages, ServerInstypes, ServerInsfamily, AddServer,ServerAction,AttachEip,DetachEip } from '@/constant/apiConst';
 import axios from 'redaxios';
 import { ServerModel, SeverDetailModel } from '@/constant/server';
 import { amiInfo } from '@/components/Logic/CAmi';
 import { InsType } from '@/views/Resource/Server/AddServer/InstanceList';
 import { InsTypeFamily } from '@/views/Resource/Server/AddServer';
 import { DiskInfo } from '@/views/Resource/Server/AddServer/DiskConfiguration';import React from 'react';
-;
+import store from '@/redux/store';
 
 interface insTypeParams {
     os?: 'linux'|'windows'
@@ -51,7 +51,7 @@ export default class serverService {
         const url = getHost() + ServerList;
         const result = await axios.get(url, {
             headers: getHeader(),
-            params:{ dc:'Easyun' }
+            params:{ dc:store.getState().dataCenter.currentDc.basicInfo!.dcName }
         },);
         if (result.status == 200) {
             return result.data.detail as ServerModel[];
@@ -111,7 +111,7 @@ export default class serverService {
     }
 
     /**
-     * 获取可用的instypes
+     * 创建新server
      */
     static async addServer(data:AddServiceParams): Promise<InsType[]> {
         const url = getHost() + AddServer;
@@ -141,6 +141,32 @@ export default class serverService {
             data,
             headers: getHeader()
         });
+        return result.data.detail;
+    }
+    /**
+     * attach eip
+     */
+    static async attachEip(data): Promise<Record<'msg',string>> {
+        const url = getHost() + AttachEip;
+        const result = await axios.put(url, data,
+            {
+                headers: getHeader()
+            });
+        return result.data.detail;
+    }
+    /**
+     * detach eip
+     */
+    static async detachEip(publicIp): Promise<Record<'msg',string>> {
+        const url = getHost() + DetachEip;
+        const result = await axios.put(url,
+            {
+                publicIp
+            },
+            {
+                headers: getHeader()
+            },
+        );
         return result.data.detail;
     }
 }

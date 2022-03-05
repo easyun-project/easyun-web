@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ServerModel, SeverDetailModel } from '@/constant/server';
 import serverService, { ServerDetailParams } from '@/service/serverService';
 
+
 export interface ServerState {
     loading: boolean,
     servers: ServerModel[]
@@ -47,6 +48,9 @@ export const serverSlice = createSlice({
         });
         builder.addCase(getServerDetail.pending, (state: ServerState) => {
             state.loading = true;
+        });
+        builder.addCase(getServerDetail.rejected, (state: ServerState) => {
+            state.loading = false;
         });
     }
 });

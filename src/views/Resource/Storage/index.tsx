@@ -12,7 +12,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { updateStorage } from '@/redux/storageSlice';
-import bucketManage from '@/service/addBucket';
+import bucketManage from '@/service/storageService';
 // import { UserModel } from '@/constant/user';
 
 import stbucket from '@@/src/assets/images/stbucket.png';
@@ -183,7 +183,7 @@ const WithStorage = (props): JSX.Element => {
                     </CButton>
                     <CButton
                         click={() => {
-                            // TODO 
+                            // TODO
                             navigate('/resource/storage/block/add');
                         }}
                         classes={classnames(
@@ -229,10 +229,10 @@ export const StoragePage = (): JSX.Element => {
             dispatch(updateStorage(data.detail));
             // dispatch(updateStorage(data.detail[0].bucketList));
         },
-            () => {
-                changeStorageLoading(false);
-                alert('网络错误，请刷新');
-            }
+        () => {
+            changeStorageLoading(false);
+            alert('网络错误，请刷新');
+        }
         );
     }, []);
 

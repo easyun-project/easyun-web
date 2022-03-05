@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { useSelector } from 'react-redux';
@@ -28,7 +28,6 @@ export default function Security():JSX.Element {
             ruleId:2
         },
     ];
-
     const columns = [
         {
             title: 'Application',
@@ -76,12 +75,15 @@ export default function Security():JSX.Element {
     ];
 
     const [slectedSecgroups,changeSlectedSecgroups] = useState<string[]>([]);
+    useEffect(()=>console.log(123)
+        ,[slectedSecgroups]);
     if (currentServerState) {
         // 由于返回的字段与之前的定义不同，所以需要做一下转化
-        const secGroups = currentServerState['SecurityGroups'].map((sec) => {
-            const newSec = { sgId: '', tagName: '' };
-            newSec.sgId = sec['GroupId'];
-            newSec.tagName = sec['GroupName'];
+        const secGroups = currentServerState.svrSecurity.map((sec) => {
+            const newSec = { sgId: '', tagName: '',sgName:'' };
+            newSec.sgId = sec['sgId'];
+            newSec.tagName = sec['sgName'];
+            newSec.sgName = sec['sgName'];
             return newSec;
         });
 
@@ -92,10 +94,17 @@ export default function Security():JSX.Element {
                     <CSecOpt multi={ false } secgroups={secGroups} changeSlectedSecgroups={changeSlectedSecgroups} />
                     <button
                         className={ classnames('border-2', 'rounded-lg','border-gray-500', 'm-5','h-20', 'w-20', 'text-center','align-middle','inline-block')}
-                        onClick={()=>{console.log('click');
+                        onClick={()=>{console.log('Create New');
                         }
                         }>
-                    + New
+                    + Create New
+                    </button>
+                    <button
+                        className={ classnames('border-2', 'rounded-lg','border-gray-500', 'm-5','h-20', 'w-20', 'text-center','align-middle','inline-block')}
+                        onClick={()=>{console.log('Attach New');
+                        }
+                        }>
+                    + Attach New
                     </button>
                 </div>
 

@@ -28,13 +28,13 @@ export default function Connect(): JSX.Element {
                 </div>
                 <div className={classnames('w-1/2', 'border', 'rounded', 'flex', 'flex-col','py-2','px-4','my-4')}>
                     <div className={classnames('text-gray-400')}>CONNECT TO</div>
-                    <div className={classnames('text-black','text-2xl')}>{currentServerState.PrivateIpAddress}</div>
+                    <div className={classnames('text-black','text-2xl')}>{currentServerState.svrConnect.publicIp}</div>
                     <div className={classnames('text-gray-400','mt-8')}>USER NAME</div>
-                    <div className={classnames('text-black','text-2xl')}>{currentServerState.PrivateIpAddress}</div>
+                    <div className={classnames('text-black','text-2xl')}>{currentServerState.svrConnect.userName.join(' OR ')}</div>
                     <div className={classnames('text-gray-400','mt-2')}>PASSWORD</div>
                     <div className={classnames('text-gray-700', 'text-sm','mb-2')}>This instance uses your
                         <a href='http://www.baidu.com' target="_blank" rel='noreferrer'
-                            className={classnames('text-black', 'font-bold', 'inline')}> {currentServerState.KeyName} </a>
+                            className={classnames('text-black', 'font-bold', 'inline')}> {currentServerState.svrProperty.keyPairName} </a>
                         (us-east-1) key pair to sign in.
                     </div>
                 </div>

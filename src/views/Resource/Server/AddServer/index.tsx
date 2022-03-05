@@ -10,6 +10,7 @@ import DiskConfigurations from './DiskConfiguration';
 import InstanceList from './InstanceList';
 import SSHkeys from './SSHkeys';
 import { Cascader,Card } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import Networking from './Networking';
 import { useState,useEffect } from 'react';
 import serverService from '@/service/serverService';
@@ -21,8 +22,11 @@ import { CSecOptInfo } from '@/components/Logic/CSecurityGroup/CSecOpt';
 import { KeyInfo } from './SSHkeys';
 import { DiskInfo } from './DiskConfiguration';
 import { SubnetInfo } from './Networking';
+import { createBrowserHistory } from 'history';
 
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 export interface InsTypeFamily {
     catdesCode:string
@@ -41,7 +45,12 @@ children: {
 
 
 const AddServer = (): JSX.Element => {
+    const dc = useSelector((state: RootState) => {
+        return state.dataCenter.currentDc.basicInfo!.dcName;
+    });
+    const history = createBrowserHistory();
     const navigate = useNavigate();
+    const [creating, changeCreating] = useState(false);
     //server tag and name
     const [tagName, changeTagName] = useState('NewServerName');
     const [svrNumber, changeSvrNumber] = useState(1);
@@ -133,8 +142,8 @@ const AddServer = (): JSX.Element => {
     };
 
     useEffect(()=>{
-        DataCenterService.getSecgroup({ dc:'Easyun' }).then((res) => changeSecgroups(res));
-        DataCenterService.getSubnet({ dc:'Easyun' }).then((res) => changeSubnets(res));
+        DataCenterService.getSecgroup({ dc }).then((res) => changeSecgroups(res));
+        DataCenterService.getSubnet({ dc }).then((res) => changeSubnets(res));
         AccountService.getSSHKeys().then((res) => changeKeyPairs(res));
     }, []);
 
@@ -144,7 +153,7 @@ const AddServer = (): JSX.Element => {
         serverService.getServerImages({
             os:os,
             arch,
-            dc:'Easyun'
+            dc
         }).then((res: amiInfo[]) => changeAmis(res));
     },
     [arch, os]);
@@ -155,12 +164,12 @@ const AddServer = (): JSX.Element => {
             arch,
             os: os,
             family: insFamily.toLowerCase(),
-            dc:'Easyun'
+            dc
         }).then(res => changeInsTypes(res));
 
         serverService.getServerInsfamily({
             arch,
-            dc:'Easyun'
+            dc
         }).then(res=>
         {
             generateOptions(res);
@@ -252,49 +261,30 @@ const AddServer = (): JSX.Element => {
 
             <div id="create-buttons">
                 <div>
-                    <CButton
-                        classes={classnames(
-                            'bg-gray-500',
-                            'text-white',
-                            'rounded-3xl',
-                            'h-10',
-                            'w-32',
-                            'px-5',
-                            'm-5'
-                        )}
-                    >
-          Back
-                    </CButton>
-                    <CButton
-                        classes={classnames(
-                            'bg-yellow-550',
-                            'text-white',
-                            'rounded-3xl',
-                            'h-10',
-                            'w-32',
-                            'px-5',
-                            'm-5'
-                        )}
-                        click={() => {
-                            serverService.addServer({
-                                'BlockDeviceMappings': disks,
-                                'ImageId': selectedAmi,
-                                'InstanceType': selectedIns,
-                                'KeyName': selectedKey,
-                                'SecurityGroupIds': slectedSecgroups,
-                                'SubnetId': selectedSubnet,
-                                'dcName': 'Easyun',
-                                'svrNumber':svrNumber,
-                                'tagName': tagName
-                            }).then(
-                                () => {alert('创建成功');
-                                    navigate('/resource/server');},
-                                () => alert('创建失败'),
-                            );
-                        } }
-                    >
-          Create
-                    </CButton>
+                    <button className={classnames('btn-gray','w-32','m-5')} onClick={()=>history.back()}>Back</button>
+                    <button className={classnames('btn-yellow','w-32','m-5')} onClick={()=>{
+                        changeCreating(true);
+                        serverService.addServer({
+                            'BlockDeviceMappings': disks,
+                            'ImageId': selectedAmi,
+                            'InstanceType': selectedIns,
+                            'KeyName': selectedKey,
+                            'SecurityGroupIds': slectedSecgroups,
+                            'SubnetId': selectedSubnet,
+                            'dcName': 'Easyun',
+                            'svrNumber':svrNumber,
+                            'tagName': tagName
+                        }).then(
+                            () => {
+                                changeCreating(false);
+                                alert('创建成功');
+                                navigate('/resource/server');
+                            },
+                            () => {changeCreating(false);
+                                alert('创建失败');},
+                        );
+                    }
+                    }> {creating ? <LoadingOutlined className={classnames('align-middle')} /> : undefined} Create</button>
                 </div>
             </div>
         </div>

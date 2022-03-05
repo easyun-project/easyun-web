@@ -13,6 +13,14 @@ export interface DefaultDataCenterModel {
     vpc_cidr: string;
 }
 
+export interface EipInfoSimple{
+      alloId: string
+      assoId: string
+      isAvailable: boolean
+      pubIp: string
+      tagName: string
+}
+
 interface DataCenterTagSpec {
     ResourceType: string;
     Tag: Tag[]
@@ -43,4 +51,13 @@ interface Keypair {
     filename: string
 }
 
-
+export interface DataCenterInfo {
+    createDate: string
+    createUser: string
+    dcAccount: string
+    dcName: string
+    dcRegion: string
+    dcUser: string
+    vpcCidr: string
+    vpcID:string
+}

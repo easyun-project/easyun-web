@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Icon } from '@iconify/react';
-import { CButton } from '@/components/Common/CButton';
 import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
 import { Col, message, Row, Tabs } from 'antd';
 import { useParams } from 'react-router-dom';
@@ -10,6 +9,7 @@ import { RootState } from '@/redux/store';
 import { ServerDetailParams } from '@/service/serverService';
 import { CPartialLoading } from '@/components/Common/CPartialLoading';
 import Detail from './Detail';
+import Config from './Config';
 import Disk from './Disk';
 import Security from './Security';
 import Connect from './Connect';
@@ -50,9 +50,9 @@ export const ServerDetail = ():JSX.Element => {
         );
     }
     let color: TTailwindString;
-    if (server.ServerState === 'running') {
+    if (server.svrProperty.status === 'running') {
         color = classnames('text-green-600');
-    } else if (server.ServerState == 'stopped') {
+    } else if (server.svrProperty.status == 'stopped') {
         color = classnames('text-red-700');
     } else {
         color = classnames('text-yellow-550');
@@ -69,47 +69,41 @@ export const ServerDetail = ():JSX.Element => {
                 </Col>
                 <Col span={12}>
                     <div id="serverInfo">
-                        <h1>{server.KeyName}</h1>
+                        <h1>{server.svrProperty.instanceId}</h1>
                         <div>
-                            instance Type : {server.InstanceType}({server.VCpu}vCPU, {server.Memory} Gib)
+                            instance Type : {server.svrProperty.instanceType}({server.svrProperty.vCpu}vCPU, {server.svrProperty.memory} Gib)
                         </div>
-                        <div>Private Ip: {server.PrivateIpAddress}</div>
-                        <div>Public Ip: {server.PublicIpAddress}</div>
+                        <div>Private Ip: {server.svrNetworking.privateIp}</div>
+                        <div>Public Ip: {server.svrNetworking.publicIp}</div>
                     </div>
                 </Col>
                 <Col span={8}>
                     <div id="operationPanel">
                         <div className={classnames('my-2')}>
                             Status:
-                            <span className={classnames(color, 'ml-2')}>{server.ServerState}</span>
+                            <span className={classnames(color, 'ml-2')}>{server.svrProperty.status}</span>
                         </div>
-                        <CButton
-                            click={() => {
-                                message.info('I think you stop the instance');
-                            }}
-                            classes={classnames('mr-2', 'inline-block', 'bg-yellow-550', 'block', 'text-white', 'rounded-3xl', 'px-5', 'py-2')}>
+                        <div className={classnames('flex')}>
+                            <button className={classnames('btn-yellow','w-32','m-5')} onClick={()=>message.info('I think you stop the instance')}>
                             Stop
-                        </CButton>
-                        <CButton
-                            click={() => {
-                                message.info('I think you reboot the instance');
-                            }}
-                            classes={classnames('mr-2', 'inline-block', 'bg-yellow-550', 'block', 'text-white', 'rounded-3xl', 'px-5', 'py-2')}>
-                            Reboot
-                        </CButton>
-                        <CButton
-                            click={() => {
-                                message.error('I think you delete the instance');
-                            }}
-                            classes={classnames('inline-block', 'bg-red-700', 'block', 'text-white', 'rounded-3xl', 'px-5', 'py-2')}>
-                            Delete instance
-                        </CButton>
+                            </button>
+                            <button className={classnames('btn-yellow','w-32','m-5')} onClick={()=>message.info('I think you reboot the instance')}>
+                            Restart
+                            </button>
+                            <button className={classnames('btn-red','w-32','m-5')} onClick={()=>message.info('I think you delete the instance')}>
+                            Delete
+                            </button>
+                        </div>
                     </div>
                 </Col>
             </Row>
             <Tabs className={classnames('pl-3')} defaultActiveKey="1">
                 <TabPane tab="Detail" key="Detail">
                     <Detail />
+                </TabPane>
+
+                <TabPane tab="Config" key="Config">
+                    <Config />
                 </TabPane>
 
                 <TabPane tab="Disk" key="Disk">

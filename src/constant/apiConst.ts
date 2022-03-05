@@ -27,6 +27,8 @@ export const ServerInstypes = '/api/v1/server/param/instype';
 export const ServerInsfamily = '/api/v1/server/param/insfamily';
 export const AddServer = '/api/v1/server';
 export const ServerAction = '/api/v1/server/action';
+export const AttachEip = '/api/v1/server/attach/eip';
+export const DetachEip = '/api/v1/server/detach/eip';
 
 // Storage s3存储 常量名以St开头
 export const StBucketPath = '/api/v1/storage/bucket';
@@ -34,6 +36,7 @@ export const StBucketList = '/api/v1/storage/bucket/list';
 export const StBucketObject = '/api/v1.0/storage/bucket/object';
 export const StVolumePath = '/api/v1.0/storage/volume';
 export const StVolumeList = '/api/v1.0/storage/volume/list';
+export const VolumeOperate = '/api/v1/storage/volume';
 
 // database 数据库 常量名以Database开头
 export const DatabasePath = '/api/v1/database';
