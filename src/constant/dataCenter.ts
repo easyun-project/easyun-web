@@ -51,4 +51,13 @@ interface Keypair {
     filename: string
 }
 
-
+export interface DataCenterInfo {
+    createDate: string
+    createUser: string
+    dcAccount: string
+    dcName: string
+    dcRegion: string
+    dcUser: string
+    vpcCidr: string
+    vpcID:string
+}

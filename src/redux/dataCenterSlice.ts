@@ -30,12 +30,14 @@ export interface DataCenterState {
     loading: boolean,
     dataCenter: DataCenterModel | undefined,
     defaultDataCenter: DefaultDataCenterModel | undefined,
+    currentDc:string|undefined,
 }
 
 const initialState: DataCenterState = {
     loading: true,
     dataCenter: undefined,
-    defaultDataCenter: undefined
+    defaultDataCenter: undefined,
+    currentDc:undefined,
 };
 
 

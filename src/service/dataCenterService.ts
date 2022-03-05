@@ -1,7 +1,7 @@
 import { DataCenterPath, DataCenterAdd, DataCenterAll, DataCenterDefault,DcmSubnet,DcmSecgroup,DcmStaticip } from '@/constant/apiConst';
 import axios from 'redaxios';
 import { getHeader, getHost } from '@/utils/api';
-import { DataCenterModel, DefaultDataCenterModel,EipInfoSimple } from '@/constant/dataCenter';
+import { DataCenterModel, DefaultDataCenterModel,EipInfoSimple,DataCenterInfo } from '@/constant/dataCenter';
 import { SubnetInfo } from '@/views/Resource/Server/AddServer/Networking';
 
 // 创建数据中心需要的参数
@@ -31,9 +31,22 @@ interface SecGroupInfo{
 
 export default class DataCenterService {
     /**
+     * 获取所有datercenter的信息
+     */
+
+    static async getDataCenterInfo(): Promise<DataCenterInfo[]> {
+        const url = getHost() + DataCenterPath;
+        const result = await axios.get(url, {
+            headers: getHeader()
+        });
+        return result.data.detail;
+
+    }
+
+    /**
      * 获取数据中心默认参数
      */
-    static async getDefault(token): Promise<DefaultDataCenterModel | undefined> {
+    static async getDefault(): Promise<DefaultDataCenterModel | undefined> {
         const url = getHost() + DataCenterDefault;
         const result = await axios.get(url, {
             headers: getHeader()
@@ -49,7 +62,7 @@ export default class DataCenterService {
      * @param token
      * @param params
      */
-    static async createDataCenter(token: string, params: CreateDataCenterParams): Promise<boolean> {
+    static async createDataCenter(params: CreateDataCenterParams): Promise<boolean> {
         const url = getHost() + DataCenterAdd;
         const result = await axios.post(url, params, {
             headers: getHeader()
@@ -63,7 +76,7 @@ export default class DataCenterService {
     /**
      * 获取dataCenter
      */
-    static async getDataCenter(token): Promise<DataCenterModel | undefined> {
+    static async getDataCenter(): Promise<DataCenterModel | undefined> {
         const url = getHost() + DataCenterAll;
         const result = await axios.get(url, {
             headers: getHeader()
@@ -116,7 +129,7 @@ export default class DataCenterService {
      * 获取eip基础信息
      */
     static async listEipInfo(dc:string):Promise<EipInfoSimple[]>{
-        const url = getHost() + DataCenterEip + '/list';
+        const url = getHost() + DcmStaticip + '/list';
         const result = await axios.get(url,{
             params:{ dc },
             headers: getHeader()
