@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ServerModel, SeverDetailModel } from '@/constant/server';
 import serverService, { ServerDetailParams } from '@/service/serverService';
 
+
 export interface ServerState {
     loading: boolean,
     servers: ServerModel[]

@@ -7,14 +7,19 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import DataCenterService from '@/service/dataCenterService';
 import { DataCenterInfo } from '@/constant/dataCenter';
-
+import { CPartialLoading } from '@/components/Common/CPartialLoading';
+import { updateCurrentDc } from '@/redux/dataCenterSlice';
+import { useDispatch } from 'react-redux';
 
 function DataCenterCard(props:DataCenterInfo) {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const { dcName,vpcID,vpcCidr,dcRegion } = props;
     const menu = (
         <Menu>
-            <Menu.Item key="resource" onClick={()=>navigate('/resource')}>
+            <Menu.Item key="resource" onClick={()=>{
+                dispatch(updateCurrentDc(props));
+                navigate('/resource');}}>
           Resource
             </Menu.Item>
             <Menu.Item key="manage" onClick={()=>navigate('/datacenter')}>
@@ -30,6 +35,9 @@ function DataCenterCard(props:DataCenterInfo) {
             </Menu.Item>
         </Menu>
     );
+    const handleClick = (e)=>{
+        console.log(e.target);
+        dispatch(updateCurrentDc(props));};
     return (
         <div
             className={classnames(
@@ -50,8 +58,8 @@ function DataCenterCard(props:DataCenterInfo) {
                     className={classnames('w-12', 'h-12')}
                 /> */}
                 <Icon icon="ic:round-cloud-circle" color="#e9862e" width="50" fr={null}/>
-                <div className={classnames('ml-2','flex-grow')}>
-                    <a href='/resource' className={classnames('text-blue-600') }>{dcName}</a>
+                <div className={classnames('ml-2','flex-grow')} >
+                    <a href='/resource' className={classnames('text-blue-600','text-lg')} onClick={handleClick}>{dcName}</a>
                     <div className={classnames('text-xs', 'text-gray-500')}>{vpcID}</div>
                 </div>
                 <Dropdown overlay={menu}>
@@ -82,17 +90,18 @@ function DataCenterCard(props:DataCenterInfo) {
 
 
 export default function Home():JSX.Element {
-
-    const [datacenters,changeDatacenters] = useState<DataCenterInfo[]>([]);
+    const [datacenters,changeDatacenters] = useState<'loading'|DataCenterInfo[]>('loading');
     useEffect(()=>{
         DataCenterService.getDataCenterInfo().then(
             res=>changeDatacenters(res)
         );},[]);
 
-    return (
-        <div className={classnames('min-h-screen')}>
-            {datacenters.map((dcInfo)=><DataCenterCard key={dcInfo.vpcID} {...dcInfo}/>)}
-        </div>
+    return (<div className={classnames('min-h-screen')}>
+        {datacenters === 'loading'
+            ? <CPartialLoading classes={classnames('h-96')}/>
+            : datacenters.map((dcInfo)=><DataCenterCard key={dcInfo.vpcID} {...dcInfo}/>)
+        }</div>
+
 
     );
 }

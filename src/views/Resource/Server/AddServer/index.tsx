@@ -25,6 +25,8 @@ import { SubnetInfo } from './Networking';
 import { createBrowserHistory } from 'history';
 
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 export interface InsTypeFamily {
     catdesCode:string
@@ -43,6 +45,9 @@ children: {
 
 
 const AddServer = (): JSX.Element => {
+    const dc = useSelector((state: RootState) => {
+        return state.dataCenter.currentDc.basicInfo!.dcName;
+    });
     const history = createBrowserHistory();
     const navigate = useNavigate();
     const [creating, changeCreating] = useState(false);
@@ -137,8 +142,8 @@ const AddServer = (): JSX.Element => {
     };
 
     useEffect(()=>{
-        DataCenterService.getSecgroup({ dc:'Easyun' }).then((res) => changeSecgroups(res));
-        DataCenterService.getSubnet({ dc:'Easyun' }).then((res) => changeSubnets(res));
+        DataCenterService.getSecgroup({ dc }).then((res) => changeSecgroups(res));
+        DataCenterService.getSubnet({ dc }).then((res) => changeSubnets(res));
         AccountService.getSSHKeys().then((res) => changeKeyPairs(res));
     }, []);
 
@@ -148,7 +153,7 @@ const AddServer = (): JSX.Element => {
         serverService.getServerImages({
             os:os,
             arch,
-            dc:'Easyun'
+            dc
         }).then((res: amiInfo[]) => changeAmis(res));
     },
     [arch, os]);
@@ -159,12 +164,12 @@ const AddServer = (): JSX.Element => {
             arch,
             os: os,
             family: insFamily.toLowerCase(),
-            dc:'Easyun'
+            dc
         }).then(res => changeInsTypes(res));
 
         serverService.getServerInsfamily({
             arch,
-            dc:'Easyun'
+            dc
         }).then(res=>
         {
             generateOptions(res);

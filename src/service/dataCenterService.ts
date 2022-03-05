@@ -39,10 +39,10 @@ interface SecGroupInfo{
 }
 
 export default class DataCenterService {
+
     /**
      * 获取所有datercenter的信息
      */
-
     static async getDataCenterInfo(): Promise<DataCenterInfo[]> {
         const url = getHost() + DataCenterPath;
         const result = await axios.get(url, {
@@ -51,6 +51,22 @@ export default class DataCenterService {
         return result.data.detail;
 
     }
+
+    /*
+     * 获取数据中心列表(概要信息)
+     * PS：dashboard中需要通过此接口获取dc列表
+     */
+    static async getDataCenterList() {
+        const url = getHost() + DataCenterList;
+        const result = await axios.get(url, {
+            headers: getHeader()
+        });
+        if (result.status == 200) {
+            return result.data.detail;
+        }
+        return undefined;
+    }
+
 
     /**
      * 获取数据中心默认参数
@@ -81,6 +97,7 @@ export default class DataCenterService {
         }
         return false;
     }
+
 
     /**
      * 获取dataCenter
@@ -123,15 +140,13 @@ export default class DataCenterService {
     /**
      * 添加eip
      */
-    static async createEip(dcName:string):Promise<any>{
+    static async createEip(dcName:string):Promise<Record<'msg',string>>{
         const url = getHost() + DcmStaticip;
         const result = await axios.post(url, { dcName },{
             headers: getHeader()
         });
-        if (result.status == 200) {
-            return result.data.detail;
-        }
-        return undefined;
+        return result.data.detail;
+
     }
 
     /**
@@ -145,18 +160,5 @@ export default class DataCenterService {
         });
         return result.data.detail;
     }
-    /*
-     * 获取数据中心列表(概要信息)
-     * PS：dashboard中需要通过此接口获取dc列表
-     */
-    static async getDataCenterList() {
-        const url = getHost() + DataCenterList;
-        const result = await axios.get(url, {
-            headers: getHeader()
-        });
-        if (result.status == 200) {
-            return result.data.detail;
-        }
-        return undefined;
-    }
+
 }
