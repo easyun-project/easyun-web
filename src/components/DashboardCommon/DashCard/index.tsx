@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { classnames } from '@@/tailwindcss-classnames';
+import { classnames, TClasses, THeight, TKey } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 
 export type RightUnitValue = {
@@ -27,14 +27,15 @@ export interface GraphicalData {
 }
 
 interface PropsType {
-    type?: string
+    type?: string,
     cardTitle?: string,
     showIcon?: boolean,
+    height?: THeight,
     content: any | GraphicalData
 }
 
 export const DashCard = (props: PropsType): JSX.Element => {
-    const { cardTitle, content, type, showIcon } = props;
+    const { cardTitle, content, type, showIcon, height } = props;
     const [titleHeight, setTitleHeight] = useState('');
 
     useEffect(() => {
@@ -53,9 +54,9 @@ export const DashCard = (props: PropsType): JSX.Element => {
     return (
         <div className={classnames('rounded-md', 'border', 'border-gray-300')}>
             {cardTitle &&
-                  <div id='cardTitle' className={classnames('border-b', 'border-gray-300', 'p-2')}>
-                      <p className={classnames('font-bold', 'text-xl')}>{cardTitle}</p>
-                  </div>
+              <div id='cardTitle' className={classnames('border-b', 'border-gray-300', 'p-2')}>
+                  <p className={classnames('font-bold', 'text-xl')}>{cardTitle}</p>
+              </div>
             }
             {type === 'Graphical' ?
                 <div className={classnames('grid', 'grid-cols-2')} style={{ height: `calc(${titleHeight})` }}>
@@ -70,15 +71,15 @@ export const DashCard = (props: PropsType): JSX.Element => {
                                 <div key={index} className={classnames('grid', 'grid-cols-3', 'items-center')}>
                                     <div className={classnames('flex', 'items-center', 'col-span-2')}>
                                         {showIcon &&
-                                              <div className={classnames('w-1/4')}>
-                                                  <Icon icon={item.icon?.name} color={item.icon?.color} width='20'
-                                                      height='20'/>
-                                              </div>
+                                      <div className={classnames('w-1/4')}>
+                                          <Icon icon={item.icon?.name} color={item.icon?.color} width='20'
+                                              height='20'/>
+                                      </div>
                                         }
                                         <div>{item.label}:</div>
                                     </div>
                                     {
-                                        // 判断是否为携带单位对象
+                                    // 判断是否为携带单位对象
                                         item['value'] instanceof Object ?
                                             <div>{item['value']['value'] + ' ' + item['value']['unit']}</div>
                                             : <div>{item['value']}</div>
@@ -89,7 +90,8 @@ export const DashCard = (props: PropsType): JSX.Element => {
                     </div>
                 </div>
                 :
-                <div className={classnames('p-2', 'h-60', 'overflow-auto')}>
+            // <div className={classnames('p-2', 'overflow-auto', {height? height : 'h-60'})}>
+                <div className={`p-2 overflow-auto ${height}`}>
                     {content}
                 </div>
             }

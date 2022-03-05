@@ -5,6 +5,8 @@ import { Icon } from '@iconify/react';
 import { DashCard, GraphicalData } from '@/components/DashboardCommon/DashCard';
 import './index.less';
 import dashboard from '@/service/dashboard';
+import TimeUtil from '@/utils/time';
+import FlagUtil from '@/utils/flagUtil';
 
 type TableType = {
     [key: string]: {
@@ -51,9 +53,10 @@ export const Dashboard = (props): JSX.Element => {
                         dataIndex: 'dcRegion',
                         key: 'dcRegion',
                         render: dcRegion => {
+                            console.log(dcRegion);
                             return <div>
                                 <span className={classnames('inline-block', 'pr-1', 'h-4')}>
-                                    <Icon className={'ml-5'} icon={`twemoji:flag-for-flag-${dcRegion?.icon}`}
+                                    <Icon className={'ml-5'} icon={FlagUtil.getFlagIcon(dcRegion?.icon)}
                                         color='#5c6f9a'
                                         width='25' height='25'
                                         fr={undefined}/>
@@ -90,6 +93,9 @@ export const Dashboard = (props): JSX.Element => {
             config: {
                 pagination: false,
                 bordered: true,
+                scroll: {
+                    y: 300
+                }
             },
             data: {
                 columns: [
@@ -148,8 +154,11 @@ export const Dashboard = (props): JSX.Element => {
                     },
                     {
                         title: 'Launch time',
-                        dataIndex: 'createDate',
-                        key: 'createDate',
+                        dataIndex: 'launchTime',
+                        key: 'launchTime',
+                        render: launchTime => {
+                            return TimeUtil.utcConvertTimeZone({ date: launchTime });
+                        }
                     }
                 ],
                 dataSource: []
@@ -160,13 +169,16 @@ export const Dashboard = (props): JSX.Element => {
             config: {
                 pagination: false,
                 bordered: true,
+                scroll: {
+                    y: 300
+                }
             },
             data: {
                 columns: [
                     {
-                        title: 'Disk ID',
-                        dataIndex: 'diskID',
-                        key: 'diskID',
+                        title: 'Volume ID',
+                        dataIndex: 'volumeId',
+                        key: 'volumeId',
                     },
                     {
                         title: 'Name（tag）',
@@ -174,40 +186,40 @@ export const Dashboard = (props): JSX.Element => {
                         key: 'attachSvr',
                     },
                     {
-                        title: 'Ebs type',
-                        dataIndex: 'diskType',
-                        key: 'diskType',
+                        title: 'Type',
+                        dataIndex: 'volumeType',
+                        key: 'volumeType',
                     },
                     {
-                        title: 'Totle Size',
-                        dataIndex: 'totalSize',
-                        key: 'totalSize',
+                        title: 'Size',
+                        dataIndex: 'volumeSize',
+                        key: 'volumeSize',
                     },
                     {
-                        title: 'Iops',
-                        dataIndex: 'diskIops',
-                        key: 'diskIops',
+                        title: 'IOPS',
+                        dataIndex: 'volumeIops',
+                        key: 'volumeIops',
                     },
                     {
                         title: 'Throughput',
-                        dataIndex: 'diskThruput',
-                        key: 'diskThruput',
+                        dataIndex: 'volumeThruput',
+                        key: 'volumeThruput',
                     },
                     {
                         title: 'Encrypted',
-                        dataIndex: 'diskEncrypt',
-                        key: 'diskEncrypt',
+                        dataIndex: 'isEncrypted',
+                        key: 'isEncrypted',
                         render: (diskEncrypt) => {
-                            return <div>{diskEncrypt.toString()}</div>;
+                            return <div>{diskEncrypt?.toString()}</div>;
                         }
                     },
                     {
-                        title: 'Volume state',
-                        dataIndex: 'diskState',
-                        key: 'diskState',
+                        title: 'State',
+                        dataIndex: 'volumeState',
+                        key: 'volumeState',
                     },
                     {
-                        title: 'Attached',
+                        title: 'Attachment',
                         dataIndex: 'attachSvr',
                         key: 'attachSvr',
                     },
@@ -217,14 +229,22 @@ export const Dashboard = (props): JSX.Element => {
                         key: 'attachPath',
                     },
                     {
-                        title: 'Availability Zone',
-                        dataIndex: 'diskAz',
-                        key: 'diskAz',
+                        title: 'Disk type',
+                        dataIndex: 'diskType',
+                        key: 'diskType',
                     },
                     {
-                        title: 'Created date',
-                        dataIndex: 'createDate',
-                        key: 'createDate',
+                        title: 'Availability Zone',
+                        dataIndex: 'volumeAz',
+                        key: 'volumeAz',
+                    },
+                    {
+                        title: 'Create time',
+                        dataIndex: 'createTime',
+                        key: 'createTime',
+                        render: createTime => {
+                            return TimeUtil.utcConvertTimeZone({ date: createTime });
+                        }
                     }
                 ],
                 dataSource: []
@@ -235,41 +255,47 @@ export const Dashboard = (props): JSX.Element => {
             config: {
                 pagination: false,
                 bordered: true,
+                scroll: {
+                    y: 300
+                }
             },
             data: {
                 columns: [
                     {
-                        title: 'Identifier',
-                        dataIndex: 'bucketIdentifier',
-                        key: 'bucketIdentifier',
+                        title: 'Bucket Identifier',
+                        dataIndex: 'bktId',
+                        key: 'bktId',
                     },
                     {
                         title: 'Region',
-                        dataIndex: 'bucketRegion',
-                        key: 'bucketRegion',
+                        dataIndex: 'bktRegion',
+                        key: 'bktRegion',
                     },
                     {
                         title: 'Access',
-                        dataIndex: 'bucketAccess',
-                        key: 'bucketAccess',
+                        dataIndex: 'bktAccess',
+                        key: 'bktAccess',
                     },
                     {
                         title: 'Default encryption',
-                        dataIndex: 'bucketEncryption',
-                        key: 'bucketEncryption',
+                        dataIndex: 'isEncrypted',
+                        key: 'isEncrypted',
                         render: (bucketEncryption) => {
-                            return <div>{bucketEncryption.toString()}</div>;
+                            return <div>{bucketEncryption?.toString()}</div>;
                         }
                     },
                     {
                         title: 'Versioning',
-                        dataIndex: 'bucketVersiong',
-                        key: 'bucketVersiong',
+                        dataIndex: 'bktVersioning',
+                        key: 'bktVersioning',
                     },
                     {
-                        title: 'Creation date',
-                        dataIndex: 'createDate',
-                        key: 'createDate',
+                        title: 'Create time',
+                        dataIndex: 'createTime',
+                        key: 'createTime',
+                        render: createTime => {
+                            return TimeUtil.utcConvertTimeZone({ date: createTime });
+                        }
                     },
                 ],
                 dataSource: []
@@ -280,6 +306,9 @@ export const Dashboard = (props): JSX.Element => {
             config: {
                 pagination: false,
                 bordered: true,
+                scroll: {
+                    y: 300
+                }
             },
             data: {
                 columns: [
@@ -337,12 +366,132 @@ export const Dashboard = (props): JSX.Element => {
                         title: 'Multi-AZ',
                         dataIndex: 'multiAz',
                         key: 'multiAz',
+                        render: (multiAz) => {
+                            return <div>{multiAz?.toString()}</div>;
+                        }
                     },
                     {
                         title: 'Create Time',
                         dataIndex: 'createTime',
                         key: 'createTime',
+                        render: createTime => {
+                            return TimeUtil.utcConvertTimeZone({ date: createTime });
+                        }
                     },
+                ],
+                dataSource: []
+            }
+        },
+        nw_subnet: {
+            cardTitle: 'Networking-subnet',
+            config: {
+                pagination: false,
+                bordered: true,
+                scroll: {
+                    y: 300
+                }
+            },
+            data: {
+                columns: [
+                    {
+                        title: 'Subnet ID',
+                        dataIndex: 'subnetId',
+                        key: 'subnetId',
+                    },
+                    {
+                        title: 'Name(tag)',
+                        dataIndex: 'tagName',
+                        key: 'tagName',
+                    },
+                    {
+                        title: 'State',
+                        dataIndex: 'subnetState',
+                        key: 'subnetState',
+                    },
+                    {
+                        title: 'Type',
+                        dataIndex: 'subnetType',
+                        key: 'subnetType',
+                    },
+                    {
+                        title: 'IPv4 CIDR',
+                        dataIndex: 'cidrBlock',
+                        key: 'cidrBlock',
+                    },
+                    {
+                        title: 'Available IPv4',
+                        dataIndex: 'avlipNum',
+                        key: 'avlipNum',
+                    },
+                    {
+                        title: 'IPv6 CIDR',
+                        dataIndex: 'cidrBlockv6',
+                        key: 'cidrBlockv6',
+                    },
+                    {
+                        title: 'Availability Zone',
+                        dataIndex: 'subnetAz',
+                        key: 'subnetAz',
+                    },
+                    {
+                        title: 'Auto-assign Pub IP',
+                        dataIndex: 'isMappubip',
+                        key: 'isMappubip',
+                        render: (isMappubip) => {
+                            return <div>{isMappubip?.toString()}</div>;
+                        }
+                    },
+                ],
+                dataSource: []
+            }
+        },
+        nw_secgroup: {
+            cardTitle: 'Security Group list',
+            config: {
+                pagination: false,
+                bordered: true,
+                scroll: {
+                    y: 300
+                }
+            },
+            data: {
+                columns: [
+                    {
+                        title: 'Security Group ID',
+                        dataIndex: 'sgId',
+                        key: 'sgId',
+                    },
+                    {
+                        title: 'Name(tag)',
+                        dataIndex: 'tagName',
+                        key: 'tagName',
+                    },
+                    {
+                        title: 'Security Group name',
+                        dataIndex: 'sgName',
+                        key: 'sgName',
+                    },
+                    {
+                        title: 'Inbound rules count',
+                        dataIndex: 'ibrulesNum',
+                        key: 'ibrulesNum',
+                    },
+                    {
+                        title: 'Outbound rules count',
+                        dataIndex: 'obrulesNum',
+                        key: 'obrulesNum',
+                    },
+                    // TODO: 保留字段
+                    // {
+                    //     title: 'ibPermissions',
+                    //     dataIndex: 'ibPermissions',
+                    //     key: 'ibPermissions',
+                    // },
+                    // {
+                    //     title: 'obPermissions',
+                    //     dataIndex: 'obPermissions',
+                    //     key: 'obPermissions',
+                    // },
                 ],
                 dataSource: []
             }
@@ -559,6 +708,7 @@ export const Dashboard = (props): JSX.Element => {
     const [isShowGraphical, setIsShowGraphical] = useState<boolean>(true);
     const [listShow, setListShow] = useState<Array<string>>([]);
 
+
     useEffect(() => {
         getDatacenter();
         getHealth();
@@ -719,11 +869,13 @@ export const Dashboard = (props): JSX.Element => {
     return (
         <div className={classnames('min-h-screen', 'p-3', 'space-y-4')}>
             <div className={classnames('grid', 'grid-cols-2', 'gap-4')}>
-                <DashCard cardTitle={tableList['dataCenter']['cardTitle']} content={tableView('dataCenter')}/>
-                <DashCard cardTitle={'healthy Summary'} content={healthyView()}/>
+                <DashCard height={'h-60'} cardTitle={tableList['dataCenter']['cardTitle']}
+                    content={tableView('dataCenter')}/>
+                <DashCard height={'h-60'} cardTitle={'healthy Summary'} content={healthyView()}/>
             </div>
             <div className={classnames('flex', 'justify-end')}>
-                <div className={classnames('flex', 'justify-end', 'items-center', 'border-2', 'rounded-md', 'p-2')}>
+                <div
+                    className={classnames('flex', 'justify-end', 'items-center', 'border', 'border-gray-300', 'rounded-md', 'p-2')}>
                     <div>View:</div>
                     <div className={classnames('p-2', { 'font-semibold': isShowGraphical })}
                         onClick={() => changeShow('Graphical')}>Graphical

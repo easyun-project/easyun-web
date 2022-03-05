@@ -23,6 +23,7 @@ import NotFound from '../NotFound';
 import { ServerList } from '@/views/Resource/Server';
 import { ServerDetail } from '@/views/Resource/Server/ServerDetail';
 import { StoragePage } from '@/views/Resource/Storage';
+import BucketManage from './Storage/BucketManage';
 
 
 interface NotDataProps {
@@ -33,7 +34,7 @@ interface NotDataProps {
 }
 
 
-export const NoResource = (props: NotDataProps):JSX.Element => {
+export const NoResource = (props: NotDataProps): JSX.Element => {
     const navigate = useNavigate();
 
     return (
@@ -60,14 +61,14 @@ interface TableProps {
     columns: any[]
 }
 
-export const ResourceTable = (props: TableProps):JSX.Element => {
+export const ResourceTable = (props: TableProps): JSX.Element => {
     return (
         <Table bordered={true} dataSource={props.dataSource} columns={props.columns} rowSelection={{
             type: 'checkbox',
-            onChange:(selectedRowKeys:React.Key[],selectedRows: ServerModel[])=>{
+            onChange: (selectedRowKeys: React.Key[], selectedRows: ServerModel[]) => {
                 console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
             }
-        }}/>
+        }} />
     );
 };
 export const Resource = (): JSX.Element => {
@@ -75,14 +76,15 @@ export const Resource = (): JSX.Element => {
     // };
     const [current, changeCurrent] = useState('server');
     const navigate = useNavigate();
-    const handleClick = (e)=>{
+    const handleClick = (e) => {
         console.log(e.key);
         changeCurrent(e.key);
-        navigate(`/resource/${e.key}`);};
+        navigate(`/resource/${e.key}`);
+    };
     return (
         <>
             <div>
-                <div className={classnames('m-3','min-h-screen')}>
+                <div className={classnames('m-3', 'min-h-screen')}>
                     <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" >
                         <Menu.Item key="server">Server</Menu.Item>
                         <Menu.Item key="storage">Storage</Menu.Item>
@@ -93,19 +95,21 @@ export const Resource = (): JSX.Element => {
                     </Menu>
                     <Routes>
                         <Route path="server/:serverId" element={<ServerDetail />} />
-                        <Route path="server/add" element={<AddServer />} />
-                        <Route path="server" element={<ServerList/>}>
-                        </Route>
+                        <Route path="server" element={<ServerList />} />
+                        <Route path="addServer" element={<AddServer />} />
+
                         <Route path="storage" element={<StoragePage />} />
-                        <Route path="addBucket" element={<AddBucket />} />
-                        <Route path="block/add" element={<AddDisk />} />
+                        <Route path='storage/object/:bktId' element={<BucketManage />} />
+                        <Route path='storage/object/add' element={<AddBucket />} />
+                        <Route path='storage/block/add' element={<AddDisk />} />
+
                         <Route path="databases" element={<NoResource resourceName={'databases'} buttonName={'Add Databases'}
-                            routePath={'/AddDatabases'}/>} />
+                            routePath={'/AddDatabases'} />} />
                         <Route path="networking" element={<NoResource resourceName={'networking'} buttonName={'Add Networking'}
-                            routePath={'/AddNetworking'}/>} />
+                            routePath={'/AddNetworking'} />} />
                         <Route path="containers" element={<NoResource resourceName={'containers'} buttonName={'Add Container'}
-                            routePath={'/AddContainer'}/>   } />
-                        <Route path="backups" element={<NoResource resourceName={'backups'} buttonName={'Add Backup'} routePath={'/AddBackup'}/>} />
+                            routePath={'/AddContainer'} />} />
+                        <Route path="backups" element={<NoResource resourceName={'backups'} buttonName={'Add Backup'} routePath={'/AddBackup'} />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes >
                 </div>

@@ -1,0 +1,32 @@
+.content-body {
+    padding: 10px 50px;
+}
+.flex-align-center{
+    display: flex;
+    align-items: center;
+}
+.left-text{
+    margin-right: 30px;
+}
+.color-link{
+    color:#6aa0d9;
+    cursor:pointer
+}
+.width100{
+    width: 100%;
+}
+.fix-footer{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+.margin-t-b20{
+    margin: 20px 0;
+}
+.yellow-text-color {
+    color: #e49151
+}
+.color-black-weight800 {
+    color: #040404;
+    font-weight: 800;
+}
