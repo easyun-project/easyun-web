@@ -4,10 +4,12 @@ import { Menu, Dropdown } from 'antd';
 import { Icon } from '@iconify/react';
 import stbucket from '@@/src/assets/images/stbucket.png';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 
 export default function Home():JSX.Element {
     const navigate = useNavigate();
+    // useEffect(()=>{},[]);
     const menu = (
         <Menu>
             <Menu.Item key="resource" onClick={()=>navigate('/resource')}>

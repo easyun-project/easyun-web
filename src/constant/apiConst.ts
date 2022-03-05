@@ -7,10 +7,11 @@ export const SSHKeys = '/api/v1/account/ssh_keys';
 export const FreeTier = '/api/v1/account/free_tier';
 
 // dataCenter 数据中心相关内容 常量名以DataCenter开头
+export const DataCenterOperate = '/api/v1/datacenter';
 export const DataCenterDefault = '/api/v1/datacenter/default';
 export const CreateDataCenter = '/api/v1/datacenter/add_dc';
 export const GetSubnet = '/api/v1/datacenter/subnet';
-export const GetSecgroup = '/api/v1/datacenter/secgroup/list';
+export const DaterCenterSecgroup = '/api/v1/datacenter/secgroup';
 export const DataCenterEip = '/api/v1/datacenter/eip';
 
 // 事件日志
@@ -25,6 +26,8 @@ export const ServerInstypes = '/api/v1/server/param/instype';
 export const ServerInsfamily = '/api/v1/server/param/insfamily';
 export const AddServer = '/api/v1/server';
 export const ServerAction = '/api/v1/server/action';
+export const AttachEip = '/api/v1/server/attach/eip';
+export const DetachEip = '/api/v1/server/detach/eip';
 
 // Storage s3存储 常量名以Storage开头
 export const AddBucket = '/api/v1/storage/add_bucket';

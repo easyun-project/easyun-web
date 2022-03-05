@@ -6,6 +6,7 @@ import { classnames,  } from '@@/tailwindcss-classnames';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 
+
 export default function Detail():JSX.Element {
     const serverState = useSelector((state: RootState) => {
         return state.server;

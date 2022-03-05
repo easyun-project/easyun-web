@@ -2,7 +2,7 @@ import { getHeader, getHost } from '@/utils/api';
 import { AddBucket, DeleteBucket, ListBucket,VolumeOperate } from '@/constant/apiConst';
 import { Result } from '@/constant/result';
 import axios from 'redaxios';
-import { BucketInfo,VolumeDetail } from '@/constant/storage';
+import { BucketInfo,VolumeDetail,AddVolumeParams } from '@/constant/storage';
 
 export default class storageService {
 
@@ -22,6 +22,9 @@ export default class storageService {
         return result.data as Result<T>;
     }
 
+    /**
+     * 删除bucket
+     */
     static async deleteBucket<T>(deleteBucketInfo:string):Promise<Result<T>>{
         const url = getHost() + DeleteBucket;
         const result = await axios.post(url,{ bucketName:deleteBucketInfo },{
@@ -37,6 +40,18 @@ export default class storageService {
         const url = getHost() + VolumeOperate + '/' + volumeId;
         const result = await axios.get(url,{
             params: { dc:'Easyun' },
+            headers: getHeader()
+        });
+        return result.data.detail;
+    }
+    /**
+     * 创建新的volume
+     */
+    static async addVolume(params:AddVolumeParams):Promise<
+    {'State': string,
+    'VolumeId': string}>{
+        const url = getHost() + VolumeOperate;
+        const result = await axios.post(url,params,{
             headers: getHeader()
         });
         return result.data.detail;
