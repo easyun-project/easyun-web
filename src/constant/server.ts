@@ -50,9 +50,7 @@ export interface SeverDetailModel {
       'virtualization': string,
     },
     'svrSecurity': Record<'sgId'|'sgName',string>[],
-    'svrTags': {
-      'tags': {'Key': string,
+    'svrTags': {'Key': string,
           'Value': string}[]
-    }
 }
 

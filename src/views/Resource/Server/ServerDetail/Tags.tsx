@@ -1,52 +1,89 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { Input } from 'antd';
 import { ArrowRightOutlined, TagOutlined } from '@ant-design/icons';
+import { useDispatch,useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { updateServerTags } from '@/redux/serverSlice';
 
 export default function Tags() {
-    const [serverTags, changeServerTags] = useState<Record<string, string>>({ 'Env': 'Dev', 'Project': 'Blog' });
+    const dispatch = useDispatch();
+    // 获取到tags并且做一定的处理
+    const initServerTags = useSelector((state:RootState)=>{
+        const  tags  = state.server.currentServer!.svrTags;
+        const serverTags:Record<string,string> = {};
+        tags.map((item)=>serverTags[item.Key] = item.Value);
+        return serverTags;
+    }
+    );
+    const [serverTags, changeServerTags] = useState<Record<string, string>>(initServerTags);
     const [isAdding, changeIsAdding] = useState(false);
     const [isChanging, changeIsChanging] = useState(false);
     const [tagKey, changeKey] = useState('');
     const [tagValue, changeValue] = useState('');
+    useEffect(()=>{
+        const tags:Record<'Key'|'Value',string>[] = [];
+        for (const key in serverTags){
+            tags.push({
+                'Key':key,
+                'Value':serverTags[key]
+            });
+        }
+        dispatch(updateServerTags(tags));
+    }
+    ,[serverTags]);
     const deleteTag = (i:string) => {
         const newServerTags = { ...serverTags };
         delete newServerTags[i];
         changeServerTags(newServerTags);
     };
+    // const updateTag = ()=>{
+    //     const tags:Record<'Key'|'Value',string>[] = [];
+    //     for (const key in serverTags){
+    //         tags.push({
+    //             'Key':key,
+    //             'Value':serverTags[key]
+    //         });
+    //     }
+    //     dispatch(updateServerTags(tags));
+    // };
 
     const genTagsArray = () => {
         const tagsArray:JSX.Element[] = [];
         for (const i in serverTags) {
-            tagsArray.push
-            (<div
-                key={i} className={classnames('rounded-border','p-2','my-4','w-96','grid','grid-cols-4')}>
-                <div><TagOutlined className={classnames('pr-2')}/>{i}</div>
-                <div><ArrowRightOutlined className={classnames('pr-2')} />{serverTags[i]}</div>
-                <div className={classnames('col-start-4')}>
-                    <Icon fr={undefined}
-                        icon="ep:edit"
-                        className={classnames('inline-block','mx-1', 'cursor-pointer')}
-                        width="24" height="24"
-                        color='#dd6b10'
-                        onClick={() => {
-                            changeKey(i);
-                            changeValue(serverTags[i]);
-                            deleteTag(i);
-                            changeIsChanging(true);
-                        }} />
-                    <Icon fr={undefined}
-                        icon="clarity:times-line"
-                        className={classnames('inline-block','mx-1', 'cursor-pointer')}
-                        width="24" height="24"
-                        color='#dd6b10'
-                        onClick={() => {
-                            if (window.confirm('Are you sure delete this tag?'))
-                            {deleteTag(i);}
-                        }} />
-                </div>
-            </div>);
+            // 如果处于正在修改中，则不显示
+            if(i !== tagKey){
+                tagsArray.push
+                (<div
+                    key={i} className={classnames('rounded-border','p-2','my-4','w-96','grid','grid-cols-4')}>
+                    <div><TagOutlined className={classnames('pr-2')}/>{i}</div>
+                    <div><ArrowRightOutlined className={classnames('pr-2')} />{serverTags[i]}</div>
+                    <div className={classnames('col-start-4')}>
+                        <Icon fr={undefined}
+                            icon="ep:edit"
+                            className={classnames('inline-block','mx-1', 'cursor-pointer')}
+                            width="24" height="24"
+                            color='#dd6b10'
+                            onClick={() => {
+                                changeKey(i);
+                                changeValue(serverTags[i]);
+                                // deleteTag(i);
+                                changeIsChanging(true);
+                            }} />
+                        <Icon fr={undefined}
+                            icon="clarity:times-line"
+                            className={classnames('inline-block','mx-1', 'cursor-pointer')}
+                            width="24" height="24"
+                            color='#dd6b10'
+                            onClick={() => {
+                                if (window.confirm('Are you sure delete this tag?'))
+                                {   deleteTag(i);}
+                            }} />
+                    </div>
+                </div>);
+            }
+
         }
         return tagsArray;
     };
@@ -56,11 +93,12 @@ export default function Tags() {
         {genTagsArray()}
         {isAdding || isChanging
             // 显示添加或者修改的界面
-            ? <div className={classnames('flex','flex-row','items-center')}>
-                <div className={classnames('flex','flex-row','active-border', 'w-96')}>
+            ? <div className={classnames('flex','items-center')}>
+                <div className={classnames('flex','active-border','justify-between', 'w-96','p-2')}>
                     <div>
                         <span>Key</span>
                         <Input
+                            disabled={isChanging}
                             defaultValue={tagKey}
                             placeholder="Tag key (e.g. Project)"
                             prefix={<TagOutlined className="site-form-item-icon"/>}
@@ -74,7 +112,8 @@ export default function Tags() {
                             placeholder="Tag value (e.g. Blog)"
                             prefix={<ArrowRightOutlined className="site-form-item-icon" />}
                             onChange={(e)=>changeValue(e.target.value)}
-                        /></div>
+                        />
+                    </div>
                 </div>
                 <div className={classnames('justify-center', 'items-center')}>
                     {isChanging
@@ -84,7 +123,11 @@ export default function Tags() {
                             className={classnames('mx-1','cursor-pointer')}
                             width="24" height="24"
                             color='red'
-                            onClick={() => changeIsAdding(false)}/>}
+                            onClick={() => {
+                                changeIsAdding(false);
+                                changeKey('');
+                                changeValue('');
+                            }}/>}
 
                     <Icon fr={undefined}
                         icon="icons8:checked"
@@ -92,20 +135,23 @@ export default function Tags() {
                         width="24" height="24"
                         color="green"
                         onClick={() => {
-                            if (tagKey !== '' && tagValue !== '')
+                            if (tagKey !== '' && tagValue !== '' && tagKey.toLowerCase() !== 'name')
                             {
                                 changeServerTags(
                                     {
                                         ...serverTags,
                                         [tagKey]: tagValue
                                     });
+                                changeIsAdding(false);
+                                changeIsChanging(false);
+                                changeKey('');
+                                changeValue('');
                             }
-                            changeIsAdding(false);
-                            changeIsChanging(false);
-                            changeKey('');
-                            changeValue('');
-                        }} />
-
+                            else{
+                                alert('invalid key or value');
+                            }
+                        }
+                        } />
                 </div>
             </div>
             // 显示一个添加的按键
@@ -116,7 +162,6 @@ export default function Tags() {
                     width="15"
                     height="15"
                     fr={undefined} />
-
                 Add key-value tag</button>}
 
     </div>;

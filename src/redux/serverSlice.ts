@@ -33,7 +33,14 @@ export const getServerDetail = createAsyncThunk(
 export const serverSlice = createSlice({
     name: 'server',
     initialState,
-    reducers: {},
+    reducers: {
+        updateServerTags(state, action) {
+            if(state.currentServer){
+                state.currentServer.svrTags = action.payload;
+            }
+
+        },
+    },
     extraReducers: (builder) => {
         builder.addCase(getServerList.fulfilled, (state: ServerState, action) => {
             state.loading = false;
@@ -55,3 +62,4 @@ export const serverSlice = createSlice({
     }
 });
 export default serverSlice.reducer;
+export const {  updateServerTags } = serverSlice.actions;
