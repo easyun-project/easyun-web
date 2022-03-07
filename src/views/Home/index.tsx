@@ -10,6 +10,7 @@ import { DataCenterInfo } from '@/constant/dataCenter';
 import { CPartialLoading } from '@/components/Common/CPartialLoading';
 import { updateCurrentDc } from '@/redux/dataCenterSlice';
 import { useDispatch } from 'react-redux';
+import Nodc from './Nodc';
 
 function DataCenterCard(props:DataCenterInfo) {
     const dispatch = useDispatch();
@@ -93,13 +94,16 @@ export default function Home():JSX.Element {
     const [datacenters,changeDatacenters] = useState<'loading'|DataCenterInfo[]>('loading');
     useEffect(()=>{
         DataCenterService.getDataCenterInfo().then(
-            res=>changeDatacenters(res)
+            res=>changeDatacenters(res),
+            error=>changeDatacenters([])
         );},[]);
 
     return (<div className={classnames('min-h-screen')}>
         {datacenters === 'loading'
             ? <CPartialLoading classes={classnames('h-96')}/>
-            : datacenters.map((dcInfo)=><DataCenterCard key={dcInfo.vpcID} {...dcInfo}/>)
+            : (datacenters.length !== 0
+                ? datacenters.map((dcInfo)=><DataCenterCard key={dcInfo.vpcID} {...dcInfo}/>)
+                : <Nodc/>)
         }</div>
 
 

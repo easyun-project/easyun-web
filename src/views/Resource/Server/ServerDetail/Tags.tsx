@@ -53,7 +53,7 @@ export default function Tags() {
         const tagsArray:JSX.Element[] = [];
         for (const i in serverTags) {
             // 如果处于正在修改中，则不显示
-            if(i !== tagKey){
+            if(i !== tagKey || !isChanging){
                 tagsArray.push
                 (<div
                     key={i} className={classnames('rounded-border','p-2','my-4','w-96','grid','grid-cols-4')}>

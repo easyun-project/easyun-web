@@ -199,11 +199,13 @@ export const ServerList = ():JSX.Element => {
                             Modify <DownOutlined />
                         </Button>
                     </Dropdown>
-                    <CButton
+                    <button onClick={() => navigate('/resource/server/add')}
+                        className={classnames('btn-yellow')}>Add Server</button>
+                    {/* <CButton
                         click={() => navigate('/resource/server/add')}
                         classes={classnames('inline-block', 'bg-yellow-550', 'mr-3', 'block', 'text-white', 'rounded-3xl', 'px-5', 'py-1')}>
                         Add Server
-                    </CButton>
+                    </CButton> */}
                 </div>
                 <Table bordered={true} dataSource={newServerDataSource} columns={serverColumns} rowSelection={{
                     type: 'checkbox',
