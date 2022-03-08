@@ -70,7 +70,7 @@ export const ServerDetail = ():JSX.Element => {
                 </Col>
                 <Col span={12}>
                     <div id="serverInfo">
-                        <h1>{server.svrProperty.instanceId}</h1>
+                        <h1>{server.svrProperty.instanceName}</h1>
                         <div>
                             instance Type : {server.svrProperty.instanceType}({server.svrProperty.vCpu}vCPU, {server.svrProperty.memory} Gib)
                         </div>

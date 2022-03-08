@@ -16,3 +16,4 @@ type MyCustomType =
 	| 'btn-red'
 	| 'rounded-border'
 	| 'active-border'
+	| 'ring-yellow-550'
