@@ -6,6 +6,7 @@ import { ArrowRightOutlined, TagOutlined } from '@ant-design/icons';
 import { useDispatch,useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { updateServerTags } from '@/redux/serverSlice';
+import serverService from '@/service/serverService';
 
 export default function Tags() {
     const dispatch = useDispatch();
@@ -17,6 +18,7 @@ export default function Tags() {
         return serverTags;
     }
     );
+    const svrId = useSelector((state:RootState)=>state.server.currentServer!.svrProperty.instanceId);
     const [serverTags, changeServerTags] = useState<Record<string, string>>(initServerTags);
     const [isAdding, changeIsAdding] = useState(false);
     const [isChanging, changeIsChanging] = useState(false);
@@ -30,6 +32,7 @@ export default function Tags() {
                 'Value':serverTags[key]
             });
         }
+        console.log(tags);
         dispatch(updateServerTags(tags));
     }
     ,[serverTags]);
@@ -78,7 +81,11 @@ export default function Tags() {
                             color='#dd6b10'
                             onClick={() => {
                                 if (window.confirm('Are you sure delete this tag?'))
-                                {   deleteTag(i);}
+                                {   serverService.deleteServerTags({
+                                    tag:{ Key:i,Value:serverTags[i] },
+                                    svrId
+                                });
+                                deleteTag(i);}
                             }} />
                     </div>
                 </div>);
@@ -142,6 +149,10 @@ export default function Tags() {
                                         ...serverTags,
                                         [tagKey]: tagValue
                                     });
+                                serverService.updateServerTags({
+                                    tag:{ Key:tagKey,Value:tagValue },
+                                    svrId
+                                });
                                 changeIsAdding(false);
                                 changeIsChanging(false);
                                 changeKey('');

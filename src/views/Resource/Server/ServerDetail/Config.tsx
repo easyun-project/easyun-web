@@ -171,6 +171,7 @@ export default function Config() {
     // ];
     const [selectedConfig,changeSelectedConfig] = useState(1);
     const currentInstype = useSelector((state:RootState)=>state.server.currentServer!.svrProperty.instanceType.split('.')[0]);
+    const instanceId = useSelector((state:RootState)=>state.server.currentServer!.svrProperty.instanceId);
     // instype family
     const [insfamilyOptions, changeInsfamilyOptions] = useState<Option>();
     const [insFamily, changeInsFamily] = useState(currentInstype);
@@ -260,15 +261,15 @@ export default function Config() {
                         if(e[1]){changeInsFamily(e[1]);}
                     }} changeOnSelect/>
             </div>
-            <div className={classnames('grid','grid-rows-1','grid-flow-col','auto-cols-min','2xl:w-1/2','m-8','overflow-x-auto')}>
-                <button className={classnames('btn-yellow')} onClick={()=>scrollBy({
+            {insTypes === 'loading'
+                ? <div>loading</div>
+                : <div className={classnames('grid','grid-rows-1','grid-flow-col','auto-cols-min','2xl:w-1/2','m-8','overflow-x-auto')}>
+                    {/* <button className={classnames('btn-yellow')} onClick={()=>scrollBy({
                     top: 20,
                     left: -20,
                     behavior: 'smooth'
-                })}>123</button>
-                {insTypes === 'loading'
-                    ? 'loading'
-                    : insTypes.map((i,index)=>
+                })}>123</button> */}
+                    {insTypes.map((i,index)=>
                         <div className={classnames('flex','flex-col','w-32')} key={index}>
                             {selectedConfig === index
                                 ? <div className={classnames('flex','h-4','items-center','justify-center')}>
@@ -283,7 +284,15 @@ export default function Config() {
                                         className={classnames('mx-1','cursor-pointer')}
                                         width="24" height="24"
                                         color="green"
-                                        onClick={() =>console.log('yes')} />
+                                        onClick={() =>{
+                                            serverService.changeServerConfig({
+                                                ins_type: insTypes[selectedConfig].insType,
+                                                svr_ids: [instanceId]
+                                            }).then(
+                                                res=>{console.log(res);
+                                                    alert('修改成功!');}
+                                            );
+                                        }} />
                                 </div>
                                 : <div className={classnames('h-4')}></div>}
 
@@ -298,17 +307,16 @@ export default function Config() {
                             <div className={classnames('text-center','border-b-2')}>{i.monthPrice.value.toFixed(2)} {i.monthPrice.currency} </div>
 
                         </div>)}
-                <div className={classnames('flex','flex-col','w-32','sticky','right-0','bg-white')}>
-                    {/* 以下这个段落用于兼容确认模组和选择框 */}
-                    <div className={classnames('h-16','m-6')}></div>
-                    <div className={classnames('text-center','font-bold','border-b-2','border-l-2')}>Type</div>
-                    <div className={classnames('text-center','font-bold','border-b-2','border-l-2')}>Process</div>
-                    <div className={classnames('text-center','font-bold','border-b-2','border-l-2')}>Memory</div>
-                    <div className={classnames('text-center','font-bold','border-b-2','border-l-2')}>Network</div>
-                    <div className={classnames('text-center','font-bold','border-b-2','border-l-2')}>Price</div>
-                </div>
-            </div>
+                    <div className={classnames('flex','flex-col','w-32','sticky','right-0','bg-white')}>
+                        {/* 以下这个段落用于兼容确认模组和选择框 */}
+                        <div className={classnames('h-16','m-6')}></div>
+                        <div className={classnames('text-center','font-bold','border-b-2','border-l-2')}>Type</div>
+                        <div className={classnames('text-center','font-bold','border-b-2','border-l-2')}>Process</div>
+                        <div className={classnames('text-center','font-bold','border-b-2','border-l-2')}>Memory</div>
+                        <div className={classnames('text-center','font-bold','border-b-2','border-l-2')}>Network</div>
+                        <div className={classnames('text-center','font-bold','border-b-2','border-l-2')}>Price</div>
+                    </div>
+                </div>}
         </>
-
     );
 }
