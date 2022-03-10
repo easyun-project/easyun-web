@@ -57,4 +57,15 @@ export default class storageService {
         });
         return result.data.detail;
     }
+    /**
+     * 删除一个volume
+     */
+    static async deleteVolume(data:{dcName: string,volumeIds: string[]}):Promise<{'msg': string}>{
+        const url = getHost() + VolumeOperate;
+        const result = await axios.delete(url,{
+            data,
+            headers: getHeader()
+        });
+        return result.data.detail;
+    }
 }

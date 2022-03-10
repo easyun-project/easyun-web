@@ -7,6 +7,7 @@ import { RootState } from '@/redux/store';
 import { InsTypeFamily } from '../AddServer';
 import { Cascader } from 'antd';
 import { InsType } from '../AddServer/InstanceList';
+import { Skeleton } from 'antd';
 
 type Option = {
 value: string
@@ -169,7 +170,7 @@ export default function Config() {
     //         'vcpuNum': 64
     //     }
     // ];
-    const [selectedConfig,changeSelectedConfig] = useState(1);
+    const [selectedConfig,changeSelectedConfig] = useState(0);
     const currentInstype = useSelector((state:RootState)=>state.server.currentServer!.svrProperty.instanceType.split('.')[0]);
     const instanceId = useSelector((state:RootState)=>state.server.currentServer!.svrProperty.instanceId);
     // instype family
@@ -262,7 +263,7 @@ export default function Config() {
                     }} changeOnSelect/>
             </div>
             {insTypes === 'loading'
-                ? <div>loading</div>
+                ? <Skeleton active paragraph={{ rows: 8 }}/>
                 : <div className={classnames('grid','grid-rows-1','grid-flow-col','auto-cols-min','2xl:w-1/2','m-8','overflow-x-auto')}>
                     {/* <button className={classnames('btn-yellow')} onClick={()=>scrollBy({
                     top: 20,
