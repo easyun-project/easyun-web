@@ -1,17 +1,18 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
 import { useState,useEffect } from 'react';
-import { Tooltip, Switch, Select,Skeleton,Popover,Menu, Dropdown,InputNumber } from 'antd';
+import { Tooltip, Switch, Select,Skeleton,Popover,Menu, Dropdown,InputNumber,Modal,Radio,Space } from 'antd';
 import { QuestionCircleOutlined,CloseOutlined, CheckOutlined } from '@ant-design/icons';
 import { classnames } from '@@/tailwindcss-classnames';
 import { useDispatch,useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import storageService from '@/service/storageService';
 import { VolumeDetail,VolumeTypeInfo } from '@/constant/storage';
 import { AddVolumeParams } from '@/constant/storage';
 import { getServerDetail } from '@/redux/serverSlice';
 import { LoadingOutlined } from '@ant-design/icons';
-import bucketService from '@/service/bucketService';
+import serverService from '@/service/serverService';
+import storageService from '@/service/storageService';
+import { VolumeInfoSimple } from '@/constant/storage';
 
 interface DiskProps{
     volumeId:string
@@ -26,7 +27,6 @@ function ExistDisk(props:DiskProps) {
     const [diskInfo, changeDiskInfo] = useState<'loading'|VolumeDetail>('loading');
     const dcName = useSelector((state: RootState) => state.dataCenter.currentDc.basicInfo!.dcName);
     const dispatch = useDispatch();
-
     useEffect(
         ()=>{
             storageService.getVolumeDetail(props.volumeId).then(
@@ -46,23 +46,8 @@ function ExistDisk(props:DiskProps) {
                 paths.splice(paths.indexOf(volumeAttachInfo?.attachPath),1);
                 changeAvaliablePaths(paths);}
         },[diskInfo]);
-    const menu = (
-        <Menu>
-            <Menu.Item key="detach"
-                onClick={() => { console.log('detach');}}>
-            Detach
-            </Menu.Item>
-            <Menu.Item danger key="delete"
-                onClick={()=>storageService.deleteVolume({ dcName,volumeIds:[props.volumeId] }).then(
-                    ()=>dispatch(getServerDetail({
-                        serverId: svrId
-                    }))
-                )}
-            >
-            Delete
-            </Menu.Item>
-        </Menu>
-    );
+
+
     if(diskInfo === 'loading')
     {return(<Skeleton active />);}
     else {
@@ -70,8 +55,39 @@ function ExistDisk(props:DiskProps) {
         const volumeAttachInfo = volumeAttach.filter((item)=>item.attachSvrId === svrId)[0];
         // const { volumeBasic,volumeConfig } = diskInfo;
 
+        const detachDisk = ()=>{
+            serverService.bindServerDisk({
+                action:'detach',
+                svrId,
+                volumeId:diskInfo.volumeBasic.volumeId,
+                diskPath:volumeAttachInfo.attachPath
+            }).then(
+                ()=>dispatch(getServerDetail({ serverId: svrId }))
+            );
+        };
 
+        const deleteDisk = ()=>{
+            serverService.bindServerDisk({
+                action:'detach',
+                svrId,
+                volumeId:diskInfo.volumeBasic.volumeId,
+                diskPath:volumeAttachInfo.attachPath
+            }).then(
+                ()=>{storageService.deleteVolume({ dcName,volumeIds:[props.volumeId] });}
+            ).then(
+                ()=>dispatch(getServerDetail({ serverId: svrId })));
+        };
 
+        const menu = (
+            <Menu>
+                <Menu.Item key="detach"
+                    onClick={detachDisk}>
+            Detach
+                </Menu.Item>
+                <Menu.Item danger key="delete" onClick={deleteDisk}>
+            Delete
+                </Menu.Item>
+            </Menu>);
         return (
             <div className={classnames('rounded-border', 'm-2','2xl:w-1/3','lg:w-1/2','md:w-96')}>
                 <div className={classnames('flex','m-2')}>
@@ -268,11 +284,18 @@ export default function Disk():JSX.Element {
         }
         return arr;
     };
+    const dispatch = useDispatch();
     const [isAdding, changeIsAdding] = useState(false);
     const currentServerDisks = useSelector((state: RootState) => state.server.currentServer?.svrDisk);
+    const svrId = useSelector((state: RootState) => state.server.currentServer!.svrProperty.instanceId);
     const [availablePaths, changeAvaliablePaths] = useState<string[]>(getEN());
+    const [isModalVisible, changeIsModalVisible] = useState(false);
+    const [availableDisks, changeAvailableDisks] = useState<VolumeInfoSimple[]>([]);
+    const [seletedDisk, changeSeletedDisk] = useState('');
 
-    // console.log(currentServerDisks);
+    useEffect(
+        ()=>{storageService.listVolume().then(res=>changeAvailableDisks(res));},[]
+    );
     return (
         <>
             <div className='flex flex-row items-center'>
@@ -284,15 +307,48 @@ export default function Disk():JSX.Element {
             <div > {currentServerDisks?.volumeIds.map((volumeId) => <ExistDisk key={volumeId} volumeId={volumeId} availablePaths={availablePaths} changeAvaliablePaths={changeAvaliablePaths}/>)}</div>
             {isAdding
                 ? <NewDisk changeIsAdding={ changeIsAdding } availablePaths={availablePaths} changeAvaliablePaths={changeAvaliablePaths}/>
-                : <button onClick={() => changeIsAdding(true)}
-                    className={classnames('inline', 'text-yellow-550')}>
-                    <Icon icon="carbon:add"
-                        className={classnames('inline-block', 'mx-1')}
-                        width="15"
-                        height="15"
-                        fr={undefined} />
+                : <>
+                    <button onClick={() => changeIsAdding(true)}
+                        className={classnames('inline', 'text-yellow-550')}>
+                        <Icon icon="carbon:add"
+                            className={classnames('inline-block', 'mx-1')}
+                            width="15"
+                            height="15"
+                            fr={undefined} />
                     Create new disk
-                </button>
+                    </button>
+                    <button onClick={() => changeIsModalVisible(true)}
+                        className={classnames('inline', 'text-yellow-550')}>
+                        <Icon icon="carbon:add"
+                            className={classnames('inline-block', 'mx-1')}
+                            width="15"
+                            height="15"
+                            fr={undefined} />
+                    Attach new disk
+                    </button>
+                    <Modal title="Select a disk to attach" visible={isModalVisible} onOk={()=>{
+                        serverService.bindServerDisk({
+                            action:'attach',
+                            svrId,
+                            volumeId:seletedDisk,
+                            diskPath:availablePaths[0]
+                        }).then(()=>{
+                            changeIsModalVisible(false);
+                            dispatch(getServerDetail({ serverId: svrId }));
+                        });
+                    }} onCancel={()=>changeIsModalVisible(false)}>
+                        <Radio.Group onChange={(e)=>{changeSeletedDisk(e.target.value);}} value={seletedDisk}>
+                            <Space direction="vertical">
+                                {availableDisks.filter((item)=>item.isAvailable).map((item:VolumeInfoSimple)=>
+                                    <Radio value={item.volumeId} key={item.volumeId} disabled={!item.isAvailable}>
+                                        {item.volumeId}({item.tagName})
+                                    </Radio>)}
+                            </Space>
+                        </Radio.Group>
+
+                    </Modal>
+                </>
+
             }
 
         </>

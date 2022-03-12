@@ -1,5 +1,5 @@
 import { getHeader, getHost } from '@/utils/api';
-import { ServerDetail, ServerList, ServerImages, ServerInstypes, ServerInsfamily, AddServer,ServerAction,SeverEipPath,SeverConfigPath,SeverTagsPath } from '@/constant/apiConst';
+import { ServerDetail, ServerList, ServerImages, ServerInstypes, ServerInsfamily, AddServer,ServerAction,SeverEipPath,SeverConfigPath,SeverTagsPath,SeverDiskPath } from '@/constant/apiConst';
 import axios from 'redaxios';
 import { ServerModel, SeverDetailModel } from '@/constant/server';
 import { amiInfo } from '@/components/Logic/CAmi';
@@ -53,6 +53,18 @@ interface UpdateServerTagsParams{
         Key: string,
         Value: string
     }
+}
+
+interface BindServerDiskParams{
+  action: 'attach' | 'detach'
+  diskPath: string
+  svrId: string
+  volumeId: string
+}
+interface BindServerEipParams{
+  action: 'attach' | 'detach'
+  publicIp: string
+  svrId: string
 }
 export default class serverService {
     /**
@@ -155,25 +167,12 @@ export default class serverService {
         return result.data.detail;
     }
     /**
-     * attach eip
+     * detach or attach eip
      */
-    static async attachEip(data): Promise<Record<'msg',string>> {
-        const url = getHost() + SeverEipPath;
-        const result = await axios.put(url, data,
-            {
-                headers: getHeader()
-            });
-        return result.data.detail;
-    }
-    /**
-     * detach eip
-     */
-    static async detachEip(publicIp): Promise<Record<'msg',string>> {
+    static async bindServerEip(data:BindServerEipParams): Promise<Record<'msg',string>> {
         const url = getHost() + SeverEipPath;
         const result = await axios.put(url,
-            {
-                publicIp
-            },
+            data,
             {
                 headers: getHeader()
             },
@@ -213,6 +212,16 @@ export default class serverService {
         const result = await axios.delete(url,
             {
                 data:data.tag,
+                headers: getHeader()
+            },
+        );
+        return result.data.detail;
+    }
+
+    static async bindServerDisk(data:BindServerDiskParams): Promise<string> {
+        const url = getHost() + SeverDiskPath;
+        const result = await axios.put(url,data,
+            {
                 headers: getHeader()
             },
         );

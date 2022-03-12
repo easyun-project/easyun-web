@@ -108,3 +108,13 @@ export interface AddVolumeParams{
   'volumeThruput'?: number
   'volumeType': string
 }
+
+export interface VolumeInfoSimple{
+      'isAvailable': boolean
+      'tagName': string
+      'volumeAz': string
+      'volumeId': string
+      'volumeSize': number
+      'volumeState': string
+      'volumeType': string
+}
