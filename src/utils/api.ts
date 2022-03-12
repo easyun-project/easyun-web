@@ -10,9 +10,15 @@ export const getHost = ():string=> {
 export const getHeader = ():Record<string,string>=> {
 
     const token = store.getState().user.user.token;
-    const region = store.getState().dataCenter.currentDc.basicInfo!.dcRegion;
-    return {
+    const region = store.getState().dataCenter.currentDc.basicInfo?.dcRegion;
+    if(region)
+    {return {
         'Authorization': 'Bearer ' + token,
         region
-    };
+    };}
+    else{
+        return {
+            'Authorization': 'Bearer ' + token,
+        };
+    }
 };

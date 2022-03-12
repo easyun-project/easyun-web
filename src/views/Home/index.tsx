@@ -94,8 +94,7 @@ export default function Home():JSX.Element {
     const [datacenters,changeDatacenters] = useState<'loading'|DataCenterInfo[]>('loading');
     useEffect(()=>{
         DataCenterService.getDataCenterInfo().then(
-            res=>changeDatacenters(res),
-            error=>changeDatacenters([])
+            res=>changeDatacenters(res)
         );},[]);
 
     return (<div className={classnames('min-h-screen')}>
