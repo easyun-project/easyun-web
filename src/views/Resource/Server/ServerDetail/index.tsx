@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
 import { Col, message, Row, Tabs } from 'antd';
@@ -32,6 +32,7 @@ export const ServerDetail = ():JSX.Element => {
     });
     const server = serverState.currentServer;
     const dispatch = useDispatch();
+    const [seletedTab, changeSelectedTab] = useState('Detail');
     useEffect(() => {
         const params: ServerDetailParams = {
             serverId: serverId!
@@ -69,7 +70,7 @@ export const ServerDetail = ():JSX.Element => {
                 </Col>
                 <Col span={12}>
                     <div id="serverInfo">
-                        <h1>{server.svrProperty.instanceId}</h1>
+                        <h1>{server.svrProperty.instanceName}</h1>
                         <div>
                             instance Type : {server.svrProperty.instanceType}({server.svrProperty.vCpu}vCPU, {server.svrProperty.memory} Gib)
                         </div>
@@ -97,7 +98,7 @@ export const ServerDetail = ():JSX.Element => {
                     </div>
                 </Col>
             </Row>
-            <Tabs className={classnames('pl-3')} defaultActiveKey="1">
+            <Tabs className={classnames('pl-3')} activeKey={seletedTab} onChange={(key=>changeSelectedTab(key))}>
                 <TabPane tab="Detail" key="Detail">
                     <Detail />
                 </TabPane>

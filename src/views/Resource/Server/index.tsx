@@ -14,6 +14,8 @@ import serverService from '@/service/serverService';
 // import { ServerModel } from '@/constant/server';
 import { LoadingOutlined } from '@ant-design/icons';
 
+import { getDataCenterSecgroup } from '@/redux/dataCenterSlice';
+
 export const serverColumns = [
     {
         title: 'Instance ID',
@@ -117,12 +119,16 @@ export const ServerList = ():JSX.Element => {
         return state.server;
     });
     const serverDataSource = serverState.servers;
+    const dc = useSelector((state: RootState) => {
+        return state.dataCenter.currentDc.basicInfo!.dcName;
+    });
 
     const [selectedServers, changeSelectedServers] = useState<React.Key[]>([]);
     const [acting,changeActing] = useState(false);
 
     useEffect(() => {
         dispatch(getServerList());
+        dispatch(getDataCenterSecgroup({ dc }));
     }, [dispatch]);
 
 
@@ -193,11 +199,13 @@ export const ServerList = ():JSX.Element => {
                             Modify <DownOutlined />
                         </Button>
                     </Dropdown>
-                    <CButton
+                    <button onClick={() => navigate('/resource/server/add')}
+                        className={classnames('btn-yellow')}>Add Server</button>
+                    {/* <CButton
                         click={() => navigate('/resource/server/add')}
                         classes={classnames('inline-block', 'bg-yellow-550', 'mr-3', 'block', 'text-white', 'rounded-3xl', 'px-5', 'py-1')}>
                         Add Server
-                    </CButton>
+                    </CButton> */}
                 </div>
                 <Table bordered={true} dataSource={newServerDataSource} columns={serverColumns} rowSelection={{
                     type: 'checkbox',

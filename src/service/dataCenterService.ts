@@ -10,7 +10,7 @@ import {
 } from '@/constant/apiConst';
 import axios from 'redaxios';
 import { getHeader, getHost } from '@/utils/api';
-import { DataCenterModel, DefaultDataCenterModel,EipInfoSimple,DataCenterInfo } from '@/constant/dataCenter';
+import { DataCenterModel, DefaultDataCenterModel,EipInfoSimple,DataCenterInfo,SecGroupDetail } from '@/constant/dataCenter';
 import { SubnetInfo } from '@/views/Resource/Server/AddServer/Networking';
 
 // 创建数据中心需要的参数
@@ -27,7 +27,7 @@ export interface CreateDataCenterParams {
     vpc_cidr?: string
 }
 
-interface DatacenterParams{
+export interface DatacenterParams{
     dc:string
 }
 
@@ -126,9 +126,9 @@ export default class DataCenterService {
     }
 
     /**
-     * 获取secgroup安全组
+     * 获取secgroup安全组,详细信息
      */
-    static async getSecgroup(params:DatacenterParams):Promise<SecGroupInfo[]>{
+    static async getSecgroup(params:DatacenterParams):Promise<SecGroupDetail[]>{
         const url = getHost() + DcmSecgroup;
         const result = await axios.get(url, {
             params,

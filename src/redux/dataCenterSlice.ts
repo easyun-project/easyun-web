@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import DataCenterService from '@/service/dataCenterService';
+import DataCenterService,{ DatacenterParams } from '@/service/dataCenterService';
 import { DataCenterModel, DefaultDataCenterModel } from '@/constant/dataCenter';
-import { DataCenterInfo } from '@/constant/dataCenter';
+import { DataCenterInfo,SecGroupDetail } from '@/constant/dataCenter';
 
 const updateDefaultDataCenter = 'dataCenter/updateDefaultDataCenterAction';
 
@@ -27,13 +27,21 @@ export const getDefaultDataCenter = createAsyncThunk(
     }
 );
 
+export const getDataCenterSecgroup = createAsyncThunk(
+    'dataCenter/getDataCenterSecgroup',
+    async (params:DatacenterParams) => {
+        return await DataCenterService.getSecgroup(params);
+    }
+);
+
 export interface DataCenterState {
     loading: boolean,
     dataCenter: DataCenterModel | undefined,
     defaultDataCenter: DefaultDataCenterModel | undefined,
     currentDc:
     {
-        basicInfo:DataCenterInfo|undefined
+        basicInfo:DataCenterInfo|undefined,
+        secgroup:SecGroupDetail[]|undefined
     }
 }
 
@@ -42,7 +50,8 @@ const initialState: DataCenterState = {
     dataCenter: undefined,
     defaultDataCenter: undefined,
     currentDc:{
-        basicInfo:undefined
+        basicInfo:undefined,
+        secgroup:undefined
     }
 };
 
@@ -72,6 +81,9 @@ export const dataCenterSlice = createSlice({
         });
         builder.addCase(getDefaultDataCenter.pending, (state: DataCenterState) => {
             state.loading = true;
+        });
+        builder.addCase(getDataCenterSecgroup.fulfilled,(state: DataCenterState,action) => {
+            state.currentDc.secgroup = action.payload;
         });
     }
 });

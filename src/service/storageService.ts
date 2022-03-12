@@ -2,7 +2,8 @@ import { getHeader, getHost } from '@/utils/api';
 import { StBucketPath, StBucketList,StBucketObject,StVolumePath,StVolumeList,VolumeOperate } from '@/constant/apiConst';
 import { Result } from '@/constant/result';
 import axios from 'redaxios';
-import { BucketInfo,VolumeDetail,AddVolumeParams } from '@/constant/storage';
+import { BucketInfo,VolumeDetail,AddVolumeParams,VolumeInfoSimple } from '@/constant/storage';
+import store from '@/redux/store';
 
 export default class storageService {
 
@@ -24,7 +25,7 @@ export default class storageService {
     }
 
     /**
-     * 删除bucket
+     * delete a bucket
      */
     static async deleteBucket<T>(deleteBucketInfo: string): Promise<Result<T>> {
         const url = getHost() + StBucketPath;
@@ -35,7 +36,7 @@ export default class storageService {
     }
 
     /**
-     * 获取可用的volume的detail信息
+     * get volume detail
      */
     static async getVolumeDetail(volumeId:string):Promise<VolumeDetail>{
         const url = getHost() + VolumeOperate + '/' + volumeId;
@@ -46,13 +47,39 @@ export default class storageService {
         return result.data.detail;
     }
     /**
-     * 创建新的volume
+     * create a new volume
      */
     static async addVolume(params:AddVolumeParams):Promise<
     {'State': string,
     'VolumeId': string}>{
         const url = getHost() + VolumeOperate;
         const result = await axios.post(url,params,{
+            headers: getHeader()
+        });
+        return result.data.detail;
+    }
+
+    /**
+     * delete a volume
+     */
+    static async deleteVolume(data:{dcName: string,volumeIds: string[]}):Promise<{'msg': string}>{
+        const url = getHost() + VolumeOperate;
+        const result = await axios.delete(url,{
+            data,
+            headers: getHeader()
+        });
+        return result.data.detail;
+    }
+
+    /**
+     * list all simple volume info
+     */
+    static async listVolume():Promise<VolumeInfoSimple[]>{
+        const url = getHost() + StVolumeList;
+        const result = await axios.get(url,{
+            params:{
+                dc:store.getState().dataCenter.currentDc.basicInfo!.dcName
+            },
             headers: getHeader()
         });
         return result.data.detail;

@@ -65,10 +65,11 @@ const LoginPage = (): JSX.Element => {
     const lang = i18n.language === 'ja' ? 'en' : 'ja';
     console.log(lang);
     // const container = classnames('bg-gray-600', 'text-white', 'text-3xl', 'flex', 'items-center');
-    const classes = classnames('w-9/12', 'h-12', 'border', 'border-gray-400', 'rounded', 'mx-2', 'my-10', 'p-5');
+    // const classes = classnames('w-2/3','h-12', 'rounded-border', 'border-gray-400', 'mx-2', 'my-10', 'p-5');
     return (
-        <div>
-            <div className={classnames('flex', 'items-center', 'bg-gray-600')}>
+        <div className={classnames('flex','flex-col','items-center')}>
+            {/* 首页header */}
+            <div className={classnames('flex', 'items-center', 'bg-gray-600','w-full')}>
                 <div className={classnames('flex-grow','ml-10')}>
                     <img src={ logo3 } alt="logo_easyun03.svg" width='150' />
                 </div>
@@ -85,40 +86,36 @@ const LoginPage = (): JSX.Element => {
                         placeholder='please your server url'/>
                 </Modal>
             </div>
-            <div
-                className={classnames('flex', 'justify-center', 'items-center', 'w-full', 'h-full', 'mt-36')}>
-                <div id="login-container"
-                    className={classnames('w-4/12', 'border', 'p-8')}>
-                    <div id="login-content">
-                        <div id="login-title" className={classnames('m-2', 'mb-5', 'font-bold', 'text-lg')}>
-                            {t('Login')}
-                        </div>
-
-                        <input type='text'
-                            ref={usernameRef}
-                            placeholder='Enter your username'
-                            className={classnames(classes)}/>
-
-                        <input type='password'
-                            ref={passwordRef}
-                            placeholder='Enter your password'
-                            className={classnames(classes)}/>
-
-
-                        <div className={classnames('flex', 'justify-center')}>
-                            <CButton
-                                classes={classnames('block', 'w-40', 'h-14', 'bg-yellow-650', 'text-white', 'font-bold', 'my-6')}
-                                click={() => {
-                                    login(usernameRef.current?.value, passwordRef.current?.value);
-                                }}
-                            >
-                                Login
-                            </CButton>
-                        </div>
-                        {/*<CButton click={() => i18n.changeLanguage(lang)}>*/}
-                        {/*	{`change to ${lang}`}*/}
-                        {/*</CButton>*/}
+            {/* 登录框体 */}
+            <div id="login-container"
+                className={classnames('mt-24','sm:w-96','md:w-1/2','lg:w-1/3', 'rounded-border', 'p-8','items-center')}>
+                <div id="login-content" className={classnames('flex','flex-col','items-center')}>
+                    <div id="login-title" className={classnames('m-2', 'mb-5', 'font-bold', 'text-lg','self-start')}>
+                        {t('Login')}
                     </div>
+
+                    <input type='text'
+                        ref={usernameRef}
+                        placeholder='Enter your username'
+                        className={classnames('w-2/3','h-12', 'rounded-border', 'border-gray-400', 'mx-2', 'my-10', 'p-5')}/>
+
+                    <input type='password'
+                        ref={passwordRef}
+                        placeholder='Enter your password'
+                        className={classnames('w-2/3','h-12', 'rounded-border', 'border-gray-400', 'mx-2', 'my-10', 'p-5')}/>
+
+
+                    <div className={classnames('flex', 'justify-center')}>
+                        <button className={classnames('btn-yellow','h-12','w-36')} onClick={
+                            () => {
+                                login(usernameRef.current?.value, passwordRef.current?.value);
+                            }
+                        }>Login</button>
+
+                    </div>
+                    {/*<CButton click={() => i18n.changeLanguage(lang)}>*/}
+                    {/*	{`change to ${lang}`}*/}
+                    {/*</CButton>*/}
                 </div>
             </div>
         </div>

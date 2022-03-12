@@ -1,5 +1,5 @@
 import { getHeader, getHost } from '@/utils/api';
-import { ServerDetail, ServerList, ServerImages, ServerInstypes, ServerInsfamily, AddServer,ServerAction,AttachEip,DetachEip } from '@/constant/apiConst';
+import { ServerDetail, ServerList, ServerImages, ServerInstypes, ServerInsfamily, AddServer,ServerAction,SeverEipPath,SeverConfigPath,SeverTagsPath,SeverDiskPath } from '@/constant/apiConst';
 import axios from 'redaxios';
 import { ServerModel, SeverDetailModel } from '@/constant/server';
 import { amiInfo } from '@/components/Logic/CAmi';
@@ -42,7 +42,30 @@ interface DeleteServerInfo{
       preState: string
       svrId: string
 }
+interface ChangeServerConfigParams{
+  ins_type: string,
+  svr_ids: string[]
+}
 
+interface UpdateServerTagsParams{
+    svrId:string,
+    tag:{
+        Key: string,
+        Value: string
+    }
+}
+
+interface BindServerDiskParams{
+  action: 'attach' | 'detach'
+  diskPath: string
+  svrId: string
+  volumeId: string
+}
+interface BindServerEipParams{
+  action: 'attach' | 'detach'
+  publicIp: string
+  svrId: string
+}
 export default class serverService {
     /**
      * 获取server list
@@ -144,29 +167,65 @@ export default class serverService {
         return result.data.detail;
     }
     /**
-     * attach eip
+     * detach or attach eip
      */
-    static async attachEip(data): Promise<Record<'msg',string>> {
-        const url = getHost() + AttachEip;
-        const result = await axios.put(url, data,
-            {
-                headers: getHeader()
-            });
-        return result.data.detail;
-    }
-    /**
-     * detach eip
-     */
-    static async detachEip(publicIp): Promise<Record<'msg',string>> {
-        const url = getHost() + DetachEip;
+    static async bindServerEip(data:BindServerEipParams): Promise<Record<'msg',string>> {
+        const url = getHost() + SeverEipPath;
         const result = await axios.put(url,
-            {
-                publicIp
-            },
+            data,
             {
                 headers: getHeader()
             },
         );
         return result.data.detail;
     }
+    /**
+     * change server instype config
+     */
+    static async changeServerConfig(data:ChangeServerConfigParams): Promise<{'new_name': string[],
+    'svr_ids': string[]}> {
+        const url = getHost() + SeverConfigPath;
+        const result = await axios.post(url,data,
+            {
+                headers: getHeader()
+            },
+        );
+        return result.data.detail;
+    }
+    /**
+     * update or create new server tag
+     */
+    static async updateServerTags(data:UpdateServerTagsParams): Promise<{Key: string,Value: string}[]> {
+        const url = getHost() + SeverTagsPath + data.svrId;
+        const result = await axios.put(url,data.tag,
+            {
+                headers: getHeader()
+            },
+        );
+        return result.data.detail;
+    }
+    /**
+     * delete server tag
+     */
+    static async deleteServerTags(data:UpdateServerTagsParams): Promise<{Key: string,Value: string}[]> {
+        const url = getHost() + SeverTagsPath + data.svrId;
+        const result = await axios.delete(url,
+            {
+                data:data.tag,
+                headers: getHeader()
+            },
+        );
+        return result.data.detail;
+    }
+
+    static async bindServerDisk(data:BindServerDiskParams): Promise<string> {
+        const url = getHost() + SeverDiskPath;
+        const result = await axios.put(url,data,
+            {
+                headers: getHeader()
+            },
+        );
+        return result.data.detail;
+    }
+
 }

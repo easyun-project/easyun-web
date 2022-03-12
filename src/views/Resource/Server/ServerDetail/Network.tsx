@@ -47,7 +47,11 @@ export default function Network():JSX.Element {
                                 ?
                                 <button onClick={()=>{
                                     changeOperating(true);
-                                    serverService.detachEip(server.svrNetworking.publicIp).then(
+                                    serverService.bindServerEip({
+                                        action:'detach',
+                                        publicIp:server.svrNetworking.publicIp,
+                                        svrId:server?.svrProperty.instanceId
+                                    }).then(
                                         ()=>{
                                             changeOperating(false);
                                             changehasEip(false);
@@ -101,9 +105,10 @@ export default function Network():JSX.Element {
                                     onOk={()=>{
                                         changeIsModalVisible(false);
                                         console.log(selectedEip);
-                                        serverService.attachEip({
-                                            'publicIp': selectedEip,
-                                            'svrId': server?.svrProperty.instanceId
+                                        serverService.bindServerEip({
+                                            action: 'attach',
+                                            publicIp: selectedEip,
+                                            svrId: server?.svrProperty.instanceId
                                         }
                                         ).then(
                                             ()=>{changehasEip(true);

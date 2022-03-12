@@ -6,52 +6,57 @@ import { RootState } from '@/redux/store';
 import CSecOpt from '@/components/Logic/CSecurityGroup/CSecOpt';
 import { Table, Space } from 'antd';
 
+type Secgroupdata = {
+    'FromPort': number
+    'IpProtocol': string
+    'IpRanges': Record<string,string>[],
+    'Ipv6Ranges': string[],
+    'PrefixListIds': string[],
+    'ToPort': number
+    'UserIdGroupPairs': string[]
+    'strategy'?:string
+};
+
 export default function Security():JSX.Element {
     const currentServerState = useSelector((state: RootState) => {
         return state.server.currentServer;
     });
-    const dataSource = [
-        {
-            key: '1',
-            application: 'SSH',
-            protocol: 'TCP',
-            port: '22',
-            restricted: 'Any IPv4 address',
-            ruleId:1
-        },
-        {
-            key: '2',
-            application: 'HTTP',
-            protocol: 'TCP',
-            port: '80',
-            restricted: 'Any IPv4 address',
-            ruleId:2
-        },
-    ];
+    const allSecgroups = useSelector((state: RootState) => {
+        return state.dataCenter.currentDc?.secgroup;
+    });
+    const [data,changeData] = useState<Record<string,object|number|string>[]>([]);
+
     const columns = [
         {
             title: 'Application',
-            dataIndex: 'application',
+            dataIndex: 'IpProtocol',
             key: 'application',
         },
         {
             title: 'Protocol',
-            dataIndex: 'protocol',
+            dataIndex: 'IpProtocol',
             key: 'protocol',
         },
         {
             title: 'Port or range / Code',
-            dataIndex: 'port',
             key: 'port',
+            render:(record)=>record.FromPort === record.ToPort ? `${record.FromPort}` : `From:${record.FromPort} To:${record.ToPort}`
         },
         {
-            title: 'Restricted to',
-            dataIndex: 'restricted',
-            key: 'restricted',
+            title: 'IpRanges',
+            key: 'IpRanges',
+            render:(record)=>
+                <div>
+                    { record.IpRanges.map((item,index)=>(<div key={index}>{item.CidrIp}</div>) )}
+                </div>
+        },
+        {
+            title: 'Strategy',
+            key: 'strategy',
+            dataIndex: 'strategy',
         },
         {
             title: '',
-            dataIndex: 'ruleId',
             key: 'ruleId',
             render: (text,record) => (
                 <Space size="middle">
@@ -75,8 +80,19 @@ export default function Security():JSX.Element {
     ];
 
     const [slectedSecgroups,changeSlectedSecgroups] = useState<string[]>([]);
-    useEffect(()=>console.log(123)
-        ,[slectedSecgroups]);
+    useEffect(()=>{
+        const selectedSecgroupInfo = allSecgroups?.filter((secgroup)=>secgroup.sgId === slectedSecgroups[0])[0];
+        if(selectedSecgroupInfo){
+            const newRes:Secgroupdata[] = [...selectedSecgroupInfo.ibPermissions];
+            const data = newRes.map(i=>{
+                const item = i;
+                item.strategy = 'Restricted';
+                return item;
+            });
+            changeData(data);
+        }
+    }
+    ,[slectedSecgroups]);
     if (currentServerState) {
         // 由于返回的字段与之前的定义不同，所以需要做一下转化
         const secGroups = currentServerState.svrSecurity.map((sec) => {
@@ -129,7 +145,7 @@ export default function Security():JSX.Element {
                         />
                 Add rule
                     </button>
-                    <Table columns={columns} dataSource={dataSource} />
+                    <Table columns={columns} dataSource={data} />
                 </div>
 
             </>);

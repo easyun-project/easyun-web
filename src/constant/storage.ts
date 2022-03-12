@@ -7,11 +7,12 @@ export interface BucketInfo {
 
 export interface VolumeDetail{
     'volumeAttach': {
-      'attachPath': string
-      'attachSvr': string
-      'diskType': string
-      'attachTime':string
-    }[],
+        'attachPath': string
+        'attachSvr': string
+        'attachSvrId': string
+        'attachTime': string
+        'diskType': string
+      }[],
     'volumeBasic': {
       'createTime': string
       'tagName': string
@@ -96,12 +97,24 @@ export const VolumeTypeInfo:Record<'gp2'|'gp3'|'io1'|'io2'|'st1'|'sc1'|'standard
     };
 
 export interface AddVolumeParams{
-  'Device': string
-  'Encrypted': boolean
-  'InstanceId': string
-  'Iops'?: number
-  'Size': number
-  'Tag'?: string
-  'Throughput'?: number
-  'VolumeType': string
+  'attachPath': string
+  'azName': string
+  'dcName': string
+  'isEncrypted': boolean
+  'svrId': string
+  'tagName': string
+  'volumeIops'?: number
+  'volumeSize': number
+  'volumeThruput'?: number
+  'volumeType': string
+}
+
+export interface VolumeInfoSimple{
+      'isAvailable': boolean
+      'tagName': string
+      'volumeAz': string
+      'volumeId': string
+      'volumeSize': number
+      'volumeState': string
+      'volumeType': string
 }
