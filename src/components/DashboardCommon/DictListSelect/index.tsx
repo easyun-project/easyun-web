@@ -17,6 +17,8 @@ export const DictListSelect = (props): JSX.Element => {
     const getDataCenterList = () => {
         DataCenterService.getDataCenterList().then(res => {
             setDictList(res);
+            // 没有传dcName且数据中心长度大于0，则默认选中第一个数据中心。
+            !dcName && res.length > 0 && changeDictName(res[0].dcName);
         });
     };
 
@@ -32,7 +34,8 @@ export const DictListSelect = (props): JSX.Element => {
         return domList;
     };
 
-    return (<Select onChange={changeDictName} defaultValue={dcName} className={classnames('w-32')}>
+    return (<Select key={dcName} onChange={changeDictName} defaultValue={dcName}
+        className={classnames('w-32')}>
         {dictView()}
     </Select>);
 };
