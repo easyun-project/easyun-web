@@ -132,6 +132,7 @@ export const ServerList = ():JSX.Element => {
     }, [dispatch]);
 
 
+
     const newServerDataSource = serverDataSource.map((item)=> ({ ...item, 'key':item.svrId }));
     const actionMenu = (
         <Menu onClick={(e) => {

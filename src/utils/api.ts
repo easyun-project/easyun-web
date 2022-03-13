@@ -11,14 +11,12 @@ export const getHeader = ():Record<string,string>=> {
 
     const token = store.getState().user.user.token;
     const region = store.getState().dataCenter.currentDc.basicInfo?.dcRegion;
-    if(region)
-    {return {
-        'Authorization': 'Bearer ' + token,
-        region
-    };}
-    else{
-        return {
+    return region
+        ? {
             'Authorization': 'Bearer ' + token,
+            region
+        }
+        : {
+            'Authorization': 'Bearer ' + token
         };
-    }
 };

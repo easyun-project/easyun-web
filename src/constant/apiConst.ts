@@ -31,6 +31,7 @@ export const SeverEipPath = '/api/v1/server/eip';
 export const SeverConfigPath = '/api/v1/server/config';
 export const SeverTagsPath = '/api/v1/server/tags/';
 export const SeverDiskPath = '/api/v1/server/disk';
+export const SeverSecgroupPath = '/api/v1/server/secgroup';
 
 // Storage s3存储 常量名以St开头
 export const StBucketPath = '/api/v1/storage/bucket';

@@ -1,5 +1,5 @@
 import { getHeader, getHost } from '@/utils/api';
-import { ServerDetail, ServerList, ServerImages, ServerInstypes, ServerInsfamily, AddServer,ServerAction,SeverEipPath,SeverConfigPath,SeverTagsPath,SeverDiskPath } from '@/constant/apiConst';
+import { ServerDetail, ServerList, ServerImages, ServerInstypes, ServerInsfamily, AddServer,ServerAction,SeverEipPath,SeverConfigPath,SeverTagsPath,SeverDiskPath,SeverSecgroupPath } from '@/constant/apiConst';
 import axios from 'redaxios';
 import { ServerModel, SeverDetailModel } from '@/constant/server';
 import { amiInfo } from '@/components/Logic/CAmi';
@@ -64,6 +64,11 @@ interface BindServerDiskParams{
 interface BindServerEipParams{
   action: 'attach' | 'detach'
   publicIp: string
+  svrId: string
+}
+interface BindServerSecgroupParams{
+  action: 'attach' | 'detach'
+  secgroupId: string
   svrId: string
 }
 export default class serverService {
@@ -217,7 +222,9 @@ export default class serverService {
         );
         return result.data.detail;
     }
-
+    /**
+     * detach or attach a disk to server
+     */
     static async bindServerDisk(data:BindServerDiskParams): Promise<string> {
         const url = getHost() + SeverDiskPath;
         const result = await axios.put(url,data,
@@ -227,5 +234,16 @@ export default class serverService {
         );
         return result.data.detail;
     }
-
+    /**
+     * detach or attach a secgroup to server
+     */
+    static async bindServerSecgroup(data:BindServerSecgroupParams): Promise<string> {
+        const url = getHost() + SeverSecgroupPath;
+        const result = await axios.put(url,data,
+            {
+                headers: getHeader()
+            },
+        );
+        return result.data.detail;
+    }
 }
