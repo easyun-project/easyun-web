@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { classnames, TClasses, THeight, TKey } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
+import DataConversionTool from '@/utils/dataConversionTool';
 
 export type RightUnitValue = {
     unit: string,
@@ -81,10 +82,8 @@ export const DashCard = (props: PropsType): JSX.Element => {
                                     {
                                         // 判断是否为携带单位对象
                                         item['value'] instanceof Object ?
-                                            <div>
-                                                <span>{item['value']['value']}</span>{' ' + item['value']['unit']}
-                                            </div>
-                                            : <div><span>{item['value']}</span></div>
+                                            <div>{DataConversionTool.conversionUnit(item['value'])}</div>
+                                            : <div>{DataConversionTool.conversionData(item['value'])}</div>
                                     }
                                 </div>
                             ))
