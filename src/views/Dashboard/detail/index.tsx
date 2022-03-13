@@ -5,11 +5,10 @@ import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import FlagUtil from '@/utils/flagUtil';
 import TimeUtil from '@/utils/time';
-import DataCenterService from '@/service/dataCenterService';
 import dashboard from '@/service/dashboard';
 import { AntdTable, TableConfig, TableProp } from '@/components/Common/CTable/AntdTable';
-import './index.less';
 import { DictListSelect } from '@/components/DashboardCommon/DictListSelect';
+import './index.less';
 
 const { Option } = Select;
 
@@ -749,7 +748,6 @@ export const DashboardDetail = (props): JSX.Element => {
         const temp = { ...graphicalData };
         dashboard.getGraphical({ dcName }).then(res => {
             res.forEach(item => {
-                console.log(item.type);
                 const { leftData, rightData } = temp[item.type]['content'];
                 leftData.value = item.data.sumNum;
                 // 循环匹配对应的key值
