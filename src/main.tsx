@@ -25,10 +25,10 @@ import Event from '@/views/Event';
 import { CFullLoading } from '@/components/Common/CFullLoading';
 import { CHeader } from './components/Logic/CHeader';
 import { CFooter } from './components/Logic/CFooter';
-
+import { classnames } from '@@/tailwindcss-classnames';
 
 const AppRouter = (): JSX.Element => {
-    return (<>
+    return (<div className={classnames('min-h-screen','flex','flex-col')}>
         <CHeader />
         <Routes>
             <Route path="dataCenter/*" element={<DataCenter />} />
@@ -42,7 +42,7 @@ const AppRouter = (): JSX.Element => {
             <Route path="*" element={<NotFound />} />
         </Routes>
         <CFooter />
-    </>);
+    </div>);
 };
 
 const App = (): JSX.Element => {
