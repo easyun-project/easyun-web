@@ -62,7 +62,7 @@ function ExistDisk(props:DiskProps) {
                 volumeId:diskInfo.volumeBasic.volumeId,
                 diskPath:volumeAttachInfo.attachPath
             }).then(
-                ()=>dispatch(getServerDetail({ serverId: svrId }))
+                ()=>setTimeout(()=>dispatch(getServerDetail({ serverId: svrId })),2000)
             );
         };
 
@@ -75,7 +75,8 @@ function ExistDisk(props:DiskProps) {
             }).then(
                 ()=>{storageService.deleteVolume({ dcName,volumeIds:[props.volumeId] });}
             ).then(
-                ()=>dispatch(getServerDetail({ serverId: svrId })));
+                ()=>setTimeout(()=>dispatch(getServerDetail({ serverId: svrId })),2000)
+            );
         };
 
         const menu = (
@@ -151,9 +152,9 @@ function NewDisk(props:NewDiskProps) {
     const instanceName = useSelector((state: RootState) => state.server.currentServer!.svrProperty.instanceName);
     const [diskType, changeDiskType] = useState('standard');
     const [encryption, changeEncryption] = useState(true);
-    const [volumeSize, changeVolumnSize] = useState(8);
-    const [volumeIOPS, changeVolumnIOPS] = useState(3000);
-    const [volumeThruputs, changeVolumnThruputs] = useState(125);
+    const [volumeSize, changeVolumeSize] = useState(8);
+    const [volumeIOPS, changeVolumeIOPS] = useState(3000);
+    const [volumeThruputs, changeVolumeThruputs] = useState(125);
     const [devicePath, changeDevicePath] = useState('dev/sdb');
     const [creating,changeCreating] = useState(false);
     const volumeTypeInfo = VolumeTypeInfo[diskType];
@@ -174,7 +175,7 @@ function NewDisk(props:NewDiskProps) {
                                 <Popover content={
                                     `max:${volumeTypeInfo.volumeSize?.at(1)} min:${volumeTypeInfo.volumeSize?.at(0)}`
                                 } title="Tips">
-                                    <InputNumber className={classnames('w-16')} size='small' min={volumeTypeInfo.volumeSize?.at(0)} max={volumeTypeInfo.volumeSize?.at(1)} defaultValue={8} onChange={(value)=>changeVolumnSize(value)}/>
+                                    <InputNumber className={classnames('w-16')} size='small' min={volumeTypeInfo.volumeSize?.at(0)} max={volumeTypeInfo.volumeSize?.at(1)} defaultValue={8} onChange={(value)=>changeVolumeSize(value)}/>
                                 </Popover>
                             </div>
                             <div>
@@ -183,7 +184,7 @@ function NewDisk(props:NewDiskProps) {
                                     `max:${volumeTypeInfo.volumeIops?.at(1)} min:${volumeTypeInfo.volumeIops?.at(0)}`
                                 } title="Tips">
                                     <InputNumber className={classnames('w-16')} disabled={!volumeTypeInfo.volumeIops} size='small' min={volumeTypeInfo.volumeIops?.at(0)} max={volumeTypeInfo.volumeIops?.at(1)} defaultValue={3000}
-                                        onChange={(value) => changeVolumnIOPS(value)} />
+                                        onChange={(value) => changeVolumeIOPS(value)} />
                                 </Popover>
 
                             </div>
@@ -193,7 +194,7 @@ function NewDisk(props:NewDiskProps) {
                                     `max:${volumeTypeInfo.volumeThruput?.at(1)} min:${volumeTypeInfo.volumeThruput?.at(0)}`
                                 } title="Tips">
                                     <InputNumber className={classnames('w-16')} disabled={!volumeTypeInfo.volumeThruput} size='small' min={volumeTypeInfo.volumeThruput?.at(0)} max={volumeTypeInfo.volumeThruput?.at(1)} defaultValue={125}
-                                        onChange={(value) => changeVolumnThruputs(value)} />
+                                        onChange={(value) => changeVolumeThruputs(value)} />
                                 </Popover>
 
                             </div>

@@ -2,8 +2,9 @@ import React from 'react';
 import { Icon } from '@iconify/react';
 import { classnames } from '@@/tailwindcss-classnames';
 import { useState,useEffect } from 'react';
-import { Switch, Input, Select } from 'antd';
+import { Switch, InputNumber, Select,Popover } from 'antd';
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
+import { VolumeTypeInfo } from '@/constant/storage';
 
 export interface DiskInfo {
     'DeviceName': string,
@@ -32,16 +33,17 @@ const DiskConfiguration = (props:DiskProps) :JSX.Element=>{
     const [volumeSize, changeVolumeSize] = useState(8);
     const [volumeIOPS, changeVolumeIOPS] = useState(3000);
     const [volumeThruputs, changeVolumeThruputs] = useState(125);
+    const volumeTypeInfo = VolumeTypeInfo[diskType];
     useEffect(() => {
         // console.log({
         //     'DviceName': disk['DviceName'],
         //     'Ebs': {
         //         'DeleteOnTermination': true,
-        //         'VolumnSize': volumnSize,
-        //         'VolumnType': diskType,
-        //         'VolumnIOPS': volumnIOPS,
-        //         'VolumnThruputs': volumnThruputs,
-        //         'VolumnEncryption': encryption }
+        //         'VolumeSize': volumnSize,
+        //         'VolumeType': diskType,
+        //         'VolumeIOPS': volumnIOPS,
+        //         'VolumeThruputs': volumnThruputs,
+        //         'VolumeEncryption': encryption }
 
         // });
         if (diskType === 'gp3' || diskType === 'gp2') {
@@ -69,7 +71,7 @@ const DiskConfiguration = (props:DiskProps) :JSX.Element=>{
                     'VolumeSize': volumeSize,
                     'VolumeType': diskType,
                     'VolumeIOPS': volumeIOPS,
-                    // 'VolumnThruputs': volumnThruputs,
+                    // 'VolumeThruputs': volumnThruputs,
                     'Encrypted': encryption }
 
             };
@@ -83,8 +85,8 @@ const DiskConfiguration = (props:DiskProps) :JSX.Element=>{
                     'DeleteOnTermination': true,
                     'VolumeSize': volumeSize,
                     'VolumeType': diskType,
-                    // 'VolumnIOPS': volumnIOPS,
-                    // 'VolumnThruputs': volumnThruputs,
+                    // 'VolumeIOPS': volumnIOPS,
+                    // 'VolumeThruputs': volumnThruputs,
                     'Encrypted': encryption,
                 }
 
@@ -100,26 +102,36 @@ const DiskConfiguration = (props:DiskProps) :JSX.Element=>{
                 <div className={classnames('mx-3','flex-grow')}>
                     <span >Disk type:</span>
                     <Select defaultValue={ diskType } className={classnames('w-48')} onChange={value=>changeDiskType(value)} size='small'>
-                        <Option value="standard">Magnetic(standard)</Option>
-                        <Option value="gp2">General Purpose SSD(gp2)</Option>
-                        <Option value="gp3">General Purpose SSD(gp3)</Option>
-                        <Option value="io1">Provisioned IOPS SSD(io1)</Option>
-                        <Option value="io2">Provisioned IOPS SSD(io2)</Option>
+                        {Object.keys(VolumeTypeInfo).map(key=><Option value={key} key={key}>{VolumeTypeInfo[key].typeDesc}</Option>)}
                     </Select>
                     <div className={classnames('flex','mt-2','justify-between')}>
-                        <div className={classnames('flex')}>
+                        <div>
                             <span>size(GiB):</span>
-                            <Input className={classnames('w-12')} type="text" size='small' maxLength={2} defaultValue={8} onChange={(e)=>changeVolumeSize(parseInt(e.target.value))}/>
+                            <Popover content={
+                                `max:${volumeTypeInfo.volumeSize?.at(1)} min:${volumeTypeInfo.volumeSize?.at(0)}`
+                            } title="Tips">
+                                <InputNumber className={classnames('w-16')} size='small' min={volumeTypeInfo.volumeSize?.at(0)} max={volumeTypeInfo.volumeSize?.at(1)} defaultValue={8} onChange={(value)=>changeVolumeSize(value)}/>
+                            </Popover>
                         </div>
-                        <div className={classnames('flex')}>
+                        <div>
                             <span>IOPS:</span>
-                            <Input className={classnames('w-12')} disabled={diskType === 'standard'} type="text" size='small' maxLength={5} defaultValue={3000}
-                                onChange={(e) => changeVolumeIOPS(parseInt(e.target.value))} />
+                            <Popover content={
+                                `max:${volumeTypeInfo.volumeIops?.at(1)} min:${volumeTypeInfo.volumeIops?.at(0)}`
+                            } title="Tips">
+                                <InputNumber className={classnames('w-16')} disabled={!volumeTypeInfo.volumeIops} size='small' min={volumeTypeInfo.volumeIops?.at(0)} max={volumeTypeInfo.volumeIops?.at(1)} defaultValue={3000}
+                                    onChange={(value) => changeVolumeIOPS(value)} />
+                            </Popover>
+
                         </div>
-                        <div className={classnames('flex')}>
+                        <div>
                             <span>Thruputs(MB/s):</span>
-                            <Input className={classnames('w-12')} disabled={['standard', 'Io1', 'Io2'].includes(diskType)} type="text" size='small' maxLength={5} defaultValue={125}
-                                onChange={(e) => changeVolumeThruputs(parseInt(e.target.value))} />
+                            <Popover content={
+                                `max:${volumeTypeInfo.volumeThruput?.at(1)} min:${volumeTypeInfo.volumeThruput?.at(0)}`
+                            } title="Tips">
+                                <InputNumber className={classnames('w-16')} disabled={!volumeTypeInfo.volumeThruput} size='small' min={volumeTypeInfo.volumeThruput?.at(0)} max={volumeTypeInfo.volumeThruput?.at(1)} defaultValue={125}
+                                    onChange={(value) => changeVolumeThruputs(value)} />
+                            </Popover>
+
                         </div>
                     </div>
                 </div>

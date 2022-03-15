@@ -3,7 +3,7 @@ import bucketImage from '@/assets/images/stbucket.png';
 import { StorageCardInfo } from '../CStorageCard';
 import { getDomain } from '@/views/Resource/Storage/BucketManage/utils';
 
-export default function CBucketCard({ bktDetail }: { bktDetail: StorageCardInfo }) {
+export default function BucketCard({ bktDetail }: { bktDetail: StorageCardInfo }) {
     const { bktName, bktRegion, stType } = bktDetail;
     console.log('🚀 ~ file: index.tsx ~ line 8 ~ CBucketCard ~ props', bktDetail);
     return (

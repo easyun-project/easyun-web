@@ -84,7 +84,7 @@ export const Resource = (): JSX.Element => {
     return (
         <>
             <div>
-                <div className={classnames('m-3', 'min-h-screen')}>
+                <div className={classnames('m-3')}>
                     <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" >
                         <Menu.Item key="server">Server</Menu.Item>
                         <Menu.Item key="storage">Storage</Menu.Item>

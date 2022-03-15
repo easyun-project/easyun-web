@@ -69,7 +69,7 @@ const AddServer = (): JSX.Element => {
     const [selectedIns, changeselectedIns] = useState('');
     // secgroup
     const [secgroups, changeSecgroups] = useState<CSecOptInfo[]>([]);
-    const [slectedSecgroups, changeSlectedSecgroups] = useState<string[]>([]);
+    const [slectedSecgroups, changeSelectedSecgroups] = useState<string[]>([]);
     // subnet
     const [subnets, changeSubnets] = useState<SubnetInfo[]>([]);
     const [selectedSubnet, changeSelectedSubnet] = useState('');
@@ -247,7 +247,7 @@ const AddServer = (): JSX.Element => {
             </Card>
 
             <Card title="Setting your security groups" className={classnames('rounded-border','mt-5')} extra={<span>you can choose more than one </span>}>
-                <CSecOpt multi={ true } secgroups={secgroups} changeSlectedSecgroups={changeSlectedSecgroups}/>
+                <CSecOpt multi={ true } secgroups={secgroups} changeSelectedSecgroups={changeSelectedSecgroups}/>
             </Card>
 
             <Card title="Setting your subnet" className={classnames('rounded-border','mt-5')}>

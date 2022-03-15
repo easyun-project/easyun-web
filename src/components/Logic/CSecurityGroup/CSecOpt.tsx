@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 interface CSecOptProps {
     secgroups: CSecOptInfo[]
-    changeSlectedSecgroups: React.Dispatch<React.SetStateAction<string[]>>
+    changeSelectedSecgroups: React.Dispatch<React.SetStateAction<string[]>>
     multi:boolean
 }
 
@@ -16,7 +16,7 @@ export interface CSecOptInfo {
 }
 
 const CSecOpt = (props:CSecOptProps): JSX.Element => {
-    const { secgroups,changeSlectedSecgroups,multi } = props;
+    const { secgroups,changeSelectedSecgroups,multi } = props;
     const [current, setcurrent] = useState<string[]>([]);
     const currentStyle = classnames('border-2', 'rounded-lg','border-yellow-550', 'm-5','h-20', 'w-20', 'text-center','align-middle','inline-block');
     const otherStyle = classnames('border-2', 'rounded-lg','border-blue-900', 'm-5','h-20', 'w-20', 'text-center','align-middle','inline-block');
@@ -35,11 +35,11 @@ const CSecOpt = (props:CSecOptProps): JSX.Element => {
                                     ? tobeChanged.splice(tobeChanged.indexOf(e.currentTarget.value), 1)
                                     : tobeChanged.push(e.currentTarget.value);
                                 setcurrent(tobeChanged);
-                                changeSlectedSecgroups(tobeChanged);
+                                changeSelectedSecgroups(tobeChanged);
                             }
                             : (e) => {
                                 setcurrent([e.currentTarget.value]);
-                                changeSlectedSecgroups([e.currentTarget.value]);
+                                changeSelectedSecgroups([e.currentTarget.value]);
                             } }
                 >
                     {item.sgName}

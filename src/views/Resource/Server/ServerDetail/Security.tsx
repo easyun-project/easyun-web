@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import CSecOpt from '@/components/Logic/CSecurityGroup/CSecOpt';
-import { Table, Space } from 'antd';
+import { Table, Space,Modal,Radio } from 'antd';
+import serverService from '@/service/serverService';
+import { getServerDetail } from '@/redux/serverSlice';
 
 type Secgroupdata = {
     'FromPort': number
@@ -18,6 +20,7 @@ type Secgroupdata = {
 };
 
 export default function Security():JSX.Element {
+    const dispatch = useDispatch();
     const currentServerState = useSelector((state: RootState) => {
         return state.server.currentServer;
     });
@@ -25,6 +28,11 @@ export default function Security():JSX.Element {
         return state.dataCenter.currentDc?.secgroup;
     });
     const [data,changeData] = useState<Record<string,object|number|string>[]>([]);
+    const [isModalVisible, changeIsModalVisible] = useState(false);
+    // secgroup to show or to operate
+    const [selectedSecgroups,changeSelectedSecgroups] = useState<string[]>([]);
+    // secgroup to attach
+    const [selectedSecgroup, changeSelectedSecgroup] = useState('');
 
     const columns = [
         {
@@ -79,20 +87,20 @@ export default function Security():JSX.Element {
         },
     ];
 
-    const [slectedSecgroups,changeSlectedSecgroups] = useState<string[]>([]);
+
     useEffect(()=>{
-        const selectedSecgroupInfo = allSecgroups?.filter((secgroup)=>secgroup.sgId === slectedSecgroups[0])[0];
+        const selectedSecgroupInfo = allSecgroups?.filter((secgroup)=>secgroup.sgId === selectedSecgroups[0])[0];
         if(selectedSecgroupInfo){
             const newRes:Secgroupdata[] = [...selectedSecgroupInfo.ibPermissions];
             const data = newRes.map(i=>{
-                const item = i;
+                const item = { ...i };
                 item.strategy = 'Restricted';
                 return item;
             });
             changeData(data);
         }
     }
-    ,[slectedSecgroups]);
+    ,[selectedSecgroups]);
     if (currentServerState) {
         // 由于返回的字段与之前的定义不同，所以需要做一下转化
         const secGroups = currentServerState.svrSecurity.map((sec) => {
@@ -102,26 +110,61 @@ export default function Security():JSX.Element {
             newSec.sgName = sec['sgName'];
             return newSec;
         });
+        const serverId = currentServerState.svrProperty.instanceId;
 
         return (
             <>
                 <div>Security Groups</div>
-                <div className={classnames('flex', 'flex-row')}>
-                    <CSecOpt multi={ false } secgroups={secGroups} changeSlectedSecgroups={changeSlectedSecgroups} />
-                    <button
-                        className={ classnames('border-2', 'rounded-lg','border-gray-500', 'm-5','h-20', 'w-20', 'text-center','align-middle','inline-block')}
-                        onClick={()=>{console.log('Create New');
-                        }
-                        }>
+                <div className={classnames('flex')}>
+                    <CSecOpt multi={ false } secgroups={secGroups} changeSelectedSecgroups={changeSelectedSecgroups} />
+                    <div className={classnames('flex', 'flex-col','p-2','justify-around')}>
+                        <button
+                            className={ classnames('btn-yellow-sm')}
+                            onClick={()=>{console.log('Create New');
+                            }
+                            }>
                     + Create New
-                    </button>
-                    <button
-                        className={ classnames('border-2', 'rounded-lg','border-gray-500', 'm-5','h-20', 'w-20', 'text-center','align-middle','inline-block')}
-                        onClick={()=>{console.log('Attach New');
-                        }
-                        }>
+                        </button>
+                        <button
+                            className={ classnames('btn-yellow-sm')}
+                            onClick={()=>{changeIsModalVisible(true);}}>
                     + Attach New
-                    </button>
+                        </button>
+                        <button
+                            className={ classnames('btn-red-sm')}
+                            onClick={()=>{serverService.bindServerSecgroup({
+                                action: 'detach',
+                                secgroupId: selectedSecgroups[0],
+                                svrId: serverId,
+                            }).then(
+                                ()=>dispatch(getServerDetail({ serverId }))
+                            )
+                            ;}}>
+                    - Detach Secgroup
+                        </button>
+                    </div>
+
+                    <Modal title="Select a disk to attach" visible={isModalVisible} onOk={()=>{
+                        serverService.bindServerSecgroup({
+                            action: 'attach',
+                            secgroupId: selectedSecgroup,
+                            svrId: serverId,
+                        }).then(()=>{
+                            changeIsModalVisible(false);
+                            dispatch(getServerDetail({ serverId }));
+                        });
+                    }}
+                    onCancel={()=>{changeIsModalVisible(false);}}>
+                        <Radio.Group onChange={(e)=>{changeSelectedSecgroup(e.target.value);}} value={selectedSecgroup}>
+                            <Space direction="vertical">
+                                {/* filter secgroups that not attached to currentServer */}
+                                {allSecgroups?.filter(item=>!secGroups.map(sg=>sg.sgId).includes(item.sgId)).map((item)=>
+                                    <Radio value={item.sgId} key={item.sgId}>
+                                        {item.sgName}({item.sgId})
+                                    </Radio>)}
+                            </Space>
+                        </Radio.Group>
+                    </Modal>
                 </div>
 
                 <div>Create rules to open ports to the internet, or to a specific IPv4 address or range.</div>

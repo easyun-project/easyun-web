@@ -25,24 +25,28 @@ import Event from '@/views/Event';
 import { CFullLoading } from '@/components/Common/CFullLoading';
 import { CHeader } from './components/Logic/CHeader';
 import { CFooter } from './components/Logic/CFooter';
-
+import { classnames } from '@@/tailwindcss-classnames';
 
 const AppRouter = (): JSX.Element => {
-    return (<>
+    return (<div className={classnames('min-h-screen','flex','flex-col')}>
         <CHeader />
-        <Routes>
-            <Route path="dataCenter/*" element={<DataCenter />} />
-            <Route path="home/*" element={<Home />} />
-            <Route path="dashboard/*" element={<Dashboard />} />
-            <Route path="account/*" element={<Account />} />
-            <Route path="account" element={<Navigate to="/account/profile" />} />
-            <Route path="event/*" element={<Event />} />
-            <Route path="resource/*" element={<Resource />} />
-            <Route path="resource" element={<Navigate to="/resource/server" />} />
-            <Route path="*" element={<NotFound />} />
-        </Routes>
+        <div className={classnames('flex-grow')}>
+            <Routes>
+                <Route path="datacenter/*" element={<DataCenter />} />
+                <Route path="datacenter" element={<Navigate to="/datacenter/overview" />} />
+                <Route path="home/*" element={<Home />} />
+                <Route path="dashboard/*" element={<Dashboard />} />
+                <Route path="account/*" element={<Account />} />
+                <Route path="account" element={<Navigate to="/account/profile" />} />
+                <Route path="event/*" element={<Event />} />
+                <Route path="resource/*" element={<Resource />} />
+                <Route path="resource" element={<Navigate to="/resource/server" />} />
+                <Route path="*" element={<NotFound />} />
+            </Routes>
+        </div>
+
         <CFooter />
-    </>);
+    </div>);
 };
 
 const App = (): JSX.Element => {

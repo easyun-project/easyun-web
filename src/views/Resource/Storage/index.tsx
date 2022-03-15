@@ -214,14 +214,6 @@ const WithStorage = (props): JSX.Element => {
 export const StoragePage = (): JSX.Element => {
     const [storageLoading, changeStorageLoading] = useState(true);
     const dispatch = useDispatch();
-    // const storageState = useSelector((state: RootState) => {
-    //     return state.storage;
-    // });
-
-    // const token = useSelector((state: RootState) => {
-    //     const user = state.user.user as unknown as UserModel;
-    //     return user.token;
-    // });
 
     useEffect(() => {
         bucketManage.listBucket().then((data: any) => {
