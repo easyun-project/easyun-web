@@ -36,7 +36,6 @@ const LoginPage = (): JSX.Element => {
                 },
                 3600000
             );
-
         }
     };
 
