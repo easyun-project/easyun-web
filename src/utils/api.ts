@@ -7,16 +7,23 @@ export const getHost = ():string=> {
     // return 'http://54.156.105.123:6660';
 };
 
-export const getHeader = ():Record<string,string>=> {
+export const getHeader = ():Record<string,string> | undefined=> {
 
-    const token = store.getState().user.user.token;
+    const token = localStorage.getItem('token') ? localStorage.getItem('token') : store.getState().user.user.token;
+    // const token =  store.getState().user.user.token;
     const region = store.getState().dataCenter.currentDc.basicInfo?.dcRegion;
-    return region
+    // 如果缓存及redux中都没有token，则跳转至登录页面
+    if(token)
+    {return region
         ? {
             'Authorization': 'Bearer ' + token,
             region
         }
         : {
             'Authorization': 'Bearer ' + token
-        };
+        };}
+    else{
+        window.location.href = '/login';
+        return;
+    }
 };

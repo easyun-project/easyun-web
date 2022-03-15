@@ -32,7 +32,8 @@ const AppRouter = (): JSX.Element => {
         <CHeader />
         <div className={classnames('flex-grow')}>
             <Routes>
-                <Route path="dataCenter/*" element={<DataCenter />} />
+                <Route path="datacenter/*" element={<DataCenter />} />
+                <Route path="datacenter" element={<Navigate to="/datacenter/overview" />} />
                 <Route path="home/*" element={<Home />} />
                 <Route path="dashboard/*" element={<Dashboard />} />
                 <Route path="account/*" element={<Account />} />

@@ -119,17 +119,21 @@ export const ServerList = ():JSX.Element => {
         return state.server;
     });
     const serverDataSource = serverState.servers;
-    const dc = useSelector((state: RootState) => {
-        return state.dataCenter.currentDc.basicInfo!.dcName;
-    });
+
 
     const [selectedServers, changeSelectedServers] = useState<React.Key[]>([]);
     const [acting,changeActing] = useState(false);
+    const dc = useSelector((state: RootState) => {
+        return state.dataCenter.currentDc.basicInfo?.dcName;
+    });
 
     useEffect(() => {
-        dispatch(getServerList());
-        dispatch(getDataCenterSecgroup({ dc }));
-    }, [dispatch]);
+        if(dc){
+            dispatch(getServerList());
+            dispatch(getDataCenterSecgroup({ dc }));
+        }
+        else{navigate('/home');}
+    }, []);
 
 
 

@@ -70,7 +70,7 @@ export default function Home():JSX.Element {
                 </Dropdown>
             </div>
 
-            <button className={classnames('btn-yellow')} onClick={()=>navigate('/datacenter')}> create new datacenter</button>
+            <button className={classnames('btn-yellow')} onClick={()=>navigate('/datacenter/add')}> create new datacenter</button>
         </div>
 
         {datacenters === 'loading'

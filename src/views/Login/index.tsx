@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 import React, { createRef, useState } from 'react';
-import { CButton } from '@/components/Common/CButton';
+// import { CButton } from '@/components/Common/CButton';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
@@ -9,9 +9,10 @@ import { useNavigate } from 'react-router-dom';
 import userService from '@/service/userService';
 import { Input, message, Modal } from 'antd';
 import appService from '@/service/appService';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userAction } from '@/redux/userSlice';
 import { UserModel } from '@/constant/user';
+import { RootState } from '@/redux/store';
 
 import logo3 from '@@/src/assets/images/logo_easyun/logo_easyun03.svg';
 
@@ -28,7 +29,6 @@ const LoginPage = (): JSX.Element => {
         const loginRes = await userService.login<UserModel>(username, password);
         if (loginRes) {
             dispatch(userAction(loginRes));
-            navigate('/home');
             //设置一个定时任务-每隔一个小时更新token
             setInterval(
                 () => {
@@ -36,6 +36,9 @@ const LoginPage = (): JSX.Element => {
                 },
                 3600000
             );
+            const token = loginRes.token;
+            localStorage.setItem('token',token);
+            navigate('/home');
         }
     };
 
