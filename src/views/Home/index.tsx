@@ -21,17 +21,17 @@ export default function Home():JSX.Element {
         );},[]);
 
     const menu = (
-        <Menu>
-            <Menu.Item key="Name" onClick={e=>{changeSortBy(e.key);}}>
+        <Menu onClick={e=>{changeSortBy(e.key);}}>
+            <Menu.Item key="Name">
           Name
             </Menu.Item>
-            <Menu.Item key="CreateDate" onClick={e=>{changeSortBy(e.key);}}>
+            <Menu.Item key="CreateDate">
           CreateDate
             </Menu.Item>
-            <Menu.Item key="VPC" onClick={e=>{changeSortBy(e.key);}}>
+            <Menu.Item key="VPC" >
           VPC
             </Menu.Item>
-            <Menu.Item key="Region" onClick={e=>{changeSortBy(e.key);}}>
+            <Menu.Item key="Region">
           Region
             </Menu.Item>
         </Menu>
@@ -60,12 +60,10 @@ export default function Home():JSX.Element {
 
 
 
-    return (<div className={classnames('flex-grow')}>
+    return (<div>
         <div className={classnames('mx-14','mt-2','font-bold','text-2xl','align-middle')}> select a datacenter</div>
-
-
         <div className={classnames('flex','items-center','justify-between','mx-14')}>
-            <div className={classnames('flex')}>
+            <div className={classnames('flex','text-sm')}>
                 <div className={classnames()}>sort by </div>
                 <Dropdown overlay={menu} >
                     <div className={classnames('text-yellow-550','font-bold','mx-1','cursor-pointer')}>{sortBy} <DownOutlined /></div>
@@ -80,15 +78,12 @@ export default function Home():JSX.Element {
             : (datacenters.length !== 0
                 ? <div className={classnames('grid','2xl:grid-cols-3','lg:grid-cols-2','gap-4','justify-items-center','items-center','mt-4')}>
                     {datacenters.sort((a,b)=>{
-                        if(order === 'dcRegion'){return ['Easyun1','Easyun','Easyun3'].indexOf(a.dcRegion) - ['Easyun1','Easyun','Easyun3'].indexOf(b.dcRegion); }
+                        if(order === 'dcRegion'){return ['us-west-1','us-east-1'].indexOf(b.dcRegion) - ['us-west-1','us-east-1'].indexOf(a.dcRegion); }
                         else{return b[order].localeCompare(a[order]);};
                     }).map((dcInfo)=><DataCenterCard key={dcInfo.vpcID} {...dcInfo}/>)}
                 </div>
                 : <Nodc/>)
         }
-
     </div>
-
-
     );
 }
