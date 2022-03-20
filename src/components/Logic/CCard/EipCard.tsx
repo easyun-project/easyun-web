@@ -2,26 +2,21 @@ import React from 'react';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Menu, Dropdown } from 'antd';
 import { Icon } from '@iconify/react';
-import { useNavigate } from 'react-router-dom';
-import { DataCenterInfo } from '@/constant/dataCenter';
+import { useNavigate,Link } from 'react-router-dom';
 import { updateCurrentDc } from '@/redux/dataCenterSlice';
 import { useDispatch } from 'react-redux';
-// import { getServerList } from '@/redux/serverSlice';
-// import { getDataCenterSecgroup } from '@/redux/dataCenterSlice';
+import { EipInfo } from '@/constant/dataCenter';
 
-export default function DataCenterCard(props:DataCenterInfo) {
+export default function EipCard(props:EipInfo) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { dcName,vpcID,vpcCidr,dcRegion } = props;
+    const { tagName,pubIp,assoTarget,boarderGroup,alloId } = props;
     const menu = (
         <Menu>
             <Menu.Item key="resource" onClick={()=>{
                 dispatch(updateCurrentDc(props));
-                navigate('/resource');}}>
-          Resource
-            </Menu.Item>
-            <Menu.Item key="manage" onClick={()=>navigate('/datacenter')}>
-          Manage
+                navigate(pubIp);}}>
+          Detail
             </Menu.Item>
             <Menu.Item
                 danger
@@ -33,9 +28,7 @@ export default function DataCenterCard(props:DataCenterInfo) {
             </Menu.Item>
         </Menu>
     );
-    const handleClick = ()=>{
-        dispatch(updateCurrentDc(props));
-    };
+
     return (
         <div
             className={classnames(
@@ -48,15 +41,10 @@ export default function DataCenterCard(props:DataCenterInfo) {
             )}
         >
             <div className={classnames('flex', 'flex-row', 'mb-2')}>
-                {/* <img
-                    src={stbucket}
-                    alt="stbucket.png"
-                    className={classnames('w-12', 'h-12')}
-                /> */}
-                <Icon icon="ic:round-cloud-circle" color="#e9862e" width="60" fr={null}/>
+                <Icon icon="iconoir:ip-address" color="#e9862e" width="60"fr={undefined}/>
                 <div className={classnames('ml-2','flex-grow')} >
-                    <a href='/resource' className={classnames('text-blue-600','text-lg')} onClick={handleClick}>{dcName}</a>
-                    <div className={classnames('text-xs', 'text-gray-500')}>{vpcID}</div>
+                    <Link to='/datacenter/network/detail' state={{ pubIp }} className={classnames('text-blue-600','text-lg')}>{tagName}</Link>
+                    <div className={classnames('text-xs', 'text-gray-500')}>{alloId}</div>
                 </div>
                 <Dropdown overlay={menu}>
                     <Icon
@@ -70,16 +58,27 @@ export default function DataCenterCard(props:DataCenterInfo) {
             <div
                 className={classnames(
                     'flex',
-                    'flex-row',
                     'justify-between',
                     'border-t-2',
+                    'items-center',
                     'border-gray-300',
                     'border-dashed',
                     'mx-2'
                 )}
             >
-                <div className={classnames('text-xs', 'text-gray-500')}>{vpcCidr}</div>
-                <div className={classnames('text-xs', 'text-gray-500')}>{dcRegion}</div>
+                {assoTarget.tagName
+                    ? <div className={classnames('text-xs', 'text-gray-500')}>
+                        Attached to
+                        {assoTarget.tagName !== 'Nat Gateway'
+                            ? <Link to={'/resource/server/' + assoTarget.svrId} className={classnames('text-blue-600','ml-1')}>{assoTarget.tagName}</Link>
+                            : <span className={classnames('ml-1')}>{assoTarget.tagName}</span>}
+                    </div>
+                    : <div className={classnames('text-xs', 'text-red-500')}>Not Attached</div>
+                }
+                <div className={classnames('text-xs', 'text-gray-500')}>
+                    <div>{pubIp}</div>
+                    <div>{boarderGroup}</div>
+                </div>
             </div>
         </div>
     );

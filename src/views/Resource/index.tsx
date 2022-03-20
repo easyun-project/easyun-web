@@ -10,7 +10,7 @@ import { Routes, useNavigate } from 'react-router-dom';
 //UI 相关
 import { Menu, Table } from 'antd';
 import { classnames } from '@@/tailwindcss-classnames';
-import { CButton } from '@/components/Common/CButton';
+// import { CButton } from '@/components/Common/CButton';
 
 //数据模型
 import { ServerModel } from '@/constant/server';
@@ -44,11 +44,11 @@ export const NoResource = (props: NotDataProps): JSX.Element => {
                 Add a cloud {props.resourceName} and get started with Easyun!
             </div>
             <div>
-                <CButton
-                    click={() => navigate(props.routePath)}
-                    classes={classnames('bg-yellow-550', 'block', 'text-white', 'rounded-3xl', 'px-5', 'py-3')}>
+                <button
+                    onClick={() => navigate(props.routePath)}
+                    className={classnames('btn-yellow')}>
                     {props.buttonName}
-                </CButton>
+                </button>
             </div>
         </div>
     );

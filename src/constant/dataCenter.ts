@@ -21,6 +21,24 @@ export interface EipInfoSimple{
       tagName: string
 }
 
+export interface EipInfo{
+      alloId: string
+      assoId: string
+      assoTarget: {
+        eniId: string
+        eniType: string
+        svrId: string
+        tagName: string
+      },
+      boarderGroup: string
+      eipDomain: string
+      eniId: string
+      ipv4Pool: string
+      pubIp: string
+      tagName: string
+      targetId: string
+}
+
 interface DataCenterTagSpec {
     ResourceType: string;
     Tag: Tag[]

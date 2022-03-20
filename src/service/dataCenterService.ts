@@ -10,7 +10,7 @@ import {
 } from '@/constant/apiConst';
 import axios from 'redaxios';
 import { getHeader, getHost } from '@/utils/api';
-import { DataCenterModel, DefaultDataCenterModel,EipInfoSimple,DataCenterInfo,SecGroupDetail } from '@/constant/dataCenter';
+import { DataCenterModel, DefaultDataCenterModel,EipInfoSimple,EipInfo,DataCenterInfo,SecGroupDetail } from '@/constant/dataCenter';
 import { SubnetInfo } from '@/views/Resource/Server/AddServer/Networking';
 
 // 创建数据中心需要的参数
@@ -31,12 +31,12 @@ export interface DatacenterParams{
     dc:string
 }
 
-interface SecGroupInfo{
-    sgDes: string
-    sgId: string
-    sgName: string
-    tagName: string
-}
+// interface SecGroupInfo{
+//     sgDes: string
+//     sgId: string
+//     sgName: string
+//     tagName: string
+// }
 
 export default class DataCenterService {
 
@@ -154,6 +154,18 @@ export default class DataCenterService {
      */
     static async listEipInfo(dc:string):Promise<EipInfoSimple[]>{
         const url = getHost() + DcmStaticip + '/list';
+        const result = await axios.get(url,{
+            params:{ dc },
+            headers: getHeader()
+        });
+        return result.data.detail;
+    }
+
+    /**
+     * 获取eip基础信息
+     */
+    static async getEipInfo(dc:string):Promise<EipInfo[]>{
+        const url = getHost() + DcmStaticip;
         const result = await axios.get(url,{
             params:{ dc },
             headers: getHeader()

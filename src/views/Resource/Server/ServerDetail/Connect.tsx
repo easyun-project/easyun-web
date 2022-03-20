@@ -30,7 +30,7 @@ export default function Connect(): JSX.Element {
                     <div className={classnames('text-gray-400')}>CONNECT TO</div>
                     <div className={classnames('text-black','text-2xl')}>{currentServerState.svrConnect.publicIp}</div>
                     <div className={classnames('text-gray-400','mt-8')}>USER NAME</div>
-                    <div className={classnames('text-black','text-2xl')}>{currentServerState.svrConnect.userName.join(' OR ')}</div>
+                    <div className={classnames('text-black','text-2xl')}>{currentServerState.svrConnect.userName}</div>
                     <div className={classnames('text-gray-400','mt-2')}>PASSWORD</div>
                     <div className={classnames('text-gray-700', 'text-sm','mb-2')}>This instance uses your
                         <a href='http://www.baidu.com' target="_blank" rel='noreferrer'

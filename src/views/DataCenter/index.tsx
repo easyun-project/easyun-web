@@ -17,6 +17,8 @@ import Network from './Network';
 import AddDataCenter from './Add';
 import Gateway from './Gateway';
 import Overview from './Overview';
+import EipDetail from './Network/EipDetail';
+import NotFound from '../NotFound';
 
 
 export const DataCenter = (): JSX.Element => {
@@ -45,7 +47,9 @@ export const DataCenter = (): JSX.Element => {
                         <Route path="add" element={<AddDataCenter />} />
                         <Route path="overview" element={<Overview />} />
                         <Route path="network" element={<Network />} />
+                        <Route path="network/detail"  element={<EipDetail />} />
                         <Route path="gateway" element={<Gateway />} />
+                        <Route path="*" element={<NotFound />} />
                     </Routes >
                 </div>
             </div>

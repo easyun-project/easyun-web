@@ -49,6 +49,9 @@ export const serverSlice = createSlice({
         builder.addCase(getServerList.pending, (state: ServerState) => {
             state.loading = true;
         });
+        builder.addCase(getServerList.rejected, (state: ServerState) => {
+            state.loading = false;
+        });
         builder.addCase(getServerDetail.fulfilled, (state: ServerState, action) => {
             state.loading = false;
             state.currentServer = action.payload;
