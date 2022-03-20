@@ -80,7 +80,7 @@ export default function Home():JSX.Element {
                     {datacenters.sort((a,b)=>{
                         if(order === 'dcRegion'){return ['us-west-1','us-east-1'].indexOf(b.dcRegion) - ['us-west-1','us-east-1'].indexOf(a.dcRegion); }
                         else{return b[order].localeCompare(a[order]);};
-                    }).map((dcInfo)=><DataCenterCard key={dcInfo.vpcID} {...dcInfo}/>)}
+                    }).map((dcInfo)=><DataCenterCard key={dcInfo.vpcCidr} {...dcInfo}/>)}
                 </div>
                 : <Nodc/>)
         }

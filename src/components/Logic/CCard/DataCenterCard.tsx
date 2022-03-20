@@ -51,7 +51,7 @@ export default function DataCenterCard(props:DataCenterInfo) {
                     alt="stbucket.png"
                     className={classnames('w-12', 'h-12')}
                 /> */}
-                <Icon icon="ic:round-cloud-circle" color="#e9862e" width="60" fr={null}/>
+                <Icon icon="ic:round-cloud-circle" color="#e9862e" width="60" />
                 <div className={classnames('ml-2','flex-grow')} >
                     <a href='/resource' className={classnames('text-blue-600','text-lg')} onClick={handleClick}>{dcName}</a>
                     <div className={classnames('text-xs', 'text-gray-500')}>{vpcID}</div>

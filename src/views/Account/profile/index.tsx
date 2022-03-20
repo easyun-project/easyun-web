@@ -56,7 +56,7 @@ const  Component = (): JSX.Element => {
                     <div>
               Account ID: {userState.account_id} [{userState.account_type}]
                     </div>
-                    <div>sercurity-credentials: {userState.role}</div>
+                    <div>sercurity-credentials: {userState.account_id}</div>
                 </Col>
             </Row>
             <Row>

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import DataCenterService,{ DatacenterParams } from '@/service/dataCenterService';
+import DataCenterService, { DatacenterParams } from '@/service/dataCenterService';
 import { DataCenterModel, DefaultDataCenterModel } from '@/constant/dataCenter';
-import { DataCenterInfo,SecGroupDetail } from '@/constant/dataCenter';
+import { DataCenterInfo, SecurityGroup } from '@/constant/dataCenter';
 
 const updateDefaultDataCenter = 'dataCenter/updateDefaultDataCenterAction';
 
@@ -22,14 +22,14 @@ export const getDataCenter = createAsyncThunk(
 
 export const getDefaultDataCenter = createAsyncThunk(
     'dataCenter/getDefaultDataCenter',
-    async () => {
-        return await DataCenterService.getDefault();
+    async (dcName?: string) => {
+        return await DataCenterService.getDefault(dcName);
     }
 );
 
 export const getDataCenterSecgroup = createAsyncThunk(
     'dataCenter/getDataCenterSecgroup',
-    async (params:DatacenterParams) => {
+    async (params: DatacenterParams) => {
         return await DataCenterService.getSecgroup(params);
     }
 );
@@ -39,19 +39,19 @@ export interface DataCenterState {
     dataCenter: DataCenterModel | undefined,
     defaultDataCenter: DefaultDataCenterModel | undefined,
     currentDc:
-    {
-        basicInfo:DataCenterInfo|undefined,
-        secgroup:SecGroupDetail[]|undefined
-    }
+        {
+            basicInfo: DataCenterInfo | undefined,
+            secgroup: SecurityGroup[] | undefined
+        }
 }
 
 const initialState: DataCenterState = {
     loading: true,
     dataCenter: undefined,
     defaultDataCenter: undefined,
-    currentDc:{
-        basicInfo:undefined,
-        secgroup:undefined
+    currentDc: {
+        basicInfo: undefined,
+        secgroup: undefined
     }
 };
 
@@ -63,7 +63,7 @@ export const dataCenterSlice = createSlice({
         updateDefaultDataCenterAction(state, action) {
             state.defaultDataCenter = action.payload;
         },
-        updateCurrentDc(state, action){
+        updateCurrentDc(state, action) {
             state.currentDc.basicInfo = action.payload;
         }
     },
@@ -82,10 +82,10 @@ export const dataCenterSlice = createSlice({
         builder.addCase(getDefaultDataCenter.pending, (state: DataCenterState) => {
             state.loading = true;
         });
-        builder.addCase(getDataCenterSecgroup.fulfilled,(state: DataCenterState,action) => {
+        builder.addCase(getDataCenterSecgroup.fulfilled, (state: DataCenterState, action) => {
             state.currentDc.secgroup = action.payload;
         });
     }
 });
 export default dataCenterSlice.reducer;
-export const {  updateCurrentDc } = dataCenterSlice.actions;
+export const { updateCurrentDc } = dataCenterSlice.actions;

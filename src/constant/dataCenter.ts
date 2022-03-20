@@ -1,35 +1,34 @@
 export interface DefaultDataCenterModel {
-    az: string;
-    key: string;
-    pri_subnet1: string;
-    pri_subnet2: string;
-    pub_subnet1: string;
-    pub_subnet2: string;
-    region: string;
-    secure_group1: string | undefined,
-    secure_group2: string | undefined,
-    secure_group3: string | undefined,
-    tag_spec: DataCenterTagSpec;
-    vpc_cidr: string;
+    dcParms: DcParams;
+    dropDown: DcDropDown
 }
 
-export interface EipInfoSimple{
-      alloId: string
-      assoId: string
-      isAvailable: boolean
-      pubIp: string
-      tagName: string
+interface DcParams {
+    dcName: string;
+    dcRegion: string;
+    dcVPC: DcVPC;
+    priSubnet1: Subnet;
+    priSubnet2: Subnet;
+    pubSubnet1: Subnet;
+    pubSubnet2: Subnet;
+    securityGroup0: SecurityGroup;
+    securityGroup1: SecurityGroup;
+    securityGroup2: SecurityGroup;
 }
 
-interface DataCenterTagSpec {
-    ResourceType: string;
-    Tag: Tag[]
+
+interface DcVPC {
+    cidrBlock: string;
 }
 
-interface Tag {
-    Key: string;
-    Value: string;
+export interface EipInfoSimple {
+    alloId: string
+    assoId: string
+    isAvailable: boolean
+    pubIp: string
+    tagName: string
 }
+
 
 export interface DataCenterModel {
     azs: string[],
@@ -40,51 +39,43 @@ export interface DataCenterModel {
     vpc_id: string;
 }
 
-interface Subnet {
-    SubnetId: string;
-    CidrBlock: string;
-    AvailableIpAddressCount: string;
-    keypair: Keypair
+export interface Subnet {
+    azName: string;
+    cidrBlock: string;
+    gwName: string;
+    routeTable: string;
+    tagName: string;
 }
 
-interface Keypair {
-    filename: string
-}
 
 export interface DataCenterInfo {
-    createDate: string
-    createUser: string
-    dcAccount: string
     dcName: string
     dcRegion: string
-    dcUser: string
     vpcCidr: string
-    vpcID:string
+    pubSubnet1: DataCenterSubnetInfo;
+    pubSubnet2: DataCenterSubnetInfo;
+    privateSubnet1: DataCenterSubnetInfo;
+    privateSubnet2: DataCenterSubnetInfo;
 }
 
-export interface SecGroupDetail{
-      'ibPermissions':
-        {
-          'FromPort': number
-          'IpProtocol': string
-          'IpRanges': Record<string,string>[],
-          'Ipv6Ranges': string[],
-          'PrefixListIds': string[],
-          'ToPort': number
-          'UserIdGroupPairs': string[]
-        }[],
-      'ibrulesNum': number
-      'obPermissions':
-        {
-          'IpProtocol': string
-          'IpRanges': Record<string,string>[]
-          'Ipv6Ranges': string[]
-          'PrefixListIds': string[]
-          'UserIdGroupPairs': string[]
-        }[],
-      'obrulesNum': number
-      'sgDes': string
-      'sgId': string
-      'sgName': string
-      'tagName': string
-    }
+export interface DataCenterSubnetInfo {
+    cidr: string;
+    az: string;
+    gw: string;
+    rtb: string;
+}
+
+
+export interface SecurityGroup {
+    enablePing: boolean;
+    enableRDP: boolean;
+    enableSSH: boolean;
+    tagName: string;
+}
+
+export interface DcDropDown {
+    azList: string[];
+    gwList: string[];
+    rtbList: string[];
+}
+

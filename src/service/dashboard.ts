@@ -5,7 +5,7 @@ import {
     DashBoardHealth,
     DashBoardInventory,
 } from '@/constant/apiConst';
-import axios from 'redaxios';
+import axios from 'axios';
 
 type dcParams = {
     dcName: string,

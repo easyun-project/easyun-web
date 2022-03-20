@@ -1,5 +1,5 @@
 import { AwsInfo, SSHKeys, FreeTier } from '@/constant/apiConst';
-import axios from 'redaxios';
+import axios from 'axios';
 import { AwsInfoModel, freeTierGET, freeTierPUT, IsshkeyItem } from '@/constant/awsInfo';
 import { Result } from '@/constant/result';
 import { getHeader, getHost } from '@/utils/api';
