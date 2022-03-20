@@ -1,6 +1,6 @@
 import { EventLogList } from '@/constant/apiConst';
 import { Result, EventLogListModel } from '@/constant/result';
-import axios from 'redaxios';
+import axios from 'axios';
 import { getHost } from '@/utils/api';
 
 export default class Event {

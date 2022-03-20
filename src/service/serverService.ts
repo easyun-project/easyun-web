@@ -1,6 +1,6 @@
 import { getHeader, getHost } from '@/utils/api';
 import { ServerDetail, ServerList, ServerImages, ServerInstypes, ServerInsfamily, AddServer,ServerAction,SeverEipPath,SeverConfigPath,SeverTagsPath,SeverDiskPath,SeverSecgroupPath } from '@/constant/apiConst';
-import axios from 'redaxios';
+import axios from 'axios';
 import { ServerModel, SeverDetailModel } from '@/constant/server';
 import { amiInfo } from '@/components/Logic/CAmi';
 import { InsType } from '@/views/Resource/Server/AddServer/InstanceList';

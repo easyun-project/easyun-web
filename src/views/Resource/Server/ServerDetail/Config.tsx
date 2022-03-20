@@ -298,7 +298,7 @@ export default function Config() {
                                             );
                                         }} />
                                 </div>
-                                : <div className={classnames('h-4')}></div>}
+                                : <div className={classnames('h-4')}/>}
 
                             <button className={selectedConfig === index
                                 ? classnames('h-20','mx-6','my-2','rounded-border','ring','ring-yellow-550', 'ring-offset-2','bg-yellow-550','text-white','font-bold')
@@ -313,7 +313,7 @@ export default function Config() {
                         </div>)}
                     <div className={classnames('flex','flex-col','w-32','sticky','right-0','bg-white')}>
                         {/* 以下这个段落用于兼容确认模组和选择框 */}
-                        <div className={classnames('h-16','m-6')}></div>
+                        <div className={classnames('h-16', 'm-6')}/>
                         <div className={classnames('text-center','font-bold','border-b-2','border-l-2')}>Type</div>
                         <div className={classnames('text-center','font-bold','border-b-2','border-l-2')}>Process</div>
                         <div className={classnames('text-center','font-bold','border-b-2','border-l-2')}>Memory</div>

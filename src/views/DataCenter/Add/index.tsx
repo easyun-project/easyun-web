@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CSubnet } from '@/components/Logic/CSubnet';
 import { classnames } from '@@/tailwindcss-classnames';
 import CSecurityGroup from '@/components/Logic/CSecurityGroup';
@@ -10,6 +10,7 @@ import dataCenterService, { CreateDataCenterParams } from '@/service/dataCenterS
 import { message } from 'antd';
 import { RootState } from '@/redux/store';
 import { getDefaultDataCenter } from '@/redux/dataCenterSlice';
+import { DataCenterSubnetInfo, SecurityGroup } from '@/constant/dataCenter';
 
 
 const AddDataCenter = (): JSX.Element => {
@@ -18,6 +19,56 @@ const AddDataCenter = (): JSX.Element => {
     const userState = useSelector((state: RootState) => {
         return state.user.user;
     });
+
+    const [inputDcName, setInputDcName] = useState('');
+    const [cidr, setCidr] = useState('');
+    const [pubSubnet1, setPubSubnet1] = useState<DataCenterSubnetInfo>({
+        cidr: '',
+        az: '',
+        gw: '',
+        rtb: '',
+    });
+    const [pubSubnet2, setPubSubnet2] = useState<DataCenterSubnetInfo>({
+        cidr: '',
+        az: '',
+        gw: '',
+        rtb: '',
+    });
+    const [priSubnet1, setPriSubnet1] = useState<DataCenterSubnetInfo>({
+        cidr: '',
+        az: '',
+        gw: '',
+        rtb: '',
+    });
+    const [priSubnet2, setPriSubnet2] = useState<DataCenterSubnetInfo>({
+        cidr: '',
+        az: '',
+        gw: '',
+        rtb: '',
+    });
+
+    const [sg0, setSg0] = useState<SecurityGroup>({
+        enablePing: false,
+        enableSSH: false,
+        enableRDP: false,
+        tagName: '',
+    });
+
+    const [sg1, setSg1] = useState<SecurityGroup>({
+        enablePing: false,
+        enableSSH: false,
+        enableRDP: false,
+        tagName: '',
+    });
+
+    const [sg2, setSg2] = useState<SecurityGroup>({
+        enablePing: false,
+        enableSSH: false,
+        enableRDP: false,
+        tagName: '',
+    });
+
+    const [sshKey, setSSHKey] = useState<string>('');
 
     const dataCenterState = useSelector((state: RootState) => {
         return state.dataCenter;
@@ -41,6 +92,9 @@ const AddDataCenter = (): JSX.Element => {
         }
     };
 
+    const getDataCenter = () => {
+        dispatch(getDefaultDataCenter(inputDcName));
+    };
 
     return (
         <div>
@@ -49,29 +103,47 @@ const AddDataCenter = (): JSX.Element => {
                     fr={undefined}/>
                 Create New Cloud DataCenter
             </div>
+            <hr/>
+            <div className={classnames('mx-5', 'my-3')}>
+                Identify your Datacenter
+                <input
+                    onChange={(e) => {
+                        setInputDcName(e.target.value);
+                    }}
+                    onBlur={getDataCenter}
+                    className={classnames('border', 'ml-3')} type="text"
+                    placeholder='new datacenter name'/>
+            </div>
             <div className={classnames('ml-5', 'mt-2')}>Easyun DataCenter Networking</div>
             <div className={classnames('ml-24')}>Region:
                 <Icon className={classnames('inline-block', 'mx-1')} icon="emojione-v1:flag-for-japan" color="gray"
                     width="25" height="25" fr={undefined}/>
-                {data?.az}
+                {data?.dcParms.dcRegion}
             </div>
             <div className={classnames('ml-5')}>
                 <span className={classnames('mr-2')}>IPv4 CIDR block:</span>
-                <input className={classnames('border')} type="text" defaultValue={data?.vpc_cidr}/>
+                <input
+                    onChange={(e) => {
+                        setCidr(e.target.value);
+                    }}
+                    className={classnames('border')} type="text"
+                    defaultValue={data?.dcParms.dcVPC.cidrBlock}/>
             </div>
-            <CSubnet subnet={data?.pub_subnet1} index={1} isPublic={true} classes={classnames('w-96', 'inline-block')}/>
-            <CSubnet subnet={data?.pub_subnet2} index={2} isPublic={true} classes={classnames('w-96', 'inline-block')}/>
+            <CSubnet subnet={data?.dcParms.pubSubnet1} dropdown={data?.dropDown} index={1} isPublic={true}
+                classes={classnames('w-96', 'inline-block')}/>
+            <CSubnet subnet={data?.dcParms.pubSubnet2} dropdown={data?.dropDown} index={2} isPublic={true}
+                classes={classnames('w-96', 'inline-block')}/>
             <br/>
-            <CSubnet subnet={data?.pri_subnet1} index={1} isPublic={false}
+            <CSubnet subnet={data?.dcParms.priSubnet1} dropdown={data?.dropDown} index={1} isPublic={false}
                 classes={classnames('w-96', 'inline-block')}/>
-            <CSubnet subnet={data?.pri_subnet2} index={2} isPublic={false}
+            <CSubnet subnet={data?.dcParms.priSubnet1} dropdown={data?.dropDown} index={2} isPublic={false}
                 classes={classnames('w-96', 'inline-block')}/>
 
 
-            <div className={classnames('ml-5', 'mt-10')}>Easyun DataCenter Security Group</div>
-            <CSecurityGroup title={data?.secure_group1} classes={classnames('mx-5', 'w-64', 'inline-block')}/>
-            <CSecurityGroup title={data?.secure_group2} classes={classnames('mx-5', 'w-64', 'inline-block')}/>
-            <CSecurityGroup title={data?.secure_group3} classes={classnames('mx-5', 'w-64', 'inline-block')}/>
+            <div className={classnames('ml-5', 'mt-10','font-bold')}>Easyun DataCenter Security Group</div>
+            <CSecurityGroup sg={data?.dcParms.securityGroup0} classes={classnames('mx-5', 'w-64', 'inline-block')}/>
+            <CSecurityGroup sg={data?.dcParms.securityGroup1} classes={classnames('mx-5', 'w-64', 'inline-block')}/>
+            <CSecurityGroup sg={data?.dcParms.securityGroup2} classes={classnames('mx-5', 'w-64', 'inline-block')}/>
 
             <div className={classnames('flex', 'justify-center', 'm-16')}>
                 <CButton click={() => {
@@ -82,16 +154,16 @@ const AddDataCenter = (): JSX.Element => {
                     Back</CButton>
                 <CButton click={() => {
                     const params: CreateDataCenterParams = {
-                        keypair: data?.key,
-                        private_subnet_1: data?.pri_subnet1,
-                        private_subnet_2: data?.pri_subnet2,
-                        public_subnet_1: data?.pub_subnet1,
-                        public_subnet_2: data?.pri_subnet2,
-                        region: data?.region,
-                        sgs1_flag: '111',
-                        sgs2_flag: '111',
-                        sgs3_flag: '111',
-                        vpc_cidr: data?.vpc_cidr,
+                        dcName: inputDcName,
+                        region: data?.dcParms.dcRegion ?? '',
+                        private_subnet_1: priSubnet1,
+                        private_subnet_2: priSubnet2,
+                        public_subnet_1: pubSubnet1,
+                        public_subnet_2: pubSubnet2,
+                        sg0: sg0,
+                        sg1: sg1,
+                        sg2: sg2,
+                        keypair: sshKey
                     };
                     createDateCenter(params);
                 }} classes={classnames('bg-yellow-550', 'text-white', 'rounded-2xl', 'w-32', 'px-5')}>Create</CButton>
