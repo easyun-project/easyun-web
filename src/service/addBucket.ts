@@ -1,8 +1,8 @@
 import { getHeader, getHost } from '@/utils/api';
-import { StBucketPath, StBucketList } from '@/constant/apiConst';
+import { StBucketPath } from '@/constant/apiConst';
 import { Result } from '@/constant/result';
-import axios from 'redaxios';
-import { BucketInfo } from '@/constant/bucketInfo';
+import axios from 'axios';
+import { BucketInfo } from '@/constant/storage';
 
 export default class bucketManage {
 

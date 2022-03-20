@@ -22,7 +22,7 @@ export interface StorageCardInfo {
 
 const CStorageCard = (props: StorageCardInfo): JSX.Element => {
     const { bktName, statusMsg, bktRegion, stType } = props;
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     // const userState = useSelector((state: RootState) => {
     //     return state.user.user;
     // });
@@ -30,7 +30,7 @@ const CStorageCard = (props: StorageCardInfo): JSX.Element => {
     const menu = (
         <Menu>
             <Menu.Item key="manage" onClick={() => {
-                navigate(`/resource/storage/object/${bktName}`, { state: props })
+                navigate(`/resource/storage/object/${bktName}`, { state: props });
             }}>
                 Manage
             </Menu.Item>
@@ -77,7 +77,7 @@ const CStorageCard = (props: StorageCardInfo): JSX.Element => {
                 <div className={classnames('flex-grow')}>
                     <div className={classnames('text-blue-600')}>
                         <span className='cursor-pointer' onClick={() => {
-                            navigate(`/resource/storage/object/${bktName}`, { state: props })
+                            navigate(`/resource/storage/object/${bktName}`, { state: props });
                         }}>{bktName}</span>
                     </div>
                     <div className={classnames('text-xs', 'text-gray-500')}>{stType}</div>

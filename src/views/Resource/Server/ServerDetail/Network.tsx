@@ -20,7 +20,7 @@ export default function Network():JSX.Element {
     const [selectedEip, changeSelectedEip] = useState('');
     const [eips,changeEips] = useState<EipInfoSimple[]>([]);
     const [operating,changeOperating] = useState(false);
-    const [hasEip,changehasEip] = useState<boolean>(server?.svrNetworking.publicIp ? true : false);
+    const [hasEip,changehasEip] = useState<boolean>(!!server?.svrNetworking.publicIp);
     useEffect(
         ()=>{
             DataCenterService.listEipInfo('Easyun').then(

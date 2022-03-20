@@ -1,6 +1,6 @@
 import { StBucketPath } from '@/constant/apiConst';
 import { getHeader } from '@/utils/api';
-import axios from 'redaxios';
+import axios from 'axios';
 
 export default class bucketService {
     static async getBucket(bktId) {

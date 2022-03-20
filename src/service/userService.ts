@@ -1,6 +1,6 @@
 import { UserLogin } from '@/constant/apiConst';
 // import { fail, Result } from '@/constant/result';
-import axios from 'redaxios';
+import axios from 'axios';
 import { getHost } from '@/utils/api';
 
 export default class userService {

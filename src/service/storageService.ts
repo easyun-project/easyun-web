@@ -1,7 +1,7 @@
 import { getHeader, getHost } from '@/utils/api';
-import { StBucketPath, StBucketList,StBucketObject,StVolumePath,StVolumeList,VolumeOperate } from '@/constant/apiConst';
+import { StBucketPath, StVolumeList,VolumeOperate } from '@/constant/apiConst';
 import { Result } from '@/constant/result';
-import axios from 'redaxios';
+import axios from 'axios';
 import { BucketInfo,VolumeDetail,AddVolumeParams,VolumeInfoSimple } from '@/constant/storage';
 import store from '@/redux/store';
 
