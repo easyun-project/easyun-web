@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { classnames } from '@@/tailwindcss-classnames';
 import { DashboardDetail } from '@/views/Dashboard/detail';
-import { Button, Select } from 'antd';
+import { Button } from 'antd';
 import { DictListSelect } from '@/components/DashboardCommon/DictListSelect';
 import './detail/index.less';
-import { DoubleRightOutlined } from '@ant-design/icons';
 import { TTailwindString } from 'tailwindcss-classnames';
 
-const { Option } = Select;
 
 export const Dashboard = (props): JSX.Element => {
     const [dcName, setDcName] = useState<string>('');
