@@ -14,7 +14,7 @@ import {
     DataCenterModel,
     DefaultDataCenterModel,
     EipInfoSimple,
-    DataCenterInfo, SecurityGroup, DataCenterSubnetInfo,
+    DataCenterInfo, SecurityGroup, DataCenterSubnetInfo,EipInfo,SubnetInfo,SecurityGroupDetail,SecurityGroupInfoSimple
 } from '@/constant/dataCenter';
 
 // 创建数据中心需要的参数
@@ -114,7 +114,7 @@ export default class DataCenterService {
     /**
      * 获取subnet
      */
-    static async getSubnet(params: DatacenterParams): Promise<DataCenterSubnetInfo[]> {
+    static async getSubnet(params: DatacenterParams): Promise<SubnetInfo[]> {
         const url = getHost() + DcmSubnet;
         const result = await axios.get(url, {
             params,
@@ -126,8 +126,19 @@ export default class DataCenterService {
     /**
      * 获取secgroup安全组,详细信息
      */
-    static async getSecgroup(params: DatacenterParams): Promise<SecurityGroup[]> {
+    static async getSecgroup(params: DatacenterParams): Promise<SecurityGroupDetail[]> {
         const url = getHost() + DcmSecgroup;
+        const result = await axios.get(url, {
+            params,
+            headers: getHeader()
+        });
+        return result.data.detail;
+    }
+    /**
+     * 获取secgroup安全组,概要信息
+     */
+    static async listSecgroup(params: DatacenterParams): Promise<SecurityGroupInfoSimple[]> {
+        const url = getHost() + DcmSecgroup + '/list';
         const result = await axios.get(url, {
             params,
             headers: getHeader()
@@ -154,6 +165,18 @@ export default class DataCenterService {
         const url = getHost() + DcmStaticip + '/list';
         const result = await axios.get(url, {
             params: { dc },
+            headers: getHeader()
+        });
+        return result.data.detail;
+    }
+
+    /**
+     * 获取eip基础信息
+     */
+    static async getEipInfo(dc:string):Promise<EipInfo[]>{
+        const url = getHost() + DcmStaticip;
+        const result = await axios.get(url,{
+            params:{ dc },
             headers: getHeader()
         });
         return result.data.detail;

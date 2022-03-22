@@ -53,7 +53,7 @@ const App = (): JSX.Element => {
     return (
         <Suspense fallback={<CFullLoading />}>
             <Routes>
-                <Route path="/" element={<LoginPage />} />
+                <Route path="/" element={<Navigate to="/login" />} />
                 <Route path="login" element={<LoginPage />} />
                 <Route path="*" element={< AppRouter />} />
             </Routes>
@@ -63,11 +63,13 @@ const App = (): JSX.Element => {
 
 ReactDOM.render(
     <BrowserRouter>
-        <PersistGate loading={null} persistor={persist}>
-            <Provider store={store}>
+
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persist}>
                 <App />
-            </Provider>
-        </PersistGate>
+            </PersistGate>
+        </Provider>
+
     </BrowserRouter>,
     document.getElementById('root')
 );

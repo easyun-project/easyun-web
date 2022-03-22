@@ -6,7 +6,7 @@ import { Routes, useNavigate } from 'react-router-dom';
 
 //UI 相关
 import { Menu } from 'antd';
-import { classnames } from '@@/tailwindcss-classnames';
+// import { classnames } from '@@/tailwindcss-classnames';
 
 //数据模型
 // import { ServerModel } from '@/constant/server';
@@ -17,6 +17,8 @@ import Network from './Network';
 import AddDataCenter from './Add';
 import Gateway from './Gateway';
 import Overview from './Overview';
+import EipDetail from './Network/EipDetail';
+import NotFound from '../NotFound';
 
 
 export const DataCenter = (): JSX.Element => {
@@ -31,7 +33,7 @@ export const DataCenter = (): JSX.Element => {
     return (
         <>
             <div>
-                <div className={classnames('m-3')}>
+                <div className='m-3'>
                     <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" >
                         <Menu.Item key="overview">Overview</Menu.Item>
                         <Menu.Item key="network">Network</Menu.Item>
@@ -45,7 +47,9 @@ export const DataCenter = (): JSX.Element => {
                         <Route path="add" element={<AddDataCenter />} />
                         <Route path="overview" element={<Overview />} />
                         <Route path="network" element={<Network />} />
+                        <Route path="network/detail"  element={<EipDetail />} />
                         <Route path="gateway" element={<Gateway />} />
+                        <Route path="*" element={<NotFound />} />
                     </Routes >
                 </div>
             </div>

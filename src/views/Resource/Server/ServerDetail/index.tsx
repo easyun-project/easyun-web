@@ -13,7 +13,7 @@ import Config from './Config';
 import Disk from './Disk';
 import Security from './Security';
 import Connect from './Connect';
-import Network from './Network';
+import tw, {  } from './Network';
 import Tags from './Tags';
 import serverService from '@/service/serverService';
 import { LoadingOutlined } from '@ant-design/icons';

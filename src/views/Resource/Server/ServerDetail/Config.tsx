@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import serverService from '@/service/serverService';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { InsTypeFamily } from '../AddServer';
 import { Cascader } from 'antd';
 import { InsType } from '../AddServer/InstanceList';
 import { Skeleton } from 'antd';
+import { getServerDetail } from '@/redux/serverSlice';
 
 type Option = {
 value: string
@@ -18,6 +19,7 @@ children: {
 }[]
 
 export default function Config() {
+    const dispatch = useDispatch();
     // const arr = [
     //     {
     //         'insType': 'm5.24xlarge',
@@ -290,8 +292,9 @@ export default function Config() {
                                                 ins_type: insTypes[selectedConfig].insType,
                                                 svr_ids: [instanceId]
                                             }).then(
-                                                res=>{console.log(res);
-                                                    alert('修改成功!');}
+                                                ()=>{
+                                                    alert('修改成功!');
+                                                    dispatch(getServerDetail({ serverId:instanceId }));}
                                             );
                                         }} />
                                 </div>

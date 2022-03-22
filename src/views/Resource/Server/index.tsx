@@ -185,12 +185,12 @@ export const ServerList = ():JSX.Element => {
     );
 
 
-
+    // 如果处于更新中，且是第一次更新（暂时不知道如何实现）
     if (serverState.loading) {
         return (
             <CPartialLoading classes={classnames('h-96')}/>
         );
-    } else if (serverDataSource) {
+    } else if (serverDataSource.length !== 0) {
         return (
             <>
                 <div id="operation" className={classnames('my-3', 'float-right')}>
@@ -206,11 +206,6 @@ export const ServerList = ():JSX.Element => {
                     </Dropdown>
                     <button onClick={() => navigate('/resource/server/add')}
                         className={classnames('btn-yellow')}>Add Server</button>
-                    {/* <CButton
-                        click={() => navigate('/resource/server/add')}
-                        classes={classnames('inline-block', 'bg-yellow-550', 'mr-3', 'block', 'text-white', 'rounded-3xl', 'px-5', 'py-1')}>
-                        Add Server
-                    </CButton> */}
                 </div>
                 <Table bordered={true} dataSource={newServerDataSource} columns={serverColumns} rowSelection={{
                     type: 'checkbox',
@@ -222,21 +217,8 @@ export const ServerList = ():JSX.Element => {
         );
     } else {
         return (
-            <>
-                <div id="operation">
-                    <Dropdown overlay={actionMenu} className={classnames('inline-block')}>
-                        <Button>
-                            Action
-                        </Button>
-                    </Dropdown>
-                    <CButton
-                        click={() => navigate('server/add')}
-                        classes={classnames('inline-block', 'bg-yellow-550', 'block', 'text-white', 'rounded-3xl', 'px-5', 'py-1')}>
-                        Add Server
-                    </CButton>
-                </div>
-                <NoResource resourceName={'server'} buttonName={'add server'} routePath={'server/add'}/>
-            </>
+
+            <NoResource resourceName={'server'} buttonName={'add server'} routePath={'add'}/>
         );
     }
 };
