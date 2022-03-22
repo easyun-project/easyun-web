@@ -34,9 +34,9 @@ export interface EipInfo{
       targetId: string
 }
 
-interface DataCenterTagSpec {
-    ResourceType: string;
-    Tag: Tag[]}
+// interface DataCenterTagSpec {
+//     ResourceType: string;
+//     Tag: Tag[]}
 
 interface DcVPC {
     cidrBlock: string;
@@ -70,13 +70,14 @@ export interface Subnet {
 
 
 export interface DataCenterInfo {
-    dcName: string
-    dcRegion: string
-    vpcCidr: string
-    pubSubnet1: DataCenterSubnetInfo;
-    pubSubnet2: DataCenterSubnetInfo;
-    privateSubnet1: DataCenterSubnetInfo;
-    privateSubnet2: DataCenterSubnetInfo;
+createDate: string
+createUser: string
+dcAccount: string
+dcName: string
+dcRegion: string
+dcUser: string
+vpcCidr: string
+vpcID: string
 }
 
 export interface DataCenterSubnetInfo {
@@ -100,3 +101,62 @@ export interface DcDropDown {
     rtbList: string[];
 }
 
+export interface SubnetInfo{
+      avlipNum: number
+      cidrBlock: string
+      isMappubip: boolean
+      subnetAz: string
+      subnetId: string
+      subnetState: string
+      subnetType: string
+      subnetVpc: string
+      tagName: string
+}
+
+export interface CSecOptInfo {
+    sgId: string
+    tagName: string
+    sgDes?: string
+    sgName: string
+}
+
+export interface SecurityGroupDetail{
+      'ibPermissions':
+        {
+          'FromPort': number
+          'IpProtocol': string
+          'IpRanges': [
+            {
+              'CidrIp': string
+            }
+          ],
+          'Ipv6Ranges': string[],
+          'PrefixListIds': string[],
+          'ToPort': number
+          'UserIdGroupPairs': string[]
+        }[]
+      'ibrulesNum': number
+      'obPermissions':
+        {
+          'IpProtocol': string
+          'IpRanges': [
+            {
+              'CidrIp': string
+            }
+          ],
+          'Ipv6Ranges': string[],
+          'PrefixListIds': string[],
+          'UserIdGroupPairs': string[]
+        }[]
+      'obrulesNum': number
+      'sgDes': string
+      'sgId': string
+      'sgName': string
+      'tagName': string
+    }[];
+
+export interface SecurityGroupInfoSimple{
+    'sgDes': string
+      'sgId': string
+      'sgName': string
+      'tagName': string}

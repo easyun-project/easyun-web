@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { EipInfo } from '@/constant/dataCenter';
 import { CPartialLoading } from '@/components/Common/CPartialLoading';
 import { Menu, Dropdown } from 'antd';
-import { classnames } from '@@/tailwindcss-classnames';
+import { classnames } from 'tailwindcss-classnames';
 import { DownOutlined } from '@ant-design/icons';
 
 
@@ -36,12 +36,12 @@ export default function Network() {
     }
     useEffect(()=>{
         if(dc) DataCenterService.getEipInfo( dc ).then(res=>changeEipInfos(res));
-        else navigate('/home');
+        // else navigate('/home');
     },[]);
 
     return (
         <div>
-            <div className={classnames('mx-14','mt-2','font-bold','text-2xl','align-middle')}> select a datacenter</div>
+            <div className='mx-14 mt-2 text-2xl font-bold align-middle'> select an eip</div>
             <div className={classnames('flex','items-center','justify-between','mx-14')}>
                 <div className={classnames('flex','text-sm')}>
                     <div className={classnames()}>sort by </div>

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import DataCenterService, { DatacenterParams } from '@/service/dataCenterService';
 import { DataCenterModel, DefaultDataCenterModel } from '@/constant/dataCenter';
-import { DataCenterInfo, SecurityGroup } from '@/constant/dataCenter';
+import { DataCenterInfo, SecurityGroupInfoSimple } from '@/constant/dataCenter';
 
 const updateDefaultDataCenter = 'dataCenter/updateDefaultDataCenterAction';
 
@@ -30,7 +30,7 @@ export const getDefaultDataCenter = createAsyncThunk(
 export const getDataCenterSecgroup = createAsyncThunk(
     'dataCenter/getDataCenterSecgroup',
     async (params: DatacenterParams) => {
-        return await DataCenterService.getSecgroup(params);
+        return await DataCenterService.listSecgroup(params);
     }
 );
 
@@ -41,7 +41,7 @@ export interface DataCenterState {
     currentDc:
         {
             basicInfo: DataCenterInfo | undefined,
-            secgroup: SecurityGroup[] | undefined
+            secgroup: SecurityGroupInfoSimple[] | undefined
         }
 }
 

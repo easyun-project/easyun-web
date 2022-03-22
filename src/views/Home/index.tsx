@@ -69,8 +69,7 @@ export default function Home():JSX.Element {
                     <div className={classnames('text-yellow-550','font-bold','mx-1','cursor-pointer')}>{sortBy} <DownOutlined /></div>
                 </Dropdown>
             </div>
-
-            <button className={classnames('btn-yellow')} onClick={()=>navigate('/datacenter/add')}> create new datacenter</button>
+            <button className='btn-yellow' onClick={()=>navigate('/datacenter/add')}> create new datacenter</button>
         </div>
 
         {datacenters === 'loading'
@@ -80,7 +79,7 @@ export default function Home():JSX.Element {
                     {datacenters.sort((a,b)=>{
                         if(order === 'dcRegion'){return ['us-west-1','us-east-1'].indexOf(b.dcRegion) - ['us-west-1','us-east-1'].indexOf(a.dcRegion); }
                         else{return b[order].localeCompare(a[order]);};
-                    }).map((dcInfo)=><DataCenterCard key={dcInfo.vpcCidr} {...dcInfo}/>)}
+                    }).map((dcInfo)=><DataCenterCard key={dcInfo.dcName} {...dcInfo}/>)}
                 </div>
                 : <Nodc/>)
         }

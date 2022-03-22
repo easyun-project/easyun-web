@@ -34,6 +34,6 @@ module.exports = {
         'space-infix-ops': 2, // 要求操作符周围有空格
         '@typescript-eslint/no-non-null-assertion': 'off', //可以使用ts的非空断言
         'multiline-ternary': ['error', 'always-multiline'], //如果表达式跨越多个行，则在三元表达式的操作数之间强制换行。
-        'tailwindcss/migration-from-tailwind-2': 0, //由于我们目前用的还是tailwind2，所以此条不开启
+        // 'tailwindcss/migration-from-tailwind-2': 0, //由于我们目前用的还是tailwind2，所以此条不开启
     },
 };

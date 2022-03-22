@@ -9,7 +9,7 @@
         "build:prod": "cross-env vite build --mode production",
         "serve": "vite preview",
         "lint": "eslint --ext .jsx,.js,.ts,.tsx .",
-        "tailwind": "tailwindcss-classnames -x tailwindcss-custom-classnames.ts -o tailwindcss-classnames.ts",
+        "tailwind": "tailwindcss-classnames -i tailwind.config.js -x tailwindcss-custom-classnames.ts -o tailwindcss-classnames.ts",
         "server": "nodemon main.js",
         "generate-css-types": "tailwindcss-classnames -i tailwind.config.js -o output-file.ts"
     },
@@ -36,7 +36,8 @@
         "redux": "^4.1.1",
         "redux-persist": "^6.0.0",
         "redux-thunk": "^2.3.0",
-        "tailwindcss": "^2.2.14",
+        "tailwindcss": "3.0.23",
+        "tailwindcss-classnames": "2",
         "variables": "^1.0.1",
         "yarn": "^1.22.17"
     },
@@ -63,7 +64,6 @@
         "postcss": "^8.3.6",
         "prettier": "^2.3.2",
         "redux-devtools-extension": "^2.13.9",
-        "tailwindcss-classnames": "^2.2.3",
         "typescript": "^4.4.2",
         "vite": "^2.5.6"
     }

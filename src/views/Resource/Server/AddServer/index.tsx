@@ -11,7 +11,7 @@ import InstanceList from './InstanceList';
 import SSHkeys from './SSHkeys';
 import { Cascader,Card } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
-import Networking from './Networking';
+import Networking, { SubnetInfo } from './Networking';
 import { useState,useEffect } from 'react';
 import serverService from '@/service/serverService';
 import DataCenterService from '@/service/dataCenterService';
@@ -21,7 +21,6 @@ import { InsType } from './InstanceList';
 import { CSecOptInfo } from '@/components/Logic/CSecurityGroup/CSecOpt';
 import { KeyInfo } from './SSHkeys';
 import { DiskInfo } from './DiskConfiguration';
-import { SubnetInfo } from './Networking';
 import { createBrowserHistory } from 'history';
 
 import { useNavigate } from 'react-router-dom';
@@ -236,7 +235,7 @@ const AddServer = (): JSX.Element => {
                 {/* e是级联菜单中被选定的值，是一个列表 */}
                 <Cascader style={{ width: '20%' }} options={insfamilyOptions} placeholder="选择实例类型"
                     onChange={ (e)=>{
-                        if(e[1]){changeInsFamily(e[1]);}
+                        if(e[1] ){changeInsFamily(e[1] as string);}
                     }} changeOnSelect/>
                 {/* 在获取到insType的值后，渲染列表 */}
                 <InstanceList insTypes={insTypes} changeselectefIns={ changeselectedIns}/>

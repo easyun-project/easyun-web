@@ -12,7 +12,10 @@ import { useDispatch } from 'react-redux';
 export default function DataCenterCard(props:DataCenterInfo) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { dcName,vpcID,vpcCidr,dcRegion } = props;
+    const { dcName,vpcCidr,dcRegion,vpcID } = props;
+    const handleClick = ()=>{
+        dispatch(updateCurrentDc(props));
+    };
     const menu = (
         <Menu>
             <Menu.Item key="resource" onClick={()=>{
@@ -20,7 +23,10 @@ export default function DataCenterCard(props:DataCenterInfo) {
                 navigate('/resource');}}>
           Resource
             </Menu.Item>
-            <Menu.Item key="manage" onClick={()=>navigate('/datacenter')}>
+            <Menu.Item key="manage" onClick={()=>{
+                handleClick();
+                navigate('/datacenter');
+            }}>
           Manage
             </Menu.Item>
             <Menu.Item
@@ -33,9 +39,7 @@ export default function DataCenterCard(props:DataCenterInfo) {
             </Menu.Item>
         </Menu>
     );
-    const handleClick = ()=>{
-        dispatch(updateCurrentDc(props));
-    };
+
     return (
         <div
             className={classnames(
@@ -54,7 +58,7 @@ export default function DataCenterCard(props:DataCenterInfo) {
                     className={classnames('w-12', 'h-12')}
                 /> */}
                 <Icon icon="ic:round-cloud-circle" color="#e9862e" width="60" />
-                <div className={classnames('ml-2','flex-grow')} >
+                <div className='grow ml-2' >
                     <a href='/resource' className={classnames('text-blue-600','text-lg')} onClick={handleClick}>{dcName}</a>
                     <div className={classnames('text-xs', 'text-gray-500')}>{vpcID}</div>
                 </div>

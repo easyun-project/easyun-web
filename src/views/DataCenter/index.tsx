@@ -6,7 +6,7 @@ import { Routes, useNavigate } from 'react-router-dom';
 
 //UI 相关
 import { Menu } from 'antd';
-import { classnames } from '@@/tailwindcss-classnames';
+// import { classnames } from '@@/tailwindcss-classnames';
 
 //数据模型
 // import { ServerModel } from '@/constant/server';
@@ -33,7 +33,7 @@ export const DataCenter = (): JSX.Element => {
     return (
         <>
             <div>
-                <div className={classnames('m-3')}>
+                <div className='m-3'>
                     <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" >
                         <Menu.Item key="overview">Overview</Menu.Item>
                         <Menu.Item key="network">Network</Menu.Item>
