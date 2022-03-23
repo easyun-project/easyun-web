@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import DataCenterService, { DatacenterParams } from '@/service/dataCenterService';
-import { DataCenterModel, DefaultDataCenterModel } from '@/constant/dataCenter';
-import { DataCenterInfo, SecurityGroupInfoSimple } from '@/constant/dataCenter';
+import { DataCenterModel, DefaultDataCenterModel,DataCenterInfo, SecurityGroupInfoSimple,EipInfo } from '@/constant/dataCenter';
 
 const updateDefaultDataCenter = 'dataCenter/updateDefaultDataCenterAction';
 
@@ -34,6 +33,13 @@ export const getDataCenterSecgroup = createAsyncThunk(
     }
 );
 
+export const getDataCenterEip = createAsyncThunk(
+    'dataCenter/getDataCenterEip',
+    async (params: DatacenterParams) => {
+        return await DataCenterService.getEipInfo(params);
+    }
+);
+
 export interface DataCenterState {
     loading: boolean,
     dataCenter: DataCenterModel | undefined,
@@ -42,6 +48,7 @@ export interface DataCenterState {
         {
             basicInfo: DataCenterInfo | undefined,
             secgroup: SecurityGroupInfoSimple[] | undefined
+            eip: EipInfo[] | undefined
         }
 }
 
@@ -51,7 +58,8 @@ const initialState: DataCenterState = {
     defaultDataCenter: undefined,
     currentDc: {
         basicInfo: undefined,
-        secgroup: undefined
+        secgroup: undefined,
+        eip: undefined
     }
 };
 
@@ -84,6 +92,16 @@ export const dataCenterSlice = createSlice({
         });
         builder.addCase(getDataCenterSecgroup.fulfilled, (state: DataCenterState, action) => {
             state.currentDc.secgroup = action.payload;
+        });
+        builder.addCase(getDataCenterEip.pending, (state: DataCenterState) => {
+            state.loading = true;
+        });
+        builder.addCase(getDataCenterEip.fulfilled, (state: DataCenterState, action) => {
+            state.loading = false;
+            state.currentDc.eip = action.payload;
+        });
+        builder.addCase(getDataCenterEip.rejected, (state: DataCenterState) => {
+            state.loading = false;
         });
     }
 });

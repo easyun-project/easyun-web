@@ -1,10 +1,14 @@
 // eslint-disable-next-line no-undef
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const colors = require('tailwindcss/colors');
 module.exports = {
     content: ['./src/**/*.{tsx,ts}'],
-    darkMode: 'media', // or 'media' or 'class'
+    // darkMode: 'media', // or 'media' or 'class'
     theme: {
         extend: {
             colors: {
+                green: colors.emerald,
+                purple: colors.violet,
                 yellow: {
                     650: '#f5922f',
                     550: '#dd6b10',

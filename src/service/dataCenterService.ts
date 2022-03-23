@@ -171,12 +171,12 @@ export default class DataCenterService {
     }
 
     /**
-     * 获取eip基础信息
+     * 获取eip详细信息
      */
-    static async getEipInfo(dc:string):Promise<EipInfo[]>{
+    static async getEipInfo(params:{dc:string}):Promise<EipInfo[]>{
         const url = getHost() + DcmStaticip;
         const result = await axios.get(url,{
-            params:{ dc },
+            params,
             headers: getHeader()
         });
         return result.data.detail;

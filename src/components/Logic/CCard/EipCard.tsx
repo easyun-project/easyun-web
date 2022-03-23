@@ -42,7 +42,7 @@ export default function EipCard(props:EipInfo) {
         >
             <div className={classnames('flex', 'flex-row', 'mb-2')}>
                 <Icon icon="iconoir:ip-address" color="#e9862e" width="60"fr={undefined}/>
-                <div className={classnames('ml-2','flex-grow')} >
+                <div className='grow ml-2' >
                     <Link to='/datacenter/network/detail' state={{ pubIp }} className={classnames('text-blue-600','text-lg')}>{tagName}</Link>
                     <div className={classnames('text-xs', 'text-gray-500')}>{alloId}</div>
                 </div>
@@ -66,10 +66,10 @@ export default function EipCard(props:EipInfo) {
                     'mx-2'
                 )}
             >
-                {assoTarget.tagName
+                {assoTarget.eniType
                     ? <div className={classnames('text-xs', 'text-gray-500')}>
                         Attached to
-                        {assoTarget.tagName !== 'Nat Gateway'
+                        {assoTarget.eniType !== 'nat_gateway'
                             ? <Link to={'/resource/server/' + assoTarget.svrId} className={classnames('text-blue-600','ml-1')}>{assoTarget.tagName}</Link>
                             : <span className={classnames('ml-1')}>{assoTarget.tagName}</span>}
                     </div>

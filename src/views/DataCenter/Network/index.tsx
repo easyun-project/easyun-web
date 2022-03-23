@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import EipCard from '@/components/Logic/CCard/EipCard';
-import DataCenterService from '@/service/dataCenterService';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
 import { useNavigate } from 'react-router-dom';
-import { EipInfo } from '@/constant/dataCenter';
 import { CPartialLoading } from '@/components/Common/CPartialLoading';
 import { Menu, Dropdown } from 'antd';
 import { classnames } from 'tailwindcss-classnames';
 import { DownOutlined } from '@ant-design/icons';
+//redux相关
+import { getDataCenterEip } from '@/redux/dataCenterSlice';
+import { useDispatch,useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 
 
 
 export default function Network() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [eipInfos, changeEipInfos] = useState<'loading'|EipInfo[]>('loading');
-
+    // const [eipInfos, changeEipInfos] = useState<'loading'|EipInfo[]>('loading');
+    const eipInfos = useSelector((state:RootState)=>state.dataCenter.currentDc.eip);
+    const loading = useSelector((state:RootState)=>state.dataCenter.loading);
     const dc = useSelector((state:RootState)=>state.dataCenter.currentDc.basicInfo?.dcName);
     const [sortBy,changeSortBy] = useState('Name');
     const menu = (
@@ -35,8 +37,9 @@ export default function Network() {
 
     }
     useEffect(()=>{
-        if(dc) DataCenterService.getEipInfo( dc ).then(res=>changeEipInfos(res));
-        // else navigate('/home');
+        // if(dc) DataCenterService.getEipInfo( { dc } ).then(res=>changeEipInfos(res));
+        if(dc) dispatch(getDataCenterEip({ dc }));
+        else navigate('/home');
     },[]);
 
     return (
@@ -52,7 +55,7 @@ export default function Network() {
 
                 <button className={classnames('btn-yellow')} onClick={()=>navigate('/datacenter/add')}> create new datacenter</button>
             </div>
-            {eipInfos === 'loading'
+            {loading || !eipInfos
                 ? <CPartialLoading classes={classnames('h-96')}/>
                 : (eipInfos.length !== 0
                     ? <div className={classnames('grid','2xl:grid-cols-3','lg:grid-cols-2','gap-4','justify-items-center','items-center','mt-4')}>
