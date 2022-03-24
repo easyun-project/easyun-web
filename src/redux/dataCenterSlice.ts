@@ -34,6 +34,13 @@ export const getDataCenterSecgroup = createAsyncThunk(
     }
 );
 
+export const deleteDataCenter = createAsyncThunk(
+    'dataCenter/deleteDataCenter',
+    async (dcName: string) => {
+        return await DataCenterService.deleteDataCenter(dcName);
+    }
+);
+
 export interface DataCenterState {
     loading: boolean,
     dataCenter: DataCenterModel | undefined,

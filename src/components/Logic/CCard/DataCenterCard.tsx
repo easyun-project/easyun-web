@@ -4,7 +4,7 @@ import { Menu, Dropdown } from 'antd';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { DataCenterInfo } from '@/constant/dataCenter';
-import { updateCurrentDc } from '@/redux/dataCenterSlice';
+import { deleteDataCenter, updateCurrentDc } from '@/redux/dataCenterSlice';
 import { useDispatch } from 'react-redux';
 // import { getServerList } from '@/redux/serverSlice';
 // import { getDataCenterSecgroup } from '@/redux/dataCenterSlice';
@@ -32,7 +32,10 @@ export default function DataCenterCard(props:DataCenterInfo) {
             <Menu.Item
                 danger
                 key="delete"
-                onClick={() => console.log('click delete')
+                onClick={() => {
+                    dispatch(deleteDataCenter(dcName));
+                    navigate('/home');
+                }
                 }
             >
         Delete
