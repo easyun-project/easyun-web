@@ -14,21 +14,32 @@ import {
     DataCenterModel,
     DefaultDataCenterModel,
     EipInfoSimple,
-    DataCenterInfo, SecurityGroup, DataCenterSubnetInfo,EipInfo,SubnetInfo,SecurityGroupDetail,SecurityGroupInfoSimple
+    DataCenterInfo,
+    SecurityGroup,
+    EipInfo,
+    SubnetInfo,
+    SecurityGroupDetail,
+    SecurityGroupInfoSimple,
+    Subnet
 } from '@/constant/dataCenter';
 
 // 创建数据中心需要的参数
 export interface CreateDataCenterParams {
-    keypair?: string,
-    private_subnet_1: DataCenterSubnetInfo,
-    private_subnet_2: DataCenterSubnetInfo,
-    public_subnet_1: DataCenterSubnetInfo,
-    public_subnet_2: DataCenterSubnetInfo,
-    region: string,
-    sg0: SecurityGroup,
-    sg1: SecurityGroup,
-    sg2: SecurityGroup,
     dcName: string
+    dcRegion: string,
+    dcVPC: DcVPC;
+    keypair?: string,
+    priSubnet1: Subnet,
+    priSubnet2: Subnet,
+    pubSubnet1: Subnet,
+    pubSubnet2: Subnet,
+    securityGroup0: SecurityGroup,
+    securityGroup1: SecurityGroup,
+    securityGroup2: SecurityGroup,
+}
+
+interface DcVPC {
+    cidrBlock: string;
 }
 
 export interface DatacenterParams {
@@ -134,6 +145,7 @@ export default class DataCenterService {
         });
         return result.data.detail;
     }
+
     /**
      * 获取secgroup安全组,概要信息
      */
@@ -173,10 +185,22 @@ export default class DataCenterService {
     /**
      * 获取eip基础信息
      */
-    static async getEipInfo(dc:string):Promise<EipInfo[]>{
+    static async getEipInfo(dc: string): Promise<EipInfo[]> {
         const url = getHost() + DcmStaticip;
-        const result = await axios.get(url,{
-            params:{ dc },
+        const result = await axios.get(url, {
+            params: { dc },
+            headers: getHeader()
+        });
+        return result.data.detail;
+    }
+
+    /**
+     * 获取eip基础信息
+     */
+    static async deleteDataCenter(dcName: string): Promise<EipInfo[]> {
+        const url = getHost() + DataCenterPath;
+        const result = await axios.delete(url, {
+            data: { dcName },
             headers: getHeader()
         });
         return result.data.detail;

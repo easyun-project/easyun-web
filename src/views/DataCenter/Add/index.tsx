@@ -10,7 +10,7 @@ import dataCenterService, { CreateDataCenterParams } from '@/service/dataCenterS
 import { message } from 'antd';
 import { RootState } from '@/redux/store';
 import { getDefaultDataCenter } from '@/redux/dataCenterSlice';
-import { DataCenterSubnetInfo, SecurityGroup } from '@/constant/dataCenter';
+import { SecurityGroup, Subnet } from '@/constant/dataCenter';
 
 
 const AddDataCenter = (): JSX.Element => {
@@ -22,29 +22,33 @@ const AddDataCenter = (): JSX.Element => {
 
     const [inputDcName, setInputDcName] = useState('');
     const [cidr, setCidr] = useState('');
-    const [pubSubnet1, setPubSubnet1] = useState<DataCenterSubnetInfo>({
-        cidr: '',
-        az: '',
-        gw: '',
-        rtb: '',
+    const [pubSubnet1, setPubSubnet1] = useState<Subnet>({
+        cidrBlock: '',
+        azName: '',
+        gwName: '',
+        routeTable: '',
+        tagName: '',
     });
-    const [pubSubnet2, setPubSubnet2] = useState<DataCenterSubnetInfo>({
-        cidr: '',
-        az: '',
-        gw: '',
-        rtb: '',
+    const [pubSubnet2, setPubSubnet2] = useState<Subnet>({
+        cidrBlock: '',
+        azName: '',
+        gwName: '',
+        routeTable: '',
+        tagName: '',
     });
-    const [priSubnet1, setPriSubnet1] = useState<DataCenterSubnetInfo>({
-        cidr: '',
-        az: '',
-        gw: '',
-        rtb: '',
+    const [priSubnet1, setPriSubnet1] = useState<Subnet>({
+        cidrBlock: '',
+        azName: '',
+        gwName: '',
+        routeTable: '',
+        tagName: '',
     });
-    const [priSubnet2, setPriSubnet2] = useState<DataCenterSubnetInfo>({
-        cidr: '',
-        az: '',
-        gw: '',
-        rtb: '',
+    const [priSubnet2, setPriSubnet2] = useState<Subnet>({
+        cidrBlock: '',
+        azName: '',
+        gwName: '',
+        routeTable: '',
+        tagName: '',
     });
 
     const [sg0, setSg0] = useState<SecurityGroup>({
@@ -74,14 +78,31 @@ const AddDataCenter = (): JSX.Element => {
         return state.dataCenter;
     });
     const data = dataCenterState.defaultDataCenter;
-
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getDefaultDataCenter());
+        if (data) {
+            setInputDcName(data.dcParms.dcName);
+            setCidr(data.dcParms.dcVPC.cidrBlock);
+            setPubSubnet1(data.dcParms.pubSubnet1);
+            setPubSubnet2(data.dcParms.pubSubnet1);
+            setPriSubnet1(data.dcParms.priSubnet1);
+            setPriSubnet2(data.dcParms.priSubnet2);
+            setSg0(data.dcParms.securityGroup0);
+            setSg1(data.dcParms.securityGroup1);
+            setSg2(data.dcParms.securityGroup2);
+            // setSSHKey(data.dcParms);
+        }
     }, [dispatch]);
 
     // 创建数据中心
     const createDateCenter = async (params: CreateDataCenterParams) => {
+        if (params.dcName === '') {
+            message.error('数据中心名称不能为空');
+            return;
+        }
+        console.log(params);
+
         if (userState) {
             const created = await dataCenterService.createDataCenter(params);
             if (created) {
@@ -140,7 +161,7 @@ const AddDataCenter = (): JSX.Element => {
                 classes={classnames('w-96', 'inline-block')}/>
 
 
-            <div className={classnames('ml-5', 'mt-10','font-bold')}>Easyun DataCenter Security Group</div>
+            <div className={classnames('ml-5', 'mt-10', 'font-bold')}>Easyun DataCenter Security Group</div>
             <CSecurityGroup sg={data?.dcParms.securityGroup0} classes={classnames('mx-5', 'w-64', 'inline-block')}/>
             <CSecurityGroup sg={data?.dcParms.securityGroup1} classes={classnames('mx-5', 'w-64', 'inline-block')}/>
             <CSecurityGroup sg={data?.dcParms.securityGroup2} classes={classnames('mx-5', 'w-64', 'inline-block')}/>
@@ -155,15 +176,18 @@ const AddDataCenter = (): JSX.Element => {
                 <CButton click={() => {
                     const params: CreateDataCenterParams = {
                         dcName: inputDcName,
-                        region: data?.dcParms.dcRegion ?? '',
-                        private_subnet_1: priSubnet1,
-                        private_subnet_2: priSubnet2,
-                        public_subnet_1: pubSubnet1,
-                        public_subnet_2: pubSubnet2,
-                        sg0: sg0,
-                        sg1: sg1,
-                        sg2: sg2,
-                        keypair: sshKey
+                        dcRegion: data?.dcParms.dcRegion ?? '',
+                        dcVPC: {
+                            cidrBlock: cidr ?? '',
+                        },
+                        priSubnet1: priSubnet1,
+                        priSubnet2: priSubnet2,
+                        pubSubnet1: pubSubnet1,
+                        pubSubnet2: pubSubnet2,
+                        securityGroup0: sg0,
+                        securityGroup1: sg1,
+                        securityGroup2: sg2,
+                        // keypair: sshKey
                     };
                     createDateCenter(params);
                 }} classes={classnames('bg-yellow-550', 'text-white', 'rounded-2xl', 'w-32', 'px-5')}>Create</CButton>
