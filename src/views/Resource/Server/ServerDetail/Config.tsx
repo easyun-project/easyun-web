@@ -261,7 +261,7 @@ export default function Config() {
             <div><span className={classnames('mx-2')}>instance type</span>
                 <Cascader style={{ width: '15%' }} options={insfamilyOptions} placeholder="选择实例类型"
                     onChange={ (e)=>{
-                        if(e[1]){changeInsFamily(e[1]);}
+                        if(e[1]){changeInsFamily(e[1] as string);}
                     }} changeOnSelect/>
             </div>
             {insTypes === 'loading'

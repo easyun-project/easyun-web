@@ -4,28 +4,32 @@ import { Menu, Dropdown } from 'antd';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { DataCenterInfo } from '@/constant/dataCenter';
-import { deleteDataCenter, updateCurrentDc } from '@/redux/dataCenterSlice';
+import { deleteDataCenter, updateCurrentDc,getDataCenterEip } from '@/redux/dataCenterSlice';
 import { useDispatch } from 'react-redux';
-// import { getServerList } from '@/redux/serverSlice';
-// import { getDataCenterSecgroup } from '@/redux/dataCenterSlice';
+import { getServerList } from '@/redux/serverSlice';
+import { getDataCenterSecgroup } from '@/redux/dataCenterSlice';
 
 export default function DataCenterCard(props:DataCenterInfo) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { dcName,vpcCidr,dcRegion,vpcID } = props;
-    const handleClick = ()=>{
+    // this function is used to initialize a datacenter
+    // use async to make sure the requests are not lost
+    const initDc = async ()=>{
         dispatch(updateCurrentDc(props));
+        dispatch(getServerList());
+        dispatch(getDataCenterSecgroup({ dc:dcName }));
+        dispatch(getDataCenterEip({ dc:dcName }));
     };
     const menu = (
         <Menu>
             <Menu.Item key="resource" onClick={()=>{
-                dispatch(updateCurrentDc(props));
-                navigate('/resource');}}>
+                initDc().then(()=>navigate('/resource'));
+            }}>
           Resource
             </Menu.Item>
             <Menu.Item key="manage" onClick={()=>{
-                handleClick();
-                navigate('/datacenter');
+                initDc().then(()=>navigate('/datacenter'));
             }}>
           Manage
             </Menu.Item>
@@ -62,7 +66,7 @@ export default function DataCenterCard(props:DataCenterInfo) {
                 /> */}
                 <Icon icon="ic:round-cloud-circle" color="#e9862e" width="60" />
                 <div className='grow ml-2' >
-                    <a href='/resource' className={classnames('text-blue-600','text-lg')} onClick={handleClick}>{dcName}</a>
+                    <a className={classnames('text-blue-600','text-lg')} onClick={()=>{initDc().then(()=>navigate('/resource'));}}>{dcName}</a>
                     <div className={classnames('text-xs', 'text-gray-500')}>{vpcID}</div>
                 </div>
                 <Dropdown overlay={menu}>

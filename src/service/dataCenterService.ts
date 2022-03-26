@@ -46,6 +46,12 @@ export interface DatacenterParams {
     dc: string
 }
 
+interface DeleteEipParams{
+  alloId: string
+  dcName: string
+  pubIp: string
+}
+
 
 export default class DataCenterService {
 
@@ -171,6 +177,19 @@ export default class DataCenterService {
     }
 
     /**
+     * delete an eip
+     */
+    static async deleteEip(params: DeleteEipParams): Promise<Record<'msg', string>> {
+        const url = getHost() + DcmStaticip;
+        const result = await axios.delete(url,  {
+            data : params,
+            headers: getHeader()
+        });
+        return result.data.detail;
+
+    }
+
+    /**
      * 获取eip基础信息
      */
     static async listEipInfo(dc: string): Promise<EipInfoSimple[]> {
@@ -183,19 +202,19 @@ export default class DataCenterService {
     }
 
     /**
-     * 获取eip基础信息
+     * 获取eip详细信息
      */
-    static async getEipInfo(dc: string): Promise<EipInfo[]> {
+    static async getEipInfo(params:{dc:string}):Promise<EipInfo[]>{
         const url = getHost() + DcmStaticip;
-        const result = await axios.get(url, {
-            params: { dc },
-            headers: getHeader()
+        const result = await axios.get(url,{
+            params,
         });
         return result.data.detail;
     }
 
+
     /**
-     * 获取eip基础信息
+     * 删除datacenter
      */
     static async deleteDataCenter(dcName: string): Promise<EipInfo[]> {
         const url = getHost() + DataCenterPath;
@@ -205,5 +224,4 @@ export default class DataCenterService {
         });
         return result.data.detail;
     }
-
 }
