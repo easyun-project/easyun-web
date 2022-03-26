@@ -19,6 +19,9 @@ import Gateway from './Gateway';
 import Overview from './Overview';
 import EipDetail from './Network/EipDetail';
 import NotFound from '../NotFound';
+import Subnet from './Subnet';
+import SubnetDetail from './Subnet/SubnetDetail';
+import AddSubnet from './Subnet/AddSubnet';
 
 
 export const DataCenter = (): JSX.Element => {
@@ -49,6 +52,9 @@ export const DataCenter = (): JSX.Element => {
                         <Route path="network" element={<Network />} />
                         <Route path="network/detail"  element={<EipDetail />} />
                         <Route path="gateway" element={<Gateway />} />
+                        <Route path="subnet" element={<Subnet />} />
+                        <Route path="subnet/add"  element={<AddSubnet />} />
+                        <Route path="subnet/:subnetId"  element={<SubnetDetail />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes >
                 </div>

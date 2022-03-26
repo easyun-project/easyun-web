@@ -7,7 +7,7 @@ import { DataCenterInfo } from '@/constant/dataCenter';
 import { deleteDataCenter, updateCurrentDc,getDataCenterEip } from '@/redux/dataCenterSlice';
 import { useDispatch } from 'react-redux';
 import { getServerList } from '@/redux/serverSlice';
-import { getDataCenterSecgroup } from '@/redux/dataCenterSlice';
+import { getDataCenterSecgroup,getDataCenterSubnet } from '@/redux/dataCenterSlice';
 
 export default function DataCenterCard(props:DataCenterInfo) {
     const dispatch = useDispatch();
@@ -20,6 +20,7 @@ export default function DataCenterCard(props:DataCenterInfo) {
         dispatch(getServerList());
         dispatch(getDataCenterSecgroup({ dc:dcName }));
         dispatch(getDataCenterEip({ dc:dcName }));
+        dispatch(getDataCenterSubnet({ dc:dcName }));
     };
     const menu = (
         <Menu>
