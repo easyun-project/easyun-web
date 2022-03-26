@@ -80,14 +80,6 @@ vpcCidr: string
 vpcID: string
 }
 
-export interface DataCenterSubnetInfo {
-    cidr: string;
-    az: string;
-    gw: string;
-    rtb: string;
-}
-
-
 export interface SecurityGroup {
     enablePing: boolean;
     enableRDP: boolean;

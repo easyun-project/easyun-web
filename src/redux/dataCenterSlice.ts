@@ -36,7 +36,12 @@ export const getDataCenterSecgroup = createAsyncThunk(
 export const getDataCenterEip = createAsyncThunk(
     'dataCenter/getDataCenterEip',
     async (params: DatacenterParams) => {
-        return await DataCenterService.getEipInfo(params);
+        return await DataCenterService.getEipInfo(params);});
+
+export const deleteDataCenter = createAsyncThunk(
+    'dataCenter/deleteDataCenter',
+    async (dcName: string) => {
+        return await DataCenterService.deleteDataCenter(dcName);
     }
 );
 
