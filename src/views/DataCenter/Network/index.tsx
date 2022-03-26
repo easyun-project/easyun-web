@@ -9,6 +9,9 @@ import { DownOutlined } from '@ant-design/icons';
 import { getDataCenterEip } from '@/redux/dataCenterSlice';
 import { useDispatch,useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import DataCenterService from '@/service/dataCenterService';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Icon } from '@iconify/react';
 
 
 
@@ -19,7 +22,8 @@ export default function Network() {
     // const [eipInfos, changeEipInfos] = useState<'loading'|EipInfo[]>('loading');
     const eipInfos = useSelector((state:RootState)=>state.dataCenter.currentDc.eip);
     const loading = useSelector((state:RootState)=>state.dataCenter.loading);
-    const dc = useSelector((state:RootState)=>state.dataCenter.currentDc.basicInfo?.dcName);
+    const dc = useSelector((state:RootState)=>state.dataCenter.currentDc.basicInfo!.dcName);
+    const [creating,changeCreating] = useState(false);
     const [sortBy,changeSortBy] = useState('Name');
     const menu = (
         <Menu onClick={e=>{changeSortBy(e.key);}}>
@@ -37,9 +41,7 @@ export default function Network() {
 
     }
     useEffect(()=>{
-        // if(dc) DataCenterService.getEipInfo( { dc } ).then(res=>changeEipInfos(res));
-        if(dc) dispatch(getDataCenterEip({ dc }));
-        else navigate('/home');
+        if(!dc) navigate('/home');
     },[]);
 
     return (
@@ -53,7 +55,19 @@ export default function Network() {
                     </Dropdown>
                 </div>
 
-                <button className={classnames('btn-yellow')} onClick={()=>navigate('/datacenter/add')}> create new datacenter</button>
+                <button className='flex items-center btn-yellow' onClick={()=>{
+                    changeCreating(true);
+                    DataCenterService.createEip('Easyun').then(
+                        ()=>{
+                            dispatch(getDataCenterEip({ dc }));
+                            changeCreating(false);}
+                    );}}> {creating
+                        ? <LoadingOutlined className={classnames('align-middle','mr-2')}/>
+                        : <Icon icon="carbon:add"
+                            className='mx-1'
+                            width="15"
+                            height="15"
+                            inline={true} />}create new datacenter</button>
             </div>
             {loading || !eipInfos
                 ? <CPartialLoading classes={classnames('h-96')}/>

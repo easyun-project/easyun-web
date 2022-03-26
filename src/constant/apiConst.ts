@@ -21,7 +21,7 @@ export const DcmNatGW = '/api/v1/datacenter/natgw';
 // Server 服务器 常量名以Server开头
 export const ServerPath = '/api/v1/server';
 export const ServerList = '/api/v1/server';
-export const ServerDetail = '/api/v1/server/detail/';
+export const ServerDetail = '/api/v1/server/detail';
 export const ServerImages = '/api/v1/server/param/image';
 export const ServerInstypes = '/api/v1/server/param/instype';
 export const ServerInsfamily = '/api/v1/server/param/insfamily';

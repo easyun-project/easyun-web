@@ -283,7 +283,7 @@ const AddServer = (): JSX.Element => {
                                 alert('创建失败');},
                         );
                     }
-                    }> {creating ? <LoadingOutlined className={classnames('align-middle')} /> : undefined} Create</button>
+                    }> {creating ? <LoadingOutlined className='align-middle' /> : undefined} Create</button>
                 </div>
             </div>
         </div>

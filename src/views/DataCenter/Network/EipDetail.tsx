@@ -7,61 +7,176 @@ import serverService from '@/service/serverService';
 import { useNavigate } from 'react-router-dom';
 import { SeverDetailModel } from '@/constant/server';
 import ServerCard from '@/components/Logic/CCard/ServerCard';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Select,Skeleton } from 'antd';
+import { useDispatch } from 'react-redux';
+import { getDataCenterEip } from '@/redux/dataCenterSlice';
+import DataCenterService from '@/service/dataCenterService';
+// import { WarningOutlined, InfoCircleOutlined } from '@ant-design/icons';
 
 export default function EipDetail() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     //结构赋值的连续性写法
     const { state:{ pubIp } }  = useLocation() as {state:{pubIp:string}};
     const eipInfos = useSelector((state:RootState)=>state.dataCenter.currentDc.eip);
-    const thisEip = eipInfos?.filter(item=>item.pubIp === pubIp)[0];
+    const { servers } = useSelector((state:RootState)=>state.server);
+    const dc = useSelector((state:RootState)=>state.dataCenter.currentDc.basicInfo!.dcName);
     const [attachedSvr,changeAttachedSvr] = useState<SeverDetailModel>();
+    const [loading,changeLoading] = useState(false);
+    const [attaching,changeAttaching] = useState(false);
+    const [detaching,changeDetaching] = useState(false);
+    const [selectedSvr, changeSelectedSvr] = useState('');
+
+    const { Option } = Select;
+    const thisEip = eipInfos?.filter(item=>item.pubIp === pubIp)[0];
+
 
     useEffect(() => {
         if(!thisEip) navigate(-1);
-        else if(thisEip.assoTarget.svrId) serverService.getServerDetail(
-            { serverId:thisEip.assoTarget.svrId }
-        ).then(
-            res =>changeAttachedSvr(res)
-        );
+        else if(thisEip.assoTarget.svrId) {
+            serverService.getServerDetail(
+                { serverId:thisEip.assoTarget.svrId }
+            ).then(
+                res =>{changeAttachedSvr(res);}
+            );}
     }, []);
 
+    useEffect(() => {if(selectedSvr !== ''){
+        changeLoading(true);
+        serverService.getServerDetail(
+            { serverId:selectedSvr }
+        ).then(
+            res =>{
+                changeAttachedSvr(res);
+                changeLoading(false);
+            },
+            ()=>changeLoading(false)
+        );
+    }
+    }, [selectedSvr]);
+
     return (
-        <>
-            <div className='flex'>
-                <Icon icon="iconoir:ip-address" color="#e9862e" width="60"fr={undefined}/>
-                <div className='grow'>
-                    <div className='flex  border-b-2 border-dashed'>
-                        <div className='grow'>
-                            <div>{thisEip?.tagName}</div>
-                            <div>static IP, Not attached</div>
-                            <div>{thisEip?.eipDomain}</div>
-                        </div>
-                        <div>
-                            <button className="btn-red"> Release EIP</button>
-                            {/* <div>Static Ip:<span className='font-bold'>{pubIp}</span></div> */}
+        <div className='flex m-4'>
+            <Icon className='mr-8' icon="iconoir:ip-address" color="#e9862e" width="100"fr={undefined}/>
+            <div className='grow'>
+                {/* static information */}
+                <div className='flex  border-b-2 border-dashed'>
+                    <div className='grow'>
+                        <div className='text-2xl'>{thisEip?.tagName}</div>
+                        <div className='my-2 text-xs text-gray-500'>
+                            {thisEip?.assoTarget.eniType
+                                ? <div>
+                                    Attached to
+                                    <span className='ml-1'>{thisEip?.assoTarget.tagName}</span>
+                                </div>
+                                : <div className='text-xs text-red-500'>Not Attached</div>
+                            }
+                            <div>{thisEip?.boarderGroup}</div>
                         </div>
                     </div>
-                    <div>
-                        <div>This static IP is avaliable for public connection worldwide.</div>
-                        <div className='mt-5 text-xl font-bold'>{pubIp}</div>
-                        <div>Attach to an instance</div>
-                        <div>Attaching a static IP replaces that instance&apos;s dynamic IP address. </div>
-                        <div>
-                            {attachedSvr
-                                ? <ServerCard {...attachedSvr}>
-                                    <div>hello</div>
-                                    <div>chillren</div>
-                                </ServerCard>
-                                : thisEip?.assoTarget.eniType === 'nat_gateway'
-                                    ? 'nat_gateway'
-                                    : 'not attached'}
+                    <div className='self-center'>
+                        <button className="w-32 btn-red" onClick={()=>{
+                            if(confirm('Are you sure to release this Eip?'))
+                            {DataCenterService.deleteEip({
+                                alloId: thisEip!.alloId,
+                                dcName: dc,
+                                pubIp
+                            }).then(()=>navigate(-1));}
+                        }}> Release EIP</button>
+                    </div>
+                </div>
+                <div>
+                    {thisEip?.assoTarget.eniType
+                        ? <div className='flex items-center p-1 pr-10 my-2 w-max bg-amber-100 rounded-border'>
+                            <Icon icon="charm:info" className='mx-2 text-xl text-blue-600' inline={true} />
+                            <span className='font-semibold'>Static IP address are free only while attached to a Cloud Server</span>
                         </div>
+                        : <div className='flex items-center p-1 pr-10 my-2 w-max bg-amber-100 border-yellow-550 rounded-border'>
+                            <Icon icon="ant-design:warning-outlined" inline={true} className='mx-2 text-xl text-red-600'/>
+                            <span>
+                                <div className='font-semibold'>This static IP is not attached.</div>
+                                <div className='text-gray-500'>You&apos;ll be charged until you attach this static IP to a cloud server.</div>
+                            </span>
+                        </div>}
+                    <div className='my-5'>
+                        <div>This static IP is avaliable for public connection worldwide.</div>
+                        <div className='text-2xl font-bold'>{pubIp}</div>
+                    </div>
+
+
+
+                    {/* main functional area */}
+                    <div>
+                        {thisEip?.assoTarget.eniType === 'interface'
+                        // already attached to a server
+                            ? <>
+                                <div className='text-xl font-semibold'>Detach from an instance</div>
+                                {!attachedSvr
+                                    ? <Skeleton active/>
+                                    : <ServerCard {...attachedSvr}>
+                                        <button className='flex items-center self-start text-yellow-550' onClick={() => {
+                                            changeDetaching(true);
+                                            serverService.bindServerEip({
+                                                action: 'detach',
+                                                publicIp: pubIp,
+                                                svrId: attachedSvr.svrProperty.instanceId,
+                                            }).then(()=>{
+                                                return dispatch(getDataCenterEip({ dc }));
+                                            }).then(()=>changeDetaching(false));
+                                        }}>
+                                            {detaching
+                                                ? <LoadingOutlined className='mx-1'/>
+                                                : <Icon fr={undefined}
+                                                    icon="clarity:times-line"
+                                                    className='mx-1'
+                                                    width="24" height="24"
+                                                />}
+                                            <span>Dispatch</span>
+                                        </button>
+                                    </ServerCard>}
+                            </>
+
+
+                            : <>
+                                <div className='text-xl font-semibold'>Attach to an instance</div>
+                                <div>Attaching a static IP replaces that instance&apos;s dynamic IP address. </div>
+                                {thisEip?.assoTarget.eniType === 'nat_gateway'
+                                // attached to a nat_gateway
+                                    ? 'nat_gateway'
+                                // not attached to a nat_gateway or a server
+                                    : <div>
+                                        <Select placeholder="Select a cloud server..." className='mb-4 w-96' onChange={value=>changeSelectedSvr(value)} loading={loading}>
+                                            {servers.filter(server=>!server.pubIp).map(server=><Option key={server.svrId} value={server.svrId} >{server.tagName} : {server.svrId}</Option>)}
+                                        </Select>
+                                        {attachedSvr && selectedSvr
+                                            ? <ServerCard {...attachedSvr} active>
+                                                <button className='flex items-center self-start text-green-700' onClick={() => {
+                                                    changeAttaching(true);
+                                                    serverService.bindServerEip({
+                                                        action: 'attach',
+                                                        publicIp: pubIp,
+                                                        svrId: selectedSvr,
+                                                    }).then(()=>{
+                                                        return dispatch(getDataCenterEip({ dc }));
+                                                    }).then(()=>changeAttaching(false)); }}>
+                                                    {attaching
+                                                        ? <LoadingOutlined className='mx-1'/>
+                                                        : <Icon fr={undefined}
+                                                            icon="icons8:checked"
+                                                            className='mx-1'
+                                                            width="24" height="24"
+                                                        />}
+                                                    <span>Attach</span>
+                                                </button>
+                                            </ServerCard>
+                                            : undefined}
+                                    </div>}
+                            </>
+                        }
                     </div>
                 </div>
             </div>
-
-        </>
-
-
+        </div>
     );
 }

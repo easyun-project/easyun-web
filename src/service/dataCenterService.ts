@@ -35,6 +35,12 @@ export interface DatacenterParams {
     dc: string
 }
 
+interface DeleteEipParams{
+  alloId: string
+  dcName: string
+  pubIp: string
+}
+
 
 export default class DataCenterService {
 
@@ -152,6 +158,19 @@ export default class DataCenterService {
     static async createEip(dcName: string): Promise<Record<'msg', string>> {
         const url = getHost() + DcmStaticip;
         const result = await axios.post(url, { dcName }, {
+            headers: getHeader()
+        });
+        return result.data.detail;
+
+    }
+
+    /**
+     * delete an eip
+     */
+    static async deleteEip(params: DeleteEipParams): Promise<Record<'msg', string>> {
+        const url = getHost() + DcmStaticip;
+        const result = await axios.delete(url,  {
+            data : params,
             headers: getHeader()
         });
         return result.data.detail;

@@ -2,6 +2,7 @@ import React from 'react';
 
 import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
+import { LoadingOutlined } from '@ant-design/icons';
 
 export default function icons() {
     return <div>
@@ -32,6 +33,22 @@ export default function icons() {
             width="24" height="24"
             color='#dd6b10'
             onClick={() => console.log('delete') }/>
+        加载图标
+        <LoadingOutlined />
+        取消图标
+        <Icon fr={undefined}
+            icon="icons8:cancel"
+            className={classnames('mx-1', 'cursor-pointer')}
+            width="24" height="24"
+            color='red'
+        />
+        确认图标
+        <Icon fr={undefined}
+            icon="icons8:checked"
+            className={classnames('mx-1','cursor-pointer')}
+            width="24" height="24"
+            color="green"
 
+        />
     </div>;
 }
