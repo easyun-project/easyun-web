@@ -1,5 +1,5 @@
 import { classnames } from '@@/tailwindcss-classnames';
-import { Select } from 'antd';
+import { Select, Spin } from 'antd';
 import { DashCard } from '@/components/DashboardCommon/DashCard';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
@@ -74,10 +74,14 @@ export const DashboardDetail = (props): JSX.Element => {
         dashboards: []
     });
     const [graphicalData, setGraphicalData] = useState();
-    const [tabListData, setTabListData] = useState();
+    const [inventoryData, setInventoryData] = useState();
     // tabs切换，true-Graphical面板,false-list面板
     const [isShowGraphical, setIsShowGraphical] = useState<boolean>(true);
     const [dcName, setDcName] = useState<string>(propDcName);
+    const [dataCenterLoading, setDataCenterLoading] = useState(true);
+    const [healthLoading, setHealthLoading] = useState(true);
+    const [graphicalLoading, setGraphicalLoading] = useState(true);
+    const [inventoryLoading, setInventoryLoading] = useState(true);
 
     useEffect(() => {
         if (dcName) {
@@ -110,9 +114,11 @@ export const DashboardDetail = (props): JSX.Element => {
      */
     const getDatacenter = () => {
         const temp = { ...tableList };
+        setDataCenterLoading(true);
         dashboard.getDatacenter({ dcName }).then(res => {
             temp['dataCenter']['data']['dataSource'] = res;
             setTableList(temp);
+            setDataCenterLoading(false);
         });
     };
 
@@ -120,16 +126,20 @@ export const DashboardDetail = (props): JSX.Element => {
      * 获取首行数据 Health
      */
     const getHealth = () => {
+        setHealthLoading(true);
         dashboard.getHealth({ dcName }).then(res => {
             setHealth(res);
+            setHealthLoading(false);
         });
     };
     /**
      * 获取Graphical面板
      */
     const getGraphical = () => {
+        setGraphicalLoading(true);
         dashboard.getGraphical({ dcName }).then(res => {
             setGraphicalData(res);
+            setGraphicalLoading(false);
         });
     };
 
@@ -137,8 +147,10 @@ export const DashboardDetail = (props): JSX.Element => {
      * 获取list面板数据
      */
     const getInventory = () => {
+        setInventoryLoading(true);
         dashboard.getInventory({ dcName }).then(res => {
-            setTabListData(res);
+            setInventoryData(res);
+            setInventoryLoading(false);
         });
     };
 
@@ -159,9 +171,13 @@ export const DashboardDetail = (props): JSX.Element => {
                 <DictListSelect propDcName={dcName} onChangeClick={changeDictName}/>
             </div>
             <div className={classnames('grid', 'grid-cols-2', 'gap-4')}>
-                <DashCard height={'h-60'} cardTitle={tableList['dataCenter']['cardTitle']}
-                    content={tableView('dataCenter')}/>
-                <DashboardsHealthCard health={health}/>
+                <Spin spinning={dataCenterLoading}>
+                    <DashCard height={'h-60'} cardTitle={tableList['dataCenter']['cardTitle']}
+                        content={tableView('dataCenter')}/>
+                </Spin>
+                <Spin spinning={healthLoading}>
+                    <DashboardsHealthCard health={health}/>
+                </Spin>
             </div>
             <div className={classnames('flex', 'justify-end')}>
                 <div
@@ -178,9 +194,13 @@ export const DashboardDetail = (props): JSX.Element => {
             </div>
             {
                 isShowGraphical ?
-                    <DashboardsTabGraphical listData={graphicalData}/>
+                    <Spin spinning={graphicalLoading}>
+                        <DashboardsTabGraphical listData={graphicalData}/>
+                    </Spin>
                     :
-                    <DashboardsTabList listData={tabListData}/>
+                    <Spin spinning={inventoryLoading}>
+                        <DashboardsTabList listData={inventoryData}/>
+                    </Spin>
             }
         </div>
     );

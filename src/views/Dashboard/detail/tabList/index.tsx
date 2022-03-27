@@ -7,6 +7,7 @@ import { Icon } from '@iconify/react';
 import FlagUtil from '@/utils/flagUtil';
 import TimeUtil from '@/utils/time';
 import dashboard from '@/service/dashboard';
+import { Table } from 'antd';
 
 export const DashboardsTabList = (props): JSX.Element => {
     const { listData } = props;
@@ -461,6 +462,9 @@ export const DashboardsTabList = (props): JSX.Element => {
                     <DashCard key={item} cardTitle={tableList[item]['cardTitle']}
                         content={tableView(item)}/>
                 ))
+            }
+            {
+                !listShow && <Table/>
             }
         </div>
     );
