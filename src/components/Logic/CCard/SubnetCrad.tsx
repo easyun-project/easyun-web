@@ -26,8 +26,8 @@ export default function SubnetCrad(props:SubnetInfo) {
             : 'flex flex-col p-2 w-96 bg-amber-50 rounded-border'}>
             <div className='flex m-1 mb-2 '>
                 {subnetType === 'public'
-                    ? <Icon icon="gis:globe-alt-o" width="50" inline={true} />
-                    : <Icon icon="teenyicons:lock-circle-outline" width="50" inline={true} />}
+                    ? <Icon icon="gis:globe-alt-o" width="50" color='#686868' inline={true} />
+                    : <Icon icon="teenyicons:lock-circle-outline" width="50" color='#686868' inline={true} />}
                 <div className='grow ml-2'>
                     <Link to={subnetId}  className='text-lg text-blue-600'>{tagName}</Link>
                     <div className='mt-1 text-xs text-gray-500'>{subnetId}</div>

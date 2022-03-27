@@ -208,6 +208,7 @@ export default class DataCenterService {
         const url = getHost() + DcmStaticip;
         const result = await axios.get(url,{
             params,
+            headers: getHeader()
         });
         return result.data.detail;
     }

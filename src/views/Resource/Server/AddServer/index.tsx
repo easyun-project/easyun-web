@@ -21,8 +21,6 @@ import { InsType } from './InstanceList';
 import { CSecOptInfo } from '@/components/Logic/CSecurityGroup/CSecOpt';
 import { KeyInfo } from './SSHkeys';
 import { DiskInfo } from './DiskConfiguration';
-import { createBrowserHistory } from 'history';
-
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
@@ -47,7 +45,6 @@ const AddServer = (): JSX.Element => {
     const dc = useSelector((state: RootState) => {
         return state.dataCenter.currentDc.basicInfo!.dcName;
     });
-    const history = createBrowserHistory();
     const navigate = useNavigate();
     const [creating, changeCreating] = useState(false);
     //server tag and name
@@ -260,7 +257,7 @@ const AddServer = (): JSX.Element => {
 
             <div id="create-buttons">
                 <div>
-                    <button className={classnames('btn-gray','w-32','m-5')} onClick={()=>history.back()}>Back</button>
+                    <button className={classnames('btn-gray','w-32','m-5')} onClick={()=>navigate(-1)}>Back</button>
                     <button className={classnames('btn-yellow','w-32','m-5')} onClick={()=>{
                         changeCreating(true);
                         serverService.addServer({
@@ -270,7 +267,7 @@ const AddServer = (): JSX.Element => {
                             'KeyName': selectedKey,
                             'SecurityGroupIds': slectedSecgroups,
                             'SubnetId': selectedSubnet,
-                            'dcName': 'Easyun',
+                            'dcName': dc,
                             'svrNumber':svrNumber,
                             'tagName': tagName
                         }).then(
