@@ -6,10 +6,15 @@ import { useNavigate,Link } from 'react-router-dom';
 import { updateCurrentDc } from '@/redux/dataCenterSlice';
 import { useDispatch } from 'react-redux';
 import { EipInfo } from '@/constant/dataCenter';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import DataCenterService from '@/service/dataCenterService';
+import { getDataCenterEip } from '@/redux/dataCenterSlice';
 
 export default function EipCard(props:EipInfo) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const dc = useSelector((state:RootState)=>state.dataCenter.currentDc.basicInfo!.dcName);
     const { tagName,pubIp,assoTarget,boarderGroup,alloId } = props;
     const menu = (
         <Menu>
@@ -21,7 +26,13 @@ export default function EipCard(props:EipInfo) {
             <Menu.Item
                 danger
                 key="delete"
-                onClick={() => console.log('click delete')
+                onClick={() =>{DataCenterService.deleteEip({
+                    alloId,
+                    dcName: dc,
+                    pubIp
+                }).then(
+                    ()=>dispatch(getDataCenterEip({ dc })),
+                    err=>alert(err));}
                 }
             >
         Delete
@@ -42,8 +53,8 @@ export default function EipCard(props:EipInfo) {
         >
             <div className={classnames('flex', 'flex-row', 'mb-2')}>
                 <Icon icon="iconoir:ip-address" color="#e9862e" width="60"fr={undefined}/>
-                <div className={classnames('ml-2','flex-grow')} >
-                    <Link to='/datacenter/network/detail' state={{ pubIp }} className={classnames('text-blue-600','text-lg')}>{tagName}</Link>
+                <div className='grow ml-2' >
+                    <Link to='detail' state={{ pubIp }} className={classnames('text-blue-600','text-lg')}>{tagName}</Link>
                     <div className={classnames('text-xs', 'text-gray-500')}>{alloId}</div>
                 </div>
                 <Dropdown overlay={menu}>
@@ -66,10 +77,10 @@ export default function EipCard(props:EipInfo) {
                     'mx-2'
                 )}
             >
-                {assoTarget.tagName
+                {assoTarget.eniType
                     ? <div className={classnames('text-xs', 'text-gray-500')}>
                         Attached to
-                        {assoTarget.tagName !== 'Nat Gateway'
+                        {assoTarget.eniType !== 'nat_gateway'
                             ? <Link to={'/resource/server/' + assoTarget.svrId} className={classnames('text-blue-600','ml-1')}>{assoTarget.tagName}</Link>
                             : <span className={classnames('ml-1')}>{assoTarget.tagName}</span>}
                     </div>

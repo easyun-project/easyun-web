@@ -90,15 +90,12 @@ export default class serverService {
     /**
      * 获取server detail
      */
-    static async getServerDetail(params: ServerDetailParams): Promise<SeverDetailModel | undefined> {
-        const url = getHost() + ServerDetail + params.serverId;
+    static async getServerDetail(params: ServerDetailParams): Promise<SeverDetailModel> {
+        const url = getHost() + ServerDetail + '/' + params.serverId;
         const result = await axios.get(url, {
             headers: getHeader()
         });
-        if (result.status == 200) {
-            return result.data.detail as SeverDetailModel;
-        }
-        return undefined;
+        return result.data.detail as SeverDetailModel;
     }
 
     /**

@@ -3,7 +3,6 @@ import { useEffect,useState } from 'react';
 import { NoResource } from '@/views/Resource';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { getServerList } from '@/redux/serverSlice';
 import { classnames } from '@@/tailwindcss-classnames';
 import { CPartialLoading } from '@/components/Common/CPartialLoading';
 import { CButton } from '@/components/Common/CButton';
@@ -13,7 +12,7 @@ import { DownOutlined } from '@ant-design/icons';
 import serverService from '@/service/serverService';
 // import { ServerModel } from '@/constant/server';
 import { LoadingOutlined } from '@ant-design/icons';
-
+import { getServerList } from '@/redux/serverSlice';
 import { getDataCenterSecgroup } from '@/redux/dataCenterSlice';
 
 export const serverColumns = [
@@ -129,8 +128,8 @@ export const ServerList = ():JSX.Element => {
 
     useEffect(() => {
         if(dc){
-            dispatch(getServerList());
-            dispatch(getDataCenterSecgroup({ dc }));
+            // dispatch(getServerList());
+            // dispatch(getDataCenterSecgroup({ dc }));
         }
         else{navigate('/home');}
     }, []);
