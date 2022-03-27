@@ -1,7 +1,5 @@
 import {
     DataCenterPath,
-    DataCenterAdd,
-    DataCenterAll,
     DataCenterDefault,
     DcmSubnet,
     DcmSecgroup,
@@ -11,40 +9,23 @@ import {
 import axios from 'axios';
 import { getHeader, getHost } from '@/utils/api';
 import {
-    DataCenterModel,
     DefaultDataCenterModel,
+    DataCenterParms,  
     EipInfoSimple,
-    DataCenterInfo,
-    SecurityGroup,
+    DataCenterModel,
+    DataCenterDetail,
     EipInfo,
     SubnetInfo,
     SecurityGroupDetail,
     SecurityGroupInfoSimple,
-    Subnet
 } from '@/constant/dataCenter';
 
-// 创建数据中心需要的参数
-export interface CreateDataCenterParams {
-    dcName: string
-    dcRegion: string,
-    dcVPC: DcVPC;
-    keypair?: string,
-    priSubnet1: Subnet,
-    priSubnet2: Subnet,
-    pubSubnet1: Subnet,
-    pubSubnet2: Subnet,
-    securityGroup0: SecurityGroup,
-    securityGroup1: SecurityGroup,
-    securityGroup2: SecurityGroup,
-}
 
-interface DcVPC {
-    cidrBlock: string;
-}
 
-export interface DatacenterParams {
+export interface DcNameQueryParm {
     dc: string
 }
+
 
 interface DeleteEipParams{
   alloId: string
@@ -56,9 +37,9 @@ interface DeleteEipParams{
 export default class DataCenterService {
 
     /**
-     * 获取所有daterCenter的信息
+     * 获取所有daterCenter列表
      */
-    static async getDataCenterInfo(): Promise<DataCenterInfo[]> {
+    static async getDataCenterAll(): Promise<DataCenterModel[]> {
         const url = getHost() + DataCenterPath;
         const result = await axios.get(url, {
             headers: getHeader()
@@ -72,7 +53,7 @@ export default class DataCenterService {
      * PS：dashboard中需要通过此接口获取dc列表
      */
     static async getDataCenterList() {
-        const url = getHost() + DataCenterList;
+        const url = getHost() + DataCenterPath + '/list';
         const result = await axios.get(url, {
             headers: getHeader()
         });
@@ -84,9 +65,9 @@ export default class DataCenterService {
 
 
     /**
-     * 获取数据中心默认参数
+     * 获取创建数据中心默认参数
      */
-    static async getDefault(dcName = 'xiaomo'): Promise<DefaultDataCenterModel | undefined> {
+    static async getDefaultDcParms(dcName = 'easyun'): Promise<DefaultDataCenterModel | undefined> {
         const url = getHost() + DataCenterDefault;
         const result = await axios.get(url + `?dc=${dcName}`, {
             headers: getHeader()
@@ -102,8 +83,8 @@ export default class DataCenterService {
      * @param token
      * @param params
      */
-    static async createDataCenter(params: CreateDataCenterParams): Promise<boolean> {
-        const url = getHost() + DataCenterAdd;
+    static async createDataCenter(params: DataCenterParms): Promise<boolean> {
+        const url = getHost() + DataCenterPath;
         const result = await axios.post(url, params, {
             headers: getHeader()
         });
@@ -113,17 +94,17 @@ export default class DataCenterService {
         return false;
     }
 
-
-    /**
-     * 获取dataCenter
+    /*
+     * 获取指定数据中心(VPC)相关信息( for overview page)
      */
-    static async getDataCenter(): Promise<DataCenterModel | undefined> {
-        const url = getHost() + DataCenterAll;
+    static async getDataCenter(params: DcNameQueryParm): Promise<DataCenterDetail | undefined> {
+        const url = getHost() + DataCenterPath + '/detail';
         const result = await axios.get(url, {
+            params,
             headers: getHeader()
         });
         if (result.status == 200) {
-            return result.data.detail as DataCenterModel;
+            return result.data.detail as DataCenterDetail;
         }
         return undefined;
     }
@@ -131,7 +112,7 @@ export default class DataCenterService {
     /**
      * 获取subnet
      */
-    static async getSubnet(params: DatacenterParams): Promise<SubnetInfo[]> {
+    static async getSubnet(params: DcNameQueryParm): Promise<SubnetInfo[]> {
         const url = getHost() + DcmSubnet;
         const result = await axios.get(url, {
             params,
@@ -143,7 +124,7 @@ export default class DataCenterService {
     /**
      * 获取secgroup安全组,详细信息
      */
-    static async getSecgroup(params: DatacenterParams): Promise<SecurityGroupDetail[]> {
+    static async getSecgroup(params: DcNameQueryParm): Promise<SecurityGroupDetail[]> {
         const url = getHost() + DcmSecgroup;
         const result = await axios.get(url, {
             params,
@@ -155,7 +136,7 @@ export default class DataCenterService {
     /**
      * 获取secgroup安全组,概要信息
      */
-    static async listSecgroup(params: DatacenterParams): Promise<SecurityGroupInfoSimple[]> {
+    static async listSecgroup(params: DcNameQueryParm): Promise<SecurityGroupInfoSimple[]> {
         const url = getHost() + DcmSecgroup + '/list';
         const result = await axios.get(url, {
             params,

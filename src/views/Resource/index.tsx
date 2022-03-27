@@ -1,21 +1,21 @@
-//react 相关
+// react related
 import * as React from 'react';
 import { useState } from 'react';
 import { Route } from 'react-router';
 import { Routes, useNavigate } from 'react-router-dom';
-
-//redux相关
-// import { useSelector } from 'react-redux';
-// import { RootState } from '@/redux/store';
-//UI 相关
+// redux related
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+// UI contents
 import { Menu, Table } from 'antd';
 import { classnames } from '@@/tailwindcss-classnames';
 // import { CButton } from '@/components/Common/CButton';
 
-//数据模型
+// services and interface/schema
 import { ServerModel } from '@/constant/server';
 
-//视图与组件
+// view and components
+import ResourceOverview from '@/views/Resource/Overview'
 import AddServer from '@/views/Resource/Server/AddServer';
 import AddBucket from '@/views/Resource/Storage/AddBucket';
 import AddDisk from '@/views/Resource/Storage/AddDisk';
@@ -23,7 +23,8 @@ import NotFound from '../NotFound';
 import { ServerList } from '@/views/Resource/Server';
 import { ServerDetail } from '@/views/Resource/Server/ServerDetail';
 import { StoragePage } from '@/views/Resource/Storage';
-import BucketManage from './Storage/BucketManage';
+import BucketManage from '@/views/Resource/Storage/BucketManage';
+import { DatabasePage } from '@/views/Resource/Database';
 
 
 interface NotDataProps {
@@ -33,12 +34,11 @@ interface NotDataProps {
 
 }
 
-
 export const NoResource = (props: NotDataProps): JSX.Element => {
     const navigate = useNavigate();
 
     return (
-        <div className={classnames('m-20', 'flex', 'flex-col', 'items-center', 'h-screen')}>
+        <div className={classnames('m-20', 'flex', 'flex-col', 'items-center')}>
             <div className={classnames('text-3xl', 'm-1')}>you have no {props.resourceName} right now.</div>
             <div className={classnames('text-sm', 'm-1')}>
                 Add a cloud {props.resourceName} and get started with Easyun!
@@ -74,7 +74,7 @@ export const ResourceTable = (props: TableProps): JSX.Element => {
 export const Resource = (): JSX.Element => {
     // const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     // };
-    const [current, changeCurrent] = useState('server');
+    const [current, changeCurrent] = useState('overview');
     const navigate = useNavigate();
     const handleClick = (e) => {
         console.log(e.key);
@@ -86,14 +86,17 @@ export const Resource = (): JSX.Element => {
             <div>
                 <div className={classnames('m-3')}>
                     <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" >
+                        <Menu.Item key="overview">Overview</Menu.Item>
                         <Menu.Item key="server">Server</Menu.Item>
                         <Menu.Item key="storage">Storage</Menu.Item>
-                        <Menu.Item key="databases">Databases</Menu.Item>
-                        <Menu.Item key="networking">Networking</Menu.Item>
-                        <Menu.Item key="containers">Containers</Menu.Item>
-                        <Menu.Item key="backups">Backups</Menu.Item>
+                        <Menu.Item key="database">Database</Menu.Item>
+                        <Menu.Item key="loadbalancer">Load Balancer</Menu.Item>
+                        {/* <Menu.Item key="containers">Containers</Menu.Item> */}
+                        <Menu.Item key="backup">Backup</Menu.Item>
                     </Menu>
                     <Routes>
+                        <Route path="overview" element={<ResourceOverview />} />
+                                            
                         <Route path="server/:serverId" element={<ServerDetail />} />
                         <Route path="server" element={<ServerList />} />
                         <Route path="server/add" element={<AddServer />} />
@@ -103,13 +106,13 @@ export const Resource = (): JSX.Element => {
                         <Route path='storage/object/add' element={<AddBucket />} />
                         <Route path='storage/block/add' element={<AddDisk />} />
 
-                        <Route path="databases" element={<NoResource resourceName={'databases'} buttonName={'Add Databases'}
-                            routePath={'/AddDatabases'} />} />
-                        <Route path="networking" element={<NoResource resourceName={'networking'} buttonName={'Add Networking'}
-                            routePath={'/AddNetworking'} />} />
-                        <Route path="containers" element={<NoResource resourceName={'containers'} buttonName={'Add Container'}
-                            routePath={'/AddContainer'} />} />
-                        <Route path="backups" element={<NoResource resourceName={'backups'} buttonName={'Add Backup'} routePath={'/AddBackup'} />} />
+                        <Route path="database" element={<DatabasePage />} />
+                        {/* <Route path="database/:databaseId" element={<DatabaseDetail />} /> */}
+                        {/* <Route path="database/add" element={<AddDatabase />} />          */}
+                            
+                        <Route path="loadbalancer" element={<NoResource resourceName={'loadbalancer'} buttonName={'Add Load Balancer'} routePath={'/loadbalancer/add'} />} />
+                        {/* <Route path="containers" element={<NoResource resourceName={'containers'} buttonName={'Add Container'} routePath={'/AddContainer'} />} /> */}
+                        <Route path="backup" element={<NoResource resourceName={'backup'} buttonName={'Add Backup'} routePath={'/backup/add'} />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes >
                 </div>

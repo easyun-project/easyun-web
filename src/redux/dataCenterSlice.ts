@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import DataCenterService, { DatacenterParams } from '@/service/dataCenterService';
-import { DataCenterModel, DefaultDataCenterModel,DataCenterInfo, SecurityGroupInfoSimple,EipInfo } from '@/constant/dataCenter';
+import DataCenterService, { DcNameQueryParm } from '@/service/dataCenterService';
+import { DefaultDataCenterModel, DataCenterModel, DataCenterDetail, SecurityGroupInfoSimple,EipInfo } from '@/constant/dataCenter';
 
 const updateDefaultDataCenter = 'dataCenter/updateDefaultDataCenterAction';
 
@@ -14,28 +14,28 @@ export const updateDefaultDataCenterAction = (defaultDataCenter): { payload: Def
 
 export const getDataCenter = createAsyncThunk(
     'dataCenter/getDataCenter',
-    async () => {
-        return await DataCenterService.getDataCenter();
+    async (params: DcNameQueryParm) => {
+        return await DataCenterService.getDataCenter(params);
     }
 );
 
 export const getDefaultDataCenter = createAsyncThunk(
     'dataCenter/getDefaultDataCenter',
     async (dcName?: string) => {
-        return await DataCenterService.getDefault(dcName);
+        return await DataCenterService.getDefaultDcParms(dcName);
     }
 );
 
 export const getDataCenterSecgroup = createAsyncThunk(
     'dataCenter/getDataCenterSecgroup',
-    async (params: DatacenterParams) => {
+    async (params: DcNameQueryParm) => {
         return await DataCenterService.listSecgroup(params);
     }
 );
 
 export const getDataCenterEip = createAsyncThunk(
     'dataCenter/getDataCenterEip',
-    async (params: DatacenterParams) => {
+    async (params: DcNameQueryParm) => {
         return await DataCenterService.getEipInfo(params);});
 
 export const deleteDataCenter = createAsyncThunk(
@@ -47,11 +47,11 @@ export const deleteDataCenter = createAsyncThunk(
 
 export interface DataCenterState {
     loading: boolean,
-    dataCenter: DataCenterModel | undefined,
+    dataCenter: DataCenterDetail | undefined,
     defaultDataCenter: DefaultDataCenterModel | undefined,
     currentDc:
         {
-            basicInfo: DataCenterInfo | undefined,
+            basicInfo: DataCenterModel | undefined,
             secgroup: SecurityGroupInfoSimple[] | undefined
             eip: EipInfo[] | undefined
         }

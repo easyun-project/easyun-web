@@ -6,11 +6,11 @@ interface Props {
 }
 
 export const CFooter = (props: Props): JSX.Element => {
-    const container = classnames('bg-gray-600', 'text-white', 'h-4', 'w-full','flex', 'items-center','justify-center');
+    const container = classnames('bg-gray-600', 'text-white', 'h-10', 'w-full','flex', 'items-center','justify-center');
     const content = classnames('ml-6');
     return (
         <footer className={container}>
-            <span className={content}>Copyright ©️ 2021-2022 Easyun</span>
+            <span className={content}>Copyright ©️ 2021-2022 Easyun Community</span>
         </footer>
     );
 };

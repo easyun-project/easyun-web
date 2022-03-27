@@ -83,7 +83,7 @@ export const CHeader = (): JSX.Element => {
             <span >
                 <Dropdown overlay={menu}>
                     <a   className={classnames('flex','items-baseline')} onClick={e => e.preventDefault()}>
-                        <span className={classnames('text-3xl')}>{getTitle(current)}</span>
+                        <span className={classnames('text-2xl')}>{getTitle(current)}</span>
                         <DownOutlined style={{ fontSize: '20px' }}/>
                     </a>
                 </Dropdown>
@@ -102,16 +102,16 @@ export const CHeader = (): JSX.Element => {
                     className={classnames('cursor-pointer')}
                     icon="fa:heartbeat"
                     color="#9fbe8a"
-                    width="30"
-                    height="30"
+                    width="25"
+                    height="25"
                     fr={undefined}
                 />
                 <Icon
                     className={'mx-3'}
                     icon="radix-icons:divider-vertical"
                     color="#5c6f9a"
-                    width="30"
-                    height="30"
+                    width="25"
+                    height="25"
                     hFlip={true}
                     fr={undefined}
                 />
@@ -123,8 +123,8 @@ export const CHeader = (): JSX.Element => {
                         className={classnames('ml-2', 'inline-block')}
                         icon="ant-design:setting-filled"
                         color="#5c6f9a"
-                        width="30"
-                        height="30"
+                        width="25"
+                        height="25"
                         fr={undefined}
                     />
                     <Icon
@@ -145,8 +145,8 @@ export const CHeader = (): JSX.Element => {
                         className={classnames('ml-2', 'inline-block')}
                         icon="bi:person-fill"
                         color="#5c6f9a"
-                        width="30"
-                        height="30"
+                        width="25"
+                        height="25"
                         fr={undefined}
                     />
                     <Icon
