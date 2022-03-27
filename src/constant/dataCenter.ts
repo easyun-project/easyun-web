@@ -1,20 +1,81 @@
 export interface DefaultDataCenterModel {
-    dcParms: DcParams;
+    dcParms: DataCenterParms;
     dropDown: DcDropDown
 }
 
-interface DcParams {
+export interface DataCenterParms {
     dcName: string;
     dcRegion: string;
-    dcVPC: DcVPC;
-    priSubnet1: Subnet;
-    priSubnet2: Subnet;
-    pubSubnet1: Subnet;
-    pubSubnet2: Subnet;
-    securityGroup0: SecurityGroup;
-    securityGroup1: SecurityGroup;
-    securityGroup2: SecurityGroup;
+    dcVPC: DcVpcParm;
+    priSubnet1: SubnetParms;
+    priSubnet2: SubnetParms;
+    pubSubnet1: SubnetParms;
+    pubSubnet2: SubnetParms;
+    securityGroup0: SecurityGroupParms;
+    securityGroup1: SecurityGroupParms;
+    securityGroup2: SecurityGroupParms;
+    keypair?: string
 }
+
+interface DcVpcParm {
+    cidrBlock: string;
+    cidrBlock6?: string
+}
+
+export interface SubnetParms {
+  azName: string;
+  cidrBlock: string;
+  gwName?: string;
+  routeTable: string;
+  tagName: string;
+}
+
+export interface SecurityGroupParms {
+  enablePing: boolean;
+  enableRDP: boolean;
+  enableSSH: boolean;
+  tagName: string;
+}
+
+interface DcDropDown {
+    azList: string[];
+    gwList: string[];
+    rtbList: string[];
+}
+
+export interface DataCenterModel {
+    createDate: string
+    createUser: string
+    dcAccount: string
+    dcName: string
+    dcRegion: string
+    vpcCidr: string
+    vpcID: string
+}
+
+
+export interface DataCenterDetail {
+    azSummary : AzSummary[]
+    dcBasic : DataCenterModel
+    vpcSummary: VpcSummary
+}
+
+interface AzSummary {
+    azName: string
+    subnetNum : number
+}
+
+interface VpcSummary {
+    aclNum: number
+    eipNum: number
+    igwNum: number
+    natNum: number
+    priNum: number
+    pubNum: number
+    rtbNum: number
+    sgNum: number
+}
+
 
 export interface EipInfo{
       alloId: string
@@ -38,9 +99,7 @@ export interface EipInfo{
 //     ResourceType: string;
 //     Tag: Tag[]}
 
-interface DcVPC {
-    cidrBlock: string;
-}
+
 
 export interface EipInfoSimple {
     alloId: string
@@ -48,49 +107,6 @@ export interface EipInfoSimple {
     isAvailable: boolean
     pubIp: string
     tagName: string
-}
-
-
-export interface DataCenterModel {
-    azs: string[],
-    create_date: string,
-    region_name: string,
-    securitygroup: object[],
-    subnets: Subnet[]
-    vpc_id: string;
-}
-
-export interface Subnet {
-    azName: string;
-    cidrBlock: string;
-    gwName: string;
-    routeTable: string;
-    tagName: string;
-}
-
-
-export interface DataCenterInfo {
-createDate: string
-createUser: string
-dcAccount: string
-dcName: string
-dcRegion: string
-dcUser: string
-vpcCidr: string
-vpcID: string
-}
-
-export interface SecurityGroup {
-    enablePing: boolean;
-    enableRDP: boolean;
-    enableSSH: boolean;
-    tagName: string;
-}
-
-export interface DcDropDown {
-    azList: string[];
-    gwList: string[];
-    rtbList: string[];
 }
 
 export interface SubnetInfo{

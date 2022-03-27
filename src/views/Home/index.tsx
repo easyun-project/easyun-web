@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { classnames } from '@@/tailwindcss-classnames';
 import { useEffect } from 'react';
 import DataCenterService from '@/service/dataCenterService';
-import { DataCenterInfo } from '@/constant/dataCenter';
+import { DataCenterModel } from '@/constant/dataCenter';
 import { CPartialLoading } from '@/components/Common/CPartialLoading';
 import Nodc from './Nodc';
 import DataCenterCard from '@/components/Logic/CCard/DataCenterCard';
@@ -13,10 +13,10 @@ import { DownOutlined } from '@ant-design/icons';
 
 export default function Home():JSX.Element {
     const navigate = useNavigate();
-    const [datacenters,changeDatacenters] = useState<'loading'|DataCenterInfo[]>('loading');
+    const [datacenters,changeDatacenters] = useState<'loading'|DataCenterModel[]>('loading');
     const [sortBy,changeSortBy] = useState('Name');
     useEffect(()=>{
-        DataCenterService.getDataCenterInfo().then(
+        DataCenterService.getDataCenterAll().then(
             res=>changeDatacenters(res)
         );},[]);
 

@@ -6,11 +6,11 @@ import { CButton } from '@/components/Common/CButton';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import dataCenterService, { CreateDataCenterParams } from '@/service/dataCenterService';
+import dataCenterService from '@/service/dataCenterService';
 import { message } from 'antd';
 import { RootState } from '@/redux/store';
 import { getDefaultDataCenter } from '@/redux/dataCenterSlice';
-import { SecurityGroup, Subnet } from '@/constant/dataCenter';
+import { DataCenterParms, SecurityGroupParms, SubnetParms } from '@/constant/dataCenter';
 
 
 const AddDataCenter = (): JSX.Element => {
@@ -22,28 +22,28 @@ const AddDataCenter = (): JSX.Element => {
 
     const [inputDcName, setInputDcName] = useState('');
     const [cidr, setCidr] = useState('');
-    const [pubSubnet1, setPubSubnet1] = useState<Subnet>({
+    const [pubSubnet1, setPubSubnet1] = useState<SubnetParms>({
         cidrBlock: '',
         azName: '',
         gwName: '',
         routeTable: '',
         tagName: '',
     });
-    const [pubSubnet2, setPubSubnet2] = useState<Subnet>({
+    const [pubSubnet2, setPubSubnet2] = useState<SubnetParms>({
         cidrBlock: '',
         azName: '',
         gwName: '',
         routeTable: '',
         tagName: '',
     });
-    const [priSubnet1, setPriSubnet1] = useState<Subnet>({
+    const [priSubnet1, setPriSubnet1] = useState<SubnetParms>({
         cidrBlock: '',
         azName: '',
         gwName: '',
         routeTable: '',
         tagName: '',
     });
-    const [priSubnet2, setPriSubnet2] = useState<Subnet>({
+    const [priSubnet2, setPriSubnet2] = useState<SubnetParms>({
         cidrBlock: '',
         azName: '',
         gwName: '',
@@ -51,21 +51,21 @@ const AddDataCenter = (): JSX.Element => {
         tagName: '',
     });
 
-    const [sg0, setSg0] = useState<SecurityGroup>({
+    const [sg0, setSg0] = useState<SecurityGroupParms>({
         enablePing: false,
         enableSSH: false,
         enableRDP: false,
         tagName: '',
     });
 
-    const [sg1, setSg1] = useState<SecurityGroup>({
+    const [sg1, setSg1] = useState<SecurityGroupParms>({
         enablePing: false,
         enableSSH: false,
         enableRDP: false,
         tagName: '',
     });
 
-    const [sg2, setSg2] = useState<SecurityGroup>({
+    const [sg2, setSg2] = useState<SecurityGroupParms>({
         enablePing: false,
         enableSSH: false,
         enableRDP: false,
@@ -96,7 +96,7 @@ const AddDataCenter = (): JSX.Element => {
     }, [dispatch]);
 
     // 创建数据中心
-    const createDateCenter = async (params: CreateDataCenterParams) => {
+    const createDateCenter = async (params: DataCenterParms) => {
         if (params.dcName === '') {
             message.error('数据中心名称不能为空');
             return;
@@ -174,7 +174,7 @@ const AddDataCenter = (): JSX.Element => {
                         width="20" height="20" fr={undefined}/>
                     Back</CButton>
                 <CButton click={() => {
-                    const params: CreateDataCenterParams = {
+                    const params: DataCenterParms = {
                         dcName: inputDcName,
                         dcRegion: data?.dcParms.dcRegion ?? '',
                         dcVPC: {

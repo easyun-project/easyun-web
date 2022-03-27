@@ -23,11 +23,11 @@ export const Dashboard = (props): JSX.Element => {
     };
 
     return (
-        <div className={classnames('min-h-screen', 'p-3')}>
+        <div className={classnames('p-3')}>
             {
                 detailShow
                     ? <DashboardDetail propDcName={dcName}/>
-                    : <div className={classnames('m-20', 'flex', 'flex-col', 'items-center', 'h-screen')}>
+                    : <div className={classnames('m-20', 'flex', 'flex-col', 'items-center')}>
                         <div className={classnames('text-3xl', 'm-1')}>You have not selected a data center</div>
                         <div className={classnames('text-sm', 'm-1', 'space-x-2')}>
                             <span>Please select the data center you want to view</span>

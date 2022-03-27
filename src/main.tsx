@@ -30,7 +30,7 @@ import { classnames } from '@@/tailwindcss-classnames';
 const AppRouter = (): JSX.Element => {
     return (<div className={classnames('min-h-screen','flex','flex-col')}>
         <CHeader />
-        <div className={classnames('flex-grow')}>
+        <div className='grow'>
             <Routes>
                 <Route path="datacenter/*" element={<DataCenter />} />
                 <Route path="datacenter" element={<Navigate to="/datacenter/overview" />} />
@@ -40,7 +40,7 @@ const AppRouter = (): JSX.Element => {
                 <Route path="account" element={<Navigate to="/account/profile" />} />
                 <Route path="event/*" element={<Event />} />
                 <Route path="resource/*" element={<Resource />} />
-                <Route path="resource" element={<Navigate to="/resource/server" />} />
+                <Route path="resource" element={<Navigate to="/resource/overview" />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </div>
