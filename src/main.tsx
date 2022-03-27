@@ -40,7 +40,7 @@ const AppRouter = (): JSX.Element => {
                 <Route path="account" element={<Navigate to="/account/profile" />} />
                 <Route path="event/*" element={<Event />} />
                 <Route path="resource/*" element={<Resource />} />
-                <Route path="resource" element={<Navigate to="/resource/server" />} />
+                <Route path="resource" element={<Navigate to="/resource/overview" />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </div>

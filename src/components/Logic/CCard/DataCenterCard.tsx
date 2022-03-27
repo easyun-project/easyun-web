@@ -3,13 +3,13 @@ import { classnames } from '@@/tailwindcss-classnames';
 import { Menu, Dropdown } from 'antd';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
-import { DataCenterInfo } from '@/constant/dataCenter';
+import { DataCenterModel } from '@/constant/dataCenter';
 import { deleteDataCenter, updateCurrentDc,getDataCenterEip } from '@/redux/dataCenterSlice';
 import { useDispatch } from 'react-redux';
 import { getServerList } from '@/redux/serverSlice';
 import { getDataCenterSecgroup,getDataCenterSubnet } from '@/redux/dataCenterSlice';
 
-export default function DataCenterCard(props:DataCenterInfo) {
+export default function DataCenterCard(props:DataCenterModel) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { dcName,vpcCidr,dcRegion,vpcID } = props;
@@ -24,16 +24,18 @@ export default function DataCenterCard(props:DataCenterInfo) {
     };
     const menu = (
         <Menu>
-            <Menu.Item key="resource" onClick={()=>{
-                initDc().then(()=>navigate('/resource'));
-            }}>
-          Resource
-            </Menu.Item>
             <Menu.Item key="manage" onClick={()=>{
                 initDc().then(()=>navigate('/datacenter'));
             }}>
           Manage
             </Menu.Item>
+            
+            <Menu.Item key="resource" onClick={()=>{
+                initDc().then(()=>navigate('/resource'));
+            }}>
+          Resource
+            </Menu.Item>
+
             <Menu.Item
                 danger
                 key="delete"
