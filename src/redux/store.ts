@@ -4,9 +4,23 @@ import appStore from '@/redux/appSlice';
 import dataCenterStore from '@/redux/dataCenterSlice';
 import serverStore from '@/redux/serverSlice';
 import storageStore from '@/redux/storageSlice';
-import storageSession from 'redux-persist/lib/storage/session';
 import { persistReducer, persistStore } from 'redux-persist';
+import { getStoredState, REHYDRATE } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+// import hardSet from 'redux-persist/lib/stateReconciler/hardSet';
+// import sessionStorage from 'redux-persist/es/storage/session';
 
+export function crossBrowserListener(store, persistConfig) {
+    return async function() {
+        const state = await getStoredState(persistConfig);
+
+        store.dispatch({
+            type: REHYDRATE,
+            key: persistConfig.key,
+            payload: state,
+        });
+    };
+}
 
 const reducer = {
     user: userStore,
@@ -18,9 +32,9 @@ const reducer = {
 
 const storageConfig = {
     key: 'easyun', // 必须有的
-    storage: storageSession, // 缓存机制
+    storage, // 缓存机制
+    // stateReconciler: hardSet
 };
-
 const persistedReducer = persistReducer(storageConfig, combineReducers(reducer));
 const store = configureStore({
     reducer: persistedReducer,
@@ -30,5 +44,6 @@ const store = configureStore({
 export const persist = persistStore(store);
 export type RootState = ReturnType<typeof store.getState>
 
+window.addEventListener('storage', crossBrowserListener(store, storageConfig));
 
 export default store;

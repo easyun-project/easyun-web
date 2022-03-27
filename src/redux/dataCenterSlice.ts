@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import DataCenterService, { DcNameQueryParm } from '@/service/dataCenterService';
-import { DefaultDataCenterModel, DataCenterModel, DataCenterDetail, SecurityGroupInfoSimple,EipInfo } from '@/constant/dataCenter';
+import { DefaultDataCenterModel, DataCenterModel, DataCenterDetail, SecurityGroupInfoSimple,EipInfo,SubnetInfo } from '@/constant/dataCenter';
 
 const updateDefaultDataCenter = 'dataCenter/updateDefaultDataCenterAction';
 
@@ -45,6 +45,13 @@ export const deleteDataCenter = createAsyncThunk(
     }
 );
 
+export const getDataCenterSubnet = createAsyncThunk(
+    'dataCenter/getDataCenterSubnet',
+    async (params: {dc:string}) => {
+        return await DataCenterService.getSubnet(params);
+    }
+);
+
 export interface DataCenterState {
     loading: boolean,
     dataCenter: DataCenterDetail | undefined,
@@ -54,6 +61,7 @@ export interface DataCenterState {
             basicInfo: DataCenterModel | undefined,
             secgroup: SecurityGroupInfoSimple[] | undefined
             eip: EipInfo[] | undefined
+            subnet: SubnetInfo[] |undefined
         }
 }
 
@@ -64,7 +72,8 @@ const initialState: DataCenterState = {
     currentDc: {
         basicInfo: undefined,
         secgroup: undefined,
-        eip: undefined
+        eip: undefined,
+        subnet: undefined
     }
 };
 
@@ -106,6 +115,16 @@ export const dataCenterSlice = createSlice({
             state.currentDc.eip = action.payload;
         });
         builder.addCase(getDataCenterEip.rejected, (state: DataCenterState) => {
+            state.loading = false;
+        });
+        builder.addCase(getDataCenterSubnet.pending, (state: DataCenterState) => {
+            state.loading = true;
+        });
+        builder.addCase(getDataCenterSubnet.fulfilled, (state: DataCenterState, action) => {
+            state.loading = false;
+            state.currentDc.subnet = action.payload;
+        });
+        builder.addCase(getDataCenterSubnet.rejected, (state: DataCenterState) => {
             state.loading = false;
         });
     }

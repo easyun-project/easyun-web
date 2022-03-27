@@ -41,16 +41,6 @@ export default function Tags() {
         delete newServerTags[i];
         changeServerTags(newServerTags);
     };
-    // const updateTag = ()=>{
-    //     const tags:Record<'Key'|'Value',string>[] = [];
-    //     for (const key in serverTags){
-    //         tags.push({
-    //             'Key':key,
-    //             'Value':serverTags[key]
-    //         });
-    //     }
-    //     dispatch(updateServerTags(tags));
-    // };
 
     const genTagsArray = () => {
         const tagsArray:JSX.Element[] = [];

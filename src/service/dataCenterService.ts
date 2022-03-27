@@ -4,13 +4,13 @@ import {
     DcmSubnet,
     DcmSecgroup,
     DcmStaticip,
-    DataCenterList
+    // DataCenterList
 } from '@/constant/apiConst';
 import axios from 'axios';
 import { getHeader, getHost } from '@/utils/api';
 import {
     DefaultDataCenterModel,
-    DataCenterParms,  
+    DataCenterParms,
     EipInfoSimple,
     DataCenterModel,
     DataCenterDetail,
@@ -189,6 +189,7 @@ export default class DataCenterService {
         const url = getHost() + DcmStaticip;
         const result = await axios.get(url,{
             params,
+            headers: getHeader()
         });
         return result.data.detail;
     }

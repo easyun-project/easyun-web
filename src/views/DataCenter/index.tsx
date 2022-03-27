@@ -14,10 +14,13 @@ import { classnames } from '@@/tailwindcss-classnames';
 //视图与组件
 import DataCenterOverview from './Overview';
 import AddDataCenter from './Add';
-import Gateway from './Gateway';
+// import Gateway from './Gateway';
 import Network from './Network';
 import EipDetail from './Network/EipDetail';
 import NotFound from '../NotFound';
+import Subnet from './Subnet';
+import SubnetDetail from './Subnet/SubnetDetail';
+import AddSubnet from './Subnet/AddSubnet';
 
 
 interface NotDataProps {
@@ -66,19 +69,21 @@ export const DataCenter = (): JSX.Element => {
                         <Menu.Item key="subnet">Subnet</Menu.Item>
                         <Menu.Item key="security">Security</Menu.Item>
                         <Menu.Item key="gateway">Gateway</Menu.Item>
-                        <Menu.Item key="network">Network</Menu.Item>
+                        <Menu.Item key="staticip">Static IP</Menu.Item>
                         <Menu.Item key="route">Route</Menu.Item>
                     </Menu>
                     <Routes>
                         {/* <Route path="server/:serverId" element={<ServerDetail />} /> */}
                         <Route path="add" element={<AddDataCenter />} />
                         <Route path="overview" element={<DataCenterOverview />} />
-                        <Route path="subnet" element={<NoResource resourceName={'subnet'} buttonName={'Add Subnet'} routePath={'/subnet/add'} />} />
+                        <Route path="subnet" element={<Subnet/>} />
+                        <Route path="subnet/add" element={<AddSubnet/>} />
+                        <Route path="subnet/:subnetId" element={<SubnetDetail/>} />
                         <Route path="route" element={<NoResource resourceName={'route'} buttonName={'Add Route'} routePath={'/route/add'} />} />
                         <Route path="gateway" element={<NoResource resourceName={'gateway'} buttonName={'Add Gageway'} routePath={'/gateway/add'} />} />
                         <Route path="security" element={<NoResource resourceName={'security'} buttonName={'Add SecurityGroup'} routePath={'/security/add'} />} />
-                        <Route path="network" element={<Network />} />
-                        <Route path="network/detail"  element={<EipDetail />} />
+                        <Route path="staticip" element={<Network />} />
+                        <Route path="staticip/detail"  element={<EipDetail />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes >
                 </div>

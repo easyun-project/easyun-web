@@ -14,8 +14,6 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
 
 
-
-
 export default function Network() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
