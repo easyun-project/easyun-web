@@ -171,11 +171,11 @@ export const DashboardDetail = (props): JSX.Element => {
                 <DictListSelect propDcName={dcName} onChangeClick={changeDictName}/>
             </div>
             <div className={classnames('grid', 'grid-cols-2', 'gap-4')}>
-                <Spin spinning={dataCenterLoading}>
+                <Spin spinning={dataCenterLoading} tip="Loading...">
                     <DashCard height={'h-60'} cardTitle={tableList['dataCenter']['cardTitle']}
                         content={tableView('dataCenter')}/>
                 </Spin>
-                <Spin spinning={healthLoading}>
+                <Spin spinning={healthLoading} tip="Loading...">
                     <DashboardsHealthCard health={health}/>
                 </Spin>
             </div>
@@ -194,11 +194,11 @@ export const DashboardDetail = (props): JSX.Element => {
             </div>
             {
                 isShowGraphical ?
-                    <Spin spinning={graphicalLoading}>
+                    <Spin spinning={graphicalLoading} tip="Loading...">
                         <DashboardsTabGraphical listData={graphicalData}/>
                     </Spin>
                     :
-                    <Spin spinning={inventoryLoading}>
+                    <Spin spinning={inventoryLoading} tip="Loading...">
                         <DashboardsTabList listData={inventoryData}/>
                     </Spin>
             }

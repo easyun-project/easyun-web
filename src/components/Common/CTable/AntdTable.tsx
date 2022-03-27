@@ -27,6 +27,7 @@ export const AntdTable = (props: PropsType): JSX.Element => {
     const { config, data } = props;
     return (
         <Table
+            rowKey={record => JSON.stringify(record)}
             {...data}
             {...config}
         />
