@@ -3,11 +3,9 @@ import { DashCard } from '@/components/DashboardCommon/DashCard';
 import { AntdTable } from '@/components/Common/CTable/AntdTable';
 import { TableType } from '@/views/Dashboard/dashboard';
 import { classnames } from '@@/tailwindcss-classnames';
-import { Icon } from '@iconify/react';
-import FlagUtil from '@/utils/flagUtil';
 import TimeUtil from '@/utils/time';
-import dashboard from '@/service/dashboard';
 import { Table } from 'antd';
+import { Link } from 'react-router-dom';
 
 export const DashboardsTabList = (props): JSX.Element => {
     const { listData } = props;
@@ -27,6 +25,10 @@ export const DashboardsTabList = (props): JSX.Element => {
                         title: 'Server ID',
                         dataIndex: 'svrId',
                         key: 'svrId',
+                        render: (text: string) => {
+                            return <Link to={`/resource/server/${text}`}
+                                className={classnames('text-blue-500', 'underline')}>{text}</Link>;
+                        }
                     },
                     {
                         title: 'Name（tag）',
@@ -189,6 +191,10 @@ export const DashboardsTabList = (props): JSX.Element => {
                         title: 'Bucket Identifier',
                         dataIndex: 'bktId',
                         key: 'bktId',
+                        render: (text: string) => {
+                            return <Link to={`/resource/storage/object/${text}`}
+                                className={classnames('text-blue-500', 'underline')}>{text}</Link>;
+                        }
                     },
                     {
                         title: 'Region',
