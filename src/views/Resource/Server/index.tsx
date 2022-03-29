@@ -4,16 +4,12 @@ import { NoResource } from '@/views/Resource';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { classnames } from '@@/tailwindcss-classnames';
-import { CPartialLoading } from '@/components/Common/CPartialLoading';
-import { CButton } from '@/components/Common/CButton';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, Dropdown, Menu, message,Table } from 'antd';
+import { Button, Dropdown, Menu, Table, Modal, Input } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import serverService from '@/service/serverService';
-// import { ServerModel } from '@/constant/server';
 import { LoadingOutlined } from '@ant-design/icons';
 import { getServerList } from '@/redux/serverSlice';
-import { getDataCenterSecgroup } from '@/redux/dataCenterSlice';
 
 export const serverColumns = [
     {
@@ -92,36 +88,20 @@ export const serverColumns = [
 ];
 
 
-const modifyMenu = () => {
-    const handleMenuClick = (e) => {
-        message.info(`Click on menu item => ${e.key}.`);
-    };
-
-    return (
-        (
-            <Menu onClick={handleMenuClick}>
-                <Menu.Item key="Name(Tag)">
-                    Name(Tag)
-                </Menu.Item>
-                <Menu.Item key="Configuration">
-                    Configuration
-                </Menu.Item>
-            </Menu>
-        ));
-};
 
 export const ServerList = ():JSX.Element => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const serverState = useSelector((state: RootState) => {
-        return state.server;
-    });
+    const serverState = useSelector((state: RootState) =>  state.server);
     const serverDataSource = serverState.servers;
 
 
     const [selectedServers, changeSelectedServers] = useState<React.Key[]>([]);
     const [acting,changeActing] = useState(false);
+    const [isModalVisble,changeIsModalVisble] = useState(false);
+    const [newName, changeNewName] = useState('');
+    const [settingName,changeSettingName] = useState(false);
     const dc = useSelector((state: RootState) => {
         return state.dataCenter.currentDc.basicInfo?.dcName;
     });
@@ -183,13 +163,23 @@ export const ServerList = ():JSX.Element => {
         </Menu>
     );
 
+    const modifyMenu = () => {
 
-    // 如果处于更新中，且是第一次更新（暂时不知道如何实现）
-    if (serverState.loading) {
         return (
-            <CPartialLoading classes={classnames('h-96')}/>
-        );
-    } else if (serverDataSource.length !== 0) {
+            (
+                <Menu>
+                    <Menu.Item key="Name(Tag)" onClick={()=>changeIsModalVisble(true)}>
+                    Name(Tag)
+                    </Menu.Item>
+                    <Menu.Item key="Configuration">
+                    Configuration
+                    </Menu.Item>
+                </Menu>
+            ));
+    };
+
+
+    if (serverDataSource.length !== 0) {
         return (
             <>
                 <div id="operation" className={classnames('my-3', 'float-right')}>
@@ -203,10 +193,36 @@ export const ServerList = ():JSX.Element => {
                             Modify <DownOutlined />
                         </Button>
                     </Dropdown>
+                    <Modal title='hello' visible={isModalVisble}
+                        footer={[
+                            <Button key="back" onClick={()=>changeIsModalVisble(false)}>
+                                Cancel
+                            </Button>,
+                            <Button key="submit" type="primary" loading={settingName} onClick={
+                                ()=>{
+                                    changeSettingName(true);
+                                    serverService.changeServerName({
+                                        svr_name:newName,
+                                        svr_ids:selectedServers as string[]
+                                    }).then(()=>{
+                                        changeSettingName(false);
+                                        changeIsModalVisble(false);
+                                        dispatch(getServerList());
+                                    },
+                                    ()=>changeSettingName(false)
+                                    );}
+                            }>
+                                OK
+                            </Button>,
+                        ]}
+                        onCancel={()=>changeIsModalVisble(false)}
+                    >
+                        <Input placeholder='Please enter server name' onChange={e=>changeNewName(e.target.value)}/>
+                    </Modal>
                     <button onClick={() => navigate('/resource/server/add')}
                         className={classnames('btn-yellow')}>Add Server</button>
                 </div>
-                <Table bordered={true} dataSource={newServerDataSource} columns={serverColumns} rowSelection={{
+                <Table loading={serverState.loading} bordered={true} dataSource={newServerDataSource} columns={serverColumns} rowSelection={{
                     type: 'checkbox',
                     onChange:(selectedRowKeys:React.Key[])=>{
                         changeSelectedServers(selectedRowKeys);
@@ -216,7 +232,6 @@ export const ServerList = ():JSX.Element => {
         );
     } else {
         return (
-
             <NoResource resourceName={'server'} buttonName={'add server'} routePath={'add'}/>
         );
     }

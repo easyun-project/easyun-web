@@ -29,7 +29,6 @@ export default function DataCenterCard(props:DataCenterModel) {
             }}>
           Manage
             </Menu.Item>
-            
             <Menu.Item key="resource" onClick={()=>{
                 initDc().then(()=>navigate('/resource'));
             }}>
@@ -42,8 +41,7 @@ export default function DataCenterCard(props:DataCenterModel) {
                 onClick={() => {
                     dispatch(deleteDataCenter(dcName));
                     navigate('/home');
-                }
-                }
+                }}
             >
         Delete
             </Menu.Item>
@@ -61,7 +59,7 @@ export default function DataCenterCard(props:DataCenterModel) {
                 'p-2'
             )}
         >
-            <div className={classnames('flex', 'flex-row', 'mb-2')}>
+            <div className={classnames('flex', 'mb-2')}>
                 {/* <img
                     src={stbucket}
                     alt="stbucket.png"
@@ -84,7 +82,6 @@ export default function DataCenterCard(props:DataCenterModel) {
             <div
                 className={classnames(
                     'flex',
-                    'flex-row',
                     'justify-between',
                     'border-t-2',
                     'border-gray-300',

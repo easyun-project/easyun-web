@@ -1,5 +1,5 @@
 import { getHeader, getHost } from '@/utils/api';
-import { ServerDetail, ServerList, ServerImages, ServerInstypes, ServerInsfamily, AddServer,ServerAction,SeverEipPath,SeverConfigPath,SeverTagsPath,SeverDiskPath,SeverSecgroupPath } from '@/constant/apiConst';
+import { ServerDetail, ServerImages, ServerInstypes, ServerInsfamily, ServerAction,SeverEipPath,SeverConfigPath,SeverTagsPath,SeverDiskPath,SeverSecgroupPath, ServerPath, SeverName } from '@/constant/apiConst';
 import axios from 'axios';
 import { ServerModel, SeverDetailModel } from '@/constant/server';
 import { amiInfo } from '@/components/Logic/CAmi';
@@ -71,12 +71,16 @@ interface BindServerSecgroupParams{
   secgroupId: string
   svrId: string
 }
+interface ChangeServerNameParams{
+  svr_ids: string[]
+  svr_name: string
+}
 export default class serverService {
     /**
      * 获取server list
      */
     static async getServerList(): Promise<ServerModel[]> {
-        const url = getHost() + ServerList;
+        const url = getHost() + ServerPath;
         const result = await axios.get(url, {
             headers: getHeader(),
             params:{ dc:store.getState().dataCenter.currentDc.basicInfo!.dcName }
@@ -139,7 +143,7 @@ export default class serverService {
      * 创建新server
      */
     static async addServer(data:AddServiceParams): Promise<InsType[]> {
-        const url = getHost() + AddServer;
+        const url = getHost() + ServerPath;
         const result = await axios.post(url, data,{
             headers: getHeader()
         });
@@ -161,7 +165,7 @@ export default class serverService {
      * 删除server
      */
     static async deleteServerState(data): Promise<DeleteServerInfo[]> {
-        const url = getHost() + AddServer;
+        const url = getHost() + ServerPath;
         const result = await axios.delete(url, {
             data,
             headers: getHeader()
@@ -236,6 +240,21 @@ export default class serverService {
      */
     static async bindServerSecgroup(data:BindServerSecgroupParams): Promise<string> {
         const url = getHost() + SeverSecgroupPath;
+        const result = await axios.put(url,data,
+            {
+                headers: getHeader()
+            },
+        );
+        return result.data.detail;
+    }
+    /**
+     * change server name
+     */
+    static async changeServerName(data:ChangeServerNameParams): Promise<{
+      'New_Name': string,
+      'Svr_Id': string
+    }[]> {
+        const url = getHost() + SeverName;
         const result = await axios.put(url,data,
             {
                 headers: getHeader()

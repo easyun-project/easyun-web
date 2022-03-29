@@ -37,6 +37,14 @@ code {
     background-color: #f5922f!important;
 }
 
+.ant-btn-primary {
+    background: #f5922f!important;
+}
+
+svg {
+  vertical-align: middle;
+}
+
 @layer components {
   .btn-blue {
     @apply py-2 px-4 bg-blue-500 text-white font-semibold rounded-3xl shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75;
