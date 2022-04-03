@@ -15,22 +15,16 @@ import { Icon } from '@iconify/react';
 import dataCenterService, { DcNameQueryParm } from '@/service/dataCenterService';
 // view and components
 import { CPartialLoading } from '@/components/Common/CPartialLoading';
+import FlagUtil from '@/utils/flagUtil';
+import TimeUtil from '@/utils/time';
 
 
 
-
-export const DataCenterOverview = ():JSX.Element => {
-    // const navigate = useNavigate();
-    // const userState = useSelector((state: RootState) => {
-    //     return state.user.user;
-    // });
-
-    const params = useParams();
-    const dcName = params.dc;
-    const dataCenterState = useSelector((state: RootState) => {
-        return state.server;
-    });
-    const dataCenter = dataCenterState;
+export default function DataCenterOverview() {
+    const dataCenterState = useSelector((state: RootState) => state.dataCenter);
+    const thisDC = dataCenterState.currentDC.basicInfo
+    const dcName = thisDC!.dcName
+    const dcRegion = thisDC!.dcRegion
 
     const dispatch = useDispatch();
     const [seletedTab, changeSelectedTab] = useState('Detail');
@@ -52,32 +46,43 @@ export const DataCenterOverview = ():JSX.Element => {
                 </Col>
                 <Col span={4}>
                     <div id="dcInfo">
-                        <h1>Easyun Datacenter</h1>
-                        <div>
-                        instance Type : test
-                        </div>
-                        <div>Private Ip: test</div>
-                        <div>Public Ip: test</div>
+                        <h1>{dcName}</h1>
+                        <div>VPC ID: <span>{thisDC?.vpcID}</span></div>
+                        <div>CIDR: <span>{thisDC?.vpcCidr}</span></div>
                     </div>
                 </Col>
                 <Col span={8}>
                 </Col>
                 <Col span={8}>
-                    <div id="operationPanel">
-                        <div className={classnames('my-2')}>
-                        Status:
-                            <span className={classnames(color, 'mx-2')}>datacenter status</span>
-                            {/* {datacenterState.loading ? <LoadingOutlined /> : null} */}
-                        </div>
-
+                    <div className={classnames('my-2')}>                        
+                        Region: <span className={classnames(color, 'mx-2')}>{dcRegion}</span>
+                        <span className={classnames('inline-block', 'pr-1', 'h-4')}>
+                            <Icon className={'ml-5'} icon={FlagUtil.getFlagIcon('USA')}
+                                color="#5c6f9a"
+                                width="25" height="25"
+                                fr={undefined}/>
+                        </span>                        
+                        {/* {datacenterState.loading ? <LoadingOutlined /> : null} */}
                     </div>
                 </Col>
             </Row>
+            <hr />
+            <Row>
+            <Col span={8}>
+            <div id='azSummary'>
+                        Availability Zone:
 
+            </div>
+            </Col>
+            </Row>
+            <Col span={8}></Col>
+            <Row>
+            <div id='vpcSummary'>
+                        Datacenter VPC Resources summary:
+
+            </div>
+            </Row>            
         </div>
     );
 
 };
-
-
-export default DataCenterOverview;

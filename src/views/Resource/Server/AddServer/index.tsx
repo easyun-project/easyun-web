@@ -4,12 +4,11 @@ import { classnames } from '@@/tailwindcss-classnames';
 import CPlatform from '@/components/Logic/CPlatform';
 import { CButton } from '@/components/Common/CButton';
 import CAmis from '@/components/Logic/CAmi';
-// import CSecurityGroup from '@/components/Logic/CSecurityGroup';
 import CSecOpt from '@/components/Logic/CSecurityGroup/CSecOpt';
 import DiskConfigurations from './DiskConfiguration';
 import InstanceList from './InstanceList';
 import SSHkeys from './SSHkeys';
-import { Cascader,Card } from 'antd';
+import { Cascader,Card,Input } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import Networking, { SubnetInfo } from './Networking';
 import { useState,useEffect } from 'react';
@@ -43,7 +42,7 @@ children: {
 
 const AddServer = (): JSX.Element => {
     const dc = useSelector((state: RootState) => {
-        return state.dataCenter.currentDc.basicInfo!.dcName;
+        return state.dataCenter.currentDC.basicInfo!.dcName;
     });
     const navigate = useNavigate();
     const [creating, changeCreating] = useState(false);
@@ -188,13 +187,15 @@ const AddServer = (): JSX.Element => {
             </div>
 
             <Card title="Identify your server" className={classnames('rounded-border','mt-5')}>
-                <input className={classnames('border', 'w-72', 'h-10', 'px-1', 'py-3', 'mx-3')} type="text"
-                    defaultValue={tagName}
-                    onChange={e=>changeTagName(e.target.value)}/>
-                <span className={classnames('text-gray-500')}>x</span>
-                <input min={1} max={99} defaultValue={'1'} maxLength={2}
-                    className={classnames('border', 'w-14', 'py-1', 'px-2', 'h-10', 'mx-3')}
-                    type="number" onChange={e=> changeSvrNumber(parseInt(e.target.value)) }/>
+                <div className='flex items-center'>
+                    <Input className={classnames('w-36')} type="text"
+                        defaultValue={tagName}
+                        onChange={e=>changeTagName(e.target.value)}/>
+                    <span className='text-gray-500'>x</span>
+                    <Input min={1} max={99} defaultValue={1} maxLength={2}
+                        className={classnames('w-20')}
+                        type="number" onChange={e=> changeSvrNumber(parseInt(e.target.value)) }/>
+                </div>
             </Card>
 
             <Card title="Select your server os and arch" className={classnames('rounded-border','mt-5')}>

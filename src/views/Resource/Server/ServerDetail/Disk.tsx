@@ -25,7 +25,7 @@ function ExistDisk(props:DiskProps) {
     const { availablePaths, changeAvaliablePaths } = props;
     const svrId = useSelector((state: RootState) =>state.server.currentServer!.svrProperty.instanceId);
     const [diskInfo, changeDiskInfo] = useState<'loading'|VolumeDetail>('loading');
-    const dcName = useSelector((state: RootState) => state.dataCenter.currentDc.basicInfo!.dcName);
+    const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
     const dispatch = useDispatch();
     useEffect(
         ()=>{
@@ -93,9 +93,9 @@ function ExistDisk(props:DiskProps) {
             <div className={classnames('rounded-border', 'm-2','2xl:w-1/3','lg:w-1/2','md:w-96')}>
                 <div className={classnames('flex','m-2')}>
                     <span><Icon icon={ volumeAttachInfo.diskType === 'system' ? 'icon-park-outline:folder-settings' : 'icon-park-outline:solid-state-disk'} width="64" fr={undefined}/> </span>
-                    <div className={classnames('mx-3', 'flex-grow')}>
+                    <div className='grow mx-3'>
                         <div className={classnames('flex')}>
-                            <span className={classnames('flex-grow','font-bold')}>{ volumeAttachInfo.diskType === 'system' ? 'System Disk' : 'User Disk'}</span>
+                            <span className='grow font-bold'>{ volumeAttachInfo.diskType === 'system' ? 'System Disk' : 'User Disk'}</span>
 
                             { volumeAttachInfo.diskType  === 'system'
                                 ? undefined
@@ -147,8 +147,8 @@ function NewDisk(props:NewDiskProps) {
     const InstanceId = useSelector((state: RootState) => {
         return state.server.currentServer!.svrProperty.instanceId;
     });
-    const dcName = useSelector((state: RootState) => state.dataCenter.currentDc.basicInfo!.dcName);
-    const azName = useSelector((state: RootState) => state.dataCenter.currentDc.basicInfo!.dcRegion);
+    const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
+    const azName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcRegion);
     const instanceName = useSelector((state: RootState) => state.server.currentServer!.svrProperty.instanceName);
     const [diskType, changeDiskType] = useState('standard');
     const [encryption, changeEncryption] = useState(true);
@@ -164,7 +164,7 @@ function NewDisk(props:NewDiskProps) {
             <div className={classnames('active-border','m-2','flex','flex-col','2xl:w-1/3','lg:w-1/2','md:w-96')}>
                 <div className={classnames('flex','m-2')}>
                     <span><Icon icon="icon-park-outline:solid-state-disk" width="64" fr={undefined}/> </span>
-                    <div className={classnames('mx-3','flex-grow')}>
+                    <div className='grow mx-3'>
                         <span >Disk type:</span>
                         <Select className={classnames('w-1/2')} defaultValue={ 'standard' } onChange={value=>changeDiskType(value)} size='small'>
                             {Object.keys(VolumeTypeInfo).map(key=><Option value={key} key={key}>{VolumeTypeInfo[key].typeDesc}</Option>)}
@@ -338,14 +338,24 @@ export default function Disk():JSX.Element {
                             dispatch(getServerDetail({ serverId: svrId }));
                         });
                     }} onCancel={()=>changeIsModalVisible(false)}>
-                        <Radio.Group onChange={(e)=>{changeSeletedDisk(e.target.value);}} value={seletedDisk}>
-                            <Space direction="vertical">
-                                {availableDisks.filter((item)=>item.isAvailable).map((item:VolumeInfoSimple)=>
-                                    <Radio value={item.volumeId} key={item.volumeId} disabled={!item.isAvailable}>
-                                        {item.volumeId}({item.tagName})
-                                    </Radio>)}
-                            </Space>
-                        </Radio.Group>
+                        {
+                            availableDisks.filter((item)=>item.isAvailable).length === 0
+                                ? <div className='flex justify-center'>
+                                    <button onClick={()=>{
+                                        changeIsModalVisible(false);
+                                        changeIsAdding(true);
+                                    }} className='btn-yellow'>No available disks, create a new one</button>
+                                </div>
+                                : <Radio.Group onChange={(e)=>{changeSeletedDisk(e.target.value);}} value={seletedDisk}>
+                                    <Space direction="vertical">
+                                        { availableDisks.filter((item)=>item.isAvailable).map((item:VolumeInfoSimple)=>
+                                            <Radio value={item.volumeId} key={item.volumeId} disabled={!item.isAvailable}>
+                                                {item.volumeId}({item.tagName})
+                                            </Radio>)}
+                                    </Space>
+                                </Radio.Group>
+                        }
+
 
                     </Modal>
                 </>

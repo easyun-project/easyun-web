@@ -3,7 +3,7 @@ import { classnames } from '@@/tailwindcss-classnames';
 import { Menu, Dropdown } from 'antd';
 import { Icon } from '@iconify/react';
 import { useNavigate,Link } from 'react-router-dom';
-import { updateCurrentDc } from '@/redux/dataCenterSlice';
+import { updateCurrentDC } from '@/redux/dataCenterSlice';
 import { useDispatch } from 'react-redux';
 import { EipInfo } from '@/constant/dataCenter';
 import { useSelector } from 'react-redux';
@@ -14,12 +14,12 @@ import { getDataCenterEip } from '@/redux/dataCenterSlice';
 export default function EipCard(props:EipInfo) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const dc = useSelector((state:RootState)=>state.dataCenter.currentDc.basicInfo!.dcName);
+    const dc = useSelector((state:RootState)=>state.dataCenter.currentDC.basicInfo!.dcName);
     const { tagName,pubIp,assoTarget,boarderGroup,alloId } = props;
     const menu = (
         <Menu>
             <Menu.Item key="resource" onClick={()=>{
-                dispatch(updateCurrentDc(props));
+                dispatch(updateCurrentDC(props));
                 navigate(pubIp);}}>
           Detail
             </Menu.Item>

@@ -4,7 +4,7 @@ import { Menu, Dropdown } from 'antd';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { DataCenterModel } from '@/constant/dataCenter';
-import { deleteDataCenter, updateCurrentDc,getDataCenterEip } from '@/redux/dataCenterSlice';
+import { deleteDataCenter, updateCurrentDC,getDataCenterEip } from '@/redux/dataCenterSlice';
 import { useDispatch } from 'react-redux';
 import { getServerList } from '@/redux/serverSlice';
 import { getDataCenterSecgroup,getDataCenterSubnet } from '@/redux/dataCenterSlice';
@@ -16,7 +16,7 @@ export default function DataCenterCard(props:DataCenterModel) {
     // this function is used to initialize a datacenter
     // use async to make sure the requests are not lost
     const initDc = async ()=>{
-        dispatch(updateCurrentDc(props));
+        dispatch(updateCurrentDC(props));
         dispatch(getServerList());
         dispatch(getDataCenterSecgroup({ dc:dcName }));
         dispatch(getDataCenterEip({ dc:dcName }));
@@ -29,7 +29,6 @@ export default function DataCenterCard(props:DataCenterModel) {
             }}>
           Manage
             </Menu.Item>
-            
             <Menu.Item key="resource" onClick={()=>{
                 initDc().then(()=>navigate('/resource'));
             }}>
@@ -42,8 +41,7 @@ export default function DataCenterCard(props:DataCenterModel) {
                 onClick={() => {
                     dispatch(deleteDataCenter(dcName));
                     navigate('/home');
-                }
-                }
+                }}
             >
         Delete
             </Menu.Item>
@@ -61,7 +59,7 @@ export default function DataCenterCard(props:DataCenterModel) {
                 'p-2'
             )}
         >
-            <div className={classnames('flex', 'flex-row', 'mb-2')}>
+            <div className={classnames('flex', 'mb-2')}>
                 {/* <img
                     src={stbucket}
                     alt="stbucket.png"
@@ -84,7 +82,6 @@ export default function DataCenterCard(props:DataCenterModel) {
             <div
                 className={classnames(
                     'flex',
-                    'flex-row',
                     'justify-between',
                     'border-t-2',
                     'border-gray-300',
