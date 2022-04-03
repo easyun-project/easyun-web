@@ -8,13 +8,11 @@ export const UserPasswd = '/api/v1/user/password';
 // dataCenter 数据中心管理 常量名以 Datacenter/Dcm 开头
 export const DataCenterPath = '/api/v1/datacenter';
 export const DataCenterDefault = '/api/v1/datacenter/default';
-export const DataCenterList = '/api/v1/datacenter/list';
 export const DcmSubnet = '/api/v1/datacenter/subnet';
+export const DcmRegion = '/api/v1/datacenter/region';
 export const DcmSecgroup = '/api/v1/datacenter/secgroup';
 export const DcmStaticip = '/api/v1/datacenter/eip';
-export const DcmRoute = '/api/v1/datacenter/route';
 export const DcmIGW = '/api/v1/datacenter/igw';
-export const DcmNatGW = '/api/v1/datacenter/natgw';
 
 // Server 服务器 常量名以Server开头
 export const ServerPath = '/api/v1/server';
