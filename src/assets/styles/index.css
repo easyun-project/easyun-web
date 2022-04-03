@@ -1,4 +1,4 @@
-@tailwind screens;
+@tailwind variants;
 @tailwind base;
 @tailwind utilities;
 @tailwind components;
@@ -25,9 +25,9 @@ code {
 .fill-available {
 	width: -webkit-fill-available;
 }
-.ant-tree-list-holder-inner,.anticon svg {
+/* .ant-tree-list-holder-inner,.anticon svg {
 	vertical-align: baseline;
-}
+} */
 
 .ant-switch {
     background-color: rgba(0, 0, 0, 0.25)!important;
@@ -39,7 +39,7 @@ code {
 
 .ant-btn-primary {
     background: #f5922f!important;
-}
+} 
 
 svg {
   vertical-align: middle;
