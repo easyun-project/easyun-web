@@ -99,7 +99,7 @@ const DiskConfiguration = (props:DiskProps) :JSX.Element=>{
         <div className={classnames('w-4/5','rounded-border','flex','flex-col','mt-2','mr-2')}>
             <div className={classnames('flex','flex-row','m-2')}>
                 <span><Icon icon="icon-park-outline:solid-state-disk" width="64" fr={undefined}/> </span>
-                <div className={classnames('mx-3','flex-grow')}>
+                <div className='grow mx-3'>
                     <span >Disk type:</span>
                     <Select defaultValue={ diskType } className={classnames('w-48')} onChange={value=>changeDiskType(value)} size='small'>
                         {Object.keys(VolumeTypeInfo).map(key=><Option value={key} key={key}>{VolumeTypeInfo[key].typeDesc}</Option>)}

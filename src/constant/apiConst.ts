@@ -18,18 +18,17 @@ export const DcmNatGW = '/api/v1/datacenter/natgw';
 
 // Server 服务器 常量名以Server开头
 export const ServerPath = '/api/v1/server';
-export const ServerList = '/api/v1/server';
 export const ServerDetail = '/api/v1/server/detail';
 export const ServerImages = '/api/v1/server/param/image';
 export const ServerInstypes = '/api/v1/server/param/instype';
 export const ServerInsfamily = '/api/v1/server/param/insfamily';
-export const AddServer = '/api/v1/server';
 export const ServerAction = '/api/v1/server/action';
 export const SeverEipPath = '/api/v1/server/eip';
 export const SeverConfigPath = '/api/v1/server/config';
 export const SeverTagsPath = '/api/v1/server/tags/';
 export const SeverDiskPath = '/api/v1/server/disk';
 export const SeverSecgroupPath = '/api/v1/server/secgroup';
+export const SeverName = '/api/v1/server/name';
 
 // Storage s3存储 常量名以St开头
 export const StBucketPath = '/api/v1/storage/bucket';

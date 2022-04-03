@@ -5,17 +5,18 @@ import { RootState } from '@/redux/store';
 import { Icon } from '@iconify/react';
 import DataCenterService from '@/service/dataCenterService';
 import { useState,useEffect } from 'react';
-import { Modal, Radio, Space } from 'antd';
+import { Modal, Radio, Space,Button } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { EipInfoSimple } from '@/constant/dataCenter';
 import serverService from '@/service/serverService';
 import { getServerDetail } from '@/redux/serverSlice';
+import { useNavigate } from 'react-router-dom';
 
 export default function Network():JSX.Element {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
-    const server = useSelector((state: RootState) => {
-        return state.server.currentServer;
-    });
+    const server = useSelector((state: RootState) => state.server.currentServer);
+    const dc = useSelector((state: RootState) => state.dataCenter.currentDc.basicInfo?.dcName);
     const [isModalVisible, changeIsModalVisible] = useState(false);
     const [selectedEip, changeSelectedEip] = useState('');
     const [eips,changeEips] = useState<EipInfoSimple[]>([]);
@@ -23,12 +24,16 @@ export default function Network():JSX.Element {
     const [hasEip,changehasEip] = useState<boolean>(!!server?.svrNetworking.publicIp);
     useEffect(
         ()=>{
-            DataCenterService.listEipInfo('Easyun').then(
+            if(dc)
+            {DataCenterService.listEipInfo(dc).then(
                 (res)=>{
                     changeEips(res);
                 },
                 (error)=>console.log(error));
-        }
+            }
+            else{
+                navigate('/home');
+            }}
         ,[]);
     if (server) {
         return (
@@ -53,12 +58,12 @@ export default function Network():JSX.Element {
                                         svrId:server?.svrProperty.instanceId
                                     }).then(
                                         ()=>{
-                                            changeOperating(false);
-                                            changehasEip(false);
                                             dispatch(getServerDetail({
                                                 serverId: server?.svrProperty.instanceId
-                                            }
-                                            ));},
+                                            }));
+                                            changehasEip(false);
+                                            changeOperating(false);
+                                        },
                                         ()=>changeOperating(false)
                                     );
                                 }}
@@ -85,7 +90,6 @@ export default function Network():JSX.Element {
                                             width="15"
                                             height="15"
                                             fr={undefined} />}
-
                                 Create static IP</button>
                                 <button onClick={()=>{
                                     changeIsModalVisible(true);
@@ -102,28 +106,35 @@ export default function Network():JSX.Element {
                                         height="15"
                                         fr={undefined} />Associate EIP</button>
                                 <Modal title="Please select an eip." visible={isModalVisible}
-                                    onOk={()=>{
-                                        changeIsModalVisible(false);
-                                        console.log(selectedEip);
-                                        serverService.bindServerEip({
-                                            action: 'attach',
-                                            publicIp: selectedEip,
-                                            svrId: server?.svrProperty.instanceId
-                                        }
-                                        ).then(
-                                            ()=>{changehasEip(true);
-                                                dispatch(getServerDetail({
-                                                    serverId: server?.svrProperty.instanceId
+                                    footer={[
+                                        <Button key="back" onClick={()=>changeIsModalVisible(false)}>
+                                Cancel
+                                        </Button>,
+                                        <Button key="submit" type="primary" loading={operating} onClick={
+                                            ()=>{
+                                                changeOperating(true);
+                                                serverService.bindServerEip({
+                                                    action: 'attach',
+                                                    publicIp: selectedEip,
+                                                    svrId: server?.svrProperty.instanceId
                                                 }
-                                                ));
+                                                ).then(
+                                                    ()=>{
+                                                        dispatch(getServerDetail({
+                                                            serverId: server?.svrProperty.instanceId
+                                                        }));
+                                                        changeOperating(false);
+                                                        changehasEip(true);
+                                                        changeIsModalVisible(false);
+                                                    }
+                                                );
                                             }
-                                        );
+                                        }>
+                                        OK
+                                        </Button>,
+                                    ]}
 
-                                    }}
-                                    onCancel={()=>{
-                                        changeIsModalVisible(false);
-                                        console.log('cancel');
-                                    }}>
+                                    onCancel={()=>changeIsModalVisible(false)}>
                                     <Radio.Group onChange={(e)=>{changeSelectedEip(e.target.value);}} value={selectedEip}>
                                         <Space direction="vertical">
                                             { eips.map((item:EipInfoSimple)=>
