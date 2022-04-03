@@ -25,7 +25,7 @@ function ExistDisk(props:DiskProps) {
     const { availablePaths, changeAvaliablePaths } = props;
     const svrId = useSelector((state: RootState) =>state.server.currentServer!.svrProperty.instanceId);
     const [diskInfo, changeDiskInfo] = useState<'loading'|VolumeDetail>('loading');
-    const dcName = useSelector((state: RootState) => state.dataCenter.currentDc.basicInfo!.dcName);
+    const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
     const dispatch = useDispatch();
     useEffect(
         ()=>{
@@ -147,8 +147,8 @@ function NewDisk(props:NewDiskProps) {
     const InstanceId = useSelector((state: RootState) => {
         return state.server.currentServer!.svrProperty.instanceId;
     });
-    const dcName = useSelector((state: RootState) => state.dataCenter.currentDc.basicInfo!.dcName);
-    const azName = useSelector((state: RootState) => state.dataCenter.currentDc.basicInfo!.dcRegion);
+    const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
+    const azName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcRegion);
     const instanceName = useSelector((state: RootState) => state.server.currentServer!.svrProperty.instanceName);
     const [diskType, changeDiskType] = useState('standard');
     const [encryption, changeEncryption] = useState(true);

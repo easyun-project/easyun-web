@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import dataCenterService from '@/service/dataCenterService';
 import { message } from 'antd';
 import { RootState } from '@/redux/store';
-import { getDefaultDataCenter } from '@/redux/dataCenterSlice';
+import { getDataCenterParms } from '@/redux/dataCenterSlice';
 import { DataCenterParms, SecurityGroupParms, SubnetParms } from '@/constant/dataCenter';
 
 
@@ -77,10 +77,10 @@ const AddDataCenter = (): JSX.Element => {
     const dataCenterState = useSelector((state: RootState) => {
         return state.dataCenter;
     });
-    const data = dataCenterState.defaultDataCenter;
+    const data = dataCenterState.defaultDcParams;
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getDefaultDataCenter());
+        dispatch(getDataCenterParms());
         if (data) {
             setInputDcName(data.dcParms.dcName);
             setCidr(data.dcParms.dcVPC.cidrBlock);
@@ -114,7 +114,7 @@ const AddDataCenter = (): JSX.Element => {
     };
 
     const getDataCenter = () => {
-        dispatch(getDefaultDataCenter(inputDcName));
+        dispatch(getDataCenterParms(inputDcName));
     };
 
     return (

@@ -9,7 +9,7 @@ import {
 import axios from 'axios';
 import { getHeader, getHost } from '@/utils/api';
 import {
-    DefaultDataCenterModel,
+    DefaultDataCenterParms,
     DataCenterParms,
     EipInfoSimple,
     DataCenterModel,
@@ -39,7 +39,7 @@ export default class DataCenterService {
     /**
      * 获取所有daterCenter列表
      */
-    static async getDataCenterAll(): Promise<DataCenterModel[]> {
+    static async listDataCenter(): Promise<DataCenterModel[]> {
         const url = getHost() + DataCenterPath;
         const result = await axios.get(url, {
             headers: getHeader()
@@ -67,13 +67,13 @@ export default class DataCenterService {
     /**
      * 获取创建数据中心默认参数
      */
-    static async getDefaultDcParms(dcName = 'easyun'): Promise<DefaultDataCenterModel | undefined> {
+    static async getDefaultDcParms(dcName = 'easyun'): Promise<DefaultDataCenterParms | undefined> {
         const url = getHost() + DataCenterDefault;
         const result = await axios.get(url + `?dc=${dcName}`, {
             headers: getHeader()
         });
         if (result.status == 200) {
-            return result.data.detail as DefaultDataCenterModel;
+            return result.data.detail as DefaultDataCenterParms;
         }
         return undefined;
     }

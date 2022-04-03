@@ -43,7 +43,7 @@ children: {
 
 const AddServer = (): JSX.Element => {
     const dc = useSelector((state: RootState) => {
-        return state.dataCenter.currentDc.basicInfo!.dcName;
+        return state.dataCenter.currentDC.basicInfo!.dcName;
     });
     const navigate = useNavigate();
     const [creating, changeCreating] = useState(false);

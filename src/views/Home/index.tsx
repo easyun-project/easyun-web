@@ -16,7 +16,7 @@ export default function Home():JSX.Element {
     const [datacenters,changeDatacenters] = useState<'loading'|DataCenterModel[]>('loading');
     const [sortBy,changeSortBy] = useState('Name');
     useEffect(()=>{
-        DataCenterService.getDataCenterAll().then(
+        DataCenterService.listDataCenter().then(
             res=>changeDatacenters(res)
         );},[]);
 

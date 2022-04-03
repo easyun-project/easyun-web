@@ -79,7 +79,7 @@ export default class serverService {
         const url = getHost() + ServerList;
         const result = await axios.get(url, {
             headers: getHeader(),
-            params:{ dc:store.getState().dataCenter.currentDc.basicInfo!.dcName }
+            params:{ dc:store.getState().dataCenter.currentDC.basicInfo!.dcName }
         },);
         if (result.status == 200) {
             return result.data.detail as ServerModel[];

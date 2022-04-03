@@ -123,7 +123,7 @@ export const ServerList = ():JSX.Element => {
     const [selectedServers, changeSelectedServers] = useState<React.Key[]>([]);
     const [acting,changeActing] = useState(false);
     const dc = useSelector((state: RootState) => {
-        return state.dataCenter.currentDc.basicInfo?.dcName;
+        return state.dataCenter.currentDC.basicInfo?.dcName;
     });
 
     useEffect(() => {

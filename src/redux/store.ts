@@ -38,6 +38,7 @@ const storageConfig = {
 const persistedReducer = persistReducer(storageConfig, combineReducers(reducer));
 const store = configureStore({
     reducer: persistedReducer,
+    // devTools: true,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
 });
 
