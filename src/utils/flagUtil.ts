@@ -70,7 +70,7 @@ const FlagUtil = {
      * @return @iconify插件所需要的参数 String
      */
     getFlagIcon(code: string) {
-        return flag[code].icon;
+        return flag[code].icon ?? 'twemoji:flag-united-nations';
     }
 };
 export default FlagUtil;

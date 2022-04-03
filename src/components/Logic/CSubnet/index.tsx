@@ -1,13 +1,13 @@
 import React from 'react';
 import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
-import { DcDropDown, Subnet } from '@/constant/dataCenter';
+import { DcDropDown, SubnetParms } from '@/constant/dataCenter';
 
 interface Props {
     index: number;
     isPublic: boolean;
     classes?: TTailwindString;
-    subnet?: Subnet;
+    subnet?: SubnetParms;
     dropdown?: DcDropDown;
 }
 
@@ -39,7 +39,7 @@ export const CSubnet = (props: Props): JSX.Element => {
                 <div className="grid grid-cols-5 gap-4">
                     <div className="col-span-2">ipv4 CIDR Block</div>
                     <div className={classnames('col-span-3')}>
-                        <input value={subnet?.cidrBlock} className={classnames('h-6', 'border', 'my-1', 'w-40')}/>
+                        <input defaultValue={subnet?.cidrBlock} className={classnames('h-6', 'border', 'my-1', 'w-40')}/>
                     </div>
                 </div>
                 <div className="grid grid-cols-5 gap-4">

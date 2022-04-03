@@ -37,7 +37,7 @@ export interface SecurityGroupParms {
   tagName: string;
 }
 
-interface DcDropDown {
+export interface DcDropDown {
     azList: string[];
     gwList: string[];
     rtbList: string[];
@@ -126,6 +126,12 @@ export interface CSecOptInfo {
     tagName: string
     sgDes?: string
     sgName: string
+}
+
+export interface Region {
+    regionCode: string;
+    countryCode: string;
+    regionName: string;
 }
 
 export interface SecurityGroupDetail{
