@@ -9,7 +9,7 @@ import { CheckOutlined,CloseOutlined } from '@ant-design/icons';
 export default function SubnetDetail() {
     const params = useParams();
     const { subnetId } = params;
-    const subnet = useSelector((state:RootState)=>state.dataCenter.currentDc.subnet?.filter(subnet=>subnet.subnetId === subnetId).at(0));
+    const subnet = useSelector((state:RootState)=>state.dataCenter.currentDC.subnet?.filter(subnet=>subnet.subnetId === subnetId).at(0));
     const [seletedRoute,changeSeletedRoute] = useState('');
     const [autoAssign, changeAutoAssign] = useState(true);
     const { Option } = Select;

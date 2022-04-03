@@ -1,42 +1,40 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import DataCenterService, { DcNameQueryParm } from '@/service/dataCenterService';
-import { DefaultDataCenterModel, DataCenterModel, DataCenterDetail, SecurityGroupInfoSimple,EipInfo,SubnetInfo } from '@/constant/dataCenter';
+import { DefaultDataCenterParms, DataCenterModel, DataCenterDetail, SecurityGroupInfoSimple,EipInfo,SubnetInfo } from '@/constant/dataCenter';
 
 const updateDefaultDataCenter = 'dataCenter/updateDefaultDataCenterAction';
 
 
-export const updateDefaultDataCenterAction = (defaultDataCenter): { payload: DefaultDataCenterModel; type: string } => {
+export const updateDefaultDataCenterAction = (defaultDataCenter): { payload: DefaultDataCenterParms; type: string } => {
     return {
         type: updateDefaultDataCenter,
         payload: defaultDataCenter,
     };
 };
 
+//获取Easyun数据中心列表
+export const listDataCenter = createAsyncThunk(
+    'dataCenter/getDataCenter',
+    async () => {
+        return await DataCenterService.listDataCenter();
+    }
+);
+
+//新建数据中心的默认参数
+export const getDataCenterParms = createAsyncThunk(
+    'dataCenter/getDataCenterParms',
+    async (dcName?: string) => {
+        return await DataCenterService.getDefaultDcParms(dcName);
+    }
+);
+
+//获取指定数据中心(VPC)相关信息
 export const getDataCenter = createAsyncThunk(
     'dataCenter/getDataCenter',
     async (params: DcNameQueryParm) => {
         return await DataCenterService.getDataCenter(params);
     }
 );
-
-export const getDefaultDataCenter = createAsyncThunk(
-    'dataCenter/getDefaultDataCenter',
-    async (dcName?: string) => {
-        return await DataCenterService.getDefaultDcParms(dcName);
-    }
-);
-
-export const getDataCenterSecgroup = createAsyncThunk(
-    'dataCenter/getDataCenterSecgroup',
-    async (params: DcNameQueryParm) => {
-        return await DataCenterService.listSecgroup(params);
-    }
-);
-
-export const getDataCenterEip = createAsyncThunk(
-    'dataCenter/getDataCenterEip',
-    async (params: DcNameQueryParm) => {
-        return await DataCenterService.getEipInfo(params);});
 
 export const deleteDataCenter = createAsyncThunk(
     'dataCenter/deleteDataCenter',
@@ -52,12 +50,26 @@ export const getDataCenterSubnet = createAsyncThunk(
     }
 );
 
+export const getDataCenterSecgroup = createAsyncThunk(
+    'dataCenter/getDataCenterSecgroup',
+    async (params: DcNameQueryParm) => {
+        return await DataCenterService.listSecgroup(params);
+    }
+);
+
+export const getDataCenterEip = createAsyncThunk(
+    'dataCenter/getDataCenterEip',
+    async (params: DcNameQueryParm) => {
+        return await DataCenterService.getEipInfo(params);
+    }
+);
+
 export interface DataCenterState {
     loading: boolean,
-    dataCenter: DataCenterDetail | undefined,
-    defaultDataCenter: DefaultDataCenterModel | undefined,
-    currentDc:
-        {
+    // dataCenter: DataCenterDetail | undefined,
+    dataCenterList: DataCenterModel[] | undefined,
+    defaultDcParams: DefaultDataCenterParms | undefined,
+    currentDC: {
             basicInfo: DataCenterModel | undefined,
             secgroup: SecurityGroupInfoSimple[] | undefined
             eip: EipInfo[] | undefined
@@ -67,9 +79,10 @@ export interface DataCenterState {
 
 const initialState: DataCenterState = {
     loading: true,
-    dataCenter: undefined,
-    defaultDataCenter: undefined,
-    currentDc: {
+    // dataCenter: undefined,
+    dataCenterList: undefined,
+    defaultDcParams: undefined,
+    currentDC: {
         basicInfo: undefined,
         secgroup: undefined,
         eip: undefined,
@@ -83,46 +96,50 @@ export const dataCenterSlice = createSlice({
     initialState,
     reducers: {
         updateDefaultDataCenterAction(state, action) {
-            state.defaultDataCenter = action.payload;
+            state.defaultDcParams = action.payload;
         },
-        updateCurrentDc(state, action) {
-            state.currentDc.basicInfo = action.payload;
+        updateCurrentDC(state, action) {
+            state.currentDC.basicInfo = action.payload;
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(getDataCenter.fulfilled, (state: DataCenterState, action) => {
+        builder.addCase(listDataCenter.fulfilled, (state: DataCenterState, action) => {
             state.loading = false;
-            state.dataCenter = action.payload;
+            state.dataCenterList = action.payload;
         });
-        builder.addCase(getDataCenter.pending, (state: DataCenterState) => {
+        builder.addCase(listDataCenter.pending, (state: DataCenterState) => {
             state.loading = true;
         });
-        builder.addCase(getDefaultDataCenter.fulfilled, (state: DataCenterState, action) => {
+
+        builder.addCase(getDataCenterParms.fulfilled, (state: DataCenterState, action) => {
             state.loading = false;
-            state.defaultDataCenter = action.payload;
+            state.defaultDcParams = action.payload;
         });
-        builder.addCase(getDefaultDataCenter.pending, (state: DataCenterState) => {
+        builder.addCase(getDataCenterParms.pending, (state: DataCenterState) => {
             state.loading = true;
         });
+
         builder.addCase(getDataCenterSecgroup.fulfilled, (state: DataCenterState, action) => {
-            state.currentDc.secgroup = action.payload;
+            state.currentDC.secgroup = action.payload;
         });
+
         builder.addCase(getDataCenterEip.pending, (state: DataCenterState) => {
             state.loading = true;
         });
         builder.addCase(getDataCenterEip.fulfilled, (state: DataCenterState, action) => {
             state.loading = false;
-            state.currentDc.eip = action.payload;
+            state.currentDC.eip = action.payload;
         });
         builder.addCase(getDataCenterEip.rejected, (state: DataCenterState) => {
             state.loading = false;
         });
+
         builder.addCase(getDataCenterSubnet.pending, (state: DataCenterState) => {
             state.loading = true;
         });
         builder.addCase(getDataCenterSubnet.fulfilled, (state: DataCenterState, action) => {
             state.loading = false;
-            state.currentDc.subnet = action.payload;
+            state.currentDC.subnet = action.payload;
         });
         builder.addCase(getDataCenterSubnet.rejected, (state: DataCenterState) => {
             state.loading = false;
@@ -130,4 +147,4 @@ export const dataCenterSlice = createSlice({
     }
 });
 export default dataCenterSlice.reducer;
-export const { updateCurrentDc } = dataCenterSlice.actions;
+export const { updateCurrentDC } = dataCenterSlice.actions;

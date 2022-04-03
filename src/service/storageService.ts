@@ -78,7 +78,7 @@ export default class storageService {
         const url = getHost() + StVolumeList;
         const result = await axios.get(url,{
             params:{
-                dc:store.getState().dataCenter.currentDc.basicInfo!.dcName
+                dc:store.getState().dataCenter.currentDC.basicInfo!.dcName
             },
             headers: getHeader()
         });

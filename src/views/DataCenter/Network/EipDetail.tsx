@@ -14,14 +14,15 @@ import { getDataCenterEip } from '@/redux/dataCenterSlice';
 import DataCenterService from '@/service/dataCenterService';
 // import { WarningOutlined, InfoCircleOutlined } from '@ant-design/icons';
 
+
 export default function EipDetail() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     //结构赋值的连续性写法
     const { state:{ pubIp } }  = useLocation() as {state:{pubIp:string}};
-    const eipInfos = useSelector((state:RootState)=>state.dataCenter.currentDc.eip);
+    const eipInfos = useSelector((state:RootState)=>state.dataCenter.currentDC.eip);
     const { servers } = useSelector((state:RootState)=>state.server);
-    const dc = useSelector((state:RootState)=>state.dataCenter.currentDc.basicInfo!.dcName);
+    const dc = useSelector((state:RootState)=>state.dataCenter.currentDC.basicInfo!.dcName);
     const [attachedSvr,changeAttachedSvr] = useState<SeverDetailModel>();
     const [loading,changeLoading] = useState(false);
     const [attaching,changeAttaching] = useState(false);

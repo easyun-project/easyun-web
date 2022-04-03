@@ -4,7 +4,7 @@ import { Menu, Dropdown } from 'antd';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { DataCenterModel } from '@/constant/dataCenter';
-import { deleteDataCenter, updateCurrentDc,getDataCenterEip } from '@/redux/dataCenterSlice';
+import { deleteDataCenter, updateCurrentDC,getDataCenterEip } from '@/redux/dataCenterSlice';
 import { useDispatch } from 'react-redux';
 import { getServerList } from '@/redux/serverSlice';
 import { getDataCenterSecgroup,getDataCenterSubnet } from '@/redux/dataCenterSlice';
@@ -16,7 +16,7 @@ export default function DataCenterCard(props:DataCenterModel) {
     // this function is used to initialize a datacenter
     // use async to make sure the requests are not lost
     const initDc = async ()=>{
-        dispatch(updateCurrentDc(props));
+        dispatch(updateCurrentDC(props));
         dispatch(getServerList());
         dispatch(getDataCenterSecgroup({ dc:dcName }));
         dispatch(getDataCenterEip({ dc:dcName }));

@@ -103,7 +103,7 @@ export const ServerList = ():JSX.Element => {
     const [newName, changeNewName] = useState('');
     const [settingName,changeSettingName] = useState(false);
     const dc = useSelector((state: RootState) => {
-        return state.dataCenter.currentDc.basicInfo?.dcName;
+        return state.dataCenter.currentDC.basicInfo?.dcName;
     });
 
     useEffect(() => {

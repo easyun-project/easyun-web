@@ -18,9 +18,9 @@ export default function Network() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     // const [eipInfos, changeEipInfos] = useState<'loading'|EipInfo[]>('loading');
-    const eipInfos = useSelector((state:RootState)=>state.dataCenter.currentDc.eip);
+    const eipInfos = useSelector((state:RootState)=>state.dataCenter.currentDC.eip);
     const loading = useSelector((state:RootState)=>state.dataCenter.loading);
-    const dc = useSelector((state:RootState)=>state.dataCenter.currentDc.basicInfo!.dcName);
+    const dc = useSelector((state:RootState)=>state.dataCenter.currentDC.basicInfo!.dcName);
     const [creating,changeCreating] = useState(false);
     const [sortBy,changeSortBy] = useState('Name');
     const menu = (
