@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import DataCenterService, { DcNameQueryParm } from '@/service/dataCenterService';
-import { DefaultDataCenterParms, DataCenterModel, DataCenterDetail, SecurityGroupInfoSimple,EipInfo,SubnetInfo } from '@/constant/dataCenter';
+import { DefaultDataCenterParms, DataCenterModel, SecurityGroupInfoSimple,EipInfo,SubnetInfo } from '@/constant/dataCenter';
 
 const updateDefaultDataCenter = 'dataCenter/updateDefaultDataCenterAction';
 
@@ -99,6 +99,7 @@ export const dataCenterSlice = createSlice({
             state.defaultDcParams = action.payload;
         },
         updateCurrentDC(state, action) {
+            console.log('@@@',state.currentDC);
             state.currentDC.basicInfo = action.payload;
         }
     },
