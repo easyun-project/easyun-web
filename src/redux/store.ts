@@ -13,7 +13,6 @@ import storage from 'redux-persist/lib/storage';
 export function crossBrowserListener(store, persistConfig) {
     return async function() {
         const state = await getStoredState(persistConfig);
-
         store.dispatch({
             type: REHYDRATE,
             key: persistConfig.key,

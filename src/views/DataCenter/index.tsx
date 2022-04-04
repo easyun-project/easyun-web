@@ -2,25 +2,12 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { Route } from 'react-router';
-import { Routes, useNavigate } from 'react-router-dom';
+import { Routes, useNavigate,Outlet } from 'react-router-dom';
 
 //UI 相关
 import { Menu } from 'antd';
 import { classnames } from '@@/tailwindcss-classnames';
 
-//数据模型
-// import { ServerModel } from '@/constant/server';
-
-//视图与组件
-import DataCenterOverview from './Overview';
-import AddDataCenter from './Add';
-// import Gateway from './Gateway';
-import Network from './Network';
-import EipDetail from './Network/EipDetail';
-import NotFound from '../NotFound';
-import Subnet from './Subnet';
-import SubnetDetail from './Subnet/SubnetDetail';
-import AddSubnet from './Subnet/AddSubnet';
 
 
 interface NotDataProps {
@@ -72,20 +59,7 @@ export const DataCenter = (): JSX.Element => {
                         <Menu.Item key="staticip">Static IP</Menu.Item>
                         <Menu.Item key="route">Route</Menu.Item>
                     </Menu>
-                    <Routes>
-                        {/* <Route path="server/:serverId" element={<ServerDetail />} /> */}
-                        <Route path="add" element={<AddDataCenter />} />
-                        <Route path="overview" element={<DataCenterOverview />} />
-                        <Route path="subnet" element={<Subnet/>} />
-                        <Route path="subnet/add" element={<AddSubnet/>} />
-                        <Route path="subnet/:subnetId" element={<SubnetDetail/>} />
-                        <Route path="route" element={<NoResource resourceName={'route'} buttonName={'Add Route'} routePath={'/route/add'} />} />
-                        <Route path="gateway" element={<NoResource resourceName={'gateway'} buttonName={'Add Gageway'} routePath={'/gateway/add'} />} />
-                        <Route path="security" element={<NoResource resourceName={'security'} buttonName={'Add SecurityGroup'} routePath={'/security/add'} />} />
-                        <Route path="staticip" element={<Network />} />
-                        <Route path="staticip/detail"  element={<EipDetail />} />
-                        <Route path="*" element={<NotFound />} />
-                    </Routes >
+                    <Outlet/>
                 </div>
             </div>
         </>

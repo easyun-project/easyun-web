@@ -20,7 +20,7 @@ import stdisk from '@@/src/assets/images/stdisk.png';
 
 
 
-export const DatabasePage = (): JSX.Element => {
+const DatabasePage = (): JSX.Element => {
     const navigate = useNavigate();
     return (
         <div className={classnames('m-20', 'flex', 'flex-col', 'items-center', 'h-screen')}>
