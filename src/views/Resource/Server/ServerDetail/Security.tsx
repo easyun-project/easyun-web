@@ -25,7 +25,7 @@ export default function Security():JSX.Element {
         return state.server.currentServer;
     });
     const allSecgroups = useSelector((state: RootState) => {
-        return state.dataCenter.currentDc?.secgroup;
+        return state.dataCenter.currentDC?.secgroup;
     });
     const [data,changeData] = useState<Record<string,object|number|string>[]>([]);
     const [isModalVisible, changeIsModalVisible] = useState(false);
@@ -144,7 +144,7 @@ export default function Security():JSX.Element {
                         </button>
                     </div>
 
-                    <Modal title="Select a disk to attach" visible={isModalVisible} onOk={()=>{
+                    <Modal title="Select a security group to attach" visible={isModalVisible} onOk={()=>{
                         serverService.bindServerSecgroup({
                             action: 'attach',
                             secgroupId: selectedSecgroup,

@@ -99,7 +99,6 @@ export const dataCenterSlice = createSlice({
             state.defaultDcParams = action.payload;
         },
         updateCurrentDC(state, action) {
-            console.log('@@@',state.currentDC);
             state.currentDC.basicInfo = action.payload;
         }
     },

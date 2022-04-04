@@ -23,7 +23,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 const { TabPane } = Tabs;
 
 
-export const ServerDetail = ():JSX.Element => {
+const ServerDetail = ():JSX.Element => {
     const params = useParams();
     const serverId = params.serverId;
     // const userState = useSelector((state: RootState) => {

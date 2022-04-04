@@ -89,7 +89,7 @@ export const serverColumns = [
 
 
 
-export const ServerList = ():JSX.Element => {
+const ServerList = ():JSX.Element => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -236,3 +236,5 @@ export const ServerList = ():JSX.Element => {
         );
     }
 };
+
+export default ServerList;

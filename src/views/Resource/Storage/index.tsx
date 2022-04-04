@@ -211,7 +211,7 @@ const WithStorage = (props): JSX.Element => {
     );
 };
 
-export const StoragePage = (): JSX.Element => {
+const StoragePage = (): JSX.Element => {
     const [storageLoading, changeStorageLoading] = useState(true);
     const dispatch = useDispatch();
 
@@ -246,4 +246,4 @@ export const StoragePage = (): JSX.Element => {
     }
 };
 
-export default Storage;
+export default StoragePage;
