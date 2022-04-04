@@ -9,8 +9,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import dataCenterService from '@/service/dataCenterService';
 import { message } from 'antd';
 import { RootState } from '@/redux/store';
-import { getDataCenterParms } from '@/redux/dataCenterSlice';
-import { DataCenterParms, SecurityGroupParms, SubnetParms } from '@/constant/dataCenter';
+import { getDataCenterParms, getDatacenterRegion } from '@/redux/dataCenterSlice';
+import { DataCenterParms, Region, SecurityGroupParms, SubnetParms } from '@/constant/dataCenter';
+import FlagUtil from '@/utils/flagUtil';
 
 
 const AddDataCenter = (): JSX.Element => {
@@ -73,14 +74,17 @@ const AddDataCenter = (): JSX.Element => {
     });
 
     const [sshKey, setSSHKey] = useState<string>('');
+    const [flag, setFlag] = useState<string>('JPN');
 
     const dataCenterState = useSelector((state: RootState) => {
         return state.dataCenter;
     });
     const data = dataCenterState.defaultDcParams;
+    const region = dataCenterState.region;
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getDataCenterParms());
+        dispatch(getDatacenterRegion());
         if (data) {
             setInputDcName(data.dcParms.dcName);
             setCidr(data.dcParms.dcVPC.cidrBlock);
@@ -137,9 +141,25 @@ const AddDataCenter = (): JSX.Element => {
             </div>
             <div className={classnames('ml-5', 'mt-2')}>Easyun DataCenter Networking</div>
             <div className={classnames('ml-24')}>Region:
-                <Icon className={classnames('inline-block', 'mx-1')} icon="emojione-v1:flag-for-japan" color="gray"
-                    width="25" height="25" fr={undefined}/>
-                {data?.dcParms.dcRegion}
+                <select
+                    className={classnames('border', 'ml-3','px-2')}
+                    onChange={(e)=>{
+                        setFlag(e.target.value);
+                    }}>
+                    <option value="">{data?.dcParms.dcRegion}
+                    </option>
+                    {region?.map((item: Region) => {
+                        return <option
+                            key={item.regionCode}
+                            value={item.countryCode}>
+                            {item.regionCode}
+                        </option>;
+                    })}
+                </select>
+                <Icon className={classnames('ml-5','inline-block')} icon={FlagUtil.getFlagIcon(flag)}
+                    color="#5c6f9a"
+                    width="25" height="25"
+                    fr={undefined}/>
             </div>
             <div className={classnames('ml-5')}>
                 <span className={classnames('mr-2')}>IPv4 CIDR block:</span>

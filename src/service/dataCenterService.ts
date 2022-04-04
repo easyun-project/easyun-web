@@ -3,7 +3,7 @@ import {
     DataCenterDefault,
     DcmSubnet,
     DcmSecgroup,
-    DcmStaticip,
+    DcmStaticip, DcmRegion,
     // DataCenterList
 } from '@/constant/apiConst';
 import axios from 'axios';
@@ -17,7 +17,7 @@ import {
     EipInfo,
     SubnetInfo,
     SecurityGroupDetail,
-    SecurityGroupInfoSimple,
+    SecurityGroupInfoSimple, Region,
 } from '@/constant/dataCenter';
 
 
@@ -74,6 +74,18 @@ export default class DataCenterService {
         });
         if (result.status == 200) {
             return result.data.detail as DefaultDataCenterParms;
+        }
+        return undefined;
+    }
+
+
+    static async getDatacenterRegion(): Promise<Region[] | undefined> {
+        const url = getHost() + DcmRegion;
+        const result = await axios.get(url, {
+            headers: getHeader()
+        });
+        if (result.status == 200) {
+            return result.data.detail as Region[];
         }
         return undefined;
     }

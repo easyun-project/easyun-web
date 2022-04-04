@@ -1,6 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import DataCenterService, { DcNameQueryParm } from '@/service/dataCenterService';
-import { DefaultDataCenterParms, DataCenterModel, SecurityGroupInfoSimple,EipInfo,SubnetInfo } from '@/constant/dataCenter';
+import {
+    DefaultDataCenterParms,
+    DataCenterModel,
+    SecurityGroupInfoSimple,
+    EipInfo,
+    SubnetInfo,
+    Region
+} from '@/constant/dataCenter';
 
 const updateDefaultDataCenter = 'dataCenter/updateDefaultDataCenterAction';
 
@@ -27,6 +34,15 @@ export const getDataCenterParms = createAsyncThunk(
         return await DataCenterService.getDefaultDcParms(dcName);
     }
 );
+
+//新建数据中心的默认参数
+export const getDatacenterRegion = createAsyncThunk(
+    'dataCenter/region',
+    async () => {
+        return await DataCenterService.getDatacenterRegion();
+    }
+);
+
 
 //获取指定数据中心(VPC)相关信息
 export const getDataCenter = createAsyncThunk(
@@ -68,6 +84,7 @@ export interface DataCenterState {
     loading: boolean,
     // dataCenter: DataCenterDetail | undefined,
     dataCenterList: DataCenterModel[] | undefined,
+    region: Region[] | undefined,
     defaultDcParams: DefaultDataCenterParms | undefined,
     currentDC: {
             basicInfo: DataCenterModel | undefined,
@@ -82,6 +99,7 @@ const initialState: DataCenterState = {
     // dataCenter: undefined,
     dataCenterList: undefined,
     defaultDcParams: undefined,
+    region: undefined,
     currentDC: {
         basicInfo: undefined,
         secgroup: undefined,
@@ -100,6 +118,9 @@ export const dataCenterSlice = createSlice({
         },
         updateCurrentDC(state, action) {
             state.currentDC.basicInfo = action.payload;
+        },
+        getRegion(state, action) {
+            state.region = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -142,6 +163,16 @@ export const dataCenterSlice = createSlice({
             state.currentDC.subnet = action.payload;
         });
         builder.addCase(getDataCenterSubnet.rejected, (state: DataCenterState) => {
+            state.loading = false;
+        });
+        builder.addCase(getDatacenterRegion.pending, (state: DataCenterState) => {
+            state.loading = true;
+        });
+        builder.addCase(getDatacenterRegion.fulfilled, (state: DataCenterState, action) => {
+            state.loading = false;
+            state.region = action.payload;
+        });
+        builder.addCase(getDatacenterRegion.rejected, (state: DataCenterState) => {
             state.loading = false;
         });
     }
