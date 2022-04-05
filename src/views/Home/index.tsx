@@ -18,7 +18,8 @@ export default function Home():JSX.Element {
     useEffect(()=>{
         DataCenterService.listDataCenter().then(
             res=>changeDatacenters(res)
-        );},[]);
+        );
+    },[]);
 
     const menu = (
         <Menu onClick={e=>{changeSortBy(e.key);}}>
@@ -40,28 +41,26 @@ export default function Home():JSX.Element {
 
     let order:string;
     switch(sortBy) {
-    case 'Name':
-        order = 'dcName';
-        break;
+        case 'Name':
+            order = 'dcName';
+            break;
 
-    case 'CreateDate':
-        order = 'createDate';
-        break;
+        case 'CreateDate':
+            order = 'createDate';
+            break;
 
-    case 'VPC':
-        order = 'vpcID';
-        break;
+        case 'VPC':
+            order = 'vpcID';
+            break;
 
-    case 'Region':
-        order = 'dcRegion';
-        break;
+        case 'Region':
+            order = 'dcRegion';
+            break;
     }
 
 
-
-
     return (<div>
-        <div className={classnames('mx-14','mt-2','font-bold','text-2xl','align-middle')}> select a datacenter</div>
+        <div className={classnames('mx-14','mt-2','text-2xl','align-middle')}> select a datacenter</div>
         <div className={classnames('flex','items-center','justify-between','mx-14')}>
             <div className={classnames('flex','text-sm')}>
                 <div className={classnames()}>sort by </div>

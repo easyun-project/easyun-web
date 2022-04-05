@@ -54,18 +54,18 @@ export interface DataCenterModel {
 }
 
 
-export interface DataCenterDetail {
+export interface DataCenterSummary {
     azSummary : AzSummary[]
-    dcBasic : DataCenterModel
+    // dcBasic : DataCenterModel
     vpcSummary: VpcSummary
 }
 
-interface AzSummary {
+export interface AzSummary {
     azName: string
     subnetNum : number
 }
 
-interface VpcSummary {
+export interface VpcSummary {
     aclNum: number
     eipNum: number
     igwNum: number
