@@ -15,26 +15,23 @@ export default function DataCenterCard(props:DataCenterModel) {
     const { dcName,vpcCidr,dcRegion,vpcID } = props;
     // this function is used to initialize a datacenter
     // use async to make sure the requests are not lost
-    const initDcManage = async ()=>{
+    const initDC = async ()=>{
         dispatch(updateCurrentDC(props));
         dispatch(getDataCenter({ dc:dcName }));
         dispatch(getDataCenterSecgroup({ dc:dcName }));
         dispatch(getDataCenterEip({ dc:dcName }));
         dispatch(getDataCenterSubnet({ dc:dcName }));
-        // dispatch(getServerList());
-    };
-    const initResource = async ()=>{
         dispatch(getServerList());
-    };    
+    };
     const menu = (
         <Menu>
             <Menu.Item key="manage" onClick={()=>{
-                initDcManage().then(()=>navigate('/datacenter'));
+                initDC().then(()=>navigate('/datacenter'));
             }}>
           Manage
             </Menu.Item>
             <Menu.Item key="resource" onClick={()=>{
-                initResource().then(()=>navigate('/resource'));
+                initDC().then(()=>navigate('/resource'));
             }}>
           Resource
             </Menu.Item>
@@ -71,7 +68,7 @@ export default function DataCenterCard(props:DataCenterModel) {
                 /> */}
                 <Icon icon="ic:round-cloud-circle" color="#e9862e" width="60" />
                 <div className='grow ml-2' >
-                    <a className={classnames('text-blue-600','text-lg')} onClick={()=>{initResource().then(()=>navigate('/resource'));}}>{dcName}</a>
+                    <a className={classnames('text-blue-600','text-lg')} onClick={()=>{initDC().then(()=>navigate('/resource'));}}>{dcName}</a>
                     <div className={classnames('text-xs', 'text-gray-500')}>{vpcID}</div>
                 </div>
                 <Dropdown overlay={menu}>

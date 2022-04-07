@@ -1,5 +1,6 @@
-import * as React from 'react';
-import { useEffect,useState } from 'react';
+import React from 'react';
+// import { useEffect,useState } from 'react';
+import { useState } from 'react';
 import { NoResource } from '@/views/Resource';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
@@ -102,19 +103,9 @@ const ServerList = ():JSX.Element => {
     const [isModalVisble,changeIsModalVisble] = useState(false);
     const [newName, changeNewName] = useState('');
     const [settingName,changeSettingName] = useState(false);
-    const dc = useSelector((state: RootState) => {
-        return state.dataCenter.currentDC.basicInfo?.dcName;
-    });
-
-    useEffect(() => {
-        if(dc){
-            // dispatch(getServerList());
-            // dispatch(getDataCenterSecgroup({ dc }));
-        }
-        else{navigate('/home');}
-    }, []);
-
-
+    // const dc = useSelector((state: RootState) => {
+    //     return state.dataCenter.currentDC.basicInfo?.dcName;
+    // });
 
     const newServerDataSource = serverDataSource.map((item)=> ({ ...item, 'key':item.svrId }));
     const actionMenu = (
