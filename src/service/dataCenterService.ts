@@ -13,7 +13,6 @@ import {
     DataCenterParms,
     EipInfoSimple,
     DataCenterModel,
-    DataCenterDetail,
     EipInfo,
     SubnetInfo,
     SecurityGroupDetail,
@@ -109,14 +108,14 @@ export default class DataCenterService {
     /*
      * 获取指定数据中心(VPC)相关信息( for overview page)
      */
-    static async getDataCenter(params: DcNameQueryParm): Promise<DataCenterDetail | undefined> {
+    static async getDataCenter(params: DcNameQueryParm): Promise<DataCenterModel | undefined> {
         const url = getHost() + DataCenterPath + '/detail';
         const result = await axios.get(url, {
             params,
             headers: getHeader()
         });
         if (result.status == 200) {
-            return result.data.detail as DataCenterDetail;
+            return result.data.detail as DataCenterModel;
         }
         return undefined;
     }

@@ -9,6 +9,7 @@ import { Cascader } from 'antd';
 import { InsType } from '../AddServer/InstanceList';
 import { Skeleton } from 'antd';
 import { getServerDetail } from '@/redux/serverSlice';
+import CWarn from '@/components/Common/CWarn';
 
 type Option = {
 value: string
@@ -179,29 +180,29 @@ export default function Config() {
     const [insfamilyOptions, changeInsfamilyOptions] = useState<Option>();
     const [insFamily, changeInsFamily] = useState(currentInstype);
     const [insTypes, changeInsTypes] = useState<'loading' | InsType[]>('loading');
-    const arch = useSelector((state:RootState)=>state.server.currentServer!.svrConfig.arch as 'x86_64'|'arm64');
+    const arch = useSelector((state:RootState)=>state.server.currentServer!.svrConfig.arch as 'x86_64'|'arm64'|'unknown');
     const dc = useSelector((state:RootState)=>state.dataCenter.currentDC.basicInfo!.dcName);
     const os = useSelector((state:RootState)=>state.server.currentServer?.svrConfig.os as 'windows'|'linux');
     // 获取可选的instypefamily
     useEffect(()=>{
-        serverService.getServerInsfamily({
-            arch,
-            dc
-        }).then(res=>
-        {
-            generateOptions(res);
+        if(arch !== 'unknown'){
+            serverService.getServerInsfamily({
+                arch,
+                dc
+            }).then(res=>generateOptions(res));
         }
-        );
+
     },[]);
     // 获取可选的instypes
     useEffect(() => {
-        changeInsTypes('loading');
-        serverService.getServerInstypes({
-            arch,
-            os: os,
-            family: insFamily.toLowerCase(),
-            dc
-        }).then(res => changeInsTypes(res));
+        if(arch !== 'unknown'){
+            changeInsTypes('loading');
+            serverService.getServerInstypes({
+                arch,
+                os: os,
+                family: insFamily.toLowerCase(),
+                dc
+            }).then(res => changeInsTypes(res));}
     },
     [insFamily]);
     const generateOptions = (family:InsTypeFamily[])=>{
@@ -256,7 +257,12 @@ export default function Config() {
         console.log(options);
         changeInsfamilyOptions(options);
     };
-    return (
+    if(arch === 'unknown')return(
+        <CWarn>
+            <div className='font-semibold'>Architecture of this instance is unknown.</div>
+        </CWarn>
+    );
+    else {return (
         <>
             <div><span className={classnames('mx-2')}>instance type</span>
                 <Cascader style={{ width: '15%' }} options={insfamilyOptions} placeholder="选择实例类型"
@@ -323,4 +329,4 @@ export default function Config() {
                 </div>}
         </>
     );
-}
+    }}

@@ -11,6 +11,7 @@ export interface ServerModel {
     tagName:string
     volumeSize:number
     vpuNum:number
+    isEip:boolean
 }
 
 
@@ -94,6 +95,7 @@ export interface SeverDetailModel{
         usageOperation: string,
         vCpu: number,
         virtualization: string,
+        isEip:boolean
       },
       svrSecurity:{'sgId': string,
           'sgName': string}[],

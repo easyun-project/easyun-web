@@ -21,7 +21,7 @@ export default function Network():JSX.Element {
     const [selectedEip, changeSelectedEip] = useState('');
     const [eips,changeEips] = useState<EipInfoSimple[]>([]);
     const [operating,changeOperating] = useState(false);
-    const [hasEip,changehasEip] = useState<boolean>(!!server?.svrNetworking.publicIp);
+    const [hasEip,changehasEip] = useState<boolean>(server!.svrProperty.isEip);
     useEffect(
         ()=>{
             if(dc)
@@ -78,7 +78,7 @@ export default function Network():JSX.Element {
                                         Disassociate static EIP</button>
                                 : (<><button onClick={ ()=>{
                                     changeOperating(true);
-                                    DataCenterService.createEip('Easyun').then(
+                                    DataCenterService.createEip(dc!).then(
                                         ()=>changeOperating(false)
                                     );
                                 }}
