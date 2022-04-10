@@ -1,8 +1,10 @@
 import CBucketCard from '@/components/Logic/CBucketCard';
-import bucketService from '@/service/bucketService';
+import bucketService from '@/service/stBucketService';
 import { useMount } from '@/utils/hooks';
 import { Tabs } from 'antd'
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 import { useLocation, useParams } from 'react-router-dom';
 import Objects from './Objects';
 import Permissions from './Permissions';
@@ -13,6 +15,10 @@ export default function BucketManage() {
     const { state } = useLocation()
 
     const [bucketData, setBucketData] = useState(null)
+    const bucketList = useSelector((state: RootState) => state.storage.storageList)
+    // just for test
+    const demoBucket = bucketList[0]
+
     const { TabPane } = Tabs;
 
     useMount(() => {
@@ -23,7 +29,7 @@ export default function BucketManage() {
     })
     return (
         <>
-            <CBucketCard bktDetail={state} />
+            <CBucketCard bktDetail={demoBucket} />
             <Tabs defaultActiveKey="Objects">
                 <TabPane tab="Objects" key="Objects">
                     <Objects bucketData={state} />

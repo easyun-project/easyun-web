@@ -1,5 +1,5 @@
-@tailwind variants;
 @tailwind base;
+@tailwind variants;
 @tailwind utilities;
 @tailwind components;
 
@@ -43,6 +43,10 @@ code {
 
 svg {
   vertical-align: middle;
+}
+/* to fix copy icon vertical position */
+span .anticon{
+  vertical-align: 0.12em
 }
 
 @layer components {

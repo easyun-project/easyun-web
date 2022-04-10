@@ -7,7 +7,7 @@ import {
     SecurityGroupInfoSimple,
     EipInfo,
     SubnetInfo,
-    Region
+    RegionItem
 } from '@/constant/dataCenter';
 
 const updateDefaultDataCenter = 'dataCenter/updateDefaultDataCenterAction';
@@ -31,8 +31,8 @@ export const getDatacenterRegion = createAsyncThunk(
 
 
 //获取Easyun数据中心列表
-export const listDataCenter = createAsyncThunk(
-    'dataCenter/getDataCenter',
+export const listAllDataCenter = createAsyncThunk(
+    'dataCenter/listDataCenter',
     async () => {
         return await DataCenterService.listDataCenter();
     }
@@ -47,10 +47,10 @@ export const getDataCenterParms = createAsyncThunk(
 );
 
 //获取指定数据中心(VPC)相关信息
-export const getDataCenter = createAsyncThunk(
+export const getDatacenterSummary = createAsyncThunk(
     'dataCenter/getDataCenterSummary',
     async (params: DcNameQueryParm) => {
-        return await DataCenterService.getDataCenter(params);
+        return await DataCenterService.getDataCenterVpc(params);
     }
 );
 
@@ -86,7 +86,7 @@ export interface DataCenterState {
     loading: boolean,
     // dataCenter: DataCenterDetail | undefined,
     dataCenterList: DataCenterModel[] | undefined,
-    region: Region[] | undefined,
+    regionList: RegionItem[] | undefined,
     defaultDcParams: DefaultDataCenterParms | undefined,
     currentDC: {
             basicInfo: DataCenterModel | undefined,
@@ -102,7 +102,7 @@ const initialState: DataCenterState = {
     // dataCenter: undefined,
     dataCenterList: undefined,
     defaultDcParams: undefined,
-    region: undefined,
+    regionList: undefined,
     currentDC: {
         basicInfo: undefined,
         summary: undefined,
@@ -123,19 +123,19 @@ export const dataCenterSlice = createSlice({
         updateCurrentDC(state, action) {
             state.currentDC.basicInfo = action.payload;
         },
-        getRegion(state, action) {
-            state.region = action.payload;
+        getRegionList(state, action) {
+            state.regionList = action.payload;
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(listDataCenter.pending, (state: DataCenterState) => {
+        builder.addCase(listAllDataCenter.pending, (state: DataCenterState) => {
             state.loading = true;
         });        
-        builder.addCase(listDataCenter.fulfilled, (state: DataCenterState, action) => {
+        builder.addCase(listAllDataCenter.fulfilled, (state: DataCenterState, action) => {
             state.loading = false;
             state.dataCenterList = action.payload;
         });
-        builder.addCase(listDataCenter.rejected, (state: DataCenterState) => {
+        builder.addCase(listAllDataCenter.rejected, (state: DataCenterState) => {
             state.loading = false;
         });
 
@@ -150,14 +150,14 @@ export const dataCenterSlice = createSlice({
             state.loading = false;
         });
 
-        builder.addCase(getDataCenter.pending, (state: DataCenterState) => {
+        builder.addCase(getDatacenterSummary.pending, (state: DataCenterState) => {
             state.loading = true;
         });
-        builder.addCase(getDataCenter.fulfilled, (state: DataCenterState, action) => {
+        builder.addCase(getDatacenterSummary.fulfilled, (state: DataCenterState, action) => {
             state.loading = false;
             state.currentDC.summary = action.payload;
         });
-        builder.addCase(getDataCenter.rejected, (state: DataCenterState) => {
+        builder.addCase(getDatacenterSummary.rejected, (state: DataCenterState) => {
             state.loading = false;
         });
 
@@ -193,7 +193,7 @@ export const dataCenterSlice = createSlice({
         });
         builder.addCase(getDatacenterRegion.fulfilled, (state: DataCenterState, action) => {
             state.loading = false;
-            state.region = action.payload;
+            state.regionList = action.payload;
         });
         builder.addCase(getDatacenterRegion.rejected, (state: DataCenterState) => {
             state.loading = false;

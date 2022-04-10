@@ -13,11 +13,11 @@ import {
     DataCenterParms,
     EipInfoSimple,
     DataCenterModel,
-    DataCenterDetail,
+    DataCenterSummary,
     EipInfo,
     SubnetInfo,
     SecurityGroupDetail,
-    SecurityGroupInfoSimple, Region,
+    SecurityGroupInfoSimple, RegionItem,
 } from '@/constant/dataCenter';
 
 
@@ -79,13 +79,13 @@ export default class DataCenterService {
     }
 
 
-    static async getDatacenterRegion(): Promise<Region[] | undefined> {
+    static async getDatacenterRegion(): Promise<RegionItem[] | undefined> {
         const url = getHost() + DcmRegion;
         const result = await axios.get(url, {
             headers: getHeader()
         });
         if (result.status == 200) {
-            return result.data.detail as Region[];
+            return result.data.detail as RegionItem[];
         }
         return undefined;
     }
@@ -109,14 +109,14 @@ export default class DataCenterService {
     /*
      * 获取指定数据中心(VPC)相关信息( for overview page)
      */
-    static async getDataCenter(params: DcNameQueryParm): Promise<DataCenterDetail | undefined> {
-        const url = getHost() + DataCenterPath + '/detail';
+    static async getDataCenterVpc(params: DcNameQueryParm): Promise<DataCenterSummary | undefined> {
+        const url = getHost() + DataCenterPath + '/vpc';
         const result = await axios.get(url, {
             params,
             headers: getHeader()
         });
         if (result.status == 200) {
-            return result.data.detail as DataCenterDetail;
+            return result.data.detail as DataCenterSummary;
         }
         return undefined;
     }

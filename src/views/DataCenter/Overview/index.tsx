@@ -1,21 +1,15 @@
 // react related
 import React, { useEffect, useState } from 'react';
-import { Route } from 'react-router';
-import { useNavigate, useParams } from 'react-router-dom';
 // redux related
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { getDataCenter } from '@/redux/dataCenterSlice';
 // UI contents
 import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
-import { LoadingOutlined } from '@ant-design/icons';
-import { Row, Col, Typography, Divider, Badge, Card, Statistic, Space } from 'antd';
+import { Row, Col, Typography, Divider, Badge, Card, Statistic, Spin, Space } from 'antd';
 import { Icon } from '@iconify/react';
 // services and interface/schema
-import dataCenterService, { DcNameQueryParm } from '@/service/dataCenterService';
-import {VpcSummary, AzSummary} from '@/constant/dataCenter'
+import { VpcSummary, AzSummary } from '@/constant/dataCenter';
 // view and components
-import { CPartialLoading } from '@/components/Common/CPartialLoading';
 import FlagUtil from '@/utils/flagUtil';
 import TimeUtil from '@/utils/time';
 
@@ -26,23 +20,22 @@ function AzSummaryCard(props:AzSummary){
     const { azName, subnetNum } = props
     const color = subnetNum > 0 ? '#FFBF00' : '#d9d9d9'
     return (
-        <Badge size="small" count={subnetNum} showZero offset={[-15, 15]} color={color}>
-            <Card className={classnames('rounded-md','border-2','border-gray-400')}>{azName}</Card>
-        </Badge>
+        <Col className="gutter-row" span={2}>
+            <Badge size="small" count={subnetNum} showZero offset={[-15, 15]} color={color}>
+                <Card className={classnames('rounded-md','border-2','border-gray-400')}>{azName}</Card>
+            </Badge>
+        </Col>
     )
 }
 
 
-function VpcSummaryCard(props){
-    const { title, value} = props;
+function VpcSummaryCard(props:any){
+    const { title, value } = props;
 
     return (
         <Col className="gutter-row" span={3}>
             <Card hoverable >
-            <Statistic
-                title={title}
-                value={value}
-            />
+                <Statistic title={title} value={value} />
             </Card>
         </Col>
     )
@@ -53,6 +46,7 @@ export default function DataCenterOverview():JSX.Element {
     const dataCenterState = useSelector((state: RootState) => state.dataCenter);
     const dcBasic = dataCenterState.currentDC.basicInfo
     const dcSummary = dataCenterState.currentDC.summary
+    const dcLoading = dataCenterState.loading
 
     // const dispatch = useDispatch();
     // useEffect(() => {
@@ -77,14 +71,14 @@ export default function DataCenterOverview():JSX.Element {
                         </Row>
 
                         <Row gutter={16}>
-                            <Col span={4}>
-                                <Text strong>ID:</Text> <Text copyable>{dcBasic?.vpcID}</Text>
+                            <Col span={5}>
+                                <Text strong>VPC ID:</Text> <Text copyable>{dcBasic?.vpcID}</Text>
                                 <br/>
-                                <Text strong>CIDR:</Text> <Text copyable>{dcBasic?.vpcCidr}</Text>
+                                <Text strong>CIDR(IPv4):</Text> <Text copyable>{dcBasic?.vpcCidr}</Text>
                             </Col>
-                            <Col span={8}>
+                            <Col span={12}>
                             </Col>
-                            <Col span={8}>
+                            <Col span={5}>
                                 <div className={classnames('my-2')}>
                                     <Text strong>Region:</Text> <Text>{dcBasic!.dcRegion}</Text>
                                     <span className={classnames('inline-block', 'pr-1', 'h-4')}>
@@ -98,23 +92,27 @@ export default function DataCenterOverview():JSX.Element {
                                 </div>
                             </Col>
                         </Row>
-                    </Col>        
+                    </Col>
                 </Row>
             </div>
-            {/* {datacenterState.loading ? <LoadingOutlined /> : null} */}
+
             <Divider />
 
             <div id='azSummary'>
-                <Title level={4}>DataCenter Distribution</Title>    
-                <Space size='middle'>
-                    {dcSummary?.azSummary.map((az)=> <AzSummaryCard azName={az.azName} subnetNum={az.subnetNum} /> )}               
-                </Space>   
+                <Title level={4}>DataCenter Distribution</Title>
+                <Spin spinning={dcLoading} tip="Loading...">
+                <Row gutter= {[16,24]} className='py-2'>
+                {/* <Space size='middle'> */}
+                    {dcSummary?.azSummary.map((item, index)=> <AzSummaryCard key={index} azName={item.azName} subnetNum={item.subnetNum} /> )}
+                {/* </Space> */}
+                </Row>
+                </Spin>
             </div>
 
             <div id='vpcSummary'>
                 <Paragraph className='pt-4'>You are using following cloud datacenter(VPC) service:</Paragraph>
                 <Row gutter= {[16,24]} className='py-2'>
-                    <VpcSummaryCard title='Public Subnets' value={dcSummary?.vpcSummary.pubNum}/>
+                    <VpcSummaryCard title='Public Subnets' value={dcSummary?.vpcSummary.pubNum} />
                     <VpcSummaryCard title='Internet Gateways' value={dcSummary?.vpcSummary.igwNum}/>
                     <VpcSummaryCard title='Security Groups' value={dcSummary?.vpcSummary.sgNum}/>
                     <VpcSummaryCard title='Route Tables' value={dcSummary?.vpcSummary.rtbNum}/>
@@ -124,8 +122,8 @@ export default function DataCenterOverview():JSX.Element {
                     <VpcSummaryCard title='NAT Gateways' value={dcSummary?.vpcSummary.natNum}/>
                     <VpcSummaryCard title='Network ACLs' value={dcSummary?.vpcSummary.aclNum}/>
                     <VpcSummaryCard title='Static IP(EIP)' value={dcSummary?.vpcSummary.eipNum}/>
-                </Row>                
-            </div>      
+                </Row>          
+            </div>
         </div>
     );
 };

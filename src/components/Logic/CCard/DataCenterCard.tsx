@@ -4,10 +4,11 @@ import { Menu, Dropdown } from 'antd';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { DataCenterModel } from '@/constant/dataCenter';
-import { deleteDataCenter, updateCurrentDC, getDataCenter, getDataCenterEip } from '@/redux/dataCenterSlice';
+import { deleteDataCenter, updateCurrentDC, getDatacenterSummary, getDataCenterEip } from '@/redux/dataCenterSlice';
 import { useDispatch } from 'react-redux';
-import { getServerList } from '@/redux/serverSlice';
 import { getDataCenterSecgroup,getDataCenterSubnet } from '@/redux/dataCenterSlice';
+import { getCostSummary, getResourceSummary } from '@/redux/resourceSlice';
+import { getServerList } from '@/redux/serverSlice';
 
 export default function DataCenterCard(props:DataCenterModel) {
     const dispatch = useDispatch();
@@ -17,28 +18,29 @@ export default function DataCenterCard(props:DataCenterModel) {
     // use async to make sure the requests are not lost
     const initDcManage = async ()=>{
         dispatch(updateCurrentDC(props));
-        dispatch(getDataCenter({ dc:dcName }));
+        dispatch(getDatacenterSummary({ dc:dcName }));
         dispatch(getDataCenterSecgroup({ dc:dcName }));
         dispatch(getDataCenterEip({ dc:dcName }));
         dispatch(getDataCenterSubnet({ dc:dcName }));
         // dispatch(getServerList());
     };
     const initResource = async ()=>{
+        dispatch(getCostSummary({ dc:dcName }));
+        dispatch(getResourceSummary({ dc:dcName }));        
         dispatch(getServerList());
-    };    
+    };
     const menu = (
         <Menu>
             <Menu.Item key="manage" onClick={()=>{
                 initDcManage().then(()=>navigate('/datacenter'));
             }}>
-          Manage
+            Manage
             </Menu.Item>
             <Menu.Item key="resource" onClick={()=>{
                 initResource().then(()=>navigate('/resource'));
             }}>
-          Resource
+            Resource
             </Menu.Item>
-
             <Menu.Item
                 danger
                 key="delete"
@@ -47,7 +49,7 @@ export default function DataCenterCard(props:DataCenterModel) {
                     navigate('/home');
                 }}
             >
-        Delete
+            Delete
             </Menu.Item>
         </Menu>
     );

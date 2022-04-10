@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
-import { Col, message, Row, Tabs } from 'antd';
+import { Col, message, Row, Tabs, Typography } from 'antd';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getServerDetail } from '@/redux/serverSlice';
@@ -74,16 +74,13 @@ const ServerDetail = ():JSX.Element => {
         }
         return (
             <div className={classnames('ml-3','mt-5')}>
-                <Row>
+                <Row gutter={16}>
                     <Col span={2}>
-                        <Icon
-                            icon="logos:ubuntu"
-                            width={60}
-                            fr={undefined}/>
+                        <Icon icon="logos:ubuntu" width={60} fr={undefined}/>
                     </Col>
                     <Col span={4}>
                         <div id="serverInfo">
-                            <h1>{server.svrProperty.instanceName}</h1>
+                            <Typography.Title level={4}>{server.svrProperty.instanceName}</Typography.Title>
                             <div>
                             instance Type : {server.svrProperty.instanceType}({server.svrProperty.vCpu}vCPU, {server.svrProperty.memory} Gib)
                             </div>

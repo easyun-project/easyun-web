@@ -1,11 +1,28 @@
-export interface BucketInfo {
+export interface StBucketParms {
     bucketName: string;
     versioningConfiguration: string;
     bucketEncryption: string;
     region: string;
 }
 
-export interface VolumeDetail{
+export interface StBucketModel {
+    bktName: string;
+    bktRegion: string;
+    pubStatus: string;
+    statusMsg: string;
+    stType: string;
+    creationDate?: string;
+}
+
+export interface VolumeBasic {
+    createTime: string
+    tagName: string
+    volumeAz: string
+    volumeId: string
+    volumeState: string
+  }
+
+export interface StVolumeModel{
     'volumeAttach': {
         'attachPath': string
         'attachSvr': string
@@ -13,13 +30,7 @@ export interface VolumeDetail{
         'attachTime': string
         'diskType': string
       }[],
-    'volumeBasic': {
-      'createTime': string
-      'tagName': string
-      'volumeAz': string
-      'volumeId': string
-      'volumeState': string
-    },
+    'volumeBasic': VolumeBasic,
     'volumeConfig': {
       'isEncrypted': boolean
       'volumeIops': number

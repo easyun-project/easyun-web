@@ -69,7 +69,8 @@ const Resource = (): JSX.Element => {
                     <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" >
                         <Menu.Item key="overview">Overview</Menu.Item>
                         <Menu.Item key="server">Server</Menu.Item>
-                        <Menu.Item key="storage">Storage</Menu.Item>
+                        <Menu.Item key="volume">Volume</Menu.Item>
+                        <Menu.Item key="bucket">Bucket</Menu.Item>
                         <Menu.Item key="database">Database</Menu.Item>
                         <Menu.Item key="loadbalancer">Load Balancer</Menu.Item>
                         <Menu.Item key="backup">Backup</Menu.Item>

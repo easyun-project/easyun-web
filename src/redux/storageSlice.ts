@@ -1,13 +1,46 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { StorageCardInfo } from '@/components/Logic/CStorageCard';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { BucketCardInfo } from '@/components/Logic/CStorageCard/StBucketCard';
+import bucketService, { DcNameQueryParm } from '@/service/stBucketService';
+import volumeService from '@/service/stVolumeService';
+import { StBucketModel, StVolumeModel } from '@/constant/storage';
+
+//获取指定数据中心的Bucket列表
+export const listAllBucket = createAsyncThunk(
+    'storage/listBuckets',
+    async (params: DcNameQueryParm)  => {
+        return await bucketService.listBucket(params);
+    }
+);
+
+export const listAllVolume = createAsyncThunk(
+    'storage/listVolumes',
+    async (params: DcNameQueryParm)  => {
+        return await volumeService.listVolume(params);
+    }
+);
+
+export const getVolumeList = createAsyncThunk(
+    'storage/getVolumeList',
+    async (params: DcNameQueryParm)  => {
+        return await volumeService.getVolumeList(params);
+    }
+);
+
 
 export interface StorageState {
-    storageList: StorageCardInfo[],
+    loading: boolean,
+    storageList: BucketCardInfo[],
+    bucketList: StBucketModel[] | undefined,
+    volumeList: StVolumeModel[] | undefined,
 }
 
 const initialState: StorageState = {
-    storageList: []
+    loading: true,
+    storageList: [],
+    bucketList: undefined,
+    volumeList: undefined,
 };
+
 
 export const storageSlice = createSlice({
     name: 'storage',
@@ -17,6 +50,10 @@ export const storageSlice = createSlice({
         updateStorage: (state,action) => {
             state.storageList = action.payload;
         },
+        updateVolumeList: (state,action) => {
+            state.volumeList = action.payload;
+        },
+
         // 删除指定name的值
         deleteStorage: (state,action) =>{
             for (let i = 0, len = state.storageList.length; i < len; i++) {
@@ -33,6 +70,29 @@ export const storageSlice = createSlice({
             }
         }
     },
+    extraReducers: (builder) => {
+        builder.addCase(listAllBucket.fulfilled, (state: StorageState, action) => {
+            state.loading = false;
+            state.bucketList = action.payload;
+        });
+        builder.addCase(listAllBucket.pending, (state: StorageState) => {
+            state.loading = true;
+        });
+        builder.addCase(listAllBucket.rejected, (state: StorageState) => {
+            state.loading = false;
+        });
+
+        builder.addCase(listAllVolume.fulfilled, (state: StorageState, action) => {
+            state.loading = false;
+            state.volumeList = action.payload;
+        });
+        builder.addCase(listAllVolume.pending, (state: StorageState) => {
+            state.loading = true;
+        });
+        builder.addCase(listAllVolume.rejected, (state: StorageState) => {
+            state.loading = false;
+        });
+    }    
 });
-export const { updateStorage, deleteStorage } = storageSlice.actions;
+export const { updateStorage, deleteStorage, updateVolumeList } = storageSlice.actions;
 export default storageSlice.reducer;

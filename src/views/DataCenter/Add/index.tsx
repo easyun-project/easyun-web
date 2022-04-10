@@ -10,7 +10,7 @@ import dataCenterService from '@/service/dataCenterService';
 import { message } from 'antd';
 import { RootState } from '@/redux/store';
 import { getDataCenterParms, getDatacenterRegion } from '@/redux/dataCenterSlice';
-import { DataCenterParms, Region, SecurityGroupParms, SubnetParms } from '@/constant/dataCenter';
+import { DataCenterParms, RegionItem, SecurityGroupParms, SubnetParms } from '@/constant/dataCenter';
 import FlagUtil from '@/utils/flagUtil';
 
 
@@ -80,7 +80,7 @@ const AddDataCenter = (): JSX.Element => {
         return state.dataCenter;
     });
     const data = dataCenterState.defaultDcParams;
-    const region = dataCenterState.region;
+    const region = dataCenterState.regionList;
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getDataCenterParms());
@@ -148,7 +148,7 @@ const AddDataCenter = (): JSX.Element => {
                     }}>
                     <option value="">{data?.dcParms.dcRegion}
                     </option>
-                    {region?.map((item: Region) => {
+                    {region?.map((item: RegionItem) => {
                         return <option
                             key={item.regionCode}
                             value={item.countryCode}>

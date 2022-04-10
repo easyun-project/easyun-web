@@ -129,7 +129,7 @@ export const DashboardsTabList = (props): JSX.Element => {
                         dataIndex: 'volumeId',
                         key: 'volumeId',
                         render: (text: string) => {
-                            return <Link to={`/resource/storage/block/${text}`}
+                            return <Link to={`/resource/volume/${text}`}
                                 className={classnames('text-blue-500', 'underline')}>{text}</Link>;
                         },
                         sorter: (a, b) => a.volumeId?.localeCompare(b.volumeId)
@@ -232,7 +232,7 @@ export const DashboardsTabList = (props): JSX.Element => {
                         dataIndex: 'bktId',
                         key: 'bktId',
                         render: (text: string) => {
-                            return <Link to={`/resource/storage/object/${text}`}
+                            return <Link to={`/resource/bucket/object/${text}`}
                                 className={classnames('text-blue-500', 'underline')}>{text}</Link>;
                         },
                         sorter: (a, b) => a.bktId?.localeCompare(b.bktId)

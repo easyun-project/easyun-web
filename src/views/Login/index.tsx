@@ -11,6 +11,7 @@ import { Input, message, Modal } from 'antd';
 import appService from '@/service/appService';
 import { useDispatch } from 'react-redux';
 import { userAction } from '@/redux/userSlice';
+import { listAllDataCenter } from '@/redux/dataCenterSlice';
 import { UserModel } from '@/constant/user';
 // import { RootState } from '@/redux/store';
 
@@ -22,6 +23,11 @@ const LoginPage = (): JSX.Element => {
     const usernameRef = createRef<HTMLInputElement>();
     const passwordRef = createRef<HTMLInputElement>();
     const configRef = createRef<Input>();
+    //获取datacenter列表
+    const initDataCenterList = async ()=>{   
+        dispatch(listAllDataCenter());
+    };
+
     const login = async (username?: string, password?: string) => {
         if (!username || !password) {
             return;
@@ -32,8 +38,8 @@ const LoginPage = (): JSX.Element => {
             dispatch(userAction(
                 { ...loginRes,loginTime:Date.now() }));
             const token = loginRes.token;
-            localStorage.setItem('token',token);
-            navigate('/home');
+            localStorage.setItem('token',token);            
+            initDataCenterList().then(()=>navigate('/home'));
         }
     };
 
