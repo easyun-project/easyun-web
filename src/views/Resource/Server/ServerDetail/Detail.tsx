@@ -1,10 +1,14 @@
 import React from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Col, Divider, message, Row } from 'antd';
+import { Col, Divider, message, Row, Typography } from 'antd';
 import { Icon } from '@iconify/react';
 import { classnames,  } from '@@/tailwindcss-classnames';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import TimeUtil from '@/utils/time';
+
+
+const { Title, Paragraph, Text } = Typography;
 
 
 export default function Detail():JSX.Element {
@@ -15,20 +19,12 @@ export default function Detail():JSX.Element {
     if(server !== undefined){return (
         <>
             <div id='instanceId'>
-                        Instance Id:
-                <CopyToClipboard text={server.svrProperty.instanceId}
-                    onCopy={() => {
-                        message.success('copied to clipboard!');
-                    }}>
-                    <span>
-                        <Icon width={20} className={classnames('inline-block', 'mx-2')} icon="ep:document-copy"
-                            fr={undefined}/>
-                        {server.svrProperty.instanceId}</span>
-                </CopyToClipboard>
+                Instance Id:
+                <Text copyable> {server.svrProperty.instanceId} </Text>
             </div>
 
             <div>
-                        Launch Time: {server.svrProperty.launchTime}
+                Launch Time: <Text>{TimeUtil.utcConvertTimeZone({ date:server.svrProperty.launchTime})} </Text>
             </div>
 
             <div id='hostnameType' className={classnames('mt-4')}>

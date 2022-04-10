@@ -33,7 +33,7 @@ export default function Connect(): JSX.Element {
                     <div className={classnames('text-black','text-2xl')}>{currentServerState.svrConnect.userName}</div>
                     <div className={classnames('text-gray-400','mt-2')}>PASSWORD</div>
                     <div className={classnames('text-gray-700', 'text-sm','mb-2')}>This instance uses your
-                        <a href='http://www.baidu.com' target="_blank" rel='noreferrer'
+                        <a href='#' target="_blank" rel='noreferrer'
                             className={classnames('text-black', 'font-bold', 'inline')}> {currentServerState.svrProperty.keyPairName} </a>
                         (us-east-1) key pair to sign in.
                     </div>

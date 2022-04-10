@@ -6,12 +6,12 @@ import { QuestionCircleOutlined,CloseOutlined, CheckOutlined } from '@ant-design
 import { classnames } from '@@/tailwindcss-classnames';
 import { useDispatch,useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { VolumeDetail,VolumeTypeInfo } from '@/constant/storage';
+import { StVolumeModel,VolumeTypeInfo } from '@/constant/storage';
 import { AddVolumeParams } from '@/constant/storage';
 import { getServerDetail } from '@/redux/serverSlice';
 import { LoadingOutlined } from '@ant-design/icons';
 import serverService from '@/service/serverService';
-import storageService from '@/service/storageService';
+import volumeService from '@/service/stVolumeService';
 import { VolumeInfoSimple } from '@/constant/storage';
 
 interface DiskProps{
@@ -24,12 +24,12 @@ interface DiskProps{
 function ExistDisk(props:DiskProps) {
     const { availablePaths, changeAvaliablePaths } = props;
     const svrId = useSelector((state: RootState) =>state.server.currentServer!.svrProperty.instanceId);
-    const [diskInfo, changeDiskInfo] = useState<'loading'|VolumeDetail>('loading');
+    const [diskInfo, changeDiskInfo] = useState<'loading'|StVolumeModel>('loading');
     const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
     const dispatch = useDispatch();
     useEffect(
         ()=>{
-            storageService.getVolumeDetail(props.volumeId).then(
+            volumeService.getStVolumeModel(props.volumeId).then(
                 res=>{
                     changeDiskInfo(res);
                 },
@@ -73,7 +73,7 @@ function ExistDisk(props:DiskProps) {
                 volumeId:diskInfo.volumeBasic.volumeId,
                 diskPath:volumeAttachInfo.attachPath
             }).then(
-                ()=>{storageService.deleteVolume({ dcName,volumeIds:[props.volumeId] });}
+                ()=>{volumeService.deleteVolume({ dcName,volumeIds:[props.volumeId] });}
             ).then(
                 ()=>setTimeout(()=>dispatch(getServerDetail({ serverId: svrId })),2000)
             );
@@ -259,7 +259,7 @@ function NewDisk(props:NewDiskProps) {
                                     break;
                                 }
                                 changeCreating(true);
-                                storageService.addVolume(params).then(
+                                volumeService.addVolume(params).then(
                                     ()=>{dispatch(getServerDetail({
                                         serverId: InstanceId
                                     }));
@@ -287,6 +287,7 @@ export default function Disk():JSX.Element {
     };
     const dispatch = useDispatch();
     const [isAdding, changeIsAdding] = useState(false);
+    const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
     const currentServerDisks = useSelector((state: RootState) => state.server.currentServer?.svrDisk);
     const svrId = useSelector((state: RootState) => state.server.currentServer!.svrProperty.instanceId);
     const [availablePaths, changeAvaliablePaths] = useState<string[]>(getEN());
@@ -295,7 +296,7 @@ export default function Disk():JSX.Element {
     const [seletedDisk, changeSeletedDisk] = useState('');
 
     useEffect(
-        ()=>{storageService.listVolume().then(res=>changeAvailableDisks(res));},[]
+        ()=>{volumeService.getVolumeList({dc:dcName}).then(res=>changeAvailableDisks(res));},[]
     );
     return (
         <>

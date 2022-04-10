@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 
-import bucketManage from '@/service/storageService';
-import { BucketInfo } from '@/constant/storage';
+import bucketManage from '@/service/stBucketService';
+import { StBucketParms } from '@/constant/storage';
 
 const AddBucket = (): JSX.Element => {
     const defaultBucketName = 'bucket-easyun-test' + parseInt(Math.random() * 900 + 100 + '', 10);
@@ -220,17 +220,17 @@ const AddBucket = (): JSX.Element => {
                         'my-5'
                     )}
                     click={async () => {
-                        const bucketInfo = {
+                        const StBucketParms = {
                             bucketName: bucketName,
                             versioningConfiguration: versioningConfiguration ? 'Enabled' : 'Suspended',
                             bucketEncryption: bucketEncryption.toString(),
                             region: region,
                         };
                         const data = await bucketManage
-                            .addBucket<BucketInfo>(bucketInfo);
+                            .addBucket<StBucketParms>(StBucketParms);
                         if (data) {
                             alert('创建成功');
-                            navigate('/home/storage');
+                            navigate('/resource/bucket');
                         }
                     }
                     }

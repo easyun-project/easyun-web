@@ -2,20 +2,21 @@ import React from 'react';
 import NotFound from '@/views/NotFound';
 import { NoResource } from '@/views/Resource';
 // Resource视图
-import ResourceOverview from '@/views/Resource/Overview';
+import RescOverview from '@/views/Resource/Overview';
 import AddServer from '@/views/Resource/Server/AddServer';
-import AddBucket from '@/views/Resource/Storage/AddBucket';
-import AddDisk from '@/views/Resource/Storage/AddDisk';
+import AddBucket from '@/views/Resource/StBucket/AddBucket';
+import AddVolume from '@/views/Resource/StVolume/AddVolume';
 import ServerList from '@/views/Resource/Server';
 import ServerDetail from '@/views/Resource/Server/ServerDetail';
-import StoragePage from '@/views/Resource/Storage';
-import BucketManage from '@/views/Resource/Storage/BucketManage';
+import VoluemPage from '@/views/Resource/StVolume';
+import BucketPage from '@/views/Resource/StBucket';
+import BucketManage from '@/views/Resource/StBucket/BucketManage';
 import DatabasePage from '@/views/Resource/Database';
 
 export default [
     {
         path:'overview',
-        element:<ResourceOverview />
+        element:<RescOverview />
     },
     {
         path:'server/:serverId',
@@ -30,20 +31,24 @@ export default [
         element:<AddServer />
     },
     {
-        path:'storage',
-        element:<StoragePage />
+        path:'bucket',
+        element:<BucketPage />
     },
     {
-        path:'storage/object/:bktId',
+        path:'bucket/object/:bktId',
         element:<BucketManage />
     },
     {
-        path:'storage/object/add',
+        path:'bucket/object/add',
         element:<AddBucket />
     },
     {
-        path:'storage/block/add',
-        element:<AddDisk />
+        path:'volume',
+        element:<VoluemPage />
+    },    
+    {
+        path:'volume/add',
+        element:<AddVolume />
     },
     {
         path:'database',

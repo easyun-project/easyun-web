@@ -128,7 +128,7 @@ export interface CSecOptInfo {
     sgName: string
 }
 
-export interface Region {
+export interface RegionItem {
     regionCode: string;
     countryCode: string;
     regionName: string;
@@ -171,6 +171,7 @@ export interface SecurityGroupDetail{
 
 export interface SecurityGroupInfoSimple{
     'sgDes': string
-      'sgId': string
-      'sgName': string
-      'tagName': string}
+    'sgId': string
+    'sgName': string
+    'tagName': string
+}

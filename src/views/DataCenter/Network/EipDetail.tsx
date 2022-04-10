@@ -134,7 +134,7 @@ export default function EipDetail() {
                                                     className='mx-1'
                                                     width="24" height="24"
                                                 />}
-                                            <span>Dispatch</span>
+                                            <span>Detach</span>
                                         </button>
                                     </ServerCard>}
                             </>
