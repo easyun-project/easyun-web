@@ -5,7 +5,7 @@ import serverService, { ServerDetailParams } from '@/service/serverService';
 
 export interface ServerState {
     loading: boolean,
-    servers: ServerModel[]
+    servers: ServerModel[],
     currentServer: SeverDetailModel | undefined
 }
 

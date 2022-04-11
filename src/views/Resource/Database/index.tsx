@@ -2,7 +2,7 @@ import * as React from 'react';
 // import { CHeader } from '@/components/Logic/CHeader';
 // import { CFooter } from '@/components/Logic/CFooter';
 import { RootState } from '@/redux/store';
-import CStorageCard from '@/components/Logic/CStorageCard';
+import CStorageCard from '@/components/Logic/CStorageCard/StBucketCard';
 import { CButton } from '@/components/Common/CButton';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
@@ -12,7 +12,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { updateStorage } from '@/redux/storageSlice';
-import bucketManage from '@/service/storageService';
+import bucketManage from '@/service/stBucketService';
 // import { UserModel } from '@/constant/user';
 
 import stbucket from '@@/src/assets/images/stbucket.png';
@@ -20,7 +20,7 @@ import stdisk from '@@/src/assets/images/stdisk.png';
 
 
 
-export const DatabasePage = (): JSX.Element => {
+const DatabasePage = (): JSX.Element => {
     const navigate = useNavigate();
     return (
         <div className={classnames('m-20', 'flex', 'flex-col', 'items-center', 'h-screen')}>

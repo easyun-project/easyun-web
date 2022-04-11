@@ -1,24 +1,33 @@
 import React, { useState } from 'react';
 import { classnames } from '@@/tailwindcss-classnames';
 import { useEffect } from 'react';
-import DataCenterService from '@/service/dataCenterService';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 import { DataCenterModel } from '@/constant/dataCenter';
+import { listAllDataCenter } from '@/redux/dataCenterSlice';
+import DataCenterService from '@/service/dataCenterService';
 import { CPartialLoading } from '@/components/Common/CPartialLoading';
 import Nodc from './Nodc';
 import DataCenterCard from '@/components/Logic/CCard/DataCenterCard';
 import { useNavigate } from 'react-router-dom';
-import { Menu, Dropdown } from 'antd';
+import { Menu, Dropdown, Spin } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 
 
-export default function Home():JSX.Element {
+export default function Home():JSX.Element {    
     const navigate = useNavigate();
-    const [datacenters,changeDatacenters] = useState<'loading'|DataCenterModel[]>('loading');
+    // const [datacenters,changeDatacenters] = useState<'loading'|DataCenterModel[]>('loading');
     const [sortBy,changeSortBy] = useState('Name');
-    useEffect(()=>{
-        DataCenterService.listDataCenter().then(
-            res=>changeDatacenters(res)
-        );},[]);
+
+    const dataCenterState = useSelector((state: RootState) => state.dataCenter)
+    const dataCenterList = dataCenterState.dataCenterList
+    const dcListLoading = dataCenterState.loading
+
+    // useEffect(()=>{
+    //     DataCenterService.listDataCenter().then(
+    //         res=>changeDatacenters(res)
+    //     );
+    // },[]);
 
     const menu = (
         <Menu onClick={e=>{changeSortBy(e.key);}}>
@@ -40,28 +49,27 @@ export default function Home():JSX.Element {
 
     let order:string;
     switch(sortBy) {
-    case 'Name':
-        order = 'dcName';
-        break;
+        case 'Name':
+            order = 'dcName';
+            break;
 
-    case 'CreateDate':
-        order = 'createDate';
-        break;
+        case 'CreateDate':
+            order = 'createDate';
+            break;
 
-    case 'VPC':
-        order = 'vpcID';
-        break;
+        case 'VPC':
+            order = 'vpcID';
+            break;
 
-    case 'Region':
-        order = 'dcRegion';
-        break;
+        case 'Region':
+            order = 'dcRegion';
+            break;
     }
 
 
-
-
-    return (<div>
-        <div className={classnames('mx-14','mt-2','font-bold','text-2xl','align-middle')}> select a datacenter</div>
+    return (
+    <div>
+        <div className={classnames('mx-14','mt-2','text-2xl','align-middle')}>Select a datacenter</div>
         <div className={classnames('flex','items-center','justify-between','mx-14')}>
             <div className={classnames('flex','text-sm')}>
                 <div className={classnames()}>sort by </div>
@@ -72,7 +80,17 @@ export default function Home():JSX.Element {
             <button className='btn-yellow' onClick={()=>navigate('/datacenter/add')}> create new datacenter</button>
         </div>
 
-        {datacenters === 'loading'
+        <Spin spinning={dcListLoading} tip="Loading...">{
+        dataCenterList!.length === 0 ? <Nodc/> :
+            <div className={classnames('grid','2xl:grid-cols-3','lg:grid-cols-2','gap-4','justify-items-center','items-center','mt-4')}>
+                {dataCenterList?.sort((a,b)=>{
+                    if(order === 'dcRegion'){return ['us-west-1','us-east-1'].indexOf(b.dcRegion) - ['us-west-1','us-east-1'].indexOf(a.dcRegion); }
+                    else{return b[order].localeCompare(a[order]);};
+                }).map((item)=><DataCenterCard key={item.dcName} {...item}/>)}
+            </div>
+        }</Spin>
+
+        {/* {datacenters === 'loading'
             ? <CPartialLoading classes={classnames('h-96')}/>
             : (datacenters.length !== 0
                 ? <div className={classnames('grid','2xl:grid-cols-3','lg:grid-cols-2','gap-4','justify-items-center','items-center','mt-4')}>
@@ -82,7 +100,7 @@ export default function Home():JSX.Element {
                     }).map((dcInfo)=><DataCenterCard key={dcInfo.dcName} {...dcInfo}/>)}
                 </div>
                 : <Nodc/>)
-        }
+        } */}
     </div>
     );
 }

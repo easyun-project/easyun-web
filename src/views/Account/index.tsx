@@ -1,12 +1,7 @@
 import React, { useState } from 'react';
-import { Route } from 'react-router';
-import { Routes, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation,Outlet } from 'react-router-dom';
 import { Menu } from 'antd';
 import { classnames } from '@@/tailwindcss-classnames';
-import Profile from './profile';
-import Quotas from './quotas';
-import Reminder from './reminder';
-import Keypair from './keypair';
 const Home = (): JSX.Element => {
     const [current, changeCurrent] = useState('profile');
     const navigate = useNavigate();
@@ -34,12 +29,7 @@ const Home = (): JSX.Element => {
                     <Menu.Item key="quotas">Quotas</Menu.Item>
                 </Menu>
                 <div className={classnames('p-12')}>
-                    <Routes>
-                        <Route path="profile" element={<Profile />}></Route>
-                        <Route path="reminder" element={<Reminder />} />
-                        <Route path="keypair" element={<Keypair />} />
-                        <Route path="quotas" element={<Quotas />} />
-                    </Routes>
+                    <Outlet />
                 </div>
             </div>
         </div>

@@ -1,11 +1,11 @@
 import { Empty } from 'antd';
 import React from 'react';
 
-const AddDisk = (): JSX.Element => {
+const AddVolume = (): JSX.Element => {
     return (
         <Empty description={false} />
     );
 };
 
 
-export default AddDisk;
+export default AddVolume;

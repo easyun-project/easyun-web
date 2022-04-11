@@ -37,7 +37,7 @@ export interface SecurityGroupParms {
   tagName: string;
 }
 
-interface DcDropDown {
+export interface DcDropDown {
     azList: string[];
     gwList: string[];
     rtbList: string[];
@@ -54,18 +54,18 @@ export interface DataCenterModel {
 }
 
 
-export interface DataCenterDetail {
+export interface DataCenterSummary {
     azSummary : AzSummary[]
-    dcBasic : DataCenterModel
+    // dcBasic : DataCenterModel
     vpcSummary: VpcSummary
 }
 
-interface AzSummary {
+export interface AzSummary {
     azName: string
     subnetNum : number
 }
 
-interface VpcSummary {
+export interface VpcSummary {
     aclNum: number
     eipNum: number
     igwNum: number
@@ -128,6 +128,12 @@ export interface CSecOptInfo {
     sgName: string
 }
 
+export interface RegionItem {
+    regionCode: string;
+    countryCode: string;
+    regionName: string;
+}
+
 export interface SecurityGroupDetail{
       'ibPermissions':
         {
@@ -165,6 +171,7 @@ export interface SecurityGroupDetail{
 
 export interface SecurityGroupInfoSimple{
     'sgDes': string
-      'sgId': string
-      'sgName': string
-      'tagName': string}
+    'sgId': string
+    'sgName': string
+    'tagName': string
+}

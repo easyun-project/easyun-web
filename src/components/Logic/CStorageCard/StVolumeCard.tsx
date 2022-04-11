@@ -2,26 +2,18 @@ import React from 'react';
 import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { Menu, Dropdown } from 'antd';
-import bucketManage from '@/service/storageService';
+import bucketManage from '@/service/stBucketService';
 // import { RootState } from '@/redux/store';
 // import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { deleteStorage } from '@/redux/storageSlice';
 import { useNavigate } from 'react-router-dom';
-import stbucket from '@@/src/assets/images/stbucket.png';
+import { VolumeBasic, StVolumeModel } from '@/constant/storage';
 
-export interface StorageCardInfo {
-    class?: TTailwindString;
-    bucketUrl?: string;
-    stType?: string;
-    CreationDate?: string;
-    bktName: string;
-    statusMsg: string;
-    bktRegion: string;
-}
 
-const CStorageCard = (props: StorageCardInfo): JSX.Element => {
-    const { bktName, statusMsg, bktRegion, stType } = props;
+const CStVolumeCard = (props: StVolumeModel): JSX.Element => {
+    const { volumeBasic, volumeAttach, volumeTags } = props;
+    const volumeId = volumeBasic.volumeId
     const navigate = useNavigate();
     // const userState = useSelector((state: RootState) => {
     //     return state.user.user;
@@ -30,7 +22,7 @@ const CStorageCard = (props: StorageCardInfo): JSX.Element => {
     const menu = (
         <Menu>
             <Menu.Item key="manage" onClick={() => {
-                navigate(`/resource/storage/object/${bktName}`, { state: props });
+                navigate(`/resource/volume/${volumeId}`, { state: props });
             }}>
                 Manage
             </Menu.Item>
@@ -39,15 +31,14 @@ const CStorageCard = (props: StorageCardInfo): JSX.Element => {
                 danger
                 key="delete"
                 onClick={() => {
-                    bucketManage.deleteBucket(bktName)
+                    bucketManage.deleteBucket(volumeId)
                         .then(
                             () => {
                                 alert('删除成功');
-                                dispatch(deleteStorage(bktName));
+                                dispatch(deleteStorage(volumeId));
                             }
                         );
-                }
-                }
+                }}
             >
                 Delete
             </Menu.Item>
@@ -69,18 +60,18 @@ const CStorageCard = (props: StorageCardInfo): JSX.Element => {
             )}
         >
             <div className={classnames('flex', 'flex-row', 'mb-2')}>
-                <img
+                {/* <img
                     src={stbucket}
                     alt="stbucket.png"
                     className={classnames('w-12', 'h-12')}
-                />
+                /> */}
+                <Icon icon="clarity:storage-line" width="36" color='#FF8C00' inline={true} />
                 <div className={classnames('flex-grow')}>
                     <div className={classnames('text-blue-600')}>
                         <span className='cursor-pointer' onClick={() => {
-                            navigate(`/resource/storage/object/${bktName}`, { state: props });
-                        }}>{bktName}</span>
+                            navigate(`/resource/bucket/object/${volumeId}`, { state: props });
+                        }}>{volumeId}</span>
                     </div>
-                    <div className={classnames('text-xs', 'text-gray-500')}>{stType}</div>
                 </div>
                 <Dropdown overlay={menu}>
                     <Icon
@@ -100,11 +91,11 @@ const CStorageCard = (props: StorageCardInfo): JSX.Element => {
                     'border-dashed'
                 )}
             >
-                <div className={classnames('text-xs', 'text-gray-500')}>{statusMsg}</div>
-                <div className={classnames('text-xs', 'text-gray-500', 'pr-5')}>{bktRegion}</div>
+                <div className={classnames('text-xs', 'text-gray-500')}>status</div>
+                <div className={classnames('text-xs', 'text-gray-500', 'pr-5')}>xxx</div>
             </div>
         </div>
     );
 };
 
-export default CStorageCard;
+export default CStVolumeCard;

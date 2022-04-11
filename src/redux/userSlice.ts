@@ -18,6 +18,7 @@ const initUser = {
     account_type: '',
     type: '',
     token: '',
+    loginTime:0
 };
 
 export const userSlice = createSlice({

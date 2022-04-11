@@ -9,10 +9,11 @@ import { useNavigate } from 'react-router-dom';
 import userService from '@/service/userService';
 import { Input, message, Modal } from 'antd';
 import appService from '@/service/appService';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { userAction } from '@/redux/userSlice';
+import { listAllDataCenter } from '@/redux/dataCenterSlice';
 import { UserModel } from '@/constant/user';
-import { RootState } from '@/redux/store';
+// import { RootState } from '@/redux/store';
 
 import logo3 from '@@/src/assets/images/logo_easyun/logo_easyun03.svg';
 
@@ -22,23 +23,23 @@ const LoginPage = (): JSX.Element => {
     const usernameRef = createRef<HTMLInputElement>();
     const passwordRef = createRef<HTMLInputElement>();
     const configRef = createRef<Input>();
+    //获取datacenter列表
+    const initDataCenterList = async ()=>{   
+        dispatch(listAllDataCenter());
+    };
+
     const login = async (username?: string, password?: string) => {
         if (!username || !password) {
             return;
         }
         const loginRes = await userService.login<UserModel>(username, password);
         if (loginRes) {
-            dispatch(userAction(loginRes));
-            //设置一个定时任务-每隔一个小时更新token
-            setInterval(
-                () => {
-                    userService.login<UserModel>(username, password).then((reLoginRes) => { dispatch(userAction(reLoginRes));});
-                },
-                3600000
-            );
+            // 把登录时间一并存在redux中
+            dispatch(userAction(
+                { ...loginRes,loginTime:Date.now() }));
             const token = loginRes.token;
-            localStorage.setItem('token',token);
-            navigate('/home');
+            localStorage.setItem('token',token);            
+            initDataCenterList().then(()=>navigate('/home'));
         }
     };
 
@@ -72,7 +73,7 @@ const LoginPage = (): JSX.Element => {
         <div className={classnames('flex','flex-col','items-center')}>
             {/* 首页header */}
             <div className={classnames('flex', 'items-center', 'bg-gray-600','w-full')}>
-                <div className={classnames('flex-grow','ml-10')}>
+                <div className='grow ml-10'>
                     <img src={ logo3 } alt="logo_easyun03.svg" width='150' />
                 </div>
                 <span onClick={showModal} className={classnames('float-right', 'mr-10', 'cursor-pointer')}>

@@ -3,4 +3,5 @@ export interface UserModel {
     account_type: string;
     type: string;
     token: string;
+    loginTime?:number
 }

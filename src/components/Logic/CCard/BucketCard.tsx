@@ -1,9 +1,9 @@
 import React from 'react';
 import bucketImage from '@/assets/images/stbucket.png';
-import { StorageCardInfo } from '../CStorageCard';
-import { getDomain } from '@/views/Resource/Storage/BucketManage/utils';
+import { BucketCardInfo } from '../CStorageCard/StBucketCard';
+import { getDomain } from '@/views/Resource/StBucket/BucketManage/utils';
 
-export default function BucketCard({ bktDetail }: { bktDetail: StorageCardInfo }) {
+export default function BucketCard({ bktDetail }: { bktDetail: BucketCardInfo }) {
     const { bktName, bktRegion, stType } = bktDetail;
     console.log('🚀 ~ file: index.tsx ~ line 8 ~ CBucketCard ~ props', bktDetail);
     return (

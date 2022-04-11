@@ -88,14 +88,12 @@ export const serverColumns = [
 ];
 
 
-
-export const ServerList = ():JSX.Element => {
+const ServerList = ():JSX.Element => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const serverState = useSelector((state: RootState) =>  state.server);
     const serverDataSource = serverState.servers;
-
 
     const [selectedServers, changeSelectedServers] = useState<React.Key[]>([]);
     const [acting,changeActing] = useState(false);
@@ -113,7 +111,6 @@ export const ServerList = ():JSX.Element => {
         }
         else{navigate('/home');}
     }, []);
-
 
 
     const newServerDataSource = serverDataSource.map((item)=> ({ ...item, 'key':item.svrId }));
@@ -236,3 +233,5 @@ export const ServerList = ():JSX.Element => {
         );
     }
 };
+
+export default ServerList;
