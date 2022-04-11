@@ -8,6 +8,11 @@ import { InsTypeFamily } from '@/views/Resource/Server/AddServer';
 import { DiskInfo } from '@/views/Resource/Server/AddServer/DiskConfiguration';import React from 'react';
 import store from '@/redux/store';
 
+
+export interface DcNameQueryParm {
+    dc: string
+}
+
 interface insTypeParams {
     os?: 'linux'|'windows'
     arch: 'x86_64'|'arm64'
@@ -79,17 +84,34 @@ export default class serverService {
     /**
      * 获取server list
      */
-    static async getServerList(): Promise<ServerModel[]> {
+    static async listAllServer(params:DcNameQueryParm): Promise<ServerModel[]> {
         const url = getHost() + ServerPath;
         const result = await axios.get(url, {
+            params,
             headers: getHeader(),
-            params:{ dc:store.getState().dataCenter.currentDC.basicInfo!.dcName }
+            // params:{ dc:store.getState().dataCenter.currentDC.basicInfo!.dcName }
         },);
         if (result.status == 200) {
             return result.data.detail as ServerModel[];
         }
         return [];
     }
+
+        /**
+     * 获取server list
+     */
+         static async getServerList(params:DcNameQueryParm): Promise<ServerModel[]> {
+            const url = getHost() + ServerPath + '/list';
+            const result = await axios.get(url, {
+                params,
+                headers: getHeader(),
+                // params:{ dc:store.getState().dataCenter.currentDC.basicInfo!.dcName }
+            },);
+            if (result.status == 200) {
+                return result.data.detail as ServerModel[];
+            }
+            return [];
+        }
 
     /**
      * 获取server detail

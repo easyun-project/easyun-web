@@ -16,13 +16,13 @@ import { DownOutlined } from '@ant-design/icons';
 
 export default function Home():JSX.Element {    
     const navigate = useNavigate();
-    // const [datacenters,changeDatacenters] = useState<'loading'|DataCenterModel[]>('loading');
     const [sortBy,changeSortBy] = useState('Name');
 
     const dataCenterState = useSelector((state: RootState) => state.dataCenter)
     const dataCenterList = dataCenterState.dataCenterList
     const dcListLoading = dataCenterState.loading
 
+    // const [datacenters,changeDatacenters] = useState<'loading'|DataCenterModel[]>('loading');
     // useEffect(()=>{
     //     DataCenterService.listDataCenter().then(
     //         res=>changeDatacenters(res)
@@ -81,9 +81,9 @@ export default function Home():JSX.Element {
         </div>
 
         <Spin spinning={dcListLoading} tip="Loading...">{
-        dataCenterList!.length === 0 ? <Nodc/> :
+        dataCenterList?.length === 0 ? <Nodc/> :
             <div className={classnames('grid','2xl:grid-cols-3','lg:grid-cols-2','gap-4','justify-items-center','items-center','mt-4')}>
-                {dataCenterList?.sort((a,b)=>{
+                {dataCenterList?.slice().sort((a,b)=>{
                     if(order === 'dcRegion'){return ['us-west-1','us-east-1'].indexOf(b.dcRegion) - ['us-west-1','us-east-1'].indexOf(a.dcRegion); }
                     else{return b[order].localeCompare(a[order]);};
                 }).map((item)=><DataCenterCard key={item.dcName} {...item}/>)}

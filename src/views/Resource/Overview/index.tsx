@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 // UI contents
 import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
-import { Row, Col, Typography, Table, Badge, Card, Statistic, Spin, Divider} from 'antd';
+import { Row, Col, Typography, Table, Badge, Card, Statistic, Spin, Divider } from 'antd';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 // services and interface/schema
 import { CostSummary, CostUsageItem, PeriodTotalCost, PeriodMonthlyCost } from '@/constant/resource';
@@ -33,7 +33,7 @@ const TotalCostCard = (props:CostCardProps): JSX.Element => {
         valueColor = null
     } else {
         trendIcon = isRise ? <ArrowUpOutlined /> : <ArrowDownOutlined />
-        valueColor = isRise ? { color: '#cf1322' } : { color: '#3f8600'}
+        valueColor = isRise ? { color: '#cf1322' } : { color: '#3f8600' }
     }
     return(
         <Card className='border-1 w2 min-w-fit'>
@@ -45,18 +45,18 @@ const TotalCostCard = (props:CostCardProps): JSX.Element => {
                 valueStyle={valueColor}
                 prefix={unit}
                 suffix={trendIcon}
-            />  
+            />
         </Card>
     )
 }
 
 
 function CostSummaryBadge(props:any){
-    const {curr, next, last} = props
+    const { curr, next, last } = props
     return (
         <>
             <TotalCostCard value={curr.value} unit={curr.unit} text='Current Month Cost'/>
-            <TotalCostCard value={next.value} unit={next.unit} text='Forcasted Month Cost' isRise={(next.value >= last.value)?true:false}/>            
+            <TotalCostCard value={next.value} unit={next.unit} text='Forcasted Month Cost' isRise={(next.value >= last.value) ? true : false}/>
             <TotalCostCard value={last.value} unit={last.unit} text='Last Month Cost' />
         </>
     )
@@ -65,7 +65,8 @@ function CostSummaryBadge(props:any){
 function RecentCostBadge(props) {
     const { costList } = props
     return (
-        costList.reverse().map((item, index)=> 
+        // 通过.slice() 深拷贝 避免 .reverse() 对原数组影响
+        costList.slice().reverse().map((item, index)=>
             <div key={index}>
             <Text > {item.timePeriod.Start}: </Text> 
             <Text strong>{item.totalCost.unit} {item.totalCost.value} </Text>
@@ -100,17 +101,54 @@ function CostUsageTable(props:any){
             title: 'Cost',
             dataIndex: 'cost',
             key: 'cost',
-            render: (text:string):React.ReactNode => <span>{text} USD</span>,
+            render: (text:string):React.ReactNode => <span>USD {text}</span>,
         }
     ]
 
-    const costData = [{
-        key : 0,
-        service: 'Amazon Elastic Compute Cloud - Compute',
-        quantity: '173.4413398222',
-        unit: 'N/A',
-        cost: 'USD 1.9510391676'
-    }]
+    const costData = [
+        {
+            key : 0,
+            service: 'Amazon Elastic Compute Cloud - Compute',
+            quantity: '192.4438207117',
+            unit: 'N/A',
+            cost: '2.0498391676'
+        },
+        {
+            key : 1,
+            service: 'EC2 - Other',
+            quantity: '171.2346813346',
+            unit: 'N/A',
+            cost: '5.1432090358'
+        },
+        {
+            key : 2,
+            service: 'Amazon Relational Database Service',
+            quantity: '215.833333338',
+            unit: 'N/A',
+            cost: '0.8953423303'
+        },
+        {
+            key : 3,
+            service: 'Amazon Elastic Load Balancing',
+            quantity: '49.0094941522',
+            unit: 'N/A',
+            cost: '1.1025001125'
+        },
+        {
+            key : 4,
+            service: 'Amazon Simple Storage Service',
+            quantity: '711.7201558573',
+            unit: 'N/A',
+            cost: '0.0002804787'
+        },
+        {
+            key : 5,
+            service: 'AWS Backup',
+            quantity: '0.0000000046',
+            unit: 'N/A',
+            cost: 'USD 0.0000000002'
+        },
+    ]
 
     // for(let i=list.length; i>0; i--) {
     //     costData.push({
@@ -123,7 +161,7 @@ function CostUsageTable(props:any){
     // }
 
     return (
-        <Table columns={costColumns} dataSource={costData} />
+        <Table size="middle" columns={costColumns} dataSource={costData} />
     )
 }
 
@@ -167,7 +205,7 @@ export const ResourceOverview = (): JSX.Element => {
                     </Col>
 
                     <Col className="gutter-row" span={12}>                    
-                    <Title level={4}>Current Cost and Usage</Title>
+                    <Title level={4}>Current cost and usage by service</Title>
                     <Spin spinning={rescLoading} tip="Loading...">
                     <CostUsageTable 
                         time = { costSummary?.currMonthCost?.timePeriod }

@@ -117,28 +117,27 @@ const WithStorage = (props): JSX.Element => {
     );
 };
 
-const BucketPage = (): JSX.Element => {
-    const [storageLoading, changeStorageLoading] = useState(true);
+const BucketPage = (): JSX.Element => {    
     const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
     const dispatch = useDispatch();
 
-    
-    useEffect(() => {
-        bucketService.listBucket({ dc:dcName }).then((data: any) => {
-            changeStorageLoading(false);
-            dispatch(updateStorage(data));
-            // dispatch(updateStorage(data.detail[0].bucketList));
-        },
-        () => {
-            changeStorageLoading(false);
-            alert('网络错误，请刷新');
-        }
-        );
-    }, []);
+    // const [storageLoading, changeStorageLoading] = useState(true);
+    // useEffect(() => {
+    //     bucketService.listAllBucket({ dc:dcName }).then((data: any) => {
+    //         changeStorageLoading(false);
+    //         dispatch(updateStorage(data));
+    //         // dispatch(updateStorage(data.detail[0].bucketList));
+    //     },
+    //     () => {
+    //         changeStorageLoading(false);
+    //         alert('网络错误，请刷新');
+    //     }
+    //     );
+    // }, []);
 
     const storageSate = useSelector((state: RootState) => state.storage);
     const bucketList = storageSate.storageList;
-    // const bktLoading = storageSate.loading;
+    const storageLoading = storageSate.loading;
 
     return (
         <Spin spinning={storageLoading} tip="Loading...">

@@ -110,7 +110,7 @@ export default function DataCenterOverview():JSX.Element {
             </div>
 
             <div id='vpcSummary'>
-                <Paragraph className='pt-4'>You are using following cloud datacenter(VPC) service:</Paragraph>
+                <Paragraph className='pt-4'>You are using following datacenter networking (VPC) service:</Paragraph>
                 <Row gutter= {[16,24]} className='py-2'>
                     <VpcSummaryCard title='Public Subnets' value={dcSummary?.vpcSummary.pubNum} />
                     <VpcSummaryCard title='Internet Gateways' value={dcSummary?.vpcSummary.igwNum}/>
