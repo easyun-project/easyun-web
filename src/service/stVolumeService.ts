@@ -11,7 +11,7 @@ export interface DcNameQueryParm {
 
 export default class volumeService {
 
-    static async listVolume<T>(params:DcNameQueryParm): Promise<StVolumeModel[] | undefined> {
+    static async listAllVolume<T>(params:DcNameQueryParm): Promise<StVolumeModel[] | undefined> {
         // TODO temp static
         const url = getHost() + StVolumePath;
         const result = await axios.get(url, {

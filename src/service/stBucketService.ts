@@ -11,7 +11,7 @@ export interface DcNameQueryParm {
 
 export default class bucketService {
 
-    static async listBucket<T>(params:DcNameQueryParm): Promise<StBucketModel[] | undefined> {
+    static async listAllBucket<T>(params:DcNameQueryParm): Promise<StBucketModel[] | undefined> {
         // TODO temp static
         const url = getHost() + StBucketPath;
         const result = await axios.get(url, {

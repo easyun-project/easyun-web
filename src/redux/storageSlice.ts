@@ -1,21 +1,21 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { BucketCardInfo } from '@/components/Logic/CStorageCard/StBucketCard';
-import bucketService, { DcNameQueryParm } from '@/service/stBucketService';
-import volumeService from '@/service/stVolumeService';
+import bucketService from '@/service/stBucketService';
+import volumeService, { DcNameQueryParm } from '@/service/stVolumeService';
 import { StBucketModel, StVolumeModel } from '@/constant/storage';
 
 //获取指定数据中心的Bucket列表
 export const listAllBucket = createAsyncThunk(
-    'storage/listBuckets',
+    'storage/listAllBucket',
     async (params: DcNameQueryParm)  => {
-        return await bucketService.listBucket(params);
+        return await bucketService.listAllBucket(params);
     }
 );
 
 export const listAllVolume = createAsyncThunk(
-    'storage/listVolumes',
+    'storage/listAllVolume',
     async (params: DcNameQueryParm)  => {
-        return await volumeService.listVolume(params);
+        return await volumeService.listAllVolume(params);
     }
 );
 

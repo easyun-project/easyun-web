@@ -8,7 +8,9 @@ import { deleteDataCenter, updateCurrentDC, getDatacenterSummary, getDataCenterE
 import { useDispatch } from 'react-redux';
 import { getDataCenterSecgroup,getDataCenterSubnet } from '@/redux/dataCenterSlice';
 import { getCostSummary, getResourceSummary } from '@/redux/resourceSlice';
-import { getServerList } from '@/redux/serverSlice';
+import { getServerList, listAllServer } from '@/redux/serverSlice';
+import { listAllBucket, listAllVolume } from '@/redux/storageSlice';
+
 
 export default function DataCenterCard(props:DataCenterModel) {
     const dispatch = useDispatch();
@@ -22,12 +24,14 @@ export default function DataCenterCard(props:DataCenterModel) {
         dispatch(getDataCenterSecgroup({ dc:dcName }));
         dispatch(getDataCenterEip({ dc:dcName }));
         dispatch(getDataCenterSubnet({ dc:dcName }));
-        // dispatch(getServerList());
+        dispatch(getServerList({ dc:dcName }));
     };
     const initResource = async ()=>{
         dispatch(getCostSummary({ dc:dcName }));
         dispatch(getResourceSummary({ dc:dcName }));        
-        dispatch(getServerList());
+        dispatch(listAllServer({ dc:dcName }));
+        dispatch(listAllVolume({ dc:dcName }));
+        dispatch(listAllBucket({ dc:dcName }));
     };
     const menu = (
         <Menu>

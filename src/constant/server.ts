@@ -2,15 +2,15 @@ export interface ServerModel {
     key?:string
     azName: string
     insType: string
-    osName: string
-    pubIp: string
-    ramSize: number
     svrId: string
     svrState: string
-    priIp:string
     tagName:string
-    volumeSize:number
-    vpuNum:number
+    osName?: string
+    pubIp?: string
+    ramSize?: number 
+    priIp?:string    
+    volumeSize?:number
+    vpuNum?:number
 }
 
 

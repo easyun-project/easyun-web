@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ServerModel, SeverDetailModel } from '@/constant/server';
-import serverService, { ServerDetailParams } from '@/service/serverService';
+import serverService, { DcNameQueryParm, ServerDetailParams } from '@/service/serverService';
 
 
 export interface ServerState {
@@ -15,13 +15,19 @@ const initialState: ServerState = {
     currentServer: undefined
 };
 
-export const getServerList = createAsyncThunk(
-    'server/getServerList',
-    async () => {
-        return await serverService.getServerList();
+export const listAllServer = createAsyncThunk(
+    'server/listAllServer',
+    async (params: DcNameQueryParm) => {
+        return await serverService.listAllServer(params);
     }
 );
 
+export const getServerList = createAsyncThunk(
+    'server/getServerList',
+    async (params: DcNameQueryParm) => {
+        return await serverService.getServerList(params);
+    }
+);
 
 export const getServerDetail = createAsyncThunk(
     'server/getServerDetail',
@@ -42,6 +48,17 @@ export const serverSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
+        builder.addCase(listAllServer.fulfilled, (state: ServerState, action) => {
+            state.loading = false;
+            state.servers = action.payload;
+        });
+        builder.addCase(listAllServer.pending, (state: ServerState) => {
+            state.loading = true;
+        });
+        builder.addCase(listAllServer.rejected, (state: ServerState) => {
+            state.loading = false;
+        });
+
         builder.addCase(getServerList.fulfilled, (state: ServerState, action) => {
             state.loading = false;
             state.servers = action.payload;
@@ -52,6 +69,7 @@ export const serverSlice = createSlice({
         builder.addCase(getServerList.rejected, (state: ServerState) => {
             state.loading = false;
         });
+
         builder.addCase(getServerDetail.fulfilled, (state: ServerState, action) => {
             state.loading = false;
             state.currentServer = action.payload;
