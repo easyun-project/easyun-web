@@ -27,6 +27,7 @@ export default function DataCenterCard(props:DataCenterModel) {
         dispatch(getServerList({ dc:dcName }));
     };
     const initResource = async ()=>{
+        dispatch(updateCurrentDC(props));
         dispatch(getCostSummary({ dc:dcName }));
         dispatch(getResourceSummary({ dc:dcName }));        
         dispatch(listAllServer({ dc:dcName }));
