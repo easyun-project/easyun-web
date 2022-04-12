@@ -40,10 +40,10 @@ export interface PeriodTotalCost {
     totalCost: CostUsageItem
 }
 
-export interface CostSummary {    
+export interface CostSummary {
     currMonthTotal: PeriodTotalCost
     lastMonthTotal: PeriodTotalCost
-    nextMonthTotal: PeriodTotalCost
-    last5daysCost?: PeriodTotalCost[]
-    currMonthCost?: PeriodMonthlyCost
+    forecastTotal?: PeriodTotalCost
+    latestWeekCost: PeriodTotalCost[]
+    currMonthCost: PeriodMonthlyCost
 }
