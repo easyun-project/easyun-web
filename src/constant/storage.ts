@@ -41,6 +41,26 @@ export interface StVolumeModel{
     'volumeTags': Record<'Key'|'Value',string>[]
   }
 
+export interface VolumeInfo{
+    'volumeAttach': {
+        'attachPath': string
+        'attachSvr': string
+        'attachSvrId': string
+        'attachTime': string
+        'diskType': string
+      }[]
+    createTime:string
+    isEncrypted:boolean
+    tagName:string
+    volumeAz:string
+    volumeId:string
+    volumeIops:number
+    volumeSize:number
+    volumeState:string
+    volumeThruput?:number
+    volumeType:string
+  }
+
 export const VolumeTypeInfo:Record<'gp2'|'gp3'|'io1'|'io2'|'st1'|'sc1'|'standard',{
         'typeDesc':string,
         'volumeSize':number[],

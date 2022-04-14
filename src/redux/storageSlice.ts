@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { BucketCardInfo } from '@/components/Logic/CStorageCard/StBucketCard';
 import bucketService from '@/service/stBucketService';
 import volumeService, { DcNameQueryParm } from '@/service/stVolumeService';
-import { StBucketModel, StVolumeModel } from '@/constant/storage';
+import { StBucketModel, VolumeInfo } from '@/constant/storage';
 
 //获取指定数据中心的Bucket列表
 export const listAllBucket = createAsyncThunk(
@@ -31,7 +31,7 @@ export interface StorageState {
     loading: boolean,
     storageList: BucketCardInfo[],
     bucketList: StBucketModel[] | undefined,
-    volumeList: StVolumeModel[] | undefined,
+    volumeList: VolumeInfo[] | undefined,
 }
 
 const initialState: StorageState = {
@@ -92,7 +92,7 @@ export const storageSlice = createSlice({
         builder.addCase(listAllVolume.rejected, (state: StorageState) => {
             state.loading = false;
         });
-    }    
+    }
 });
 export const { updateStorage, deleteStorage, updateVolumeList } = storageSlice.actions;
 export default storageSlice.reducer;

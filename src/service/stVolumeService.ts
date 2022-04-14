@@ -1,8 +1,7 @@
 import axios from 'axios';
-import store from '@/redux/store';
 import { getHeader, getHost } from '@/utils/api';
-import { StVolumePath, StVolumeList,VolumeOperate } from '@/constant/apiConst';
-import { StVolumeModel,AddVolumeParams,VolumeInfoSimple } from '@/constant/storage';
+import { StVolumePath, StVolumeList } from '@/constant/apiConst';
+import { StVolumeModel,AddVolumeParams,VolumeInfo,VolumeInfoSimple } from '@/constant/storage';
 
 
 export interface DcNameQueryParm {
@@ -11,26 +10,24 @@ export interface DcNameQueryParm {
 
 export default class volumeService {
 
-    static async listAllVolume<T>(params:DcNameQueryParm): Promise<StVolumeModel[] | undefined> {
+    static async listAllVolume(params:DcNameQueryParm): Promise<VolumeInfo[] | undefined> {
         // TODO temp static
         const url = getHost() + StVolumePath;
         const result = await axios.get(url, {
-            params,        
+            params,
             headers: getHeader(),
         });
-        if (result.status == 200) { return result.data.detail as StVolumeModel[]; }
+        if (result.status == 200) { return result.data.detail as VolumeInfo[]; }
         return undefined;
     }
 
     /**
      * list all simple volume info
      */
-     static async getVolumeList(params:DcNameQueryParm):Promise<VolumeInfoSimple[]>{
-        const url = getHost() + StVolumePath + '/list';
+    static async getVolumeList(params:DcNameQueryParm):Promise<VolumeInfoSimple[]>{
+        const url = getHost() + StVolumeList;
         const result = await axios.get(url,{
-            params:{
-                dc:store.getState().dataCenter.currentDC.basicInfo!.dcName
-            },
+            params,
             headers: getHeader()
         });
         return result.data.detail;
@@ -40,7 +37,7 @@ export default class volumeService {
      * get volume detail
      */
     static async getStVolumeModel(volumeId:string):Promise<StVolumeModel>{
-        const url = getHost() + VolumeOperate + '/' + volumeId;
+        const url = getHost() + StVolumePath + '/' + volumeId;
         const result = await axios.get(url,{
             params: { dc:'Easyun' },
             headers: getHeader()
@@ -53,7 +50,7 @@ export default class volumeService {
     static async addVolume(params:AddVolumeParams):Promise<
     {'State': string,
     'VolumeId': string}>{
-        const url = getHost() + VolumeOperate;
+        const url = getHost() + StVolumePath;
         const result = await axios.post(url,params,{
             headers: getHeader()
         });
@@ -64,7 +61,7 @@ export default class volumeService {
      * delete a volume
      */
     static async deleteVolume(data:{dcName: string,volumeIds: string[]}):Promise<{'msg': string}>{
-        const url = getHost() + VolumeOperate;
+        const url = getHost() + StVolumePath;
         const result = await axios.delete(url,{
             data,
             headers: getHeader()
