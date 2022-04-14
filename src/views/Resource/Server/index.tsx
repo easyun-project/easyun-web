@@ -101,9 +101,9 @@ const ServerList = ():JSX.Element => {
     const [isModalVisble,changeIsModalVisble] = useState(false);
     const [newName, changeNewName] = useState('');
     const [settingName,changeSettingName] = useState(false);
-    // const dc = useSelector((state: RootState) => {
-    //     return state.dataCenter.currentDC.basicInfo?.dcName;
-    // });
+    const dc = useSelector((state: RootState) => {
+        return state.dataCenter.currentDC.basicInfo!.dcName;
+    });
 
     const newServerDataSource = serverDataSource.map((item)=> ({ ...item, 'key':item.svrId }));
     const actionMenu = (
@@ -113,7 +113,7 @@ const ServerList = ():JSX.Element => {
                 if (window.confirm('Are you sure to delete(irrevocable)?')){
                     serverService.deleteServerState({ svrIds: selectedServers }).then(
                         ()=>{alert('delete success');
-                            dispatch(getServerList());},
+                            dispatch(getServerList({ dc }));},
                         ()=>alert('delete failed')
                     );
                 }
@@ -125,7 +125,7 @@ const ServerList = ():JSX.Element => {
                 }).then(
                     ()=>{
                         alert('action success');
-                        dispatch(getServerList());
+                        dispatch(getServerList({ dc }));
                         changeActing(false);
                     },
                     ()=>{
@@ -196,7 +196,7 @@ const ServerList = ():JSX.Element => {
                                     }).then(()=>{
                                         changeSettingName(false);
                                         changeIsModalVisble(false);
-                                        dispatch(getServerList());
+                                        dispatch(getServerList({ dc }));
                                     },
                                     ()=>changeSettingName(false)
                                     );}

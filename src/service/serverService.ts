@@ -97,21 +97,21 @@ export default class serverService {
         return [];
     }
 
-        /**
-     * 获取server list
+    /**
+     * 获取server list简易信息
      */
-         static async getServerList(params:DcNameQueryParm): Promise<ServerModel[]> {
-            const url = getHost() + ServerPath + '/list';
-            const result = await axios.get(url, {
-                params,
-                headers: getHeader(),
-                // params:{ dc:store.getState().dataCenter.currentDC.basicInfo!.dcName }
-            },);
-            if (result.status == 200) {
-                return result.data.detail as ServerModel[];
-            }
-            return [];
+    static async getServerList(params:DcNameQueryParm): Promise<ServerModel[]> {
+        const url = getHost() + ServerPath + '/list';
+        const result = await axios.get(url, {
+            params,
+            headers: getHeader(),
+            // params:{ dc:store.getState().dataCenter.currentDC.basicInfo!.dcName }
+        },);
+        if (result.status == 200) {
+            return result.data.detail as ServerModel[];
         }
+        return [];
+    }
 
     /**
      * 获取server detail
