@@ -1,5 +1,6 @@
-import * as React from 'react';
-import { useEffect,useState } from 'react';
+import React from 'react';
+// import { useEffect,useState } from 'react';
+import { useState } from 'react';
 import { NoResource } from '@/views/Resource';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
@@ -101,17 +102,8 @@ const ServerList = ():JSX.Element => {
     const [newName, changeNewName] = useState('');
     const [settingName,changeSettingName] = useState(false);
     const dc = useSelector((state: RootState) => {
-        return state.dataCenter.currentDC.basicInfo?.dcName;
+        return state.dataCenter.currentDC.basicInfo!.dcName;
     });
-
-    useEffect(() => {
-        if(dc){
-            // dispatch(getServerList());
-            // dispatch(getDataCenterSecgroup({ dc }));
-        }
-        else{navigate('/home');}
-    }, []);
-
 
     const newServerDataSource = serverDataSource.map((item)=> ({ ...item, 'key':item.svrId }));
     const actionMenu = (
@@ -121,7 +113,7 @@ const ServerList = ():JSX.Element => {
                 if (window.confirm('Are you sure to delete(irrevocable)?')){
                     serverService.deleteServerState({ svrIds: selectedServers }).then(
                         ()=>{alert('delete success');
-                            dispatch(getServerList());},
+                            dispatch(getServerList({ dc }));},
                         ()=>alert('delete failed')
                     );
                 }
@@ -133,7 +125,7 @@ const ServerList = ():JSX.Element => {
                 }).then(
                     ()=>{
                         alert('action success');
-                        dispatch(getServerList());
+                        dispatch(getServerList({ dc }));
                         changeActing(false);
                     },
                     ()=>{
@@ -204,7 +196,7 @@ const ServerList = ():JSX.Element => {
                                     }).then(()=>{
                                         changeSettingName(false);
                                         changeIsModalVisble(false);
-                                        dispatch(getServerList());
+                                        dispatch(getServerList({ dc }));
                                     },
                                     ()=>changeSettingName(false)
                                     );}

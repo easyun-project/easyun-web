@@ -24,7 +24,7 @@ const LoginPage = (): JSX.Element => {
     const passwordRef = createRef<HTMLInputElement>();
     const configRef = createRef<Input>();
     //获取datacenter列表
-    const initDataCenterList = async ()=>{   
+    const initDataCenterList = async ()=>{
         dispatch(listAllDataCenter());
     };
 
@@ -38,7 +38,7 @@ const LoginPage = (): JSX.Element => {
             dispatch(userAction(
                 { ...loginRes,loginTime:Date.now() }));
             const token = loginRes.token;
-            localStorage.setItem('token',token);            
+            localStorage.setItem('token',token);
             initDataCenterList().then(()=>navigate('/home'));
         }
     };

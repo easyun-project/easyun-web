@@ -49,21 +49,21 @@ export default function Home():JSX.Element {
 
     let order:string;
     switch(sortBy) {
-        case 'Name':
-            order = 'dcName';
-            break;
+    case 'Name':
+        order = 'dcName';
+        break;
 
-        case 'CreateDate':
-            order = 'createDate';
-            break;
+    case 'CreateDate':
+        order = 'createDate';
+        break;
 
-        case 'VPC':
-            order = 'vpcID';
-            break;
+    case 'VPC':
+        order = 'vpcID';
+        break;
 
-        case 'Region':
-            order = 'dcRegion';
-            break;
+    case 'Region':
+        order = 'dcRegion';
+        break;
     }
 
 

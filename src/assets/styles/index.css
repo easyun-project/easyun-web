@@ -41,12 +41,16 @@ code {
     background: #f5922f!important;
 } 
 
-svg {
+svg{
   vertical-align: middle;
 }
 /* to fix copy icon vertical position */
 span .anticon{
   vertical-align: 0.12em
+}
+
+div .ant-message *{
+  vertical-align: middle;
 }
 
 @layer components {
