@@ -6,13 +6,13 @@ import { QuestionCircleOutlined,CloseOutlined, CheckOutlined } from '@ant-design
 import { classnames } from '@@/tailwindcss-classnames';
 import { useDispatch,useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { StVolumeModel,VolumeTypeInfo } from '@/constant/storage';
-import { AddVolumeParams,VolumeInfo } from '@/constant/storage';
+import { StVolumeModel,VolumeTypeInfo,AddVolumeParams,VolumeInfo } from '@/constant/storage';
 import { getServerDetail } from '@/redux/serverSlice';
+import { listAllVolume } from '@/redux/storageSlice';
 import { LoadingOutlined } from '@ant-design/icons';
 import serverService from '@/service/serverService';
 import volumeService from '@/service/stVolumeService';
-import { listAllVolume } from '@/redux/storageSlice';
+
 
 interface DiskProps{
     volumeId:string
@@ -55,8 +55,6 @@ function ExistDisk(props:DiskProps) {
     else {
         const { volumeConfig,volumeAttach } = diskInfo;
         const volumeAttachInfo = volumeAttach.filter((item)=>item.attachSvrId === svrId)[0];
-        // const { volumeBasic,volumeConfig } = diskInfo;
-
         const detachDisk = ()=>{
             changeDetaching(true);
             serverService.bindServerDisk({
@@ -312,15 +310,17 @@ export default function Disk():JSX.Element {
         const diskAz = disk.volumeAz;
         if (svrAz !== diskAz) { return false; }
         else if (disk.volumeAttach.length === 0) { return true; }
-        else if(!VolumeTypeInfo[disk.volumeType].isMultiattach) { return false; }
-        else{
-            for (let i = 0; i < disk.volumeAttach.length; i++){
-                // if a disk is other servers' system disk
-                // or it has been attached to current server ,then it can't be attached again
-                if(disk.volumeAttach[i].diskType === 'system' || disk.volumeAttach[i].attachSvrId === svrId){return false;}
-            }
-            return true;
-        }
+        else { return false; }
+        // TODO:disk multiattach featrue
+        // else if(!VolumeTypeInfo[disk.volumeType].isMultiattach) { return false; }
+        // else{
+        //     for (let i = 0; i < disk.volumeAttach.length; i++){
+        //         // if a disk is other servers' system disk
+        //         // or it has been attached to current server ,then it can't be attached again
+        //         if(disk.volumeAttach[i].diskType === 'system' || disk.volumeAttach[i].attachSvrId === svrId){return false;}
+        //     }
+        //     return true;
+        // }
     };
     return (
         <>

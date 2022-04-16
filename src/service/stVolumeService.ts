@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { getHeader, getHost } from '@/utils/api';
+import axios from './axiosConfig';
 import { StVolumePath, StVolumeList } from '@/constant/apiConst';
 import { StVolumeModel,AddVolumeParams,VolumeInfo,VolumeInfoSimple } from '@/constant/storage';
 
@@ -12,11 +11,8 @@ export default class volumeService {
 
     static async listAllVolume(params:DcNameQueryParm): Promise<VolumeInfo[] | undefined> {
         // TODO temp static
-        const url = getHost() + StVolumePath;
-        const result = await axios.get(url, {
-            params,
-            headers: getHeader(),
-        });
+        const url =  StVolumePath;
+        const result = await axios.get(url, { params });
         if (result.status == 200) { return result.data.detail as VolumeInfo[]; }
         return undefined;
     }
@@ -25,11 +21,8 @@ export default class volumeService {
      * list all simple volume info
      */
     static async getVolumeList(params:DcNameQueryParm):Promise<VolumeInfoSimple[]>{
-        const url = getHost() + StVolumeList;
-        const result = await axios.get(url,{
-            params,
-            headers: getHeader()
-        });
+        const url =  StVolumeList;
+        const result = await axios.get(url,{ params });
         return result.data.detail;
     }
 
@@ -37,10 +30,9 @@ export default class volumeService {
      * get volume detail
      */
     static async getStVolumeModel(volumeId:string):Promise<StVolumeModel>{
-        const url = getHost() + StVolumePath + '/' + volumeId;
+        const url =  StVolumePath + '/' + volumeId;
         const result = await axios.get(url,{
-            params: { dc:'Easyun' },
-            headers: getHeader()
+            params: { dc:'Easyun' }
         });
         return result.data.detail;
     }
@@ -50,10 +42,8 @@ export default class volumeService {
     static async addVolume(params:AddVolumeParams):Promise<
     {'State': string,
     'VolumeId': string}>{
-        const url = getHost() + StVolumePath;
-        const result = await axios.post(url,params,{
-            headers: getHeader()
-        });
+        const url =  StVolumePath;
+        const result = await axios.post(url,params);
         return result.data.detail;
     }
 
@@ -61,11 +51,8 @@ export default class volumeService {
      * delete a volume
      */
     static async deleteVolume(data:{dcName: string,volumeIds: string[]}):Promise<{'msg': string}>{
-        const url = getHost() + StVolumePath;
-        const result = await axios.delete(url,{
-            data,
-            headers: getHeader()
-        });
+        const url =  StVolumePath;
+        const result = await axios.delete(url,{ data });
         return result.data.detail;
     }
 }

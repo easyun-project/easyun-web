@@ -77,5 +77,3 @@ export default function SSHkeys(props: SSHkeysProps): JSX.Element {
         </Radio.Group>
     );
 }
-
-

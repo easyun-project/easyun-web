@@ -1,12 +1,10 @@
-import { getHeader, getHost } from '@/utils/api';
 import { ServerDetail, ServerImages, ServerInstypes, ServerInsfamily, ServerAction,SeverEipPath,SeverConfigPath,SeverTagsPath,SeverDiskPath,SeverSecgroupPath, ServerPath, SeverName } from '@/constant/apiConst';
-import axios from 'axios';
+import axios from './axiosConfig';
 import { ServerModel, SeverDetailModel } from '@/constant/server';
 import { amiInfo } from '@/components/Logic/CAmi';
 import { InsType } from '@/views/Resource/Server/AddServer/InstanceList';
 import { InsTypeFamily } from '@/views/Resource/Server/AddServer';
 import { DiskInfo } from '@/views/Resource/Server/AddServer/DiskConfiguration';import React from 'react';
-import store from '@/redux/store';
 
 
 export interface DcNameQueryParm {
@@ -85,12 +83,8 @@ export default class serverService {
      * 获取server list
      */
     static async listAllServer(params:DcNameQueryParm): Promise<ServerModel[]> {
-        const url = getHost() + ServerPath;
-        const result = await axios.get(url, {
-            params,
-            headers: getHeader(),
-            // params:{ dc:store.getState().dataCenter.currentDC.basicInfo!.dcName }
-        },);
+        const url =  ServerPath;
+        const result = await axios.get(url, { params },);
         if (result.status == 200) {
             return result.data.detail as ServerModel[];
         }
@@ -101,12 +95,8 @@ export default class serverService {
      * 获取server list简易信息
      */
     static async getServerList(params:DcNameQueryParm): Promise<ServerModel[]> {
-        const url = getHost() + ServerPath + '/list';
-        const result = await axios.get(url, {
-            params,
-            headers: getHeader(),
-            // params:{ dc:store.getState().dataCenter.currentDC.basicInfo!.dcName }
-        },);
+        const url =  ServerPath + '/list';
+        const result = await axios.get(url, { params },);
         if (result.status == 200) {
             return result.data.detail as ServerModel[];
         }
@@ -117,10 +107,8 @@ export default class serverService {
      * 获取server detail
      */
     static async getServerDetail(params: ServerDetailParams): Promise<SeverDetailModel> {
-        const url = getHost() + ServerDetail + '/' + params.serverId;
-        const result = await axios.get(url, {
-            headers: getHeader()
-        });
+        const url =  ServerDetail + '/' + params.serverId;
+        const result = await axios.get(url);
         return result.data.detail as SeverDetailModel;
     }
 
@@ -128,11 +116,8 @@ export default class serverService {
      * 获取可用的images
      */
     static async getServerImages(params:imagesParams): Promise<amiInfo[]> {
-        const url = getHost() + ServerImages;
-        const result = await axios.get(url, {
-            params,
-            headers: getHeader()
-        });
+        const url =  ServerImages;
+        const result = await axios.get(url, { params });
         return result.data.detail;
     }
 
@@ -141,11 +126,8 @@ export default class serverService {
      * 获取可用的instypes family
      */
     static async getServerInsfamily(params:insTypeParams): Promise<InsTypeFamily[]> {
-        const url = getHost() + ServerInsfamily;
-        const result = await axios.get(url, {
-            params,
-            headers: getHeader()
-        });
+        const url =  ServerInsfamily;
+        const result = await axios.get(url, { params });
         return result.data.detail;
     }
 
@@ -153,11 +135,8 @@ export default class serverService {
      * 获取可用的instypes
      */
     static async getServerInstypes(params:insTypeParams): Promise<InsType[]> {
-        const url = getHost() + ServerInstypes;
-        const result = await axios.get(url, {
-            params,
-            headers: getHeader()
-        });
+        const url =  ServerInstypes;
+        const result = await axios.get(url, { params });
         return result.data.detail;
     }
 
@@ -165,10 +144,8 @@ export default class serverService {
      * 创建新server
      */
     static async addServer(data:AddServiceParams): Promise<InsType[]> {
-        const url = getHost() + ServerPath;
-        const result = await axios.post(url, data,{
-            headers: getHeader()
-        });
+        const url =  ServerPath;
+        const result = await axios.post(url, data);
         return result.data.detail;
     }
 
@@ -176,10 +153,8 @@ export default class serverService {
      * 改变Server的状态，支持start、stop、restart
      */
     static async changeServerState(data): Promise<React.Key[]> {
-        const url = getHost() + ServerAction;
-        const result = await axios.post(url, data,{
-            headers: getHeader()
-        });
+        const url =  ServerAction;
+        const result = await axios.post(url, data);
         return result.data.detail;
     }
 
@@ -187,24 +162,16 @@ export default class serverService {
      * 删除server
      */
     static async deleteServerState(data): Promise<DeleteServerInfo[]> {
-        const url = getHost() + ServerPath;
-        const result = await axios.delete(url, {
-            data,
-            headers: getHeader()
-        });
+        const url =  ServerPath;
+        const result = await axios.delete(url, { data });
         return result.data.detail;
     }
     /**
      * detach or attach eip
      */
     static async bindServerEip(data:BindServerEipParams): Promise<Record<'msg',string>> {
-        const url = getHost() + SeverEipPath;
-        const result = await axios.put(url,
-            data,
-            {
-                headers: getHeader()
-            },
-        );
+        const url =  SeverEipPath;
+        const result = await axios.put(url,data);
         return result.data.detail;
     }
     /**
@@ -212,35 +179,26 @@ export default class serverService {
      */
     static async changeServerConfig(data:ChangeServerConfigParams): Promise<{'new_name': string[],
     'svr_ids': string[]}> {
-        const url = getHost() + SeverConfigPath;
-        const result = await axios.post(url,data,
-            {
-                headers: getHeader()
-            },
-        );
+        const url =  SeverConfigPath;
+        const result = await axios.post(url,data);
         return result.data.detail;
     }
     /**
      * update or create new server tag
      */
     static async updateServerTags(data:UpdateServerTagsParams): Promise<{Key: string,Value: string}[]> {
-        const url = getHost() + SeverTagsPath + data.svrId;
-        const result = await axios.put(url,data.tag,
-            {
-                headers: getHeader()
-            },
-        );
+        const url =  SeverTagsPath + data.svrId;
+        const result = await axios.put(url,data.tag);
         return result.data.detail;
     }
     /**
      * delete server tag
      */
     static async deleteServerTags(data:UpdateServerTagsParams): Promise<{Key: string,Value: string}[]> {
-        const url = getHost() + SeverTagsPath + data.svrId;
+        const url =  SeverTagsPath + data.svrId;
         const result = await axios.delete(url,
             {
                 data:data.tag,
-                headers: getHeader()
             },
         );
         return result.data.detail;
@@ -249,11 +207,8 @@ export default class serverService {
      * detach or attach a disk to server
      */
     static async bindServerDisk(data:BindServerDiskParams): Promise<string> {
-        const url = getHost() + SeverDiskPath;
-        const result = await axios.put(url,data,
-            {
-                headers: getHeader()
-            },
+        const url =  SeverDiskPath;
+        const result = await axios.put(url,data
         );
         return result.data.detail;
     }
@@ -261,11 +216,8 @@ export default class serverService {
      * detach or attach a secgroup to server
      */
     static async bindServerSecgroup(data:BindServerSecgroupParams): Promise<string> {
-        const url = getHost() + SeverSecgroupPath;
-        const result = await axios.put(url,data,
-            {
-                headers: getHeader()
-            },
+        const url =  SeverSecgroupPath;
+        const result = await axios.put(url,data
         );
         return result.data.detail;
     }
@@ -276,11 +228,8 @@ export default class serverService {
       'New_Name': string,
       'Svr_Id': string
     }[]> {
-        const url = getHost() + SeverName;
-        const result = await axios.put(url,data,
-            {
-                headers: getHeader()
-            },
+        const url =  SeverName;
+        const result = await axios.put(url,data
         );
         return result.data.detail;
     }

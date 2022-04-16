@@ -145,7 +145,6 @@ export default function Network():JSX.Element {
                                     </Radio.Group>
                                 </Modal></>)}
                         </div>
-
                     </div>
                     {/* private ip part */}
                     <div className={classnames('w-96')}>
@@ -174,5 +173,4 @@ export default function Network():JSX.Element {
     else {
         return <></>;
     }
-
 }
