@@ -1,4 +1,4 @@
-import DataCenterService from '@/service/dataCenterService';
+import store from '@/redux/store';
 
 type FlagType = {
     [flag: string]: {
@@ -78,10 +78,7 @@ class FlagUtil {
     defaultFlag: string;
 
     constructor() {
-        localStorage.getItem('token') &&
-        DataCenterService.getDatacenterRegion().then(res => {
-            this.regionList = res;
-        });
+        this.regionList = store.getState().dataCenter.regionList;
         this.defaultFlag = 'twemoji:flag-united-nations';
     }
 
