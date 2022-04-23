@@ -13,7 +13,7 @@ import { getDataCenterParms, getDatacenterRegion } from '@/redux/dataCenterSlice
 import { DataCenterParms, RegionItem, SecurityGroupParms, SubnetParms } from '@/constant/dataCenter';
 import FlagUtil from '@/utils/flagUtil';
 
-
+const flagUtil = new FlagUtil();
 const AddDataCenter = (): JSX.Element => {
     const navigate = useNavigate();
 
@@ -156,7 +156,7 @@ const AddDataCenter = (): JSX.Element => {
                         </option>;
                     })}
                 </select>
-                <Icon className={classnames('ml-5','inline-block')} icon={FlagUtil.getFlagIcon(flag)}
+                <Icon className={classnames('ml-5','inline-block')} icon={flagUtil.getFlagIcon(flag)}
                     color="#5c6f9a"
                     width="25" height="25"
                     fr={undefined}/>

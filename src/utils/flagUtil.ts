@@ -1,8 +1,17 @@
+import DataCenterService from '@/service/dataCenterService';
+
 type FlagType = {
     [flag: string]: {
         icon: string
     }
 }
+
+type RegionType = {
+    countryCode: string
+    regionCode: string
+    regionName: string
+}
+
 const flag: FlagType = {
     USA: {
         icon: 'twemoji:flag-united-states'
@@ -63,14 +72,49 @@ const flag: FlagType = {
     }
 };
 
-const FlagUtil = {
+class FlagUtil {
+    regionList: Array<RegionType> | undefined;
+
+    defaultFlag: string;
+
+    constructor() {
+        DataCenterService.getDatacenterRegion().then(res => {
+            this.regionList = res;
+        });
+        this.defaultFlag = 'twemoji:flag-united-nations';
+    }
+
     /**
      * 获取国旗国家icon
-     * @param code 国家对应的编码
-     * @return @iconify插件所需要的参数 String
+     * @param {String} code 国家对应的编码
+     * @return {String} @iconify插件所需要的参数
      */
     getFlagIcon(code: string) {
-        return flag[code].icon ?? 'twemoji:flag-united-nations';
+        return flag[code]?.icon ?? this.defaultFlag;
+    }
+
+    /**
+     * 根据regionCode获取国旗国家icon
+     * 遍历查询regionCode对应的countryCode
+     * @param {string} regionCode
+     */
+    getFlagIconByRegionCode(regionCode) {
+        const region = this.regionList?.filter(item => {
+            return item.regionCode === regionCode;
+        })[0];
+        return this.getFlagIcon(region ? region.countryCode : '');
+    }
+
+    /**
+     * 根据regionName获取国旗国家icon
+     * 遍历查询regionName对应的countryCode
+     * @param {string} regionName
+     */
+    getFlagIconByRegionName(regionName) {
+        const region = this.regionList?.filter(item => {
+            return item.regionName === regionName;
+        })[0];
+        return this.getFlagIcon(region ? region.countryCode : '');
     }
 };
 export default FlagUtil;
