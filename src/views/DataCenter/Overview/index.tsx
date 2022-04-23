@@ -17,18 +17,18 @@ const { Title, Paragraph, Text } = Typography;
 
 
 function AzSummaryCard(props:AzSummary){
-    const { azName, subnetNum } = props
-    const color = subnetNum > 0 ? '#FFBF00' : '#d9d9d9'
+    const { azName, subnetNum } = props;
+    const color = subnetNum > 0 ? '#FFBF00' : '#d9d9d9';
     return (
         <Col className="gutter-row" span={2}>
             <Badge size="small" count={subnetNum} showZero offset={[-15, 15]} color={color}>
                 <Card className={classnames('rounded-md','border-2','border-gray-400')}>{azName}</Card>
             </Badge>
         </Col>
-    )
+    );
 }
 
-
+const flagUtil = new FlagUtil();
 function VpcSummaryCard(props:any){
     const { title, value } = props;
 
@@ -38,15 +38,15 @@ function VpcSummaryCard(props:any){
                 <Statistic title={title} value={value} />
             </Card>
         </Col>
-    )
+    );
 }
 
 
 export default function DataCenterOverview():JSX.Element {
     const dataCenterState = useSelector((state: RootState) => state.dataCenter);
-    const dcBasic = dataCenterState.currentDC.basicInfo
-    const dcSummary = dataCenterState.currentDC.summary
-    const dcLoading = dataCenterState.loading
+    const dcBasic = dataCenterState.currentDC.basicInfo;
+    const dcSummary = dataCenterState.currentDC.summary;
+    const dcLoading = dataCenterState.loading;
 
     // const dispatch = useDispatch();
     // useEffect(() => {
@@ -82,7 +82,7 @@ export default function DataCenterOverview():JSX.Element {
                                 <div className={classnames('my-2')}>
                                     <Text strong>Region:</Text> <Text>{dcBasic!.dcRegion}</Text>
                                     <span className={classnames('inline-block', 'pr-1', 'h-4')}>
-                                        <Icon className={'ml-5'} icon={FlagUtil.getFlagIcon('USA')}
+                                        <Icon className={'ml-5'} icon={flagUtil.getFlagIcon('USA')}
                                             color="#5c6f9a"
                                             width="25" height="25"
                                             fr={undefined}/>
@@ -101,11 +101,11 @@ export default function DataCenterOverview():JSX.Element {
             <div id='azSummary'>
                 <Title level={4}>DataCenter Distribution</Title>
                 <Spin spinning={dcLoading} tip="Loading...">
-                <Row gutter= {[16,24]} className='py-2'>
-                {/* <Space size='middle'> */}
-                    {dcSummary?.azSummary.map((item, index)=> <AzSummaryCard key={index} azName={item.azName} subnetNum={item.subnetNum} /> )}
-                {/* </Space> */}
-                </Row>
+                    <Row gutter= {[16,24]} className='py-2'>
+                        {/* <Space size='middle'> */}
+                        {dcSummary?.azSummary.map((item, index)=> <AzSummaryCard key={index} azName={item.azName} subnetNum={item.subnetNum} /> )}
+                        {/* </Space> */}
+                    </Row>
                 </Spin>
             </div>
 
@@ -116,13 +116,13 @@ export default function DataCenterOverview():JSX.Element {
                     <VpcSummaryCard title='Internet Gateways' value={dcSummary?.vpcSummary.igwNum}/>
                     <VpcSummaryCard title='Security Groups' value={dcSummary?.vpcSummary.sgNum}/>
                     <VpcSummaryCard title='Route Tables' value={dcSummary?.vpcSummary.rtbNum}/>
-                </Row>      
+                </Row>
                 <Row gutter= {[16,24]} className='py-2'>
                     <VpcSummaryCard title='Private Subnets' value={dcSummary?.vpcSummary.priNum}/>
                     <VpcSummaryCard title='NAT Gateways' value={dcSummary?.vpcSummary.natNum}/>
                     <VpcSummaryCard title='Network ACLs' value={dcSummary?.vpcSummary.aclNum}/>
                     <VpcSummaryCard title='Static IP(EIP)' value={dcSummary?.vpcSummary.eipNum}/>
-                </Row>          
+                </Row>
             </div>
         </div>
     );
