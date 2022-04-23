@@ -75,12 +75,13 @@ const AddDataCenter = (): JSX.Element => {
 
     const [sshKey, setSSHKey] = useState<string>('');
     const [flag, setFlag] = useState<string>('JPN');
+    const [region, setRegion] = useState<string>('us-east-1');
 
     const dataCenterState = useSelector((state: RootState) => {
         return state.dataCenter;
     });
     const data = dataCenterState.defaultDcParams;
-    const region = dataCenterState.regionList;
+    const regionList = dataCenterState.regionList;
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getDataCenterParms());
@@ -142,21 +143,24 @@ const AddDataCenter = (): JSX.Element => {
             <div className={classnames('ml-5', 'mt-2')}>Easyun DataCenter Networking</div>
             <div className={classnames('ml-24')}>Region:
                 <select
-                    className={classnames('border', 'ml-3','px-2')}
-                    onChange={(e)=>{
-                        setFlag(e.target.value);
+                    className={classnames('border', 'ml-3', 'px-2')}
+                    onChange={(e) => {
+                        const regionCode = e.target.value;
+                        const icon = flagUtil.getFlagIconByRegionCode(regionCode);
+                        setFlag(icon);
+                        setRegion(regionCode);
                     }}>
                     <option value="">{data?.dcParms.dcRegion}
                     </option>
-                    {region?.map((item: RegionItem) => {
+                    {regionList?.map((item: RegionItem) => {
                         return <option
                             key={item.regionCode}
-                            value={item.countryCode}>
+                            value={item.regionCode}>
                             {item.regionCode}
                         </option>;
                     })}
                 </select>
-                <Icon className={classnames('ml-5','inline-block')} icon={flagUtil.getFlagIcon(flag)}
+                <Icon className={classnames('ml-5', 'inline-block')} icon={flag}
                     color="#5c6f9a"
                     width="25" height="25"
                     fr={undefined}/>
@@ -196,7 +200,7 @@ const AddDataCenter = (): JSX.Element => {
                 <CButton click={() => {
                     const params: DataCenterParms = {
                         dcName: inputDcName,
-                        dcRegion: data?.dcParms.dcRegion ?? '',
+                        dcRegion: region,
                         dcVPC: {
                             cidrBlock: cidr ?? '',
                         },

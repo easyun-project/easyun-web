@@ -13,6 +13,7 @@ interface Props {
 
 export const CSubnet = (props: Props): JSX.Element => {
     const subnet = props.subnet;
+    console.log(subnet);
     const title = subnet?.tagName;
     let classes = props.classes;
     if (props.isPublic) {
