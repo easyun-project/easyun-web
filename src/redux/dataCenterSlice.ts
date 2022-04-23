@@ -21,6 +21,12 @@ export const updateDefaultDataCenterAction = (defaultDataCenter): { payload: Def
 };
 
 
+export interface DefaultDataCenterParams {
+    dcName: string;
+    regionCode: string
+}
+
+
 //获取AWS Region信息
 export const getDatacenterRegion = createAsyncThunk(
     'dataCenter/region',
@@ -39,10 +45,10 @@ export const listAllDataCenter = createAsyncThunk(
 );
 
 //新建数据中心的默认参数
-export const getDataCenterParms = createAsyncThunk(
-    'dataCenter/getDataCenterParms',
-    async (dcName?: string) => {
-        return await DataCenterService.getDefaultDcParms(dcName);
+export const getDataCenterParams = createAsyncThunk(
+    'dataCenter/getDataCenterParams',
+    async (params: DefaultDataCenterParams) => {
+        return await DataCenterService.getDefaultDcParams(params.dcName, params.regionCode);
     }
 );
 
@@ -63,7 +69,7 @@ export const deleteDataCenter = createAsyncThunk(
 
 export const getDataCenterSubnet = createAsyncThunk(
     'dataCenter/getDataCenterSubnet',
-    async (params: {dc:string}) => {
+    async (params: { dc: string }) => {
         return await DataCenterService.getSubnet(params);
     }
 );
@@ -89,12 +95,12 @@ export interface DataCenterState {
     regionList: RegionItem[] | undefined,
     defaultDcParams: DefaultDataCenterParms | undefined,
     currentDC: {
-            basicInfo: DataCenterModel | undefined,
-            summary: DataCenterSummary | undefined,
-            secgroup: SecurityGroupInfoSimple[] | undefined
-            eip: EipInfo[] | undefined
-            subnet: SubnetInfo[] |undefined
-        }
+        basicInfo: DataCenterModel | undefined,
+        summary: DataCenterSummary | undefined,
+        secgroup: SecurityGroupInfoSimple[] | undefined
+        eip: EipInfo[] | undefined
+        subnet: SubnetInfo[] | undefined
+    }
 }
 
 const initialState: DataCenterState = {
@@ -130,7 +136,7 @@ export const dataCenterSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(listAllDataCenter.pending, (state: DataCenterState) => {
             state.loading = true;
-        });        
+        });
         builder.addCase(listAllDataCenter.fulfilled, (state: DataCenterState, action) => {
             state.loading = false;
             state.dataCenterList = action.payload;
@@ -139,14 +145,14 @@ export const dataCenterSlice = createSlice({
             state.loading = false;
         });
 
-        builder.addCase(getDataCenterParms.pending, (state: DataCenterState) => {
+        builder.addCase(getDataCenterParams.pending, (state: DataCenterState) => {
             state.loading = true;
         });
-        builder.addCase(getDataCenterParms.fulfilled, (state: DataCenterState, action) => {
+        builder.addCase(getDataCenterParams.fulfilled, (state: DataCenterState, action) => {
             state.loading = false;
             state.defaultDcParams = action.payload;
         });
-        builder.addCase(getDataCenterParms.rejected, (state: DataCenterState) => {
+        builder.addCase(getDataCenterParams.rejected, (state: DataCenterState) => {
             state.loading = false;
         });
 

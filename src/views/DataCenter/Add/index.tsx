@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import dataCenterService from '@/service/dataCenterService';
 import { message } from 'antd';
 import { RootState } from '@/redux/store';
-import { getDataCenterParms, getDatacenterRegion } from '@/redux/dataCenterSlice';
+import { DefaultDataCenterParams, getDataCenterParams, getDatacenterRegion } from '@/redux/dataCenterSlice';
 import { DataCenterParms, RegionItem, SecurityGroupParms, SubnetParms } from '@/constant/dataCenter';
 import FlagUtil from '@/utils/flagUtil';
 
@@ -84,7 +84,11 @@ const AddDataCenter = (): JSX.Element => {
     const regionList = dataCenterState.regionList;
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getDataCenterParms());
+        const params: DefaultDataCenterParams = {
+            dcName: inputDcName,
+            regionCode: region
+        };
+        dispatch(getDataCenterParams(params));
         dispatch(getDatacenterRegion());
         if (data) {
             setInputDcName(data.dcParms.dcName);
@@ -119,7 +123,11 @@ const AddDataCenter = (): JSX.Element => {
     };
 
     const getDataCenter = () => {
-        dispatch(getDataCenterParms(inputDcName));
+        const params: DefaultDataCenterParams = {
+            dcName: inputDcName,
+            regionCode: region
+        };
+        dispatch(getDataCenterParams(params));
     };
 
     return (
@@ -149,6 +157,7 @@ const AddDataCenter = (): JSX.Element => {
                         const icon = flagUtil.getFlagIconByRegionCode(regionCode);
                         setFlag(icon);
                         setRegion(regionCode);
+                        getDataCenter();
                     }}>
                     <option value="">{data?.dcParms.dcRegion}
                     </option>
