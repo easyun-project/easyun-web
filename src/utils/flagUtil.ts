@@ -78,6 +78,7 @@ class FlagUtil {
     defaultFlag: string;
 
     constructor() {
+        localStorage.getItem('token') &&
         DataCenterService.getDatacenterRegion().then(res => {
             this.regionList = res;
         });
