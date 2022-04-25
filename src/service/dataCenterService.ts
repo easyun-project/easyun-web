@@ -1,6 +1,7 @@
 import {
     DataCenterPath,
     DataCenterDefault,
+    DataCenterSum,
     DcmSubnet,
     DcmSecgroup,
     DcmStaticip, DcmRegion,
@@ -107,10 +108,10 @@ export default class DataCenterService {
     }
 
     /*
-     * 获取指定数据中心(VPC)相关信息( for overview page)
+     * 获取指定数据中心(VPC)基础服务汇总信息( for overview page)
      */
     static async getDataCenterVpc(params: DcNameQueryParm): Promise<DataCenterSummary | undefined> {
-        const url = getHost() + DataCenterPath + '/vpc';
+        const url = getHost() + DataCenterSum + '/basic';
         const result = await axios.get(url, {
             params,
             headers: getHeader()
