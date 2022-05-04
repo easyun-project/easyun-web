@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import DataCenterService, { DcNameQueryParm } from '@/service/dataCenterService';
+import DataCenterService, { DcNameQueryParm, DcDefaultQueryParm,  } from '@/service/dataCenterService';
 import {
     DefaultDataCenterParms,
     DataCenterModel,
@@ -22,10 +22,10 @@ export const updateDefaultDataCenterAction = (defaultDataCenter): { payload: Def
 
 
 //获取AWS Region信息
-export const getDatacenterRegion = createAsyncThunk(
+export const getRegionList = createAsyncThunk(
     'dataCenter/region',
     async () => {
-        return await DataCenterService.getDatacenterRegion();
+        return await DataCenterService.getRegionList();
     }
 );
 
@@ -38,11 +38,11 @@ export const listAllDataCenter = createAsyncThunk(
     }
 );
 
-//新建数据中心的默认参数
+//获取新建数据中心的默认参数
 export const getDataCenterParms = createAsyncThunk(
     'dataCenter/getDataCenterParms',
-    async (dcName?: string) => {
-        return await DataCenterService.getDefaultDcParms(dcName);
+    async (params: DcDefaultQueryParm) => {
+        return await DataCenterService.getDefaultDcParms(params);
     }
 );
 
@@ -123,14 +123,18 @@ export const dataCenterSlice = createSlice({
         updateCurrentDC(state, action) {
             state.currentDC.basicInfo = action.payload;
         },
-        getRegionList(state, action) {
+        updateRegionList(state, action) {
             state.regionList = action.payload;
         }
     },
     extraReducers: (builder) => {
+        builder.addCase(getRegionList.fulfilled, (state: DataCenterState, action) => {
+            state.regionList = action.payload;
+        });
+
         builder.addCase(listAllDataCenter.pending, (state: DataCenterState) => {
             state.loading = true;
-        });        
+        });
         builder.addCase(listAllDataCenter.fulfilled, (state: DataCenterState, action) => {
             state.loading = false;
             state.dataCenterList = action.payload;
@@ -185,17 +189,6 @@ export const dataCenterSlice = createSlice({
             state.currentDC.subnet = action.payload;
         });
         builder.addCase(getDataCenterSubnet.rejected, (state: DataCenterState) => {
-            state.loading = false;
-        });
-
-        builder.addCase(getDatacenterRegion.pending, (state: DataCenterState) => {
-            state.loading = true;
-        });
-        builder.addCase(getDatacenterRegion.fulfilled, (state: DataCenterState, action) => {
-            state.loading = false;
-            state.regionList = action.payload;
-        });
-        builder.addCase(getDatacenterRegion.rejected, (state: DataCenterState) => {
             state.loading = false;
         });
     }

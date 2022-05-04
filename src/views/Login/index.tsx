@@ -11,7 +11,7 @@ import { Input, message, Modal } from 'antd';
 import appService from '@/service/appService';
 import { useDispatch } from 'react-redux';
 import { userAction } from '@/redux/userSlice';
-import { listAllDataCenter } from '@/redux/dataCenterSlice';
+import { listAllDataCenter, getRegionList } from '@/redux/dataCenterSlice';
 import { UserModel } from '@/constant/user';
 // import { RootState } from '@/redux/store';
 
@@ -26,6 +26,7 @@ const LoginPage = (): JSX.Element => {
     //获取datacenter列表
     const initDataCenterList = async ()=>{   
         dispatch(listAllDataCenter());
+        dispatch(getRegionList());
     };
 
     const login = async (username?: string, password?: string) => {

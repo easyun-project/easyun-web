@@ -4,7 +4,7 @@ import {
     DataCenterSum,
     DcmSubnet,
     DcmSecgroup,
-    DcmStaticip, DcmRegion,
+    DcmStaticip
     // DataCenterList
 } from '@/constant/apiConst';
 import axios from 'axios';
@@ -25,6 +25,11 @@ import {
 
 export interface DcNameQueryParm {
     dc: string
+}
+
+export interface DcDefaultQueryParm {
+    dc: string
+    region?: string
 }
 
 
@@ -68,9 +73,10 @@ export default class DataCenterService {
     /**
      * 获取创建数据中心默认参数
      */
-    static async getDefaultDcParms(dcName = 'easyun'): Promise<DefaultDataCenterParms | undefined> {
+    static async getDefaultDcParms(params : DcDefaultQueryParm): Promise<DefaultDataCenterParms | undefined> {
         const url = getHost() + DataCenterDefault;
-        const result = await axios.get(url + `?dc=${dcName}`, {
+        const result = await axios.get(url, {
+            params,
             headers: getHeader()
         });
         if (result.status == 200) {
@@ -80,8 +86,8 @@ export default class DataCenterService {
     }
 
 
-    static async getDatacenterRegion(): Promise<RegionItem[] | undefined> {
-        const url = getHost() + DcmRegion;
+    static async getRegionList(): Promise<RegionItem[] | undefined> {
+        const url = getHost() + DataCenterPath + '/region';
         const result = await axios.get(url, {
             headers: getHeader()
         });
@@ -105,6 +111,20 @@ export default class DataCenterService {
             return result.data.detail;
         }
         return false;
+    }
+
+    /**
+     * 获取异步任务执行结果
+     */
+    static async getTaskResult(id: string) {
+        const url = getHost() + DataCenterPath + 'task';
+        const result = await axios.get(url + `?id=${id}`, {
+            headers: getHeader()
+        });
+        if (result.status == 200) {
+            return result.data.detail;
+        }
+        return undefined;
     }
 
     /*

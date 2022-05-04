@@ -7,12 +7,13 @@ import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import dataCenterService from '@/service/dataCenterService';
-import { message } from 'antd';
+import { Row, Col, Divider, Typography, message, Spin } from 'antd';
 import { RootState } from '@/redux/store';
-import { getDataCenterParms, getDatacenterRegion } from '@/redux/dataCenterSlice';
+import { getDataCenterParms, getRegionList } from '@/redux/dataCenterSlice';
 import { DataCenterParms, RegionItem, SecurityGroupParms, SubnetParms } from '@/constant/dataCenter';
 import FlagUtil from '@/utils/flagUtil';
 
+const { Title, Paragraph, Text } = Typography;
 
 const AddDataCenter = (): JSX.Element => {
     const navigate = useNavigate();
@@ -22,6 +23,9 @@ const AddDataCenter = (): JSX.Element => {
     });
 
     const [inputDcName, setInputDcName] = useState('');
+    const [regionCode, setRegionCode] = useState('');
+    const flagUtil = new FlagUtil();
+
     const [cidr, setCidr] = useState('');
     const [pubSubnet1, setPubSubnet1] = useState<SubnetParms>({
         cidrBlock: '',
@@ -73,20 +77,18 @@ const AddDataCenter = (): JSX.Element => {
         tagName: '',
     });
 
-    const [sshKey, setSSHKey] = useState<string>('');
-    const [flag, setFlag] = useState<string>('JPN');
-
     const dataCenterState = useSelector((state: RootState) => {
         return state.dataCenter;
     });
     const data = dataCenterState.defaultDcParams;
-    const region = dataCenterState.regionList;
+    const regionList = dataCenterState.regionList;
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getDataCenterParms());
-        dispatch(getDatacenterRegion());
+        dispatch(getDataCenterParms({ dc: 'easyun' }));
+        dispatch(getRegionList());
         if (data) {
             setInputDcName(data.dcParms.dcName);
+            setRegionCode(data.dcParms.dcRegion);
             setCidr(data.dcParms.dcVPC.cidrBlock);
             setPubSubnet1(data.dcParms.pubSubnet1);
             setPubSubnet2(data.dcParms.pubSubnet1);
@@ -117,101 +119,110 @@ const AddDataCenter = (): JSX.Element => {
         }
     };
 
-    const getDataCenter = () => {
-        dispatch(getDataCenterParms(inputDcName));
+    const getDcParams = () => {
+        dispatch(getDataCenterParms({ region: regionCode, dc: inputDcName }));
     };
 
     return (
         <div>
-            <div className={classnames('my-3')}>
-                <Icon icon="ant-design:plus-circle-twotone" width="25" className={classnames('inline-block', 'mx-1')}
-                    fr={undefined}/>
-                Create New Cloud DataCenter
-            </div>
-            <hr/>
-            <div className={classnames('mx-5', 'my-3')}>
-                Identify your Datacenter
-                <input
-                    onChange={(e) => {
-                        setInputDcName(e.target.value);
-                    }}
-                    onBlur={getDataCenter}
-                    className={classnames('border', 'ml-3')} type="text"
-                    placeholder='new datacenter name'/>
-            </div>
-            <div className={classnames('ml-5', 'mt-2')}>Easyun DataCenter Networking</div>
-            <div className={classnames('ml-24')}>Region:
-                <select
-                    className={classnames('border', 'ml-3','px-2')}
-                    onChange={(e)=>{
-                        setFlag(e.target.value);
-                    }}>
-                    <option value="">{data?.dcParms.dcRegion}
-                    </option>
-                    {region?.map((item: RegionItem) => {
-                        return <option
-                            key={item.regionCode}
-                            value={item.countryCode}>
-                            {item.regionCode}
-                        </option>;
-                    })}
-                </select>
-                <Icon className={classnames('ml-5','inline-block')} icon={FlagUtil.getFlagIcon(flag)}
-                    color="#5c6f9a"
-                    width="25" height="25"
-                    fr={undefined}/>
-            </div>
-            <div className={classnames('ml-5')}>
-                <span className={classnames('mr-2')}>IPv4 CIDR block:</span>
-                <input
-                    onChange={(e) => {
-                        setCidr(e.target.value);
-                    }}
-                    className={classnames('border')} type="text"
-                    defaultValue={data?.dcParms.dcVPC.cidrBlock}/>
-            </div>
-            <CSubnet subnet={data?.dcParms.pubSubnet1} dropdown={data?.dropDown} index={1} isPublic={true}
-                classes={classnames('w-96', 'inline-block')}/>
-            <CSubnet subnet={data?.dcParms.pubSubnet2} dropdown={data?.dropDown} index={2} isPublic={true}
-                classes={classnames('w-96', 'inline-block')}/>
-            <br/>
-            <CSubnet subnet={data?.dcParms.priSubnet1} dropdown={data?.dropDown} index={1} isPublic={false}
-                classes={classnames('w-96', 'inline-block')}/>
-            <CSubnet subnet={data?.dcParms.priSubnet1} dropdown={data?.dropDown} index={2} isPublic={false}
-                classes={classnames('w-96', 'inline-block')}/>
+            <Row gutter={16}>
+                <Col span={24}>
+                    <Icon icon="ant-design:plus-circle-twotone" width="25" className={classnames('inline-block', 'mx-1')}  />
+                    <Title level={3} style={{ display: 'inline' }}  >Create New Cloud DataCenter</Title>
+                </Col>
+            </Row>
+            <Divider />
+            <Row gutter={16}>
+                <Col span={12}>
+                    <Text strong>Identify your Datacenter</Text>
+                    <input
+                        onChange={(e) => {
+                            setInputDcName(e.target.value);
+                        }}
+                        onBlur={getDcParams}
+                        className={classnames('border', 'ml-3')} type="text"
+                        placeholder=' Datacenter name' /><br />
+
+                    <Title level={4}>Easyun DataCenter Networking</Title>
+                    <div className={classnames('ml-16')}>Region:
+                        <select onChange={(e) => {setRegionCode(e.target.value);}} // 更新regioncode后还需更新dcparms
+                            className={classnames('border', 'ml-3', 'px-2')} >
+                            <option value="">{data?.dcParms.dcRegion}
+                            </option>
+                            {regionList?.map((item: RegionItem, index) => {
+                                return <option
+                                    key={index}
+                                    value={item.regionCode}>
+                                    {item.regionName}
+                                </option>;
+                            })}
+                        </select>
+                        <Icon className={classnames('ml-5', 'inline-block')} icon={flagUtil.getFlagIconByRegion(regionCode)}
+                            color="#5c6f9a"
+                            width="25" height="25"
+                            fr={undefined} />
+                    </div>
+                    <div className={classnames('ml-5')}>
+                        <span className={classnames('mr-2')}>IPv4 CIDR block:</span>
+                        <input onChange={(e) => { setCidr(e.target.value); }}
+                            className={classnames('border')} type="text"
+                            defaultValue={data?.dcParms.dcVPC.cidrBlock} />
+                    </div>
+                    <CSubnet subnet={data?.dcParms.pubSubnet1} dropdown={data?.dropDown} index={1} isPublic={true}
+                        classes={classnames('w-96', 'inline-block')} />
+                    <CSubnet subnet={data?.dcParms.pubSubnet2} dropdown={data?.dropDown} index={2} isPublic={true}
+                        classes={classnames('w-96', 'inline-block')} />
+                    <br />
+                    <CSubnet subnet={data?.dcParms.priSubnet1} dropdown={data?.dropDown} index={1} isPublic={false}
+                        classes={classnames('w-96', 'inline-block')} />
+                    <CSubnet subnet={data?.dcParms.priSubnet1} dropdown={data?.dropDown} index={2} isPublic={false}
+                        classes={classnames('w-96', 'inline-block')} />
 
 
-            <div className={classnames('ml-5', 'mt-10', 'font-bold')}>Easyun DataCenter Security Group</div>
-            <CSecurityGroup sg={data?.dcParms.securityGroup0} classes={classnames('mx-5', 'w-64', 'inline-block')}/>
-            <CSecurityGroup sg={data?.dcParms.securityGroup1} classes={classnames('mx-5', 'w-64', 'inline-block')}/>
-            <CSecurityGroup sg={data?.dcParms.securityGroup2} classes={classnames('mx-5', 'w-64', 'inline-block')}/>
+                    <div className={classnames('ml-5', 'mt-10', 'font-bold')}>Easyun DataCenter Security Group</div>
+                    <CSecurityGroup sg={data?.dcParms.securityGroup0} classes={classnames('mx-5', 'w-64', 'inline-block')} />
+                    <CSecurityGroup sg={data?.dcParms.securityGroup1} classes={classnames('mx-5', 'w-64', 'inline-block')} />
+                    <CSecurityGroup sg={data?.dcParms.securityGroup2} classes={classnames('mx-5', 'w-64', 'inline-block')} />
 
-            <div className={classnames('flex', 'justify-center', 'm-16')}>
-                <CButton click={() => {
-                    navigate('/home');
-                }} classes={classnames('bg-gray-400', 'text-white', 'rounded-2xl', 'w-32', 'h-9', 'mx-5')}>
-                    <Icon className={classnames('inline-block', 'mr-2')} icon="akar-icons:arrow-left" color="white"
-                        width="20" height="20" fr={undefined}/>
-                    Back</CButton>
-                <CButton click={() => {
-                    const params: DataCenterParms = {
-                        dcName: inputDcName,
-                        dcRegion: data?.dcParms.dcRegion ?? '',
-                        dcVPC: {
-                            cidrBlock: cidr ?? '',
-                        },
-                        priSubnet1: priSubnet1,
-                        priSubnet2: priSubnet2,
-                        pubSubnet1: pubSubnet1,
-                        pubSubnet2: pubSubnet2,
-                        securityGroup0: sg0,
-                        securityGroup1: sg1,
-                        securityGroup2: sg2,
-                        // keypair: sshKey
-                    };
-                    createDateCenter(params);
-                }} classes={classnames('bg-yellow-550', 'text-white', 'rounded-2xl', 'w-32', 'px-5')}>Create</CButton>
-            </div>
+
+                </Col>
+                <Col span={8}>
+                    <p>picture here</p>
+                </Col>
+            </Row>
+
+            <Row gutter={16}>
+                <Col span={16}>
+                    <div className={classnames('flex', 'justify-center', 'm-16')}>
+                        <CButton click={() => {
+                            navigate('/home');
+                        }} classes={classnames('bg-gray-400', 'text-white', 'rounded-2xl', 'w-32', 'h-9', 'mx-5')}>
+                            <Icon className={classnames('inline-block', 'mr-2')} icon="akar-icons:arrow-left" color="white"
+                                width="20" height="20" fr={undefined} />
+                            Back</CButton>
+                        <CButton click={() => {
+                            const params: DataCenterParms = {
+                                dcName: inputDcName,
+                                dcRegion: data?.dcParms.dcRegion ?? '',
+                                dcVPC: {
+                                    cidrBlock: cidr ?? '',
+                                },
+                                priSubnet1: priSubnet1,
+                                priSubnet2: priSubnet2,
+                                pubSubnet1: pubSubnet1,
+                                pubSubnet2: pubSubnet2,
+                                securityGroup0: sg0,
+                                securityGroup1: sg1,
+                                securityGroup2: sg2,
+                                // keypair: sshKey
+                            };
+                            createDateCenter(params);
+                        }} classes={classnames('bg-yellow-550', 'text-white', 'rounded-2xl', 'w-32', 'px-5')}>Create</CButton>
+                    </div>
+                </Col>
+            </Row>
+
+
 
         </div>
     );

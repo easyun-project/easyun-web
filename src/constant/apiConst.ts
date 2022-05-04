@@ -10,7 +10,6 @@ export const DataCenterPath = '/api/v1/datacenter';
 export const DataCenterDefault = '/api/v1/datacenter/default';
 export const DataCenterSum = '/api/v1/datacenter/summary';
 export const DcmSubnet = '/api/v1/datacenter/subnet';
-export const DcmRegion = '/api/v1/datacenter/region';
 export const DcmSecgroup = '/api/v1/datacenter/secgroup';
 export const DcmStaticip = '/api/v1/datacenter/eip';
 export const DcmIGW = '/api/v1/datacenter/igw';

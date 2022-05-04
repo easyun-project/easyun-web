@@ -1,8 +1,7 @@
 //react 相关
 import * as React from 'react';
 import { useState } from 'react';
-import { Route } from 'react-router';
-import { Routes, useNavigate,Outlet } from 'react-router-dom';
+import { Routes, useNavigate, useLocation, Outlet } from 'react-router-dom';
 
 //UI 相关
 import { Menu } from 'antd';
@@ -41,10 +40,13 @@ export const NoResource = (props: NotDataProps): JSX.Element => {
 export const DataCenter = (): JSX.Element => {
     // const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     // };
-    const [current, changeCurrent] = useState('overview');
+    const location = useLocation();
+    const subPath = location.pathname.split('/')[2];
+    const [current, setCurrent] = useState(subPath);
+
     const navigate = useNavigate();
     const handleClick = (e) => {
-        changeCurrent(e.key);
+        setCurrent(e.key);
         navigate(`/datacenter/${e.key}`);
     };
     return (
@@ -54,12 +56,12 @@ export const DataCenter = (): JSX.Element => {
                     <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" >
                         <Menu.Item key="overview">Overview</Menu.Item>
                         <Menu.Item key="subnet">Subnet</Menu.Item>
-                        <Menu.Item key="security">Security</Menu.Item>
                         <Menu.Item key="gateway">Gateway</Menu.Item>
-                        <Menu.Item key="staticip">Static IP</Menu.Item>
                         <Menu.Item key="route">Route</Menu.Item>
+                        <Menu.Item key="security">Security</Menu.Item>
+                        <Menu.Item key="staticip">Static IP</Menu.Item>
                     </Menu>
-                    <Outlet/>
+                    <Outlet />
                 </div>
             </div>
         </>

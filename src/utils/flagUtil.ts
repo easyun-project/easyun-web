@@ -1,9 +1,21 @@
-type FlagType = {
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+
+
+
+type FlagIconType = {
     [flag: string]: {
         icon: string
     }
 }
-const flag: FlagType = {
+
+type RegionType = {
+    countryCode: string
+    regionCode: string
+    regionName: string
+}
+
+const FlagIcons: FlagIconType = {
     USA: {
         icon: 'twemoji:flag-united-states'
     },
@@ -63,15 +75,49 @@ const flag: FlagType = {
     }
 };
 
-const FlagUtil = {
+class FlagUtil {
+    public regionList: Array<RegionType> | undefined;
+    defaultFlag: string;
+
+    constructor() {
+        // this.regionList = store.getState().dataCenter.regionList;
+        this.regionList = useSelector((state: RootState) => state.dataCenter).regionList;
+        this.defaultFlag = 'twemoji:flag-united-nations';
+    }
+
     /**
      * 获取国旗国家icon
-     * @param code 国家对应的编码
-     * @return @iconify插件所需要的参数 String
+     * @param {String} code 国家对应的编码
+     * @return {String} @iconify插件所需要的参数
      */
     getFlagIcon(code: string) {
-        return flag[code].icon ?? 'twemoji:flag-united-nations';
+        return FlagIcons[code]?.icon ?? this.defaultFlag;
     }
+
+    /**
+     * 根据regionCode获取国旗icon
+     * 遍历查询regionCode对应的countryCode
+     * @param {string} regionCode
+     */
+    getFlagIconByRegion(regionCode) {
+        const region = this.regionList?.filter(item => {
+            return item.regionCode === regionCode;
+        })[0];
+        return this.getFlagIcon(region ? region.countryCode : '');
+    }
+
+    /**
+     * 根据regionCode获取regionName
+     * 遍历查询regionCode对应的countryCode
+     * @param {string} regionCode
+     */
+    getRegionName(regionCode) {
+        const region = this.regionList?.filter(item => {
+            return item.regionCode === regionCode;
+        })[0];
+        return (region ? region.regionName : '');
+    }
+
 };
 export default FlagUtil;
 
