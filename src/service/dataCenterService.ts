@@ -11,16 +11,15 @@ import axios from 'axios';
 import { getHeader, getHost } from '@/utils/api';
 import {
     DefaultDataCenterParms,
-    DataCenterParms,
+    DataCenterParams,
     EipInfoSimple,
     DataCenterModel,
     DataCenterSummary,
     EipInfo,
     SubnetInfo,
     SecurityGroupDetail,
-    SecurityGroupInfoSimple, RegionItem,
+    SecurityGroupInfoSimple, RegionItem, TaskInfo, TaskDetail,
 } from '@/constant/dataCenter';
-
 
 
 export interface DcNameQueryParm {
@@ -33,10 +32,10 @@ export interface DcDefaultQueryParm {
 }
 
 
-interface DeleteEipParams{
-  alloId: string
-  dcName: string
-  pubIp: string
+interface DeleteEipParams {
+    alloId: string
+    dcName: string
+    pubIp: string
 }
 
 
@@ -73,7 +72,7 @@ export default class DataCenterService {
     /**
      * 获取创建数据中心默认参数
      */
-    static async getDefaultDcParms(params : DcDefaultQueryParm): Promise<DefaultDataCenterParms | undefined> {
+    static async getDefaultDcParams(params: DcDefaultQueryParm): Promise<DefaultDataCenterParms | undefined> {
         const url = getHost() + DataCenterDefault;
         const result = await axios.get(url, {
             params,
@@ -102,27 +101,31 @@ export default class DataCenterService {
      * @param token
      * @param params
      */
-    static async createDataCenter(params: DataCenterParms): Promise<boolean> {
+    static async createDataCenter(params: DataCenterParams): Promise<TaskInfo | undefined> {
         const url = getHost() + DataCenterPath;
         const result = await axios.post(url, params, {
             headers: getHeader()
         });
         if (result.status == 200) {
-            return result.data.detail;
+            return result.data.task;
         }
-        return false;
+        return undefined;
     }
 
     /**
      * 获取异步任务执行结果
      */
-    static async getTaskResult(id: string) {
-        const url = getHost() + DataCenterPath + 'task';
-        const result = await axios.get(url + `?id=${id}`, {
+    static async getTaskResult(id: string): Promise<TaskDetail | undefined> {
+        const url = getHost() + DataCenterPath + '/task';
+        const replacedId = id.replaceAll('-', '_');
+        const result = await axios.get(url, {
+            params: {
+                id: replacedId
+            },
             headers: getHeader()
         });
         if (result.status == 200) {
-            return result.data.detail;
+            return result.data.task as TaskDetail;
         }
         return undefined;
     }
@@ -195,8 +198,8 @@ export default class DataCenterService {
      */
     static async deleteEip(params: DeleteEipParams): Promise<Record<'msg', string>> {
         const url = getHost() + DcmStaticip;
-        const result = await axios.delete(url,  {
-            data : params,
+        const result = await axios.delete(url, {
+            data: params,
             headers: getHeader()
         });
         return result.data.detail;
@@ -218,9 +221,9 @@ export default class DataCenterService {
     /**
      * 获取eip详细信息
      */
-    static async getEipInfo(params:{dc:string}):Promise<EipInfo[]>{
+    static async getEipInfo(params: { dc: string }): Promise<EipInfo[]> {
         const url = getHost() + DcmStaticip;
-        const result = await axios.get(url,{
+        const result = await axios.get(url, {
             params,
             headers: getHeader()
         });

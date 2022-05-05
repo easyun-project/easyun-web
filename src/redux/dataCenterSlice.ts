@@ -39,10 +39,10 @@ export const listAllDataCenter = createAsyncThunk(
 );
 
 //获取新建数据中心的默认参数
-export const getDataCenterParms = createAsyncThunk(
+export const getDataCenterParams = createAsyncThunk(
     'dataCenter/getDataCenterParms',
     async (params: DcDefaultQueryParm) => {
-        return await DataCenterService.getDefaultDcParms(params);
+        return await DataCenterService.getDefaultDcParams(params);
     }
 );
 
@@ -143,14 +143,14 @@ export const dataCenterSlice = createSlice({
             state.loading = false;
         });
 
-        builder.addCase(getDataCenterParms.pending, (state: DataCenterState) => {
+        builder.addCase(getDataCenterParams.pending, (state: DataCenterState) => {
             state.loading = true;
         });
-        builder.addCase(getDataCenterParms.fulfilled, (state: DataCenterState, action) => {
+        builder.addCase(getDataCenterParams.fulfilled, (state: DataCenterState, action) => {
             state.loading = false;
             state.defaultDcParams = action.payload;
         });
-        builder.addCase(getDataCenterParms.rejected, (state: DataCenterState) => {
+        builder.addCase(getDataCenterParams.rejected, (state: DataCenterState) => {
             state.loading = false;
         });
 
