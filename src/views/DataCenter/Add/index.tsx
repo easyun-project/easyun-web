@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import { CSubnet } from '@/components/Logic/CSubnet';
 import { classnames } from '@@/tailwindcss-classnames';
 import CSecurityGroup from '@/components/Logic/CSecurityGroup';
@@ -25,8 +25,8 @@ const AddDataCenter = (): JSX.Element => {
     const [inputDcName, setInputDcName] = useState('');
     const [regionCode, setRegionCode] = useState('');
     const flagUtil = new FlagUtil();
-
     const [cidr, setCidr] = useState('');
+
     const [pubSubnet1, setPubSubnet1] = useState<SubnetParms>({
         cidrBlock: '',
         azName: '',
@@ -86,6 +86,14 @@ const AddDataCenter = (): JSX.Element => {
     const data = dataCenterState.defaultDcParams;
     const regionList = dataCenterState.regionList;
     const dispatch = useDispatch();
+    //由于timer不能在在重新渲染时被重置，因此需要用useRef保存
+    const refTimer = useRef<number>(0);
+    useEffect(()=>{
+        clearTimeout(refTimer.current);
+        // 重新开启一个定时器
+        refTimer.current = setTimeout(
+            () => getDcParams(), 1000);
+    },[inputDcName]);
     useEffect(() => {
         dispatch(getDataCenterParams({ dc: 'easyun' }));
         dispatch(getRegionList());
@@ -172,21 +180,20 @@ const AddDataCenter = (): JSX.Element => {
                     <Input
                         onChange={(e) => {
                             setInputDcName(e.target.value);
-                            getDcParams();
                         }}
                         status={dcStatus}
                         defaultValue={inputDcName}
-                        onBlur={(e) => {
-                            if (!e.target.value) {
-                                setDcStatus('error');
-                            } else {
-                                setDcStatus(undefined);
-                            }
-                            // fixme 切换region时反应不及时，导致创建数据中心失败问题暂未解决
-                            // setRegionCode(data!.dcParms!.dcRegion | "");
-                            getDcParams();
-                        }
-                        }
+                        // onBlur={(e) => {
+                        //     if (!e.target.value) {
+                        //         setDcStatus('error');
+                        //     } else {
+                        //         setDcStatus(undefined);
+                        //     }
+                        //     // fixme 切换region时反应不及时，导致创建数据中心失败问题暂未解决
+                        //     // setRegionCode(data!.dcParms!.dcRegion | "");
+                        //     getDcParams();
+                        // }
+                        // }
                         className={classnames('border', 'ml-3')} type="text"
                         placeholder=' Datacenter name'/>
                     <br/>
@@ -235,8 +242,6 @@ const AddDataCenter = (): JSX.Element => {
                         classes={classnames('w-96', 'inline-block')}/>
                     <CSubnet subnet={data?.dcParms.priSubnet1} dropdown={data?.dropDown} index={2} isPublic={false}
                         classes={classnames('w-96', 'inline-block')}/>
-
-
                     <div className={classnames('ml-5', 'mt-10', 'font-bold')}>Easyun DataCenter Security Group</div>
                     <CSecurityGroup sg={data?.dcParms.securityGroup0}
                         classes={classnames('mx-5', 'w-64', 'inline-block')}/>
@@ -244,8 +249,6 @@ const AddDataCenter = (): JSX.Element => {
                         classes={classnames('mx-5', 'w-64', 'inline-block')}/>
                     <CSecurityGroup sg={data?.dcParms.securityGroup2}
                         classes={classnames('mx-5', 'w-64', 'inline-block')}/>
-
-
                 </Col>
                 <Col span={8}>
                     <p>picture here</p>
