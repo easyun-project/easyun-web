@@ -1,7 +1,7 @@
 // react related
 import * as React from 'react';
 import { useState } from 'react';
-import { useLocation, useNavigate, Outlet } from 'react-router-dom';
+import { useNavigate,useLocation,Outlet } from 'react-router-dom';
 // UI contents
 import { Menu, Table } from 'antd';
 import { classnames } from '@@/tailwindcss-classnames';
@@ -57,13 +57,11 @@ const Resource = (): JSX.Element => {
     // const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     // };
     const location = useLocation();
-    const subPath = location.pathname.split('/')[2];
-    const [current, setCurrent] = useState(subPath);
-
+    const currentTab = location.pathname.split('/').at(-1) as string;
+    const [current, changeCurrent] = useState(currentTab);
     const navigate = useNavigate();
     const handleClick = (e) => {
-        // console.log(e.key);
-        setCurrent(e.key);
+        changeCurrent(e.key);
         navigate(`/resource/${e.key}`);
     };
     return (

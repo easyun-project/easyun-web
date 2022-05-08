@@ -10,7 +10,6 @@ const Home = (): JSX.Element => {
     const url_route_pathname = location.pathname.split('/')[2];
     if (current !== url_route_pathname) changeCurrent(url_route_pathname);
     const handleClick = (e) => {
-        console.log(e.key);
         changeCurrent(e.key);
         navigate(`/account/${e.key}`);
     };

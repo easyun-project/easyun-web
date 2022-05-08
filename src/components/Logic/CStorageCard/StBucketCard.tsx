@@ -8,7 +8,7 @@ import bucketManage from '@/service/stBucketService';
 import { useDispatch } from 'react-redux';
 import { deleteStorage } from '@/redux/storageSlice';
 import { useNavigate } from 'react-router-dom';
-import stbucket from '@@/src/assets/images/stbucket.png';
+// import stbucket from '@@/src/assets/images/stbucket.png';
 
 
 export interface BucketCardInfo {
@@ -19,7 +19,7 @@ export interface BucketCardInfo {
     bktRegion: string;
     pubStatus: string;
     statusMsg: string;
-    stType: string;    
+    stType: string;
 }
 
 const CStorageCard = (props: BucketCardInfo): JSX.Element => {
@@ -76,7 +76,7 @@ const CStorageCard = (props: BucketCardInfo): JSX.Element => {
                     className={classnames('w-12', 'h-12')}
                 /> */}
                 <Icon icon="bi:bucket" width="36" color='#FF8C00' inline={true} />
-                <div className={classnames('flex-grow')}>
+                <div className='grow ml-2'>
                     <div className={classnames('text-blue-600')}>
                         <span className='cursor-pointer' onClick={() => {
                             navigate(`/resource/bucket/object/${bktName}`, { state: props });
