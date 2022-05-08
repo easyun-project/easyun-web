@@ -8,8 +8,8 @@ import { RootState } from '@/redux/store';
 import TimeUtil from '@/utils/time';
 
 
-const { Title, Paragraph, Text } = Typography;
-
+// const { Title, Paragraph, Text } = Typography;
+const { Text } = Typography;
 
 export default function Detail():JSX.Element {
     const serverState = useSelector((state: RootState) => {
@@ -24,7 +24,7 @@ export default function Detail():JSX.Element {
             </div>
 
             <div>
-                Launch Time: <Text>{TimeUtil.utcConvertTimeZone({ date:server.svrProperty.launchTime})} </Text>
+                Launch Time: <Text>{TimeUtil.utcConvertTimeZone({ date:server.svrProperty.launchTime })} </Text>
             </div>
 
             <div id='hostnameType' className={classnames('mt-4')}>
@@ -176,5 +176,4 @@ export default function Detail():JSX.Element {
     else{
         return <div>没有服务器的详细数据</div>;
     }
-
 }

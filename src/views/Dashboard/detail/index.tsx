@@ -1,21 +1,23 @@
 import { classnames } from '@@/tailwindcss-classnames';
-import { Select, Spin } from 'antd';
+import { Spin } from 'antd';
 import { DashCard } from '@/components/DashboardCommon/DashCard';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import FlagUtil from '@/utils/flagUtil';
-import TimeUtil from '@/utils/time';
 import dashboard from '@/service/dashboard';
 import { AntdTable } from '@/components/Common/CTable/AntdTable';
 import { DictListSelect } from '@/components/DashboardCommon/DictListSelect';
 import './index.less';
-import { GraphicalType, HealthType, TableType } from '@/views/Dashboard/dashboard';
+import { HealthType, TableType } from '@/views/Dashboard/dashboard';
 import { DashboardsTabList } from '@/views/Dashboard/detail/tabList';
 import { DashboardsTabGraphical } from '@/views/Dashboard/detail/tabGraphical';
 import { DashboardsHealthCard } from '@/views/Dashboard/detail/healthCard';
 
+
 export const DashboardDetail = (props): JSX.Element => {
     const { propDcName } = props;
+    const flagUtil = new FlagUtil();
+
     const [tableList, setTableList] = useState<TableType>({
         dataCenter: {
             cardTitle: 'DataCenter Summary',
@@ -36,7 +38,7 @@ export const DashboardDetail = (props): JSX.Element => {
                         render: dcRegion => {
                             return <div>
                                 <span className={classnames('inline-block', 'pr-1', 'h-4')}>
-                                    <Icon className={'ml-5'} icon={FlagUtil.getFlagIcon(dcRegion?.icon)}
+                                    <Icon className={'ml-5'} icon={flagUtil.getFlagIcon(dcRegion?.icon)}
                                         color="#5c6f9a"
                                         width="25" height="25"
                                         fr={undefined}/>

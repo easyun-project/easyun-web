@@ -1,11 +1,11 @@
 // react related
-import React, { useEffect, useState } from 'react';
+import React  from 'react';
 // redux related
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 // UI contents
-import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
-import { Row, Col, Typography, Divider, Badge, Card, Statistic, Spin, Space } from 'antd';
+import { classnames } from '@@/tailwindcss-classnames';
+import { Row, Col, Typography, Divider, Badge, Card, Statistic, Spin } from 'antd';
 import { Icon } from '@iconify/react';
 // services and interface/schema
 import { VpcSummary, AzSummary } from '@/constant/dataCenter';
@@ -20,12 +20,12 @@ function AzSummaryCard(props: AzSummary) {
     const { azName, subnetNum } = props;
     const color = subnetNum > 0 ? '#FFBF00' : '#d9d9d9';
     return (
-        <Col className="gutter-row" span={2}>
+        <Col span={2}>
             <Badge size="small" count={subnetNum} showZero offset={[-15, 15]} color={color}>
                 <Card className={classnames('rounded-md', 'border-2', 'border-gray-400')}>{azName}</Card>
             </Badge>
         </Col>
-    )
+    );
 }
 
 
@@ -33,12 +33,12 @@ function VpcSummaryCard(props: any) {
     const { title, value } = props;
 
     return (
-        <Col className="gutter-row" span={3}>
+        <Col span={3}>
             <Card hoverable >
                 <Statistic title={title} value={value} />
             </Card>
         </Col>
-    )
+    );
 }
 
 

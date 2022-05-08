@@ -19,7 +19,7 @@ import DataCenterService from '@/service/dataCenterService';
 export default function EipDetail() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    //结构赋值的连续性写法
+    //解构赋值的连续性写法
     const { state:{ pubIp } }  = useLocation() as {state:{pubIp:string}};
     const eipInfos = useSelector((state:RootState)=>state.dataCenter.currentDC.eip);
     const { servers } = useSelector((state:RootState)=>state.server);
@@ -149,7 +149,7 @@ export default function EipDetail() {
                                 // not attached to a nat_gateway or a server
                                     : <div>
                                         <Select placeholder="Select a cloud server..." className='mb-4 w-96' onChange={value=>changeSelectedSvr(value)} loading={loading}>
-                                            {servers.filter(server=>!server.pubIp).map(server=><Option key={server.svrId} value={server.svrId} >{server.tagName} : {server.svrId}</Option>)}
+                                            {servers.filter(server=>!server.isEip).map(server=><Option key={server.svrId} value={server.svrId} >{server.tagName} : {server.svrId}</Option>)}
                                         </Select>
                                         {attachedSvr && selectedSvr
                                             ? <ServerCard {...attachedSvr} active>

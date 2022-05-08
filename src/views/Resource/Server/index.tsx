@@ -1,5 +1,6 @@
-import * as React from 'react';
-import { useEffect,useState } from 'react';
+import React from 'react';
+// import { useEffect,useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NoResource } from '@/views/Resource';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';

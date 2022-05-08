@@ -69,7 +69,7 @@ export default function DataCenterCard(props: DataCenterModel) {
                 key="delete"
                 onClick={() => {
                     openNotification('bottomRight');
-                    dispatch(deleteDataCenter({ dcName: dcName, isForceDel: true }));                    
+                    dispatch(deleteDataCenter({ dcName: dcName, isForceDel: true }));
                     navigate('/home');
                 }}
             >

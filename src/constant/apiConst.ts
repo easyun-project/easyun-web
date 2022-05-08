@@ -34,7 +34,6 @@ export const StBucketList = '/api/v1/storage/bucket/list';
 export const StBucketObject = '/api/v1/storage/bucket/object';
 export const StVolumePath = '/api/v1/storage/volume';
 export const StVolumeList = '/api/v1/storage/volume/list';
-export const VolumeOperate = '/api/v1/storage/volume';
 
 // database 数据库 常量名以Database开头
 export const DatabasePath = '/api/v1/database';

@@ -6,8 +6,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getServerDetail } from '@/redux/serverSlice';
 import { RootState } from '@/redux/store';
-import { ServerDetailParams } from '@/service/serverService';
-// import { CPartialLoading } from '@/components/Common/CPartialLoading';
+import { CPartialLoading } from '@/components/Common/CPartialLoading';
 import Detail from './Detail';
 import Config from './Config';
 import Disk from './Disk';
@@ -24,47 +23,46 @@ const { TabPane } = Tabs;
 
 
 const ServerDetail = ():JSX.Element => {
+    const dispatch = useDispatch();
     const params = useParams();
     const serverId = params.serverId;
-    // const userState = useSelector((state: RootState) => {
-    //     return state.user.user;
-    // });
-    const serverState = useSelector((state: RootState) => {
-        return state.server;
-    });
+    const serverState = useSelector((state: RootState) => state.server);
     const server = serverState.currentServer;
-    const dispatch = useDispatch();
+    const [firstLoading,changeFirstLoading] = useState(true);
     const [seletedTab, changeSelectedTab] = useState('Detail');
+
     useEffect(() => {
-        const params: ServerDetailParams = {
-            serverId: serverId!
-        };
-        dispatch(getServerDetail(params));
+        const init = async ()=>dispatch(getServerDetail({ serverId: serverId! }));
+        init().then(()=>changeFirstLoading(false));
     }, []);
 
-    let color: TTailwindString;
-
-    // 刷新n次，每次间隔5s
-    const refresh = (times?:number)=>{
-        const m = times ? times : 5;
-        let n = 1;
-        function time()
-        {
-            if( n > m) return;
-            dispatch(getServerDetail({ serverId:server!.svrProperty.instanceId }));
-            n ++;
-            setTimeout(time,5000); //time是指本身,延时递归调用自己,间隔调用时间5s,单位毫秒
-        }
-        time();
-    };
-
-    if (!server) {
+    if(firstLoading){
         return (
-            <div>暂时没有服务器的详细数据</div>
+            <CPartialLoading classes={classnames('h-96')}/>
         );
     }
 
+    else if (!server) {
+        alert('请求详细信息出错！');
+        return <div>没有服务器的详细信息</div>;
+    }
+
     else {
+        let color: TTailwindString;
+        // 刷新n次，每次间隔5s
+        const refresh = (times?:number)=>{
+            const serverId = server.svrProperty.instanceId;
+            const m = times ? times : 5;
+            let n = 1;
+            function time()
+            {
+                if( n > m) return;
+                dispatch(getServerDetail({ serverId }));
+                n ++;
+                setTimeout(time,5000); //time是指本身,延时递归调用自己,间隔调用时间5s,单位毫秒
+            }
+            time();
+        };
         if (server.svrProperty.status === 'running') {
             color = classnames('text-green-600');
         } else if (server.svrProperty.status == 'stopped') {
@@ -125,6 +123,7 @@ const ServerDetail = ():JSX.Element => {
                         </div>
                     </Col>
                 </Row>
+
                 <Tabs className={classnames('pl-3')} activeKey={seletedTab} onChange={(key=>changeSelectedTab(key))}>
                     <TabPane tab="Detail" key="Detail">
                         <Detail />
