@@ -48,7 +48,7 @@ export const resourceSlice = createSlice({
         builder.addCase(getResourceSummary.fulfilled, (state: ResourceState, action) => {
             state.loading = false;
             state.resourceSummary = action.payload;
-        });        
+        });
         builder.addCase(getResourceSummary.rejected, (state: ResourceState) => {
             state.loading = false;
         });
@@ -59,7 +59,7 @@ export const resourceSlice = createSlice({
         builder.addCase(getCostSummary.fulfilled, (state: ResourceState, action) => {
             state.loading = false;
             state.costSummary = action.payload;
-        });        
+        });
         builder.addCase(getCostSummary.rejected, (state: ResourceState) => {
             state.loading = false;
         });

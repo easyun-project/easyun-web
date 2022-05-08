@@ -19,7 +19,7 @@ const AddDataCenter = (): JSX.Element => {
     const navigate = useNavigate();
 
     const userState = useSelector((state: RootState) => {
-        return state.user.user;
+        return state.user.currentUser;
     });
 
     const flagUtil = new FlagUtil();
@@ -97,7 +97,7 @@ const AddDataCenter = (): JSX.Element => {
     }, [inputDcName, regionCode]);
 
     useEffect(() => {
-        dispatch(getDataCenterParams({ dc: 'easyun' }));
+        dispatch(getDataCenterParams({ dc: 'default', region: 'us-east-1' }));
         // dispatch(getRegionList());
         if (data) {
             setInputDcName(data.dcParms.dcName);
@@ -114,13 +114,16 @@ const AddDataCenter = (): JSX.Element => {
         }
     }, [dispatch]);
 
+    const getDcParams = () => {
+        dispatch(getDataCenterParams({ region: regionCode, dc: inputDcName }));
+    };
+
     // 创建数据中心
     const createDateCenter = async (params: DataCenterParams) => {
         if (params.dcName === '') {
             message.error('数据中心名称不能为空');
             return;
         }
-
         if (userState) {
             const created = await dataCenterService.createDataCenter(params);
             if (!created) {
@@ -132,7 +135,6 @@ const AddDataCenter = (): JSX.Element => {
             setIntervalId(intervalId);
         }
     };
-
 
     const getRealTimeTaskResult = async (taskId: string) => {
         const taskResult = await dataCenterService.getTaskResult(taskId);
@@ -151,10 +153,6 @@ const AddDataCenter = (): JSX.Element => {
                 description: taskResult.description,
             });
         }
-    };
-
-    const getDcParams = () => {
-        dispatch(getDataCenterParams({ region: regionCode, dc: inputDcName }));
     };
 
     return (

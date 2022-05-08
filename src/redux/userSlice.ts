@@ -14,10 +14,12 @@ export const userAction = (user: UserModel): { payload: UserModel; type: string 
 // const initUser: UserModel | undefined = undefined;
 
 const initUser = {
-    account_id: '',
-    account_type: '',
-    type: '',
+    username: '',
+    accountId: '',
+    accountType: '',
     token: '',
+    role: '',
+    deployRegion: '',
     loginTime:0
 };
 
@@ -25,11 +27,11 @@ export const userSlice = createSlice({
     name: 'user',
     initialState: {
         loading: true,
-        user: initUser
+        currentUser: initUser
     },
     reducers: {
         updateUser(state, action) {
-            state.user = action.payload;
+            state.currentUser = action.payload;
         }
     },
 });

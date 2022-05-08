@@ -8,9 +8,9 @@ const initialState: AppState = {
     loading: true,
 };
 
-export const userSlice = createSlice({
+export const appSlice = createSlice({
     name: 'app',
     initialState,
     reducers: {},
 });
-export default userSlice.reducer;
+export default appSlice.reducer;

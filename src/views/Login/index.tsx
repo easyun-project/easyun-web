@@ -9,7 +9,7 @@ import appService from '@/service/appService';
 import { useDispatch } from 'react-redux';
 import { userAction } from '@/redux/userSlice';
 import userService from '@/service/userService';
-import { Row, Col, Input, message, Typography, Modal, Form, Checkbox } from 'antd';
+import { Row, Input, message, Typography, Modal, Form, Checkbox } from 'antd';
 import { CButton } from '@/components/Common/CButton';
 import { listAllDataCenter, getRegionList } from '@/redux/dataCenterSlice';
 import { UserModel } from '@/constant/user';
@@ -23,6 +23,7 @@ const LoginPage = (): JSX.Element => {
     // const usernameRef = createRef<HTMLInputElement>();
     // const passwordRef = createRef<HTMLInputElement>();
     const configRef = createRef<Input>();
+
     //获取datacenter列表
     const initDataCenterList = async () => {
         dispatch(listAllDataCenter());
@@ -34,7 +35,7 @@ const LoginPage = (): JSX.Element => {
         if (!username || !password) {
             return;
         }
-        const loginRes = await userService.login<UserModel>(username, password);
+        const loginRes = await userService.login(username, password);
         if (loginRes) {
             // 把登录时间一并存在redux中
             dispatch(userAction(

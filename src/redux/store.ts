@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import userStore from '@/redux/userSlice';
 import appStore from '@/redux/appSlice';
+import userStore from '@/redux/userSlice';
 import dataCenterStore from '@/redux/dataCenterSlice';
 import resourceStore from '@/redux/resourceSlice';
 import serverStore from '@/redux/serverSlice';
@@ -8,7 +8,7 @@ import storageStore from '@/redux/storageSlice';
 import { persistReducer, persistStore } from 'redux-persist';
 import { getStoredState, REHYDRATE } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { ResourceStore } from 'i18next';
+// import { ResourceStore } from 'i18next';
 // import hardSet from 'redux-persist/lib/stateReconciler/hardSet';
 // import sessionStorage from 'redux-persist/es/storage/session';
 

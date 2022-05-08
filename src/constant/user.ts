@@ -1,7 +1,9 @@
 export interface UserModel {
-    account_id: string;
-    account_type: string;
-    type: string;
+    username: string;
+    accountId: string;
+    accountType: string;
     token: string;
-    loginTime?:number
+    deployRegion: string;
+    role: string;
+    loginTime?: number;
 }

@@ -1,9 +1,10 @@
-import React from 'react';
-import { classnames } from '@@/tailwindcss-classnames';
-import { Icon } from '@iconify/react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { Icon } from '@iconify/react';
+import { classnames } from '@@/tailwindcss-classnames';
 import { Menu,Dropdown  } from 'antd';
-import { useState } from 'react';
 import { DownOutlined } from '@ant-design/icons';
 
 import logo3 from '@@/src/assets/images/logo_easyun/logo_easyun03.svg';
@@ -33,6 +34,10 @@ export const CHeader = (): JSX.Element => {
     // const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     //     setAnchorEl(event.currentTarget);
     // };
+    const userState = useSelector((state: RootState) => {
+        return state.user.currentUser;
+    });
+
     const [current, changeCurrent] = useState('Home');
     const navigate = useNavigate();
     const handleClick = (e)=>{
@@ -160,7 +165,7 @@ export const CHeader = (): JSX.Element => {
                     />
                 </span>
                 <span id="username" className={classnames('mx-5','text-lg')} style={{ color: '#5c6f9a' }}>
-            admin
+                    { userState.username }
                 </span>
             </div>
         </div>
