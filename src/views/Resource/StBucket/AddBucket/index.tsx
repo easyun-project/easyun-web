@@ -18,7 +18,7 @@ const AddBucket = (): JSX.Element => {
     const [versioningConfiguration, changeVerConfig] = useState(true);
     const navigate = useNavigate();
     const userState = useSelector((state: RootState) => {
-        return state.user.user;
+        return state.user.currentUser;
     });
 
     return (

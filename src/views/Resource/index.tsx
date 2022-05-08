@@ -37,9 +37,10 @@ export const NoResource = (props: NotDataProps): JSX.Element => {
 
 
 interface TableProps {
-    dataSource: ServerModel[] | undefined | any[];
-    columns: any[]
+    dataSource: ServerModel[] | undefined | never[];
+    columns: never[]
 }
+
 export const ResourceTable = (props: TableProps): JSX.Element => {
     return (
         <Table bordered={true} dataSource={props.dataSource} columns={props.columns} rowSelection={{

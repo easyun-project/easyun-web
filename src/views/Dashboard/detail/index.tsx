@@ -13,9 +13,11 @@ import { DashboardsTabList } from '@/views/Dashboard/detail/tabList';
 import { DashboardsTabGraphical } from '@/views/Dashboard/detail/tabGraphical';
 import { DashboardsHealthCard } from '@/views/Dashboard/detail/healthCard';
 
-const flagUtil = new FlagUtil();
+
 export const DashboardDetail = (props): JSX.Element => {
     const { propDcName } = props;
+    const flagUtil = new FlagUtil();
+
     const [tableList, setTableList] = useState<TableType>({
         dataCenter: {
             cardTitle: 'DataCenter Summary',

@@ -1,11 +1,11 @@
 // react related
-import React, { useEffect, useState } from 'react';
+import React  from 'react';
 // redux related
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 // UI contents
-import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
-import { Row, Col, Typography, Divider, Badge, Card, Statistic, Spin, Space } from 'antd';
+import { classnames } from '@@/tailwindcss-classnames';
+import { Row, Col, Typography, Divider, Badge, Card, Statistic, Spin } from 'antd';
 import { Icon } from '@iconify/react';
 // services and interface/schema
 import { VpcSummary, AzSummary } from '@/constant/dataCenter';
@@ -16,24 +16,24 @@ import TimeUtil from '@/utils/time';
 const { Title, Paragraph, Text } = Typography;
 
 
-function AzSummaryCard(props:AzSummary){
+function AzSummaryCard(props: AzSummary) {
     const { azName, subnetNum } = props;
     const color = subnetNum > 0 ? '#FFBF00' : '#d9d9d9';
     return (
-        <Col className="gutter-row" span={2}>
+        <Col span={2}>
             <Badge size="small" count={subnetNum} showZero offset={[-15, 15]} color={color}>
-                <Card className={classnames('rounded-md','border-2','border-gray-400')}>{azName}</Card>
+                <Card className={classnames('rounded-md', 'border-2', 'border-gray-400')}>{azName}</Card>
             </Badge>
         </Col>
     );
 }
 
-const flagUtil = new FlagUtil();
-function VpcSummaryCard(props:any){
+
+function VpcSummaryCard(props: any) {
     const { title, value } = props;
 
     return (
-        <Col className="gutter-row" span={3}>
+        <Col span={3}>
             <Card hoverable >
                 <Statistic title={title} value={value} />
             </Card>
@@ -42,7 +42,7 @@ function VpcSummaryCard(props:any){
 }
 
 
-export default function DataCenterOverview():JSX.Element {
+export default function DataCenterOverview(): JSX.Element {
     const dataCenterState = useSelector((state: RootState) => state.dataCenter);
     const dcBasic = dataCenterState.currentDC.basicInfo;
     const dcSummary = dataCenterState.currentDC.summary;
@@ -55,13 +55,13 @@ export default function DataCenterOverview():JSX.Element {
     //     };
     //     dispatch(getDataCenter(params));
     // }, []);
-
+    const flagUtil = new FlagUtil();
     return (
-        <div className={classnames('ml-3','mt-5')}>
+        <div className={classnames('ml-3', 'mt-5')}>
             <div id="dcBasic">
                 <Row gutter={16}>
                     <Col span={2}>
-                        <Icon icon="ic:round-cloud-circle" color="#e9862e" width={100} fr={undefined}/>
+                        <Icon icon="ic:round-cloud-circle" color="#e9862e" width={100} fr={undefined} />
                     </Col>
                     <Col span={22}>
                         <Row gutter={16}>
@@ -73,22 +73,22 @@ export default function DataCenterOverview():JSX.Element {
                         <Row gutter={16}>
                             <Col span={5}>
                                 <Text strong>VPC ID:</Text> <Text copyable>{dcBasic?.vpcID}</Text>
-                                <br/>
+                                <br />
                                 <Text strong>CIDR(IPv4):</Text> <Text copyable>{dcBasic?.vpcCidr}</Text>
                             </Col>
                             <Col span={12}>
                             </Col>
                             <Col span={5}>
                                 <div className={classnames('my-2')}>
-                                    <Text strong>Region:</Text> <Text>{dcBasic!.dcRegion}</Text>
+                                    <Text strong>Region:</Text> <Text>{flagUtil.getRegionName(dcBasic!.dcRegion)}</Text>
                                     <span className={classnames('inline-block', 'pr-1', 'h-4')}>
-                                        <Icon className={'ml-5'} icon={flagUtil.getFlagIcon('USA')}
+                                        <Icon className={'ml-5'} icon={flagUtil.getFlagIconByRegion(dcBasic!.dcRegion)}
                                             color="#5c6f9a"
                                             width="25" height="25"
-                                            fr={undefined}/>
+                                            fr={undefined} />
                                     </span>
-                                    <br/>
-                                    <Text strong>Create Date:</Text> <Text>{TimeUtil.utcConvertTimeZone({ date:dcBasic?.createDate })}</Text>
+                                    <br />
+                                    <Text strong>Create Date:</Text> <Text>{TimeUtil.utcConvertTimeZone({ date: dcBasic?.createDate })}</Text>
                                 </div>
                             </Col>
                         </Row>
@@ -101,9 +101,9 @@ export default function DataCenterOverview():JSX.Element {
             <div id='azSummary'>
                 <Title level={4}>DataCenter Distribution</Title>
                 <Spin spinning={dcLoading} tip="Loading...">
-                    <Row gutter= {[16,24]} className='py-2'>
+                    <Row gutter={[16, 24]} className='py-2'>
                         {/* <Space size='middle'> */}
-                        {dcSummary?.azSummary.map((item, index)=> <AzSummaryCard key={index} azName={item.azName} subnetNum={item.subnetNum} /> )}
+                        {dcSummary?.azSummary.map((item, index) => <AzSummaryCard key={index} azName={item.azName} subnetNum={item.subnetNum} />)}
                         {/* </Space> */}
                     </Row>
                 </Spin>
@@ -111,17 +111,17 @@ export default function DataCenterOverview():JSX.Element {
 
             <div id='vpcSummary'>
                 <Paragraph className='pt-4'>You are using following datacenter networking (VPC) service:</Paragraph>
-                <Row gutter= {[16,24]} className='py-2'>
+                <Row gutter={[16, 24]} className='py-2'>
                     <VpcSummaryCard title='Public Subnets' value={dcSummary?.vpcSummary.pubNum} />
-                    <VpcSummaryCard title='Internet Gateways' value={dcSummary?.vpcSummary.igwNum}/>
-                    <VpcSummaryCard title='Security Groups' value={dcSummary?.vpcSummary.sgNum}/>
-                    <VpcSummaryCard title='Route Tables' value={dcSummary?.vpcSummary.rtbNum}/>
+                    <VpcSummaryCard title='Internet Gateways' value={dcSummary?.vpcSummary.igwNum} />
+                    <VpcSummaryCard title='Security Groups' value={dcSummary?.vpcSummary.sgNum} />
+                    <VpcSummaryCard title='Route Tables' value={dcSummary?.vpcSummary.rtbNum} />
                 </Row>
-                <Row gutter= {[16,24]} className='py-2'>
-                    <VpcSummaryCard title='Private Subnets' value={dcSummary?.vpcSummary.priNum}/>
-                    <VpcSummaryCard title='NAT Gateways' value={dcSummary?.vpcSummary.natNum}/>
-                    <VpcSummaryCard title='Network ACLs' value={dcSummary?.vpcSummary.aclNum}/>
-                    <VpcSummaryCard title='Static IP(EIP)' value={dcSummary?.vpcSummary.eipNum}/>
+                <Row gutter={[16, 24]} className='py-2'>
+                    <VpcSummaryCard title='Private Subnets' value={dcSummary?.vpcSummary.priNum} />
+                    <VpcSummaryCard title='NAT Gateways' value={dcSummary?.vpcSummary.natNum} />
+                    <VpcSummaryCard title='Network ACLs' value={dcSummary?.vpcSummary.aclNum} />
+                    <VpcSummaryCard title='Static IP(EIP)' value={dcSummary?.vpcSummary.eipNum} />
                 </Row>
             </div>
         </div>

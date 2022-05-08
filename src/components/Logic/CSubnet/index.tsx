@@ -1,9 +1,10 @@
 import React from 'react';
 import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
+import { Typography, Select, Input } from 'antd';
 import { DcDropDown, SubnetParms } from '@/constant/dataCenter';
 
-interface Props {
+interface CSubnetProps {
     index: number;
     isPublic: boolean;
     classes?: TTailwindString;
@@ -11,7 +12,7 @@ interface Props {
     dropdown?: DcDropDown;
 }
 
-export const CSubnet = (props: Props): JSX.Element => {
+export const CSubnet = (props: CSubnetProps): JSX.Element => {
     const subnet = props.subnet;
     const title = subnet?.tagName;
     let classes = props.classes;
@@ -21,7 +22,7 @@ export const CSubnet = (props: Props): JSX.Element => {
         classes = classnames(classes, 'bg-yellow-50');
     }
     return (
-        <div className={classnames(classes, 'mx-3', 'my-2', 'p-3')}>
+        <div className={classnames(classes, 'mx-3', 'my-2', 'p-3', 'rounded-xl')}>
             {
                 props.isPublic ?
                     <Icon className={classnames('relative', 'float-right', 'mr-1', 'mt-1')}
@@ -33,59 +34,57 @@ export const CSubnet = (props: Props): JSX.Element => {
                         fr={undefined}/>
             }
             <div>
-                <div color="text.secondary" className={classnames('mb-2')}>
-                    {title}
-                </div>
-                <div className="grid grid-cols-5 gap-4">
-                    <div className="col-span-2">ipv4 CIDR Block</div>
-                    <div className={classnames('col-span-3')}>
-                        <input defaultValue={subnet?.cidrBlock} className={classnames('h-6', 'border', 'my-1', 'w-40')}/>
-                    </div>
-                </div>
-                <div className="grid grid-cols-5 gap-4">
-                    <div className="col-span-2">Availability Zone</div>
-                    <div className="col-span-3">
-                        <select className={classnames('h-6', 'border', 'w-40', 'px-2', 'my-1')} defaultValue={1}>
-                            {
-                                props.dropdown?.azList.map((item, index) => {
-                                    return (
-                                        <option
-                                            key={index}
-                                            value={index}>{item}
-                                        </option>
-                                    );
-                                })
-                            }
+                <Typography.Title level={5} className='mb-2'>{title}</Typography.Title>
 
-                        </select>
-                    </div>
+                <div className="my-1">
+                    <Typography.Text style={{ width: 130 }} className='inline-block'>CIDR Block(ipv4):</Typography.Text>
+                    <Input style={{ width: 168 }} className='h-6' defaultValue={subnet?.cidrBlock} />
                 </div>
-                <div className="grid grid-cols-5 gap-4">
-                    <div className="col-span-2">Gateway</div>
-                    <div className="col-span-3">
-                        <select className={classnames('h-6', 'border', 'w-40', 'my-1', 'px-2')} defaultValue={1}>
-                            {
-                                props.dropdown?.gwList.map((item, index) => {
-                                    return (
-                                        <option key={index} value={index}>{item}</option>
-                                    );
-                                })
-                            }
-                        </select></div>
+
+                <div className="my-1">
+                    <Typography.Text style={{ width: 130 }} className='inline-block'>Availability Zone:</Typography.Text>
+                    {/* <Select style={{ width: 168 }} className='h-6' defaultValue={subnet?.azName}>
+                        {props.dropdown?.azList.map((item, index) => (
+                            <Select.Option key={index} value={index}>{item} </Select.Option>
+                        ))}
+                    </Select> */}
+                    <select style={{ width: 168 }} className='pl-2 h-6 border' >
+                        {
+                            props.dropdown?.azList.map((item, index) => {
+                                if (item === subnet?.azName) {
+                                    return <option selected key={index} value={index}>{item}</option>;
+                                }
+                                else {
+                                    return ( <option key={index} value={index}>{item}</option> );
+                                }
+                            })
+                        }
+                    </select>
                 </div>
-                <div className="grid grid-cols-5 gap-4">
-                    <div className="col-span-2">Route Table</div>
-                    <div className="col-span-3">
-                        <select className={classnames('h-6', 'border', 'w-40', 'px-2')} defaultValue={1}>
-                            {
-                                props.dropdown?.rtbList.map((item, index) => {
-                                    return (
-                                        <option key={index} value={index}>{item}</option>
-                                    );
-                                })
-                            }
-                        </select>
-                    </div>
+
+                <div className="my-1">
+                    <Typography.Text style={{ width: 130 }} className='inline-block'>Gateway:</Typography.Text>
+                    <select style={{ width: 168 }} className='pl-2 h-6 border' defaultValue={0}>
+                        {
+                            <option value={subnet?.gwName}> {subnet?.gwName} </option>
+                            // props.dropdown?.rtbList.map((item, index) => {
+                            //     return ( <option key={index} value={index}>{item}</option> );
+                            // })
+                        }
+                    </select>
+                </div>
+
+                <div className="my-1">
+                    <Typography.Text style={{ width: 130 }} className='inline-block'>Route Table:</Typography.Text>
+                    <select style={{ width: 168 }} className='pl-2 h-6 border' defaultValue={0}>
+                        {
+                            <option value={subnet?.routeTable}> {subnet?.routeTable} </option>
+                            // props.dropdown?.rtbList.map((item, index) => {
+                            //     return ( <option key={index} value={index}>{item}</option> );
+                            // })
+                        }
+                    </select>
+
                 </div>
 
             </div>

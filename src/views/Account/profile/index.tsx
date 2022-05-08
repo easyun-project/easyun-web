@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 const  Component = (): JSX.Element => {
     const userState = useSelector((state: RootState) => {
-        return state.user.user;
+        return state.user.currentUser;
     });
     console.log(userState);
     // const [info, setInfo] = useState({
@@ -54,9 +54,9 @@ const  Component = (): JSX.Element => {
                 </Col>
                 <Col span={23}>
                     <div>
-              Account ID: {userState.account_id} [{userState.account_type}]
+              Account ID: {userState.accountId} [{userState.accountType}]
                     </div>
-                    <div>sercurity-credentials: {userState.account_id}</div>
+                    <div>Sercurity credentials: {userState.role}</div>
                 </Col>
             </Row>
             <Row>
