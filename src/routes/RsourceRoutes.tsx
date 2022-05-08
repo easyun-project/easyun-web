@@ -45,7 +45,7 @@ export default [
     {
         path:'volume',
         element:<VoluemPage />
-    },    
+    },
     {
         path:'volume/add',
         element:<AddVolume />

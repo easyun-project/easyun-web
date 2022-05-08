@@ -75,7 +75,7 @@ const WithoutStorage = (): JSX.Element => {
                             )}
                         >
                         Add Volume
-                    </CButton>
+                        </CButton>
                     </div>
                 </div>
             </div>
@@ -137,13 +137,13 @@ const VoluemPage = (): JSX.Element => {
 
     return (
         //volume列表还没改好，先用空白页顶着
-        <div> <WithoutStorage /> </div>
+        <div>  </div>
         // <Spin spinning={storageLoading} tip="Loading...">
         // <div>
         //     {volumeList?.length === 0 ? <WithoutStorage /> : <WithStorage storageList={volumeList} />}
         // </div>
         // </Spin>
-    )
+    );
 
 };
 

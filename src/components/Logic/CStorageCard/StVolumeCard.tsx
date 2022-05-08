@@ -1,5 +1,5 @@
 import React from 'react';
-import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
+import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { Menu, Dropdown } from 'antd';
 import bucketManage from '@/service/stBucketService';
@@ -8,12 +8,12 @@ import bucketManage from '@/service/stBucketService';
 import { useDispatch } from 'react-redux';
 import { deleteStorage } from '@/redux/storageSlice';
 import { useNavigate } from 'react-router-dom';
-import { VolumeBasic, StVolumeModel } from '@/constant/storage';
+import {  StVolumeModel } from '@/constant/storage';
 
 
 const CStVolumeCard = (props: StVolumeModel): JSX.Element => {
     const { volumeBasic, volumeAttach, volumeTags } = props;
-    const volumeId = volumeBasic.volumeId
+    const volumeId = volumeBasic.volumeId;
     const navigate = useNavigate();
     // const userState = useSelector((state: RootState) => {
     //     return state.user.user;
@@ -66,7 +66,7 @@ const CStVolumeCard = (props: StVolumeModel): JSX.Element => {
                     className={classnames('w-12', 'h-12')}
                 /> */}
                 <Icon icon="clarity:storage-line" width="36" color='#FF8C00' inline={true} />
-                <div className={classnames('flex-grow')}>
+                <div className='grow'>
                     <div className={classnames('text-blue-600')}>
                         <span className='cursor-pointer' onClick={() => {
                             navigate(`/resource/bucket/object/${volumeId}`, { state: props });

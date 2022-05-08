@@ -41,7 +41,7 @@ code {
     background: #f5922f!important;
 } 
 
-svg{
+svg,[role='img']{
   vertical-align: middle;
 }
 /* to fix copy icon vertical position */
