@@ -1,7 +1,7 @@
 // react related
 import * as React from 'react';
 import { useState } from 'react';
-import { useNavigate,Outlet } from 'react-router-dom';
+import { useLocation, useNavigate, Outlet } from 'react-router-dom';
 // UI contents
 import { Menu, Table } from 'antd';
 import { classnames } from '@@/tailwindcss-classnames';
@@ -37,9 +37,10 @@ export const NoResource = (props: NotDataProps): JSX.Element => {
 
 
 interface TableProps {
-    dataSource: ServerModel[] | undefined | any[];
-    columns: any[]
+    dataSource: ServerModel[] | undefined | never[];
+    columns: never[]
 }
+
 export const ResourceTable = (props: TableProps): JSX.Element => {
     return (
         <Table bordered={true} dataSource={props.dataSource} columns={props.columns} rowSelection={{
@@ -55,11 +56,14 @@ export const ResourceTable = (props: TableProps): JSX.Element => {
 const Resource = (): JSX.Element => {
     // const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     // };
-    const [current, changeCurrent] = useState('overview');
+    const location = useLocation();
+    const subPath = location.pathname.split('/')[2];
+    const [current, setCurrent] = useState(subPath);
+
     const navigate = useNavigate();
     const handleClick = (e) => {
-        console.log(e.key);
-        changeCurrent(e.key);
+        // console.log(e.key);
+        setCurrent(e.key);
         navigate(`/resource/${e.key}`);
     };
     return (

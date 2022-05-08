@@ -1,6 +1,6 @@
 import React from 'react';
 // import { useEffect,useState } from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NoResource } from '@/views/Resource';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
@@ -10,7 +10,7 @@ import { Button, Dropdown, Menu, Table, Modal, Input } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import serverService from '@/service/serverService';
 import { LoadingOutlined } from '@ant-design/icons';
-import { getServerList } from '@/redux/serverSlice';
+import { listAllServer } from '@/redux/serverSlice';
 
 export const serverColumns = [
     {
@@ -101,9 +101,17 @@ const ServerList = ():JSX.Element => {
     const [isModalVisble,changeIsModalVisble] = useState(false);
     const [newName, changeNewName] = useState('');
     const [settingName,changeSettingName] = useState(false);
-    const dc = useSelector((state: RootState) => {
-        return state.dataCenter.currentDC.basicInfo!.dcName;
+    const dcName = useSelector((state: RootState) => {
+        return state.dataCenter.currentDC.basicInfo?.dcName;
     });
+
+    useEffect(() => {
+        if(dcName){
+            // dispatch(listAllServer({ dc:dcName! }));
+            // dispatch(getDataCenterSecgroup({ dc }));
+        }
+        else{navigate('/home');}
+    }, []);
 
     const newServerDataSource = serverDataSource.map((item)=> ({ ...item, 'key':item.svrId }));
     const actionMenu = (
@@ -113,7 +121,8 @@ const ServerList = ():JSX.Element => {
                 if (window.confirm('Are you sure to delete(irrevocable)?')){
                     serverService.deleteServerState({ svrIds: selectedServers }).then(
                         ()=>{alert('delete success');
-                            dispatch(getServerList({ dc }));},
+                            dispatch(listAllServer({ dc:dcName! }));
+                        },
                         ()=>alert('delete failed')
                     );
                 }
@@ -125,7 +134,7 @@ const ServerList = ():JSX.Element => {
                 }).then(
                     ()=>{
                         alert('action success');
-                        dispatch(getServerList({ dc }));
+                        dispatch(listAllServer({ dc:dcName! }));
                         changeActing(false);
                     },
                     ()=>{
@@ -196,7 +205,7 @@ const ServerList = ():JSX.Element => {
                                     }).then(()=>{
                                         changeSettingName(false);
                                         changeIsModalVisble(false);
-                                        dispatch(getServerList({ dc }));
+                                        dispatch(listAllServer({ dc:dcName! }));
                                     },
                                     ()=>changeSettingName(false)
                                     );}
