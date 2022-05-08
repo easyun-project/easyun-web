@@ -9,10 +9,9 @@ export const getHost = ():string=> {
 
 export const getHeader = ():Record<string,string> | undefined=> {
 
-    const token = localStorage.getItem('token') ? localStorage.getItem('token') : store.getState().user.currentUser.token;
-    // const token =  store.getState().user.currentUser.token;
+    const token =  store.getState().user.currentUser.token;
     const region = store.getState().dataCenter.currentDC?.basicInfo?.dcRegion;
-    // 如果缓存及redux中都没有token，则跳转至登录页面
+    // 如果redux中没有token，则跳转至登录页面
     if(token)
     {return region
         ? {

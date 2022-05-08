@@ -49,7 +49,6 @@ export default class DataCenterService {
         const url =  DataCenterPath;
         const result = await axios.get(url);
         return result.data.detail;
-
     }
 
     /*
