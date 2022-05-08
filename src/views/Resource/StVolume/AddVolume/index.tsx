@@ -3,7 +3,7 @@ import React from 'react';
 
 const AddVolume = (): JSX.Element => {
     return (
-        <Empty description={false} />
+        <Empty />
     );
 };
 

@@ -11,6 +11,7 @@ import ServerDetail from '@/views/Resource/Server/ServerDetail';
 import VoluemPage from '@/views/Resource/StVolume';
 import BucketPage from '@/views/Resource/StBucket';
 import BucketManage from '@/views/Resource/StBucket/BucketManage';
+import VolumeManage from '@/views/Resource/StVolume/VolumeManage';
 import DatabasePage from '@/views/Resource/Database';
 
 export default [
@@ -35,16 +36,20 @@ export default [
         element: <BucketPage />
     },
     {
-        path: 'bucket/object/:bktId',
+        path: 'object/:bktId',
         element: <BucketManage />
     },
     {
-        path: 'bucket/object/add',
+        path: 'object/add',
         element: <AddBucket />
     },
     {
         path: 'volume',
         element: <VoluemPage />
+    },
+    {
+        path: 'volume/:volumeId',
+        element: <VolumeManage />
     },
     {
         path: 'volume/add',
