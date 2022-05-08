@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { classnames } from '@@/tailwindcss-classnames';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import Nodc from './Nodc';
 import DataCenterCard from '@/components/Logic/CCard/DataCenterCard';

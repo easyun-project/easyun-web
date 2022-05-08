@@ -57,7 +57,7 @@ const appRoutes = [
 export default [
     {
         path:'/',
-        element:<Navigate to='/login' />
+        element:<RequireAuth><Navigate to="/home"/></RequireAuth>
     },
     {
         path:'/login',

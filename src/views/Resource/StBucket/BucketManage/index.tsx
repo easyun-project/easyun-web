@@ -14,7 +14,6 @@ import CTags from '@/components/Logic/CTags';
 export default function BucketManage() {
     const params = useParams();
     const { state } = useLocation();
-
     const [bucketData, setBucketData] = useState(null);
     const bucketList = useSelector((state: RootState) => state.storage.storageList);
     // just for test
