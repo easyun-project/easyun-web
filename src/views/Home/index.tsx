@@ -6,6 +6,7 @@ import Nodc from './Nodc';
 import DataCenterCard from '@/components/Logic/CCard/DataCenterCard';
 import { useNavigate } from 'react-router-dom';
 import { Menu, Dropdown, Spin } from 'antd';
+import { CButton } from '@/components/Common/CButton';
 import { DownOutlined } from '@ant-design/icons';
 
 
@@ -13,9 +14,9 @@ export default function Home(): JSX.Element {
     const navigate = useNavigate();
     const [sortBy, changeSortBy] = useState('Name');
 
-    const dataCenterState = useSelector((state: RootState) => state.dataCenter)
-    const dataCenterList = dataCenterState.dataCenterList
-    const dcListLoading = dataCenterState.loading
+    const dataCenterState = useSelector((state: RootState) => state.dataCenter);
+    const dataCenterList = dataCenterState.dataCenterList;
+    const dcListLoading = dataCenterState.loading;
 
     // const [datacenters,changeDatacenters] = useState<'loading'|DataCenterModel[]>('loading');
     // useEffect(()=>{
@@ -50,11 +51,9 @@ export default function Home(): JSX.Element {
     case 'CreateDate':
         order = 'createDate';
         break;
-
     case 'VPC':
         order = 'vpcID';
         break;
-
     case 'Region':
         order = 'dcRegion';
         break;
@@ -71,7 +70,7 @@ export default function Home(): JSX.Element {
                         <div className={classnames('text-yellow-550', 'font-bold', 'mx-1', 'cursor-pointer')}>{sortBy} <DownOutlined /></div>
                     </Dropdown>
                 </div>
-                <button className='btn-yellow' onClick={() => navigate('/datacenter/add')}> create new datacenter</button>
+                <CButton type="primary" click={() => navigate('/datacenter/add')}>Add Datacenter</CButton>
             </div>
 
             <Spin spinning={dcListLoading} tip="Loading...">{

@@ -12,6 +12,7 @@ import { getHeader, getHost } from '@/utils/api';
 import {
     DefaultDataCenterParms,
     DataCenterParams,
+    DeleteDcParm,
     EipInfoSimple,
     DataCenterModel,
     DataCenterSummary,
@@ -113,6 +114,22 @@ export default class DataCenterService {
     }
 
     /**
+     * 删除datacenter
+     */
+    static async deleteDataCenter(params: DeleteDcParm) {
+        const url = getHost() + DataCenterPath;
+        const result = await axios.delete(url, {
+            data: params,
+            headers: getHeader()
+        });
+        if (result.status == 200) {
+            return result.data.task;
+        }
+        return result.data.detail;
+    }
+
+
+    /**
      * 获取异步任务执行结果
      */
     static async getTaskResult(id: string): Promise<TaskDetail | undefined> {
@@ -126,6 +143,8 @@ export default class DataCenterService {
         });
         if (result.status == 200) {
             return result.data.task as TaskDetail;
+        } else if (result.status == 400) {
+            return result.data.message;
         }
         return undefined;
     }
@@ -225,19 +244,6 @@ export default class DataCenterService {
         const url = getHost() + DcmStaticip;
         const result = await axios.get(url, {
             params,
-            headers: getHeader()
-        });
-        return result.data.detail;
-    }
-
-
-    /**
-     * 删除datacenter
-     */
-    static async deleteDataCenter(dcName: string): Promise<EipInfo[]> {
-        const url = getHost() + DataCenterPath;
-        const result = await axios.delete(url, {
-            data: { dcName },
             headers: getHeader()
         });
         return result.data.detail;

@@ -43,6 +43,11 @@ export interface DcDropDown {
     rtbList: string[];
 }
 
+export interface DeleteDcParm {
+    dcName: string;
+    isForceDel?: boolean
+}
+
 export interface DataCenterModel {
     createDate: string
     createUser: string

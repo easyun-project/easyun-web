@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { CSubnet } from '@/components/Logic/CSubnet';
 import { classnames } from '@@/tailwindcss-classnames';
 import CSecurityGroup from '@/components/Logic/CSecurityGroup';
@@ -7,7 +7,7 @@ import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import dataCenterService from '@/service/dataCenterService';
-import { Row, Col, Divider, Typography, message, Input, Button, Progress } from 'antd';
+import { Row, Col, Divider, Typography, message, Select, Input, Form, Progress } from 'antd';
 import { RootState } from '@/redux/store';
 import { getDataCenterParams, getRegionList, listAllDataCenter } from '@/redux/dataCenterSlice';
 import { DataCenterParams, DCProgressInfo, RegionItem, SecurityGroupParms, SubnetParms } from '@/constant/dataCenter';
@@ -22,9 +22,10 @@ const AddDataCenter = (): JSX.Element => {
         return state.user.user;
     });
 
+    const flagUtil = new FlagUtil();
+
     const [inputDcName, setInputDcName] = useState('');
     const [regionCode, setRegionCode] = useState('');
-    const flagUtil = new FlagUtil();
     const [cidr, setCidr] = useState('');
 
     const [pubSubnet1, setPubSubnet1] = useState<SubnetParms>({
@@ -76,9 +77,9 @@ const AddDataCenter = (): JSX.Element => {
         enableRDP: false,
         tagName: '',
     });
-    const [dcStatus, setDcStatus] = useState<undefined | 'error'>(undefined);
+    const [validStatus, setValidStatus] = useState<undefined | 'error'>(undefined);
     const [intervalId, setIntervalId] = useState<number>(0);
-    const [dcProgress, setDCProgress] = useState<DCProgressInfo>({ current:0,description:'' });
+    const [dcProgress, setDCProgress] = useState<DCProgressInfo>({ current: 0, description: '' });
 
     const dataCenterState = useSelector((state: RootState) => {
         return state.dataCenter;
@@ -88,15 +89,16 @@ const AddDataCenter = (): JSX.Element => {
     const dispatch = useDispatch();
     //由于timer不能在在重新渲染时被重置，因此需要用useRef保存
     const refTimer = useRef<number>(0);
-    useEffect(()=>{
+    useEffect(() => {
         clearTimeout(refTimer.current);
         // 重新开启一个定时器
         refTimer.current = setTimeout(
-            () => getDcParams(), 1000);
-    },[inputDcName]);
+            () => getDcParams(), 600);
+    }, [inputDcName, regionCode]);
+
     useEffect(() => {
         dispatch(getDataCenterParams({ dc: 'easyun' }));
-        dispatch(getRegionList());
+        // dispatch(getRegionList());
         if (data) {
             setInputDcName(data.dcParms.dcName);
             setRegionCode(data.dcParms.dcRegion);
@@ -142,15 +144,14 @@ const AddDataCenter = (): JSX.Element => {
         if (taskResult.total === taskResult.current) {
             clearInterval(intervalId);
             dispatch(listAllDataCenter());
-            navigate('/home');
-        } else{
+            navigate('/datacenter/add/result');
+        } else {
             setDCProgress({
                 current: taskResult.current,
                 description: taskResult.description,
             });
         }
     };
-
 
     const getDcParams = () => {
         dispatch(getDataCenterParams({ region: regionCode, dc: inputDcName }));
@@ -160,9 +161,9 @@ const AddDataCenter = (): JSX.Element => {
         <div>
             <Row gutter={16}>
                 <Col span={24}>
-                    <Icon icon="ant-design:plus-circle-twotone" width="25"
-                        className={classnames('inline-block', 'mx-1')}/>
-                    <Title level={3} style={{ display: 'inline' }}>Create New Cloud DataCenter</Title>
+                    <Icon className='inline-block mx-1' width="25"
+                        icon="ant-design:plus-circle-twotone" />
+                    <Title level={3} style={{ display: 'inline-block' }}>Create New Cloud DataCenter</Title>
                     {
                         dcProgress.current > 0 && (
                             <div>
@@ -173,106 +174,102 @@ const AddDataCenter = (): JSX.Element => {
                     }
                 </Col>
             </Row>
-            <Divider/>
+            <Divider />
             <Row gutter={16}>
-                <Col span={12}>
-                    <Text strong>Identify your Datacenter</Text>
-                    <Input
-                        onChange={(e) => {
-                            setInputDcName(e.target.value);
-                        }}
-                        status={dcStatus}
-                        defaultValue={inputDcName}
-                        // onBlur={(e) => {
-                        //     if (!e.target.value) {
-                        //         setDcStatus('error');
-                        //     } else {
-                        //         setDcStatus(undefined);
-                        //     }
-                        //     // fixme 切换region时反应不及时，导致创建数据中心失败问题暂未解决
-                        //     // setRegionCode(data!.dcParms!.dcRegion | "");
-                        //     getDcParams();
-                        // }
-                        // }
-                        className={classnames('border', 'ml-3')} type="text"
-                        placeholder=' Datacenter name'/>
-                    <br/>
+                <Col span={16}>
+                    <Title level={5}>Identify your Datacenter</Title>
+                    <Form autoComplete="off" layout='inline'
+                        initialValues={{ defaultValue: inputDcName }}
+                    >
+                        <Form.Item label="Name:" name="dcName" className='ml-4'
+                            rules={[{ required: true, message: 'Please input the datacenter name!' }]}
+                        >
+                            <Input style={{ width: 280 }}
+                                onChange={(e) => { setInputDcName(e.target.value); }}
+                                onBlur={(e) => {
+                                    if (!e.target.value) {
+                                        setValidStatus('error');
+                                    } else {
+                                        setValidStatus(undefined);
+                                    }
+                                }}
+                                type="text" placeholder='Datacenter name' />
+                        </Form.Item>
+                    </Form>
 
-                    <Title level={4}>Easyun DataCenter Networking</Title>
-                    <div className={classnames('ml-16')}>Region:
-                        <select onChange={(e) => {
-                            setRegionCode(e.target.value);
-                            getDcParams();
-                            if (!inputDcName) {
-                                message.error('please input dcName');
-                            }
-                        }
-                        } // 更新regioncode后还需更新dcparms
-                        className={classnames('border', 'ml-3', 'px-2')}>
-                            <option value="">{data?.dcParms.dcRegion}
-                            </option>
-                            {regionList?.map((item: RegionItem, index) => {
-                                return <option
-                                    key={index}
-                                    value={item.regionCode}>
-                                    {item.regionCode} - {item.regionName}
-                                </option>;
-                            })}
-                        </select>
-                        <Icon className={classnames('ml-5', 'inline-block')}
-                            icon={flagUtil.getFlagIconByRegion(regionCode)}
-                            color="#5c6f9a"
-                            width="25" height="25"
-                            fr={undefined}/>
-                    </div>
-                    <div className={classnames('ml-5')}>
-                        <span className={classnames('mr-2')}>IPv4 CIDR block:</span>
-                        <input onChange={(e) => {
-                            setCidr(e.target.value);
-                        }}
-                        className={classnames('border')} type="text"
-                        defaultValue={data?.dcParms.dcVPC.cidrBlock}/>
-                    </div>
-                    <CSubnet subnet={data?.dcParms.pubSubnet1} dropdown={data?.dropDown} index={1} isPublic={true}
-                        classes={classnames('w-96', 'inline-block')}/>
-                    <CSubnet subnet={data?.dcParms.pubSubnet2} dropdown={data?.dropDown} index={2} isPublic={true}
-                        classes={classnames('w-96', 'inline-block')}/>
-                    <br/>
-                    <CSubnet subnet={data?.dcParms.priSubnet1} dropdown={data?.dropDown} index={1} isPublic={false}
-                        classes={classnames('w-96', 'inline-block')}/>
-                    <CSubnet subnet={data?.dcParms.priSubnet1} dropdown={data?.dropDown} index={2} isPublic={false}
-                        classes={classnames('w-96', 'inline-block')}/>
-                    <div className={classnames('ml-5', 'mt-10', 'font-bold')}>Easyun DataCenter Security Group</div>
-                    <CSecurityGroup sg={data?.dcParms.securityGroup0}
-                        classes={classnames('mx-5', 'w-64', 'inline-block')}/>
-                    <CSecurityGroup sg={data?.dcParms.securityGroup1}
-                        classes={classnames('mx-5', 'w-64', 'inline-block')}/>
-                    <CSecurityGroup sg={data?.dcParms.securityGroup2}
-                        classes={classnames('mx-5', 'w-64', 'inline-block')}/>
+                    <Text style={{ width: 61 }} className={classnames('inline-block', 'ml-4', 'my-2')}>Region:</Text>
+                    <Select defaultValue="us-east-1" style={{ width: 280 }} listHeight={360} disabled={!!validStatus}
+                        onChange={(value) => {
+                            setRegionCode(value);
+                            // getDcParams();
+                        }} >
+                        {regionList?.map((item: RegionItem, index) => {
+                            return (<Select.Option key={index} value={item.regionCode}> {item.regionCode} - {item.regionName} </Select.Option>);
+                        })}
+                    </Select>
+                    <Icon className={classnames('ml-5', 'inline-block')}
+                        icon={flagUtil.getFlagIconByRegion(regionCode)}
+                        color="#5c6f9a"
+                        width="25" height="25"
+                        fr={undefined} />
+
+                    <Title level={5} className='mt-4 mb-2'>Defining DataCenter Networking</Title>
+                    <Text style={{ width: 150 }} className={classnames('inline-block', 'ml-4')}>CIDR block(IPv4):</Text>
+                    <Input defaultValue={data?.dcParms.dcVPC.cidrBlock} style={{ width: 280 }}
+                        onChange={(e) => { setCidr(e.target.value); }}
+                        className={classnames('border')} type="text" />
+                    <Row gutter={12}>
+                        <CSubnet subnet={data?.dcParms.pubSubnet1} dropdown={data?.dropDown} index={1} isPublic={true}
+                            classes={classnames('w-96', 'inline-block')} />
+                        <CSubnet subnet={data?.dcParms.pubSubnet2} dropdown={data?.dropDown} index={2} isPublic={true}
+                            classes={classnames('w-96', 'inline-block')} />
+                    </Row>
+                    <Row gutter={12}>
+                        <CSubnet subnet={data?.dcParms.priSubnet1} dropdown={data?.dropDown} index={1} isPublic={false}
+                            classes={classnames('w-96', 'inline-block')} />
+                        <CSubnet subnet={data?.dcParms.priSubnet2} dropdown={data?.dropDown} index={2} isPublic={false}
+                            classes={classnames('w-96', 'inline-block')} />
+                    </Row>
+
+                    <Title level={5} className='mt-4 mb-2'>Defining DataCenter Security Group</Title>
+                    <Row gutter={16}>
+                        <CSecurityGroup sg={data?.dcParms.securityGroup0}
+                            classes={classnames('mx-4', 'inline-block')}
+                            ibList={<p>TCP 660: 0.0.0.0/0</p>} />
+                        <CSecurityGroup sg={data?.dcParms.securityGroup1}
+                            classes={classnames('mx-4', 'inline-block')}
+                            ibList={<> <p>TCP 80: 0.0.0.0/0</p> <p>TCP 443: 0.0.0.0/0</p> </>} />
+                        <CSecurityGroup sg={data?.dcParms.securityGroup2}
+                            classes={classnames('mx-4', 'inline-block')}
+                            ibList={<> <p>TCP 3306: 0.0.0.0/0</p> <p>TCP 1443: 0.0.0.0/0</p> <p>TCP 5432: 0.0.0.0/0</p> <p>TCP 1521: 0.0.0.0/0</p> </>} />
+                    </Row>
+
                 </Col>
-                <Col span={8}>
+                {/* <Col span={8}>
                     <p>picture here</p>
-                </Col>
+                </Col> */}
             </Row>
 
             <Row gutter={16}>
                 <Col span={16}>
                     <div className={classnames('flex', 'justify-center', 'm-16')}>
                         <CButton click={() => {
+                            dispatch(listAllDataCenter()); // 临时使用，便于调试
                             navigate('/home');
-                        }} classes={classnames('bg-gray-400', 'text-white', 'rounded-2xl', 'w-32', 'h-9', 'mx-5')}>
+                        }} classes={classnames('bg-gray-400', 'text-white')}>
                             <Icon className={classnames('inline-block', 'mr-2')} icon="akar-icons:arrow-left"
                                 color="white"
-                                width="20" height="20" fr={undefined}/>
+                                width="20" height="20" fr={undefined} />
                             Back</CButton>
-                        <Button
-                            disabled={!!dcStatus}
-                            onClick={() => {
+                        <CButton
+                            disabled={!!validStatus}
+                            type='primary'
+                            click={() => {
                                 if (inputDcName == 'easyun') {
+                                    setValidStatus('error');
                                     message.error('easyun DataCenter name is not allowed,please change it');
                                     return;
                                 }
-
                                 const params: DataCenterParams = {
                                     dcName: inputDcName,
                                     dcRegion: regionCode,
@@ -290,11 +287,10 @@ const AddDataCenter = (): JSX.Element => {
                                 };
                                 createDateCenter(params);
                             }}
-                        >Create</Button>
+                        >Create</CButton>
                     </div>
                 </Col>
             </Row>
-
 
         </div>
     );

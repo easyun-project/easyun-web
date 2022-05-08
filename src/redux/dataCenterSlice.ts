@@ -4,6 +4,7 @@ import {
     DefaultDataCenterParms,
     DataCenterModel,
     DataCenterSummary,
+    DeleteDcParm,
     SecurityGroupInfoSimple,
     EipInfo,
     SubnetInfo,
@@ -56,8 +57,8 @@ export const getDatacenterSummary = createAsyncThunk(
 
 export const deleteDataCenter = createAsyncThunk(
     'dataCenter/deleteDataCenter',
-    async (dcName: string) => {
-        return await DataCenterService.deleteDataCenter(dcName);
+    async (params: DeleteDcParm) => {
+        return await DataCenterService.deleteDataCenter(params);
     }
 );
 

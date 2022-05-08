@@ -4,6 +4,7 @@ import { NoResource } from '@/views/Resource';
 //datacenter视图
 import DataCenterOverview from '@/views/DataCenter/Overview';
 import AddDataCenter from '@/views/DataCenter/Add';
+import AddDcResult from '@/views/DataCenter/Add/result';
 import Network from '@/views/DataCenter/Network';
 import EipDetail from '@/views/DataCenter/Network/EipDetail';
 import Subnet from '@/views/DataCenter/Subnet';
@@ -14,6 +15,10 @@ export default [
     {
         path:'add',
         element:<AddDataCenter />
+    },
+    {
+        path:'add/result',
+        element:<AddDcResult />
     },
     {
         path:'overview',
