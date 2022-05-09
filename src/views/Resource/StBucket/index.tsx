@@ -64,9 +64,7 @@ const WithStorage = (props): JSX.Element => {
                 </div>
 
                 <div className= 'flex flex-wrap justify-items-center '>
-                    {props.bucketList.map((item) => {
-                        return <CStBucketCard key={item.bucketId} {...item} />;
-                    })}
+                    {props.bucketList.map((item) => <CStBucketCard key={item.bucketId} {...item} />)}
                 </div>
             </div>
         </>

@@ -23,20 +23,20 @@ export interface VolumeBasic {
   }
 
 export interface StVolumeModel{
-    'volumeAttach': {
-        'attachPath': string
-        'attachSvr': string
-        'attachSvrId': string
-        'attachTime': string
-        'diskType': string
+    volumeAttach: {
+        attachPath: string
+        attachTime: string
+        diskType: string
+        svrId: string
+        tagName: string
       }[],
-    'volumeBasic': VolumeBasic,
-    'volumeConfig': {
-      'isEncrypted': boolean
-      'volumeIops': number
-      'volumeSize': number
-      'volumeThruput': number
-      'volumeType': string
+    volumeBasic: VolumeBasic,
+    volumeConfig: {
+      isEncrypted: boolean
+      volumeIops: number
+      volumeSize: number
+      volumeThruput: number
+      volumeType: string
     },
     'volumeTags': Record<'Key'|'Value',string>[]
   }

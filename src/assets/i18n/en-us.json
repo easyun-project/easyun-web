@@ -1,5 +1,24 @@
 {
-  "home": "Home",
-  "welcome": "Welcome To Home",
-  "Login": "Sign in to your account"
+    "home": "Home",
+    "welcome": "Welcome To Home",
+    "Login": "Sign in to your account",
+    "addVolume": {
+        "title": "Add Block Storage(EBS Volume)",
+        "zone": {
+            "title": "Availability Zone",
+            "tip": "Choose the zone in which your volume will reside"
+        },
+        "configuration": {
+            "title": "Volume configuration",
+            "diskConfiguration": {},
+            "multiattachConfiguration": {
+                "disabledTitle": "Multi-Attach is disabled",
+                "disabledTip": "If you enable Multi-Attach, you can attach the volume to up to 16 <a>instances built on the Nitro System</a> in the same Availability Zone. <br> *Be supported with <bold>io1</bold> and <bold>io2</bold> volumes only.",
+                "abledTitle": "Multi-Attach is abled"
+            }
+        },
+        "tags": {
+            "title": "Tags - optional"
+        }
+    }
 }

@@ -1,5 +1,8 @@
 {
   "home": "ホーム",
-  "welcome": "ホームへようこそ！",
-  "Login": "ログイン"
+  "welcome": "ホームへようこそ!",
+  "Login": "ログイン",
+  "addVolume":{
+
+  }
 }

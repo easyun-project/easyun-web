@@ -206,10 +206,6 @@ const DiskConfigurations = (props: DisksProps): JSX.Element => {
                 Create new disk
             </button>
         </>
-
-
-
-
     );
 };
 
