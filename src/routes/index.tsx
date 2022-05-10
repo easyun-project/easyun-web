@@ -89,7 +89,7 @@ function RequireAuth({ children }: { children: JSX.Element }) {
     // const location = useLocation();
     // const token = localStorage.getItem('token');
 
-    if (!token || Date.now() - loginTime > 7200000) {
+    if (!token || loginTime && Date.now() - loginTime > 7200000) {
         //如果未登录或者上次登录时间已超过2小时
     // Redirect them to the /login page, but save the current location they were
     // trying to go to when they were redirected. This allows us to send them

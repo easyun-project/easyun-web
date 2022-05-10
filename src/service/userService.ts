@@ -1,4 +1,4 @@
-import { UserLogin } from '@/constant/apiConst';
+import { UserLogin, UserLogout } from '@/constant/apiConst';
 // import { fail, Result } from '@/constant/result';
 import { UserModel } from '@/constant/user';
 import axios from './axiosConfig';
@@ -16,4 +16,14 @@ export default class userService {
         }
         return result.data.message;
     }
+
+    static async logout() {
+        const url = UserLogout;
+        const result = await axios.delete(url);
+        if (result.status == 200) {
+            return result.data.detail;
+        }
+        return result.data.message;
+    }
+
 }

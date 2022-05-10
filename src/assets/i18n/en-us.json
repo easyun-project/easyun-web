@@ -1,5 +1,12 @@
 {
   "home": "Home",
   "welcome": "Welcome To Home",
-  "Login": "Sign in to your account"
+  "loginTitle": "Sign in to your account",
+  "loginButton": "Login",
+  "userMenuLogout": "Logout",
+  "userMenuLanguage": "English",
+  "menuHome": "Home",
+  "menuDashboard": "Dashboard",
+  "menuEvent": "Event",
+  "menuAccount": "Account" 
 }

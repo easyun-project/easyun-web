@@ -1,6 +1,5 @@
-import { useTranslation } from 'react-i18next';
-
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 // import { CButton } from '@/components/Common/CButton';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
@@ -75,7 +74,7 @@ const LoginPage = (): JSX.Element => {
             <div id="login-container" className='items-center py-12 mt-36 sm:w-96 md:w-1/2 lg:w-1/3 rounded-border'>
                 <Row id="login-content" gutter={16} className='flex flex-col items-center' >
                     <Row className='mb-4'>
-                        <Typography.Title level={4} >{t('Login')}</Typography.Title>
+                        <Typography.Title level={4} >{t('loginTitle')}</Typography.Title>
                     </Row>
 
                     <Form name="login"
@@ -110,8 +109,8 @@ const LoginPage = (): JSX.Element => {
                         </Form.Item>
 
                         <Form.Item className='flex justify-center'>
-                            <button className='w-full btn-yellow'> Login </button>
-                            {/* <CButton type="primary" htmlType="submit" classes={classnames('w-36')}>Login</CButton> */}
+                            <button type='submit' className='w-full btn-yellow'>{t('loginButton')}</button>
+                            {/* <CButton type="primary" htmlType="submit" classes={classnames('w-36')}>{t('loginButton')}</CButton> */}
                         </Form.Item>
                     </Form>
                 </Row>

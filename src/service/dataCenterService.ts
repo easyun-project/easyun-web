@@ -120,7 +120,7 @@ export default class DataCenterService {
         if (result.status == 200) {
             return result.data.task;
         }
-        return result.data.detail;
+        return result.data.message;
     }
 
 

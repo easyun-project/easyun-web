@@ -1,5 +1,12 @@
 {
   "home": "ホーム",
   "welcome": "ホームへようこそ！",
-  "Login": "ログイン"
+  "loginTitle": "ログイン",
+  "loginButton": "ログイン",
+  "userMenuLogout": "Logout",
+  "userMenuLanguage": "日文",
+  "menuHome": "Home",
+  "menuDashboard": "Dashboard",
+  "menuEvent": "事件",
+  "menuAccount": "账号" 
 }

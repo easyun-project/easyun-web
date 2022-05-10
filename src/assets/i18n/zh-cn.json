@@ -1,5 +1,12 @@
 {
   "home": "首页",
   "welcome": "欢迎来到首页",
-  "Login": "登陆"
+  "loginTitle": "登陆到您的账号",
+  "loginButton": "登录",
+  "userMenuLogout": "注销",
+  "userMenuLanguage": "中文",
+  "menuHome": "首页",
+  "menuDashboard": "监控面板",
+  "menuEvent": "事件查看",
+  "menuAccount": "账号管理" 
 }
