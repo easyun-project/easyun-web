@@ -11,8 +11,8 @@ const AddVolume = (): JSX.Element => {
     const { t } = useTranslation();
     const [tags , changeTags] = useState<Record<string,string>>({});
     const [multiattch , changeMultiattch] = useState(false);
-    const [value, newDisk] = useNewDisk(['a','b','c']);
-    useEffect(()=>console.log(value),[value]);
+    const { newDiskProps, newDisk } = useNewDisk(['a','b','c']);
+    useEffect(()=>console.log(newDiskProps),[newDiskProps]);
     return (
         <>
             <div className= 'my-8 mx-5 text-3xl '>
@@ -27,7 +27,7 @@ const AddVolume = (): JSX.Element => {
             </div>
             <Card title={t('addVolume.zone.title')} className='mt-5 rounded-border'>
                 <div>{t('addVolume.zone.tip')}</div>
-                <div onClick={()=>console.log(value)}>us-east-1</div>
+                <div onClick={()=>console.log(newDiskProps)}>us-east-1</div>
             </Card>
 
             <Card title={t('addVolume.configuration.title')} className='mt-5 rounded-border'>

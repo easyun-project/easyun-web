@@ -39,7 +39,7 @@ function ExistDisk(props:DiskProps) {
 
     useEffect(
         ()=>{
-            if(diskInfo !== 'loading')
+            if(Object.keys(diskInfo).length !== 0 && diskInfo !== 'loading')
             // 在获取到这块盘的attachpath后就把availablePaths中的去掉
             {
                 const paths = [...availablePaths];
@@ -51,8 +51,9 @@ function ExistDisk(props:DiskProps) {
     useEffect(()=>{dispatch(listAllVolume({ dc:dcName }));},[svrStatus]);
 
 
-    if(diskInfo === 'loading')
-    {return(<Skeleton active />);}
+    if( diskInfo === 'loading')
+    { return(<Skeleton active />); }
+    else if (Object.keys(diskInfo).length === 0){ return <></>; }
     else {
         const { volumeConfig,volumeAttach } = diskInfo;
         const volumeAttachInfo = volumeAttach.filter((item)=>item.svrId === svrId)[0];
@@ -159,7 +160,7 @@ function NewDisk(props:NewDiskProps) {
     const azName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcRegion);
     const instanceName = useSelector((state: RootState) => state.server.currentServer!.svrProperty.instanceName);
     const [creating,changeCreating] = useState(false);
-    const [value, newDisk] = useNewDisk(availablePaths);
+    const { newDiskProps, newDisk } = useNewDisk(availablePaths);
     return (
         <div className={classnames('flex','items-center')}>
             {/* 添加disk框体 */}
@@ -183,25 +184,12 @@ function NewDisk(props:NewDiskProps) {
                             color="green"
                             onClick={() => {
                                 const params:AddVolumeParams = {
-                                    volumeType:value.diskType,
-                                    isEncrypted:value.encryption,
-                                    volumeSize:value.volumeSize,
                                     svrId:InstanceId,
-                                    attachPath:value.devicePath,
                                     dcName,
                                     azName,
-                                    tagName:instanceName
+                                    tagName:instanceName,
+                                    ...newDiskProps
                                 };
-                                switch (value.diskType){
-                                case 'io1':
-                                case 'io2':
-                                    params.volumeIops = value.volumeIOPS;
-                                    break;
-                                case 'gp3':
-                                    params.volumeIops = value.volumeIOPS;
-                                    params.volumeThruput = value.volumeThruputs;
-                                    break;
-                                }
                                 changeCreating(true);
                                 volumeService.addVolume(params).then(
                                     ()=>{dispatch(getServerDetail({
@@ -266,7 +254,7 @@ export default function Disk():JSX.Element {
                     <QuestionCircleOutlined />
                 </Tooltip>
             </div>
-            <div > {currentServerDisks?.volumeIds.map((volumeId) => <ExistDisk key={volumeId} volumeId={volumeId} availablePaths={availablePaths} changeAvaliablePaths={changeAvaliablePaths}/>)}</div>
+            <div > {currentServerDisks?.volumeIds.map(volumeId => <ExistDisk key={volumeId} volumeId={volumeId} availablePaths={availablePaths} changeAvaliablePaths={changeAvaliablePaths}/>)}</div>
             {isAdding
                 ? <NewDisk changeIsAdding={ changeIsAdding } availablePaths={availablePaths} changeAvaliablePaths={changeAvaliablePaths}/>
                 : <>
