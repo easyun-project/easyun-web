@@ -84,8 +84,8 @@ export default [
 
 //权限路由写法
 function RequireAuth({ children }: { children: JSX.Element }) {
-    const token = store.getState().user.currentUser.token;
-    const loginTime = store.getState().user.currentUser.loginTime;
+    const token = store.getState().user.currentUser?.token;
+    const loginTime = store.getState().user.currentUser?.loginTime;
     // const location = useLocation();
     // const token = localStorage.getItem('token');
 
