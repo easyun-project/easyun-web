@@ -21,7 +21,7 @@ export const CHeader = (): JSX.Element => {
     // };
     //multiple language setting
     const { t, i18n } = useTranslation();
-    const lang = i18n.language === 'zh' ? 'en' : 'zh';
+    // const lang = i18n.language === 'zh' ? 'en' : 'zh';
 
     const userState = useSelector((state: RootState) => {
         return state.user.currentUser;
@@ -37,25 +37,25 @@ export const CHeader = (): JSX.Element => {
 
     const menu = (
         <Menu onClick={handleClick} selectedKeys={[current]} mode="vertical" className={classnames('text-xl')}>
-            <Menu.Item key="home">{t('menuHome')}</Menu.Item>
-            <Menu.Item key="dashboard">{t('menuDashboard')}</Menu.Item>
-            <Menu.Item key="event">{t('menuEvent')}</Menu.Item>
-            <Menu.Item key="account">{t('menuAccount')}</Menu.Item>
+            <Menu.Item key="home">{t('mainMenu.home')}</Menu.Item>
+            <Menu.Item key="dashboard">{t('mainMenu.dashboard')}</Menu.Item>
+            <Menu.Item key="event">{t('mainMenu.event')}</Menu.Item>
+            <Menu.Item key="account">{t('mainMenu.account')}</Menu.Item>
         </Menu>
     );
 
     const getTitle = (key: string) => {
         switch (key) {
         case 'home':
-            return t('menuHome');
+            return t('mainMenu.home');
         case 'dashboard':
-            return t('menuDashboard');
+            return t('mainMenu.dashboard');
         case 'event':
-            return t('menuEvent');
+            return t('mainMenu.event');
         case 'account':
-            return t('menuAccount');
+            return t('mainMenu.account');
         default:
-            return t('menuHome');
+            return t('mainMenu.home');
         }
     };
 
@@ -67,7 +67,15 @@ export const CHeader = (): JSX.Element => {
         <Menu>
             <Menu.Item onClick={handleLogout} key="logout">{t('userMenuLogout')}</Menu.Item>
             <Menu.Divider></Menu.Divider>
-            <Menu.Item onClick={() => i18n.changeLanguage(lang)} key="language">{t('userMenuLanguage')}</Menu.Item>
+            <Menu.Item key="changepwd">Change Password</Menu.Item>
+        </Menu>
+    );
+
+    const langMenu = (
+        <Menu onClick={(e) => i18n.changeLanguage(e.key)}>
+            <Menu.Item  key="en">English</Menu.Item>
+            <Menu.Item  key="zh">简体中文</Menu.Item>
+            <Menu.Item  key="ja">日本語</Menu.Item>
         </Menu>
     );
 
@@ -123,17 +131,15 @@ export const CHeader = (): JSX.Element => {
                     fr={undefined}
                 />
                 <span id="setting" className={classnames('cursor-pointer', 'inline-flex')} >
-                    <Icon
+                    <Icon icon="ant-design:setting-filled"
                         className={classnames('ml-2', 'inline-block')}
-                        icon="ant-design:setting-filled"
                         color="#5c6f9a"
                         width="25"
                         height="25"
                         fr={undefined}
                     />
-                    <Icon
+                    <Icon icon="iconoir:nav-arrow-down"
                         className={'mr-2'}
-                        icon="iconoir:nav-arrow-down"
                         color="#5c6f9a"
                         width="25"
                         height="25"
@@ -141,7 +147,22 @@ export const CHeader = (): JSX.Element => {
                         fr={undefined}
                     />
                 </span>
-                <Dropdown overlay={userMenu} trigger={['click']}>
+                <Dropdown overlay={langMenu} trigger={['click']} className='inline-flex'>
+                    <a onClick={e => e.preventDefault()}>
+                        <span id="username" className={classnames('text-lg')} style={{ color: '#5c6f9a' }}>
+                            {t('langMenu.title')}
+                        </span>
+                        <Icon icon="iconoir:nav-arrow-down"
+                            className={classnames('mr-2')}
+                            color="#5c6f9a"
+                            width="25"
+                            height="25"
+                            hFlip={true}
+                            fr={undefined}
+                        />
+                    </a>
+                </Dropdown>
+                <Dropdown overlay={userMenu} >
                     <a onClick={e => e.preventDefault()}>
                         <span id="user" className={classnames('cursor-pointer', 'inline-flex')} >
                             <Icon icon="bi:person-fill"
@@ -151,6 +172,9 @@ export const CHeader = (): JSX.Element => {
                                 height="25"
                                 fr={undefined}
                             />
+                            <span id="username" className={classnames('ml-1','text-lg')} style={{ color: '#5c6f9a' }}>
+                                { userState.username }
+                            </span>
                             <Icon icon="iconoir:nav-arrow-down"
                                 className={classnames('mr-2')}
                                 color="#5c6f9a"
@@ -162,10 +186,6 @@ export const CHeader = (): JSX.Element => {
                         </span>
                     </a>
                 </Dropdown>
-
-                <span id="username" className={classnames('mx-5','text-lg')} style={{ color: '#5c6f9a' }}>
-                    { userState.username }
-                </span>
             </div>
         </div>
     );
