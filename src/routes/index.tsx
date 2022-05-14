@@ -84,12 +84,12 @@ export default [
 
 //权限路由写法
 function RequireAuth({ children }: { children: JSX.Element }) {
-    const token = store.getState().user.currentUser.token;
-    const loginTime = store.getState().user.currentUser.loginTime;
+    const token = store.getState().user.currentUser?.token;
+    const loginTime = store.getState().user.currentUser?.loginTime;
     // const location = useLocation();
     // const token = localStorage.getItem('token');
 
-    if (!token || Date.now() - loginTime > 7200000) {
+    if (!token || loginTime && Date.now() - loginTime > 7200000) {
         //如果未登录或者上次登录时间已超过2小时
     // Redirect them to the /login page, but save the current location they were
     // trying to go to when they were redirected. This allows us to send them

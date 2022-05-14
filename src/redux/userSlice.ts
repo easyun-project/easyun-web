@@ -11,24 +11,37 @@ export const userAction = (user: UserModel): { payload: UserModel; type: string 
     };
 };
 
-// const initUser: UserModel | undefined = undefined;
+export interface UserState {
+    loading: boolean,
+    currentUser: {
+        username: string | undefined,
+        accountId: string | undefined,
+        accountType: string | undefined,
+        token: string | undefined,
+        role: string | undefined,
+        deployRegion: string | undefined,
+        loginTime: number | undefined,
+    }
+}
 
-const initUser = {
-    username: '',
-    accountId: '',
-    accountType: '',
-    token: '',
-    role: '',
-    deployRegion: '',
-    loginTime:0
+// const initUser: UserModel | undefined = undefined;
+const initialState: UserState = {
+    loading: true,
+    currentUser: {
+        username: undefined,
+        accountId: undefined,
+        accountType: undefined,
+        token: undefined,
+        role: undefined,
+        deployRegion: undefined,
+        loginTime: undefined,
+    }
 };
+
 
 export const userSlice = createSlice({
     name: 'user',
-    initialState: {
-        loading: true,
-        currentUser: initUser
-    },
+    initialState,
     reducers: {
         updateUser(state, action) {
             state.currentUser = action.payload;

@@ -48,7 +48,7 @@ const TotalCostCard = (props: CostCardProps): JSX.Element => {
 };
 
 
-function LatestWeekDailyCost(props: any) {
+function LatestWeekDailyCost(props) {
     const { costList } = props;
     return (
         <Timeline mode='left' className='mt-8 min-w-fit' >{
@@ -62,7 +62,7 @@ function LatestWeekDailyCost(props: any) {
     );
 }
 
-function RescSummaryCard(props: any) {
+function RescSummaryCard(props) {
     const { title, value } = props;
     return (
         <Col span={3}>
@@ -135,7 +135,7 @@ export const ResourceOverview = (): JSX.Element => {
                         <Spin spinning={rescLoading} tip="Loading...">
                             {/* <Row gutter={16}> */}
                             <TotalCostCard value={currMonthTotalCost.value} unit={currMonthTotalCost.unit} text='Current Month Cost' />
-                            <TotalCostCard value={forecastTotalCost.value} unit={forecastTotalCost.unit} text='Forcasted Month Cost' isRise={(forecastTotalCost.value >= lastMonthTotalCost.value) ? true : false} />
+                            <TotalCostCard value={forecastTotalCost.value} unit={forecastTotalCost.unit} text='Forcasted Month Cost' isRise={(forecastTotalCost.value >= lastMonthTotalCost.value)} />
                             <TotalCostCard value={lastMonthTotalCost.value} unit={lastMonthTotalCost.unit} text='Last Month Cost' />
                             {/* </Row> */}
                         </Spin>

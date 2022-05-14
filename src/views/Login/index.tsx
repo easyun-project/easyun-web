@@ -1,5 +1,5 @@
-import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 // import { CButton } from '@/components/Common/CButton';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
@@ -74,7 +74,7 @@ const LoginPage = (): JSX.Element => {
             <div id="login-container" className='items-center py-12 mt-36 sm:w-96 md:w-1/2 lg:w-1/3 rounded-border'>
                 <Row id="login-content" gutter={16} className='flex flex-col items-center' >
                     <Row className='mb-4'>
-                        <Typography.Title level={4} >{t('Login')}</Typography.Title>
+                        <Typography.Title level={4} >{t('login.title')}</Typography.Title>
                     </Row>
 
                     <Form name="login"
@@ -105,12 +105,12 @@ const LoginPage = (): JSX.Element => {
                         </Form.Item>
 
                         <Form.Item name="remember" valuePropName="" wrapperCol={{ offset: 0, span: 16 }}>
-                            <Checkbox>Remember me</Checkbox>
+                            <Checkbox>{t('login.remember')}</Checkbox>
                         </Form.Item>
 
                         <Form.Item className='flex justify-center'>
-                            <button className='w-full btn-yellow'> Login </button>
-                            {/* <CButton type="primary" htmlType="submit" classes={classnames('w-36')}>Login</CButton> */}
+                            <button type='submit' className='w-full btn-yellow'>{t('login.button')}</button>
+                            {/* <CButton type="primary" htmlType="submit" classes={classnames('w-36')}>{t('login.button')}</CButton> */}
                         </Form.Item>
                     </Form>
                 </Row>

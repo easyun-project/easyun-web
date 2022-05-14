@@ -1,0 +1,22 @@
+{
+  "home": {
+    "title" : "Home",
+    "welcome": "Welcome To Home"
+  },
+  "login": {
+    "title": "Sign in to your account",
+    "button": "Login",
+    "remember": "Remember me"
+  },
+  "mainMenu": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "event": "Event",
+    "account": "Account"
+  },
+  "langMenu": {
+    "title": "英",
+    "language": "English"
+  },
+  "userMenuLogout": "Logout"
+}
