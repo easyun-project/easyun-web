@@ -3,7 +3,7 @@ import { classnames } from '@@/tailwindcss-classnames';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import Nodc from './Nodc';
-import DataCenterCard from '@/components/Logic/CCard/DataCenterCard';
+import DataCenterCard from '@/components/Datacenter/DataCenterCard';
 import { useNavigate } from 'react-router-dom';
 import { Menu, Dropdown, Spin } from 'antd';
 import { CButton } from '@/components/Common/CButton';

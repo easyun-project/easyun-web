@@ -7,6 +7,7 @@ import { Icon } from '@iconify/react';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Menu, Dropdown  } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
+import HostModal from '@/components/Logic/CModal';
 import userService from '@/service/userService';
 
 import logo3 from '@@/src/assets/images/logo_easyun/logo_easyun03.svg';
@@ -28,6 +29,9 @@ export const CHeader = (): JSX.Element => {
     });
 
     const [current, changeCurrent] = useState('Home');
+    // fix-me: 通过 onClick={() => setIsModalVisible(true)} 模态框不显示
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
     const navigate = useNavigate();
     const handleClick = (e)=>{
         console.log(e.currentTarget);
@@ -63,6 +67,13 @@ export const CHeader = (): JSX.Element => {
         userService.logout().then(() => navigate('/login'));
     };
 
+    const systemMenu = (
+        <Menu>
+            <Menu.Item key="hosturl" onClick={() => setIsModalVisible(true)} >API Server</Menu.Item>
+            <Menu.Item key="setting">Settings</Menu.Item>
+        </Menu>
+    );
+
     const userMenu = (
         <Menu>
             <Menu.Item onClick={handleLogout} key="logout">{t('userMenuLogout')}</Menu.Item>
@@ -80,76 +91,59 @@ export const CHeader = (): JSX.Element => {
     );
 
     return (
-        <div
-            className={classnames(
-                'flex',
-                'items-center',
-                'bg-gray-600',
-                'text-white',
-                'text-3xl',
-            )}
-        >
-            <span
+        <div className='flex items-center text-3xl text-white bg-gray-600' >
+            <span id='logo'
                 className={classnames('mx-10', 'cursor-pointer', 'flex')}
                 onClick={() => navigate('/home')}
             >
                 <img src={logo3} alt="logo_easyun03.svg" width="150" />
             </span>
-            <span >
+            <span id='menu'>
                 <Dropdown overlay={menu}>
-                    <a   className={classnames('flex','items-baseline')} onClick={e => e.preventDefault()}>
+                    <a className={classnames('flex','items-baseline')} onClick={e => e.preventDefault()}>
                         <span className={classnames('text-2xl')}>{getTitle(current)}</span>
                         <DownOutlined style={{ fontSize: '20px' }}/>
                     </a>
                 </Dropdown>
             </span>
-            <div
-                className={classnames(
-                    'absolute',
-                    'right-0',
-                    'flex-none',
-                    'inline-flex',
-                    'items-center'
-                )}
-            >
-                <Icon
-                    id="free-trial"
-                    className={classnames('cursor-pointer')}
-                    icon="fa:heartbeat"
-                    color="#9fbe8a"
-                    width="25"
-                    height="25"
-                    fr={undefined}
-                />
-                <Icon
+
+            <div className='inline-flex absolute right-0 flex-none items-center' >
+                <span id="free-trial" className={classnames('cursor-pointer', 'inline-flex')} >
+                    <Icon icon="fa:heartbeat"
+                        className={classnames('cursor-pointer')}
+                        color="#9fbe8a"
+                        width="25"
+                        height="25"
+                        fr={undefined}
+                    />
+                </span>
+                <Icon icon="radix-icons:divider-vertical"
                     className={'mx-3'}
-                    icon="radix-icons:divider-vertical"
                     color="#5c6f9a"
                     width="25"
                     height="25"
                     hFlip={true}
                     fr={undefined}
                 />
-                <span id="setting" className={classnames('cursor-pointer', 'inline-flex')} >
-                    <Icon icon="ant-design:setting-filled"
-                        className={classnames('ml-2', 'inline-block')}
-                        color="#5c6f9a"
-                        width="25"
-                        height="25"
-                        fr={undefined}
-                    />
-                    <Icon icon="iconoir:nav-arrow-down"
-                        className={'mr-2'}
-                        color="#5c6f9a"
-                        width="25"
-                        height="25"
-                        hFlip={true}
-                        fr={undefined}
-                    />
-                </span>
+
+                <Dropdown overlay={systemMenu} trigger={['click']} placement='bottom' className='inline-flex'>
+                    <a onClick={e => e.preventDefault()}>
+                        <span id="system" className='inline-flex cursor-pointer'>
+                            <Icon icon="ant-design:setting-filled"
+                                className='inline-block'
+                                color="#5c6f9a" width="25" height="25" hFlip={true} fr={undefined} />
+                            <Icon icon="iconoir:nav-arrow-down"
+                                className='inline-block mr-2'
+                                color="#5c6f9a" width="25" height="25" hFlip={true} fr={undefined} />
+                        </span>
+                    </a>
+                </Dropdown>
+                {/* fix-me: HostModal 弹窗不显示 */}
+                <HostModal title='配置服务器地址' msg='请输入您服务器的地址' isVisible={isModalVisible} />
+
                 <Dropdown overlay={langMenu} trigger={['click']} className='inline-flex'>
                     <a onClick={e => e.preventDefault()}>
-                        <span id="username" className={classnames('text-lg')} style={{ color: '#5c6f9a' }}>
+                        <span id="language" className={classnames('text-lg')} style={{ color: '#5c6f9a' }}>
                             {t('langMenu.title')}
                         </span>
                         <Icon icon="iconoir:nav-arrow-down"
@@ -162,6 +156,7 @@ export const CHeader = (): JSX.Element => {
                         />
                     </a>
                 </Dropdown>
+
                 <Dropdown overlay={userMenu} >
                     <a onClick={e => e.preventDefault()}>
                         <span id="user" className={classnames('cursor-pointer', 'inline-flex')} >

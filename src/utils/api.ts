@@ -1,10 +1,16 @@
 import store from '@/redux/store';
 
-export const getHost = ():string=> {
-    // return appService.getHost();
-    // 先偷一下懒
-    return 'http://35.76.66.98:6660';
-    // return 'http://54.156.105.123:6660';
+
+export const getHostUrl = ():string | undefined=> {
+    // fix-me: Uncaught ReferenceError: can't access lexical declaration 'store' before initialization
+    // const hostUrl = store.getState().app.hostUrl;
+    const hostUrl = localStorage.getItem('server');
+    if (hostUrl) {
+        return hostUrl;
+    } else {
+        // 如未定义，暂时初始化为demo环境后端地址
+        return 'http://35.76.66.98:6660';
+    }
 };
 
 export const getHeader = ():Record<string,string> | undefined=> {

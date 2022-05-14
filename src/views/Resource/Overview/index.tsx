@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 // UI contents
 import { classnames } from '@@/tailwindcss-classnames';
-import { Row, Col, Typography, Table, Badge, Timeline, Card, Statistic, Spin, Divider } from 'antd';
+import { Row, Col, Typography, Table, Timeline, Card, Statistic, Spin } from 'antd';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 // services and interface/schema
 // import { CostSummary, CostUsageItem, PeriodTotalCost, PeriodMonthlyCost } from '@/constant/resource';

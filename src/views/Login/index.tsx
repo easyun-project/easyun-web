@@ -3,11 +3,11 @@ import { useTranslation } from 'react-i18next';
 // import { CButton } from '@/components/Common/CButton';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
-import appService from '@/service/appService';
 import { useDispatch } from 'react-redux';
 import { userAction } from '@/redux/userSlice';
 import userService from '@/service/userService';
-import { Row, Input, message, Typography, Modal, Form, Checkbox } from 'antd';
+import { Row, Input, message, Typography, Form, Checkbox, Menu, Dropdown } from 'antd';
+import HostModal from '@/components/Logic/CModal';
 import { listAllDataCenter, getRegionList } from '@/redux/dataCenterSlice';
 
 import logo3 from '@@/src/assets/images/logo_easyun/logo_easyun03.svg';
@@ -17,7 +17,7 @@ const LoginPage = (): JSX.Element => {
     const dispatch = useDispatch();
     //multiple language setting
     const { t } = useTranslation();
-    const [host, setHost] = useState('');
+    // fix-me: 通过 onClick={() => setIsModalVisible(true)} 模态框不显示
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     //获取datacenter列表
@@ -41,6 +41,12 @@ const LoginPage = (): JSX.Element => {
         );
     };
 
+    const systemMenu = (
+        <Menu>
+            <Menu.Item onClick={() => setIsModalVisible(true)} key="sethost">API Server</Menu.Item>
+        </Menu>
+    );
+
     return (
         <div className='flex flex-col items-center'>
             {/* 首页header */}
@@ -48,27 +54,18 @@ const LoginPage = (): JSX.Element => {
                 <div className='grow ml-10'>
                     <img src={logo3} alt="logo_easyun03.svg" width='150' />
                 </div>
-                <span onClick={() => setIsModalVisible(true)} className='float-right mr-10 cursor-pointer'>
-                    <Icon className='inline-block ml-10' icon="ant-design:setting-filled"
-                        color="#5c6f9a" width="25" height="25"
-                        hFlip={true} fr={undefined} />
-                    <Icon className='inline-block ml-3' icon="iconoir:nav-arrow-down"
-                        color="#5c6f9a" width="25" height="25"
-                        hFlip={true} fr={undefined} />
-                </span>
-                <Modal title="配置服务器地址" visible={isModalVisible} onOk={
-                    () => {
-                        if (host === '') {
-                            message.info('请输入您服务器的地址');
-                            return;
-                        }
-                        appService.setHost(host);
-                        setIsModalVisible(false);
-                    }
-                } onCancel={()=>setIsModalVisible(false)}>
-                    <Input onChange={(e)=>setHost(e.target.value)}
-                        placeholder='please your server url' />
-                </Modal>
+                <Dropdown overlay={systemMenu} placement='bottomRight' className='inline-flex'>
+                    <a onClick={e => e.preventDefault()}>
+                        <Icon icon="ant-design:setting-filled"
+                            className='inline-block ml-10'
+                            color="#5c6f9a" width="25" height="25" hFlip={true} fr={undefined} />
+                        <Icon icon="iconoir:nav-arrow-down"
+                            className='inline-block mr-3'
+                            color="#5c6f9a" width="25" height="25" hFlip={true} fr={undefined} />
+                    </a>
+                </Dropdown>
+                {/* fix-me: HostModal 弹窗不显示 */}
+                <HostModal title='配置服务器地址' isVisible={isModalVisible} />
             </div>
             {/* 登录框体 */}
             <div id="login-container" className='items-center py-12 mt-36 sm:w-96 md:w-1/2 lg:w-1/3 rounded-border'>

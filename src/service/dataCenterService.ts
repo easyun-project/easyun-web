@@ -8,7 +8,7 @@ import {
     // DataCenterList
 } from '@/constant/apiConst';
 import axios from './axiosConfig';
-import { getHeader, getHost } from '@/utils/api';
+import { getHeader } from '@/utils/api';
 import {
     DefaultDataCenterParms,
     DataCenterParams,
@@ -69,7 +69,7 @@ export default class DataCenterService {
      * 获取创建数据中心默认参数
      */
     static async getDefaultDcParams(params: DcDefaultQueryParm): Promise<DefaultDataCenterParms | undefined> {
-        const url = getHost() + DataCenterDefault;
+        const url = DataCenterDefault;
         const result = await axios.get(url, {
             params,
             headers: getHeader()
@@ -82,7 +82,7 @@ export default class DataCenterService {
 
 
     static async getRegionList(): Promise<RegionItem[] | undefined> {
-        const url = getHost() + DataCenterPath + '/region';
+        const url = DataCenterPath + '/region';
         const result = await axios.get(url, {
             headers: getHeader()
         });
@@ -98,7 +98,7 @@ export default class DataCenterService {
      * @param params
      */
     static async createDataCenter(params: DataCenterParams): Promise<TaskInfo | undefined> {
-        const url = getHost() + DataCenterPath;
+        const url = DataCenterPath;
         const result = await axios.post(url, params, {
             headers: getHeader()
         });
@@ -112,7 +112,7 @@ export default class DataCenterService {
      * 删除datacenter
      */
     static async deleteDataCenter(params: DeleteDcParm) {
-        const url = getHost() + DataCenterPath;
+        const url = DataCenterPath;
         const result = await axios.delete(url, {
             data: params,
             headers: getHeader()
@@ -128,7 +128,7 @@ export default class DataCenterService {
      * 获取异步任务执行结果
      */
     static async getTaskResult(id: string): Promise<TaskDetail | undefined> {
-        const url = getHost() + DataCenterPath + '/task';
+        const url = DataCenterPath + '/task';
         const replacedId = id.replaceAll('-', '_');
         const result = await axios.get(url, {
             params: {
@@ -148,7 +148,7 @@ export default class DataCenterService {
      * 获取指定数据中心(VPC)基础服务汇总信息( for overview page)
      */
     static async getDataCenterVpc(params: DcNameQueryParm): Promise<DataCenterSummary | undefined> {
-        const url = getHost() + DataCenterSum + '/basic';
+        const url = DataCenterSum + '/basic';
         const result = await axios.get(url, {
             params,
             headers: getHeader()
@@ -200,7 +200,7 @@ export default class DataCenterService {
      * delete an eip
      */
     static async deleteEip(params: DeleteEipParams): Promise<Record<'msg', string>> {
-        const url = getHost() + DcmStaticip;
+        const url = DcmStaticip;
         const result = await axios.delete(url, {
             data: params,
             headers: getHeader()
