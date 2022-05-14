@@ -1,17 +1,18 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
 import { useState,useEffect } from 'react';
-import { Tooltip, Switch, Select,Skeleton,Popover,Menu, Dropdown,InputNumber,Modal,Radio,Space } from 'antd';
-import { QuestionCircleOutlined,CloseOutlined, CheckOutlined } from '@ant-design/icons';
+import { Tooltip, Skeleton,Menu, Dropdown,Modal,Radio,Space } from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 import { classnames } from '@@/tailwindcss-classnames';
 import { useDispatch,useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { StVolumeModel,VolumeTypeInfo,AddVolumeParams,VolumeInfo } from '@/constant/storage';
+import { StVolumeModel,AddVolumeParams,VolumeInfo } from '@/constant/storage';
 import { getServerDetail } from '@/redux/serverSlice';
 import { listAllVolume } from '@/redux/storageSlice';
 import { LoadingOutlined } from '@ant-design/icons';
 import serverService from '@/service/serverService';
 import volumeService from '@/service/stVolumeService';
+import { useNewDisk } from '@/utils/hooks';
 
 
 interface DiskProps{
@@ -38,11 +39,11 @@ function ExistDisk(props:DiskProps) {
 
     useEffect(
         ()=>{
-            if(diskInfo !== 'loading')
+            if(Object.keys(diskInfo).length !== 0 && diskInfo !== 'loading')
             // 在获取到这块盘的attachpath后就把availablePaths中的去掉
             {
                 const paths = [...availablePaths];
-                const volumeAttachInfo = diskInfo.volumeAttach.filter((item)=>item.attachSvrId === svrId)[0];
+                const volumeAttachInfo = diskInfo.volumeAttach.filter((item)=>item.svrId === svrId)[0];
                 paths.splice(paths.indexOf(volumeAttachInfo?.attachPath),1);
                 changeAvaliablePaths(paths);}
         },[diskInfo]);
@@ -50,11 +51,12 @@ function ExistDisk(props:DiskProps) {
     useEffect(()=>{dispatch(listAllVolume({ dc:dcName }));},[svrStatus]);
 
 
-    if(diskInfo === 'loading')
-    {return(<Skeleton active />);}
+    if( diskInfo === 'loading')
+    { return(<Skeleton active />); }
+    else if (Object.keys(diskInfo).length === 0){ return <></>; }
     else {
         const { volumeConfig,volumeAttach } = diskInfo;
-        const volumeAttachInfo = volumeAttach.filter((item)=>item.attachSvrId === svrId)[0];
+        const volumeAttachInfo = volumeAttach.filter((item)=>item.svrId === svrId)[0];
         const detachDisk = ()=>{
             changeDetaching(true);
             serverService.bindServerDisk({
@@ -150,7 +152,6 @@ interface NewDiskProps {
 
 function NewDisk(props:NewDiskProps) {
     const dispatch = useDispatch();
-    const { Option } = Select;
     const { changeIsAdding,availablePaths } = props;
     const InstanceId = useSelector((state: RootState) => {
         return state.server.currentServer!.svrProperty.instanceId;
@@ -158,114 +159,37 @@ function NewDisk(props:NewDiskProps) {
     const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
     const azName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcRegion);
     const instanceName = useSelector((state: RootState) => state.server.currentServer!.svrProperty.instanceName);
-    const [diskType, changeDiskType] = useState('standard');
-    const [encryption, changeEncryption] = useState(true);
-    const [volumeSize, changeVolumeSize] = useState(8);
-    const [volumeIOPS, changeVolumeIOPS] = useState(3000);
-    const [volumeThruputs, changeVolumeThruputs] = useState(125);
-    const [devicePath, changeDevicePath] = useState(availablePaths[0]);
     const [creating,changeCreating] = useState(false);
-    const volumeTypeInfo = VolumeTypeInfo[diskType];
+    const { newDiskProps, newDisk } = useNewDisk(availablePaths);
     return (
         <div className={classnames('flex','items-center')}>
             {/* 添加disk框体 */}
-            <div className={classnames('active-border','m-2','flex','flex-col','2xl:w-1/3','lg:w-1/2','md:w-96')}>
-                <div className={classnames('flex','m-2')}>
-                    <span><Icon icon="icon-park-outline:solid-state-disk" width="64" fr={undefined}/> </span>
-                    <div className='grow mx-3'>
-                        <span >Disk type:</span>
-                        <Select className={classnames('w-1/2')} defaultValue={ 'standard' } onChange={value=>changeDiskType(value)} size='small'>
-                            {Object.keys(VolumeTypeInfo).map(key=><Option value={key} key={key}>{VolumeTypeInfo[key].typeDesc}</Option>)}
-                        </Select>
-                        <div className={classnames('flex','mt-2','justify-between')}>
-                            <div>
-                                <span>size(GiB):</span>
-                                <Popover content={
-                                    `max:${volumeTypeInfo.volumeSize?.at(1)} min:${volumeTypeInfo.volumeSize?.at(0)}`
-                                } title="Tips">
-                                    <InputNumber className={classnames('w-16')} size='small' min={volumeTypeInfo.volumeSize?.at(0)} max={volumeTypeInfo.volumeSize?.at(1)} defaultValue={8} onChange={(value)=>changeVolumeSize(value)}/>
-                                </Popover>
-                            </div>
-                            <div>
-                                <span>IOPS:</span>
-                                <Popover content={
-                                    `max:${volumeTypeInfo.volumeIops?.at(1)} min:${volumeTypeInfo.volumeIops?.at(0)}`
-                                } title="Tips">
-                                    <InputNumber className={classnames('w-16')} disabled={!volumeTypeInfo.volumeIops} size='small' min={volumeTypeInfo.volumeIops?.at(0)} max={volumeTypeInfo.volumeIops?.at(1)} defaultValue={3000}
-                                        onChange={(value) => changeVolumeIOPS(value)} />
-                                </Popover>
-
-                            </div>
-                            <div>
-                                <span>Thruputs(MB/s):</span>
-                                <Popover content={
-                                    `max:${volumeTypeInfo.volumeThruput?.at(1)} min:${volumeTypeInfo.volumeThruput?.at(0)}`
-                                } title="Tips">
-                                    <InputNumber className={classnames('w-16')} disabled={!volumeTypeInfo.volumeThruput} size='small' min={volumeTypeInfo.volumeThruput?.at(0)} max={volumeTypeInfo.volumeThruput?.at(1)} defaultValue={125}
-                                        onChange={(value) => changeVolumeThruputs(value)} />
-                                </Popover>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className={classnames('flex','justify-between','border-t-2','border-gray-300','border-dashed','ml-12','mr-6','p-2')}>
-                    <div className={classnames('flex')}>
-                        <span>Disk path:</span>
-                        <Select defaultValue={availablePaths[0]} size='small' style={{ width: 120 }} onChange={(e)=>changeDevicePath(e)}>
-                            {availablePaths.slice(0,5).map((path)=><Option key ={path} value={path}>{path}</Option>)}
-                        </Select>
-                    </div>
-                    <div>
-                        <span className={classnames('mr-2')}>Encryption</span>
-                        <Switch
-                            checkedChildren={<CheckOutlined className={classnames('align-middle')}/>}
-                            unCheckedChildren={<CloseOutlined className={classnames('align-middle')}/>}
-                            defaultChecked
-                            onChange = {()=>
-                                changeEncryption(!encryption)}
-                        />
-                    </div>
-                </div>
-            </div>
+            {newDisk}
             {/* 确认模组 */}
             <div className={classnames('items-center','justify-center')}>
                 {creating
                     ? <LoadingOutlined/>
                     : <>
-                        <Icon fr={undefined}
+                        <Icon
                             icon="icons8:cancel"
                             className={classnames('mx-1', 'cursor-pointer')}
                             width="24" height="24"
                             color='red'
                             onClick={() => changeIsAdding(false)}/>
 
-                        <Icon fr={undefined}
+                        <Icon
                             icon="icons8:checked"
                             className={classnames('mx-1','cursor-pointer')}
                             width="24" height="24"
                             color="green"
                             onClick={() => {
                                 const params:AddVolumeParams = {
-                                    volumeType:diskType,
-                                    isEncrypted:encryption,
-                                    volumeSize,
                                     svrId:InstanceId,
-                                    attachPath:devicePath,
                                     dcName,
                                     azName,
-                                    tagName:instanceName
+                                    tagName:instanceName,
+                                    ...newDiskProps
                                 };
-                                switch (diskType){
-                                case 'io1':
-                                case 'io2':
-                                    params.volumeIops = volumeIOPS;
-                                    break;
-                                case 'gp3':
-                                    params.volumeIops = volumeIOPS;
-                                    params.volumeThruput = volumeThruputs;
-                                    break;
-                                }
                                 changeCreating(true);
                                 volumeService.addVolume(params).then(
                                     ()=>{dispatch(getServerDetail({
@@ -330,7 +254,7 @@ export default function Disk():JSX.Element {
                     <QuestionCircleOutlined />
                 </Tooltip>
             </div>
-            <div > {currentServerDisks?.volumeIds.map((volumeId) => <ExistDisk key={volumeId} volumeId={volumeId} availablePaths={availablePaths} changeAvaliablePaths={changeAvaliablePaths}/>)}</div>
+            <div > {currentServerDisks?.volumeIds.map(volumeId => <ExistDisk key={volumeId} volumeId={volumeId} availablePaths={availablePaths} changeAvaliablePaths={changeAvaliablePaths}/>)}</div>
             {isAdding
                 ? <NewDisk changeIsAdding={ changeIsAdding } availablePaths={availablePaths} changeAvaliablePaths={changeAvaliablePaths}/>
                 : <>
