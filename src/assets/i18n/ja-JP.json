@@ -1,22 +1,26 @@
 {
-  "home": {
-    "title" : "ホーム",
-    "welcome": "ホームへようこそ！"
-  },
-  "login": {
-    "title": "ログイン",
-    "button": "ログイン",
-    "remember": "私を覚えてますか"
-  },
-  "mainMenu": {
-    "home": "ホーム",
-    "dashboard": "Dashboard",
-    "event": "事件",
-    "account": "账号" 
-  },
-  "langMenu": {
-    "title": "日",
-    "language": "日本語"
-  },
-  "userMenuLogout": "ログアウト"
+    "base": {
+        "userMenu": {
+            "Logout":  "ログアウト"
+        },
+        "mainMenu": {
+            "home": "ホーム",
+            "dashboard": "Dashboard",
+            "event": "事件",
+            "account": "账号"
+        },
+        "langMenu": {
+            "title": "日",
+            "language": "日本語"
+        }
+    },
+    "home": {
+        "title": "ホーム",
+        "welcome": "ホームへようこそ！"
+    },
+    "login": {
+        "title": "ログイン",
+        "button": "ログイン",
+        "remember": "私を覚えてますか"
+    }
 }

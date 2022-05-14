@@ -29,7 +29,6 @@ export const CHeader = (): JSX.Element => {
     });
 
     const [current, changeCurrent] = useState('Home');
-    // fix-me: 通过 onClick={() => setIsModalVisible(true)} 模态框不显示
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const navigate = useNavigate();
@@ -41,10 +40,10 @@ export const CHeader = (): JSX.Element => {
 
     const menu = (
         <Menu onClick={handleClick} selectedKeys={[current]} mode="vertical" className={classnames('text-xl')}>
-            <Menu.Item key="home">{t('mainMenu.home')}</Menu.Item>
-            <Menu.Item key="dashboard">{t('mainMenu.dashboard')}</Menu.Item>
-            <Menu.Item key="event">{t('mainMenu.event')}</Menu.Item>
-            <Menu.Item key="account">{t('mainMenu.account')}</Menu.Item>
+            <Menu.Item key="home">{t('base.mainMenu.home')}</Menu.Item>
+            <Menu.Item key="dashboard">{t('base.mainMenu.dashboard')}</Menu.Item>
+            <Menu.Item key="event">{t('base.mainMenu.event')}</Menu.Item>
+            <Menu.Item key="account">{t('base.mainMenu.account')}</Menu.Item>
         </Menu>
     );
 
@@ -76,7 +75,7 @@ export const CHeader = (): JSX.Element => {
 
     const userMenu = (
         <Menu>
-            <Menu.Item onClick={handleLogout} key="logout">{t('userMenuLogout')}</Menu.Item>
+            <Menu.Item onClick={handleLogout} key="logout">{t('base.userMenu.Logout')}</Menu.Item>
             <Menu.Divider></Menu.Divider>
             <Menu.Item key="changepwd">Change Password</Menu.Item>
         </Menu>
@@ -138,13 +137,13 @@ export const CHeader = (): JSX.Element => {
                         </span>
                     </a>
                 </Dropdown>
-                {/* fix-me: HostModal 弹窗不显示 */}
-                <HostModal title='配置服务器地址' msg='请输入您服务器的地址' isVisible={isModalVisible} />
+
+                <HostModal title='配置服务器地址' msg='请输入您服务器的地址' isVisible={isModalVisible} setIsVisible={setIsModalVisible} />
 
                 <Dropdown overlay={langMenu} trigger={['click']} className='inline-flex'>
                     <a onClick={e => e.preventDefault()}>
                         <span id="language" className={classnames('text-lg')} style={{ color: '#5c6f9a' }}>
-                            {t('langMenu.title')}
+                            {t('base.langMenu.title')}
                         </span>
                         <Icon icon="iconoir:nav-arrow-down"
                             className={classnames('mr-2')}

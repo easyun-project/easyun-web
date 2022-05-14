@@ -6,20 +6,19 @@ import { Modal, message, Input } from 'antd';
 interface HostModalProps {
     title: string,
     msg: string,
-    isVisible: boolean
+    isVisible: boolean,
+    setIsVisible
 }
 
-{/* fix-me: 通过 onClick={() => setIsModalVisible(true)} 模态框不显示 */}
 export default function HostModal( props:HostModalProps ) {
-    const { title, msg, isVisible } = props;
-    const [visible, setVisible] = useState(isVisible);
+    const { title, msg, isVisible, setIsVisible } = props;
     const [hostUrl, setHostUrl] = useState(getHostUrl());
     const updateHostUrl = (value:string) => {
         localStorage.setItem('server', value);
     };
 
     return (
-        <Modal title={title} visible={visible}
+        <Modal title={title} visible={isVisible}
             onOk={() => {
                 if (!hostUrl) {
                     message.warn(msg);
@@ -27,9 +26,9 @@ export default function HostModal( props:HostModalProps ) {
                 } else {
                     updateHostUrl(hostUrl);
                 };
-                setVisible(false);
+                setIsVisible(false);
             }}
-            onCancel={()=>setVisible(false)}>
+            onCancel={()=>setIsVisible(false)}>
             <Input placeholder='please your server url'
                 value={hostUrl}
                 onChange={ (e) => {

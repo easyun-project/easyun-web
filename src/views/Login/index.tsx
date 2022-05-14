@@ -17,9 +17,8 @@ const LoginPage = (): JSX.Element => {
     const dispatch = useDispatch();
     //multiple language setting
     const { t } = useTranslation();
-    // fix-me: 通过 onClick={() => setIsModalVisible(true)} 模态框不显示
+    // 定义修改API Server 模态框显示状态
     const [isModalVisible, setIsModalVisible] = useState(false);
-
     //获取datacenter列表
     const initDataCenterList = async () => {
         dispatch(listAllDataCenter());
@@ -64,8 +63,7 @@ const LoginPage = (): JSX.Element => {
                             color="#5c6f9a" width="25" height="25" hFlip={true} fr={undefined} />
                     </a>
                 </Dropdown>
-                {/* fix-me: HostModal 弹窗不显示 */}
-                <HostModal title='配置服务器地址' isVisible={isModalVisible} />
+                <HostModal title='配置服务器地址' msg='请输入您服务器的地址' isVisible={isModalVisible} setIsVisible={setIsModalVisible} />
             </div>
             {/* 登录框体 */}
             <div id="login-container" className='items-center py-12 mt-36 sm:w-96 md:w-1/2 lg:w-1/3 rounded-border'>

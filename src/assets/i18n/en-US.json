@@ -1,4 +1,19 @@
 {
+    "base": {
+        "userMenu": {
+            "Logout": "Logout"
+        },
+        "mainMenu": {
+            "home": "Home",
+            "dashboard": "Dashboard",
+            "event": "Event",
+            "account": "Account"
+        },
+        "langMenu": {
+            "title": "英",
+            "language": "English"
+        }
+    },
     "home": {
         "title": "Home",
         "welcome": "Welcome To Home"
@@ -8,17 +23,6 @@
         "button": "Login",
         "remember": "Remember me"
     },
-    "mainMenu": {
-        "home": "Home",
-        "dashboard": "Dashboard",
-        "event": "Event",
-        "account": "Account"
-    },
-    "langMenu": {
-        "title": "英",
-        "language": "English"
-    },
-    "userMenuLogout": "Logout",
     "addVolume": {
         "title": "Add Block Storage(EBS Volume)",
         "zone": {
