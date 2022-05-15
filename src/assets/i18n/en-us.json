@@ -37,5 +37,19 @@
         "tags": {
             "title": "Tags - optional"
         }
+    },
+    "Login": "login",
+    "volumeManageAttachment": {
+        "title": "Attach to an instance",
+        "tip": "Attaching a disk is like plugging in an additional driver to your instance.",
+        "attachTip": "You can only attach this disk to instances in the same region and zone.",
+        "extraTip": "You may still need to mount and format your disks using this instace's disk utilities.",
+        "href": "Learn more about preparing attached disks for use in Linux/Unix"
+    },
+    "volumeManageSnapshots": {
+        "title": "Manual snapshots",
+        "tip": "You can create a snapshot to back up your disk.",
+        "creat": "Create snapshot",
+        "name": "Give your snapshots a name."
     }
 }

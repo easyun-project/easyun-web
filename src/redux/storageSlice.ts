@@ -30,15 +30,15 @@ export const getVolumeList = createAsyncThunk(
 export interface StorageState {
     loading: boolean,
     storageList: BucketCardInfo[],
-    bucketList: StBucketModel[] | undefined,
-    volumeList: VolumeInfo[] | undefined,
+    bucketList: StBucketModel[] ,
+    volumeList: VolumeInfo[] ,
 }
 
 const initialState: StorageState = {
     loading: true,
     storageList: [],
-    bucketList: undefined,
-    volumeList: undefined,
+    bucketList: [],
+    volumeList: [],
 };
 
 

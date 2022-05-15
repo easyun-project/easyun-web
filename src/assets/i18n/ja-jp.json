@@ -1,6 +1,6 @@
 {
   "home": {
-    "title" : "ホーム",
+    "title": "ホーム",
     "welcome": "ホームへようこそ！"
   },
   "login": {
@@ -12,11 +12,30 @@
     "home": "ホーム",
     "dashboard": "Dashboard",
     "event": "事件",
-    "account": "账号" 
+    "account": "账号"
   },
   "langMenu": {
     "title": "日",
     "language": "日本語"
   },
-  "userMenuLogout": "ログアウト"
+  "userMenuLogout": "ログアウト",
+  "Login": "ログインする",
+  "addVolume": {
+    "configuration": {
+      "multiattachConfiguration": {
+        "abledTitle": "マルチアタッチが可能",
+        "disabledTip": "マルチアタッチを有効にすると、同じアベイラビリティーゾーンにある最大16の<a>Nitroシステム上に構築されたインスタンス</a>にボリュームをアタッチできます。 \n<br> * <bold> io1</bold>および<bold>io2</bold>ボリュームでのみサポートされます。",
+        "disabledTitle": "マルチアタッチが無効になっている"
+      },
+      "title": "ボリューム構成"
+    },
+    "tags": {
+      "title": "タグ-オプション"
+    },
+    "zone": {
+      "tip": "ボリュームが存在するゾーンを選択します",
+      "title": "アベイラビリティーゾーン"
+    },
+    "title": "ブロックストレージの追加（EBSボリューム）"
+  }
 }

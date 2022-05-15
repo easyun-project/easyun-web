@@ -1,62 +1,35 @@
-import React,{ useEffect, useState } from 'react';
+import React,{ useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import serverService from '@/service/serverService';
 import { useNavigate } from 'react-router-dom';
-import { SeverDetailModel } from '@/constant/server';
+// import { SeverDetailModel } from '@/constant/server';
 import ServerCard from '@/components/Logic/CCard/ServerCard';
 import { LoadingOutlined } from '@ant-design/icons';
-import { Select,Skeleton } from 'antd';
+import { Select } from 'antd';
 import { useDispatch } from 'react-redux';
 import { getDataCenterEip } from '@/redux/dataCenterSlice';
 import DataCenterService from '@/service/dataCenterService';
 // import { classnames } from 'tailwindcss-classnames';
 // import { WarningOutlined, InfoCircleOutlined } from '@ant-design/icons';
-
+const { Option } = Select;
 
 export default function EipDetail() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const dc = useSelector((state:RootState)=>state.dataCenter.currentDC.basicInfo!.dcName);
     //解构赋值的连续性写法
     const { state:{ pubIp } }  = useLocation() as {state:{pubIp:string}};
     const eipInfos = useSelector((state:RootState)=>state.dataCenter.currentDC.eip);
+    const thisEip = eipInfos?.filter(item=>item.pubIp === pubIp)[0];
     const { servers } = useSelector((state:RootState)=>state.server);
-    const dc = useSelector((state:RootState)=>state.dataCenter.currentDC.basicInfo!.dcName);
-    const [attachedSvr,changeAttachedSvr] = useState<SeverDetailModel>();
-    const [loading,changeLoading] = useState(false);
+    // const [attachedSvr,changeAttachedSvr] = useState<SeverDetailModel>();
+    // const [loading,changeLoading] = useState(false);
     const [attaching,changeAttaching] = useState(false);
     const [detaching,changeDetaching] = useState(false);
     const [selectedSvr, changeSelectedSvr] = useState('');
-
-    const { Option } = Select;
-    const thisEip = eipInfos?.filter(item=>item.pubIp === pubIp)[0];
-
-
-    useEffect(() => {
-        if(!thisEip) navigate(-1);
-        else if(thisEip.assoTarget.svrId) {
-            serverService.getServerDetail(
-                { serverId:thisEip.assoTarget.svrId }
-            ).then(
-                res =>{changeAttachedSvr(res);}
-            );}
-    }, []);
-
-    useEffect(() => {if(selectedSvr !== ''){
-        changeLoading(true);
-        serverService.getServerDetail(
-            { serverId:selectedSvr }
-        ).then(
-            res =>{
-                changeAttachedSvr(res);
-                changeLoading(false);
-            },
-            ()=>changeLoading(false)
-        );
-    }
-    }, [selectedSvr]);
 
     return (
         <div className='flex m-4'>
@@ -114,29 +87,27 @@ export default function EipDetail() {
                         // already attached to a server
                             ? <>
                                 <div className='text-xl font-semibold'>Detach from an instance</div>
-                                {!attachedSvr
-                                    ? <Skeleton active/>
-                                    : <ServerCard {...attachedSvr}>
-                                        <button className='flex items-center self-start text-yellow-550' onClick={() => {
-                                            changeDetaching(true);
-                                            serverService.bindServerEip({
-                                                action: 'detach',
-                                                publicIp: pubIp,
-                                                svrId: attachedSvr.svrProperty.instanceId,
-                                            }).then(()=>{
-                                                return dispatch(getDataCenterEip({ dc }));
-                                            }).then(()=>changeDetaching(false));
-                                        }}>
-                                            {detaching
-                                                ? <LoadingOutlined className='mx-1'/>
-                                                : <Icon fr={undefined}
-                                                    icon="clarity:times-line"
-                                                    className='mx-1'
-                                                    width="24" height="24"
-                                                />}
-                                            <span>Detach</span>
-                                        </button>
-                                    </ServerCard>}
+                                { <ServerCard serverId={thisEip.assoTarget.svrId}>
+                                    <button className='flex items-center self-start text-yellow-550' onClick={() => {
+                                        changeDetaching(true);
+                                        serverService.bindServerEip({
+                                            action: 'detach',
+                                            publicIp: pubIp,
+                                            svrId: thisEip.assoTarget.svrId
+                                        }).then(()=>{
+                                            return dispatch(getDataCenterEip({ dc }));
+                                        }).then(()=>changeDetaching(false));
+                                    }}>
+                                        {detaching
+                                            ? <LoadingOutlined className='mx-1'/>
+                                            : <Icon fr={undefined}
+                                                icon="clarity:times-line"
+                                                className='mx-1'
+                                                width="24" height="24"
+                                            />}
+                                        <span>Detach</span>
+                                    </button>
+                                </ServerCard>}
                             </>
 
 
@@ -148,11 +119,15 @@ export default function EipDetail() {
                                     ? 'nat_gateway'
                                 // not attached to a nat_gateway or a server
                                     : <div>
-                                        <Select placeholder="Select a cloud server..." className='mb-4 w-96' onChange={value=>changeSelectedSvr(value)} loading={loading}>
-                                            {servers.filter(server=>!server.isEip).map(server=><Option key={server.svrId} value={server.svrId} >{server.tagName} : {server.svrId}</Option>)}
+                                        <Select placeholder="Select a cloud server..." className='mb-4 w-96' onChange={
+                                            value=>{
+                                                changeSelectedSvr(value);
+                                            }
+                                        }>
+                                            {servers.filter(server=>!server.isEip).map(server=><Option key={server.svrId} value={server.svrId}>{`${server.tagName} : ${server.svrId}`}</Option>)}
                                         </Select>
-                                        {attachedSvr && selectedSvr
-                                            ? <ServerCard {...attachedSvr} active>
+                                        {selectedSvr
+                                            ? <ServerCard serverId={selectedSvr} active>
                                                 <button className='flex items-center self-start text-green-700' onClick={() => {
                                                     changeAttaching(true);
                                                     serverService.bindServerEip({

@@ -77,11 +77,11 @@ export default function EipCard(props:EipInfo) {
                     'mx-2'
                 )}
             >
-                {assoTarget.eniType
+                {assoTarget.eniId
                     ? <div className={classnames('text-xs', 'text-gray-500')}>
                         Attached to
                         {assoTarget.eniType !== 'nat_gateway'
-                            ? <Link to={'/resource/server/' + assoTarget.svrId} className={classnames('text-blue-600','ml-1')}>{assoTarget.tagName}</Link>
+                            ? <Link to={'/resource/server/' + assoTarget.svrId} className='ml-1 text-blue-600'>{assoTarget.tagName}</Link>
                             : <span className={classnames('ml-1')}>{assoTarget.tagName}</span>}
                     </div>
                     : <div className={classnames('text-xs', 'text-red-500')}>Not Attached</div>

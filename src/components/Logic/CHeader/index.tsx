@@ -21,16 +21,10 @@ export const CHeader = (): JSX.Element => {
     // };
     //multiple language setting
     const { t, i18n } = useTranslation();
-    // const lang = i18n.language === 'zh' ? 'en' : 'zh';
-
-    const userState = useSelector((state: RootState) => {
-        return state.user.currentUser;
-    });
-
-    const [current, changeCurrent] = useState('Home');
+    const userState = useSelector((state: RootState) => state.user.currentUser);
+    const [current, changeCurrent] = useState('home');
     const navigate = useNavigate();
     const handleClick = (e)=>{
-        console.log(e.currentTarget);
         changeCurrent(e.key);
         navigate(`/${e.key}`);
     };
@@ -95,9 +89,12 @@ export const CHeader = (): JSX.Element => {
             >
                 <img src={logo3} alt="logo_easyun03.svg" width="150" />
             </span>
-            <span >
+            <span>
                 <Dropdown overlay={menu}>
-                    <a   className={classnames('flex','items-baseline')} onClick={e => e.preventDefault()}>
+                    <a className={classnames('flex','items-baseline')} onClick={e => {
+                        e.preventDefault();
+                        navigate(`/${current}`);
+                    }}>
                         <span className={classnames('text-2xl')}>{getTitle(current)}</span>
                         <DownOutlined style={{ fontSize: '20px' }}/>
                     </a>

@@ -24,7 +24,7 @@ interface DiskProps{
 
 function ExistDisk(props:DiskProps) {
     const dispatch = useDispatch();
-    const { availablePaths, changeAvaliablePaths } = props;
+    const { availablePaths, changeAvaliablePaths,volumeId } = props;
     const svrId = useSelector((state: RootState) =>state.server.currentServer!.svrProperty.instanceId);
     const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
     const [diskInfo, changeDiskInfo] = useState<'loading'|StVolumeModel>('loading');
@@ -32,7 +32,7 @@ function ExistDisk(props:DiskProps) {
     const svrStatus = useSelector((state: RootState) =>state.server.currentServer!.svrProperty.status);
     useEffect(
         ()=>{
-            volumeService.getStVolumeModel(props.volumeId).then(
+            volumeService.getStVolumeModel({ volumeId,dc:dcName }).then(
                 res=>changeDiskInfo(res),
                 error=>console.log(error)
             );},[]);

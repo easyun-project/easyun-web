@@ -1,5 +1,5 @@
 import React from 'react';
-import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
+import { TTailwindString } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { Menu, Dropdown } from 'antd';
 import bucketManage from '@/service/stBucketService';

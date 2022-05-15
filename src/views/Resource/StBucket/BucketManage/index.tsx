@@ -1,5 +1,4 @@
 import CBucketCard from '@/components/Logic/CBucketCard';
-import bucketService from '@/service/stBucketService';
 import { useMount } from '@/utils/hooks';
 import { Tabs } from 'antd';
 import React, { useState } from 'react';
@@ -14,8 +13,7 @@ import CTags from '@/components/Logic/CTags';
 export default function BucketManage() {
     const params = useParams();
     const { state } = useLocation();
-    const [bucketData, setBucketData] = useState(null);
-    const bucketList = useSelector((state: RootState) => state.storage.storageList);
+    const bucketList = useSelector((state: RootState) => state.storage.bucketList);
     // just for test
     const demoBucket = bucketList[0];
     const [tags,changeTags] = useState<Record<string,string>>({
@@ -32,7 +30,7 @@ export default function BucketManage() {
     });
     return (
         <>
-            <CBucketCard bktDetail={demoBucket} />
+            <CBucketCard {...demoBucket} />
             <Tabs defaultActiveKey="Objects">
                 <TabPane tab="Objects" key="Objects">
                     <Objects bucketData={state} />

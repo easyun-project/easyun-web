@@ -1,14 +1,21 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
-import { Menu, Dropdown } from 'antd';
+import { Menu, Dropdown,message } from 'antd';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import { VolumeInfo } from '@/constant/storage';
+// import serverService from '@/service/serverService';
+import volumeService from '@/service/stVolumeService';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { listAllVolume } from '@/redux/storageSlice';
+
 
 
 const CStVolumeCard = (props: VolumeInfo): JSX.Element => {
-    const { volumeId,volumeAz,volumeSize } = props;
+    const { volumeId,volumeAz,volumeSize,volumeAttach } = props;
     const navigate = useNavigate();
+    const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
     // const userState = useSelector((state: RootState) => {
     //     return state.user.user;
     // });
@@ -23,6 +30,14 @@ const CStVolumeCard = (props: VolumeInfo): JSX.Element => {
             <Menu.Item
                 danger
                 key="delete"
+                onClick={()=>{
+                    //TODO:此处还需要解绑一下
+                    volumeService.deleteVolume({ dcName,volumeIds: [volumeId] }).then(()=>
+                    {
+                        dispatch(listAllVolume({ dc: dcName }));
+                        message.info('Delete volume success');
+                    });
+                }}
             >
                 Delete
             </Menu.Item>
@@ -35,11 +50,9 @@ const CStVolumeCard = (props: VolumeInfo): JSX.Element => {
                 <div className= 'flex flex-row mb-2 '>
                     <Icon icon="clarity:storage-line" width="36" color='#FF8C00' inline={true} />
                     <div className='grow ml-2'>
-                        <div className= 'text-blue-600 '>
-                            <span className='cursor-pointer' onClick={() => {
-                                navigate(`/resource/volume/${volumeId}`, { state: props });
-                            }}>{volumeId}</span>
-                        </div>
+                        <Link to={`${volumeId}`} className='ml-1 text-blue-600'>
+                            {volumeId}
+                        </Link>
                         <div className= 'text-xs text-gray-500 '>{volumeSize} GiB</div>
                     </div>
                     <Dropdown overlay={menu}>
@@ -51,7 +64,23 @@ const CStVolumeCard = (props: VolumeInfo): JSX.Element => {
                     </Dropdown>
                 </div>
                 <div className= 'flex flex-row justify-between border-t-2 border-gray-300 border-dashed'>
-                    <div className= 'text-xs text-gray-500 '>status</div>
+                    <div className= 'text-xs text-gray-500 '>
+                        {
+                            volumeAttach.length === 0
+                                ? 'Not attached'
+                                : <>
+                                    Attached to
+                                    {volumeAttach.map((svr,index)=>
+                                        <Link to={'/resource/server/' + svr.svrId} className='ml-1 text-blue-600' key={svr.svrId + volumeId}>
+                                            <span>
+                                                <span>{svr.tagName}</span>
+                                                <span>{index === volumeAttach.length - 1 ? '' : ','}</span>
+                                            </span>
+                                        </Link>)
+                                    }
+                                </>
+                        }
+                    </div>
                     <div className= 'pr-5 text-xs text-gray-500 '>{volumeAz}</div>
                 </div>
             </div>

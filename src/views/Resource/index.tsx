@@ -57,7 +57,7 @@ const Resource = (): JSX.Element => {
     // const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     // };
     const location = useLocation();
-    const currentTab = location.pathname.split('/').at(-1) as string;
+    const currentTab = location.pathname.split('/').at(2) as string;
     const [current, changeCurrent] = useState(currentTab);
     const navigate = useNavigate();
     const handleClick = (e) => {

@@ -9,12 +9,11 @@ export interface DcNameQueryParm {
 
 export default class volumeService {
 
-    static async listAllVolume(params:DcNameQueryParm): Promise<VolumeInfo[] | undefined> {
+    static async listAllVolume(params:DcNameQueryParm): Promise<VolumeInfo[]> {
         // TODO temp static
         const url =  StVolumePath;
         const result = await axios.get(url, { params });
-        if (result.status == 200) { return result.data.detail as VolumeInfo[]; }
-        return undefined;
+        return result.data.detail as VolumeInfo[];
     }
 
     /**
@@ -29,10 +28,13 @@ export default class volumeService {
     /**
      * get volume detail
      */
-    static async getStVolumeModel(volumeId:string):Promise<StVolumeModel>{
-        const url =  StVolumePath + '/' + volumeId;
+    static async getStVolumeModel(params:{
+        volumeId:string,
+        dc:string
+    }):Promise<StVolumeModel>{
+        const url =  StVolumePath + '/' + params.volumeId;
         const result = await axios.get(url,{
-            params: { dc:'Easyun' }
+            params: { dc:params.dc }
         });
         return result.data.detail;
     }

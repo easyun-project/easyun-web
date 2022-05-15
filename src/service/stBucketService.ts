@@ -10,20 +10,18 @@ export interface DcNameQueryParm {
 
 export default class bucketService {
 
-    static async listAllBucket(params:DcNameQueryParm): Promise<StBucketModel[] | undefined> {
+    static async listAllBucket(params:DcNameQueryParm): Promise<StBucketModel[]> {
         // TODO temp static
         const url =  StBucketPath;
         const result = await axios.get(url, { params });
-        if (result.status == 200) { return result.data.detail as StBucketModel[]; }
-        return undefined;
+        return result.data.detail as StBucketModel[];
     }
 
     static async getBucketList(params:DcNameQueryParm) {
         // TODO temp static
         const url =  StBucketPath + '/list';
         const result = await axios.get(url, { params });
-        if (result.status == 200) { return result.data.detail; }
-        return undefined;
+        return result.data.detail;
     }
 
     static async getBucketDetail(bucketId:string) {

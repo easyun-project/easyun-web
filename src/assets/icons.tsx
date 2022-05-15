@@ -1,6 +1,4 @@
 import React from 'react';
-
-import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { LoadingOutlined } from '@ant-design/icons';
 
@@ -18,7 +16,7 @@ export default function icons() {
         </a>
         添加按钮
         <button onClick={() => console.log('click')} className='inline text-yellow-550'>
-            <Icon fr={undefined}
+            <Icon
                 icon="carbon:add"
                 className='inline-block mx-1'
                 width="15"
