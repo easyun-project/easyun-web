@@ -25,7 +25,7 @@ export interface TimePeriodItem {
 
 export interface GroupCostUsage {
     service: string
-    cost: CostUsageItem    
+    cost: CostUsageItem
     usage: CostUsageItem
 }
 

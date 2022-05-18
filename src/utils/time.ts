@@ -13,10 +13,10 @@ const TimeUtil = {
     /**
      * 将UTC中央时间转成用户时区对应时间
      * @param date 用户时间
-     * @param formatter 转化格式 - 默认为 YYYY/MM/DD hh:ss
+     * @param formatter 转化格式 - 默认为 YYYY/MM/DD HH:mm:ss
      * @return 用户时区对应时间 String
      */
-    utcConvertTimeZone({ date, formatter = 'YYYY/MM/DD hh:ss' }: UtcConvertTimeZoneParams) {
+    utcConvertTimeZone({ date, formatter = 'YYYY/MM/DD HH:mm:ss' }: UtcConvertTimeZoneParams) {
         return moment(date).tz(this.timeZone).format(formatter);
     }
 };

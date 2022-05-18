@@ -1,5 +1,4 @@
 import React, { useState,useEffect } from 'react';
-import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { Input } from 'antd';
 import { ArrowRightOutlined, TagOutlined } from '@ant-design/icons';
@@ -32,7 +31,6 @@ export default function Tags() {
                 'Value':serverTags[key]
             });
         }
-        console.log(tags);
         dispatch(updateServerTags(tags));
     }
     ,[serverTags]);
@@ -49,13 +47,13 @@ export default function Tags() {
             if(i !== tagKey || !isChanging){
                 tagsArray.push
                 (<div
-                    key={i} className={classnames('rounded-border','p-2','my-4','w-96','grid','grid-cols-4')}>
-                    <div><TagOutlined className={classnames('pr-2')}/>{i}</div>
-                    <div><ArrowRightOutlined className={classnames('pr-2')} />{serverTags[i]}</div>
-                    <div className={classnames('col-start-4')}>
+                    key={i} className='grid grid-cols-4 p-2 my-4 w-96 rounded-border'>
+                    <div><TagOutlined className='pr-2'/>{i}</div>
+                    <div><ArrowRightOutlined className='pr-2' />{serverTags[i]}</div>
+                    <div className='col-start-4'>
                         <Icon fr={undefined}
                             icon="ep:edit"
-                            className={classnames('inline-block','mx-1', 'cursor-pointer')}
+                            className='inline-block mx-1  cursor-pointer'
                             width="24" height="24"
                             color='#dd6b10'
                             onClick={() => {
@@ -66,7 +64,7 @@ export default function Tags() {
                             }} />
                         <Icon fr={undefined}
                             icon="clarity:times-line"
-                            className={classnames('inline-block','mx-1', 'cursor-pointer')}
+                            className='inline-block mx-1  cursor-pointer'
                             width="24" height="24"
                             color='#dd6b10'
                             onClick={() => {
@@ -90,8 +88,8 @@ export default function Tags() {
         {genTagsArray()}
         {isAdding || isChanging
             // 显示添加或者修改的界面
-            ? <div className={classnames('flex','items-center')}>
-                <div className={classnames('flex','active-border','justify-between', 'w-96','p-2')}>
+            ? <div className='flex items-center'>
+                <div className='flex justify-between p-2  w-96 active-border'>
                     <div>
                         <span>Key</span>
                         <Input
@@ -112,12 +110,12 @@ export default function Tags() {
                         />
                     </div>
                 </div>
-                <div className={classnames('justify-center', 'items-center')}>
+                <div className='justify-center  items-center'>
                     {isChanging
                         ? undefined
                         : <Icon fr={undefined}
                             icon="icons8:cancel"
-                            className={classnames('mx-1','cursor-pointer')}
+                            className='mx-1 cursor-pointer'
                             width="24" height="24"
                             color='red'
                             onClick={() => {
@@ -128,7 +126,7 @@ export default function Tags() {
 
                     <Icon fr={undefined}
                         icon="icons8:checked"
-                        className={classnames('mx-1','cursor-pointer')}
+                        className='mx-1 cursor-pointer'
                         width="24" height="24"
                         color="green"
                         onClick={() => {
@@ -157,13 +155,12 @@ export default function Tags() {
             </div>
             // 显示一个添加的按键
             : <button onClick={() => changeIsAdding(true)}
-                className={classnames('inline', 'text-yellow-550')}>
+                className='inline  text-yellow-550'>
                 <Icon icon="carbon:add"
-                    className={classnames('inline-block', 'mx-1')}
+                    className='inline-block  mx-1'
                     width="15"
                     height="15"
                     fr={undefined} />
                 Add key-value tag</button>}
-
     </div>;
 }

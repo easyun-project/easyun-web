@@ -8,7 +8,7 @@ interface CTagsProps{
     changeTags:React.Dispatch<React.SetStateAction<Record<string,string>>>
 }
 
-export default function index(props:CTagsProps) {
+export default function CTags(props:CTagsProps) {
     const { tags,changeTags } = props;
     const [isAdding, changeIsAdding] = useState(false);
     const [isChanging, changeIsChanging] = useState(false);

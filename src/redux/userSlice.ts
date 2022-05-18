@@ -1,35 +1,49 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { UserModel } from '@/constant/user';
 
-const updateUser = 'user/updateUser';
 
 
 export const userAction = (user: UserModel): { payload: UserModel; type: string } => {
     return {
-        type: updateUser,
+        type: 'user/updateUser',
         payload: user,
     };
 };
 
-// const initUser: UserModel | undefined = undefined;
+export interface UserState {
+    loading: boolean,
+    currentUser: {
+        username: string | undefined,
+        accountId: string | undefined,
+        accountType: string | undefined,
+        token: string | undefined,
+        role: string | undefined,
+        deployRegion: string | undefined,
+        loginTime: number | undefined,
+    }
+}
 
-const initUser = {
-    account_id: '',
-    account_type: '',
-    type: '',
-    token: '',
-    loginTime:0
+// const initUser: UserModel | undefined = undefined;
+const initialState: UserState = {
+    loading: true,
+    currentUser: {
+        username: undefined,
+        accountId: undefined,
+        accountType: undefined,
+        token: undefined,
+        role: undefined,
+        deployRegion: undefined,
+        loginTime: undefined,
+    }
 };
+
 
 export const userSlice = createSlice({
     name: 'user',
-    initialState: {
-        loading: true,
-        user: initUser
-    },
+    initialState,
     reducers: {
         updateUser(state, action) {
-            state.user = action.payload;
+            state.currentUser = action.payload;
         }
     },
 });

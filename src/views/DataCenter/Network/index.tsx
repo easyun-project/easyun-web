@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import EipCard from '@/components/Logic/CCard/EipCard';
+import EipCard from '@/components/Datacenter/EipCard';
 import { useNavigate } from 'react-router-dom';
 import { CPartialLoading } from '@/components/Common/CPartialLoading';
 import { Menu, Dropdown } from 'antd';

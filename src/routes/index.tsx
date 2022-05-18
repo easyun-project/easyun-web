@@ -12,7 +12,7 @@ import Event from '@/views/Event';
 //子视图
 import accountRoutes from '@/routes/AccountRoutes';
 import datacenterRoutes from '@/routes/DatacenterRoutes';
-import resourceRoutes from '@/routes/RsourceRoutes';
+import resourceRoutes from '@/routes/ResourceRoutes';
 
 import { Navigate } from 'react-router-dom';
 //权限路由所需
@@ -20,23 +20,25 @@ import store from '@/redux/store';
 
 
 
-
-
 const appRoutes = [
+    {
+        path:'home',
+        element:<Home />
+    },
     {
         path:'datacenter',
         element:<DataCenter />,
         children:datacenterRoutes
     },
     {
-        path:'home',
-        element:<Home />
+        path:'resource',
+        element:<Resource />,
+        children:resourceRoutes
     },
     {
         path:'dashboard',
         element:<Dashboard />
     },
-
     {
         path:'account',
         element:<Account />,
@@ -47,11 +49,6 @@ const appRoutes = [
         element:<Event />
     },
     {
-        path:'resource',
-        element:<Resource />,
-        children:resourceRoutes
-    },
-    {
         path:'*',
         element:<NotFound />
     },
@@ -60,7 +57,7 @@ const appRoutes = [
 export default [
     {
         path:'/',
-        element:<Navigate to='/login' />
+        element:<RequireAuth><Navigate to="/home"/></RequireAuth>
     },
     {
         path:'/login',
@@ -71,12 +68,12 @@ export default [
         element:<Navigate to="/datacenter/overview"/>
     },
     {
-        path:'/account',
-        element:<Navigate to="/account/profile"/>
-    },
-    {
         path:'/resource',
         element:<Navigate to="/resource/overview"/>,
+    },
+    {
+        path:'/account',
+        element:<Navigate to="/account/profile"/>
     },
     {
         path:'*',
@@ -87,12 +84,12 @@ export default [
 
 //权限路由写法
 function RequireAuth({ children }: { children: JSX.Element }) {
-    const token = store.getState().user.user.token;
-    const loginTime = store.getState().user.user.loginTime;
+    const token = store.getState().user.currentUser?.token;
+    const loginTime = store.getState().user.currentUser?.loginTime;
     // const location = useLocation();
     // const token = localStorage.getItem('token');
 
-    if (!token || Date.now() - loginTime > 7200000) {
+    if (!token || loginTime && Date.now() - loginTime > 7200000) {
         //如果未登录或者上次登录时间已超过2小时
     // Redirect them to the /login page, but save the current location they were
     // trying to go to when they were redirected. This allows us to send them
@@ -103,5 +100,3 @@ function RequireAuth({ children }: { children: JSX.Element }) {
     }
     return children;
 }
-
-

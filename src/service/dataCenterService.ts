@@ -1,7 +1,19 @@
-import {DataCenterDefault, DataCenterPath, DcmRegion, DcmSecgroup, DcmStaticip, DcmSubnet,} from '@/constant/apiConst';
-import axios from './axiosConfig';
-// import { getHost } from '@/utils/api';
 import {
+    DataCenterPath,
+    DataCenterDefault,
+    DataCenterSum,
+    DcmSubnet,
+    DcmSecgroup,
+    DcmStaticip
+    // DataCenterList
+} from '@/constant/apiConst';
+import axios from './axiosConfig';
+import { getHeader } from '@/utils/api';
+import {
+    DefaultDataCenterParms,
+    DataCenterParams,
+    DeleteDcParm,
+    EipInfoSimple,
     DataCenterModel,
     DataCenterParms,
     DataCenterSummary,
@@ -10,13 +22,17 @@ import {
     EipInfoSimple,
     RegionItem,
     SecurityGroupDetail,
-    SecurityGroupInfoSimple,
-    SubnetInfo,
+    SecurityGroupInfoSimple, RegionItem, TaskInfo, TaskDetail,
 } from '@/constant/dataCenter';
 
 
 export interface DcNameQueryParm {
     dc: string
+}
+
+export interface DcDefaultQueryParm {
+    dc: string
+    region?: string
 }
 
 
@@ -36,7 +52,6 @@ export default class DataCenterService {
         const url = DataCenterPath;
         const result = await axios.get(url);
         return result.data.detail;
-
     }
 
     /*
@@ -56,8 +71,12 @@ export default class DataCenterService {
     /**
      * 获取创建数据中心默认参数
      */
-    static async getDefaultDcParams(dcName = 'easyun', regionCode = 'ap-northeast-1'): Promise<DefaultDataCenterParms | undefined> {
-        const result = await axios.get(DataCenterDefault + `?dc=${dcName}&regionCode=${regionCode}`);
+    static async getDefaultDcParams(params: DcDefaultQueryParm): Promise<DefaultDataCenterParms | undefined> {
+        const url = DataCenterDefault;
+        const result = await axios.get(url, {
+            params,
+            headers: getHeader()
+        });
         if (result.status == 200) {
             return result.data.detail as DefaultDataCenterParms;
         }
@@ -65,9 +84,11 @@ export default class DataCenterService {
     }
 
 
-    static async getDatacenterRegion(): Promise<RegionItem[] | undefined> {
-        const url = DcmRegion;
-        const result = await axios.get(url);
+    static async getRegionList(): Promise<RegionItem[] | undefined> {
+        const url = DataCenterPath + '/region';
+        const result = await axios.get(url, {
+            headers: getHeader()
+        });
         if (result.status == 200) {
             return result.data.detail as RegionItem[];
         }
@@ -79,21 +100,62 @@ export default class DataCenterService {
      * @param token
      * @param params
      */
-    static async createDataCenter(params: DataCenterParms): Promise<boolean> {
+    static async createDataCenter(params: DataCenterParams): Promise<TaskInfo | undefined> {
         const url = DataCenterPath;
-        const result = await axios.post(url, params);
+        const result = await axios.post(url, params, {
+            headers: getHeader()
+        });
         if (result.status == 200) {
-            return result.data.detail;
+            return result.data.task;
         }
-        return false;
+        return undefined;
+    }
+
+    /**
+     * 删除datacenter
+     */
+    static async deleteDataCenter(params: DeleteDcParm) {
+        const url = DataCenterPath;
+        const result = await axios.delete(url, {
+            data: params,
+            headers: getHeader()
+        });
+        if (result.status == 200) {
+            return result.data.task;
+        }
+        return result.data.message;
+    }
+
+
+    /**
+     * 获取异步任务执行结果
+     */
+    static async getTaskResult(id: string): Promise<TaskDetail | undefined> {
+        const url = DataCenterPath + '/task';
+        const replacedId = id.replaceAll('-', '_');
+        const result = await axios.get(url, {
+            params: {
+                id: replacedId
+            },
+            headers: getHeader()
+        });
+        if (result.status == 200) {
+            return result.data.task as TaskDetail;
+        } else if (result.status == 400) {
+            return result.data.message;
+        }
+        return undefined;
     }
 
     /*
-     * 获取指定数据中心(VPC)相关信息( for overview page)
+     * 获取指定数据中心(VPC)基础服务汇总信息( for overview page)
      */
     static async getDataCenterVpc(params: DcNameQueryParm): Promise<DataCenterSummary | undefined> {
-        const url = DataCenterPath + '/vpc';
-        const result = await axios.get(url, {params});
+        const url = DataCenterSum + '/basic';
+        const result = await axios.get(url, {
+            params,
+            headers: getHeader()
+        });
         if (result.status == 200) {
             return result.data.detail as DataCenterSummary;
         }
@@ -142,7 +204,10 @@ export default class DataCenterService {
      */
     static async deleteEip(params: DeleteEipParams): Promise<Record<'msg', string>> {
         const url = DcmStaticip;
-        const result = await axios.delete(url, {data: params});
+        const result = await axios.delete(url, {
+            data: params,
+            headers: getHeader()
+        });
         return result.data.detail;
 
     }
@@ -161,17 +226,7 @@ export default class DataCenterService {
      */
     static async getEipInfo(params: { dc: string }): Promise<EipInfo[]> {
         const url = DcmStaticip;
-        const result = await axios.get(url, {params});
-        return result.data.detail;
-    }
-
-
-    /**
-     * 删除datacenter
-     */
-    static async deleteDataCenter(dcName: string): Promise<EipInfo[]> {
-        const url = DataCenterPath;
-        const result = await axios.delete(url, {data: {dcName}});
+        const result = await axios.get(url, { params });
         return result.data.detail;
     }
 }

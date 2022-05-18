@@ -23,22 +23,22 @@ export interface VolumeBasic {
   }
 
 export interface StVolumeModel{
-    'volumeAttach': {
-        'attachPath': string
-        'attachSvr': string
-        'attachSvrId': string
-        'attachTime': string
-        'diskType': string
+    volumeAttach: {
+        attachPath: string
+        attachTime: string
+        diskType: string
+        svrId: string
+        tagName: string
       }[],
-    'volumeBasic': VolumeBasic,
-    'volumeConfig': {
-      'isEncrypted': boolean
-      'volumeIops': number
-      'volumeSize': number
-      'volumeThruput': number
-      'volumeType': string
+    volumeBasic: VolumeBasic,
+    volumeConfig: {
+      isEncrypted: boolean
+      volumeIops: number
+      volumeSize: number
+      volumeThruput: number
+      volumeType: string
     },
-    'volumeTags': Record<'Key'|'Value',string>[]
+    userTags: Record<'Key'|'Value',string>[]
   }
 
 export interface VolumeInfo{
@@ -128,24 +128,24 @@ export const VolumeTypeInfo:Record<'gp2'|'gp3'|'io1'|'io2'|'st1'|'sc1'|'standard
     };
 
 export interface AddVolumeParams{
-  'attachPath': string
-  'azName': string
-  'dcName': string
-  'isEncrypted': boolean
-  'svrId': string
-  'tagName': string
-  'volumeIops'?: number
-  'volumeSize': number
-  'volumeThruput'?: number
-  'volumeType': string
+  attachPath: string
+  azName: string
+  dcName: string
+  isEncrypted: boolean
+  svrId: string
+  tagName: string
+  volumeIops?: number
+  volumeSize: number
+  volumeThruput?: number
+  volumeType: string
 }
 
 export interface VolumeInfoSimple{
-      'isAvailable': boolean
-      'tagName': string
-      'volumeAz': string
-      'volumeId': string
-      'volumeSize': number
-      'volumeState': string
-      'volumeType': string
+    isAvailable: boolean
+    tagName: string
+    volumeAz: string
+    volumeId: string
+    volumeSize: number
+    volumeState: string
+    volumeType: string
 }

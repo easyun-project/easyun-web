@@ -11,19 +11,22 @@ i18n
     .init({
         // 引入资源文件
         resources: {
-            en: {
-                translation: enUsTrans,
+            'en-US': {
+                translation: enUsTrans
             },
-            zh: {
-                translation: zhCnTrans,
+            'zh-CN': {
+                translation: zhCnTrans
             },
-            ja: {
-                translation: jaJpTrans,
+            'ja-JP': {
+                translation: jaJpTrans
             },
         },
         // 选择默认语言，选择内容为上述配置中的key，即en/zh/ja
         fallbackLng: 'en',
-        debug: true,
+        // debug: true,
+        detection: {
+            caches: ['localStorage', 'sessionStorage', 'cookie'],
+        },
         interpolation: {
             escapeValue: false, // not needed for react as it escapes by default
         },

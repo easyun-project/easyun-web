@@ -1,6 +1,9 @@
-import DataCenterService from '@/service/dataCenterService';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
-type FlagType = {
+
+
+type FlagIconType = {
     [flag: string]: {
         icon: string
     }
@@ -12,7 +15,7 @@ type RegionType = {
     regionName: string
 }
 
-const flag: FlagType = {
+const FlagIcons: FlagIconType = {
     USA: {
         icon: 'twemoji:flag-united-states'
     },
@@ -73,14 +76,12 @@ const flag: FlagType = {
 };
 
 class FlagUtil {
-    regionList: Array<RegionType> | undefined;
-
+    public regionList: Array<RegionType> | undefined;
     defaultFlag: string;
 
     constructor() {
-        DataCenterService.getDatacenterRegion().then(res => {
-            this.regionList = res;
-        });
+        // this.regionList = store.getState().dataCenter.regionList;
+        this.regionList = useSelector((state: RootState) => state.dataCenter).regionList;
         this.defaultFlag = 'twemoji:flag-united-nations';
     }
 
@@ -90,15 +91,15 @@ class FlagUtil {
      * @return {String} @iconify插件所需要的参数
      */
     getFlagIcon(code: string) {
-        return flag[code]?.icon ?? this.defaultFlag;
+        return FlagIcons[code]?.icon ?? this.defaultFlag;
     }
 
     /**
-     * 根据regionCode获取国旗国家icon
+     * 根据regionCode获取国旗icon
      * 遍历查询regionCode对应的countryCode
      * @param {string} regionCode
      */
-    getFlagIconByRegionCode(regionCode) {
+    getFlagIconByRegion(regionCode) {
         const region = this.regionList?.filter(item => {
             return item.regionCode === regionCode;
         })[0];
@@ -106,16 +107,17 @@ class FlagUtil {
     }
 
     /**
-     * 根据regionName获取国旗国家icon
-     * 遍历查询regionName对应的countryCode
-     * @param {string} regionName
+     * 根据regionCode获取regionName
+     * 遍历查询regionCode对应的countryCode
+     * @param {string} regionCode
      */
-    getFlagIconByRegionName(regionName) {
+    getRegionName(regionCode) {
         const region = this.regionList?.filter(item => {
-            return item.regionName === regionName;
+            return item.regionCode === regionCode;
         })[0];
-        return this.getFlagIcon(region ? region.countryCode : '');
+        return (region ? region.regionName : '');
     }
+
 };
 export default FlagUtil;
 
