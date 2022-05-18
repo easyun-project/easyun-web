@@ -1,26 +1,86 @@
 {
-    "base": {
-        "userMenu": {
-            "Logout": "注销"
-        },
-        "mainMenu": {
-            "home": "首页",
-            "dashboard": "监控面板",
-            "event": "事件日志",
-            "account": "账号管理"
-        },
-        "langMenu": {
-            "title": "中",
-            "language": "简体中文"
-        }    
+  "base": {
+    "userMenu": {
+      "Logout": "用户注销",
+      "Passwd": "修改密码"
     },
-    "home": {
-        "title": "首页",
-        "welcome": "欢迎来到首页"
+    "mainMenu": {
+      "home": "首页",
+      "dashboard": "监控面板",
+      "event": "事件日志",
+      "account": "账号管理"
     },
-    "login": {
-        "title": "登陆到您的账号",
-        "button": "登录",
-        "remember": "记住我"
+    "langMenu": {
+      "title": "中",
+      "language": "简体中文"
     }
+  },
+  "home": {
+    "welcome": "欢迎来到首页",
+    "sortMenu": {
+      "name": "名称",
+      "createdate": "CreateDate",
+      "vpc": "VPC",
+      "region": "区域"
+    },
+    "addButton": "添加数据中心",
+    "title": {
+      "selectDc": "请选择一个数据中心"
+    },
+    "dcCard": {
+      "menu": {
+        "manage": "管理",
+        "resource": "云资源",
+        "delete": "删除",
+        "forceDelete": "强制删除"
+      }
+    }
+  },
+  "login": {
+    "title": "登陆到您的账号",
+    "button": "登录",
+    "remember": "记住我"
+  },
+  "resource": {
+    "overview": {
+      "costCol": {
+        "service": "云服务",
+        "quantity": "用量",
+        "unit": "单位",
+        "cost": "费用"
+      },
+      "costSummary": {
+        "title": "费用汇总"
+      },
+      "lastWeek": {
+        "title": "最近一周每日费用"
+      },
+      "costUsage": {
+        "title": "月度费用及服务用量"
+      },
+      "resSummary": {
+        "title": "云资源汇总",
+        "para": "本数据中心当前使用如下云上资源："
+      },
+      "totalCost": {
+        "forecast": "本月预测费用",
+        "current": "本月产生费用",
+        "last": "上月历史费用"
+      }
+    }
+  },
+  "datacenter": {
+    "overview": {
+      "dcDist": {
+        "title": "数据中心分布",
+        "para": "您正在使用如下云数据中心(VPC)网络服务："
+      },
+      "dcInfo": {
+        "region": "区域:",
+        "createDate": "创建日期:",
+        "vpcid": "VPC ID:",
+        "cidrv4": "CIDR(IPv4):"
+      }
+    }
+  }
 }

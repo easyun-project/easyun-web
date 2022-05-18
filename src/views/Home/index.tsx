@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
-import { classnames } from '@@/tailwindcss-classnames';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import Nodc from './Nodc';
-import DataCenterCard from '@/components/Datacenter/DataCenterCard';
 import { useNavigate } from 'react-router-dom';
 import { Menu, Dropdown, Spin } from 'antd';
+import { classnames } from '@@/tailwindcss-classnames';
+import Nodc from './Nodc';
+import DataCenterCard from '@/components/Datacenter/DataCenterCard';
 import { CButton } from '@/components/Common/CButton';
 import { DownOutlined } from '@ant-design/icons';
 
 
 export default function Home(): JSX.Element {
     const navigate = useNavigate();
+    const { t } = useTranslation();
+
     const [sortBy, changeSortBy] = useState('Name');
 
     const dataCenterState = useSelector((state: RootState) => state.dataCenter);
@@ -28,16 +31,16 @@ export default function Home(): JSX.Element {
     const menu = (
         <Menu onClick={e => { changeSortBy(e.key); }}>
             <Menu.Item key="Name">
-                Name
+                {t('home.sortMenu.name')}
             </Menu.Item>
             <Menu.Item key="CreateDate">
-                CreateDate
+                {t('home.sortMenu.createdate')}
             </Menu.Item>
             <Menu.Item key="VPC" >
-                VPC
+                {t('home.sortMenu.vpc')}
             </Menu.Item>
             <Menu.Item key="Region">
-                Region
+                {t('home.sortMenu.region')}
             </Menu.Item>
         </Menu>
     );
@@ -62,7 +65,7 @@ export default function Home(): JSX.Element {
 
     return (
         <div>
-            <div className={classnames('mx-14', 'mt-2', 'text-2xl', 'align-middle')}>Select a datacenter</div>
+            <div className={classnames('mx-14', 'mt-2', 'text-2xl', 'align-middle')}>{t('home.title.selectDc')}</div>
             <div className={classnames('flex', 'items-center', 'justify-between', 'mx-14')}>
                 <div className={classnames('flex', 'text-sm')}>
                     <div className={classnames()}>sort by </div>
@@ -70,7 +73,7 @@ export default function Home(): JSX.Element {
                         <div className={classnames('text-yellow-550', 'font-bold', 'mx-1', 'cursor-pointer')}>{sortBy} <DownOutlined /></div>
                     </Dropdown>
                 </div>
-                <CButton type="primary" click={() => navigate('/datacenter/add')}>Add Datacenter</CButton>
+                <CButton type="primary" click={() => navigate('/datacenter/add')}>{t('home.addButton')}</CButton>
             </div>
 
             <Spin spinning={dcListLoading} tip="Loading...">{

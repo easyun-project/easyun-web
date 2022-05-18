@@ -1,9 +1,9 @@
 import LanguageDetector from 'i18next-browser-languagedetector';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import enUsTrans from '@/assets/i18n/en-US.json';
-import zhCnTrans from '@/assets/i18n/zh-CN.json';
-import jaJpTrans from '@/assets/i18n/ja-JP.json';
+import enUsTrans from '@/assets/i18n/en-us.json';
+import zhCnTrans from '@/assets/i18n/zh-cn.json';
+import jaJpTrans from '@/assets/i18n/ja-jp.json';
 
 i18n
     .use(LanguageDetector) // 嗅探当前浏览器语言
@@ -11,13 +11,13 @@ i18n
     .init({
         // 引入资源文件
         resources: {
-            en: {
+            'en-US': {
                 translation: enUsTrans
             },
-            zh: {
+            'zh-CN': {
                 translation: zhCnTrans
             },
-            ja: {
+            'ja-JP': {
                 translation: jaJpTrans
             },
         },

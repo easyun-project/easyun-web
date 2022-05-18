@@ -1,45 +1,105 @@
 {
-    "base": {
-        "userMenu": {
-            "Logout": "Logout"
-        },
-        "mainMenu": {
-            "home": "Home",
-            "dashboard": "Dashboard",
-            "event": "Event",
-            "account": "Account"
-        },
-        "langMenu": {
-            "title": "英",
-            "language": "English"
-        }
+  "base": {
+    "userMenu": {
+      "Logout": "Logout",
+      "Passwd": "Change Password"
     },
-    "home": {
-        "title": "Home",
-        "welcome": "Welcome To Home"
+    "mainMenu": {
+      "home": "Home",
+      "dashboard": "Dashboard",
+      "event": "Event",
+      "account": "Account"
     },
-    "login": {
-        "title": "Sign in to your account",
-        "button": "Login",
-        "remember": "Remember me"
-    },
-    "addVolume": {
-        "title": "Add Block Storage(EBS Volume)",
-        "zone": {
-            "title": "Availability Zone",
-            "tip": "Choose the zone in which your volume will reside"
-        },
-        "configuration": {
-            "title": "Volume configuration",
-            "diskConfiguration": {},
-            "multiattachConfiguration": {
-                "disabledTitle": "Multi-Attach is disabled",
-                "disabledTip": "If you enable Multi-Attach, you can attach the volume to up to 16 <a>instances built on the Nitro System</a> in the same Availability Zone. <br> *Be supported with <bold>io1</bold> and <bold>io2</bold> volumes only.",
-                "abledTitle": "Multi-Attach is abled"
-            }
-        },
-        "tags": {
-            "title": "Tags - optional"
-        }
+    "langMenu": {
+      "title": "英",
+      "language": "English"
     }
+  },
+  "home": {
+    "welcome": "Welcome To Home",
+    "sortMenu": {
+      "name": "Name",
+      "createdate": "CreateDate",
+      "vpc": "VPC",
+      "region": "Region"
+    },
+    "addButton": "Add Datacenter",
+    "title": {
+      "selectDc": "Select a datacenter"
+    },
+    "dcCard": {
+      "menu": {
+        "manage": "Manage",
+        "resource": "Resource",
+        "delete": "Delete",
+        "forceDelete": "Force Del"
+      }
+    }
+  },
+  "login": {
+    "title": "Sign in to your account",
+    "button": "Login",
+    "remember": "Remember me"
+  },
+  "addVolume": {
+    "title": "Add Block Storage(EBS Volume)",
+    "zone": {
+      "title": "Availability Zone",
+      "tip": "Choose the zone in which your volume will reside"
+    },
+    "configuration": {
+      "title": "Volume configuration",
+      "diskConfiguration": {},
+      "multiattachConfiguration": {
+        "disabledTitle": "Multi-Attach is disabled",
+        "disabledTip": "If you enable Multi-Attach, you can attach the volume to up to 16 <a>instances built on the Nitro System</a> in the same Availability Zone. <br> *Be supported with <bold>io1</bold> and <bold>io2</bold> volumes only.",
+        "abledTitle": "Multi-Attach is abled"
+      }
+    },
+    "tags": {
+      "title": "Tags - optional"
+    }
+  },
+  "resource": {
+    "overview": {
+      "costCol": {
+        "service": "Service",
+        "quantity": "Quantity",
+        "unit": "Unit",
+        "cost": "Cost"
+      },
+      "costSummary": {
+        "title": "Cost Summary"
+      },
+      "lastWeek": {
+        "title": "Latest week daily cost:"
+      },
+      "costUsage": {
+        "title": "Month cost and usage by service:"
+      },
+      "resSummary": {
+        "title": "Resource Summary",
+        "para": "You are using the following cloud resource in this Datacenter:"
+      },
+      "totalCost": {
+        "forecast": "Forecasted Month Cost",
+        "current": "Current Month Cost",
+        "last": "Last Month Cost"
+      }
+    }
+  },
+  "datacenter": {
+    "overview": {
+      "dcDist": {
+        "title": "DataCenter dcDist",
+        "para": "You are using following datacenter(VPC) networking service:"
+      },
+      "dcInfo": {
+        "region": "Region:",
+        "createDate": "Create Date:",
+        "vpcid": "VPC ID:",
+        "cidrv4": "CIDR(IPv4):"
+      }
+    }
+  }
 }

@@ -22,7 +22,7 @@ export const CHeader = (): JSX.Element => {
     // };
     //multiple language setting
     const { t, i18n } = useTranslation();
-    // const lang = i18n.language === 'zh' ? 'en' : 'zh';
+    // const lang = i18n.language === 'zh-CN' ? 'en-US' : 'zh-CN';
 
     const userState = useSelector((state: RootState) => {
         return state.user.currentUser;
@@ -50,15 +50,15 @@ export const CHeader = (): JSX.Element => {
     const getTitle = (key: string) => {
         switch (key) {
         case 'home':
-            return t('mainMenu.home');
+            return t('base.mainMenu.home');
         case 'dashboard':
-            return t('mainMenu.dashboard');
+            return t('base.mainMenu.dashboard');
         case 'event':
-            return t('mainMenu.event');
+            return t('base.mainMenu.event');
         case 'account':
-            return t('mainMenu.account');
+            return t('base.mainMenu.account');
         default:
-            return t('mainMenu.home');
+            return t('base.mainMenu.home');
         }
     };
 
@@ -77,15 +77,15 @@ export const CHeader = (): JSX.Element => {
         <Menu>
             <Menu.Item onClick={handleLogout} key="logout">{t('base.userMenu.Logout')}</Menu.Item>
             <Menu.Divider></Menu.Divider>
-            <Menu.Item key="changepwd">Change Password</Menu.Item>
+            <Menu.Item key="changepwd">{t('base.userMenu.Passwd')}</Menu.Item>
         </Menu>
     );
 
     const langMenu = (
         <Menu onClick={(e) => i18n.changeLanguage(e.key)}>
-            <Menu.Item  key="en">English</Menu.Item>
-            <Menu.Item  key="zh">简体中文</Menu.Item>
-            <Menu.Item  key="ja">日本語</Menu.Item>
+            <Menu.Item  key="en-US">English</Menu.Item>
+            <Menu.Item  key="zh-CN">简体中文</Menu.Item>
+            <Menu.Item  key="ja-JP">日本語</Menu.Item>
         </Menu>
     );
 

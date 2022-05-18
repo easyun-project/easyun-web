@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Menu, Dropdown, notification } from 'antd';
 import { Icon } from '@iconify/react';
@@ -13,6 +14,7 @@ import { listAllBucket, listAllVolume } from '@/redux/storageSlice';
 
 
 export default function DataCenterCard(props: DataCenterModel) {
+    const { t } = useTranslation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { dcName, vpcCidr, dcRegion, vpcID } = props;
@@ -57,12 +59,23 @@ export default function DataCenterCard(props: DataCenterModel) {
             <Menu.Item key="manage" onClick={() => {
                 initDcManage().then(() => navigate('/datacenter'));
             }}>
-                Manage
+                {t('home.dcCard.menu.manage')}
             </Menu.Item>
             <Menu.Item key="resource" onClick={() => {
                 initResource().then(() => navigate('/resource'));
             }}>
-                Resource
+                {t('home.dcCard.menu.resource')}
+            </Menu.Item>
+            <Menu.Item
+                danger
+                key="delete"
+                onClick={() => {
+                    openNotification('bottomRight');
+                    dispatch(deleteDataCenter({ dcName: dcName }));
+                    navigate('/home');
+                }}
+            >
+                {t('home.dcCard.menu.delete')}
             </Menu.Item>
             <Menu.Item
                 danger
@@ -73,7 +86,7 @@ export default function DataCenterCard(props: DataCenterModel) {
                     navigate('/home');
                 }}
             >
-                Delete
+                {t('home.dcCard.menu.forceDelete')}
             </Menu.Item>
         </Menu>
     );
