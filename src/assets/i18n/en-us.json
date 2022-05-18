@@ -51,5 +51,18 @@
         "tip": "You can create a snapshot to back up your disk.",
         "creat": "Create snapshot",
         "name": "Give your snapshots a name."
+    },
+    "bucketManagePermissions": {
+        "title": "Bucket access permissions",
+        "tip": "Manage the anonymous access to objects in this bucket.You can make all objects private or public(read-only). <br> Alternatively, you can keep your bucket private while making individual objects public(read-only).",
+        "href": "Learn more ablout bucket permissions",
+        "infoTitle": "All objects are private",
+        "infoTip": "Your objects are readable only by you or anyone you give access to.",
+        "infoButton": "Change permissions",
+        "blockAll": "Block <i>all</i> public access",
+        "blockNewACLs": "Block public access to buckets and objects granted through <i>new</i> access control lists(ACLs)",
+        "blockAnyACLs": "Block public access to buckets and objects granted through <i>any</i> access control lists(ACLs)",
+        "blockNewPublic": "Block public access to buckets and objects granted through <i>new</i> public bucket or access point policies",
+        "blockAnyPublic": "Block public and cross-account access to buckets and objects granted through <i>any</i> public bucket or access point policies"
     }
 }

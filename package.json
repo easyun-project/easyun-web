@@ -15,6 +15,7 @@
     },
     "dependencies": {
         "@ant-design/icons": "^4.7.0",
+        "@aws-sdk/client-s3": "^3.88.0",
         "@reduxjs/toolkit": "^1.6.1",
         "antd": "^4.17.3",
         "axios": "^0.26.1",

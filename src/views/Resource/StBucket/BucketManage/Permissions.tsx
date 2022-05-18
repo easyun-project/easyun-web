@@ -3,12 +3,13 @@
  * @Description: one of bucketManage page tabs
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import permissionLogo from '@/assets/images/stbucket.png';
 import { Tree } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
-import { withEdit } from '@/utils/hoc';
-import { Icon } from '@iconify/react';
+// import { withEdit } from '@/utils/hoc';
+// import { Icon } from '@iconify/react';
+import { useTranslation, Trans } from 'react-i18next';
 
 const PermissionCard = ({ statusMsg, changePermission }) => {
     return (
@@ -36,40 +37,68 @@ const PermissionTree = ({ treeData, dashed }) => {
 };
 
 // TODO 确定接口数据结构
-const treeData = [
-    {
-        title: 'parent 1-0',
-        key: '0-0-0',
-        children: [
-            {
-                title: 'parent 1-1',
-                key: '0-0-0-0',
-            },
-            {
-                title: 'parent 1-2',
-                key: '0-0-0-1',
-            },
-            {
-                title: 'parent 1-3',
-                key: '0-0-0-2',
-            },
-            {
-                title: 'parent 1-4',
-                key: '0-0-0-3',
-            }
-        ]
-    }
-];
 
-export default function Permissions({ bucketData }) {
-    const [PermissionTreeA, toggleShow] = withEdit(PermissionTree, () => { }, 'border-dashed border-2');
+export default function Permissions() {
+    const { t } = useTranslation(['translation', 'bucketManagePermissions']);
+    const [changing, setChanging] = useState(false);
+    const [settings, setSettings] = useState<Record<string,boolean>>({});
+    const treeData = [
+        {
+            title: <Trans i18nKey={'bucketManagePermissions.blockAll'}/>,
+            key: '0-0',
+            children: [
+                {
+                    title: <Trans i18nKey={'bucketManagePermissions.blockNewACLs'}/>,
+                    key: 'newAcl',
+                },
+                {
+                    title: <Trans i18nKey={'bucketManagePermissions.blockAnyACLs'}/>,
+                    key: 'allAcl',
+                },
+                {
+                    title: <Trans i18nKey={'bucketManagePermissions.blockNewPublic'}/>,
+                    key: 'newPolicy',
+                },
+                {
+                    title: <Trans i18nKey={'bucketManagePermissions.blockAnyPublic'}/>,
+                    key: 'allPolicy',
+                },
+            ]
+        },
+    ];
+
     return (
         <div className='p-2'>
-            <p className='text-2xl'>Bucket access permissions</p>
-            <p>Manage the anonymous access to objects in this bucket.You can make all objects private or public(read-only).Alternatively, you can keep your bucket private while making individual objects public(read-only).</p>
-            <p className='mt-2 mb-1 font-semibold text-blue-500 cursor-pointer' onClick={() => { window.open('https://aws.amazon.com/cn/s3/?nc2=type_a'); }}>Learn more ablout bucket permissions <Icon className='inline' icon="ri:share-box-fill" fr={undefined} /></p>
-            <PermissionCard statusMsg={bucketData.statusMsg} changePermission={toggleShow} />
-            <PermissionTreeA treeData={treeData} />
+            <div className='text-2xl'>{t('bucketManagePermissions.title')}</div>
+            <Trans i18nKey={'bucketManagePermissions.tip'}/>
+            <div>{t('bucketManagePermissions.href')}</div>
+            <div className='flex'>
+                <div>
+                    <div>{t('bucketManagePermissions.infoTitle')}</div>
+                    <div>{t('bucketManagePermissions.infoTip')}</div>
+                </div>
+                <button onClick={()=>setChanging(!changing)}>{t('bucketManagePermissions.infoButton')}</button>
+            </div>
+            <Tree
+                disabled={!changing}
+                checkable
+                defaultExpandedKeys={['allAcl']}
+                defaultCheckedKeys={['0-0']}
+                onCheck={
+                    checkedKeys=>
+                    {
+                        const keys = checkedKeys as React.Key[];
+                        setSettings({
+                            allPolicy: keys.includes('allPolicy'),
+                            allAcl: keys.includes('allAcl'),
+                            newAcl: keys.includes('newAcl'),
+                            newPolicy: keys.includes('newPolicy')
+                        });
+                    }
+
+                }
+                treeData={treeData}
+            />
         </div>
     );
 }
