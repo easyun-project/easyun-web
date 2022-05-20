@@ -1,33 +1,33 @@
 import CBucketCard from '@/components/Logic/CBucketCard';
-import { useMount } from '@/utils/hooks';
 import { Tabs } from 'antd';
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
+import React, { useState,useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import Objects from './Objects';
 import Permissions from './Permissions';
 import Properties from './Properties';
 import CTags from '@/components/Logic/CTags';
+import { useDispatch,useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { getBucketDetail } from '@/redux/storageSlice';
+
 
 export default function BucketManage() {
     const params = useParams();
+    const  bucketId  = params.bucketId as string;
+    const dispatch = useDispatch();
     const { state } = useLocation();
+    const dc = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
     const bucketList = useSelector((state: RootState) => state.storage.bucketList);
     // just for test
     const demoBucket = bucketList[0];
     const [tags,changeTags] = useState<Record<string,string>>({
         dev:'test'
     });
+    useEffect(()=>{
+        dispatch(getBucketDetail({ bucketId , dc }));
+    },[]);
 
     const { TabPane } = Tabs;
-
-    useMount(() => {
-        // TODO 接口 获取bktDetail 更换 子组件的state
-        // bucketService.getBucket(bktId).then(res => {
-        //     setBucketData(res)
-        // })
-    });
     return (
         <>
             <CBucketCard {...demoBucket} />
@@ -36,7 +36,7 @@ export default function BucketManage() {
                     <Objects bucketData={state} />
                 </TabPane>
                 <TabPane tab="Permissions" key="Permissions">
-                    <Permissions bucketData={state} />
+                    <Permissions />
                 </TabPane>
                 <TabPane tab="Properties" key="Properties">
                     <Properties bucketData={state} />

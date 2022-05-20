@@ -3,12 +3,11 @@ import { TTailwindString } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { Menu, Dropdown } from 'antd';
 import bucketManage from '@/service/stBucketService';
-// import { RootState } from '@/redux/store';
-// import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
 import { deleteStorage } from '@/redux/storageSlice';
 import { useNavigate } from 'react-router-dom';
-// import stbucket from '@@/src/assets/images/stbucket.png';
+import { useDispatch,useSelector } from 'react-redux';
+import { getBucketDetail } from '@/redux/storageSlice';
+import { RootState } from '@/redux/store';
 
 
 export interface BucketCardInfo {
@@ -24,12 +23,14 @@ export interface BucketCardInfo {
 
 const CStBucketCard = (props): JSX.Element => {
     const { bucketId,  bucketRegion, bucketAccess:{ description,status } } = props;
+    const dc = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const init = async ()=> dispatch(getBucketDetail({ bucketId , dc }));
     const menu = (
         <Menu>
             <Menu.Item key="manage" onClick={() => {
-                navigate(`/resource/object/${bucketId}`, { state: props });
+                ()=>navigate(`/resource/object/${bucketId}`, { state: props });
             }}>
                 Manage
             </Menu.Item>

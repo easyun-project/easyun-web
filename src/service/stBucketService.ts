@@ -1,11 +1,15 @@
 import axios from './axiosConfig';
 import { Result } from '@/constant/result';
 import { StBucketPath } from '@/constant/apiConst';
-import { StBucketParms, StBucketModel } from '@/constant/storage';
+import { StBucketParms, StBucketModel,StBucketDetailModel } from '@/constant/storage';
 
 
 export interface DcNameQueryParm {
     dc: string
+}
+
+export interface GetBucketDetailParams extends DcNameQueryParm{
+    bucketId:string
 }
 
 export default class bucketService {
@@ -24,10 +28,12 @@ export default class bucketService {
         return result.data.detail;
     }
 
-    static async getBucketDetail(bucketId:string) {
-        const url = StBucketPath + bucketId;
-        const result = await axios.get(url);
-        return result.data;
+    static async getBucketDetail(params:GetBucketDetailParams):Promise<StBucketDetailModel> {
+        const url = StBucketPath + '/' + params.bucketId;
+        const result = await axios.get(url,{
+            params:{ dc:params.dc }
+        });
+        return result.data.detail;
     }
 
 

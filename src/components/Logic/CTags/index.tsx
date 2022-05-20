@@ -30,7 +30,7 @@ export default function CTags(props:CTagsProps) {
                     key={i} className='grid grid-cols-4 p-2 my-4 w-96 rounded-border '>
                     <div><TagOutlined className='pr-2'/>{i}</div>
                     <div><ArrowRightOutlined className='pr-2' />{tags[i]}</div>
-                    <div className=  'col-start-4 '>
+                    <div className='col-start-4 '>
                         <Icon fr={undefined}
                             icon="ep:edit"
                             className='inline-block mx-1 cursor-pointer'
@@ -98,10 +98,9 @@ export default function CTags(props:CTagsProps) {
                                     changeKey('');
                                     changeValue('');
                                 }}/>}
-
                         <Icon fr={undefined}
                             icon="icons8:checked"
-                            className=  'mx-1 cursor-pointer'
+                            className= 'mx-1 cursor-pointer'
                             width="24" height="24"
                             color="green"
                             onClick={() => {

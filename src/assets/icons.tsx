@@ -1,6 +1,7 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
-import { LoadingOutlined } from '@ant-design/icons';
+import { LoadingOutlined,CheckOutlined,CloseOutlined } from '@ant-design/icons';
+import { Switch } from 'antd';
 
 export default function icons() {
     return <div>
@@ -47,6 +48,11 @@ export default function icons() {
             width="24" height="24"
             color="green"
 
+        />
+        <Switch
+            checkedChildren={<CheckOutlined className= 'align-middle'/>}
+            unCheckedChildren={<CloseOutlined className= 'align-middle'/>}
+            defaultChecked
         />
     </div>;
 }

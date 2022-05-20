@@ -36,7 +36,7 @@ export default [
         element: <BucketPage />
     },
     {
-        path: 'object/:bktId',
+        path: 'object/:bucketId',
         element: <BucketManage />
     },
     {

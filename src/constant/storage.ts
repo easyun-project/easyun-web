@@ -20,6 +20,31 @@ export interface StBucketModel {
     createTime: string
 }
 
+export interface StBucketDetailModel {
+    bucketBasic: {
+      bucketId: string
+      bucketRegion: string
+      bucketUrl: string
+      createTime: string
+    },
+    bucketPermission: {
+      bucketACL: string
+      description: string
+      pubBlockConfig: {
+        BlockPublicAcls: boolean,
+        BlockPublicPolicy: boolean
+        IgnorePublicAcls: boolean
+        RestrictPublicBuckets: boolean
+      },
+      status: string
+    },
+    bucketProperty: {
+      isEncryption: boolean
+      isVersioning: boolean
+    },
+    userTags: Record<'Key'|'Value',string>[]
+}
+
 export interface VolumeBasic {
     createTime: string
     tagName: string

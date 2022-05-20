@@ -3,6 +3,7 @@ import { CheckOutlined, CloseOutlined, InfoCircleOutlined } from '@ant-design/ic
 import { Switch } from 'antd';
 import { Icon } from '@iconify/react';
 
+
 export default function Properties(bucketData) {
     const handleSwtichChange = (key) => {
         return (checked) => {

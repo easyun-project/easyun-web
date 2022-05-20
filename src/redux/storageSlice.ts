@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { BucketCardInfo } from '@/components/Logic/CStorageCard/StBucketCard';
-import bucketService from '@/service/stBucketService';
+import bucketService, { GetBucketDetailParams }from '@/service/stBucketService';
 import volumeService, { DcNameQueryParm } from '@/service/stVolumeService';
-import { StBucketModel, VolumeInfo } from '@/constant/storage';
+import { StBucketModel, VolumeInfo,StBucketDetailModel } from '@/constant/storage';
 
 //获取指定数据中心的Bucket列表
 export const listAllBucket = createAsyncThunk(
@@ -26,12 +26,20 @@ export const getVolumeList = createAsyncThunk(
     }
 );
 
+export const getBucketDetail = createAsyncThunk(
+    'storage/getBucketDetail',
+    async (params: GetBucketDetailParams)  => {
+        return await bucketService.getBucketDetail(params);
+    }
+);
+
 
 export interface StorageState {
     loading: boolean,
     storageList: BucketCardInfo[],
     bucketList: StBucketModel[] ,
     volumeList: VolumeInfo[] ,
+    currentBucket:StBucketDetailModel | 'loading' | 'failed'
 }
 
 const initialState: StorageState = {
@@ -39,6 +47,7 @@ const initialState: StorageState = {
     storageList: [],
     bucketList: [],
     volumeList: [],
+    currentBucket: 'loading',
 };
 
 
@@ -81,7 +90,6 @@ export const storageSlice = createSlice({
         builder.addCase(listAllBucket.rejected, (state: StorageState) => {
             state.loading = false;
         });
-
         builder.addCase(listAllVolume.fulfilled, (state: StorageState, action) => {
             state.loading = false;
             state.volumeList = action.payload;
@@ -91,6 +99,15 @@ export const storageSlice = createSlice({
         });
         builder.addCase(listAllVolume.rejected, (state: StorageState) => {
             state.loading = false;
+        });
+        builder.addCase(getBucketDetail.pending, (state: StorageState) => {
+            state.currentBucket = 'loading';
+        });
+        builder.addCase(getBucketDetail.fulfilled, (state: StorageState, action) => {
+            state.currentBucket = action.payload;
+        });
+        builder.addCase(getBucketDetail.rejected, (state: StorageState) => {
+            state.currentBucket = 'failed';
         });
     }
 });
