@@ -1,14 +1,14 @@
 import CBucketCard from '@/components/Logic/CBucketCard';
 import { Tabs } from 'antd';
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { getBucketDetail } from '@/redux/storageSlice';
 import Objects from './Objects';
 import Permissions from './Permissions';
 import Properties from './Properties';
 import CTags from '@/components/Logic/CTags';
-import { useDispatch,useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-import { getBucketDetail } from '@/redux/storageSlice';
 
 
 export default function BucketManage() {
@@ -20,12 +20,12 @@ export default function BucketManage() {
     const bucketList = useSelector((state: RootState) => state.storage.bucketList);
     // just for test
     const demoBucket = bucketList[0];
-    const [tags,changeTags] = useState<Record<string,string>>({
+    const [tags, changeTags] = useState<Record<string, string>>({
         dev:'test'
     });
     useEffect(()=>{
-        dispatch(getBucketDetail({ bucketId , dc }));
-    },[]);
+        dispatch(getBucketDetail({ bucketId, dc }));
+    }, []);
 
     const { TabPane } = Tabs;
     return (
@@ -39,7 +39,7 @@ export default function BucketManage() {
                     <Permissions />
                 </TabPane>
                 <TabPane tab="Properties" key="Properties">
-                    <Properties bucketData={state} />
+                    <Properties />
                 </TabPane>
                 <TabPane tab="Tags" key="Tags">
                     <CTags tags={tags} changeTags={changeTags}/>

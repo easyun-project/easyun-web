@@ -1,7 +1,7 @@
 // react related
 import * as React from 'react';
 import { useState } from 'react';
-import { useNavigate,useLocation,Outlet } from 'react-router-dom';
+import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 // UI contents
 import { Menu, Table } from 'antd';
 import { classnames } from '@@/tailwindcss-classnames';
@@ -72,7 +72,7 @@ const Resource = (): JSX.Element => {
                         <Menu.Item key="overview">Overview</Menu.Item>
                         <Menu.Item key="server">Server</Menu.Item>
                         <Menu.Item key="volume">Volume</Menu.Item>
-                        <Menu.Item key="bucket">Bucket</Menu.Item>
+                        <Menu.Item key="object">Bucket</Menu.Item>
                         <Menu.Item key="database">Database</Menu.Item>
                         <Menu.Item key="loadbalancer">Load Balancer</Menu.Item>
                         <Menu.Item key="backup">Backup</Menu.Item>

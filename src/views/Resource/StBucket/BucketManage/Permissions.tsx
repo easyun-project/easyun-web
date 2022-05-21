@@ -3,50 +3,23 @@
  * @Description: one of bucketManage page tabs
  */
 
-import React, { useState } from 'react';
-import permissionLogo from '@/assets/images/stbucket.png';
-import { Tree,Spin,Empty,Switch } from 'antd';
-import { CheckOutlined, CloseOutlined, EditOutlined, } from '@ant-design/icons';
-// import { withEdit } from '@/utils/hoc';
-// import { Icon } from '@iconify/react';
+import React, { useEffect, useState } from 'react';
+import { Tree, Spin, Empty, Switch } from 'antd';
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { useTranslation, Trans } from 'react-i18next';
 import WithEdit from './WithEdit';
-import { useDispatch,useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { Icon } from '@iconify/react';
 
-const PermissionCard = ({ statusMsg, changePermission }) => {
-    return (
-        <div className='p-2  mb-2 w-7/12 rounded-lg border-2'>
-            <div className='flex items-center'>
-                <div className='w-20'>
-                    <img src={permissionLogo} />
-                </div>
-                <div className='grow ml-5'>
-                    <div className='font-bold'>{statusMsg}</div>
-                    <div className='leading-tight text-gray-500'>Your objects are readable only by you or anyone you give access to.</div>
-                </div>
-                <div className='mr-5 text-yellow-600 cursor-pointer' onClick={() => changePermission()}>
-                    <p><EditOutlined /> Change permissions</p>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-const PermissionTree = ({ treeData, dashed }) => {
-    return (
-        <Tree className={`${dashed}`} treeData={treeData} autoExpandParent checkable defaultExpandedKeys={['0-0-0']} />
-    );
-};
-
-// TODO 确定接口数据结构
+// TODO 添加对接口的支持
 
 export default function Permissions() {
-    const { t } = useTranslation(['translation', 'bucketManagePermissions']);
-    const initSettings = useSelector((state:RootState)=>state.storage.currentBucket);
+    const { t } = useTranslation();
+    const { currentBucket } = useSelector((state:RootState)=>state.storage);
     const [changing, setChanging] = useState(false);
-    const [settings, setSettings] = useState<Record<string,boolean>>({});
+    const [settings, setSettings] = useState<Record<string, boolean>>({});
+    useEffect(()=>console.log(settings), [settings]);
     const dynamicIcon = ( { checked } ) => (
         checked
             ? <Icon icon="bxs:lock-alt" width='24' className='mr-2 text-red-500'/>
@@ -80,14 +53,14 @@ export default function Permissions() {
         },
     ];
     const defaultCheckedKeys:string[] = [];
-    if(typeof initSettings !== 'string'){
-        for(const key in initSettings.bucketPermission.pubBlockConfig){
-            if(initSettings.bucketPermission.pubBlockConfig[key])defaultCheckedKeys.push(key);
+    if(typeof currentBucket !== 'string'){
+        for(const key in currentBucket.bucketPermission.pubBlockConfig){
+            if(currentBucket.bucketPermission.pubBlockConfig[key])defaultCheckedKeys.push(key);
         }
     }
 
     return (
-        <Spin spinning={initSettings === 'loading'}>
+        <Spin spinning={currentBucket === 'loading'}>
             <div className='p-2'>
                 <div className='text-2xl'>{t('bucketManagePermissions.title')}</div>
                 <Trans i18nKey={'bucketManagePermissions.tip'}/>
@@ -115,13 +88,11 @@ export default function Permissions() {
                             checkedChildren={<CheckOutlined/>}
                             unCheckedChildren={<CloseOutlined/>}/>
                         <span>{t('bucketManagePermissions.infoButton')}</span>
-
                     </div>
-
                 </div>
-                {initSettings === 'failed'
+                {currentBucket === 'failed'
                     ? <Empty/>
-                    : <WithEdit visible={changing} onCancel={()=>setChanging(!changing)}>
+                    : <WithEdit visible={changing} onCancel={()=>setChanging(!changing)} onOk={()=>setChanging(!changing)}>
                         <Tree
                             showIcon
                             disabled={!changing}
@@ -139,7 +110,6 @@ export default function Permissions() {
                                         newPolicy: keys.includes('newPolicy')
                                     });
                                 }
-
                             }
                             treeData={treeData}
                         />

@@ -64,5 +64,21 @@
         "blockAnyACLs": "Block public access to buckets and objects granted through <i>any</i> access control lists(ACLs)",
         "blockNewPublic": "Block public access to buckets and objects granted through <i>new</i> public bucket or access point policies",
         "blockAnyPublic": "Block public and cross-account access to buckets and objects granted through <i>any</i> public bucket or access point policies"
+    },
+    "bucketManageProperties": {
+        "encryptionTitle": "Default encryption",
+        "encryptionOnTitle": "Encryption is enabled",
+        "encryptionOffTitle": "Encryption is disabled",
+        "encryptionOnTip": "Automatically encrypt new objects stored in this bucket.",
+        "encryptionOffTip": "New objects stored in this bucket will not be encrypted.",
+        "versioningTtile": "Object versioning",
+        "versioningTip": "Enable versioning to store ervery change to your object as a version.Versioning can help you recover objects from accidental deletion or overwrite.",
+        "versioningHref": "Learn more ablout versioning",
+        "versioningOnTitle": "Versioning is enabled",
+        "versioningOffTitle": "Versioning is disabled",
+        "versioningOnTip": "Changed versions of your objects will be stored.",
+        "versioningOffTip": "Changed versions of your objects are not being stored.",
+        "versioningInfoTitle": "Each time an object is changed,it is saved as a version.",
+        "versioningInfoTip": "Versions are stored in your bucket and consume your storage space."
     }
 }

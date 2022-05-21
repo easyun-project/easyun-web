@@ -32,7 +32,7 @@ export default [
         element: <AddServer />
     },
     {
-        path: 'bucket',
+        path: 'object',
         element: <BucketPage />
     },
     {
