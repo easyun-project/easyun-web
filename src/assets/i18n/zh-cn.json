@@ -1,6 +1,6 @@
 {
   "home": {
-    "title": "首页",
+    "title" : "首页",
     "welcome": "欢迎来到首页"
   },
   "login": {
@@ -12,30 +12,11 @@
     "home": "首页",
     "dashboard": "监控面板",
     "event": "事件日志",
-    "account": "账号管理"
+    "account": "账号管理" 
   },
   "langMenu": {
     "title": "中",
     "language": "简体中文"
   },
-  "userMenuLogout": "注销",
-  "addVolume": {
-    "configuration": {
-      "multiattachConfiguration": {
-        "abledTitle": "多重连接已启用",
-        "disabledTip": "如果启用 Multi-Attach，您可以将卷附加到同一可用区中最多 16 个<a>基于 Nitro 系统构建的实例</a>。 \n<br> *仅支持 <bold>io1</bold> 和 <bold>io2</bold> 卷。",
-        "disabledTitle": "多连接已禁用"
-      },
-      "title": "卷配置"
-    },
-    "tags": {
-      "title": "标签 - 可选"
-    },
-    "zone": {
-      "tip": "选择您的卷所在的区域",
-      "title": "可用区"
-    },
-    "title": "添加块存储（EBS 卷）"
-  },
-  "Login": "登录"
+  "userMenuLogout": "注销"
 }
