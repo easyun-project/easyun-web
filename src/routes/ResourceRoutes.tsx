@@ -32,11 +32,11 @@ export default [
         element: <AddServer />
     },
     {
-        path: 'bucket',
+        path: 'object',
         element: <BucketPage />
     },
     {
-        path: 'object/:bktId',
+        path: 'object/:bucketId',
         element: <BucketManage />
     },
     {

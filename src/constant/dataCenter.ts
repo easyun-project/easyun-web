@@ -51,10 +51,10 @@ export interface DeleteDcParm {
 export interface DataCenterModel {
     createDate: string
     createUser: string
-    dcAccount: string
+    accountId: string
     dcName: string
-    dcRegion: string
-    vpcCidr: string
+    regionCode: string
+    cidrBlock: string
     vpcID: string
 }
 

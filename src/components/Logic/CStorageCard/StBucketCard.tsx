@@ -1,14 +1,12 @@
 import React from 'react';
-import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
+import { TTailwindString } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { Menu, Dropdown } from 'antd';
 import bucketManage from '@/service/stBucketService';
-// import { RootState } from '@/redux/store';
-// import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { deleteStorage } from '@/redux/storageSlice';
 import { useNavigate } from 'react-router-dom';
-// import stbucket from '@@/src/assets/images/stbucket.png';
+import { useDispatch, useSelector } from 'react-redux';
+import { getBucketDetail, listAllBucket } from '@/redux/storageSlice';
+import { RootState } from '@/redux/store';
 
 
 export interface BucketCardInfo {
@@ -23,13 +21,15 @@ export interface BucketCardInfo {
 }
 
 const CStBucketCard = (props): JSX.Element => {
-    const { bucketId,  bucketRegion, bucketAccess:{ description,status } } = props;
+    const { bucketId,  bucketRegion, bucketAccess:{ description, status } } = props;
+    const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const init = async ()=> dispatch(getBucketDetail({ bucketId, dcName }));
     const menu = (
         <Menu>
             <Menu.Item key="manage" onClick={() => {
-                navigate(`/resource/object/${bucketId}`, { state: props });
+                ()=>navigate(`/resource/object/${bucketId}`, { state: props });
             }}>
                 Manage
             </Menu.Item>
@@ -38,11 +38,11 @@ const CStBucketCard = (props): JSX.Element => {
                 danger
                 key="delete"
                 onClick={() => {
-                    bucketManage.deleteBucket(bucketId)
+                    bucketManage.deleteBucket({ dcName, bucketId })
                         .then(
                             () => {
                                 alert('删除成功');
-                                dispatch(deleteStorage(bucketId));
+                                dispatch(listAllBucket({ dc:dcName }));
                             }
                         );
                 }}

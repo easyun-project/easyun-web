@@ -1,9 +1,9 @@
 import React from 'react';
-import { RootState } from '@/redux/store';
 import CStVolumeCard from '@/components/Logic/CStorageCard/StVolumeCard';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 import { Spin } from 'antd';
 import stdisk from '@@/src/assets/images/stdisk.png';
 
@@ -56,21 +56,19 @@ const WithStorage = (props): JSX.Element => {
     const navigate = useNavigate();
     return (
         <>
-            <div>
-                <div className= 'flex flex-row justify-between items-center '>
-                    <div className= 'text-center '>Sort by Type</div>
-                    <div>
-                        <button className='m-5 btn-yellow'onClick={() =>navigate('/resource/volume/add')}>
+            <div className= 'flex justify-between items-center '>
+                <div className= 'text-center '>Sort by Type</div>
+                <div>
+                    <button className='m-5 btn-yellow'onClick={() =>navigate('/resource/volume/add')}>
                             Add Volume
-                        </button>
-                    </div>
+                    </button>
                 </div>
+            </div>
 
-                <div className= 'flex flex-wrap justify-items-center '>
-                    {props.volumeList.map(vol =>
-                        <CStVolumeCard key={vol.volumeId} {...vol} />
-                    )}
-                </div>
+            <div className= 'flex flex-wrap justify-items-center '>
+                {props.volumeList.map(vol =>
+                    <CStVolumeCard key={vol.volumeId} {...vol} />
+                )}
             </div>
         </>
 
@@ -78,17 +76,14 @@ const WithStorage = (props): JSX.Element => {
 };
 
 const VoluemPage = (): JSX.Element => {
-    // const [storageLoading, changeStorageLoading] = useState(true);
-    // const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
-    // const dispatch = useDispatch();
     const storageSate = useSelector((state: RootState) => state.storage);
-    const { volumeList,loading } = storageSate;
+    const { volumeList, loading } = storageSate;
 
 
     return (
         <Spin spinning={loading} tip="Loading...">
             <div>
-                {volumeList?.length === 0 ? <WithoutStorage /> : <WithStorage volumeList={volumeList} />}
+                {volumeList.length === 0 ? <WithoutStorage /> : <WithStorage volumeList={volumeList} />}
             </div>
         </Spin>
     );

@@ -24,22 +24,19 @@ export const CHeader = (): JSX.Element => {
     const { t, i18n } = useTranslation();
     // const lang = i18n.language === 'zh-CN' ? 'en-US' : 'zh-CN';
 
-    const userState = useSelector((state: RootState) => {
-        return state.user.currentUser;
-    });
+    const userState = useSelector((state: RootState) => state.user.currentUser);
 
-    const [current, changeCurrent] = useState('Home');
-    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [ current, changeCurrent ] = useState('Home');
+    const [ isModalVisible, setIsModalVisible ] = useState(false);
 
     const navigate = useNavigate();
     const handleClick = (e)=>{
-        console.log(e.currentTarget);
         changeCurrent(e.key);
         navigate(`/${e.key}`);
     };
 
     const menu = (
-        <Menu onClick={handleClick} selectedKeys={[current]} mode="vertical" className={classnames('text-xl')}>
+        <Menu onClick={handleClick} selectedKeys={[ current ]} mode="vertical" className={classnames('text-xl')}>
             <Menu.Item key="home">{t('base.mainMenu.home')}</Menu.Item>
             <Menu.Item key="dashboard">{t('base.mainMenu.dashboard')}</Menu.Item>
             <Menu.Item key="event">{t('base.mainMenu.event')}</Menu.Item>
@@ -97,9 +94,12 @@ export const CHeader = (): JSX.Element => {
             >
                 <img src={logo3} alt="logo_easyun03.svg" width="150" />
             </span>
-            <span id='menu'>
+            <span>
                 <Dropdown overlay={menu}>
-                    <a className={classnames('flex','items-baseline')} onClick={e => e.preventDefault()}>
+                    <a className={classnames('flex', 'items-baseline')} onClick={e => {
+                        e.preventDefault();
+                        navigate(`/${current}`);
+                    }}>
                         <span className={classnames('text-2xl')}>{getTitle(current)}</span>
                         <DownOutlined style={{ fontSize: '20px' }}/>
                     </a>
@@ -125,7 +125,7 @@ export const CHeader = (): JSX.Element => {
                     fr={undefined}
                 />
 
-                <Dropdown overlay={systemMenu} trigger={['click']} placement='bottom' className='inline-flex'>
+                <Dropdown overlay={systemMenu} trigger={[ 'click' ]} placement='bottom' className='inline-flex'>
                     <a onClick={e => e.preventDefault()}>
                         <span id="system" className='inline-flex cursor-pointer'>
                             <Icon icon="ant-design:setting-filled"
@@ -140,7 +140,7 @@ export const CHeader = (): JSX.Element => {
 
                 <HostModal title='配置服务器地址' msg='请输入您服务器的地址' isVisible={isModalVisible} setIsVisible={setIsModalVisible} />
 
-                <Dropdown overlay={langMenu} trigger={['click']} className='inline-flex'>
+                <Dropdown overlay={langMenu} trigger={[ 'click' ]} className='inline-flex'>
                     <a onClick={e => e.preventDefault()}>
                         <span id="language" className={classnames('text-lg')} style={{ color: '#5c6f9a' }}>
                             {t('base.langMenu.title')}
@@ -166,7 +166,7 @@ export const CHeader = (): JSX.Element => {
                                 height="25"
                                 fr={undefined}
                             />
-                            <span id="username" className={classnames('ml-1','text-lg')} style={{ color: '#5c6f9a' }}>
+                            <span id="username" className={classnames('ml-1', 'text-lg')} style={{ color: '#5c6f9a' }}>
                                 { userState.username }
                             </span>
                             <Icon icon="iconoir:nav-arrow-down"

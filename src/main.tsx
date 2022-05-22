@@ -16,9 +16,6 @@ import '@/i18n';
 //视图与组件
 import routes from '@/routes';
 import { CFullLoading } from '@/components/Common/CFullLoading';
-// import { CHeader } from './components/Logic/CHeader';
-// import { CFooter } from './components/Logic/CFooter';
-// import { classnames } from '@@/tailwindcss-classnames';
 
 
 const App = (): JSX.Element => {

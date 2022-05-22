@@ -1,8 +1,7 @@
 import React from 'react';
-
-import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
-import { LoadingOutlined } from '@ant-design/icons';
+import { LoadingOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { Switch } from 'antd';
 
 export default function icons() {
     return <div>
@@ -18,7 +17,7 @@ export default function icons() {
         </a>
         添加按钮
         <button onClick={() => console.log('click')} className='inline text-yellow-550'>
-            <Icon fr={undefined}
+            <Icon
                 icon="carbon:add"
                 className='inline-block mx-1'
                 width="15"
@@ -36,19 +35,23 @@ export default function icons() {
         加载图标
         <LoadingOutlined />
         取消图标
-        <Icon fr={undefined}
+        <Icon
             icon="icons8:cancel"
             className='mx-1 cursor-pointer'
             width="24" height="24"
             color='red'
         />
         确认图标
-        <Icon fr={undefined}
+        <Icon
             icon="icons8:checked"
             className='mx-1 cursor-pointer'
             width="24" height="24"
             color="green"
-
+        />
+        <Switch
+            checkedChildren={<CheckOutlined className= 'align-middle'/>}
+            unCheckedChildren={<CloseOutlined className= 'align-middle'/>}
+            defaultChecked
         />
     </div>;
 }

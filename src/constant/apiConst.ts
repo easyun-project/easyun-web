@@ -32,6 +32,7 @@ export const SeverName = '/api/v1/server/name';
 export const StBucketPath = '/api/v1/storage/bucket';
 export const StBucketList = '/api/v1/storage/bucket/list';
 export const StBucketObject = '/api/v1/storage/bucket/object';
+export const StBucketIdValidate = '/api/v1/storage/bucket/vaildate';
 export const StVolumePath = '/api/v1/storage/volume';
 export const StVolumeList = '/api/v1/storage/volume/list';
 

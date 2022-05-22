@@ -1,54 +1,60 @@
 import axios from './axiosConfig';
-import { Result } from '@/constant/result';
-import { StBucketPath } from '@/constant/apiConst';
-import { StBucketParms, StBucketModel } from '@/constant/storage';
+import { StBucketPath, StBucketIdValidate } from '@/constant/apiConst';
+import { StBucketCreateParms, StBucketModel, StBucketDetailModel } from '@/constant/storage';
 
 
 export interface DcNameQueryParm {
-    dc: string
+    dcName: string
+}
+
+export interface GetBucketDetailParams extends DcNameQueryParm{
+    bucketId:string
 }
 
 export default class bucketService {
 
-    static async listAllBucket(params:DcNameQueryParm): Promise<StBucketModel[] | undefined> {
+    static async listAllBucket(params:DcNameQueryParm): Promise<StBucketModel[]> {
         // TODO temp static
         const url =  StBucketPath;
         const result = await axios.get(url, { params });
-        if (result.status == 200) { return result.data.detail as StBucketModel[]; }
-        return undefined;
+        return result.data.detail as StBucketModel[];
     }
 
     static async getBucketList(params:DcNameQueryParm) {
         // TODO temp static
         const url =  StBucketPath + '/list';
         const result = await axios.get(url, { params });
-        if (result.status == 200) { return result.data.detail; }
-        return undefined;
+        return result.data.detail;
     }
 
-    static async getBucketDetail(bucketId:string) {
-        const url = StBucketPath + bucketId;
-        const result = await axios.get(url);
-        return result.data;
+    static async getBucketDetail(params:GetBucketDetailParams):Promise<StBucketDetailModel> {
+        const url = StBucketPath + '/' + params.bucketId;
+        const result = await axios.get(url, {
+            params:{ dc:params.dcName }
+        });
+        return result.data.detail;
     }
 
 
-    static async addBucket<T>(params: StBucketParms): Promise<Result<T>> {
+    static async addBucket(params: StBucketCreateParms): Promise<string> {
         const url =  StBucketPath;
         const result = await axios.post(url, params);
-        return result.data as Result<T>;
+        return result.data;
     }
-
-
     /**
      * delete a bucket
      */
-    static async deleteBucket<T>(params: string): Promise<Result<T>> {
+    static async deleteBucket(data: {dcName:string, bucketId:string}): Promise<string> {
         const url =  StBucketPath;
-        const result = await axios.post(url, { bucketName: params });
-        return result.data as Result<T>;
+        const result = await axios.delete(url, { data });
+        return result.data.message;
     }
-
-
-
+    /**
+     * validate bucketId
+     */
+    static async validateBucketId(params: GetBucketDetailParams): Promise<boolean> {
+        const url =  StBucketIdValidate;
+        const result = await axios.get(url, { params });
+        return result.data.detail.isAvailable;
+    }
 };

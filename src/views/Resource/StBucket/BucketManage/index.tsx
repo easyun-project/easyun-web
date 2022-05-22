@@ -1,47 +1,45 @@
 import CBucketCard from '@/components/Logic/CBucketCard';
-import bucketService from '@/service/stBucketService';
-import { useMount } from '@/utils/hooks';
 import { Tabs } from 'antd';
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { getBucketDetail } from '@/redux/storageSlice';
 import Objects from './Objects';
 import Permissions from './Permissions';
 import Properties from './Properties';
 import CTags from '@/components/Logic/CTags';
 
+
 export default function BucketManage() {
     const params = useParams();
+    const  bucketId  = params.bucketId as string;
+    const dispatch = useDispatch();
     const { state } = useLocation();
-    const [bucketData, setBucketData] = useState(null);
-    const bucketList = useSelector((state: RootState) => state.storage.storageList);
+    const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
+    const bucketList = useSelector((state: RootState) => state.storage.bucketList);
     // just for test
     const demoBucket = bucketList[0];
-    const [tags,changeTags] = useState<Record<string,string>>({
+    const [tags, changeTags] = useState<Record<string, string>>({
         dev:'test'
     });
+    useEffect(()=>{
+        dispatch(getBucketDetail({ bucketId, dcName }));
+    }, []);
 
     const { TabPane } = Tabs;
-
-    useMount(() => {
-        // TODO 接口 获取bktDetail 更换 子组件的state
-        // bucketService.getBucket(bktId).then(res => {
-        //     setBucketData(res)
-        // })
-    });
     return (
         <>
-            <CBucketCard bktDetail={demoBucket} />
+            <CBucketCard {...demoBucket} />
             <Tabs defaultActiveKey="Objects">
                 <TabPane tab="Objects" key="Objects">
                     <Objects bucketData={state} />
                 </TabPane>
                 <TabPane tab="Permissions" key="Permissions">
-                    <Permissions bucketData={state} />
+                    <Permissions />
                 </TabPane>
                 <TabPane tab="Properties" key="Properties">
-                    <Properties bucketData={state} />
+                    <Properties />
                 </TabPane>
                 <TabPane tab="Tags" key="Tags">
                     <CTags tags={tags} changeTags={changeTags}/>
