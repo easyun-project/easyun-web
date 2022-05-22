@@ -30,7 +30,8 @@ export default function Properties() {
                     <p className='font-semibold text-gray-500'>Server-side encryption</p>
                     <p className='font-bold'>Amazon S3 master-key(SSE-S3)</p>
                     {currentBucket === 'failed'
-                        ? <div className='flex items-center my-3'>
+                        ? <Empty/>
+                        : <div className='flex items-center my-3'>
                             <div>
                                 <Switch
                                     checked={isEncryption}
@@ -43,9 +44,7 @@ export default function Properties() {
                                 <p className='font-bold'>{isEncryption ? t('bucketManageProperties.encryptionOnTitle') : t('bucketManageProperties.encryptionOffTitle')}</p>
                                 <p className='text-gray-500'>{isEncryption ? t('bucketManageProperties.encryptionOnTip') : t('bucketManageProperties.encryptionOffTip')}</p>
                             </div>
-                        </div>
-                        : <Empty/>}
-
+                        </div>}
                 </div>
                 <div className='w-7/12'>
                     <p className='my-2 text-2xl'>{t('bucketManageProperties.versioningTtile')}</p>

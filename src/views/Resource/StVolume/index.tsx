@@ -77,7 +77,7 @@ const WithStorage = (props): JSX.Element => {
 
 const VoluemPage = (): JSX.Element => {
     const storageSate = useSelector((state: RootState) => state.storage);
-    const { volumeList,loading } = storageSate;
+    const { volumeList, loading } = storageSate;
 
 
     return (

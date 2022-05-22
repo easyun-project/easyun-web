@@ -1,4 +1,4 @@
-import React,{ useState } from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import { useSelector } from 'react-redux';
@@ -27,9 +27,9 @@ export default function EipDetail() {
     const { servers } = useSelector((state:RootState)=>state.server);
     // const [attachedSvr,changeAttachedSvr] = useState<SeverDetailModel>();
     // const [loading,changeLoading] = useState(false);
-    const [attaching,changeAttaching] = useState(false);
-    const [detaching,changeDetaching] = useState(false);
-    const [selectedSvr, changeSelectedSvr] = useState('');
+    const [ attaching, changeAttaching ] = useState(false);
+    const [ detaching, changeDetaching ] = useState(false);
+    const [ selectedSvr, changeSelectedSvr ] = useState('');
 
     return (
         <div className='flex m-4'>

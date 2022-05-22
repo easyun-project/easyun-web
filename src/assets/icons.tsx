@@ -1,6 +1,6 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
-import { LoadingOutlined,CheckOutlined,CloseOutlined } from '@ant-design/icons';
+import { LoadingOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { Switch } from 'antd';
 
 export default function icons() {
@@ -35,19 +35,18 @@ export default function icons() {
         加载图标
         <LoadingOutlined />
         取消图标
-        <Icon fr={undefined}
+        <Icon
             icon="icons8:cancel"
             className='mx-1 cursor-pointer'
             width="24" height="24"
             color='red'
         />
         确认图标
-        <Icon fr={undefined}
+        <Icon
             icon="icons8:checked"
             className='mx-1 cursor-pointer'
             width="24" height="24"
             color="green"
-
         />
         <Switch
             checkedChildren={<CheckOutlined className= 'align-middle'/>}

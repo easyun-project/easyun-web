@@ -1,8 +1,18 @@
-export interface StBucketParms {
-    bucketName: string;
-    versioningConfiguration: string;
-    bucketEncryption: string;
-    region: string;
+export interface StBucketCreateParms {
+    bucketCreateParm: {
+    bucketACL: string
+    isEncryption: boolean
+    isVersioning: boolean
+    pubBlockConfig: {
+    BlockPublicAcls: boolean
+    BlockPublicPolicy: boolean
+    IgnorePublicAcls: boolean
+    RestrictPublicBuckets: boolean
+    },
+    regionCode: string
+  },
+  bucketId: string
+  dcName: string
 }
 
 export interface StBucketModel {
@@ -42,7 +52,7 @@ export interface StBucketDetailModel {
       isEncryption: boolean
       isVersioning: boolean
     },
-    userTags: Record<'Key'|'Value',string>[]
+    userTags: Record<'Key'|'Value', string>[]
 }
 
 export interface VolumeBasic {
@@ -69,7 +79,7 @@ export interface StVolumeModel{
       volumeThruput: number
       volumeType: string
     },
-    userTags: Record<'Key'|'Value',string>[]
+    userTags: Record<'Key'|'Value', string>[]
   }
 
 export interface VolumeInfo{
@@ -101,10 +111,10 @@ export interface SelectedVolumeTypeInfo{
     isBootvolume: boolean
 }
 
-export const VolumeTypeInfo:Record<'gp2'|'gp3'|'io1'|'io2'|'st1'|'sc1'|'standard',SelectedVolumeTypeInfo> = {
+export const VolumeTypeInfo:Record<'gp2'|'gp3'|'io1'|'io2'|'st1'|'sc1'|'standard', SelectedVolumeTypeInfo> = {
     gp2: {
         typeDesc:'General Purpose SSD (gp2)',
-        volumeSize:[1,16384],
+        volumeSize:[1, 16384],
         volumeIops: null,    //固定为{volumeSize}*100,
         volumeThruput: null,
         isMultiattach: false,
@@ -112,7 +122,7 @@ export const VolumeTypeInfo:Record<'gp2'|'gp3'|'io1'|'io2'|'st1'|'sc1'|'standard
     },
     gp3: {
         typeDesc:'General Purpose SSD (gp3)',
-        volumeSize:[1,16384],
+        volumeSize:[1, 16384],
         volumeIops:[3000, 16000],
         volumeThruput:[1, 1000],
         isMultiattach: false,
@@ -120,7 +130,7 @@ export const VolumeTypeInfo:Record<'gp2'|'gp3'|'io1'|'io2'|'st1'|'sc1'|'standard
     },
     io1: {
         typeDesc:'Provisioned IOPS SSD (io1)',
-        volumeSize:[4,16384],
+        volumeSize:[4, 16384],
         volumeIops:[100, 64000],
         volumeThruput: null,
         isMultiattach: true,
@@ -128,7 +138,7 @@ export const VolumeTypeInfo:Record<'gp2'|'gp3'|'io1'|'io2'|'st1'|'sc1'|'standard
     },
     io2: {
         typeDesc:'Provisioned IOPS SSD (io2)',
-        volumeSize:[8,16384],
+        volumeSize:[8, 16384],
         volumeIops:[100, 256000],
         volumeThruput: null,
         isMultiattach: true,
@@ -136,7 +146,7 @@ export const VolumeTypeInfo:Record<'gp2'|'gp3'|'io1'|'io2'|'st1'|'sc1'|'standard
     },
     st1:{
         typeDesc:'Throughput Optimized HDD (st1)',
-        volumeSize:[125,16384],
+        volumeSize:[125, 16384],
         volumeIops: null,
         volumeThruput: null,
         isMultiattach: false,
@@ -144,7 +154,7 @@ export const VolumeTypeInfo:Record<'gp2'|'gp3'|'io1'|'io2'|'st1'|'sc1'|'standard
     },
     sc1:{
         typeDesc:'Cold HDD (sc1)',
-        volumeSize:[125,16384],
+        volumeSize:[125, 16384],
         volumeIops: null,
         volumeThruput: null,
         isMultiattach: false,
@@ -152,7 +162,7 @@ export const VolumeTypeInfo:Record<'gp2'|'gp3'|'io1'|'io2'|'st1'|'sc1'|'standard
     },
     standard:{
         typeDesc:'Magnetic (standard)',
-        volumeSize:[1,1024],
+        volumeSize:[1, 1024],
         volumeIops: null,
         volumeThruput: null,
         isMultiattach: false,

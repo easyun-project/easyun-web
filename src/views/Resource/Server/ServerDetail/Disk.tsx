@@ -1,12 +1,12 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
-import { useState,useEffect } from 'react';
-import { Tooltip, Skeleton,Menu, Dropdown,Modal,Radio,Space } from 'antd';
+import { useState, useEffect } from 'react';
+import { Tooltip, Skeleton, Menu, Dropdown, Modal, Radio, Space } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { classnames } from '@@/tailwindcss-classnames';
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { StVolumeModel,AddVolumeParams,VolumeInfo } from '@/constant/storage';
+import { StVolumeModel, AddVolumeParams, VolumeInfo } from '@/constant/storage';
 import { getServerDetail } from '@/redux/serverSlice';
 import { listAllVolume } from '@/redux/storageSlice';
 import { LoadingOutlined } from '@ant-design/icons';
@@ -24,38 +24,38 @@ interface DiskProps{
 
 function ExistDisk(props:DiskProps) {
     const dispatch = useDispatch();
-    const { availablePaths, changeAvaliablePaths,volumeId } = props;
+    const { availablePaths, changeAvaliablePaths, volumeId } = props;
     const svrId = useSelector((state: RootState) =>state.server.currentServer!.svrProperty.instanceId);
     const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
-    const [diskInfo, changeDiskInfo] = useState<'loading'|StVolumeModel>('loading');
-    const [detaching, changeDetaching] = useState(false);
+    const [ diskInfo, changeDiskInfo ] = useState<'loading'|StVolumeModel>('loading');
+    const [ detaching, changeDetaching ] = useState(false);
     const svrStatus = useSelector((state: RootState) =>state.server.currentServer!.svrProperty.status);
     useEffect(
         ()=>{
-            volumeService.getStVolumeModel({ volumeId,dc:dcName }).then(
+            volumeService.getStVolumeModel({ volumeId, dc:dcName }).then(
                 res=>changeDiskInfo(res),
                 error=>console.log(error)
-            );},[]);
+            );}, []);
 
     useEffect(
         ()=>{
             if(Object.keys(diskInfo).length !== 0 && diskInfo !== 'loading')
             // 在获取到这块盘的attachpath后就把availablePaths中的去掉
             {
-                const paths = [...availablePaths];
+                const paths = [ ...availablePaths ];
                 const volumeAttachInfo = diskInfo.volumeAttach.filter((item)=>item.svrId === svrId)[0];
-                paths.splice(paths.indexOf(volumeAttachInfo?.attachPath),1);
+                paths.splice(paths.indexOf(volumeAttachInfo?.attachPath), 1);
                 changeAvaliablePaths(paths);}
-        },[diskInfo]);
+        }, [ diskInfo ]);
 
-    useEffect(()=>{dispatch(listAllVolume({ dc:dcName }));},[svrStatus]);
+    useEffect(()=>{dispatch(listAllVolume({ dc:dcName }));}, [ svrStatus ]);
 
 
     if( diskInfo === 'loading')
     { return(<Skeleton active />); }
     else if (Object.keys(diskInfo).length === 0){ return <></>; }
     else {
-        const { volumeConfig,volumeAttach } = diskInfo;
+        const { volumeConfig, volumeAttach } = diskInfo;
         const volumeAttachInfo = volumeAttach.filter((item)=>item.svrId === svrId)[0];
         const detachDisk = ()=>{
             changeDetaching(true);
@@ -80,7 +80,7 @@ function ExistDisk(props:DiskProps) {
                 volumeId:diskInfo.volumeBasic.volumeId,
                 diskPath:volumeAttachInfo.attachPath
             }).then(
-                ()=>{volumeService.deleteVolume({ dcName,volumeIds:[props.volumeId] });}
+                ()=>{volumeService.deleteVolume({ dcName, volumeIds:[ props.volumeId ] });}
             ).then(
                 ()=> dispatch(getServerDetail({ serverId: svrId }))
             ).then(()=>()=>changeDetaching(false));
@@ -97,8 +97,8 @@ function ExistDisk(props:DiskProps) {
                 </Menu.Item>
             </Menu>);
         return (
-            <div className={classnames('rounded-border', 'm-2','2xl:w-1/3','lg:w-1/2','md:w-96')}>
-                <div className={classnames('flex','m-2')}>
+            <div className={classnames('rounded-border', 'm-2', '2xl:w-1/3', 'lg:w-1/2', 'md:w-96')}>
+                <div className={classnames('flex', 'm-2')}>
                     <span><Icon icon={ volumeAttachInfo.diskType === 'system' ? 'icon-park-outline:folder-settings' : 'icon-park-outline:solid-state-disk'} width="64" fr={undefined}/> </span>
                     <div className='grow mx-3'>
                         <div className={classnames('flex')}>
@@ -118,23 +118,23 @@ function ExistDisk(props:DiskProps) {
                             </span>
                         </div>
 
-                        <div className={classnames('flex','mt-2','justify-between')}>
-                            <div className={classnames('flex','flex-row')}>
+                        <div className={classnames('flex', 'mt-2', 'justify-between')}>
+                            <div className={classnames('flex', 'flex-row')}>
                                 <span>size(GiB):</span>
                                 <span>{volumeConfig?.volumeSize}GB</span>
                             </div>
-                            <div className={classnames('flex','flex-row')}>
+                            <div className={classnames('flex', 'flex-row')}>
                                 <span>IOPS:</span>
                                 <span>{volumeConfig?.volumeIops ? volumeConfig.volumeIops : 'Null'}</span>
                             </div>
-                            <div className={classnames('flex','flex-row')}>
+                            <div className={classnames('flex', 'flex-row')}>
                                 <span>Thruputs(MB/s):</span>
                                 <span>{volumeConfig?.volumeThruput ? volumeConfig.volumeThruput : 'Null'}</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className={classnames('flex','justify-between','border-t-2','border-gray-300','border-dashed','ml-12','mr-6','p-2')}>
+                <div className={classnames('flex', 'justify-between', 'border-t-2', 'border-gray-300', 'border-dashed', 'ml-12', 'mr-6', 'p-2')}>
                     <div>
                         <span>Disk path:</span>
                         <span className={classnames('font-bold')}>{ volumeAttachInfo.attachPath}</span>
@@ -152,21 +152,21 @@ interface NewDiskProps {
 
 function NewDisk(props:NewDiskProps) {
     const dispatch = useDispatch();
-    const { changeIsAdding,availablePaths } = props;
+    const { changeIsAdding, availablePaths } = props;
     const InstanceId = useSelector((state: RootState) => {
         return state.server.currentServer!.svrProperty.instanceId;
     });
     const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
-    const azName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcRegion);
+    const azName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.regionCode);
     const instanceName = useSelector((state: RootState) => state.server.currentServer!.svrProperty.instanceName);
-    const [creating,changeCreating] = useState(false);
+    const [ creating, changeCreating ] = useState(false);
     const { newDiskProps, newDisk } = useNewDisk(availablePaths);
     return (
-        <div className={classnames('flex','items-center')}>
+        <div className={classnames('flex', 'items-center')}>
             {/* 添加disk框体 */}
             {newDisk}
             {/* 确认模组 */}
-            <div className={classnames('items-center','justify-center')}>
+            <div className={classnames('items-center', 'justify-center')}>
                 {creating
                     ? <LoadingOutlined/>
                     : <>
@@ -179,7 +179,7 @@ function NewDisk(props:NewDiskProps) {
 
                         <Icon
                             icon="icons8:checked"
-                            className={classnames('mx-1','cursor-pointer')}
+                            className={classnames('mx-1', 'cursor-pointer')}
                             width="24" height="24"
                             color="green"
                             onClick={() => {
@@ -215,6 +215,7 @@ export default function Disk():JSX.Element {
         }
         return arr;
     };
+
     const dispatch = useDispatch();
 
     const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
@@ -223,11 +224,11 @@ export default function Disk():JSX.Element {
     const allDisks = useSelector((state: RootState) => state.storage.volumeList!);
     const allServers = useSelector((state: RootState) => state.server.servers);
 
-    const [isAdding, changeIsAdding] = useState(false);
-    const [availablePaths, changeAvaliablePaths] = useState<string[]>(getEN());
-    const [isModalVisible, changeIsModalVisible] = useState(false);
-    const [seletedDisk, changeSeletedDisk] = useState('');
-    const [confirmLoading,changeConfirmLoading] = useState(false);
+    const [ isAdding, changeIsAdding ] = useState(false);
+    const [ availablePaths, changeAvaliablePaths ] = useState<string[]>(getEN());
+    const [ isModalVisible, changeIsModalVisible ] = useState(false);
+    const [ seletedDisk, changeSeletedDisk ] = useState('');
+    const [ confirmLoading, changeConfirmLoading ] = useState(false);
     // this function is used to judge a disk can be attached
     const isAvailable = (disk:VolumeInfo) =>{
         const svrAz = allServers.filter(svr => svr.svrId === svrId)[0].azName;

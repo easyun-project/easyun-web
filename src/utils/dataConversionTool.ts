@@ -3,8 +3,8 @@ export type UnitType = {
     unit: string
 }
 
-const UnitList = ['Byte', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB'];
-const commonUnitList = ['K', 'M'];
+const UnitList = [ 'Byte', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB' ];
+const commonUnitList = [ 'K', 'M' ];
 
 const DataConversionTool = {
     /**

@@ -16,7 +16,7 @@ export default function BucketManage() {
     const  bucketId  = params.bucketId as string;
     const dispatch = useDispatch();
     const { state } = useLocation();
-    const dc = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
+    const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
     const bucketList = useSelector((state: RootState) => state.storage.bucketList);
     // just for test
     const demoBucket = bucketList[0];
@@ -24,7 +24,7 @@ export default function BucketManage() {
         dev:'test'
     });
     useEffect(()=>{
-        dispatch(getBucketDetail({ bucketId, dc }));
+        dispatch(getBucketDetail({ bucketId, dcName }));
     }, []);
 
     const { TabPane } = Tabs;

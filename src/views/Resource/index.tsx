@@ -58,7 +58,7 @@ const Resource = (): JSX.Element => {
     // };
     const location = useLocation();
     const currentTab = location.pathname.split('/').at(2) as string;
-    const [current, changeCurrent] = useState(currentTab);
+    const [ current, changeCurrent ] = useState(currentTab);
     const navigate = useNavigate();
     const handleClick = (e) => {
         changeCurrent(e.key);
@@ -68,7 +68,7 @@ const Resource = (): JSX.Element => {
         <>
             <div>
                 <div className={classnames('m-3')}>
-                    <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" >
+                    <Menu onClick={handleClick} selectedKeys={[ current ]} mode="horizontal" >
                         <Menu.Item key="overview">Overview</Menu.Item>
                         <Menu.Item key="server">Server</Menu.Item>
                         <Menu.Item key="volume">Volume</Menu.Item>

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
-import { Menu, Dropdown,message } from 'antd';
+import { Menu, Dropdown, message } from 'antd';
 import { useDispatch } from 'react-redux';
-import { useNavigate,Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { VolumeInfo } from '@/constant/storage';
 // import serverService from '@/service/serverService';
 import volumeService from '@/service/stVolumeService';
@@ -13,12 +13,9 @@ import { listAllVolume } from '@/redux/storageSlice';
 
 
 const CStVolumeCard = (props: VolumeInfo): JSX.Element => {
-    const { volumeId,volumeAz,volumeSize,volumeAttach } = props;
+    const { volumeId, volumeAz, volumeSize, volumeAttach } = props;
     const navigate = useNavigate();
     const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
-    // const userState = useSelector((state: RootState) => {
-    //     return state.user.user;
-    // });
     const dispatch = useDispatch();
     const menu = (
         <Menu>
@@ -32,7 +29,7 @@ const CStVolumeCard = (props: VolumeInfo): JSX.Element => {
                 key="delete"
                 onClick={()=>{
                     //TODO:此处还需要解绑一下
-                    volumeService.deleteVolume({ dcName,volumeIds: [volumeId] }).then(()=>
+                    volumeService.deleteVolume({ dcName, volumeIds: [ volumeId ] }).then(()=>
                     {
                         dispatch(listAllVolume({ dc: dcName }));
                         message.info('Delete volume success');
@@ -70,10 +67,10 @@ const CStVolumeCard = (props: VolumeInfo): JSX.Element => {
                                 ? 'Not attached'
                                 : <>
                                     Attached to
-                                    {volumeAttach.map((svr,index)=>
+                                    {volumeAttach.map((svr, index)=>
                                         <Link to={'/resource/server/' + svr.svrId} className='ml-1 text-blue-600' key={svr.svrId + volumeId}>
                                             <span>
-                                                <span>{svr.tagName}</span>
+                                                <span>{svr.svrId}</span>
                                                 <span>{index === volumeAttach.length - 1 ? '' : ','}</span>
                                             </span>
                                         </Link>)

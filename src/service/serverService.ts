@@ -1,4 +1,4 @@
-import { ServerDetail, ServerImages, ServerInstypes, ServerInsfamily, ServerAction,SeverEipPath,SeverConfigPath,SeverTagsPath,SeverDiskPath,SeverSecgroupPath, ServerPath, SeverName } from '@/constant/apiConst';
+import { ServerDetail, ServerImages, ServerInstypes, ServerInsfamily, ServerAction, SeverEipPath, SeverConfigPath, SeverTagsPath, SeverDiskPath, SeverSecgroupPath, ServerPath, SeverName } from '@/constant/apiConst';
 import axios from './axiosConfig';
 import { ServerModel, SeverDetailModel } from '@/constant/server';
 import { amiInfo } from '@/components/Logic/CAmi';
@@ -169,9 +169,9 @@ export default class serverService {
     /**
      * detach or attach eip
      */
-    static async bindServerEip(data:BindServerEipParams): Promise<Record<'msg',string>> {
+    static async bindServerEip(data:BindServerEipParams): Promise<Record<'msg', string>> {
         const url =  SeverEipPath;
-        const result = await axios.put(url,data);
+        const result = await axios.put(url, data);
         return result.data.detail;
     }
     /**
@@ -180,21 +180,21 @@ export default class serverService {
     static async changeServerConfig(data:ChangeServerConfigParams): Promise<{'new_name': string[],
     'svr_ids': string[]}> {
         const url =  SeverConfigPath;
-        const result = await axios.post(url,data);
+        const result = await axios.post(url, data);
         return result.data.detail;
     }
     /**
      * update or create new server tag
      */
-    static async updateServerTags(data:UpdateServerTagsParams): Promise<{Key: string,Value: string}[]> {
+    static async updateServerTags(data:UpdateServerTagsParams): Promise<{Key: string, Value: string}[]> {
         const url =  SeverTagsPath + data.svrId;
-        const result = await axios.put(url,data.tag);
+        const result = await axios.put(url, data.tag);
         return result.data.detail;
     }
     /**
      * delete server tag
      */
-    static async deleteServerTags(data:UpdateServerTagsParams): Promise<{Key: string,Value: string}[]> {
+    static async deleteServerTags(data:UpdateServerTagsParams): Promise<{Key: string, Value: string}[]> {
         const url =  SeverTagsPath + data.svrId;
         const result = await axios.delete(url,
             {
@@ -208,7 +208,7 @@ export default class serverService {
      */
     static async bindServerDisk(data:BindServerDiskParams): Promise<string> {
         const url =  SeverDiskPath;
-        const result = await axios.put(url,data
+        const result = await axios.put(url, data
         );
         return result.data.detail;
     }
@@ -217,7 +217,7 @@ export default class serverService {
      */
     static async bindServerSecgroup(data:BindServerSecgroupParams): Promise<string> {
         const url =  SeverSecgroupPath;
-        const result = await axios.put(url,data
+        const result = await axios.put(url, data
         );
         return result.data.detail;
     }
@@ -229,7 +229,7 @@ export default class serverService {
       'Svr_Id': string
     }[]> {
         const url =  SeverName;
-        const result = await axios.put(url,data
+        const result = await axios.put(url, data
         );
         return result.data.detail;
     }
