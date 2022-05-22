@@ -1,9 +1,9 @@
 import LanguageDetector from 'i18next-browser-languagedetector';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import enUsTrans from '@/assets/i18n/en-us.json';
-import zhCnTrans from '@/assets/i18n/zh-cn.json';
-import jaJpTrans from '@/assets/i18n/ja-jp.json';
+import enUsTrans from './en-us.json';
+import zhCnTrans from './zh-cn.json';
+import jaJpTrans from './ja-jp.json';
 
 i18n
     .use(LanguageDetector) // 嗅探当前浏览器语言
@@ -25,7 +25,7 @@ i18n
         fallbackLng: 'en',
         // debug: true,
         detection: {
-            caches: ['localStorage', 'sessionStorage', 'cookie'],
+            caches: [ 'localStorage', 'sessionStorage', 'cookie' ],
         },
         interpolation: {
             escapeValue: false, // not needed for react as it escapes by default

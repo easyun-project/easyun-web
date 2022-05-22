@@ -34,6 +34,9 @@
         "delete": "删除",
         "forceDelete": "强制删除"
       }
+    },
+    "message": {
+      "welcome": ""
     }
   },
   "login": {

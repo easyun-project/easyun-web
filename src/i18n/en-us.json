@@ -1,168 +1,172 @@
 {
-    "login": {
-        "title": "Sign in to your account",
-        "button": "Login",
-        "remember": "Remember me"
+  "login": {
+    "title": "Sign in to your account",
+    "button": "Login",
+    "remember": "Remember me"
+  },
+  "mainMenu": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "event": "Event",
+    "account": "Account"
+  },
+  "langMenu": {
+    "title": "英",
+    "language": "English"
+  },
+  "userMenuLogout": "Logout",
+  "addVolume": {
+    "title": "Add Block Storage(EBS Volume)",
+    "zone": {
+      "title": "Availability Zone",
+      "tip": "Choose the zone in which your volume will reside"
+    },
+    "configuration": {
+      "title": "Volume configuration",
+      "diskConfiguration": {},
+      "multiattachConfiguration": {
+        "disabledTitle": "Multi-Attach is disabled",
+        "disabledTip": "If you enable Multi-Attach, you can attach the volume to up to 16 <a>instances built on the Nitro System</a> in the same Availability Zone. <br> *Be supported with <bold>io1</bold> and <bold>io2</bold> volumes only.",
+        "abledTitle": "Multi-Attach is abled"
+      }
+    },
+    "tags": {
+      "title": "Tags - optional"
+    }
+  },
+  "Login": "login",
+  "volumeManageAttachment": {
+    "title": "Attach to an instance",
+    "tip": "Attaching a disk is like plugging in an additional driver to your instance.",
+    "attachTip": "You can only attach this disk to instances in the same region and zone.",
+    "extraTip": "You may still need to mount and format your disks using this instace's disk utilities.",
+    "href": "Learn more about preparing attached disks for use in Linux/Unix"
+  },
+  "volumeManageSnapshots": {
+    "title": "Manual snapshots",
+    "tip": "You can create a snapshot to back up your disk.",
+    "creat": "Create snapshot",
+    "name": "Give your snapshots a name."
+  },
+  "bucketManagePermissions": {
+    "title": "Bucket access permissions",
+    "tip": "Manage the anonymous access to objects in this bucket.You can make all objects private or public(read-only). <br> Alternatively, you can keep your bucket private while making individual objects public(read-only).",
+    "href": "Learn more ablout bucket permissions",
+    "infoTitle": "All objects are private",
+    "infoTip": "Your objects are readable only by you or anyone you give access to.",
+    "infoButton": "Change permissions",
+    "blockAll": "Block <i>all</i> public access",
+    "blockNewACLs": "Block public access to buckets and objects granted through <i>new</i> access control lists(ACLs)",
+    "blockAnyACLs": "Block public access to buckets and objects granted through <i>any</i> access control lists(ACLs)",
+    "blockNewPublic": "Block public access to buckets and objects granted through <i>new</i> public bucket or access point policies",
+    "blockAnyPublic": "Block public and cross-account access to buckets and objects granted through <i>any</i> public bucket or access point policies"
+  },
+  "bucketManageProperties": {
+    "encryptionTitle": "Default encryption",
+    "encryptionOnTitle": "Encryption is enabled",
+    "encryptionOffTitle": "Encryption is disabled",
+    "encryptionOnTip": "Automatically encrypt new objects stored in this bucket.",
+    "encryptionOffTip": "New objects stored in this bucket will not be encrypted.",
+    "versioningTtile": "Object versioning",
+    "versioningTip": "Enable versioning to store ervery change to your object as a version.Versioning can help you recover objects from accidental deletion or overwrite.",
+    "versioningHref": "Learn more ablout versioning",
+    "versioningOnTitle": "Versioning is enabled",
+    "versioningOffTitle": "Versioning is disabled",
+    "versioningOnTip": "Changed versions of your objects will be stored.",
+    "versioningOffTip": "Changed versions of your objects are not being stored.",
+    "versioningInfoTitle": "Each time an object is changed,it is saved as a version.",
+    "versioningInfoTip": "Versions are stored in your bucket and consume your storage space."
+  },
+  "addBucket": {
+    "title": "Add Cloud Storage(S3 Bucket)",
+    "locationTitle": "Select your bucket location",
+    "locationTip": "You are creating this bucket in {{regionCity}}, all zones ({{region}})",
+    "locationButton": "Change AWS Region",
+    "urlTitle": "Identify your Bucket",
+    "tip": "The name of your bucket must be unique across all of Amazon Lightsail and Amazon S3. It must also be lower-case, and DNS-compliant.",
+    "bucketUrlHint": "The domain of your bucket will be:"
+  },
+  "base": {
+    "userMenu": {
+      "Logout": "Logout",
+      "Passwd": "Change Password"
     },
     "mainMenu": {
-        "home": "Home",
-        "dashboard": "Dashboard",
-        "event": "Event",
-        "account": "Account"
+      "home": "Home",
+      "dashboard": "Dashboard",
+      "event": "Event",
+      "account": "Account"
     },
     "langMenu": {
-        "title": "英",
-        "language": "English"
-    },
-    "userMenuLogout": "Logout",
-    "addVolume": {
-        "title": "Add Block Storage(EBS Volume)",
-        "zone": {
-            "title": "Availability Zone",
-            "tip": "Choose the zone in which your volume will reside"
-        },
-        "configuration": {
-            "title": "Volume configuration",
-            "diskConfiguration": {},
-            "multiattachConfiguration": {
-                "disabledTitle": "Multi-Attach is disabled",
-                "disabledTip": "If you enable Multi-Attach, you can attach the volume to up to 16 <a>instances built on the Nitro System</a> in the same Availability Zone. <br> *Be supported with <bold>io1</bold> and <bold>io2</bold> volumes only.",
-                "abledTitle": "Multi-Attach is abled"
-            }
-        },
-        "tags": {
-            "title": "Tags - optional"
-        }
-    },
-    "Login": "login",
-    "volumeManageAttachment": {
-        "title": "Attach to an instance",
-        "tip": "Attaching a disk is like plugging in an additional driver to your instance.",
-        "attachTip": "You can only attach this disk to instances in the same region and zone.",
-        "extraTip": "You may still need to mount and format your disks using this instace's disk utilities.",
-        "href": "Learn more about preparing attached disks for use in Linux/Unix"
-    },
-    "volumeManageSnapshots": {
-        "title": "Manual snapshots",
-        "tip": "You can create a snapshot to back up your disk.",
-        "creat": "Create snapshot",
-        "name": "Give your snapshots a name."
-    },
-    "bucketManagePermissions": {
-        "title": "Bucket access permissions",
-        "tip": "Manage the anonymous access to objects in this bucket.You can make all objects private or public(read-only). <br> Alternatively, you can keep your bucket private while making individual objects public(read-only).",
-        "href": "Learn more ablout bucket permissions",
-        "infoTitle": "All objects are private",
-        "infoTip": "Your objects are readable only by you or anyone you give access to.",
-        "infoButton": "Change permissions",
-        "blockAll": "Block <i>all</i> public access",
-        "blockNewACLs": "Block public access to buckets and objects granted through <i>new</i> access control lists(ACLs)",
-        "blockAnyACLs": "Block public access to buckets and objects granted through <i>any</i> access control lists(ACLs)",
-        "blockNewPublic": "Block public access to buckets and objects granted through <i>new</i> public bucket or access point policies",
-        "blockAnyPublic": "Block public and cross-account access to buckets and objects granted through <i>any</i> public bucket or access point policies"
-    },
-    "bucketManageProperties": {
-        "encryptionTitle": "Default encryption",
-        "encryptionOnTitle": "Encryption is enabled",
-        "encryptionOffTitle": "Encryption is disabled",
-        "encryptionOnTip": "Automatically encrypt new objects stored in this bucket.",
-        "encryptionOffTip": "New objects stored in this bucket will not be encrypted.",
-        "versioningTtile": "Object versioning",
-        "versioningTip": "Enable versioning to store ervery change to your object as a version.Versioning can help you recover objects from accidental deletion or overwrite.",
-        "versioningHref": "Learn more ablout versioning",
-        "versioningOnTitle": "Versioning is enabled",
-        "versioningOffTitle": "Versioning is disabled",
-        "versioningOnTip": "Changed versions of your objects will be stored.",
-        "versioningOffTip": "Changed versions of your objects are not being stored.",
-        "versioningInfoTitle": "Each time an object is changed,it is saved as a version.",
-        "versioningInfoTip": "Versions are stored in your bucket and consume your storage space."
-    },
-    "addBucket": {
-        "title": "Add Cloud Storage(S3 Bucket)",
-        "locationTitle": "Select your bucket location",
-        "locationTip": "You are creating this bucket in {{regionCity}}, all zones ({{region}})",
-        "locationButton": "Change AWS Region",
-        "urlTitle": "Identify your Bucket",
-        "tip": "The name of your bucket must be unique across all of Amazon Lightsail and Amazon S3. It must also be lower-case, and DNS-compliant.",
-        "bucketUrlHint": "The domain of your bucket will be:"
-    },
-    "base": {
-        "userMenu": {
-            "Logout": "Logout",
-            "Passwd": "Change Password"
-        },
-        "mainMenu": {
-            "home": "Home",
-            "dashboard": "Dashboard",
-            "event": "Event",
-            "account": "Account"
-        },
-        "langMenu": {
-            "title": "英",
-            "language": "English"
-        }
-    },
-    "home": {
-        "welcome": "Welcome To Home",
-        "sortMenu": {
-            "name": "Name",
-            "createdate": "CreateDate",
-            "vpc": "VPC",
-            "region": "Region"
-        },
-        "addButton": "Add Datacenter",
-        "title": {
-            "selectDc": "Select a datacenter"
-        },
-        "dcCard": {
-            "menu": {
-                "manage": "Manage",
-                "resource": "Resource",
-                "delete": "Delete",
-                "forceDelete": "Force Del"
-            }
-        }
-    },
-    "resource": {
-        "overview": {
-            "costCol": {
-                "service": "Service",
-                "quantity": "Quantity",
-                "unit": "Unit",
-                "cost": "Cost"
-            },
-            "costSummary": {
-                "title": "Cost Summary"
-            },
-            "lastWeek": {
-                "title": "Latest week daily cost:"
-            },
-            "costUsage": {
-                "title": "Month cost and usage by service:"
-            },
-            "resSummary": {
-                "title": "Resource Summary",
-                "para": "You are using the following cloud resource in this Datacenter:"
-            },
-            "totalCost": {
-                "forecast": "Forecasted Month Cost",
-                "current": "Current Month Cost",
-                "last": "Last Month Cost"
-            }
-        }
-    },
-    "datacenter": {
-        "overview": {
-            "dcDist": {
-                "title": "DataCenter dcDist",
-                "para": "You are using following datacenter(VPC) networking service:"
-            },
-            "dcInfo": {
-                "region": "Region:",
-                "createDate": "Create Date:",
-                "vpcid": "VPC ID:",
-                "cidrv4": "CIDR(IPv4):"
-            }
-        }
+      "title": "英",
+      "language": "English"
     }
+  },
+  "home": {
+    "welcome": "Welcome To Home",
+    "sortMenu": {
+      "name": "Name",
+      "createdate": "CreateDate",
+      "vpc": "VPC",
+      "region": "Region"
+    },
+    "addButton": "Add Datacenter",
+    "title": {
+      "selectDc": "Select a datacenter",
+      "welcome": "Welcom!"
+    },
+    "dcCard": {
+      "menu": {
+        "manage": "Manage",
+        "resource": "Resource",
+        "delete": "Delete",
+        "forceDelete": "Force Del"
+      }
+    },
+    "message": {
+      "welcome": "Welcome!"
+    }
+  },
+  "resource": {
+    "overview": {
+      "costCol": {
+        "service": "Service",
+        "quantity": "Quantity",
+        "unit": "Unit",
+        "cost": "Cost"
+      },
+      "costSummary": {
+        "title": "Cost Summary"
+      },
+      "lastWeek": {
+        "title": "Latest week daily cost:"
+      },
+      "costUsage": {
+        "title": "Month cost and usage by service:"
+      },
+      "resSummary": {
+        "title": "Resource Summary",
+        "para": "You are using the following cloud resource in this Datacenter:"
+      },
+      "totalCost": {
+        "forecast": "Forecasted Month Cost",
+        "current": "Current Month Cost",
+        "last": "Last Month Cost"
+      }
+    }
+  },
+  "datacenter": {
+    "overview": {
+      "dcDist": {
+        "title": "DataCenter dcDist",
+        "para": "You are using following datacenter(VPC) networking service:"
+      },
+      "dcInfo": {
+        "region": "Region:",
+        "createDate": "Create Date:",
+        "vpcid": "VPC ID:",
+        "cidrv4": "CIDR(IPv4):"
+      }
+    }
+  }
 }
