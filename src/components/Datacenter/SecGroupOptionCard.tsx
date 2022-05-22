@@ -4,13 +4,13 @@ import { Icon } from '@iconify/react';
 import { Typography, Checkbox } from 'antd';
 import { SecurityGroupParms } from '@/constant/dataCenter';
 
-interface CSecurityGroupProps {
+interface SecGroupProps {
     classes?: TTailwindString;
     sg: SecurityGroupParms | undefined
     ibList: JSX.Element | undefined
 }
 
-const CSecurityGroup = (props: CSecurityGroupProps): JSX.Element => {
+const SecGroupOption = (props: SecGroupProps): JSX.Element => {
     const sg = props.sg;
     return (
         <div className={classnames(props.classes)}>
@@ -38,5 +38,4 @@ const CSecurityGroup = (props: CSecurityGroupProps): JSX.Element => {
     );
 };
 
-
-export default CSecurityGroup;
+export default SecGroupOption;

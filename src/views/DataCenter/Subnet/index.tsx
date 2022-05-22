@@ -1,5 +1,5 @@
 import React,{ useState } from 'react';
-import SubnetCrad from '@/components/Logic/CCard/SubnetCrad';
+import SubnetCrad from '@/components/Datacenter/SubnetCrad';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { Dropdown,Menu } from 'antd';

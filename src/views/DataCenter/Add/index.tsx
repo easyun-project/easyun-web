@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { CSubnet } from '@/components/Logic/CSubnet';
 import { classnames } from '@@/tailwindcss-classnames';
-import CSecurityGroup from '@/components/Logic/CSecurityGroup';
+import SubnetOption from '@/components/Datacenter/SubnetOptionCard';
+import SecGroupOption from '@/components/Datacenter/SecGroupOptionCard';
 import { CButton } from '@/components/Common/CButton';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
@@ -17,17 +17,12 @@ const { Title, Text } = Typography;
 
 const AddDataCenter = (): JSX.Element => {
     const navigate = useNavigate();
-
-    const userState = useSelector((state: RootState) => {
-        return state.user.currentUser;
-    });
-
+    const dispatch = useDispatch();
     const flagUtil = new FlagUtil();
 
     const [inputDcName, setInputDcName] = useState('');
     const [regionCode, setRegionCode] = useState('');
     const [cidr, setCidr] = useState('');
-
     const [pubSubnet1, setPubSubnet1] = useState<SubnetParms>({
         cidrBlock: '',
         azName: '',
@@ -56,37 +51,35 @@ const AddDataCenter = (): JSX.Element => {
         routeTable: '',
         tagName: '',
     });
-
     const [sg0, setSg0] = useState<SecurityGroupParms>({
         enablePing: false,
         enableSSH: false,
         enableRDP: false,
         tagName: '',
     });
-
     const [sg1, setSg1] = useState<SecurityGroupParms>({
         enablePing: false,
         enableSSH: false,
         enableRDP: false,
         tagName: '',
     });
-
     const [sg2, setSg2] = useState<SecurityGroupParms>({
         enablePing: false,
         enableSSH: false,
         enableRDP: false,
         tagName: '',
     });
+
     const [validStatus, setValidStatus] = useState<undefined | 'error'>(undefined);
-    const [intervalId, setIntervalId] = useState<number>(0);
     const [dcProgress, setDCProgress] = useState<DCProgressInfo>({ current: 0, description: '' });
 
     const dataCenterState = useSelector((state: RootState) => {
         return state.dataCenter;
     });
+
     const data = dataCenterState.defaultDcParams;
     const regionList = dataCenterState.regionList;
-    const dispatch = useDispatch();
+
     //由于timer不能在在重新渲染时被重置，因此需要用useRef保存
     const refTimer = useRef<number>(0);
     useEffect(() => {
@@ -121,24 +114,24 @@ const AddDataCenter = (): JSX.Element => {
     // 创建数据中心
     const createDateCenter = async (params: DataCenterParams) => {
         if (params.dcName === '') {
-            message.error('数据中心名称不能为空');
+            message.error('Please Input a valid Datacenter Name!');
             return;
         }
-        if (userState) {
-            const created = await dataCenterService.createDataCenter(params);
-            if (!created) {
-                return;
-            }
-            const intervalId = setInterval(() => {
-                getRealTimeTaskResult(created.taskId);
-            }, 1000);
-            setIntervalId(intervalId);
+        const created = await dataCenterService.createDataCenter(params);
+        if (!created) {
+            return;
         }
+        const intervalId = setInterval(
+            () => { getRealTimeTaskResult(created.taskId); },
+            1000
+        );
+        setIntervalId(intervalId);
     };
 
+    //定时循环调用task result接口，获取执行结果
+    const [intervalId, setIntervalId] = useState<number>(0);
     const getRealTimeTaskResult = async (taskId: string) => {
         const taskResult = await dataCenterService.getTaskResult(taskId);
-
         if (taskResult === undefined) {
             message.error('can not get task result');
             return;
@@ -217,29 +210,37 @@ const AddDataCenter = (): JSX.Element => {
                         onChange={(e) => { setCidr(e.target.value); }}
                         className={classnames('border')} type="text" />
                     <Row gutter={12}>
-                        <CSubnet subnet={data?.dcParms.pubSubnet1} dropdown={data?.dropDown} index={1} isPublic={true}
+                        <SubnetOption subnet={data?.dcParms.pubSubnet1} dropdown={data?.dropDown} index={1} isPublic={true}
                             classes={classnames('w-96', 'inline-block')} />
-                        <CSubnet subnet={data?.dcParms.pubSubnet2} dropdown={data?.dropDown} index={2} isPublic={true}
+                        <SubnetOption subnet={data?.dcParms.pubSubnet2} dropdown={data?.dropDown} index={2} isPublic={true}
                             classes={classnames('w-96', 'inline-block')} />
                     </Row>
                     <Row gutter={12}>
-                        <CSubnet subnet={data?.dcParms.priSubnet1} dropdown={data?.dropDown} index={1} isPublic={false}
+                        <SubnetOption subnet={data?.dcParms.priSubnet1} dropdown={data?.dropDown} index={1} isPublic={false}
                             classes={classnames('w-96', 'inline-block')} />
-                        <CSubnet subnet={data?.dcParms.priSubnet2} dropdown={data?.dropDown} index={2} isPublic={false}
+                        <SubnetOption subnet={data?.dcParms.priSubnet2} dropdown={data?.dropDown} index={2} isPublic={false}
                             classes={classnames('w-96', 'inline-block')} />
                     </Row>
 
                     <Title level={5} className='mt-4 mb-2'>Defining DataCenter Security Group</Title>
                     <Row gutter={16}>
-                        <CSecurityGroup sg={data?.dcParms.securityGroup0}
+                        <SecGroupOption sg={data?.dcParms.securityGroup0}
                             classes={classnames('mx-4', 'inline-block')}
                             ibList={<p>TCP 660: 0.0.0.0/0</p>} />
-                        <CSecurityGroup sg={data?.dcParms.securityGroup1}
+                        <SecGroupOption sg={data?.dcParms.securityGroup1}
                             classes={classnames('mx-4', 'inline-block')}
-                            ibList={<> <p>TCP 80: 0.0.0.0/0</p> <p>TCP 443: 0.0.0.0/0</p> </>} />
-                        <CSecurityGroup sg={data?.dcParms.securityGroup2}
+                            ibList={<>
+                                <p>TCP 80: 0.0.0.0/0</p>
+                                <p>TCP 443: 0.0.0.0/0</p>
+                            </>} />
+                        <SecGroupOption sg={data?.dcParms.securityGroup2}
                             classes={classnames('mx-4', 'inline-block')}
-                            ibList={<> <p>TCP 3306: 0.0.0.0/0</p> <p>TCP 1443: 0.0.0.0/0</p> <p>TCP 5432: 0.0.0.0/0</p> <p>TCP 1521: 0.0.0.0/0</p> </>} />
+                            ibList={<>
+                                <p>TCP 3306: 0.0.0.0/0</p>
+                                <p>TCP 1443: 0.0.0.0/0</p>
+                                <p>TCP 5432: 0.0.0.0/0</p>
+                                <p>TCP 1521: 0.0.0.0/0</p>
+                            </>} />
                     </Row>
 
                 </Col>

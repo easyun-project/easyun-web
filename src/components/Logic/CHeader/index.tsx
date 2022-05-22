@@ -7,6 +7,7 @@ import { Icon } from '@iconify/react';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Menu, Dropdown  } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
+import HostModal from '@/components/Logic/CModal';
 import userService from '@/service/userService';
 
 import logo3 from '@@/src/assets/images/logo_easyun/logo_easyun03.svg';
@@ -21,8 +22,13 @@ export const CHeader = (): JSX.Element => {
     // };
     //multiple language setting
     const { t, i18n } = useTranslation();
+    // const lang = i18n.language === 'zh-CN' ? 'en-US' : 'zh-CN';
+
     const userState = useSelector((state: RootState) => state.user.currentUser);
-    const [current, changeCurrent] = useState('home');
+
+    const [ current, changeCurrent ] = useState('Home');
+    const [ isModalVisible, setIsModalVisible ] = useState(false);
+
     const navigate = useNavigate();
     const handleClick = (e)=>{
         changeCurrent(e.key);
@@ -30,26 +36,26 @@ export const CHeader = (): JSX.Element => {
     };
 
     const menu = (
-        <Menu onClick={handleClick} selectedKeys={[current]} mode="vertical" className={classnames('text-xl')}>
-            <Menu.Item key="home">{t('mainMenu.home')}</Menu.Item>
-            <Menu.Item key="dashboard">{t('mainMenu.dashboard')}</Menu.Item>
-            <Menu.Item key="event">{t('mainMenu.event')}</Menu.Item>
-            <Menu.Item key="account">{t('mainMenu.account')}</Menu.Item>
+        <Menu onClick={handleClick} selectedKeys={[ current ]} mode="vertical" className={classnames('text-xl')}>
+            <Menu.Item key="home">{t('base.mainMenu.home')}</Menu.Item>
+            <Menu.Item key="dashboard">{t('base.mainMenu.dashboard')}</Menu.Item>
+            <Menu.Item key="event">{t('base.mainMenu.event')}</Menu.Item>
+            <Menu.Item key="account">{t('base.mainMenu.account')}</Menu.Item>
         </Menu>
     );
 
     const getTitle = (key: string) => {
         switch (key) {
         case 'home':
-            return t('mainMenu.home');
+            return t('base.mainMenu.home');
         case 'dashboard':
-            return t('mainMenu.dashboard');
+            return t('base.mainMenu.dashboard');
         case 'event':
-            return t('mainMenu.event');
+            return t('base.mainMenu.event');
         case 'account':
-            return t('mainMenu.account');
+            return t('base.mainMenu.account');
         default:
-            return t('mainMenu.home');
+            return t('base.mainMenu.home');
         }
     };
 
@@ -57,33 +63,32 @@ export const CHeader = (): JSX.Element => {
         userService.logout().then(() => navigate('/login'));
     };
 
+    const systemMenu = (
+        <Menu>
+            <Menu.Item key="hosturl" onClick={() => setIsModalVisible(true)} >API Server</Menu.Item>
+            <Menu.Item key="setting">Settings</Menu.Item>
+        </Menu>
+    );
+
     const userMenu = (
         <Menu>
-            <Menu.Item onClick={handleLogout} key="logout">{t('userMenuLogout')}</Menu.Item>
+            <Menu.Item onClick={handleLogout} key="logout">{t('base.userMenu.Logout')}</Menu.Item>
             <Menu.Divider></Menu.Divider>
-            <Menu.Item key="changepwd">Change Password</Menu.Item>
+            <Menu.Item key="changepwd">{t('base.userMenu.Passwd')}</Menu.Item>
         </Menu>
     );
 
     const langMenu = (
         <Menu onClick={(e) => i18n.changeLanguage(e.key)}>
-            <Menu.Item  key="en">English</Menu.Item>
-            <Menu.Item  key="zh">简体中文</Menu.Item>
-            <Menu.Item  key="ja">日本語</Menu.Item>
+            <Menu.Item  key="en-US">English</Menu.Item>
+            <Menu.Item  key="zh-CN">简体中文</Menu.Item>
+            <Menu.Item  key="ja-JP">日本語</Menu.Item>
         </Menu>
     );
 
     return (
-        <div
-            className={classnames(
-                'flex',
-                'items-center',
-                'bg-gray-600',
-                'text-white',
-                'text-3xl',
-            )}
-        >
-            <span
+        <div className='flex items-center text-3xl text-white bg-gray-600' >
+            <span id='logo'
                 className={classnames('mx-10', 'cursor-pointer', 'flex')}
                 onClick={() => navigate('/home')}
             >
@@ -91,7 +96,7 @@ export const CHeader = (): JSX.Element => {
             </span>
             <span>
                 <Dropdown overlay={menu}>
-                    <a className={classnames('flex','items-baseline')} onClick={e => {
+                    <a className={classnames('flex', 'items-baseline')} onClick={e => {
                         e.preventDefault();
                         navigate(`/${current}`);
                     }}>
@@ -100,54 +105,45 @@ export const CHeader = (): JSX.Element => {
                     </a>
                 </Dropdown>
             </span>
-            <div
-                className={classnames(
-                    'absolute',
-                    'right-0',
-                    'flex-none',
-                    'inline-flex',
-                    'items-center'
-                )}
-            >
-                <Icon
-                    id="free-trial"
-                    className={classnames('cursor-pointer')}
-                    icon="fa:heartbeat"
-                    color="#9fbe8a"
-                    width="25"
-                    height="25"
-                    fr={undefined}
-                />
-                <Icon
+
+            <div className='inline-flex absolute right-0 flex-none items-center' >
+                <span id="free-trial" className={classnames('cursor-pointer', 'inline-flex')} >
+                    <Icon icon="fa:heartbeat"
+                        className={classnames('cursor-pointer')}
+                        color="#9fbe8a"
+                        width="25"
+                        height="25"
+                        fr={undefined}
+                    />
+                </span>
+                <Icon icon="radix-icons:divider-vertical"
                     className={'mx-3'}
-                    icon="radix-icons:divider-vertical"
                     color="#5c6f9a"
                     width="25"
                     height="25"
                     hFlip={true}
                     fr={undefined}
                 />
-                <span id="setting" className={classnames('cursor-pointer', 'inline-flex')} >
-                    <Icon icon="ant-design:setting-filled"
-                        className={classnames('ml-2', 'inline-block')}
-                        color="#5c6f9a"
-                        width="25"
-                        height="25"
-                        fr={undefined}
-                    />
-                    <Icon icon="iconoir:nav-arrow-down"
-                        className={'mr-2'}
-                        color="#5c6f9a"
-                        width="25"
-                        height="25"
-                        hFlip={true}
-                        fr={undefined}
-                    />
-                </span>
-                <Dropdown overlay={langMenu} trigger={['click']} className='inline-flex'>
+
+                <Dropdown overlay={systemMenu} trigger={[ 'click' ]} placement='bottom' className='inline-flex'>
                     <a onClick={e => e.preventDefault()}>
-                        <span id="username" className={classnames('text-lg')} style={{ color: '#5c6f9a' }}>
-                            {t('langMenu.title')}
+                        <span id="system" className='inline-flex cursor-pointer'>
+                            <Icon icon="ant-design:setting-filled"
+                                className='inline-block'
+                                color="#5c6f9a" width="25" height="25" hFlip={true} fr={undefined} />
+                            <Icon icon="iconoir:nav-arrow-down"
+                                className='inline-block mr-2'
+                                color="#5c6f9a" width="25" height="25" hFlip={true} fr={undefined} />
+                        </span>
+                    </a>
+                </Dropdown>
+
+                <HostModal title='配置服务器地址' msg='请输入您服务器的地址' isVisible={isModalVisible} setIsVisible={setIsModalVisible} />
+
+                <Dropdown overlay={langMenu} trigger={[ 'click' ]} className='inline-flex'>
+                    <a onClick={e => e.preventDefault()}>
+                        <span id="language" className={classnames('text-lg')} style={{ color: '#5c6f9a' }}>
+                            {t('base.langMenu.title')}
                         </span>
                         <Icon icon="iconoir:nav-arrow-down"
                             className={classnames('mr-2')}
@@ -159,6 +155,7 @@ export const CHeader = (): JSX.Element => {
                         />
                     </a>
                 </Dropdown>
+
                 <Dropdown overlay={userMenu} >
                     <a onClick={e => e.preventDefault()}>
                         <span id="user" className={classnames('cursor-pointer', 'inline-flex')} >
@@ -169,7 +166,7 @@ export const CHeader = (): JSX.Element => {
                                 height="25"
                                 fr={undefined}
                             />
-                            <span id="username" className={classnames('ml-1','text-lg')} style={{ color: '#5c6f9a' }}>
+                            <span id="username" className={classnames('ml-1', 'text-lg')} style={{ color: '#5c6f9a' }}>
                                 { userState.username }
                             </span>
                             <Icon icon="iconoir:nav-arrow-down"

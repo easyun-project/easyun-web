@@ -1,22 +1,89 @@
 {
+  "base": {
+    "userMenu": {
+      "Logout": "ログアウト",
+      "Passwd": "修改密码"
+    },
+    "mainMenu": {
+      "home": "ホーム",
+      "dashboard": "Dashboard",
+      "event": "事件",
+      "account": "账号"
+    },
+    "langMenu": {
+      "title": "日",
+      "language": "日本語"
+    }
+  },
   "home": {
-    "title" : "ホーム",
-    "welcome": "ホームへようこそ！"
+    "title": {
+      "welcome": "ホーム",
+      "selectDc": "Select a datacenter"
+    },
+    "message": {
+      "welcome": "ホームへようこそ！"
+    },
+    "sortMenu": {
+      "name": "Name",
+      "createdate": "CreateDate",
+      "vpc": "VPC",
+      "region": "Region"
+    },
+    "addButton": "Add Datacenter",
+    "dcCard": {
+      "menu": {
+        "manage": "Manage",
+        "resource": "Resource",
+        "delete": "Delete",
+        "forceDelete": "Force Del"
+      }
+    }
   },
   "login": {
     "title": "ログイン",
     "button": "ログイン",
     "remember": "私を覚えてますか"
   },
-  "mainMenu": {
-    "home": "ホーム",
-    "dashboard": "Dashboard",
-    "event": "事件",
-    "account": "账号" 
+  "resource": {
+    "overview": {
+      "costCol": {
+        "service": "Service",
+        "quantity": "数量",
+        "unit": "Unit",
+        "cost": "Cost"
+      },
+      "costSummary": {
+        "title": "Cost Summary"
+      },
+      "lastWeek": {
+        "title": "Latest week daily cost:"
+      },
+      "costUsage": {
+        "title": "Month cost and usage by service:"
+      },
+      "resSummary": {
+        "title": "Resource Summary",
+        "para": "You are using the following cloud resource in this Datacenter:"
+      },
+      "totalCost": {
+        "forecast": "Forecasted Month Cost",
+        "current": "Current Month Cost",
+        "last": "Last Month Cost"
+      }
+    }
   },
-  "langMenu": {
-    "title": "日",
-    "language": "日本語"
-  },
-  "userMenuLogout": "ログアウト"
+  "datacenter": {
+    "overview": {
+      "dcDist": {
+        "title": "DataCenter dcDist",
+        "para": "You are using following datacenter(VPC) networking service:"
+      },
+      "dcInfo": {
+        "region": "Region:",
+        "createDate": "Create Date:",
+        "vpcid": "VPC ID:",
+        "cidrv4": "CIDR(IPv4):"
+      }
+    }
+  }
 }

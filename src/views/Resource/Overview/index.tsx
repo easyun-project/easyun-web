@@ -4,12 +4,12 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 // UI contents
+import { useTranslation } from 'react-i18next';
 import { classnames } from '@@/tailwindcss-classnames';
-import { Row, Col, Typography, Table, Badge, Timeline, Card, Statistic, Spin, Divider } from 'antd';
+import { Row, Col, Typography, Table, Timeline, Card, Statistic, Spin } from 'antd';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 // services and interface/schema
 // import { CostSummary, CostUsageItem, PeriodTotalCost, PeriodMonthlyCost } from '@/constant/resource';
-
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -74,6 +74,7 @@ function RescSummaryCard(props) {
 }
 
 export const ResourceOverview = (): JSX.Element => {
+    const { t } = useTranslation();
     const resourceState = useSelector((state: RootState) => state.resource);
     const costSummary = resourceState.costSummary;
     const rescSummary = resourceState.resourceSummary;
@@ -91,25 +92,25 @@ export const ResourceOverview = (): JSX.Element => {
 
     const costColumns = [
         {
-            title: 'Service',
+            title: t('resource.overview.costCol.service'),
             dataIndex: 'service',
             key: 'service',
             width: '40%'
         },
         {
-            title: 'Quantity',
+            title: t('resource.overview.costCol.quantity'),
             dataIndex: 'quantity',
             key: 'quantity',
             width: '25%'
         },
         {
-            title: 'Unit',
+            title: t('resource.overview.costCol.unit'),
             dataIndex: 'unit',
             key: 'unit',
             width: '10%'
         },
         {
-            title: 'Cost',
+            title: t('resource.overview.costCol.cost'),
             dataIndex: 'cost',
             key: 'cost',
             render: (text: string): React.ReactNode => <span>{costUnit} {text}</span>,
@@ -131,18 +132,18 @@ export const ResourceOverview = (): JSX.Element => {
             <div>
                 <Row gutter={[16, 24]} className='py-2'>
                     <Col span={4}>
-                        <Title level={4}>Cost Summary</Title>
+                        <Title level={4}>{t('resource.overview.costSummary.title')}</Title>
                         <Spin spinning={rescLoading} tip="Loading...">
                             {/* <Row gutter={16}> */}
-                            <TotalCostCard value={currMonthTotalCost.value} unit={currMonthTotalCost.unit} text='Current Month Cost' />
-                            <TotalCostCard value={forecastTotalCost.value} unit={forecastTotalCost.unit} text='Forcasted Month Cost' isRise={(forecastTotalCost.value >= lastMonthTotalCost.value)} />
-                            <TotalCostCard value={lastMonthTotalCost.value} unit={lastMonthTotalCost.unit} text='Last Month Cost' />
+                            <TotalCostCard value={currMonthTotalCost.value} unit={currMonthTotalCost.unit} text={t('resource.overview.totalCost.current')} />
+                            <TotalCostCard value={forecastTotalCost.value} unit={forecastTotalCost.unit} text={t('resource.overview.totalCost.forecast')} isRise={(forecastTotalCost.value >= lastMonthTotalCost.value)} />
+                            <TotalCostCard value={lastMonthTotalCost.value} unit={lastMonthTotalCost.unit} text={t('resource.overview.totalCost.last')} />
                             {/* </Row> */}
                         </Spin>
                     </Col>
 
                     <Col span={4}>
-                        <Title className="ml-12" level={4}>Latest week daily cost: </Title>
+                        <Title className="ml-12" level={4}>{t('resource.overview.lastWeek.title')}</Title>
                         <Spin spinning={rescLoading} tip="Loading...">
                             <LatestWeekDailyCost costList={costSummary?.latestWeekCost} />
                         </Spin>
@@ -151,7 +152,7 @@ export const ResourceOverview = (): JSX.Element => {
                     <Col span={1}></Col>
 
                     <Col span={14}>
-                        <Title level={4}>{costDate?.substr(0, 7)} Month cost and usage by service:</Title>
+                        <Title level={4}>{costDate?.substr(0, 7)}{t('resource.overview.costUsage.title')}</Title>
                         <Table
                             loading={rescLoading} size="middle" pagination={{ pageSize: 10 }}
                             scroll={{ y: 280, scrollToFirstRowOnChange: true }}
@@ -161,8 +162,8 @@ export const ResourceOverview = (): JSX.Element => {
             </div>
 
             <div id='vpcSummary'>
-                <Title level={4}>Resource Summary</Title>
-                <Paragraph >You are using the following cloud resource in this Datacenter:</Paragraph>
+                <Title level={4}>{t('resource.overview.resSummary.title')}</Title>
+                <Paragraph >{t('resource.overview.resSummary.para')}</Paragraph>
                 <Row gutter={[16, 24]} className='py-2'>
                     <RescSummaryCard title='Server (EC2)' value={rescSummary?.serverNum} />
                     <RescSummaryCard title='Database (RDS)' value={rescSummary?.rdsNum} />

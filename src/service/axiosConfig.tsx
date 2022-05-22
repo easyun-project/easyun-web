@@ -1,13 +1,14 @@
 import axios from 'axios';
 import { message } from 'antd';
-import { getHeader,getHost } from '@/utils/api';
+import { getHeader,getHostUrl } from '@/utils/api';
 import { createBrowserHistory } from 'history';
 import { UserLogin } from '@/constant/apiConst';
+
 
 axios.defaults.timeout = 50000;
 const history = createBrowserHistory();
 const request = axios.create({
-    baseURL:getHost()
+    baseURL:getHostUrl()
 });
 
 // Add a request interceptor

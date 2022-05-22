@@ -13,7 +13,7 @@ export default function BucketCard({ bktDetail }: { bktDetail: BucketCardInfo })
                     <img className='w-20' src={bucketImage} alt="stbucket.png" />
                 </div>
                 <div className='ml-5'>
-                    <div className='font-bold text-2xl'>{bktName}</div>
+                    <div className='text-2xl font-bold'>{bktName}</div>
                     <div className='text-gray-500'>{stType}</div>
                     <div className='text-gray-500'>Domain: {getDomain(bktName, bktRegion, false)}</div>
                 </div>
