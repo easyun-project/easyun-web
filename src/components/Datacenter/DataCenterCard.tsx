@@ -79,7 +79,7 @@ export default function DataCenterCard(props: DataCenterModel) {
             </Menu.Item>
             <Menu.Item
                 danger
-                key="delete"
+                key="forceDel"
                 onClick={() => {
                     openNotification('bottomRight');
                     dispatch(deleteDataCenter({ dcName: dcName, isForceDel: true }));

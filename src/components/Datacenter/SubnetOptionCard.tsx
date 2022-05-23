@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { Typography, Select, Input } from 'antd';
@@ -13,14 +13,20 @@ interface SubnetProps {
 }
 
 export const SubnetOption = (props: SubnetProps): JSX.Element => {
-    const subnet = props.subnet;
+    const { subnet, dropdown, isPublic } = props;
     const title = subnet?.tagName;
     let classes = props.classes;
-    if (props.isPublic) {
+    if (isPublic) {
         classes = classnames(classes, 'bg-green-50');
     } else {
         classes = classnames(classes, 'bg-yellow-50');
     }
+    const [ selectedAz, setSlectedAz ] = useState(subnet?.azName);
+
+    useEffect(() => {
+        setSlectedAz(subnet?.azName);
+    }, [subnet?.azName, selectedAz]);
+
     return (
         <div className={classnames(classes, 'mx-3', 'my-2', 'p-3', 'rounded-xl')}>
             {
@@ -38,7 +44,7 @@ export const SubnetOption = (props: SubnetProps): JSX.Element => {
 
                 <div className="my-1">
                     <Typography.Text style={{ width: 130 }} className='inline-block'>CIDR Block(ipv4):</Typography.Text>
-                    <Input style={{ width: 168 }} className='h-6' defaultValue={subnet?.cidrBlock} />
+                    <Input style={{ width: 168 }} className='h-6' value={subnet?.cidrBlock} />
                 </div>
 
                 <div className="my-1">
@@ -48,11 +54,13 @@ export const SubnetOption = (props: SubnetProps): JSX.Element => {
                             <Select.Option key={index} value={index}>{item} </Select.Option>
                         ))}
                     </Select> */}
-                    <select style={{ width: 168 }} className='pl-2 h-6 border' >
+                    <select style={{ width: 168 }} className='pl-2 h-6 border'
+                        onChange={(e)=>setSlectedAz(dropdown?.azList[e.target.value])} >
                         {
-                            props.dropdown?.azList.map((item, index) => {
-                                if (item === subnet?.azName) {
-                                    return <option selected key={index} value={index}>{item}</option>;
+                            dropdown?.azList.map((item, index) => {
+                                // return ( <option key={index} value={index}>{item}</option> );
+                                if (item === selectedAz) {
+                                    return <option key={index} value={index} selected>{item}</option>;
                                 }
                                 else {
                                     return ( <option key={index} value={index}>{item}</option> );

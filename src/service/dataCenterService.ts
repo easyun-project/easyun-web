@@ -13,14 +13,11 @@ import {
     DefaultDataCenterParms,
     DataCenterParams,
     DeleteDcParm,
-    EipInfoSimple,
     DataCenterModel,
-    DataCenterParms,
     DataCenterSummary,
-    DefaultDataCenterParms,
+    SubnetInfo,
     EipInfo,
     EipInfoSimple,
-    RegionItem,
     SecurityGroupDetail,
     SecurityGroupInfoSimple, RegionItem, TaskInfo, TaskDetail,
 } from '@/constant/dataCenter';
@@ -30,7 +27,7 @@ export interface DcNameQueryParm {
     dc: string
 }
 
-export interface DcDefaultQueryParm {
+export interface QueryDcParm {
     dc: string
     region?: string
 }
@@ -71,7 +68,7 @@ export default class DataCenterService {
     /**
      * 获取创建数据中心默认参数
      */
-    static async getDefaultDcParams(params: DcDefaultQueryParm): Promise<DefaultDataCenterParms | undefined> {
+    static async getDefaultDcParams(params: QueryDcParm): Promise<DefaultDataCenterParms | undefined> {
         const url = DataCenterDefault;
         const result = await axios.get(url, {
             params,
@@ -167,7 +164,7 @@ export default class DataCenterService {
      */
     static async getSubnet(params: DcNameQueryParm): Promise<SubnetInfo[]> {
         const url = DcmSubnet;
-        const result = await axios.get(url, {params});
+        const result = await axios.get(url, { params });
         return result.data.detail;
     }
 
@@ -176,7 +173,7 @@ export default class DataCenterService {
      */
     static async getSecgroup(params: DcNameQueryParm): Promise<SecurityGroupDetail[]> {
         const url = DcmSecgroup;
-        const result = await axios.get(url, {params,});
+        const result = await axios.get(url, { params, });
         return result.data.detail;
     }
 
@@ -185,7 +182,7 @@ export default class DataCenterService {
      */
     static async listSecgroup(params: DcNameQueryParm): Promise<SecurityGroupInfoSimple[]> {
         const url = DcmSecgroup + '/list';
-        const result = await axios.get(url, {params});
+        const result = await axios.get(url, { params });
         return result.data.detail;
     }
 
@@ -194,7 +191,7 @@ export default class DataCenterService {
      */
     static async createEip(dcName: string): Promise<Record<'msg', string>> {
         const url = DcmStaticip;
-        const result = await axios.post(url, {dcName});
+        const result = await axios.post(url, { dcName });
         return result.data.detail;
 
     }
@@ -217,7 +214,7 @@ export default class DataCenterService {
      */
     static async listEipInfo(dc: string): Promise<EipInfoSimple[]> {
         const url = DcmStaticip + '/list';
-        const result = await axios.get(url, {params: {dc},});
+        const result = await axios.get(url, { params: { dc }, });
         return result.data.detail;
     }
 

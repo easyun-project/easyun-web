@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
+import DataCenterService, { QueryDcParm } from '@/service/dataCenterService';
+import { DcDropDown } from '@/constant/dataCenter';
 import { classnames } from '@@/tailwindcss-classnames';
 import SubnetOption from '@/components/Datacenter/SubnetOptionCard';
 import SecGroupOption from '@/components/Datacenter/SecGroupOptionCard';
@@ -6,10 +8,9 @@ import { CButton } from '@/components/Common/CButton';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import dataCenterService from '@/service/dataCenterService';
 import { Row, Col, Divider, Typography, message, Select, Input, Form, Progress } from 'antd';
 import { RootState } from '@/redux/store';
-import { getDataCenterParams, getRegionList, listAllDataCenter } from '@/redux/dataCenterSlice';
+import { listAllDataCenter, getDataCenterParams } from '@/redux/dataCenterSlice';
 import { DataCenterParams, DCProgressInfo, RegionItem, SecurityGroupParms, SubnetParms } from '@/constant/dataCenter';
 import FlagUtil from '@/utils/flagUtil';
 
@@ -22,7 +23,7 @@ const AddDataCenter = (): JSX.Element => {
 
     const [inputDcName, setInputDcName] = useState('');
     const [regionCode, setRegionCode] = useState('');
-    const [cidr, setCidr] = useState('');
+    const [cidrBlock, setCidrBlock] = useState('');
     const [pubSubnet1, setPubSubnet1] = useState<SubnetParms>({
         cidrBlock: '',
         azName: '',
@@ -51,65 +52,75 @@ const AddDataCenter = (): JSX.Element => {
         routeTable: '',
         tagName: '',
     });
-    const [sg0, setSg0] = useState<SecurityGroupParms>({
+    const [secGroup0, setSecGroup0] = useState<SecurityGroupParms>({
         enablePing: false,
         enableSSH: false,
         enableRDP: false,
         tagName: '',
     });
-    const [sg1, setSg1] = useState<SecurityGroupParms>({
+    const [secGroup1, setSecGroup1] = useState<SecurityGroupParms>({
         enablePing: false,
         enableSSH: false,
         enableRDP: false,
         tagName: '',
     });
-    const [sg2, setSg2] = useState<SecurityGroupParms>({
+    const [secGroup2, setSecGroup2] = useState<SecurityGroupParms>({
         enablePing: false,
         enableSSH: false,
         enableRDP: false,
         tagName: '',
     });
 
-    const [validStatus, setValidStatus] = useState<undefined | 'error'>(undefined);
+    const [validStatus, setValidStatus] = useState(false);
     const [dcProgress, setDCProgress] = useState<DCProgressInfo>({ current: 0, description: '' });
 
     const dataCenterState = useSelector((state: RootState) => {
         return state.dataCenter;
     });
 
-    const data = dataCenterState.defaultDcParams;
+    const dcParams = dataCenterState.defaultDcParams?.dcParms;
+    const dropDown = dataCenterState.defaultDcParams?.dropDown;
     const regionList = dataCenterState.regionList;
+    // 获取创建数据中心的默认参数
+    const getdcParams = (parms: QueryDcParm) => {
+        if (parms.dc === '') dispatch(getDataCenterParams({ dc: 'default' }));
+        else dispatch(getDataCenterParams(parms));
+    };
+    // 批量更新 elements params
+    const updateDcParams = () => {
+        if (dcParams) {
+            setRegionCode(dcParams.dcRegion);
+            setCidrBlock(dcParams.dcVPC.cidrBlock);
+            setPubSubnet1(dcParams.pubSubnet1);
+            setPubSubnet2(dcParams.pubSubnet2);
+            setPriSubnet1(dcParams.priSubnet1);
+            setPriSubnet2(dcParams.priSubnet2);
+            setSecGroup0(dcParams.securityGroup0);
+            setSecGroup1(dcParams.securityGroup1);
+            setSecGroup2(dcParams.securityGroup2);
+            // setSSHKey(dcParams);
+        }
+    };
+    // 页面载入后首次渲染
+    useEffect(() => {
+        dispatch(getDataCenterParams({ dc: 'default' }));
+        updateDcParams();
+    }, []);
+
+    // dispatch后重新渲染页面
+    useEffect(() => {
+        updateDcParams();
+    }, [dispatch]);
 
     //由于timer不能在在重新渲染时被重置，因此需要用useRef保存
     const refTimer = useRef<number>(0);
     useEffect(() => {
+        console.log(inputDcName);
         clearTimeout(refTimer.current);
         // 重新开启一个定时器
         refTimer.current = setTimeout(
-            () => getDcParams(), 600);
-    }, [inputDcName, regionCode]);
-
-    useEffect(() => {
-        dispatch(getDataCenterParams({ dc: 'default', region: 'us-east-1' }));
-        // dispatch(getRegionList());
-        if (data) {
-            setInputDcName(data.dcParms.dcName);
-            setRegionCode(data.dcParms.dcRegion);
-            setCidr(data.dcParms.dcVPC.cidrBlock);
-            setPubSubnet1(data.dcParms.pubSubnet1);
-            setPubSubnet2(data.dcParms.pubSubnet2);
-            setPriSubnet1(data.dcParms.priSubnet1);
-            setPriSubnet2(data.dcParms.priSubnet2);
-            setSg0(data.dcParms.securityGroup0);
-            setSg1(data.dcParms.securityGroup1);
-            setSg2(data.dcParms.securityGroup2);
-            // setSSHKey(data.dcParms);
-        }
-    }, [dispatch]);
-
-    const getDcParams = () => {
-        dispatch(getDataCenterParams({ region: regionCode, dc: inputDcName }));
-    };
+            () => getdcParams({ dc: inputDcName, region: regionCode }), 600);
+    }, [inputDcName, regionCode, cidrBlock]);
 
     // 创建数据中心
     const createDateCenter = async (params: DataCenterParams) => {
@@ -117,7 +128,7 @@ const AddDataCenter = (): JSX.Element => {
             message.error('Please Input a valid Datacenter Name!');
             return;
         }
-        const created = await dataCenterService.createDataCenter(params);
+        const created = await DataCenterService.createDataCenter(params);
         if (!created) {
             return;
         }
@@ -131,12 +142,12 @@ const AddDataCenter = (): JSX.Element => {
     //定时循环调用task result接口，获取执行结果
     const [intervalId, setIntervalId] = useState<number>(0);
     const getRealTimeTaskResult = async (taskId: string) => {
-        const taskResult = await dataCenterService.getTaskResult(taskId);
+        const taskResult = await DataCenterService.getTaskResult(taskId);
         if (taskResult === undefined) {
             message.error('can not get task result');
             return;
         }
-        if (taskResult.total === taskResult.current) {
+        if (taskResult.current === taskResult.total) {
             clearInterval(intervalId);
             dispatch(listAllDataCenter());
             navigate('/datacenter/add/result');
@@ -178,18 +189,15 @@ const AddDataCenter = (): JSX.Element => {
                             <Input style={{ width: 280 }}
                                 onChange={(e) => { setInputDcName(e.target.value); }}
                                 onBlur={(e) => {
-                                    if (!e.target.value) {
-                                        setValidStatus('error');
-                                    } else {
-                                        setValidStatus(undefined);
-                                    }
+                                    if (!e.target.value) setValidStatus(false);
+                                    else setValidStatus(true);
                                 }}
                                 type="text" placeholder='Datacenter name' />
                         </Form.Item>
                     </Form>
 
                     <Text style={{ width: 61 }} className={classnames('inline-block', 'ml-4', 'my-2')}>Region:</Text>
-                    <Select defaultValue="us-east-1" style={{ width: 280 }} listHeight={360} disabled={!!validStatus}
+                    <Select defaultValue={dcParams?.dcRegion} style={{ width: 280 }} listHeight={360} disabled={!validStatus}
                         onChange={(value) => {
                             setRegionCode(value);
                             // getDcParams();
@@ -198,42 +206,39 @@ const AddDataCenter = (): JSX.Element => {
                             return (<Select.Option key={index} value={item.regionCode}> {item.regionCode} - {item.regionName} </Select.Option>);
                         })}
                     </Select>
-                    <Icon className={classnames('ml-5', 'inline-block')}
-                        icon={flagUtil.getFlagIconByRegion(regionCode)}
-                        color="#5c6f9a"
-                        width="25" height="25"
-                        fr={undefined} />
+                    <Icon icon={flagUtil.getFlagIconByRegion(regionCode)}
+                        className={classnames('ml-5', 'inline-block')} color="#5c6f9a" width="25" height="25" fr={undefined} />
 
                     <Title level={5} className='mt-4 mb-2'>Defining DataCenter Networking</Title>
                     <Text style={{ width: 150 }} className={classnames('inline-block', 'ml-4')}>CIDR block(IPv4):</Text>
-                    <Input defaultValue={data?.dcParms.dcVPC.cidrBlock} style={{ width: 280 }}
-                        onChange={(e) => { setCidr(e.target.value); }}
+                    <Input defaultValue={dcParams?.dcVPC.cidrBlock} style={{ width: 280 }}
+                        onChange={(e) => { setCidrBlock(e.target.value); }}
                         className={classnames('border')} type="text" />
                     <Row gutter={12}>
-                        <SubnetOption subnet={data?.dcParms.pubSubnet1} dropdown={data?.dropDown} index={1} isPublic={true}
+                        <SubnetOption subnet={dcParams?.pubSubnet1} dropdown={dropDown} index={1} isPublic={true}
                             classes={classnames('w-96', 'inline-block')} />
-                        <SubnetOption subnet={data?.dcParms.pubSubnet2} dropdown={data?.dropDown} index={2} isPublic={true}
+                        <SubnetOption subnet={dcParams?.pubSubnet2} dropdown={dropDown} index={2} isPublic={true}
                             classes={classnames('w-96', 'inline-block')} />
                     </Row>
                     <Row gutter={12}>
-                        <SubnetOption subnet={data?.dcParms.priSubnet1} dropdown={data?.dropDown} index={1} isPublic={false}
+                        <SubnetOption subnet={dcParams?.priSubnet1} dropdown={dropDown} index={1} isPublic={false}
                             classes={classnames('w-96', 'inline-block')} />
-                        <SubnetOption subnet={data?.dcParms.priSubnet2} dropdown={data?.dropDown} index={2} isPublic={false}
+                        <SubnetOption subnet={dcParams?.priSubnet2} dropdown={dropDown} index={2} isPublic={false}
                             classes={classnames('w-96', 'inline-block')} />
                     </Row>
 
                     <Title level={5} className='mt-4 mb-2'>Defining DataCenter Security Group</Title>
                     <Row gutter={16}>
-                        <SecGroupOption sg={data?.dcParms.securityGroup0}
+                        <SecGroupOption sg={dcParams?.securityGroup0} setSg={setSecGroup0}
                             classes={classnames('mx-4', 'inline-block')}
                             ibList={<p>TCP 660: 0.0.0.0/0</p>} />
-                        <SecGroupOption sg={data?.dcParms.securityGroup1}
+                        <SecGroupOption sg={dcParams?.securityGroup1} setSg={setSecGroup1}
                             classes={classnames('mx-4', 'inline-block')}
                             ibList={<>
                                 <p>TCP 80: 0.0.0.0/0</p>
                                 <p>TCP 443: 0.0.0.0/0</p>
                             </>} />
-                        <SecGroupOption sg={data?.dcParms.securityGroup2}
+                        <SecGroupOption sg={dcParams?.securityGroup2} setSg={setSecGroup2}
                             classes={classnames('mx-4', 'inline-block')}
                             ibList={<>
                                 <p>TCP 3306: 0.0.0.0/0</p>
@@ -261,30 +266,32 @@ const AddDataCenter = (): JSX.Element => {
                                 width="20" height="20" fr={undefined} />
                             Back</CButton>
                         <CButton
-                            disabled={!!validStatus}
+                            disabled={!validStatus}
                             type='primary'
                             click={() => {
                                 if (inputDcName == 'easyun') {
-                                    setValidStatus('error');
+                                    setValidStatus(false);
                                     message.error('easyun DataCenter name is not allowed,please change it');
                                     return;
                                 }
-                                const params: DataCenterParams = {
+                                const elemDcParams: DataCenterParams = {
                                     dcName: inputDcName,
                                     dcRegion: regionCode,
                                     dcVPC: {
-                                        cidrBlock: cidr ?? '',
+                                        cidrBlock: cidrBlock ?? '',
                                     },
                                     priSubnet1: priSubnet1,
                                     priSubnet2: priSubnet2,
                                     pubSubnet1: pubSubnet1,
                                     pubSubnet2: pubSubnet2,
-                                    securityGroup0: sg0,
-                                    securityGroup1: sg1,
-                                    securityGroup2: sg2,
+                                    securityGroup0: secGroup0,
+                                    securityGroup1: secGroup1,
+                                    securityGroup2: secGroup2,
                                     // keypair: sshKey
                                 };
-                                createDateCenter(params);
+                                // console.log(dcParams);
+                                // console.log(elemDcParams);
+                                createDateCenter(dcParams!);
                             }}
                         >Create</CButton>
                     </div>

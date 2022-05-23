@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import DataCenterService, { DcNameQueryParm, DcDefaultQueryParm,  } from '@/service/dataCenterService';
+import DataCenterService, { DcNameQueryParm, QueryDcParm,  } from '@/service/dataCenterService';
 import {
     DefaultDataCenterParms,
     DataCenterModel,
@@ -48,7 +48,7 @@ export const listAllDataCenter = createAsyncThunk(
 //获取新建数据中心的默认参数
 export const getDataCenterParams = createAsyncThunk(
     'dataCenter/getDataCenterParms',
-    async (params: DcDefaultQueryParm) => {
+    async (params: QueryDcParm) => {
         return await DataCenterService.getDefaultDcParams(params);
     }
 );
