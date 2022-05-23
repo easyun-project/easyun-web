@@ -417,9 +417,9 @@ export const DashboardsTabList = (props): JSX.Element => {
                     },
                     {
                         title: 'Available IPv4',
-                        dataIndex: 'avlipNum',
-                        key: 'avlipNum',
-                        sorter: (a, b) => a.avlipNum?.localeCompare(b.avlipNum)
+                        dataIndex: 'availableIpNum',
+                        key: 'availableIpNum',
+                        sorter: (a, b) => a.availableIpNum?.localeCompare(b.availableIpNum)
                     },
                     {
                         title: 'IPv6 CIDR',
@@ -435,12 +435,12 @@ export const DashboardsTabList = (props): JSX.Element => {
                     },
                     {
                         title: 'Auto-assign Pub IP',
-                        dataIndex: 'isMappubip',
-                        key: 'isMappubip',
-                        render: (isMappubip) => {
-                            return <div>{isMappubip?.toString()}</div>;
+                        dataIndex: 'isMapPublicIp',
+                        key: 'isMapPublicIp',
+                        render: (isMapPublicIp) => {
+                            return <div>{isMapPublicIp?.toString()}</div>;
                         },
-                        sorter: (a, b) => a.isMappubip?.toString()?.localeCompare(b.isMappubip?.toString())
+                        sorter: (a, b) => a.isMapPublicIp?.toString()?.localeCompare(b.isMapPublicIp?.toString())
                     },
                 ],
                 dataSource: []
@@ -481,15 +481,15 @@ export const DashboardsTabList = (props): JSX.Element => {
                     },
                     {
                         title: 'Inbound rules count',
-                        dataIndex: 'ibrulesNum',
-                        key: 'ibrulesNum',
-                        sorter: (a, b) => a.ibrulesNum?.localeCompare(b.ibrulesNum)
+                        dataIndex: 'ibRulesNum',
+                        key: 'ibRulesNum',
+                        sorter: (a, b) => a.ibRulesNum?.localeCompare(b.ibRulesNum)
                     },
                     {
                         title: 'Outbound rules count',
-                        dataIndex: 'obrulesNum',
-                        key: 'obrulesNum',
-                        sorter: (a, b) => a.obrulesNum?.localeCompare(b.obrulesNum)
+                        dataIndex: 'obRulesNum',
+                        key: 'obRulesNum',
+                        sorter: (a, b) => a.obRulesNum?.localeCompare(b.obRulesNum)
                     },
                     // TODO: 保留字段
                     // {

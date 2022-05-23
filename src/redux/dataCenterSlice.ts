@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import DataCenterService, { DcNameQueryParm, DcDefaultQueryParm,  } from '@/service/dataCenterService';
+import DataCenterService, { DcNameQueryParm, QueryDcParm,  } from '@/service/dataCenterService';
 import {
     DefaultDataCenterParms,
     DataCenterModel,
@@ -22,6 +22,12 @@ export const updateDefaultDataCenterAction = (defaultDataCenter): { payload: Def
 };
 
 
+export interface DefaultDataCenterParams {
+    dcName: string;
+    regionCode: string
+}
+
+
 //获取AWS Region信息
 export const getRegionList = createAsyncThunk(
     'dataCenter/region',
@@ -42,7 +48,7 @@ export const listAllDataCenter = createAsyncThunk(
 //获取新建数据中心的默认参数
 export const getDataCenterParams = createAsyncThunk(
     'dataCenter/getDataCenterParms',
-    async (params: DcDefaultQueryParm) => {
+    async (params: QueryDcParm) => {
         return await DataCenterService.getDefaultDcParams(params);
     }
 );
@@ -64,7 +70,7 @@ export const deleteDataCenter = createAsyncThunk(
 
 export const getDataCenterSubnet = createAsyncThunk(
     'dataCenter/getDataCenterSubnet',
-    async (params: {dc:string}) => {
+    async (params: { dc: string }) => {
         return await DataCenterService.getSubnet(params);
     }
 );
@@ -90,12 +96,12 @@ export interface DataCenterState {
     regionList: RegionItem[] | undefined,
     defaultDcParams: DefaultDataCenterParms | undefined,
     currentDC: {
-            basicInfo: DataCenterModel | undefined,
-            summary: DataCenterSummary | undefined,
-            secgroup: SecurityGroupInfoSimple[] | undefined
-            eip: EipInfo[] | undefined
-            subnet: SubnetInfo[] |undefined
-        }
+        basicInfo: DataCenterModel | undefined,
+        summary: DataCenterSummary | undefined,
+        secgroup: SecurityGroupInfoSimple[] | undefined
+        eip: EipInfo[] | undefined
+        subnet: SubnetInfo[] | undefined
+    }
 }
 
 const initialState: DataCenterState = {

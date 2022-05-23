@@ -11,7 +11,7 @@ interface CSecOptProps {
 export interface CSecOptInfo {
     sgId: string
     tagName: string
-    sgDes?: string
+    sgDesc?: string
     sgName: string
 }
 

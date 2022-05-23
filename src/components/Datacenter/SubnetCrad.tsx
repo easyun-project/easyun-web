@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Dropdown,Menu } from 'antd';
 
 export default function SubnetCrad(props:SubnetInfo) {
-    const { subnetType,tagName,subnetId,cidrBlock,avlipNum,subnetAz } = props;
+    const { subnetType,tagName,subnetId,cidrBlock,availableIpNum,subnetAz } = props;
     const menu = (
         <Menu>
             <Menu.Item key="resource" onClick={()=>{console.log('123');}}>
@@ -46,7 +46,7 @@ export default function SubnetCrad(props:SubnetInfo) {
 
             </div>
             <div className='flex justify-between items-center pt-1 mx-2 border-t-2 border-gray-300 border-dashed'>
-                <div className='text-xs text-gray-500'>CIDR:{cidrBlock} [{avlipNum}/251]</div>
+                <div className='text-xs text-gray-500'>CIDR:{cidrBlock} [{availableIpNum}/251]</div>
                 <div className='text-xs text-gray-500'>{subnetAz}</div>
             </div>
         </div>

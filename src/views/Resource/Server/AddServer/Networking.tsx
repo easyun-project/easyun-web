@@ -5,14 +5,14 @@ import { Icon } from '@iconify/react';
 import { useState } from 'react';
 
 export interface SubnetInfo{
-      avlipNum: number
+      availableIpNum: number
       cidrBlock: string
-      isMappubip: boolean
+      isMapPublicIp: boolean
       subnetAz: string
       subnetId: string
       subnetState: string
       subnetType: string
-      subnetVpc: string
+      vpcId: string
       tagName: string
 }
 

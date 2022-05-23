@@ -114,21 +114,21 @@ export interface EipInfoSimple {
 }
 
 export interface SubnetInfo {
-    avlipNum: number
+    availableIpNum: number
     cidrBlock: string
-    isMappubip: boolean
+    isMapPublicIp: boolean
     subnetAz: string
     subnetId: string
     subnetState: string
     subnetType: string
-    subnetVpc: string
+    vpcId: string
     tagName: string
 }
 
 export interface CSecOptInfo {
     sgId: string
     tagName: string
-    sgDes?: string
+    sgDesc?: string
     sgName: string
 }
 
@@ -153,7 +153,7 @@ export interface SecurityGroupDetail {
             'ToPort': number
             'UserIdGroupPairs': string[]
         }[]
-    'ibrulesNum': number
+    'ibRulesNum': number
     'obPermissions':
         {
             'IpProtocol': string
@@ -166,8 +166,8 @@ export interface SecurityGroupDetail {
             'PrefixListIds': string[],
             'UserIdGroupPairs': string[]
         }[]
-    'obrulesNum': number
-    'sgDes': string
+    'obRulesNum': number
+    'sgDesc': string
     'sgId': string
     'sgName': string
     'tagName': string
@@ -176,7 +176,7 @@ export interface SecurityGroupDetail {
 [];
 
 export interface SecurityGroupInfoSimple {
-    'sgDes': string
+    'sgDesc': string
     'sgId': string
     'sgName': string
     'tagName': string

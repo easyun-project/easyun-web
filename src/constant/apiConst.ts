@@ -11,8 +11,9 @@ export const DataCenterDefault = '/api/v1/datacenter/default';
 export const DataCenterSum = '/api/v1/datacenter/summary';
 export const DcmSubnet = '/api/v1/datacenter/subnet';
 export const DcmSecgroup = '/api/v1/datacenter/secgroup';
-export const DcmStaticip = '/api/v1/datacenter/eip';
-export const DcmIGW = '/api/v1/datacenter/igw';
+export const DcmStaticip = '/api/v1/datacenter/staticip';
+export const DcmIGW = '/api/v1/datacenter/gateway/internet';
+export const DcmNatGW = '/api/v1/datacenter/gateway/nat';
 
 // Server 服务器 常量名以Server开头
 export const ServerPath = '/api/v1/server';

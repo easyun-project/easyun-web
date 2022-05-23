@@ -13,11 +13,11 @@ import {
     DefaultDataCenterParms,
     DataCenterParams,
     DeleteDcParm,
-    EipInfoSimple,
     DataCenterModel,
     DataCenterSummary,
-    EipInfo,
     SubnetInfo,
+    EipInfo,
+    EipInfoSimple,
     SecurityGroupDetail,
     SecurityGroupInfoSimple, RegionItem, TaskInfo, TaskDetail,
 } from '@/constant/dataCenter';
@@ -27,7 +27,7 @@ export interface DcNameQueryParm {
     dc: string
 }
 
-export interface DcDefaultQueryParm {
+export interface QueryDcParm {
     dc: string
     region?: string
 }
@@ -46,7 +46,7 @@ export default class DataCenterService {
      * 获取所有daterCenter列表
      */
     static async listDataCenter(): Promise<DataCenterModel[]> {
-        const url =  DataCenterPath;
+        const url = DataCenterPath;
         const result = await axios.get(url);
         return result.data.detail;
     }
@@ -56,7 +56,7 @@ export default class DataCenterService {
      * PS：dashboard中需要通过此接口获取dc列表
      */
     static async getDataCenterList() {
-        const url =  DataCenterPath + '/list';
+        const url = DataCenterPath + '/list';
         const result = await axios.get(url);
         if (result.status == 200) {
             return result.data.detail;
@@ -68,7 +68,7 @@ export default class DataCenterService {
     /**
      * 获取创建数据中心默认参数
      */
-    static async getDefaultDcParams(params: DcDefaultQueryParm): Promise<DefaultDataCenterParms | undefined> {
+    static async getDefaultDcParams(params: QueryDcParm): Promise<DefaultDataCenterParms | undefined> {
         const url = DataCenterDefault;
         const result = await axios.get(url, {
             params,
@@ -163,7 +163,7 @@ export default class DataCenterService {
      * 获取subnet
      */
     static async getSubnet(params: DcNameQueryParm): Promise<SubnetInfo[]> {
-        const url =  DcmSubnet;
+        const url = DcmSubnet;
         const result = await axios.get(url, { params });
         return result.data.detail;
     }
@@ -172,7 +172,7 @@ export default class DataCenterService {
      * 获取secgroup安全组,详细信息
      */
     static async getSecgroup(params: DcNameQueryParm): Promise<SecurityGroupDetail[]> {
-        const url =  DcmSecgroup;
+        const url = DcmSecgroup;
         const result = await axios.get(url, { params, });
         return result.data.detail;
     }
@@ -181,7 +181,7 @@ export default class DataCenterService {
      * 获取secgroup安全组,概要信息
      */
     static async listSecgroup(params: DcNameQueryParm): Promise<SecurityGroupInfoSimple[]> {
-        const url =  DcmSecgroup + '/list';
+        const url = DcmSecgroup + '/list';
         const result = await axios.get(url, { params });
         return result.data.detail;
     }
@@ -190,7 +190,7 @@ export default class DataCenterService {
      * 添加eip
      */
     static async createEip(dcName: string): Promise<Record<'msg', string>> {
-        const url =  DcmStaticip;
+        const url = DcmStaticip;
         const result = await axios.post(url, { dcName });
         return result.data.detail;
 
@@ -213,7 +213,7 @@ export default class DataCenterService {
      * 获取eip基础信息
      */
     static async listEipInfo(dc: string): Promise<EipInfoSimple[]> {
-        const url =  DcmStaticip + '/list';
+        const url = DcmStaticip + '/list';
         const result = await axios.get(url, { params: { dc }, });
         return result.data.detail;
     }
