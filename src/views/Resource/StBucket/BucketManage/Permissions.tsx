@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { Tree, Spin, Empty, Switch } from 'antd';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { useTranslation, Trans } from 'react-i18next';
-import WithEdit from './WithEdit';
+import WithEdit from '@/components/Logic/CWithEdit';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { Icon } from '@iconify/react';
@@ -17,9 +17,9 @@ import { Icon } from '@iconify/react';
 export default function Permissions() {
     const { t } = useTranslation();
     const { currentBucket } = useSelector((state:RootState)=>state.storage);
-    const [changing, setChanging] = useState(false);
-    const [settings, setSettings] = useState<Record<string, boolean>>({});
-    useEffect(()=>console.log(settings), [settings]);
+    const [ changing, setChanging ] = useState(false);
+    const [ settings, setSettings ] = useState<Record<string, boolean>>({});
+    useEffect(()=>console.log(settings), [ settings ]);
     const dynamicIcon = ( { checked } ) => (
         checked
             ? <Icon icon="bxs:lock-alt" width='24' className='mr-2 text-red-500'/>
@@ -97,7 +97,7 @@ export default function Permissions() {
                             showIcon
                             disabled={!changing}
                             checkable
-                            defaultExpandedKeys={['allAcl']}
+                            defaultExpandedKeys={[ 'allAcl' ]}
                             defaultCheckedKeys={defaultCheckedKeys}
                             onCheck={
                                 checkedKeys=>

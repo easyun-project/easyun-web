@@ -1,15 +1,15 @@
-import React,{ useState } from 'react';
+import React, { useState } from 'react';
 import SubnetCrad from '@/components/Datacenter/SubnetCrad';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { Dropdown,Menu } from 'antd';
+import { Dropdown, Menu } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 
 export default function index() {
     const navigate = useNavigate();
     const subnets = useSelector((state:RootState)=>state.dataCenter.currentDC.subnet);
-    const [sortBy,changeSortBy] = useState('Name');
+    const [ sortBy, changeSortBy ] = useState('Name');
     const menu = (
         <Menu onClick={e=>{changeSortBy(e.key);}}>
             <Menu.Item key="Name">
