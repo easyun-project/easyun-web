@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation,Outlet } from 'react-router-dom';
+import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import { Menu } from 'antd';
 import { classnames } from '@@/tailwindcss-classnames';
 const Home = (): JSX.Element => {
@@ -19,10 +19,10 @@ const Home = (): JSX.Element => {
             <div className={classnames('ml-3', 'min-h-screen')}>
                 <Menu
                     onClick={handleClick}
-                    selectedKeys={[current]}
+                    selectedKeys={[ current ]}
                     mode="horizontal"
                 >
-                    <Menu.Item key="profile">profile</Menu.Item>
+                    <Menu.Item key="profile">Profile</Menu.Item>
                     <Menu.Item key="reminder">Reminder</Menu.Item>
                     <Menu.Item key="keypair">Keypair</Menu.Item>
                     <Menu.Item key="quotas">Quotas</Menu.Item>

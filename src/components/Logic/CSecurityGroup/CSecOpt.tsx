@@ -5,7 +5,7 @@ import { useState } from 'react';
 interface CSecOptProps {
     secgroups: CSecOptInfo[]
     changeSelectedSecgroups: React.Dispatch<React.SetStateAction<string[]>>
-    multi:boolean
+    multi: boolean
 }
 
 export interface CSecOptInfo {
@@ -15,14 +15,14 @@ export interface CSecOptInfo {
     sgName: string
 }
 
-const CSecOpt = (props:CSecOptProps): JSX.Element => {
-    const { secgroups,changeSelectedSecgroups,multi } = props;
+const CSecOpt = (props: CSecOptProps): JSX.Element => {
+    const { secgroups, changeSelectedSecgroups, multi } = props;
     const [current, setcurrent] = useState<string[]>([]);
-    const currentStyle = classnames('border-2', 'rounded-lg','border-yellow-550', 'm-5','h-20', 'w-20', 'text-center','align-middle','inline-block');
-    const otherStyle = classnames('border-2', 'rounded-lg','border-blue-900', 'm-5','h-20', 'w-20', 'text-center','align-middle','inline-block');
+    const currentStyle = classnames('border-2', 'rounded-lg', 'border-yellow-550', 'm-5', 'h-20', 'w-20', 'text-center', 'align-middle', 'inline-block');
+    const otherStyle = classnames('border-2', 'rounded-lg', 'border-blue-900', 'm-5', 'h-20', 'w-20', 'text-center', 'align-middle', 'inline-block');
     return (
         <div>
-            {secgroups.map((item)=>
+            {secgroups.map((item) =>
                 <button
                     className={current.includes(item.sgId) ? currentStyle : otherStyle}
                     key={item.sgId}
@@ -40,7 +40,7 @@ const CSecOpt = (props:CSecOptProps): JSX.Element => {
                             : (e) => {
                                 setcurrent([e.currentTarget.value]);
                                 changeSelectedSecgroups([e.currentTarget.value]);
-                            } }
+                            }}
                 >
                     {item.sgName}
                 </button>)}

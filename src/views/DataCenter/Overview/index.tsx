@@ -1,5 +1,5 @@
 // react related
-import React  from 'react';
+import React from 'react';
 // redux related
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
@@ -9,7 +9,7 @@ import { classnames } from '@@/tailwindcss-classnames';
 import { Row, Col, Typography, Divider, Badge, Card, Statistic, Spin } from 'antd';
 import { Icon } from '@iconify/react';
 // services and interface/schema
-import { VpcSummary, AzSummary } from '@/constant/dataCenter';
+import { AzSummary } from '@/constant/dataCenter';
 // view and components
 import FlagUtil from '@/utils/flagUtil';
 import TimeUtil from '@/utils/time';
@@ -76,15 +76,15 @@ export default function DataCenterOverview(): JSX.Element {
                             <Col span={5}>
                                 <Text strong>{t('datacenter.overview.dcInfo.vpcid')}</Text> <Text copyable>{dcBasic?.vpcID}</Text>
                                 <br />
-                                <Text strong>{t('datacenter.overview.dcInfo.cidrv4')}</Text> <Text copyable>{dcBasic?.vpcCidr}</Text>
+                                <Text strong>{t('datacenter.overview.dcInfo.cidrv4')}</Text> <Text copyable>{dcBasic?.cidrBlock}</Text>
                             </Col>
                             <Col span={12}>
                             </Col>
                             <Col span={5}>
                                 <div className={classnames('my-2')}>
-                                    <Text strong>{t('datacenter.overview.dcInfo.region')}</Text> <Text>{flagUtil.getRegionName(dcBasic!.dcRegion)}</Text>
+                                    <Text strong>{t('datacenter.overview.dcInfo.region')}</Text> <Text>{flagUtil.getRegionName(dcBasic!.regionCode)}</Text>
                                     <span className={classnames('inline-block', 'pr-1', 'h-4')}>
-                                        <Icon className={'ml-5'} icon={flagUtil.getFlagIconByRegion(dcBasic!.dcRegion)}
+                                        <Icon className={'ml-5'} icon={flagUtil.getFlagIconByRegion(dcBasic!.regionCode)}
                                             color="#5c6f9a"
                                             width="25" height="25"
                                             fr={undefined} />
@@ -103,7 +103,7 @@ export default function DataCenterOverview(): JSX.Element {
             <div id='azSummary'>
                 <Title level={4}>{t('datacenter.overview.dcDist.title')}</Title>
                 <Spin spinning={dcLoading} tip="Loading...">
-                    <Row gutter={[16, 24]} className='py-2'>
+                    <Row gutter={[ 16, 24 ]} className='py-2'>
                         {/* <Space size='middle'> */}
                         {dcSummary?.azSummary.map((item, index) => <AzSummaryCard key={index} azName={item.azName} subnetNum={item.subnetNum} />)}
                         {/* </Space> */}
@@ -113,13 +113,13 @@ export default function DataCenterOverview(): JSX.Element {
 
             <div id='vpcSummary'>
                 <Paragraph className='pt-4'>{t('datacenter.overview.dcDist.para')}</Paragraph>
-                <Row gutter={[16, 24]} className='py-2'>
+                <Row gutter={[ 16, 24 ]} className='py-2'>
                     <VpcSummaryCard title='Public Subnets' value={dcSummary?.vpcSummary.pubNum} />
                     <VpcSummaryCard title='Internet Gateways' value={dcSummary?.vpcSummary.igwNum} />
                     <VpcSummaryCard title='Security Groups' value={dcSummary?.vpcSummary.sgNum} />
                     <VpcSummaryCard title='Route Tables' value={dcSummary?.vpcSummary.rtbNum} />
                 </Row>
-                <Row gutter={[16, 24]} className='py-2'>
+                <Row gutter={[ 16, 24 ]} className='py-2'>
                     <VpcSummaryCard title='Private Subnets' value={dcSummary?.vpcSummary.priNum} />
                     <VpcSummaryCard title='NAT Gateways' value={dcSummary?.vpcSummary.natNum} />
                     <VpcSummaryCard title='Network ACLs' value={dcSummary?.vpcSummary.aclNum} />

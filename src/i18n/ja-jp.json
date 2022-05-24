@@ -75,7 +75,7 @@
   "datacenter": {
     "overview": {
       "dcDist": {
-        "title": "DataCenter dcDist",
+        "title": "DataCenter distribution",
         "para": "You are using following datacenter(VPC) networking service:"
       },
       "dcInfo": {

@@ -26,13 +26,14 @@ export default function Connect(): JSX.Element {
                         />
                     </a>
                 </div>
-                <div className={classnames('w-1/2', 'border', 'rounded', 'flex', 'flex-col','py-2','px-4','my-4')}>
+                <div className={classnames('w-1/2', 'border', 'rounded', 'flex', 'flex-col', 'py-2', 'px-4', 'my-4')}>
                     <div className={classnames('text-gray-400')}>CONNECT TO</div>
-                    <div className={classnames('text-black','text-2xl')}>{currentServerState.svrConnect.publicIp}</div>
-                    <div className={classnames('text-gray-400','mt-8')}>USER NAME</div>
-                    <div className={classnames('text-black','text-2xl')}>{currentServerState.svrConnect.userName}</div>
-                    <div className={classnames('text-gray-400','mt-2')}>PASSWORD</div>
-                    <div className={classnames('text-gray-700', 'text-sm','mb-2')}>This instance uses your
+                    <div className={classnames('text-black', 'text-2xl')}>{currentServerState.svrConnect.publicIp}</div>
+                    <div className={classnames('text-gray-400', 'mt-8')}>USER NAME</div>
+                    <div className={classnames('text-black', 'text-2xl')}>{currentServerState.svrConnect.userName}</div>
+                    <div className={classnames('text-gray-400', 'mt-2')}>PASSWORD</div>
+                    {/* fix-me: 替换为keypair下载链接 */}
+                    <div className={classnames('text-gray-700', 'text-sm', 'mb-2')}>This instance uses your
                         <a href='#' target="_blank" rel='noreferrer'
                             className={classnames('text-black', 'font-bold', 'inline')}> {currentServerState.svrProperty.keyPairName} </a>
                         (us-east-1) key pair to sign in.
