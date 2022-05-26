@@ -2,13 +2,13 @@
   "base": {
     "userMenu": {
       "Logout": "ログアウト",
-      "Passwd": "修改密码"
+      "Passwd": "パスワード変更"
     },
     "mainMenu": {
       "home": "ホーム",
-      "dashboard": "Dashboard",
-      "event": "事件",
-      "account": "账号"
+      "dashboard": "ダッシュボード",
+      "event": "イベント",
+      "account": "アカウント"
     },
     "langMenu": {
       "title": "日",
