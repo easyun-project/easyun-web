@@ -11,7 +11,7 @@ export default function Objects({ bucketData }) {
     // });
     return (
         <div>
-            Objects
+            Objects some
         </div>
     );
 }
