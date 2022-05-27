@@ -2,10 +2,10 @@ import React from 'react';
 import { SubnetInfo } from '@/constant/dataCenter';
 import { Icon } from '@iconify/react';
 import { Link } from 'react-router-dom';
-import { Dropdown,Menu } from 'antd';
+import { Dropdown, Menu } from 'antd';
 
 export default function SubnetCrad(props:SubnetInfo) {
-    const { subnetType,tagName,subnetId,cidrBlock,availableIpNum,subnetAz } = props;
+    const { subnetType, tagName, subnetId, cidrBlock, availableIpNum, subnetAz } = props;
     const menu = (
         <Menu>
             <Menu.Item key="resource" onClick={()=>{console.log('123');}}>

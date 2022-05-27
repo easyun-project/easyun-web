@@ -12,7 +12,7 @@ interface HostModalProps {
 
 export default function HostModal( props:HostModalProps ) {
     const { title, msg, isVisible, setIsVisible } = props;
-    const [hostUrl, setHostUrl] = useState(getHostUrl());
+    const [ hostUrl, setHostUrl ] = useState(getHostUrl());
     const updateHostUrl = (value:string) => {
         localStorage.setItem('server', value);
     };
