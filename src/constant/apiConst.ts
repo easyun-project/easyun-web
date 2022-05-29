@@ -5,15 +5,17 @@ export const UserLogin = '/api/v1/user/auth';
 export const UserLogout = '/api/v1/user/logout';
 export const UserPasswd = '/api/v1/user/password';
 
-// dataCenter 数据中心管理 常量名以 Datacenter/Dcm 开头
+// dataCenter 数据中心管理 常量名以 Datacenter 开头
 export const DataCenterPath = '/api/v1/datacenter';
 export const DataCenterDefault = '/api/v1/datacenter/default';
 export const DataCenterSum = '/api/v1/datacenter/summary';
+
+// dataCenter 数据中心内基础服务管理 常量名以 Dcm 开头
 export const DcmSubnet = '/api/v1/datacenter/subnet';
+export const DcmIntGW = '/api/v1/datacenter/gateway/internet';
+export const DcmNatGW = '/api/v1/datacenter/gateway/nat';
 export const DcmSecgroup = '/api/v1/datacenter/secgroup';
 export const DcmStaticip = '/api/v1/datacenter/staticip';
-export const DcmIGW = '/api/v1/datacenter/gateway/internet';
-export const DcmNatGW = '/api/v1/datacenter/gateway/nat';
 
 // Server 服务器 常量名以Server开头
 export const ServerPath = '/api/v1/server';
@@ -39,8 +41,6 @@ export const StVolumeList = '/api/v1/storage/volume/list';
 
 // database 数据库 常量名以Database开头
 export const DatabasePath = '/api/v1/database';
-
-// networking 网络 常量名以Networking开头
 
 
 // backups  备份 常量名以Backup开头

@@ -2,21 +2,21 @@ import React from 'react';
 import { SubnetInfo } from '@/constant/dataCenter';
 import { Icon } from '@iconify/react';
 import { Link } from 'react-router-dom';
-import { Dropdown,Menu } from 'antd';
+import { Dropdown, Menu } from 'antd';
 
-export default function SubnetCrad(props:SubnetInfo) {
-    const { subnetType,tagName,subnetId,cidrBlock,availableIpNum,subnetAz } = props;
+export default function SubnetCrad(props: SubnetInfo) {
+    const { subnetType, tagName, subnetId, cidrBlock, availableIpNum, subnetAz } = props;
     const menu = (
         <Menu>
-            <Menu.Item key="resource" onClick={()=>{console.log('123');}}>
-          Detail
+            <Menu.Item key="resource" onClick={() => { console.log('Manage'); }}>
+                Manage
             </Menu.Item>
             <Menu.Item
                 danger
                 key="delete"
-                onClick={() =>console.log('123')}
+                onClick={() => console.log('Delete')}
             >
-        Delete
+                Delete
             </Menu.Item>
         </Menu>
     );
@@ -29,7 +29,7 @@ export default function SubnetCrad(props:SubnetInfo) {
                     ? <Icon icon="gis:globe-alt-o" width="50" color='#686868' inline={true} />
                     : <Icon icon="teenyicons:lock-circle-outline" width="50" color='#686868' inline={true} />}
                 <div className='grow ml-2'>
-                    <Link to={subnetId}  className='text-lg text-blue-600'>{tagName}</Link>
+                    <Link to={subnetId} className='text-lg text-blue-600'>{tagName}</Link>
                     <div className='mt-1 text-xs text-gray-500'>{subnetId}</div>
                 </div>
                 <div className='flex flex-col items-end '>

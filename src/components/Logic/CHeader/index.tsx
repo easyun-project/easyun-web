@@ -9,8 +9,7 @@ import { Menu, Dropdown  } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import HostModal from '@/components/Logic/CModal';
 import userService from '@/service/userService';
-
-import logo3 from '@@/src/assets/images/logo_easyun/logo_easyun03.svg';
+import logo3 from '@@/src/assets/images/logo/easyun03.svg';
 
 
 export const CHeader = (): JSX.Element => {
@@ -92,7 +91,7 @@ export const CHeader = (): JSX.Element => {
                 className={classnames('mx-10', 'cursor-pointer', 'flex')}
                 onClick={() => navigate('/home')}
             >
-                <img src={logo3} alt="logo_easyun03.svg" width="150" />
+                <img src={logo3} alt="Easyun" width="150" />
             </span>
             <span>
                 <Dropdown overlay={menu}>

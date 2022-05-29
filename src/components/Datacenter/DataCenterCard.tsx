@@ -4,10 +4,10 @@ import { classnames } from '@@/tailwindcss-classnames';
 import { Menu, Dropdown, notification } from 'antd';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
-import { DataCenterModel } from '@/constant/dataCenter';
-import { deleteDataCenter, updateCurrentDC, getDatacenterSummary, getDataCenterEip, listAllDataCenter } from '@/redux/dataCenterSlice';
 import { useDispatch } from 'react-redux';
-import { getDataCenterSecgroup, getDataCenterSubnet } from '@/redux/dataCenterSlice';
+import { DataCenterModel } from '@/constant/dataCenter';
+import { deleteDataCenter, updateCurrentDC, getDatacenterSummary, listAllDataCenter } from '@/redux/dataCenterSlice';
+import { getDataCenterSubnet, getInternetGateway, getNatGateway, getDataCenterSecgroup, getDataCenterEip } from '@/redux/dataCenterSlice';
 import { getCostSummary, getResourceSummary } from '@/redux/resourceSlice';
 import { getServerList, listAllServer } from '@/redux/serverSlice';
 import { listAllBucket, listAllVolume } from '@/redux/storageSlice';
@@ -17,15 +17,17 @@ export default function DataCenterCard(props: DataCenterModel) {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { dcName, vpcCidr, dcRegion, vpcID } = props;
+    const { dcName, cidrBlock, regionCode, vpcID } = props;
     // this function is used to initialize a datacenter
     // use async to make sure the requests are not lost
     const initDcManage = async () => {
         dispatch(updateCurrentDC(props));
         dispatch(getDatacenterSummary({ dc: dcName }));
+        dispatch(getDataCenterSubnet({ dc: dcName }));
+        dispatch(getInternetGateway({ dc: dcName }));
+        dispatch(getNatGateway({ dc: dcName }));
         dispatch(getDataCenterSecgroup({ dc: dcName }));
         dispatch(getDataCenterEip({ dc: dcName }));
-        dispatch(getDataCenterSubnet({ dc: dcName }));
         dispatch(getServerList({ dc: dcName }));
     };
     const initResource = async () => {
@@ -132,8 +134,8 @@ export default function DataCenterCard(props: DataCenterModel) {
                     'mx-2'
                 )}
             >
-                <div className={classnames('text-xs', 'text-gray-500')}>{vpcCidr}</div>
-                <div className={classnames('text-xs', 'text-gray-500')}>{dcRegion}</div>
+                <div className={classnames('text-xs', 'text-gray-500')}>{cidrBlock}</div>
+                <div className={classnames('text-xs', 'text-gray-500')}>{regionCode}</div>
             </div>
         </div>
     );

@@ -5,11 +5,14 @@ import { NoResource } from '@/views/Resource';
 import DataCenterOverview from '@/views/DataCenter/Overview';
 import AddDataCenter from '@/views/DataCenter/Add';
 import AddDcResult from '@/views/DataCenter/Add/result';
-import Network from '@/views/DataCenter/Network';
-import EipDetail from '@/views/DataCenter/Network/EipDetail';
+import StaticIP from '@/views/DataCenter/StaticIp';
+import EipDetail from '@/views/DataCenter/StaticIp/EipDetail';
 import Subnet from '@/views/DataCenter/Subnet';
 import SubnetDetail from '@/views/DataCenter/Subnet/SubnetDetail';
 import AddSubnet from '@/views/DataCenter/Subnet/AddSubnet';
+import IntGateway from '@/views/DataCenter/IntGateway';
+import NatGateway from '@/views/DataCenter/NatGateway';
+
 
 export default [
     {
@@ -41,8 +44,12 @@ export default [
         element:<NoResource resourceName={'route'} buttonName={'Add Route'} routePath={'/route/add'} />
     },
     {
-        path:'gateway',
-        element:<NoResource resourceName={'gateway'} buttonName={'Add Gageway'} routePath={'/gateway/add'} />
+        path:'internet',
+        element:<IntGateway/>
+    },
+    {
+        path:'nat',
+        element:<NatGateway/>
     },
     {
         path:'security',
@@ -50,7 +57,7 @@ export default [
     },
     {
         path:'staticip',
-        element:<Network />
+        element:<StaticIP />
     },
     {
         path:'staticip/detail',

@@ -1,14 +1,22 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import DataCenterService, { DcNameQueryParm, QueryDcParm,  } from '@/service/dataCenterService';
+import DataCenterService from '@/service/dataCenterService';
+import SubnetService from '@/service/dcmSubnetServices';
+import SecgroupService from '@/service/dcmSecgroupServices';
+import StaticIPService from '@/service/dcmStaticipServices';
+import { IntGatewayService, NatGatewayService } from '@/service/dcmGatewayServices';
 import {
+    DcNameQueryParm,
+    QueryNewDcParm,
     DefaultDataCenterParms,
     DataCenterModel,
     DataCenterSummary,
     DeleteDcParm,
-    SecurityGroupInfoSimple,
-    EipInfo,
+    RegionItem,
     SubnetInfo,
-    RegionItem
+    IntGatewayInfo,
+    NatGatewayInfo,
+    SecurityGroupInfo,
+    StaticIpInfo
 } from '@/constant/dataCenter';
 
 const updateDefaultDataCenter = 'dataCenter/updateDefaultDataCenterAction';
@@ -48,7 +56,7 @@ export const listAllDataCenter = createAsyncThunk(
 //获取新建数据中心的默认参数
 export const getDataCenterParams = createAsyncThunk(
     'dataCenter/getDataCenterParms',
-    async (params: QueryDcParm) => {
+    async (params: QueryNewDcParm) => {
         return await DataCenterService.getDefaultDcParams(params);
     }
 );
@@ -71,21 +79,35 @@ export const deleteDataCenter = createAsyncThunk(
 export const getDataCenterSubnet = createAsyncThunk(
     'dataCenter/getDataCenterSubnet',
     async (params: { dc: string }) => {
-        return await DataCenterService.getSubnet(params);
+        return await SubnetService.listAll(params);
+    }
+);
+
+export const getInternetGateway = createAsyncThunk(
+    'dataCenter/getDataCenterIntGateway',
+    async (params: { dc: string }) => {
+        return await IntGatewayService.listAll(params);
+    }
+);
+
+export const getNatGateway = createAsyncThunk(
+    'dataCenter/getDataCenterNatGateway',
+    async (params: { dc: string }) => {
+        return await NatGatewayService.listAll(params);
     }
 );
 
 export const getDataCenterSecgroup = createAsyncThunk(
     'dataCenter/getDataCenterSecgroup',
     async (params: DcNameQueryParm) => {
-        return await DataCenterService.listSecgroup(params);
+        return await SecgroupService.listAll(params);
     }
 );
 
 export const getDataCenterEip = createAsyncThunk(
     'dataCenter/getDataCenterEip',
     async (params: DcNameQueryParm) => {
-        return await DataCenterService.getEipInfo(params);
+        return await StaticIPService.listAll(params);
     }
 );
 
@@ -98,9 +120,11 @@ export interface DataCenterState {
     currentDC: {
         basicInfo: DataCenterModel | undefined,
         summary: DataCenterSummary | undefined,
-        secgroup: SecurityGroupInfoSimple[] | undefined
-        eip: EipInfo[] | undefined
         subnet: SubnetInfo[] | undefined
+        intgateway: IntGatewayInfo[] | undefined
+        natgateway: NatGatewayInfo[] | undefined
+        secgroup: SecurityGroupInfo[] | undefined
+        eip: StaticIpInfo[] | undefined
     }
 }
 
@@ -113,9 +137,11 @@ const initialState: DataCenterState = {
     currentDC: {
         basicInfo: undefined,
         summary: undefined,
+        subnet: undefined,
+        intgateway: undefined,
+        natgateway: undefined,
         secgroup: undefined,
-        eip: undefined,
-        subnet: undefined
+        eip: undefined
     }
 };
 
@@ -149,7 +175,7 @@ export const dataCenterSlice = createSlice({
         builder.addCase(listAllDataCenter.rejected, (state: DataCenterState) => {
             state.loading = false;
         });
-
+        // update datacenter parameters
         builder.addCase(getDataCenterParams.pending, (state: DataCenterState) => {
             state.loading = true;
         });
@@ -160,7 +186,7 @@ export const dataCenterSlice = createSlice({
         builder.addCase(getDataCenterParams.rejected, (state: DataCenterState) => {
             state.loading = false;
         });
-
+        // update datacenter summary
         builder.addCase(getDatacenterSummary.pending, (state: DataCenterState) => {
             state.loading = true;
         });
@@ -171,23 +197,7 @@ export const dataCenterSlice = createSlice({
         builder.addCase(getDatacenterSummary.rejected, (state: DataCenterState) => {
             state.loading = false;
         });
-
-        builder.addCase(getDataCenterSecgroup.fulfilled, (state: DataCenterState, action) => {
-            // state.loading = false;
-            state.currentDC.secgroup = action.payload;
-        });
-
-        builder.addCase(getDataCenterEip.pending, (state: DataCenterState) => {
-            state.loading = true;
-        });
-        builder.addCase(getDataCenterEip.fulfilled, (state: DataCenterState, action) => {
-            state.loading = false;
-            state.currentDC.eip = action.payload;
-        });
-        builder.addCase(getDataCenterEip.rejected, (state: DataCenterState) => {
-            state.loading = false;
-        });
-
+        // update datacenter subnet
         builder.addCase(getDataCenterSubnet.pending, (state: DataCenterState) => {
             state.loading = true;
         });
@@ -196,6 +206,41 @@ export const dataCenterSlice = createSlice({
             state.currentDC.subnet = action.payload;
         });
         builder.addCase(getDataCenterSubnet.rejected, (state: DataCenterState) => {
+            state.loading = false;
+        });
+        // update datacenter Internet Gateway
+        builder.addCase(getInternetGateway.pending, (state: DataCenterState) => {
+            state.loading = true;
+        });
+        builder.addCase(getInternetGateway.fulfilled, (state: DataCenterState, action) => {
+            state.loading = false;
+            state.currentDC.intgateway = action.payload;
+        });
+        // update datacenter NAT Gateway
+        builder.addCase(getNatGateway.pending, (state: DataCenterState) => {
+            state.loading = true;
+        });
+        builder.addCase(getNatGateway.fulfilled, (state: DataCenterState, action) => {
+            state.loading = false;
+            state.currentDC.natgateway = action.payload;
+        });
+        // update datacenter security group
+        builder.addCase(getDataCenterSecgroup.pending, (state: DataCenterState) => {
+            state.loading = true;
+        });
+        builder.addCase(getDataCenterSecgroup.fulfilled, (state: DataCenterState, action) => {
+            state.loading = false;
+            state.currentDC.secgroup = action.payload;
+        });
+        // update datacenter Statip Ip
+        builder.addCase(getDataCenterEip.pending, (state: DataCenterState) => {
+            state.loading = true;
+        });
+        builder.addCase(getDataCenterEip.fulfilled, (state: DataCenterState, action) => {
+            state.loading = false;
+            state.currentDC.eip = action.payload;
+        });
+        builder.addCase(getDataCenterEip.rejected, (state: DataCenterState) => {
             state.loading = false;
         });
     }

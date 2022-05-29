@@ -6,7 +6,7 @@ export interface ServerModel {
     svrState: string
     tagName:string
     osName?: string
-    pubIp?: string
+    publicIp?: string
     ramSize?: number
     priIp?:string
     volumeSize?:number

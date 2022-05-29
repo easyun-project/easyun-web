@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import appStore from '@/redux/appSlice';
 import userStore from '@/redux/userSlice';
 import dataCenterStore from '@/redux/dataCenterSlice';
+import networkStore from '@/redux/networkSlice';
 import resourceStore from '@/redux/resourceSlice';
 import serverStore from '@/redux/serverSlice';
 import storageStore from '@/redux/storageSlice';
@@ -27,6 +28,7 @@ const reducer = {
     user: userStore,
     app: appStore,
     dataCenter: dataCenterStore,
+    network: networkStore,
     resource: resourceStore,
     server: serverStore,
     storage: storageStore

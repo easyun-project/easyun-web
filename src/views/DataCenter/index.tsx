@@ -56,8 +56,9 @@ export const DataCenter = (): JSX.Element => {
                     <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" >
                         <Menu.Item key="overview">Overview</Menu.Item>
                         <Menu.Item key="subnet">Subnet</Menu.Item>
-                        <Menu.Item key="gateway">Gateway</Menu.Item>
                         <Menu.Item key="route">Route</Menu.Item>
+                        <Menu.Item key="internet">Internet</Menu.Item>
+                        <Menu.Item key="nat">NAT</Menu.Item>
                         <Menu.Item key="security">Security</Menu.Item>
                         <Menu.Item key="staticip">Static IP</Menu.Item>
                     </Menu>
