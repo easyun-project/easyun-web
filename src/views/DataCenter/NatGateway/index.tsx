@@ -26,7 +26,7 @@ export default function index() {
     }
     return (
         <div>
-            <div className='mx-14 mt-2 text-2xl font-bold align-middle'> select a subnet</div>
+            <div className='mx-14 mt-2 text-2xl font-bold align-middle'>Select a Gateway</div>
             <div className='flex justify-between items-center mx-14 '>
                 <div className='flex text-sm'>
                     <div>sort by </div>

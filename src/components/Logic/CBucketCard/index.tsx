@@ -1,5 +1,5 @@
 import React from 'react';
-import bucketImage from '@/assets/images/stbucket.png';
+import bucketImage from '@/assets/images/resource/stbucket.png';
 import { getDomain } from '@/views/Resource/StBucket/BucketManage/utils';
 import { StBucketModel } from '@/constant/storage';
 

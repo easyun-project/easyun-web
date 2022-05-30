@@ -5,8 +5,8 @@ import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { Spin } from 'antd';
 import { useSelector } from 'react-redux';
-import stbucket from '@@/src/assets/images/stbucket.png';
-// import stdisk from '@@/src/assets/images/stdisk.png';
+import stbucket from '@@/src/assets/images/resource/stbucket.png';
+// import stdisk from '@@/src/assets/images/resource/stdisk.png';
 
 const WithoutStorage = (): JSX.Element => {
     const navigate = useNavigate();

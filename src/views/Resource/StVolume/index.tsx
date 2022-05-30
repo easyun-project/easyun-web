@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { Spin } from 'antd';
-import stdisk from '@@/src/assets/images/stdisk.png';
+import stdisk from '@@/src/assets/images/resource/stdisk.png';
 
 const WithoutStorage = (): JSX.Element => {
     const navigate = useNavigate();
