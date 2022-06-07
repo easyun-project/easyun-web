@@ -1,4 +1,13 @@
 {
   "Login": "登录",
-  "userMenuLogout": "退出登录"
+  "userMenuLogout": "退出登录",
+  "addBucket": {
+    "bucketUrlHint": "你的存储桶域是",
+    "locationButton": "更换AWS区域",
+    "locationTip": "在{{regionCity}}, 所有区域({{region}})创建存储桶",
+    "locationTitle": "选择存储桶位置",
+    "title": "添加云存储（S3 存储桶）",
+    "urlTitle": "确认存储桶",
+    "tip": "存储桶名称在所有 Amazon Lightsail 和 Amazon S3 中必须是唯一的。 它必须是小写的，并且符合 DNS 要求。"
+  }
 }
