@@ -11,6 +11,7 @@ import { getDataCenterSubnet, getInternetGateway, getNatGateway, getDataCenterSe
 import { getCostSummary, getResourceSummary } from '@/redux/resourceSlice';
 import { getServerList, listAllServer } from '@/redux/serverSlice';
 import { listAllBucket, listAllVolume } from '@/redux/storageSlice';
+import { listAllDatabase } from '@/redux/databaseSlice';
 
 
 export default function DataCenterCard(props: DataCenterModel) {
@@ -37,6 +38,7 @@ export default function DataCenterCard(props: DataCenterModel) {
         dispatch(listAllServer({ dc: dcName }));
         dispatch(listAllVolume({ dc: dcName }));
         dispatch(listAllBucket({ dc: dcName }));
+        dispatch(listAllDatabase({ dc: dcName }));
     };
     //fix-me: 在通知窗口提示Datacenter删除状态
     const openNotification = (placement) => {

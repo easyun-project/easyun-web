@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import DcResourceService,  { DcNameQueryParm } from '@/service/resourceServices';
+import ResourceService,  { DcNameQueryParm } from '@/service/resourceServices';
 import {
     ResourceSummary,
     CostSummary,
@@ -11,7 +11,7 @@ import {
 export const getResourceSummary = createAsyncThunk(
     'dataCenter/getResourceSummary',
     async (params: DcNameQueryParm) => {
-        return await DcResourceService.getResourceSummary(params);
+        return await ResourceService.getResourceSummary(params);
     }
 );
 
@@ -19,7 +19,7 @@ export const getResourceSummary = createAsyncThunk(
 export const getCostSummary = createAsyncThunk(
     'dataCenter/getCostSummary',
     async (params: DcNameQueryParm) => {
-        return await DcResourceService.getCostSummary(params);
+        return await ResourceService.getCostSummary(params);
     }
 );
 

@@ -4,7 +4,7 @@ import { RootState } from '@/redux/store';
 import { Dropdown, Menu } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import { InternetGWCrad } from '@/components/Datacenter/GatewayCard';
+import { InternetGWCard } from '@/components/Datacenter/GatewayCard';
 
 
 export default function index() {
@@ -27,9 +27,9 @@ export default function index() {
         break;
     }
     return (
-        <div>
-            <div className='mx-14 mt-2 text-2xl font-bold align-middle'>Select a Gateway</div>
-            <div className='flex justify-between items-center mx-14 '>
+        <>
+            <div className='mx-8 mt-2 text-xl font-bold align-middle'>Select an Internet Gateway</div>
+            <div className='flex justify-between items-center mx-8 '>
                 <div className='flex text-sm'>
                     <div>sort by </div>
                     <Dropdown overlay={menu} >
@@ -38,11 +38,11 @@ export default function index() {
                 </div>
 
                 <button className='flex items-center btn-yellow' onClick={() => navigate('add')}>
-                    create new subnet</button>
+                    Add Gateway</button>
             </div>
             <div className='grid gap-4 justify-items-center items-center mt-4 lg:grid-cols-2 2xl:grid-cols-3'>
-                {igws?.map(igw => <InternetGWCrad key={igw.igwId} {...igw} />)}
+                {igws?.map(igw => <InternetGWCard key={igw.igwId} {...igw} />)}
             </div>
-        </div>
+        </>
     );
 }

@@ -7,7 +7,7 @@ import igwIcon from '@@/src/assets/images/resource/res_aws_igw.svg';
 import natgwIcon from '@@/src/assets/images/resource/res_aws_natgw.svg';
 
 
-export function InternetGWCrad(props: IntGatewayInfo) {
+export function InternetGWCard(props: IntGatewayInfo) {
     const { igwId, state, vpcId, tagName } = props;
     const menu = (
         <Menu>

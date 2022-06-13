@@ -1,23 +1,22 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { BucketCardInfo } from '@/components/Logic/CStorageCard/StBucketCard';
 // import databaseService, { GetDbDetailParams }from '@/service/databaseService';
-import volumeService, { DcNameQueryParm } from '@/service/stVolumeService';
-import { StBucketModel, VolumeInfo, StBucketDetailModel } from '@/constant/storage';
+import DatabaseService, { DcNameQueryParm } from '@/service/databaseServices';
+import { DbiModel, DbiDetail } from '@/constant/database';
 
-//获取指定数据中心的Bucket列表
+
+//获取指定数据中心的Database列表
 export const listAllDatabase = createAsyncThunk(
-    'storage/listAllBucket',
+    'storage/listAllDatabase',
     async (params: DcNameQueryParm) => {
-        return await volumeService.listAllVolume(params);
+        return await DatabaseService.listAll(params);
     }
 );
 
-
 export interface DatabaseState {
     loading: boolean,
-    dbInstanceList: BucketCardInfo[],
-    dbClusterList: StBucketModel[],
-    currentDbInstance: StBucketDetailModel | undefined
+    dbInstanceList: DbiModel[],
+    dbClusterList: DbiModel[],
+    currentDbInstance: DbiDetail | undefined
 }
 
 const initialState: DatabaseState = {
@@ -29,24 +28,24 @@ const initialState: DatabaseState = {
 
 
 export const databaseSlice = createSlice({
-    name: 'storage',
+    name: 'database',
     initialState,
     reducers: {
-        // 将storage直接置为传过来的值
-        updateDbList: (state, action) => {
+        // 将database直接置为传过来的值
+        updateDbiList: (state, action) => {
             state.dbInstanceList = action.payload;
         },
 
         // 删除指定name的值
-        deleteStorage: (state, action) => {
+        deleteDbInstance: (state, action) => {
             for (let i = state.dbInstanceList.length; i > 0; i--) {
                 // 由于state使用了Proxy，所以不能直接获取到真实的值，需要把值转化出来
-                const nowStorageList = JSON.parse(JSON.stringify(state.dbInstanceList));
-                console.log(i, nowStorageList, nowStorageList[i]);
+                const newDbInstanceList = JSON.parse(JSON.stringify(state.dbInstanceList));
+                console.log(i, newDbInstanceList, newDbInstanceList[i]);
                 // 遍历数组中的每一项，碰到需要删除的就删掉，然后结束循环。
-                if (nowStorageList[i]['Name'] === action.payload) {
-                    nowStorageList.splice(i, 1);
-                    state.dbInstanceList = nowStorageList;
+                if (newDbInstanceList[i]['Name'] === action.payload) {
+                    newDbInstanceList.splice(i, 1);
+                    state.dbInstanceList = newDbInstanceList;
                     break;
                 }
             }
@@ -55,7 +54,7 @@ export const databaseSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(listAllDatabase.fulfilled, (state: DatabaseState, action) => {
             state.loading = false;
-            state. = action.payload;
+            state.dbInstanceList = action.payload;
         });
         builder.addCase(listAllDatabase.pending, (state: DatabaseState) => {
             state.loading = true;
@@ -66,5 +65,5 @@ export const databaseSlice = createSlice({
 
     }
 });
-export const { updateDbList, deleteStorage, updateVolumeList } = databaseSlice.actions;
+export const { updateDbiList, deleteDbInstance } = databaseSlice.actions;
 export default databaseSlice.reducer;

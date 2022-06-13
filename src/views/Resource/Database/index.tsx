@@ -1,30 +1,84 @@
-import * as React from 'react';
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { classnames } from '@@/tailwindcss-classnames';
 import { useNavigate } from 'react-router-dom';
-import { Icon } from '@iconify/react';
-import CStorageCard from '@/components/Logic/CStorageCard/StBucketCard';
-import { CButton } from '@/components/Common/CButton';
-import { CPartialLoading } from '@/components/Common/CPartialLoading';
-
-import { updateStorage } from '@/redux/storageSlice';
-
-// import { UserModel } from '@/constant/user';
-// import database from '@@/src/assets/images/resource/stbucket.png';
-
+import { updateDbiList } from '@/redux/databaseSlice';
+import { Spin, Dropdown, Menu } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
+import DatabaseCard from '@/components/resource/DatabaseCard';
 
 
 const DatabasePage = (): JSX.Element => {
+    const databaseSate = useSelector((state: RootState) => state.database);
+    const { dbInstanceList, loading } = databaseSate;
+
+    return (
+        <Spin spinning={loading} tip="Loading...">
+            <div>
+                {dbInstanceList.length === 0 ? <WithoutResource /> : <WithResource dbInstanceList={dbInstanceList} />}
+            </div>
+        </Spin>
+    );
+};
+
+
+const WithResource = (props): JSX.Element => {
+    const navigate = useNavigate();
+    const [ sortBy, changeSortBy ] = useState('Name');
+    const menu = (
+        <Menu onClick={e => { changeSortBy(e.key); }}>
+            <Menu.Item key="Name">Name</Menu.Item>
+            <Menu.Item key="Engine">Engine</Menu.Item>
+        </Menu>
+    );
+    let order: string;
+    switch (sortBy) {
+    case 'Name':
+        order = 'dcName';
+        break;
+    case 'Zone':
+        order = 'dbiEngine';
+        break;
+    }
+
+    return (
+        <>
+            <div className= 'flex justify-between items-center mx-8'>
+                <div className='flex text-sm'>
+                    <div>Sort by </div>
+                    <Dropdown overlay={menu} >
+                        <div className='mx-1 font-bold text-yellow-550 cursor-pointer '>{sortBy} <DownOutlined /></div>
+                    </Dropdown>
+                </div>
+
+                <div>
+                    <button className='m-5 btn-yellow'onClick={() =>navigate('/resource/volume/add')}>
+                            Add Database
+                    </button>
+                </div>
+            </div>
+
+            <div className= 'flex flex-wrap justify-items-center '>
+                {props.dbInstanceList.map(db =>
+                    <DatabaseCard key={db.dbiId} {...db} />
+                )}
+            </div>
+        </>
+
+    );
+};
+
+
+const WithoutResource = (): JSX.Element => {
     const navigate = useNavigate();
     return (
-        <div className={classnames('m-20', 'flex', 'flex-col', 'items-center', 'h-screen')}>
-            <div className={classnames('text-3xl', 'm-1')}>you have no database right now.</div>
-            <div className={classnames('text-sm', 'm-1')}>
+        <div className= 'flex flex-col justify-center items-center m-10 '>
+            <div className= 'm-1 text-3xl'>You have no database right now.</div>
+            <div className= 'my-2 text-sm text-gray-700'>
                 Add a cloud database and get started with Easyun!
             </div>
-            <div>
+            <div className= 'flex flex-row '>
                 <button
                     onClick={() => navigate('/database/add')}
                     className={classnames('btn-yellow')}>
@@ -33,6 +87,6 @@ const DatabasePage = (): JSX.Element => {
             </div>
         </div>
     );
-
 };
+
 export default DatabasePage;
