@@ -2,12 +2,59 @@
   "Login": "登录",
   "userMenuLogout": "退出登录",
   "addBucket": {
-    "bucketUrlHint": "你的存储桶域是",
+    "bucketUrlHint": "你的存储桶域是：",
     "locationButton": "更换AWS区域",
     "locationTip": "在{{regionCity}}, 所有区域({{region}})创建存储桶",
     "locationTitle": "选择存储桶位置",
     "title": "添加云存储（S3 存储桶）",
     "urlTitle": "确认存储桶",
     "tip": "存储桶名称在所有 Amazon Lightsail 和 Amazon S3 中必须是唯一的。 它必须是小写的，并且符合 DNS 要求。"
+  },
+  "addVolume": {
+    "title": "添加块存储（EBS 卷）",
+    "configuration": {
+      "title": "卷设置",
+      "multiattachConfiguration": {
+        "abledTitle": "Multi-Attach 已启用",
+        "disabledTip": "如果启用 Multi-Attach，您最多可以将卷附加到同一可用区中的 16 个<a>基于 Nitro 系统构建的实例</a>。<br> *支持 <bold>仅限 io1</bold> 和 <bold>io2</bold> 卷。",
+        "disabledTitle": "Multi-Attach 已禁用"
+      }
+    },
+    "tags": {
+      "title": "标签 - 可选"
+    },
+    "zone": {
+      "tip": "选择你的卷所在的区域",
+      "title": "可用区"
+    }
+  },
+  "base": {
+    "langMenu": {
+      "language": "英语",
+      "title": "英"
+    },
+    "mainMenu": {
+      "account": "帐户",
+      "dashboard": "数据面板",
+      "event": "事件",
+      "home": "主页"
+    },
+    "userMenu": {
+      "Logout": "退出",
+      "Passwd": "更改密码"
+    }
+  },
+  "bucketManagePermissions": {
+    "blockAll": "阻止 <i>所有</i> 公共访问",
+    "blockAnyACLs": "阻止对通过 <i>任何</i> 访问控制列表 (ACL) 授予的存储桶和对象的公共访问",
+    "blockAnyPublic": "阻止公共和跨账户访问通过 <i>任何</i> 公共存储桶或访问点策略授予的存储桶和对象",
+    "blockNewACLs": "阻止对通过 <i>新</i> 访问控制列表 (ACL) 授予的存储桶和对象的公共访问",
+    "blockNewPublic": "阻止对通过 <i>新</i> 公共存储桶或访问点策略授予的存储桶和对象的公共访问",
+    "href": "了解更多关于存储桶权限的信息",
+    "infoButton": "更改权限",
+    "infoTip": "您的对象只能由您或您授予访问权限的任何人读取",
+    "infoTitle": "所有对象都是私有的",
+    "tip": "管理对该存储桶中对象的匿名访问。您可以将所有对象设为私有或公开（只读）。<br> 或者，您可以在将单个对象设为公开（只读）的同时保持存储桶私有。",
+    "title": "桶访问权限"
   }
 }

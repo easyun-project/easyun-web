@@ -1,4 +1,16 @@
 {
   "Login": "ログイン",
-  "userMenuLogout": "ログアウト"
+  "userMenuLogout": "ログアウト",
+  "addBucket": {
+    "bucketUrlHint": "バケット：",
+    "locationButton": "AWSリージョン変更",
+    "locationTip": "{{regionCity}}、全リージョン({{region}})にてバケットを作成する",
+    "locationTitle": "バケット場所を選択する",
+    "tip": "バケットの名前は、すべての Amazon Lightsail と Amazon S3 で一意である必要があります。また、小文字で、DNSに準拠している必要があります。",
+    "title": "クラウドストレージ(S3 バケット)を追加する",
+    "urlTitle": "バケットを確認する"
+  },
+  "addVolume": {
+    "title": "ブロックストレージ(EBS ボリューム)を追加する"
+  }
 }
