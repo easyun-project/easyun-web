@@ -56,5 +56,116 @@
     "infoTitle": "所有对象都是私有的",
     "tip": "管理对该存储桶中对象的匿名访问。您可以将所有对象设为私有或公开（只读）。<br> 或者，您可以在将单个对象设为公开（只读）的同时保持存储桶私有。",
     "title": "桶访问权限"
+  },
+  "bucketManageProperties": {
+    "encryptionOffTip": "存储在此桶中的新对象不会被加密",
+    "encryptionOffTitle": "加密被禁用",
+    "encryptionOnTip": "自动加密存储在此桶中的新对象",
+    "encryptionOnTitle": "启用加密",
+    "encryptionTitle": "默认加密",
+    "versioningHref": "了解更多关于版本控制",
+    "versioningInfoTip": "版本存储在您的存储桶中并占用您的存储空间。",
+    "versioningInfoTitle": "每次更改对象时，都会将其保存为版本。",
+    "versioningOffTip": "您的对象的更改版本没有被存储。",
+    "versioningOffTitle": "版本控制被禁用",
+    "versioningOnTip": "您的对象的更改版本将被存储。",
+    "versioningOnTitle": "版本控制已启用",
+    "versioningTip": "启用版本控制以将您的对象的每个更改作为版本。版本控制可以帮助您从意外删除或覆盖中恢复对象。",
+    "versioningTtile": "对象版本控制"
+  },
+  "datacenter": {
+    "overview": {
+      "dcDist": {
+        "para": "您正在使用以下数据中心（VPC）网络服务：",
+        "title": "数据中心分布"
+      },
+      "dcInfo": {
+        "cidrv4": "CIDR(IPv4):",
+        "createDate": "创建日期：",
+        "region": "区域：",
+        "vpcid": "VPC ID:"
+      }
+    }
+  },
+  "home": {
+    "addButton": "添加数据中心",
+    "welcome": "欢迎回到首页",
+    "dcCard": {
+      "menu": {
+        "delete": "删除",
+        "forceDelete": "强制删除",
+        "manage": "管理",
+        "resource": "资源"
+      }
+    },
+    "message": {
+      "welcome": "欢迎！"
+    },
+    "sortMenu": {
+      "createdate": "创建日期",
+      "name": "名称",
+      "region": "区域",
+      "vpc": "VPC"
+    },
+    "title": {
+      "selectDc": "选择一个数据中心",
+      "welcome": "欢迎！"
+    }
+  },
+  "langMenu": {
+    "language": "英语",
+    "title": "英"
+  },
+  "login": {
+    "button": "登录",
+    "remember": "记住登录名称",
+    "title": "登录您的帐户"
+  },
+  "mainMenu": {
+    "account": "帐户",
+    "dashboard": "数据面板",
+    "event": "事件",
+    "home": "主页"
+  },
+  "resource": {
+    "overview": {
+      "costCol": {
+        "cost": "成本",
+        "quantity": "数量",
+        "service": "服务",
+        "unit": "单位"
+      },
+      "costSummary": {
+        "title": "成本汇总"
+      },
+      "costUsage": {
+        "title": "每月费用和服务使用情况："
+      },
+      "lastWeek": {
+        "title": "最近一周每日费用："
+      },
+      "resSummary": {
+        "para": "您正在此数据中心使用以下云资源：",
+        "title": "资源摘要"
+      },
+      "totalCost": {
+        "current": "当前月份成本",
+        "forecast": "预测月成本",
+        "last": "上个月费用"
+      }
+    }
+  },
+  "volumeManageAttachment": {
+    "attachTip": "您只能将此磁盘附加到同一区域和可用区中的实例中。",
+    "extraTip": "您可能仍需要使用此实例的磁盘应用程序来挂载和格式化磁盘。",
+    "href": "了解更多关于准备用于 Linux/Unix 的附加磁盘",
+    "tip": "附加磁盘就像在您的实例中插入一个额外的驱动程序。",
+    "title": "附加到一个实例"
+  },
+  "volumeManageSnapshots": {
+    "creat": "创建快照",
+    "name": "给您的快照起个名字",
+    "tip": "您可以创建快照来备份您的磁盘。",
+    "title": "手动快照"
   }
 }
