@@ -22,12 +22,12 @@ const AddBucket = (): JSX.Element => {
     const currentRegion = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.regionCode);
     const regionList = useSelector((state: RootState) => state.dataCenter.regionList!);
     //component state
-    const [region, setRegion] = useState(regionList.filter(region => region.regionCode === currentRegion)[0]);
-    const [bucketId, setBucketId] = useState(defaultBucketName);
-    const [encryption, setEncryption] = useState(false);
-    const [versioning, setVersioning] = useState(true);
-    const [valid, setValid] = useState(false);
-    const [creating, setCreating] = useState(false);
+    const [ region, setRegion ] = useState(regionList.filter(region => region.regionCode === currentRegion)[0]);
+    const [ bucketId, setBucketId ] = useState(defaultBucketName);
+    const [ encryption, setEncryption ] = useState(false);
+    const [ versioning, setVersioning ] = useState(true);
+    const [ valid, setValid ] = useState(false);
+    const [ creating, setCreating ] = useState(false);
     //life cycle
     //由于timer不能在在重新渲染时被重置，因此需要用useRef保存
     const refTimer = useRef<NodeJS.Timeout>(setTimeout(() => undefined, 1000));
@@ -36,7 +36,7 @@ const AddBucket = (): JSX.Element => {
         // 重新开启一个定时器
         refTimer.current = setTimeout(
             () => bucketManage.validateBucketId({ dcName, bucketId }).then(res => setValid(res)), 1000);
-    }, [bucketId]);
+    }, [ bucketId ]);
 
     return (
         <>

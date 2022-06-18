@@ -71,15 +71,12 @@ const WithStorage = (props): JSX.Element => {
                 )}
             </div>
         </>
-
     );
 };
 
 const VoluemPage = (): JSX.Element => {
     const storageSate = useSelector((state: RootState) => state.storage);
     const { volumeList, loading } = storageSate;
-
-
     return (
         <Spin spinning={loading} tip="Loading...">
             <div>

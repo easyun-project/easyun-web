@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import serverService from '@/service/serverService';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +9,7 @@ import { InsType } from '../AddServer/InstanceList';
 import { Skeleton } from 'antd';
 import { getServerDetail } from '@/redux/serverSlice';
 import CWarn from '@/components/Common/CWarn';
+import { classnames } from 'tailwindcss-classnames';
 
 type Option = {
     value: string
@@ -174,13 +174,13 @@ export default function Config() {
     //         'vcpuNum': 64
     //     }
     // ];
-    const [selectedConfig, changeSelectedConfig] = useState(0);
+    const [ selectedConfig, changeSelectedConfig ] = useState(0);
     const currentInstype = useSelector((state: RootState) => state.server.currentServer!.svrProperty.instanceType.split('.')[0]);
     const instanceId = useSelector((state: RootState) => state.server.currentServer!.svrProperty.instanceId);
     // instype family
-    const [insfamilyOptions, changeInsfamilyOptions] = useState<Option>();
-    const [insFamily, changeInsFamily] = useState(currentInstype);
-    const [insTypes, changeInsTypes] = useState<'loading' | InsType[]>('loading');
+    const [ insfamilyOptions, changeInsfamilyOptions ] = useState<Option>();
+    const [ insFamily, changeInsFamily ] = useState(currentInstype);
+    const [ insTypes, changeInsTypes ] = useState<'loading' | InsType[]>('loading');
     const arch = useSelector((state: RootState) => state.server.currentServer!.svrConfig.arch as 'x86_64' | 'arm64' | 'unknown');
     const dc = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
     const os = useSelector((state: RootState) => state.server.currentServer?.svrConfig.os as 'windows' | 'linux');
@@ -298,7 +298,7 @@ export default function Config() {
                                             onClick={() => {
                                                 serverService.changeServerConfig({
                                                     ins_type: insTypes[selectedConfig].insType,
-                                                    svr_ids: [instanceId]
+                                                    svr_ids: [ instanceId ]
                                                 }).then(
                                                     () => {
                                                         message.success('修改成功!');

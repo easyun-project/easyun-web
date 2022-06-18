@@ -78,6 +78,7 @@ export default [
     {
         path:'*',
         element:<RequireAuth><AppRouter /></RequireAuth>,
+        // element:<AppRouter />,
         children:appRoutes
     },
 ];

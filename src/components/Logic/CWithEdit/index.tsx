@@ -1,5 +1,4 @@
 import React from 'react';
-import { Modal } from 'antd';
 import { Icon } from '@iconify/react';
 import { MouseEventHandler } from 'react';
 
@@ -11,7 +10,7 @@ children?:JSX.Element | JSX.Element[]
 }
 
 export default function WithEdit(props:WithEditProps) {
-    const { onOk,onCancel,visible,children } = props;
+    const { onOk, onCancel, visible, children } = props;
     return (
         visible
             ? <div className='flex'>

@@ -1,9 +1,9 @@
-import React,{ useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
-import {  Switch, Select,Popover,InputNumber } from 'antd';
+import {  Switch, Select, Popover, InputNumber } from 'antd';
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 
-import { VolumeTypeInfo,SelectedVolumeTypeInfo } from '@/constant/storage';
+import { VolumeTypeInfo, SelectedVolumeTypeInfo } from '@/constant/storage';
 
 
 // 初始化
@@ -16,12 +16,12 @@ export const useMount = (callback) => {
 // 添加新disk的钩子函数，需要传入可用的attach path
 export const useNewDisk = (availablePaths:string[]) => {
     const { Option } = Select;
-    const [volumeType, changeVolumeType] = useState('standard');
-    const [isEncrypted, changeIsEncryption] = useState(true);
-    const [volumeSize, changeVolumeSize] = useState(8);
-    const [volumeIOPS, changeVolumeIOPS] = useState(3000);
-    const [volumeThruputs, changeVolumeThruputs] = useState(125);
-    const [attachPath, changeAttachPath] = useState(availablePaths[0]);
+    const [ volumeType, changeVolumeType ] = useState('standard');
+    const [ isEncrypted, changeIsEncryption ] = useState(true);
+    const [ volumeSize, changeVolumeSize ] = useState(8);
+    const [ volumeIOPS, changeVolumeIOPS ] = useState(3000);
+    const [ volumeThruputs, changeVolumeThruputs ] = useState(125);
+    const [ attachPath, changeAttachPath ] = useState(availablePaths[0]);
     const selectedTypeInfo:SelectedVolumeTypeInfo = VolumeTypeInfo[volumeType];
     return {
         newDiskProps:{
@@ -75,7 +75,7 @@ export const useNewDisk = (availablePaths:string[]) => {
                     <div className= 'flex'>
                         <span>Disk path:</span>
                         <Select defaultValue={availablePaths[0]} size='small' style={{ width: 120 }} onChange={(e)=>changeAttachPath(e)}>
-                            {availablePaths.slice(0,5).map((path)=><Option key ={path} value={path}>{path}</Option>)}
+                            {availablePaths.slice(0, 5).map((path)=><Option key ={path} value={path}>{path}</Option>)}
                         </Select>
                     </div>
                     <div>
