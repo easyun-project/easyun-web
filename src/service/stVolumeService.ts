@@ -1,10 +1,10 @@
 import axios from './axiosConfig';
 import { StVolumePath, StVolumeList } from '@/constant/apiConst';
-import { StVolumeModel,AddVolumeParams,VolumeInfo,VolumeInfoSimple } from '@/constant/storage';
+import { StVolumeModel, AddVolumeParams, VolumeInfo, VolumeInfoSimple } from '@/constant/storage';
 
 
 export interface DcNameQueryParm {
-    dc: string
+    dcName: string
 }
 
 export default class volumeService {
@@ -21,7 +21,7 @@ export default class volumeService {
      */
     static async getVolumeList(params:DcNameQueryParm):Promise<VolumeInfoSimple[]>{
         const url =  StVolumeList;
-        const result = await axios.get(url,{ params });
+        const result = await axios.get(url, { params });
         return result.data.detail;
     }
 
@@ -33,7 +33,7 @@ export default class volumeService {
         dc:string
     }):Promise<StVolumeModel>{
         const url =  StVolumePath + '/' + params.volumeId;
-        const result = await axios.get(url,{
+        const result = await axios.get(url, {
             params: { dc:params.dc }
         });
         return result.data.detail;
@@ -45,16 +45,16 @@ export default class volumeService {
     {'State': string,
     'VolumeId': string}>{
         const url =  StVolumePath;
-        const result = await axios.post(url,params);
+        const result = await axios.post(url, params);
         return result.data.detail;
     }
 
     /**
      * delete a volume
      */
-    static async deleteVolume(data:{dcName: string,volumeIds: string[]}):Promise<{'msg': string}>{
+    static async deleteVolume(data:{dcName: string, volumeIds: string[]}):Promise<{'msg': string}>{
         const url =  StVolumePath;
-        const result = await axios.delete(url,{ data });
+        const result = await axios.delete(url, { data });
         return result.data.detail;
     }
 }

@@ -11,26 +11,26 @@ import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import accountService from '@/service/accountService';
 const Component = (): JSX.Element => {
-    const [remainder, setRemainder] = useState(0);
+    const [ remainder, setRemainder ] = useState(0);
     // 这个接口暂时有问题
     const getRemainder = async () => {
         const { remainder } = await accountService.getFreeTier();
         setRemainder(remainder);
     };
-    const [checkedFree, setCheckedFree] = useState(false);
+    const [ checkedFree, setCheckedFree ] = useState(false);
     const onChangeFree = (value) => {
         setCheckedFree(value);
     };
-    const [checkedCredits, setCheckedCredits] = useState(false);
+    const [ checkedCredits, setCheckedCredits ] = useState(false);
     const onChangeCredits = (value) => {
         setCheckedCredits(value);
     };
-    const [activationData, setActivationData] = useState('');
+    const [ activationData, setActivationData ] = useState('');
     const onChangeActivationData = (date, dateString) => {
         console.log(date, dateString);
         setActivationData(dateString);
     };
-    const [statusData, setStatusData] = useState(false);
+    const [ statusData, setStatusData ] = useState(false);
     const onChangeStatusData = async () => {
         if (!activationData){
             message.warning('select date!');
