@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import DataCenterService, { QueryDcParm } from '@/service/dataCenterService';
-import { DcDropDown } from '@/constant/dataCenter';
+import DataCenterService from '@/service/dataCenterService';
+import { QueryNewDcParm, DcDropDown } from '@/constant/dataCenter';
 import { classnames } from '@@/tailwindcss-classnames';
 import SubnetOption from '@/components/Datacenter/SubnetOptionCard';
 import SecGroupOption from '@/components/Datacenter/SecGroupOptionCard';
@@ -82,7 +82,7 @@ const AddDataCenter = (): JSX.Element => {
     const dropDown = dataCenterState.defaultDcParams?.dropDown;
     const regionList = dataCenterState.regionList;
     // 获取创建数据中心的默认参数
-    const getdcParams = (parms: QueryDcParm) => {
+    const getdcParams = (parms: QueryNewDcParm) => {
         if (parms.dc === '') dispatch(getDataCenterParams({ dc: 'default' }));
         else dispatch(getDataCenterParams(parms));
     };

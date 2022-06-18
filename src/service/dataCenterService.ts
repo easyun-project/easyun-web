@@ -1,43 +1,18 @@
-import {
-    DataCenterPath,
-    DataCenterDefault,
-    DataCenterSum,
-    DcmSubnet,
-    DcmSecgroup,
-    DcmStaticip
-    // DataCenterList
-} from '@/constant/apiConst';
+import { DataCenterPath, DataCenterDefault, DataCenterSum } from '@/constant/apiConst';
 import axios from './axiosConfig';
 import { getHeader } from '@/utils/api';
 import {
+    DcNameQueryParm,
+    QueryNewDcParm,
     DefaultDataCenterParms,
     DataCenterParams,
     DeleteDcParm,
     DataCenterModel,
     DataCenterSummary,
-    SubnetInfo,
-    EipInfo,
-    EipInfoSimple,
-    SecurityGroupDetail,
-    SecurityGroupInfoSimple, RegionItem, TaskInfo, TaskDetail,
+    RegionItem,
+    TaskInfo,
+    TaskDetail
 } from '@/constant/dataCenter';
-
-
-export interface DcNameQueryParm {
-    dc: string
-}
-
-export interface QueryDcParm {
-    dc: string
-    region?: string
-}
-
-
-interface DeleteEipParams {
-    alloId: string
-    dcName: string
-    pubIp: string
-}
 
 
 export default class DataCenterService {
@@ -64,23 +39,7 @@ export default class DataCenterService {
         return undefined;
     }
 
-
-    /**
-     * 获取创建数据中心默认参数
-     */
-    static async getDefaultDcParams(params: QueryDcParm): Promise<DefaultDataCenterParms | undefined> {
-        const url = DataCenterDefault;
-        const result = await axios.get(url, {
-            params,
-            headers: getHeader()
-        });
-        if (result.status == 200) {
-            return result.data.detail as DefaultDataCenterParms;
-        }
-        return undefined;
-    }
-
-
+    // 获取可用的region列表
     static async getRegionList(): Promise<RegionItem[] | undefined> {
         const url = DataCenterPath + '/region';
         const result = await axios.get(url, {
@@ -88,6 +47,21 @@ export default class DataCenterService {
         });
         if (result.status == 200) {
             return result.data.detail as RegionItem[];
+        }
+        return undefined;
+    }
+
+    /**
+     * 获取创建数据中心默认参数
+     */
+    static async getDefaultDcParams(params: QueryNewDcParm): Promise<DefaultDataCenterParms | undefined> {
+        const url = DataCenterDefault;
+        const result = await axios.get(url, {
+            params,
+            headers: getHeader()
+        });
+        if (result.status == 200) {
+            return result.data.detail as DefaultDataCenterParms;
         }
         return undefined;
     }
@@ -157,73 +131,5 @@ export default class DataCenterService {
             return result.data.detail as DataCenterSummary;
         }
         return undefined;
-    }
-
-    /**
-     * 获取subnet
-     */
-    static async getSubnet(params: DcNameQueryParm): Promise<SubnetInfo[]> {
-        const url = DcmSubnet;
-        const result = await axios.get(url, { params });
-        return result.data.detail;
-    }
-
-    /**
-     * 获取secgroup安全组,详细信息
-     */
-    static async getSecgroup(params: DcNameQueryParm): Promise<SecurityGroupDetail[]> {
-        const url = DcmSecgroup;
-        const result = await axios.get(url, { params, });
-        return result.data.detail;
-    }
-
-    /**
-     * 获取secgroup安全组,概要信息
-     */
-    static async listSecgroup(params: DcNameQueryParm): Promise<SecurityGroupInfoSimple[]> {
-        const url = DcmSecgroup + '/list';
-        const result = await axios.get(url, { params });
-        return result.data.detail;
-    }
-
-    /**
-     * 添加eip
-     */
-    static async createEip(dcName: string): Promise<Record<'msg', string>> {
-        const url = DcmStaticip;
-        const result = await axios.post(url, { dcName });
-        return result.data.detail;
-
-    }
-
-    /**
-     * delete an eip
-     */
-    static async deleteEip(params: DeleteEipParams): Promise<Record<'msg', string>> {
-        const url = DcmStaticip;
-        const result = await axios.delete(url, {
-            data: params,
-            headers: getHeader()
-        });
-        return result.data.detail;
-
-    }
-
-    /**
-     * 获取eip基础信息
-     */
-    static async listEipInfo(dc: string): Promise<EipInfoSimple[]> {
-        const url = DcmStaticip + '/list';
-        const result = await axios.get(url, { params: { dc }, });
-        return result.data.detail;
-    }
-
-    /**
-     * 获取eip详细信息
-     */
-    static async getEipInfo(params: { dc: string }): Promise<EipInfo[]> {
-        const url = DcmStaticip;
-        const result = await axios.get(url, { params });
-        return result.data.detail;
     }
 }

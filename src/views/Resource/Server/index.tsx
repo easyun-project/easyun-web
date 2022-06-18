@@ -83,8 +83,8 @@ export const serverColumns = [
     },
     {
         title: 'Public IPv4',
-        dataIndex: 'pubIp',
-        key: 'pubIp',
+        dataIndex: 'publicIp',
+        key: 'publicIp',
     },
 ];
 

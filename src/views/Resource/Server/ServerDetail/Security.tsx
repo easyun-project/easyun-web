@@ -11,7 +11,7 @@ import { getServerDetail } from '@/redux/serverSlice';
 type Secgroupdata = {
     'FromPort': number
     'IpProtocol': string
-    'IpRanges': Record<string,string>[],
+    'IpRanges': Record<string, string>[],
     'Ipv6Ranges': string[],
     'PrefixListIds': string[],
     'ToPort': number
@@ -27,7 +27,7 @@ export default function Security():JSX.Element {
     const allSecgroups = useSelector((state: RootState) => {
         return state.dataCenter.currentDC?.secgroup;
     });
-    const [data,changeData] = useState<Record<string,object|number|string>[]>([]);
+    const [data, changeData] = useState<Record<string, object|number|string>[]>([]);
     const [isModalVisible, changeIsModalVisible] = useState(false);
     // secgroup to show or to operate
     const [selectedSecgroups,changeSelectedSecgroups] = useState<string[]>([]);
@@ -55,7 +55,7 @@ export default function Security():JSX.Element {
             key: 'IpRanges',
             render:(record)=>
                 <div>
-                    { record.IpRanges.map((item,index)=>(<div key={index}>{item.CidrIp}</div>) )}
+                    { record.IpRanges.map((item, index)=>(<div key={index}>{item.CidrIp}</div>) )}
                 </div>
         },
         {
@@ -66,21 +66,21 @@ export default function Security():JSX.Element {
         {
             title: '',
             key: 'ruleId',
-            render: (text,record) => (
+            render: (text, record) => (
                 <Space size="middle">
                     <Icon fr={undefined}
                         icon="ep:edit"
-                        className={classnames('inline-block','mx-1', 'cursor-pointer')}
+                        className={classnames('inline-block', 'mx-1', 'cursor-pointer')}
                         width="24" height="24"
                         color='#dd6b10'
-                        onClick={() => {console.log('edit',record);
+                        onClick={() => {console.log('edit', record);
                         }} />
                     <Icon fr={undefined}
                         icon="clarity:times-line"
-                        className={classnames('inline-block','mx-1', 'cursor-pointer')}
+                        className={classnames('inline-block', 'mx-1', 'cursor-pointer')}
                         width="24" height="24"
                         color='#dd6b10'
-                        onClick={() => {console.log('delete',record);
+                        onClick={() => {console.log('delete', record);
                         }} />
                 </Space>
             ),
@@ -104,7 +104,7 @@ export default function Security():JSX.Element {
     if (currentServerState) {
         // 由于返回的字段与之前的定义不同，所以需要做一下转化
         const secGroups = currentServerState.svrSecurity.map((sec) => {
-            const newSec = { sgId: '', tagName: '',sgName:'' };
+            const newSec = { sgId: '', tagName: '', sgName:'' };
             newSec.sgId = sec['sgId'];
             newSec.tagName = sec['sgName'];
             newSec.sgName = sec['sgName'];

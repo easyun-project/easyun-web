@@ -11,7 +11,7 @@ export interface DcNameQueryParm {
     dc: string
 }
 
-export default class DcResourceService {
+export default class ResourceService {
 
     /*
      * 获取指定数据中心云资源（resource）概要( for overview page)

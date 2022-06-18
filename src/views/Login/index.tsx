@@ -10,7 +10,7 @@ import { Row, Input, message, Typography, Form, Checkbox, Menu, Dropdown } from 
 import HostModal from '@/components/Logic/CModal';
 import { listAllDataCenter, getRegionList } from '@/redux/dataCenterSlice';
 
-import logo3 from '@@/src/assets/images/logo_easyun/logo_easyun03.svg';
+import logo3 from '@@/src/assets/images/logo/easyun03.svg';
 
 const LoginPage = (): JSX.Element => {
     const navigate = useNavigate();
@@ -51,7 +51,7 @@ const LoginPage = (): JSX.Element => {
             {/* 首页header */}
             <div className='flex items-center w-full bg-gray-600'>
                 <div className='grow ml-10'>
-                    <img src={logo3} alt="logo_easyun03.svg" width='150' />
+                    <img src={logo3} alt="Easyun" width='150' />
                 </div>
                 <Dropdown overlay={systemMenu} placement='bottomRight' className='inline-flex'>
                     <a onClick={e => e.preventDefault()}>

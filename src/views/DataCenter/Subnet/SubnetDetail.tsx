@@ -1,10 +1,11 @@
-import React,{ useState } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { Switch,Select } from 'antd';
-import { CheckOutlined,CloseOutlined } from '@ant-design/icons';
+import { Switch, Select } from 'antd';
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+
 
 export default function SubnetDetail() {
     const params = useParams();

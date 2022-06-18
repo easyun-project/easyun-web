@@ -5,31 +5,32 @@ import { Icon } from '@iconify/react';
 import { useNavigate,Link } from 'react-router-dom';
 import { updateCurrentDC } from '@/redux/dataCenterSlice';
 import { useDispatch } from 'react-redux';
-import { EipInfo } from '@/constant/dataCenter';
+import { StaticIpInfo } from '@/constant/dataCenter';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import DataCenterService from '@/service/dataCenterService';
+import StaticIPService from '@/service/dcmStaticipServices';
 import { getDataCenterEip } from '@/redux/dataCenterSlice';
 
-export default function EipCard(props:EipInfo) {
+
+export default function EipCard(props:StaticIpInfo) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const dc = useSelector((state:RootState)=>state.dataCenter.currentDC.basicInfo!.dcName);
-    const { tagName,pubIp,assoTarget,boarderGroup,alloId } = props;
+    const { tagName, publicIp, assoTarget, boarderGroup, eipId } = props;
     const menu = (
         <Menu>
             <Menu.Item key="resource" onClick={()=>{
                 dispatch(updateCurrentDC(props));
-                navigate(pubIp);}}>
+                navigate(publicIp);}}>
           Detail
             </Menu.Item>
             <Menu.Item
                 danger
                 key="delete"
-                onClick={() =>{DataCenterService.deleteEip({
-                    alloId,
+                onClick={() =>{StaticIPService.delete({
+                    eipId,
                     dcName: dc,
-                    pubIp
+                    publicIp
                 }).then(
                     ()=>dispatch(getDataCenterEip({ dc })),
                     err=>alert(err));}
@@ -54,8 +55,8 @@ export default function EipCard(props:EipInfo) {
             <div className={classnames('flex', 'flex-row', 'mb-2')}>
                 <Icon icon="iconoir:ip-address" color="#e9862e" width="60"fr={undefined}/>
                 <div className='grow ml-2' >
-                    <Link to='detail' state={{ pubIp }} className={classnames('text-blue-600','text-lg')}>{tagName}</Link>
-                    <div className={classnames('text-xs', 'text-gray-500')}>{alloId}</div>
+                    <Link to='detail' state={{ publicIp }} className={classnames('text-blue-600', 'text-lg')}>{tagName}</Link>
+                    <div className={classnames('text-xs', 'text-gray-500')}>{eipId}</div>
                 </div>
                 <Dropdown overlay={menu}>
                     <Icon
@@ -87,7 +88,7 @@ export default function EipCard(props:EipInfo) {
                     : <div className={classnames('text-xs', 'text-red-500')}>Not Attached</div>
                 }
                 <div className={classnames('text-xs', 'text-gray-500')}>
-                    <div>{pubIp}</div>
+                    <div>{publicIp}</div>
                     <div>{boarderGroup}</div>
                 </div>
             </div>

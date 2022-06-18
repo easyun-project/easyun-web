@@ -72,7 +72,7 @@ export default function Network() {
                 ? <CPartialLoading classes={classnames('h-96')} />
                 : (eipInfos.length !== 0
                     ? <div className={classnames('grid', '2xl:grid-cols-3', 'lg:grid-cols-2', 'gap-4', 'justify-items-center', 'items-center', 'mt-4')}>
-                        {eipInfos.map(item => <EipCard key={item.pubIp} {...item} />)}
+                        {eipInfos.map(item => <EipCard key={item.publicIp} {...item} />)}
                     </div>
                     : <div>No Eips</div>)}
         </div>

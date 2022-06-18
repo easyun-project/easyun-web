@@ -1,3 +1,30 @@
+export interface DcNameQueryParm {
+    dc: string
+}
+
+export interface TaskInfo {
+    description: string
+    taskId: string
+}
+
+
+export interface TaskDetail {
+    current: number,
+    total: number,
+    description: string
+    taskId: string
+}
+
+export interface DCProgressInfo {
+    current: number,
+    description: string
+}
+
+export interface QueryNewDcParm {
+    dc: string
+    region?: string
+}
+
 export interface DefaultDataCenterParms {
     dcParms: DataCenterParams;
     dropDown: DcDropDown
@@ -82,9 +109,12 @@ export interface VpcSummary {
 }
 
 
-export interface EipInfo {
-    alloId: string
-    assoId: string
+export interface StaticIpInfo {
+    eipId: string
+    associationId: string
+    isAvailable: boolean
+    publicIp: string
+    tagName: string
     assoTarget: {
         eniId: string
         eniType: string
@@ -95,8 +125,6 @@ export interface EipInfo {
     eipDomain: string
     eniId: string
     ipv4Pool: string
-    pubIp: string
-    tagName: string
     targetId: string
 }
 
@@ -105,24 +133,30 @@ export interface EipInfo {
 //     Tag: Tag[]}
 
 
-export interface EipInfoSimple {
-    alloId: string
-    assoId: string
-    isAvailable: boolean
-    pubIp: string
+
+export interface IntGatewayInfo {
+    igwId: string,
+    state: string,
+    vpcId: string,
     tagName: string
 }
 
-export interface SubnetInfo {
-    availableIpNum: number
-    cidrBlock: string
-    isMapPublicIp: boolean
-    subnetAz: string
-    subnetId: string
-    subnetState: string
-    subnetType: string
-    vpcId: string
-    tagName: string
+interface NatGWNetwork {
+    allocationId: string,
+    eniId: string,
+    privateIp: string,
+    publicIp: string
+}
+
+export interface NatGatewayInfo {
+    natgwId: string,
+    state: string,
+    vpcId: string,
+    tagName: string,
+    createTime: string,
+    connectType: string,
+    subnetId: string,
+    network: NatGWNetwork
 }
 
 export interface CSecOptInfo {
@@ -138,7 +172,7 @@ export interface RegionItem {
     regionName: string;
 }
 
-export interface SecurityGroupDetail {
+export interface SecurityGroupInfo {
     'ibPermissions':
         {
             'FromPort': number
@@ -173,30 +207,29 @@ export interface SecurityGroupDetail {
     'tagName': string
 }
 
-[];
-
-export interface SecurityGroupInfoSimple {
+export interface SecurityGroupBasic {
     'sgDesc': string
     'sgId': string
     'sgName': string
     'tagName': string
 }
 
-
-export interface TaskInfo {
-    description: string
-    taskId: string
+export interface SubnetInfo {
+    availableIpNum: number
+    cidrBlock: string
+    isMapPublicIp: boolean
+    subnetAz: string
+    subnetId: string
+    subnetState: string
+    subnetType: string
+    vpcId: string
+    tagName: string
 }
 
-
-export interface TaskDetail {
-    current: number,
-    total: number,
-    description: string
-    taskId: string
-}
-
-export interface DCProgressInfo {
-    current: number,
-    description: string
+export interface StaticIpBasic {
+    eipId: string
+    associationId: string
+    isAvailable: boolean
+    publicIp: string
+    tagName: string
 }

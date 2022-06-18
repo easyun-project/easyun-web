@@ -2,9 +2,11 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import appStore from '@/redux/appSlice';
 import userStore from '@/redux/userSlice';
 import dataCenterStore from '@/redux/dataCenterSlice';
+import networkStore from '@/redux/networkSlice';
 import resourceStore from '@/redux/resourceSlice';
 import serverStore from '@/redux/serverSlice';
 import storageStore from '@/redux/storageSlice';
+import databaseStore from '@/redux/databaseSlice';
 import { persistReducer, persistStore } from 'redux-persist';
 import { getStoredState, REHYDRATE } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
@@ -27,9 +29,11 @@ const reducer = {
     user: userStore,
     app: appStore,
     dataCenter: dataCenterStore,
+    network: networkStore,
     resource: resourceStore,
     server: serverStore,
-    storage: storageStore
+    storage: storageStore,
+    database: databaseStore
 };
 
 const storageConfig = {

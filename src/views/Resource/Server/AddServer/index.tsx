@@ -8,10 +8,10 @@ import CSecOpt from '@/components/Logic/CSecurityGroup/CSecOpt';
 import DiskConfigurations from './DiskConfiguration';
 import InstanceList from './InstanceList';
 import SSHkeys from './SSHkeys';
-import { Cascader,Card,Input } from 'antd';
+import { Cascader, Card, Input } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import Networking, { SubnetInfo } from './Networking';
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import serverService from '@/service/serverService';
 import DataCenterService from '@/service/dataCenterService';
 import AccountService from '@/service/accountService';
@@ -25,18 +25,19 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 
 export interface InsTypeFamily {
-    catdesCode:string
-    catgName:string
-    familyDes:string
-    familyName:string
+    catdesCode: string
+    catgName: string
+    familyDes: string
+    familyName: string
 }
 
 type Option = {
-value: string
-label: string
-children: {
     value: string
-    label: string,}[],
+    label: string
+    children: {
+        value: string
+        label: string,
+    }[],
 }[]
 
 
@@ -50,10 +51,10 @@ const AddServer = (): JSX.Element => {
     const [tagName, changeTagName] = useState('NewServerName');
     const [svrNumber, changeSvrNumber] = useState(1);
     //arch and os
-    const [arch, changeArch] = useState<'x86_64'|'arm64'>('x86_64');
-    const [os, changeOs] = useState<'linux'|'windows'>('linux');
+    const [arch, changeArch] = useState<'x86_64' | 'arm64'>('x86_64');
+    const [os, changeOs] = useState<'linux' | 'windows'>('linux');
     // ami image
-    const [amis, changeAmis] = useState<'loading'|amiInfo[]>('loading');
+    const [amis, changeAmis] = useState<'loading' | amiInfo[]>('loading');
     const [selectedAmi, changeSelectedAmi] = useState('');
     // instype family
     const [insfamilyOptions, changeInsfamilyOptions] = useState<Option>();
@@ -81,10 +82,11 @@ const AddServer = (): JSX.Element => {
             'VolumeIOPS': 3000,
             'VolumeThruputs': 125,
             'Encrypted': true
-        } }]);
+        }
+    }]);
 
-    const generateOptions = (family:InsTypeFamily[])=>{
-        const options:Option = [
+    const generateOptions = (family: InsTypeFamily[]) => {
+        const options: Option = [
             {
                 value: 'General Purpose',
                 label: 'General Purpose',
@@ -112,22 +114,22 @@ const AddServer = (): JSX.Element => {
             },
         ];
         family.map(
-            (item)=>{
-                switch (item.catdesCode){
+            (item) => {
+                switch (item.catdesCode) {
                 case 'GP':
-                    options[0].children.push({ value:item.familyName,label:item.familyName });
+                    options[0].children.push({ value: item.familyName, label: item.familyName });
                     break;
                 case 'CO':
-                    options[1].children.push({ value:item.familyName,label:item.familyName });
+                    options[1].children.push({ value: item.familyName, label: item.familyName });
                     break;
                 case 'MO':
-                    options[2].children.push({ value:item.familyName,label:item.familyName });
+                    options[2].children.push({ value: item.familyName, label: item.familyName });
                     break;
                 case 'AC':
-                    options[3].children.push({ value:item.familyName,label:item.familyName });
+                    options[3].children.push({ value: item.familyName, label: item.familyName });
                     break;
                 case 'SO':
-                    options[4].children.push({ value:item.familyName,label:item.familyName });
+                    options[4].children.push({ value: item.familyName, label: item.familyName });
                     break;
                 }
             }
@@ -136,22 +138,21 @@ const AddServer = (): JSX.Element => {
         changeInsfamilyOptions(options);
     };
 
-    useEffect(()=>{
-        DataCenterService.getSecgroup({ dc }).then((res) => changeSecgroups(res));
-        DataCenterService.getSubnet({ dc }).then((res) => changeSubnets(res));
+    useEffect(() => {
+        DataCenterService.listAllSecgroup({ dc }).then((res) => changeSecgroups(res));
+        DataCenterService.listAllSubnet({ dc }).then((res) => changeSubnets(res));
         AccountService.getSSHKeys().then((res) => changeKeyPairs(res));
     }, []);
 
-    useEffect( ()=>{
-        console.log(arch,os);
+    useEffect(() => {
+        console.log(arch, os);
         changeAmis('loading');
         serverService.getServerImages({
-            os:os,
+            os: os,
             arch,
             dc
         }).then((res: amiInfo[]) => changeAmis(res));
-    },
-    [arch, os]);
+    }, [ arch, os ]);
 
     useEffect(() => {
         changeInsTypes('loading');
@@ -165,42 +166,40 @@ const AddServer = (): JSX.Element => {
         serverService.getServerInsfamily({
             arch,
             dc
-        }).then(res=>
-        {
+        }).then(res => {
             generateOptions(res);
         }
         );
-    },
-    [arch, os, insFamily]);
+    }, [ arch, os, insFamily ]);
 
-    useEffect( ()=>{
-        console.log(tagName,svrNumber,arch, os,selectedAmi,selectedIns,selectedSubnet,slectedSecgroups,selectedKey,disks);
-    }, [tagName,svrNumber,arch, os,selectedAmi,selectedIns,selectedSubnet,slectedSecgroups,selectedKey,disks]);
+    useEffect(() => {
+        console.log(tagName, svrNumber, arch, os, selectedAmi, selectedIns, selectedSubnet, slectedSecgroups, selectedKey, disks);
+    }, [tagName, svrNumber, arch, os, selectedAmi, selectedIns, selectedSubnet, slectedSecgroups, selectedKey, disks]);
 
 
     return (
         <div>
             <div id="add-cloud-server-title" className={classnames('m-5')}>
                 <Icon className={classnames('inline-block')} icon="fluent:add-circle-20-regular" width="30"
-                    height="30" fr={undefined}/>
+                    height="30" fr={undefined} />
                 <span>Add Cloud Server(EC2 Instance)</span>
             </div>
 
-            <Card title="Identify your server" className={classnames('rounded-border','mt-5')}>
+            <Card title="Identify your server" className={classnames('rounded-border', 'mt-5')}>
                 <div className='flex items-center'>
                     <Input className={classnames('w-36')} type="text"
                         defaultValue={tagName}
-                        onChange={e=>changeTagName(e.target.value)}/>
+                        onChange={e => changeTagName(e.target.value)} />
                     <span className='text-gray-500'>x</span>
                     <Input min={1} max={99} defaultValue={1} maxLength={2}
                         className={classnames('w-20')}
-                        type="number" onChange={e=> changeSvrNumber(parseInt(e.target.value)) }/>
+                        type="number" onChange={e => changeSvrNumber(parseInt(e.target.value))} />
                 </div>
             </Card>
 
-            <Card title="Select your server os and arch" className={classnames('rounded-border','mt-5')}>
+            <Card title="Select your server os and arch" className={classnames('rounded-border', 'mt-5')}>
                 {/* 下面的组件用于选择服务器架构 */}
-                <div className={classnames('flex','items-center')}>
+                <div className={classnames('flex', 'items-center')}>
                     <div> select your server arch </div>
                     <CButton classes={classnames(
                         arch === 'x86_64' ? 'bg-yellow-550' : 'bg-gray-400',
@@ -210,7 +209,7 @@ const AddServer = (): JSX.Element => {
                         'w-32',
                         'px-5',
                         'm-5')}
-                    click = {()=>{changeArch('x86_64');}}>64-bit(x86)</CButton>
+                    click={() => { changeArch('x86_64'); }}>64-bit(x86)</CButton>
                     <CButton classes={classnames(
                         arch === 'arm64' ? 'bg-yellow-550' : 'bg-gray-400',
                         'text-white',
@@ -219,47 +218,47 @@ const AddServer = (): JSX.Element => {
                         'w-32',
                         'px-5',
                         'm-5')}
-                    click = {()=>{changeArch('arm64');}}>64-bit(arm)</CButton>
+                    click={() => { changeArch('arm64'); }}>64-bit(arm)</CButton>
                 </div>
                 {/* 下面的用于选择操作系统 */}
-                <CPlatform platform={os} changePlatform={changeOs}/>
+                <CPlatform platform={os} changePlatform={changeOs} />
             </Card>
 
-            <Card title="Select your image(AMI)" className={classnames('rounded-border','mt-5')} loading={amis === 'loading'}>
-                <CAmis amis={amis} selectedAmi={selectedAmi} changeSelectedAmi={changeSelectedAmi}/>
+            <Card title="Select your image(AMI)" className={classnames('rounded-border', 'mt-5')} loading={amis === 'loading'}>
+                <CAmis amis={amis} selectedAmi={selectedAmi} changeSelectedAmi={changeSelectedAmi} />
             </Card>
 
-            <Card title="Select your instance type" className={classnames('rounded-border','mt-5')}>
+            <Card title="Select your instance type" className={classnames('rounded-border', 'mt-5')}>
                 {/* e是级联菜单中被选定的值，是一个列表 */}
                 <Cascader style={{ width: '20%' }} options={insfamilyOptions} placeholder="选择实例类型"
-                    onChange={ (e)=>{
-                        if(e[1] ){changeInsFamily(e[1] as string);}
-                    }} changeOnSelect/>
+                    onChange={(e) => {
+                        if (e[1]) { changeInsFamily(e[1] as string); }
+                    }} changeOnSelect />
                 {/* 在获取到insType的值后，渲染列表 */}
-                <InstanceList insTypes={insTypes} changeselectefIns={ changeselectedIns}/>
+                <InstanceList insTypes={insTypes} changeselectefIns={changeselectedIns} />
             </Card>
 
-            <Card title="Setting your disk" className={classnames('rounded-border','mt-5')}>
+            <Card title="Setting your disk" className={classnames('rounded-border', 'mt-5')}>
                 <DiskConfigurations disks={disks} changeDisks={changeDisks} />
             </Card>
 
-            <Card title="Setting your security groups" className={classnames('rounded-border','mt-5')} extra={<span>you can choose more than one </span>}>
-                <CSecOpt multi={ true } secgroups={secgroups} changeSelectedSecgroups={changeSelectedSecgroups}/>
+            <Card title="Setting your security groups" className={classnames('rounded-border', 'mt-5')} extra={<span>you can choose more than one </span>}>
+                <CSecOpt multi={true} secgroups={secgroups} changeSelectedSecgroups={changeSelectedSecgroups} />
             </Card>
 
-            <Card title="Setting your subnet" className={classnames('rounded-border','mt-5')}>
-                <Networking subnets={ subnets } changeSelectedSubnet={ changeSelectedSubnet }/>
+            <Card title="Setting your subnet" className={classnames('rounded-border', 'mt-5')}>
+                <Networking subnets={subnets} changeSelectedSubnet={changeSelectedSubnet} />
             </Card>
 
-            <Card title="Setting your keypair" className={classnames('rounded-border','mt-5')}>
-                <SSHkeys keyPairs={ keyPairs } changeSelectedKey={ changeSelectedKey }/>
+            <Card title="Setting your keypair" className={classnames('rounded-border', 'mt-5')}>
+                <SSHkeys keyPairs={keyPairs} changeSelectedKey={changeSelectedKey} />
             </Card>
 
 
             <div id="create-buttons">
                 <div>
-                    <button className={classnames('btn-gray','w-32','m-5')} onClick={()=>navigate(-1)}>Back</button>
-                    <button className={classnames('btn-yellow','w-32','m-5')} onClick={()=>{
+                    <button className={classnames('btn-gray', 'w-32', 'm-5')} onClick={() => navigate(-1)}>Back</button>
+                    <button className={classnames('btn-yellow', 'w-32', 'm-5')} onClick={() => {
                         changeCreating(true);
                         serverService.addServer({
                             'BlockDeviceMappings': disks,
@@ -269,7 +268,7 @@ const AddServer = (): JSX.Element => {
                             'SecurityGroupIds': slectedSecgroups,
                             'SubnetId': selectedSubnet,
                             'dcName': dc,
-                            'svrNumber':svrNumber,
+                            'svrNumber': svrNumber,
                             'tagName': tagName
                         }).then(
                             () => {
@@ -277,8 +276,10 @@ const AddServer = (): JSX.Element => {
                                 alert('创建成功');
                                 navigate('/resource/server');
                             },
-                            () => {changeCreating(false);
-                                alert('创建失败');},
+                            () => {
+                                changeCreating(false);
+                                alert('创建失败');
+                            },
                         );
                     }
                     }> {creating ? <LoadingOutlined className='align-middle' /> : undefined} Create</button>
