@@ -4,7 +4,7 @@ import { Icon } from '@iconify/react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import volumeService from '@/service/stVolumeService';
+import VolumeService from '@/service/stVolumeService';
 import { useTranslation } from 'react-i18next';
 import Attachment from './Attachment';
 import Tags from './Tags';
@@ -17,8 +17,8 @@ const { TabPane } = Tabs;
 export default function VolumeManage() {
     const { t } = useTranslation();
     const { volumeId } = useParams();
-    const [ seletedTab,setSeletedTab ] = useState('Attachment');
-    const volumeList = useSelector((state:RootState)=>state.storage.volumeList);
+    const [ seletedTab, setSeletedTab ] = useState('Attachment');
+    const volumeList = useSelector((state:RootState)=>state.stvolume.volumeList);
     const vol = volumeList.filter(vol=>vol.volumeId === volumeId)[0];
     return (
         <div className='m-4'>

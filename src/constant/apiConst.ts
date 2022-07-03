@@ -12,6 +12,7 @@ export const DataCenterSum = '/api/v1/datacenter/summary';
 
 // dataCenter 数据中心内基础服务管理 常量名以 Dcm 开头
 export const DcmSubnet = '/api/v1/datacenter/subnet';
+export const DcmRoute = '/api/v1/datacenter/routetable';
 export const DcmIntGW = '/api/v1/datacenter/gateway/internet';
 export const DcmNatGW = '/api/v1/datacenter/gateway/nat';
 export const DcmSecgroup = '/api/v1/datacenter/secgroup';
@@ -32,6 +33,7 @@ export const SeverSecgroupPath = '/api/v1/server/secgroup';
 export const SeverName = '/api/v1/server/name';
 
 // Storage s3存储 常量名以St开头
+export const StoragePath = '/api/v1/storage';
 export const StBucketPath = '/api/v1/storage/bucket';
 export const StBucketList = '/api/v1/storage/bucket/list';
 export const StBucketObject = '/api/v1/storage/bucket/object';
@@ -39,12 +41,15 @@ export const StBucketIdValidate = '/api/v1/storage/bucket/vaildate';
 export const StVolumePath = '/api/v1/storage/volume';
 export const StVolumeList = '/api/v1/storage/volume/list';
 
-// database 数据库 常量名以Database开头
+// Database 数据库 常量名以Database开头
 export const DatabasePath = '/api/v1/database';
+export const DatabaseList = '/api/v1/database/list';
 
+// loadbalancer 负载均衡器 常量名以Loadbalancer开头
+export const LoadbalancerPath = '/api/v1/loadbalancer';
+export const LoadbalancerList = '/api/v1/loadbalancer/list';
 
 // backups  备份 常量名以Backup开头
-
 
 // account 云账户
 export const AwsInfo = '/api/v1/account/aws_info';

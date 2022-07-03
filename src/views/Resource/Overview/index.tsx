@@ -75,10 +75,10 @@ function RescSummaryCard(props) {
 
 export const ResourceOverview = (): JSX.Element => {
     const { t } = useTranslation();
-    const resourceState = useSelector((state: RootState) => state.resource);
-    const costSummary = resourceState.costSummary;
-    const rescSummary = resourceState.resourceSummary;
-    const rescLoading = resourceState.loading;
+    const dcState = useSelector((state: RootState) => state.dataCenter);
+    const dcLoading = dcState.loading;
+    const costSummary = dcState.summary.cost;
+    const rescSummary = dcState.summary.resource;
 
     const costDate = costSummary?.currMonthCost.timePeriod.Start;
     // const costTotal = costSummary?.currMonthCost.totalCost.value;
@@ -133,7 +133,7 @@ export const ResourceOverview = (): JSX.Element => {
                 <Row gutter={[16, 24]} className='py-2'>
                     <Col span={4}>
                         <Title level={4}>{t('resource.overview.costSummary.title')}</Title>
-                        <Spin spinning={rescLoading} tip="Loading...">
+                        <Spin spinning={dcLoading} tip="Loading...">
                             {/* <Row gutter={16}> */}
                             <TotalCostCard value={currMonthTotalCost.value} unit={currMonthTotalCost.unit} text={t('resource.overview.totalCost.current')} />
                             <TotalCostCard value={forecastTotalCost.value} unit={forecastTotalCost.unit} text={t('resource.overview.totalCost.forecast')} isRise={(forecastTotalCost.value >= lastMonthTotalCost.value)} />
@@ -144,7 +144,7 @@ export const ResourceOverview = (): JSX.Element => {
 
                     <Col span={4}>
                         <Title className="ml-12" level={4}>{t('resource.overview.lastWeek.title')}</Title>
-                        <Spin spinning={rescLoading} tip="Loading...">
+                        <Spin spinning={dcLoading} tip="Loading...">
                             <LatestWeekDailyCost costList={costSummary?.latestWeekCost} />
                         </Spin>
                     </Col>
@@ -154,7 +154,7 @@ export const ResourceOverview = (): JSX.Element => {
                     <Col span={14}>
                         <Title level={4}>{costDate?.substr(0, 7)}{t('resource.overview.costUsage.title')}</Title>
                         <Table
-                            loading={rescLoading} size="middle" pagination={{ pageSize: 10 }}
+                            loading={dcLoading} size="middle" pagination={{ pageSize: 10 }}
                             scroll={{ y: 280, scrollToFirstRowOnChange: true }}
                             columns={costColumns} dataSource={costData} />
                     </Col>
@@ -164,13 +164,13 @@ export const ResourceOverview = (): JSX.Element => {
             <div id='vpcSummary'>
                 <Title level={4}>{t('resource.overview.resSummary.title')}</Title>
                 <Paragraph >{t('resource.overview.resSummary.para')}</Paragraph>
-                <Row gutter={[16, 24]} className='py-2'>
+                <Row gutter={[ 16, 24 ]} className='py-2'>
                     <RescSummaryCard title='Server (EC2)' value={rescSummary?.serverNum} />
                     <RescSummaryCard title='Database (RDS)' value={rescSummary?.rdsNum} />
                     <RescSummaryCard title='Load Balancer (ELB)' value={rescSummary?.elbNum} />
                     <RescSummaryCard title='Target Group' value={rescSummary?.elbtgNum} />
                 </Row>
-                <Row gutter={[16, 24]} className='py-2'>
+                <Row gutter={[ 16, 24 ]} className='py-2'>
                     <RescSummaryCard title='Volume (EBS)' value={rescSummary?.volumeNum} />
                     <RescSummaryCard title='Bucket (S3) ' value={rescSummary?.bucketNum} />
                     <RescSummaryCard title='Filesystem (EFS) ' value={rescSummary?.efsNum} />

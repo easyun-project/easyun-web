@@ -18,7 +18,7 @@ export default function Home(): JSX.Element {
     const [ sortBy, changeSortBy ] = useState('Name');
 
     const dataCenterState = useSelector((state: RootState) => state.dataCenter);
-    const dataCenterList = dataCenterState.dataCenterList;
+    const dataCenterList = dataCenterState.list;
     const dcListLoading = dataCenterState.loading;
 
     // const [datacenters,changeDatacenters] = useState<'loading'|DataCenterModel[]>('loading');
@@ -68,7 +68,7 @@ export default function Home(): JSX.Element {
             <div className={classnames('mx-14', 'mt-2', 'text-2xl', 'align-middle')}>{t('home.title.selectDc')}</div>
             <div className={classnames('flex', 'items-center', 'justify-between', 'mx-14')}>
                 <div className={classnames('flex', 'text-sm')}>
-                    <div className={classnames()}>sort by </div>
+                    <div className={classnames()}>Sort by </div>
                     <Dropdown overlay={menu} >
                         <div className={classnames('text-yellow-550', 'font-bold', 'mx-1', 'cursor-pointer')}>{sortBy} <DownOutlined /></div>
                     </Dropdown>

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // import databaseService, { GetDbDetailParams }from '@/service/databaseService';
-import DatabaseService, { DcNameQueryParm } from '@/service/databaseServices';
+import DatabaseService, { DcNameQueryParm } from '@/service/databaseService';
 import { DbiModel, DbiDetail } from '@/constant/database';
 
 

@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { classnames } from '@@/tailwindcss-classnames';
 import { useNavigate } from 'react-router-dom';
-import { updateDbiList } from '@/redux/databaseSlice';
 import { Spin, Dropdown, Menu } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import DatabaseCard from '@/components/resource/DatabaseCard';
@@ -16,7 +15,7 @@ const DatabasePage = (): JSX.Element => {
     return (
         <Spin spinning={loading} tip="Loading...">
             <div>
-                {dbInstanceList.length === 0 ? <WithoutResource /> : <WithResource dbInstanceList={dbInstanceList} />}
+                {dbInstanceList.length === 0 ? <WithoutResource /> : <WithResource resList={dbInstanceList} />}
             </div>
         </Spin>
     );
@@ -53,14 +52,14 @@ const WithResource = (props): JSX.Element => {
                 </div>
 
                 <div>
-                    <button className='m-5 btn-yellow'onClick={() =>navigate('/resource/volume/add')}>
-                            Add Database
+                    <button className='m-5 btn-yellow'onClick={() =>navigate('/resource/database/add')}>
+                        Add Database
                     </button>
                 </div>
             </div>
 
             <div className= 'flex flex-wrap justify-items-center '>
-                {props.dbInstanceList.map(db =>
+                {props.resList.map(db =>
                     <DatabaseCard key={db.dbiId} {...db} />
                 )}
             </div>

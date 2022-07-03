@@ -8,7 +8,7 @@ import {
 
 
 export interface SecgroupPathParam {
-    sgId: string,
+    sg_id: string,
     dc?: string
 }
 
@@ -55,12 +55,11 @@ export default class SecgroupService {
         return result.data.detail;
     }
 
-
     /**
      * Get specified Secgroup Detail
      */
     static async getDetail(params: SecgroupPathParam): Promise<SecgroupDetail> {
-        const url = DcmSecgroup + '/' + params.sgId;
+        const url = DcmSecgroup + '/' + params.sg_id;
         const result = await axios.get(url);
         return result.data.detail;
     }

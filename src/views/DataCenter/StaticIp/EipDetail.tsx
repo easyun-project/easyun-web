@@ -10,8 +10,8 @@ import ServerCard from '@/components/Logic/CCard/ServerCard';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Select } from 'antd';
 import { useDispatch } from 'react-redux';
-import { getDataCenterEip } from '@/redux/dataCenterSlice';
-import DataCenterService from '@/service/dataCenterService';
+import StaticIPService from '@/service/dcmStaticipServices';
+import { listAllStaticIp } from '@/redux/staticipSlice';
 // import { classnames } from 'tailwindcss-classnames';
 // import { WarningOutlined, InfoCircleOutlined } from '@ant-design/icons';
 const { Option } = Select;
@@ -19,10 +19,10 @@ const { Option } = Select;
 export default function EipDetail() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const dc = useSelector((state:RootState)=>state.dataCenter.currentDC.basicInfo!.dcName);
+    const dc = useSelector((state:RootState)=>state.dataCenter.current!.dcName);
     //解构赋值的连续性写法
     const { state:{ publicIp } }  = useLocation() as {state:{publicIp:string}};
-    const eipInfos = useSelector((state:RootState)=>state.dataCenter.currentDC.eip);
+    const eipInfos = useSelector((state:RootState)=>state.staticip.list);
     const thisEip = eipInfos?.filter(item=>item.publicIp === publicIp)[0];
     const { servers } = useSelector((state:RootState)=>state.server);
     // const [attachedSvr,changeAttachedSvr] = useState<SeverDetailModel>();
@@ -53,7 +53,7 @@ export default function EipDetail() {
                     <div className='self-center'>
                         <button className="w-32 btn-red" onClick={()=>{
                             if(confirm('Are you sure to release this Eip?'))
-                            {DataCenterService.deleteEip({
+                            {StaticIPService.delete({
                                 eipId: thisEip!.eipId,
                                 dcName: dc,
                                 publicIp
@@ -95,7 +95,7 @@ export default function EipDetail() {
                                             publicIp: publicIp,
                                             svrId: thisEip.assoTarget.svrId
                                         }).then(()=>{
-                                            return dispatch(getDataCenterEip({ dc }));
+                                            return dispatch(listAllStaticIp({ dc }));
                                         }).then(()=>changeDetaching(false));
                                     }}>
                                         {detaching
@@ -135,7 +135,7 @@ export default function EipDetail() {
                                                         publicIp: publicIp,
                                                         svrId: selectedSvr,
                                                     }).then(()=>{
-                                                        return dispatch(getDataCenterEip({ dc }));
+                                                        return dispatch(listAllStaticIp({ dc }));
                                                     }).then(()=>changeAttaching(false)); }}>
                                                     {attaching
                                                         ? <LoadingOutlined className='mx-1'/>

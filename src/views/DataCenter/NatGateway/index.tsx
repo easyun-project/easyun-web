@@ -9,7 +9,7 @@ import { NatGWCrad } from '@/components/Datacenter/GatewayCard';
 
 export default function index() {
     const navigate = useNavigate();
-    const natgws = useSelector((state: RootState) => state.dataCenter.currentDC.natgateway);
+    const natgws = useSelector((state: RootState) => state.natgateway.list);
     const [ sortBy, changeSortBy ] = useState('Name');
     const menu = (
         <Menu onClick={e => { changeSortBy(e.key); }}>
@@ -26,10 +26,10 @@ export default function index() {
     }
     return (
         <div>
-            <div className='mx-14 mt-2 text-2xl font-bold align-middle'>Select a Gateway</div>
-            <div className='flex justify-between items-center mx-14 '>
+            <div className='mx-8 mt-2 text-xl font-bold align-middle'>Select a NAT Gateway</div>
+            <div className='flex justify-between items-center mx-8'>
                 <div className='flex text-sm'>
-                    <div>sort by </div>
+                    <div>Sort by </div>
                     <Dropdown overlay={menu} >
                         <div className='mx-1 font-bold text-yellow-550 cursor-pointer '>{sortBy} <DownOutlined /></div>
                     </Dropdown>

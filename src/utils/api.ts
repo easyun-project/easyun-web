@@ -16,7 +16,7 @@ export const getHostUrl = ():string | undefined=> {
 export const getHeader = ():Record<string, string> | undefined=> {
 
     const token =  store.getState().user.currentUser.token;
-    const region = store.getState().dataCenter.currentDC?.basicInfo?.regionCode;
+    const region = store.getState().dataCenter.current?.regionCode;
     // 如果redux中没有token，则跳转至登录页面
     if(token)
     {return region

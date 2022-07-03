@@ -1,7 +1,7 @@
 //react 相关
 import * as React from 'react';
 import { useState } from 'react';
-import { Routes, useNavigate, useLocation, Outlet } from 'react-router-dom';
+import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 
 //UI 相关
 import { Menu } from 'antd';
@@ -42,7 +42,7 @@ export const DataCenter = (): JSX.Element => {
     // };
     const location = useLocation();
     const subPath = location.pathname.split('/')[2];
-    const [current, setCurrent] = useState(subPath);
+    const [ current, setCurrent ] = useState(subPath);
 
     const navigate = useNavigate();
     const handleClick = (e) => {

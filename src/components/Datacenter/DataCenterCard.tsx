@@ -7,28 +7,36 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { DataCenterModel } from '@/constant/dataCenter';
 import { deleteDataCenter, updateCurrentDC, getDatacenterSummary, listAllDataCenter } from '@/redux/dataCenterSlice';
-import { getDataCenterSubnet, getInternetGateway, getNatGateway, getDataCenterSecgroup, getDataCenterEip } from '@/redux/dataCenterSlice';
-import { getCostSummary, getResourceSummary } from '@/redux/resourceSlice';
+import { listAllSubnet } from '@/redux/subnetSlice';
+import { listAllRouteTable } from '@/redux/routeSlice';
+import { listAllIntGateway } from '@/redux/intgatewaySlice';
+import { listAllNatGateway } from '@/redux/natgatewaySlice';
+import { listAllSecGroup } from '@/redux/secgroupSlice';
+import { listAllStaticIp } from '@/redux/staticipSlice';
+import { getCostSummary, getResourceSummary } from '@/redux/dataCenterSlice';
 import { getServerList, listAllServer } from '@/redux/serverSlice';
-import { listAllBucket, listAllVolume } from '@/redux/storageSlice';
+import { listAllBucket } from '@/redux/stbucketSlice';
+import { listAllVolume } from '@/redux/stvolumeSlice';
 import { listAllDatabase } from '@/redux/databaseSlice';
+import { listAllLoadbalancer } from '@/redux/loadbalancerSlice';
 
 
 export default function DataCenterCard(props: DataCenterModel) {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { dcName, cidrBlock, regionCode, vpcID } = props;
+    const { dcName, vpcID, cidrBlock, regionCode } = props;
     // this function is used to initialize a datacenter
     // use async to make sure the requests are not lost
     const initDcManage = async () => {
         dispatch(updateCurrentDC(props));
         dispatch(getDatacenterSummary({ dc: dcName }));
-        dispatch(getDataCenterSubnet({ dc: dcName }));
-        dispatch(getInternetGateway({ dc: dcName }));
-        dispatch(getNatGateway({ dc: dcName }));
-        dispatch(getDataCenterSecgroup({ dc: dcName }));
-        dispatch(getDataCenterEip({ dc: dcName }));
+        dispatch(listAllSubnet({ dc: dcName }));
+        dispatch(listAllRouteTable({ dc: dcName }));
+        dispatch(listAllIntGateway({ dc: dcName }));
+        dispatch(listAllNatGateway({ dc: dcName }));
+        dispatch(listAllSecGroup({ dc: dcName }));
+        dispatch(listAllStaticIp({ dc: dcName }));
         dispatch(getServerList({ dc: dcName }));
     };
     const initResource = async () => {
@@ -39,6 +47,7 @@ export default function DataCenterCard(props: DataCenterModel) {
         dispatch(listAllVolume({ dc: dcName }));
         dispatch(listAllBucket({ dc: dcName }));
         dispatch(listAllDatabase({ dc: dcName }));
+        dispatch(listAllLoadbalancer({ dc: dcName }));
     };
     //fix-me: 在通知窗口提示Datacenter删除状态
     const openNotification = (placement) => {

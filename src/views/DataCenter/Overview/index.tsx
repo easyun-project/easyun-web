@@ -22,7 +22,7 @@ function AzSummaryCard(props: AzSummary) {
     const color = subnetNum > 0 ? '#FFBF00' : '#d9d9d9';
     return (
         <Col span={2}>
-            <Badge size="small" count={subnetNum} showZero offset={[-15, 15]} color={color}>
+            <Badge size="small" count={subnetNum} showZero offset={[ -15, 15 ]} color={color}>
                 <Card className={classnames('rounded-md', 'border-2', 'border-gray-400')}>{azName}</Card>
             </Badge>
         </Col>
@@ -45,10 +45,10 @@ function VpcSummaryCard(props: any) {
 
 export default function DataCenterOverview(): JSX.Element {
     const { t } = useTranslation();
-    const dataCenterState = useSelector((state: RootState) => state.dataCenter);
-    const dcBasic = dataCenterState.currentDC.basicInfo;
-    const dcSummary = dataCenterState.currentDC.summary;
-    const dcLoading = dataCenterState.loading;
+    const dcState = useSelector((state: RootState) => state.dataCenter);
+    const dcLoading = dcState.loading;
+    const dcBasic = dcState.current;
+    const dcSummary = dcState.summary.datacenter;
 
     // const dispatch = useDispatch();
     // useEffect(() => {

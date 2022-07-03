@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { getBucketDetail } from '@/redux/storageSlice';
+import { getBucketDetail } from '@/redux/stbucketSlice';
 import Objects from './Objects';
 import Permissions from './Permissions';
 import Properties from './Properties';
@@ -16,15 +16,15 @@ export default function BucketManage() {
     const  bucketId  = params.bucketId as string;
     const dispatch = useDispatch();
     const { state } = useLocation();
-    const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
-    const bucketList = useSelector((state: RootState) => state.storage.bucketList);
+    const dcName = useSelector((state: RootState) => state.dataCenter.current!.dcName);
+    const bucketList = useSelector((state: RootState) => state.stbucket.bucketList);
     // just for test
     const demoBucket = bucketList[0];
     const [tags, changeTags] = useState<Record<string, string>>({
         dev:'test'
     });
     useEffect(()=>{
-        dispatch(getBucketDetail({ bucketId, dcName }));
+        dispatch(getBucketDetail({ bucketId, dc: dcName }));
     }, []);
 
     const { TabPane } = Tabs;

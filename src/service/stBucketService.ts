@@ -1,23 +1,20 @@
 import axios from './axiosConfig';
 import { StBucketPath, StBucketIdValidate } from '@/constant/apiConst';
-import { StBucketCreateParms, StBucketModel, StBucketDetailModel } from '@/constant/storage';
+import { DcNameQueryParm } from '@/constant/dataCenter';
+import { StBucketCreateParms, StBucketInfo, StBucketDetail } from '@/constant/storage';
 
 
-export interface DcNameQueryParm {
-    dcName: string
-}
-
-export interface GetBucketDetailParams extends DcNameQueryParm{
+export interface BucketPathParam extends DcNameQueryParm{
     bucketId:string
 }
 
-export default class bucketService {
+export default class BucketService {
 
-    static async listAllBucket(params:DcNameQueryParm): Promise<StBucketModel[]> {
+    static async listAllBucket(params:DcNameQueryParm): Promise<StBucketInfo[]> {
         // TODO temp static
         const url =  StBucketPath;
         const result = await axios.get(url, { params });
-        return result.data.detail as StBucketModel[];
+        return result.data.detail as StBucketInfo[];
     }
 
     static async getBucketList(params:DcNameQueryParm) {
@@ -27,10 +24,10 @@ export default class bucketService {
         return result.data.detail;
     }
 
-    static async getBucketDetail(params:GetBucketDetailParams):Promise<StBucketDetailModel> {
-        const url = StBucketPath + '/' + params.bucketId;
+    static async getBucketDetail(parms:BucketPathParam):Promise<StBucketDetail> {
+        const url = StBucketPath + '/' + parms.bucketId;
         const result = await axios.get(url, {
-            params:{ dc:params.dcName }
+            params:{ dc:parms.dc }
         });
         return result.data.detail;
     }
@@ -52,7 +49,7 @@ export default class bucketService {
     /**
      * validate bucketId
      */
-    static async validateBucketId(params: GetBucketDetailParams): Promise<boolean> {
+    static async validateBucketId(params: BucketPathParam): Promise<boolean> {
         const url =  StBucketIdValidate;
         const result = await axios.get(url, { params });
         return result.data.detail.isAvailable;

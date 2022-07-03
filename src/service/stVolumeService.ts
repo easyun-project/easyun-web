@@ -1,25 +1,22 @@
 import axios from './axiosConfig';
 import { StVolumePath, StVolumeList } from '@/constant/apiConst';
-import { StVolumeModel, AddVolumeParams, VolumeInfo, VolumeInfoSimple } from '@/constant/storage';
+import { DcNameQueryParm } from '@/constant/dataCenter';
+import { StVolumeDetail, AddVolumeParams, StVolumeInfo, StVolumeBasic } from '@/constant/storage';
 
 
-export interface DcNameQueryParm {
-    dcName: string
-}
+export default class VolumeService {
 
-export default class volumeService {
-
-    static async listAllVolume(params:DcNameQueryParm): Promise<VolumeInfo[]> {
+    static async listAllVolume(params:DcNameQueryParm): Promise<StVolumeInfo[]> {
         // TODO temp static
         const url =  StVolumePath;
         const result = await axios.get(url, { params });
-        return result.data.detail as VolumeInfo[];
+        return result.data.detail as StVolumeInfo[];
     }
 
     /**
      * list all simple volume info
      */
-    static async getVolumeList(params:DcNameQueryParm):Promise<VolumeInfoSimple[]>{
+    static async getVolumeList(params:DcNameQueryParm):Promise<StVolumeBasic[]>{
         const url =  StVolumeList;
         const result = await axios.get(url, { params });
         return result.data.detail;
@@ -28,10 +25,10 @@ export default class volumeService {
     /**
      * get volume detail
      */
-    static async getStVolumeModel(params:{
+    static async getVolumeDetail(params:{
         volumeId:string,
         dc:string
-    }):Promise<StVolumeModel>{
+    }):Promise<StVolumeDetail>{
         const url =  StVolumePath + '/' + params.volumeId;
         const result = await axios.get(url, {
             params: { dc:params.dc }
