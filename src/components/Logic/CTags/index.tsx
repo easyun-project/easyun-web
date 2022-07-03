@@ -1,19 +1,19 @@
-import React,{ useState } from 'react';
-import { TagOutlined,ArrowRightOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+import { TagOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
 import { Input } from 'antd';
 
 interface CTagsProps{
-    tags:Record<string,string>
-    changeTags:React.Dispatch<React.SetStateAction<Record<string,string>>>
+    tags:Record<string, string>
+    changeTags:React.Dispatch<React.SetStateAction<Record<string, string>>>
 }
 
 export default function CTags(props:CTagsProps) {
-    const { tags,changeTags } = props;
-    const [isAdding, changeIsAdding] = useState(false);
-    const [isChanging, changeIsChanging] = useState(false);
-    const [tagKey, changeKey] = useState('');
-    const [tagValue, changeValue] = useState('');
+    const { tags, changeTags } = props;
+    const [ isAdding, changeIsAdding ] = useState(false);
+    const [ isChanging, changeIsChanging ] = useState(false);
+    const [ tagKey, changeKey ] = useState('');
+    const [ tagValue, changeValue ] = useState('');
     const deleteTag = (i:string) => {
         const newServerTags = { ...tags };
         delete newServerTags[i];

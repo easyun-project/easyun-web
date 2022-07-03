@@ -34,7 +34,7 @@ export const serverColumns = [
         dataIndex: 'svrState',
         key: 'svrState',
         sorter: (a, b) => {
-            const order = ['pending','running','shutting-down','stopped','terminated'];
+            const order = [ 'pending', 'running', 'shutting-down', 'stopped', 'terminated' ];
             return order.indexOf(a.svrState) - order.indexOf(b.svrState);},
 
         render: (text:string):React.ReactNode => {
@@ -96,11 +96,11 @@ const ServerList = ():JSX.Element => {
     const serverState = useSelector((state: RootState) =>  state.server);
     const serverDataSource = serverState.servers;
 
-    const [selectedServers, changeSelectedServers] = useState<React.Key[]>([]);
-    const [acting,changeActing] = useState(false);
-    const [isModalVisble,changeIsModalVisble] = useState(false);
-    const [newName, changeNewName] = useState('');
-    const [settingName,changeSettingName] = useState(false);
+    const [ selectedServers, changeSelectedServers ] = useState<React.Key[]>([]);
+    const [ acting, changeActing ] = useState(false);
+    const [ isModalVisble, changeIsModalVisble ] = useState(false);
+    const [ newName, changeNewName ] = useState('');
+    const [ settingName, changeSettingName ] = useState(false);
     const dcName = useSelector((state: RootState) => {
         return state.dataCenter.currentDC.basicInfo?.dcName;
     });

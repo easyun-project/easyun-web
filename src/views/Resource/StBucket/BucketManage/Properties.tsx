@@ -15,13 +15,13 @@ export default function Properties() {
     const initEncryption = (typeof currentBucket === 'string' ? undefined : currentBucket.bucketProperty.isEncryption);
     const initVersioning = (typeof currentBucket === 'string' ? undefined : currentBucket.bucketProperty.isVersioning);
     //component state
-    const [isEncryption, setIsEncryption] = useState(initEncryption);
-    const [isVersioning, setIsVersioning] = useState(initVersioning);
+    const [ isEncryption, setIsEncryption ] = useState(initEncryption);
+    const [ isVersioning, setIsVersioning ] = useState(initVersioning);
     //life cycle
     useEffect(()=>{
         console.log('🚀 ~ file: Properties.tsx ~ line 7 ~ handleSwtichChange ~ key');
         console.log('🚀 ~ file: Properties.tsx ~ line 8 ~ return ~ checked');
-    }, [isEncryption, isVersioning]);
+    }, [ isEncryption, isVersioning ]);
     return (
         <Spin spinning={currentBucket === 'loading'}>
             <div className='flex'>

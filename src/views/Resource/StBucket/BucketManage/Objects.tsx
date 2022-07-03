@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback, useMemo, useRef } from 'react';
 import { Breadcrumb, Table } from 'antd';
 import { HomeOutlined, RedoOutlined, UserOutlined, VerticalAlignTopOutlined } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
@@ -24,15 +24,15 @@ export default function Objects() {
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
-            filters: [
-                {
-                    text: 'Joe',
-                    value: 'Joe',
-                }
-            ],
-            filterMode: 'tree',
-            filterSearch: true,
-            onFilter: (value: string, record) => record.name.includes(value),
+            // filters: [
+            //     {
+            //         text: 'Joe',
+            //         value: 'Joe',
+            //     }
+            // ],
+            // filterMode: 'tree',
+            // filterSearch: true,
+            // onFilter: (value: string, record) => record.name.includes(value),
         },
         {
             title: 'Size',
@@ -91,7 +91,7 @@ export default function Objects() {
                 <Table rowSelection={{
                     type: 'checkbox',
                     ...rowSelection,
-                }} dataSource={dataSource} columns={columns} />
+                }} dataSource={dataSource} columns={ columns } />
             </div>
         </>
     );

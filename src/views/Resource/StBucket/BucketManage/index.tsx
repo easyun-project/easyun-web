@@ -20,7 +20,7 @@ export default function BucketManage() {
     const bucketList = useSelector((state: RootState) => state.storage.bucketList);
     // just for test
     const demoBucket = bucketList[0];
-    const [tags, changeTags] = useState<Record<string, string>>({
+    const [ tags, changeTags ] = useState<Record<string, string>>({
         dev:'test'
     });
     useEffect(()=>{

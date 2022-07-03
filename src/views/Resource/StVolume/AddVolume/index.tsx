@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import { useTranslation, Trans } from 'react-i18next';
-import { Card,Switch,Select } from 'antd';
+import { Card, Switch, Select } from 'antd';
 import CTags from '@/components/Logic/CTags';
-import { CheckOutlined,CloseOutlined } from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { useNewDisk } from '@/utils/hooks';
 import volumeService from '@/service/stVolumeService';
 import { useNavigate } from 'react-router-dom';
@@ -16,18 +16,18 @@ const { Option } = Select;
 const AddVolume = (): JSX.Element => {
     const navigate = useNavigate();
     const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
-    const [creating, changeCreating] = useState(false);
+    const [ creating, changeCreating ] = useState(false);
     const { t } = useTranslation();
-    const [tags , changeTags] = useState<Record<string,string>>({});
-    const [multiattch, changeMultiattch] = useState(false);
-    const { newDiskProps, newDisk } = useNewDisk(['a','b','c']);
-    const [azName, changeAzName] = useState('');
-    const availableZones = ['us-east-1a','us-east-1b'];
+    const [ tags, changeTags ] = useState<Record<string, string>>({});
+    const [ multiattch, changeMultiattch ] = useState(false);
+    const { newDiskProps, newDisk } = useNewDisk([ 'a', 'b', 'c' ]);
+    const [ azName, changeAzName ] = useState('');
+    const availableZones = [ 'us-east-1a', 'us-east-1b' ];
 
     useEffect(()=>console.log({
         ...newDiskProps,
         multiattch,
-    }),[newDiskProps]);
+    }), [ newDiskProps ]);
     return (
         <>
             <div className= 'my-8 mx-5 text-3xl '>
@@ -64,7 +64,7 @@ const AddVolume = (): JSX.Element => {
                             : t('addVolume.configuration.multiattachConfiguration.disabledTitle')}</div>
 
                         <Trans i18nKey={'addVolume.configuration.multiattachConfiguration.disabledTip'}
-                            components={{ bold:<strong/>,a:<a href="http://baidu.com" target='_blank' rel="noreferrer" className='text-blue-500 underline'/> }} />
+                            components={{ bold:<strong/>, a:<a href="http://baidu.com" target='_blank' rel="noreferrer" className='text-blue-500 underline'/> }} />
                     </div>
                 </div>
 
