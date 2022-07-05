@@ -81,7 +81,7 @@ export default function Home(): JSX.Element {
                     ? <Nodc /> :
                     <div className={classnames('grid', '2xl:grid-cols-3', 'lg:grid-cols-2', 'gap-4', 'justify-items-center', 'items-center', 'mt-4')}>
                         {dataCenterList?.slice().sort((a, b) => {
-                            if (order === 'dcRegion') { return ['us-west-1', 'us-east-1'].indexOf(b.regionCode) - ['us-west-1', 'us-east-1'].indexOf(a.regionCode); }
+                            if (order === 'dcRegion') { return [ 'us-west-1', 'us-east-1' ].indexOf(b.regionCode) - [ 'us-west-1', 'us-east-1' ].indexOf(a.regionCode); }
                             else { return b[order].localeCompare(a[order]); };
                         }).map((item) => <DataCenterCard key={item.dcName} {...item} />)}
                     </div>

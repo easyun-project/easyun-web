@@ -15,6 +15,8 @@ import { useState, useEffect } from 'react';
 import serverService from '@/service/serverService';
 import DataCenterService from '@/service/dataCenterService';
 import AccountService from '@/service/accountService';
+import SecgroupService from '@/service/dcmSecgroupServices';
+import SubnetService from '@/service/dcmSubnetServices';
 import { amiInfo } from '@/components/Logic/CAmi';
 import { InsType } from './InstanceList';
 import { CSecOptInfo } from '@/components/Logic/CSecurityGroup/CSecOpt';
@@ -46,34 +48,34 @@ const AddServer = (): JSX.Element => {
         return state.dataCenter.currentDC.basicInfo!.dcName;
     });
     const navigate = useNavigate();
-    const [creating, changeCreating] = useState(false);
+    const [ creating, changeCreating ] = useState(false);
     //server tag and name
-    const [tagName, changeTagName] = useState('NewServerName');
-    const [svrNumber, changeSvrNumber] = useState(1);
+    const [ tagName, changeTagName ] = useState('NewServerName');
+    const [ svrNumber, changeSvrNumber ] = useState(1);
     //arch and os
-    const [arch, changeArch] = useState<'x86_64' | 'arm64'>('x86_64');
-    const [os, changeOs] = useState<'linux' | 'windows'>('linux');
+    const [ arch, changeArch ] = useState<'x86_64' | 'arm64'>('x86_64');
+    const [ os, changeOs ] = useState<'linux' | 'windows'>('linux');
     // ami image
-    const [amis, changeAmis] = useState<'loading' | amiInfo[]>('loading');
-    const [selectedAmi, changeSelectedAmi] = useState('');
+    const [ amis, changeAmis ] = useState<'loading' | amiInfo[]>('loading');
+    const [ selectedAmi, changeSelectedAmi ] = useState('');
     // instype family
-    const [insfamilyOptions, changeInsfamilyOptions] = useState<Option>();
+    const [ insfamilyOptions, changeInsfamilyOptions ] = useState<Option>();
     // const [instypeFamily, changeInstypeFamily] = useState<InsTypeFamily[]>([]);
-    const [insFamily, changeInsFamily] = useState('a1');
+    const [ insFamily, changeInsFamily ] = useState('a1');
     // instype
-    const [insTypes, changeInsTypes] = useState<'loading' | InsType[]>('loading');
-    const [selectedIns, changeselectedIns] = useState('');
+    const [ insTypes, changeInsTypes ] = useState<'loading' | InsType[]>('loading');
+    const [ selectedIns, changeselectedIns ] = useState('');
     // secgroup
-    const [secgroups, changeSecgroups] = useState<CSecOptInfo[]>([]);
-    const [slectedSecgroups, changeSelectedSecgroups] = useState<string[]>([]);
+    const [ secgroups, changeSecgroups ] = useState<CSecOptInfo[]>([]);
+    const [ slectedSecgroups, changeSelectedSecgroups ] = useState<string[]>([]);
     // subnet
-    const [subnets, changeSubnets] = useState<SubnetInfo[]>([]);
-    const [selectedSubnet, changeSelectedSubnet] = useState('');
+    const [ subnets, changeSubnets ] = useState<SubnetInfo[]>([]);
+    const [ selectedSubnet, changeSelectedSubnet ] = useState('');
     // keypair
-    const [keyPairs, changeKeyPairs] = useState<KeyInfo[]>([]);
-    const [selectedKey, changeSelectedKey] = useState('');
+    const [ keyPairs, changeKeyPairs ] = useState<KeyInfo[]>([]);
+    const [ selectedKey, changeSelectedKey ] = useState('');
     // disk
-    const [disks, changeDisks] = useState<DiskInfo[]>([{
+    const [ disks, changeDisks ] = useState<DiskInfo[]>([ {
         'DeviceName': '/dev/sda1',
         'Ebs': {
             'DeleteOnTermination': true,
@@ -83,7 +85,7 @@ const AddServer = (): JSX.Element => {
             'VolumeThruputs': 125,
             'Encrypted': true
         }
-    }]);
+    } ]);
 
     const generateOptions = (family: InsTypeFamily[]) => {
         const options: Option = [
@@ -139,8 +141,8 @@ const AddServer = (): JSX.Element => {
     };
 
     useEffect(() => {
-        DataCenterService.listAllSecgroup({ dc }).then((res) => changeSecgroups(res));
-        DataCenterService.listAllSubnet({ dc }).then((res) => changeSubnets(res));
+        SecgroupService.listAll({ dc }).then((res) => changeSecgroups(res));
+        SubnetService.listAll({ dc }).then((res) => changeSubnets(res));
         AccountService.getSSHKeys().then((res) => changeKeyPairs(res));
     }, []);
 
@@ -174,7 +176,7 @@ const AddServer = (): JSX.Element => {
 
     useEffect(() => {
         console.log(tagName, svrNumber, arch, os, selectedAmi, selectedIns, selectedSubnet, slectedSecgroups, selectedKey, disks);
-    }, [tagName, svrNumber, arch, os, selectedAmi, selectedIns, selectedSubnet, slectedSecgroups, selectedKey, disks]);
+    }, [ tagName, svrNumber, arch, os, selectedAmi, selectedIns, selectedSubnet, slectedSecgroups, selectedKey, disks ]);
 
 
     return (
@@ -199,26 +201,12 @@ const AddServer = (): JSX.Element => {
 
             <Card title="Select your server os and arch" className={classnames('rounded-border', 'mt-5')}>
                 {/* 下面的组件用于选择服务器架构 */}
-                <div className={classnames('flex', 'items-center')}>
+                <div className='flex items-center my-2'>
                     <div> select your server arch </div>
-                    <CButton classes={classnames(
-                        arch === 'x86_64' ? 'bg-yellow-550' : 'bg-gray-400',
-                        'text-white',
-                        'rounded-3xl',
-                        'h-10',
-                        'w-32',
-                        'px-5',
-                        'm-5')}
-                    click={() => { changeArch('x86_64'); }}>64-bit(x86)</CButton>
-                    <CButton classes={classnames(
-                        arch === 'arm64' ? 'bg-yellow-550' : 'bg-gray-400',
-                        'text-white',
-                        'rounded-3xl',
-                        'h-10',
-                        'w-32',
-                        'px-5',
-                        'm-5')}
-                    click={() => { changeArch('arm64'); }}>64-bit(arm)</CButton>
+                    <button className = {'mx-1 ml-2 ' + (arch === 'x86_64' ? 'btn-yellow' : 'btn-gray')}
+                        onClick={() => { changeArch('x86_64'); }}>64-bit(x86)</button>
+                    <button className = {'mx-1 ' + (arch === 'arm64' ? 'btn-yellow' : 'btn-gray')}
+                        onClick={() => { changeArch('arm64'); }}>64-bit(arm)</button>
                 </div>
                 {/* 下面的用于选择操作系统 */}
                 <CPlatform platform={os} changePlatform={changeOs} />

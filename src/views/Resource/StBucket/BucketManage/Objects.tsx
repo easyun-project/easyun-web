@@ -2,9 +2,21 @@ import React, { useState, useCallback, useMemo, useRef } from 'react';
 import { Breadcrumb, Table } from 'antd';
 import { HomeOutlined, RedoOutlined, UserOutlined, VerticalAlignTopOutlined } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
+import { useQuery } from 'react-query';
+import bucketService from '@/service/stBucketService';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { StBucketDetailModel } from '@/constant/storage';
 
 
 export default function Objects() {
+    const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
+    const { currentBucket } = useSelector((state:RootState)=>state.storage );
+    if(typeof currentBucket !== 'string'){
+        const { isLoading, isError, data, error } = useQuery('todos', ()=>bucketService.getBucketObjects({ bucketId:currentBucket.bucketBasic.bucketId, dcName }));
+        console.log(isLoading, isError, data, error);
+    }
+
     const dataSource = [
         {
             key: '1',

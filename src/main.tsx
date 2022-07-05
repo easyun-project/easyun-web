@@ -2,7 +2,7 @@
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 // import { Route } from 'react-router';
-import { BrowserRouter,useRoutes } from 'react-router-dom';
+import { BrowserRouter, useRoutes } from 'react-router-dom';
 
 //redux 相关
 import { Provider } from 'react-redux';
@@ -18,6 +18,13 @@ import routes from '@/routes';
 import { CFullLoading } from '@/components/Common/CFullLoading';
 
 
+import {
+    QueryClient,
+    QueryClientProvider,
+} from 'react-query';
+
+const queryClient = new QueryClient();
+
 const App = (): JSX.Element => {
     const element = useRoutes(routes);
     return (
@@ -28,12 +35,14 @@ const App = (): JSX.Element => {
 };
 
 ReactDOM.render(
-    <BrowserRouter>
-        <Provider store={store}>
-            <PersistGate loading={null} persistor={persist}>
-                <App />
-            </PersistGate>
-        </Provider>
-    </BrowserRouter>,
+    <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+            <Provider store={store}>
+                <PersistGate loading={null} persistor={persist}>
+                    <App />
+                </PersistGate>
+            </Provider>
+        </BrowserRouter>
+    </QueryClientProvider>,
     document.getElementById('root')
 );

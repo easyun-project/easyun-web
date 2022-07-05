@@ -42,7 +42,7 @@ export const DataCenter = (): JSX.Element => {
     // };
     const location = useLocation();
     const subPath = location.pathname.split('/')[2];
-    const [current, setCurrent] = useState(subPath);
+    const [ current, setCurrent ] = useState(subPath);
 
     const navigate = useNavigate();
     const handleClick = (e) => {
@@ -53,7 +53,7 @@ export const DataCenter = (): JSX.Element => {
         <>
             <div>
                 <div className='m-3'>
-                    <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" >
+                    <Menu onClick={handleClick} selectedKeys={[ current ]} mode="horizontal" >
                         <Menu.Item key="overview">Overview</Menu.Item>
                         <Menu.Item key="subnet">Subnet</Menu.Item>
                         <Menu.Item key="route">Route</Menu.Item>

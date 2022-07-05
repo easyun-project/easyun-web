@@ -36,8 +36,8 @@ export default function DataCenterCard(props: DataCenterModel) {
         dispatch(getCostSummary({ dc: dcName }));
         dispatch(getResourceSummary({ dc: dcName }));
         dispatch(listAllServer({ dc: dcName }));
-        dispatch(listAllVolume({ dc: dcName }));
-        dispatch(listAllBucket({ dc: dcName }));
+        dispatch(listAllVolume({ dcName }));
+        dispatch(listAllBucket({ dcName }));
         dispatch(listAllDatabase({ dc: dcName }));
     };
     //fix-me: 在通知窗口提示Datacenter删除状态

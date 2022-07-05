@@ -1,6 +1,6 @@
 import axios from './axiosConfig';
 import { StBucketPath, StBucketIdValidate } from '@/constant/apiConst';
-import { StBucketCreateParms, StBucketModel, StBucketDetailModel } from '@/constant/storage';
+import { StBucketCreateParms, StBucketModel, StBucketDetailModel, StBucketObjectModel } from '@/constant/storage';
 
 
 export interface DcNameQueryParm {
@@ -16,7 +16,7 @@ export default class bucketService {
     static async listAllBucket(params:DcNameQueryParm): Promise<StBucketModel[]> {
         // TODO temp static
         const url =  StBucketPath;
-        const result = await axios.get(url, { params });
+        const result = await axios.get(url, { params:{ dc:params.dcName } });
         return result.data.detail as StBucketModel[];
     }
 
@@ -35,7 +35,9 @@ export default class bucketService {
         return result.data.detail;
     }
 
-
+    /**
+     * add a bucket
+     */
     static async addBucket(params: StBucketCreateParms): Promise<string> {
         const url =  StBucketPath;
         const result = await axios.post(url, params);
@@ -56,5 +58,13 @@ export default class bucketService {
         const url =  StBucketIdValidate;
         const result = await axios.get(url, { params });
         return result.data.detail.isAvailable;
+    }
+    /**
+     * get S3 bucket objects list
+     */
+    static async getBucketObjects(params: GetBucketDetailParams):Promise<StBucketObjectModel[]>{
+        const url = StBucketPath + '/' + params.bucketId + '/object';
+        const result = await axios.get(url, { params:{ dc : params.dcName } });
+        return result.data.detail;
     }
 };

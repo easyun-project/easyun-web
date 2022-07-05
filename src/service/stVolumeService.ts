@@ -12,7 +12,7 @@ export default class volumeService {
     static async listAllVolume(params:DcNameQueryParm): Promise<VolumeInfo[]> {
         // TODO temp static
         const url =  StVolumePath;
-        const result = await axios.get(url, { params });
+        const result = await axios.get(url, { params:{ dc:params.dcName } });
         return result.data.detail as VolumeInfo[];
     }
 

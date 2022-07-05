@@ -114,7 +114,7 @@ export interface SelectedVolumeTypeInfo{
 export const VolumeTypeInfo:Record<'gp2'|'gp3'|'io1'|'io2'|'st1'|'sc1'|'standard', SelectedVolumeTypeInfo> = {
     gp2: {
         typeDesc:'General Purpose SSD (gp2)',
-        volumeSize:[1, 16384],
+        volumeSize:[ 1, 16384 ],
         volumeIops: null,    //固定为{volumeSize}*100,
         volumeThruput: null,
         isMultiattach: false,
@@ -122,31 +122,31 @@ export const VolumeTypeInfo:Record<'gp2'|'gp3'|'io1'|'io2'|'st1'|'sc1'|'standard
     },
     gp3: {
         typeDesc:'General Purpose SSD (gp3)',
-        volumeSize:[1, 16384],
-        volumeIops:[3000, 16000],
-        volumeThruput:[1, 1000],
+        volumeSize:[ 1, 16384 ],
+        volumeIops:[ 3000, 16000 ],
+        volumeThruput:[ 1, 1000 ],
         isMultiattach: false,
         isBootvolume: true
     },
     io1: {
         typeDesc:'Provisioned IOPS SSD (io1)',
-        volumeSize:[4, 16384],
-        volumeIops:[100, 64000],
+        volumeSize:[ 4, 16384 ],
+        volumeIops:[ 100, 64000 ],
         volumeThruput: null,
         isMultiattach: true,
         isBootvolume: true
     },
     io2: {
         typeDesc:'Provisioned IOPS SSD (io2)',
-        volumeSize:[8, 16384],
-        volumeIops:[100, 256000],
+        volumeSize:[ 8, 16384 ],
+        volumeIops:[ 100, 256000 ],
         volumeThruput: null,
         isMultiattach: true,
         isBootvolume: true
     },
     st1:{
         typeDesc:'Throughput Optimized HDD (st1)',
-        volumeSize:[125, 16384],
+        volumeSize:[ 125, 16384 ],
         volumeIops: null,
         volumeThruput: null,
         isMultiattach: false,
@@ -154,7 +154,7 @@ export const VolumeTypeInfo:Record<'gp2'|'gp3'|'io1'|'io2'|'st1'|'sc1'|'standard
     },
     sc1:{
         typeDesc:'Cold HDD (sc1)',
-        volumeSize:[125, 16384],
+        volumeSize:[ 125, 16384 ],
         volumeIops: null,
         volumeThruput: null,
         isMultiattach: false,
@@ -162,7 +162,7 @@ export const VolumeTypeInfo:Record<'gp2'|'gp3'|'io1'|'io2'|'st1'|'sc1'|'standard
     },
     standard:{
         typeDesc:'Magnetic (standard)',
-        volumeSize:[1, 1024],
+        volumeSize:[ 1, 1024 ],
         volumeIops: null,
         volumeThruput: null,
         isMultiattach: false,
@@ -191,4 +191,12 @@ export interface VolumeInfoSimple{
     volumeSize: number
     volumeState: string
     volumeType: string
+}
+
+export interface StBucketObjectModel{
+    key: string
+    modifiedTime: string
+    size: number,
+    storageClass: string
+    type: string
 }

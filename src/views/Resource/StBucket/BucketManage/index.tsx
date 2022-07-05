@@ -13,7 +13,7 @@ import CTags from '@/components/Logic/CTags';
 
 export default function BucketManage() {
     const params = useParams();
-    const  bucketId  = params.bucketId as string;
+    const bucketId  = params.bucketId as string;
     const dispatch = useDispatch();
     const { state } = useLocation();
     const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
@@ -33,7 +33,7 @@ export default function BucketManage() {
             <CBucketCard {...demoBucket} />
             <Tabs defaultActiveKey="Objects">
                 <TabPane tab="Objects" key="Objects">
-                    <Objects bucketData={state} />
+                    <Objects />
                 </TabPane>
                 <TabPane tab="Permissions" key="Permissions">
                     <Permissions />
