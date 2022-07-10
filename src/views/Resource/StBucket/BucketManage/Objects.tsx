@@ -11,31 +11,44 @@ import { StBucketDetailModel } from '@/constant/storage';
 
 export default function Objects() {
     const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
-    const { currentBucket } = useSelector((state:RootState)=>state.storage );
-    if(typeof currentBucket !== 'string'){
-        const { isLoading, isError, data, error } = useQuery('todos', ()=>bucketService.getBucketObjects({ bucketId:currentBucket.bucketBasic.bucketId, dcName }));
-        console.log(isLoading, isError, data, error);
-    }
-
-    const dataSource = [
-        {
-            key: '1',
-            name: 'hello.txt',
-            size: '12Mb',
-            modified: '2022',
-        },
-        {
-            key: '2',
-            name: 'hello文件夹',
-            size: '',
-            modified: '2021',
-        },
-    ];
+    const currentBucket  = useSelector((state:RootState)=>state.storage.currentBucket as StBucketDetailModel );
+    const { bucketId } = currentBucket.bucketBasic;
+    const { isLoading, isError, data, error } = useQuery([ bucketId, dcName ], ()=>bucketService.getBucketObjects({ bucketId, dcName }));
+    const [ path, setPath ] = useState('');
+    const dataSource = data?.filter(item=>  {
+        const isSon = item.key.startsWith(path);
+        const isSonFile = item.key.replace(path, '').split('/').length === 1 && item.key.replaceAll(path, '') !== '';
+        const isSonFolder = item.key.replace(path, '').split('/').length === 2 && item.key.replaceAll(path, '').split('/').at(-1) === '';
+        return isSon && (isSonFile || isSonFolder);
+    }).map(item => {
+        return {
+            key:item.key,
+            name:item.key.replace(path, ''),
+            size:item.size,
+            modefied:item.modifiedTime,
+            type:item.type };
+    });
+    //     [
+    //     {
+    //         key: '1',
+    //         name: 'hello.txt',
+    //         size: '12Mb',
+    //         modified: '2022',
+    //     },
+    //     {
+    //         key: '2',
+    //         name: 'hello文件夹',
+    //         size: '',
+    //         modified: '2021',
+    //     },
+    // ];
     const columns = [
         {
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
+            onclick:(item)=>console.log(item)
+            // TODO:筛选功能
             // filters: [
             //     {
             //         text: 'Joe',
@@ -73,10 +86,10 @@ export default function Objects() {
                     <Breadcrumb.Item>
                         <HomeOutlined />
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item>
-                        <span>Application List</span>
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item>Application</Breadcrumb.Item>
+                    {path.split('/').map(item=><Breadcrumb.Item key={item}>
+                        {item}
+                    </Breadcrumb.Item>)}
+
                 </Breadcrumb>
             </div>
             <div className='p-2 rounded-border'>
@@ -103,7 +116,7 @@ export default function Objects() {
                 <Table rowSelection={{
                     type: 'checkbox',
                     ...rowSelection,
-                }} dataSource={dataSource} columns={ columns } />
+                }} dataSource={dataSource} columns={ columns } loading={isLoading}/>
             </div>
         </>
     );

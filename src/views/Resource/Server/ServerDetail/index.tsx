@@ -28,8 +28,8 @@ const ServerDetail = ():JSX.Element => {
     const serverId = params.serverId;
     const serverState = useSelector((state: RootState) => state.server);
     const server = serverState.currentServer;
-    const [firstLoading,changeFirstLoading] = useState(true);
-    const [seletedTab, changeSelectedTab] = useState('Detail');
+    const [ firstLoading, changeFirstLoading ] = useState(true);
+    const [ seletedTab, changeSelectedTab ] = useState('Detail');
 
     useEffect(() => {
         const init = async ()=>dispatch(getServerDetail({ serverId: serverId! }));
@@ -59,7 +59,7 @@ const ServerDetail = ():JSX.Element => {
                 if( n > m) return;
                 dispatch(getServerDetail({ serverId }));
                 n ++;
-                setTimeout(time,5000); //time是指本身,延时递归调用自己,间隔调用时间5s,单位毫秒
+                setTimeout(time, 5000); //time是指本身,延时递归调用自己,间隔调用时间5s,单位毫秒
             }
             time();
         };
@@ -71,7 +71,7 @@ const ServerDetail = ():JSX.Element => {
             color = classnames('text-yellow-550');
         }
         return (
-            <div className={classnames('ml-3','mt-5')}>
+            <div className={classnames('ml-3', 'mt-5')}>
                 <Row gutter={16}>
                     <Col span={2}>
                         <Icon icon="logos:ubuntu" width={60} fr={undefined}/>
@@ -96,27 +96,27 @@ const ServerDetail = ():JSX.Element => {
                                 {serverState.loading ? <LoadingOutlined /> : null}
                             </div>
                             <div className={classnames('flex')}>
-                                <button className={classnames('btn-yellow','w-32','m-5')} value='start' onClick={(e)=>serverService.changeServerState({
+                                <button className={classnames('btn-yellow', 'w-32', 'm-5')} value='start' onClick={(e)=>serverService.changeServerState({
                                     action: e.currentTarget.value,
-                                    svr_ids: [serverId]
+                                    svr_ids: [ serverId ]
                                 }).then(()=>refresh(3))
                                 }>
                             Start
                                 </button>
-                                <button className={classnames('btn-yellow','w-32','m-5')} value='stop' onClick={(e)=>serverService.changeServerState({
+                                <button className={classnames('btn-yellow', 'w-32', 'm-5')} value='stop' onClick={(e)=>serverService.changeServerState({
                                     action: e.currentTarget.value,
-                                    svr_ids: [serverId]
+                                    svr_ids: [ serverId ]
                                 }).then(()=>refresh(6))
                                 }>
                             Stop
                                 </button>
-                                <button className={classnames('btn-yellow','w-32','m-5')} value='restart' onClick={(e)=>serverService.changeServerState({
+                                <button className={classnames('btn-yellow', 'w-32', 'm-5')} value='restart' onClick={(e)=>serverService.changeServerState({
                                     action: e.currentTarget.value,
-                                    svr_ids: [serverId]
+                                    svr_ids: [ serverId ]
                                 }).then(()=>refresh(8))}>
                             Restart
                                 </button>
-                                <button className={classnames('btn-red','w-32','m-5')} value='delete' onClick={()=>message.info('I think you delete the instance')}>
+                                <button className={classnames('btn-red', 'w-32', 'm-5')} value='delete' onClick={()=>message.info('I think you delete the instance')}>
                             Delete
                                 </button>
                             </div>

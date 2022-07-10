@@ -52,6 +52,10 @@ export interface StBucketDetailModel {
       isEncryption: boolean
       isVersioning: boolean
     },
+    bucketSize: {
+      unit: string,
+      value: number
+    },
     userTags: Record<'Key'|'Value', string>[]
 }
 
