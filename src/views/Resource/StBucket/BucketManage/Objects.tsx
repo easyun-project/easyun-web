@@ -7,6 +7,8 @@ import bucketService from '@/service/stBucketService';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { StBucketDetailModel } from '@/constant/storage';
+import DataConversionTool from '@/utils/dataConversionTool';
+import TimeUtil from '@/utils/time';
 
 type objectData = {
     key:string,
@@ -36,7 +38,7 @@ export default function Objects() {
             key:item.key,
             name:item.key.replace(path, ''),
             size:item.size,
-            modefied:item.modifiedTime,
+            modified:item.modifiedTime,
             type:item.type };
     });
     //子文件夹的数据源：1.需要找到返回的子文件夹列表。2.需要从孙文件的路径中解析出子文件夹，并去重。
@@ -110,11 +112,18 @@ export default function Objects() {
             title: 'Size',
             dataIndex: 'size',
             key: 'size',
+            render: text=>text === 0 ? '' : DataConversionTool.conversionUnit({ value:text, unit:'Byte' })
+        },
+        {
+            title: 'Type',
+            dataIndex: 'type',
+            key: 'type'
         },
         {
             title: 'Modified',
             dataIndex: 'modified',
             key: 'modified',
+            render :text=>  TimeUtil.utcConvertTimeZone({ date:text, formatter: 'YYYY/MM/DD HH:mm:ss' })
         },
     ];
     const rowSelection = {
@@ -128,18 +137,17 @@ export default function Objects() {
     };
     return (
         <>
-            <div>
-                <Breadcrumb>
-                    <Breadcrumb.Item>
-                        <HomeOutlined onClick={()=>setPath('')}/>
-                    </Breadcrumb.Item>
-                    {path.split('/').map(item=>
-                        <Breadcrumb.Item key={item}>
-                            {item}
-                        </Breadcrumb.Item>)}
 
-                </Breadcrumb>
-            </div>
+            <Breadcrumb>
+                <Breadcrumb.Item>
+                    <a><HomeOutlined onClick={()=>setPath('')}/></a>
+                </Breadcrumb.Item>
+                {path.split('/').map(item=>
+                    <Breadcrumb.Item key={item} onClick={()=>setPath(path.split(item)[0] + item + '/')}>
+                        <a>{item}</a>
+                    </Breadcrumb.Item>)}
+            </Breadcrumb>
+
             <div className='p-2 rounded-border'>
                 <div className='text-2xl'>Object list</div>
                 <div>
