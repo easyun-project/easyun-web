@@ -1,6 +1,6 @@
-import React, { useState, useCallback, useMemo, useRef } from 'react';
+import React, { useState } from 'react';
 import { Breadcrumb, Table } from 'antd';
-import { HomeOutlined, RedoOutlined, UserOutlined, VerticalAlignTopOutlined } from '@ant-design/icons';
+import { HomeOutlined, RedoOutlined, VerticalAlignTopOutlined } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
 import { useQuery } from 'react-query';
 import bucketService from '@/service/stBucketService';
@@ -22,7 +22,7 @@ export default function Objects() {
     const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
     const currentBucket  = useSelector((state:RootState)=>state.storage.currentBucket as StBucketDetailModel );
     const { bucketId } = currentBucket.bucketBasic;
-    const { isLoading, isError, data, error } = useQuery([ bucketId, dcName ], ()=>bucketService.getBucketObjects({ bucketId, dcName }));
+    const { isLoading,  data } = useQuery([ bucketId, dcName ], ()=>bucketService.getBucketObjects({ bucketId, dcName }));
     const [ path, setPath ] = useState('');
 
     //子文件的数据源
@@ -112,7 +112,7 @@ export default function Objects() {
             title: 'Size',
             dataIndex: 'size',
             key: 'size',
-            render: text=>text === 0 ? '' : DataConversionTool.conversionUnit({ value:text, unit:'Byte' })
+            render: (text:number)=>text === 0 ? '' : DataConversionTool.conversionUnit({ value:text, unit:'Byte' })
         },
         {
             title: 'Type',
@@ -123,7 +123,7 @@ export default function Objects() {
             title: 'Modified',
             dataIndex: 'modified',
             key: 'modified',
-            render :text=>  TimeUtil.utcConvertTimeZone({ date:text, formatter: 'YYYY/MM/DD HH:mm:ss' })
+            render :(text:string)=>  TimeUtil.utcConvertTimeZone({ date:text, formatter: 'YYYY/MM/DD HH:mm:ss' })
         },
     ];
     const rowSelection = {
