@@ -3,19 +3,19 @@ import { Icon } from '@iconify/react';
 import { Menu, Dropdown, message } from 'antd';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
-import { VolumeInfo } from '@/constant/storage';
+import { StVolumeInfo } from '@/constant/storage';
 // import serverService from '@/service/serverService';
-import volumeService from '@/service/stVolumeService';
+import VolumeService from '@/service/stVolumeService';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { listAllVolume } from '@/redux/storageSlice';
+import { listAllVolume } from '@/redux/stvolumeSlice';
 
 
 
-const CStVolumeCard = (props: VolumeInfo): JSX.Element => {
+const CStVolumeCard = (props: StVolumeInfo): JSX.Element => {
     const { volumeId, volumeAz, volumeSize, volumeAttach } = props;
     const navigate = useNavigate();
-    const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
+    const dcName = useSelector((state: RootState) => state.dataCenter.current!.dcName);
     const dispatch = useDispatch();
     const menu = (
         <Menu>
@@ -29,7 +29,7 @@ const CStVolumeCard = (props: VolumeInfo): JSX.Element => {
                 key="delete"
                 onClick={()=>{
                     //TODO:此处还需要解绑一下
-                    volumeService.deleteVolume({ dcName, volumeIds: [ volumeId ] }).then(()=>
+                    VolumeService.deleteVolume({ dcName, volumeIds: [ volumeId ] }).then(()=>
                     {
                         dispatch(listAllVolume({ dc: dcName }));
                         message.info('Delete volume success');

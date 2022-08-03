@@ -45,7 +45,7 @@ type Option = {
 
 const AddServer = (): JSX.Element => {
     const dc = useSelector((state: RootState) => {
-        return state.dataCenter.currentDC.basicInfo!.dcName;
+        return state.dataCenter.current!.dcName;
     });
     const navigate = useNavigate();
     const [ creating, changeCreating ] = useState(false);

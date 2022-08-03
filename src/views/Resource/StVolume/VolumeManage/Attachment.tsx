@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next';
 import ServerCard from '@/components/Logic/CCard/ServerCard';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
-import { VolumeInfo } from '@/constant/storage';
+import { StVolumeInfo } from '@/constant/storage';
 import serverService from '@/service/serverService';
 import { useDispatch, useSelector } from 'react-redux';
-import { listAllVolume } from '@/redux/storageSlice';
+import { listAllVolume } from '@/redux/stvolumeSlice';
 import { listAllServer } from '@/redux/serverSlice';
 import { RootState } from '@/redux/store';
 import { Select } from 'antd';
@@ -15,12 +15,12 @@ import getAvaliablePaths from '@/utils/pathTool';
 const { Option } = Select;
 
 // TODO:挂载卸载的接口。
-export default function Attachment(props:VolumeInfo) {
+export default function Attachment(props:StVolumeInfo) {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const { volumeAttach, volumeId } = props;
     const vols = useSelector((state: RootState) => state.storage.volumeList);
-    const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
+    const dcName = useSelector((state: RootState) => state.dataCenter.current!.dcName);
     const { servers } = useSelector((state:RootState)=>state.server);
     const [ attaching, changeAttaching ] = useState(false);
     const [ detaching, changeDetaching ] = useState(false);

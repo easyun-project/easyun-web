@@ -10,9 +10,9 @@ import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 export default function SubnetDetail() {
     const params = useParams();
     const { subnetId } = params;
-    const subnet = useSelector((state:RootState)=>state.dataCenter.currentDC.subnet?.filter(subnet=>subnet.subnetId === subnetId).at(0));
-    const [seletedRoute,changeSeletedRoute] = useState('');
-    const [autoAssign, changeAutoAssign] = useState(true);
+    const subnet = useSelector((state:RootState)=>state.subnet.list?.filter(subnet=>subnet.subnetId === subnetId).at(0));
+    const [ seletedRoute, changeSeletedRoute ] = useState('');
+    const [ autoAssign, changeAutoAssign ] = useState(true);
     const { Option } = Select;
     return (
         <div className='flex m-4'>

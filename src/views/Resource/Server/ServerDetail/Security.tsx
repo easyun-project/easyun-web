@@ -4,7 +4,7 @@ import { Icon } from '@iconify/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import CSecOpt from '@/components/Logic/CSecurityGroup/CSecOpt';
-import { Table, Space,Modal,Radio } from 'antd';
+import { Table, Space, Modal, Radio } from 'antd';
 import serverService from '@/service/serverService';
 import { getServerDetail } from '@/redux/serverSlice';
 
@@ -25,14 +25,14 @@ export default function Security():JSX.Element {
         return state.server.currentServer;
     });
     const allSecgroups = useSelector((state: RootState) => {
-        return state.dataCenter.currentDC?.secgroup;
+        return state.secgroup.list;
     });
-    const [data, changeData] = useState<Record<string, object|number|string>[]>([]);
-    const [isModalVisible, changeIsModalVisible] = useState(false);
+    const [ data, changeData ] = useState<Record<string, object|number|string>[]>([]);
+    const [ isModalVisible, changeIsModalVisible ] = useState(false);
     // secgroup to show or to operate
-    const [selectedSecgroups,changeSelectedSecgroups] = useState<string[]>([]);
+    const [ selectedSecgroups, changeSelectedSecgroups ] = useState<string[]>([]);
     // secgroup to attach
-    const [selectedSecgroup, changeSelectedSecgroup] = useState('');
+    const [ selectedSecgroup, changeSelectedSecgroup ] = useState('');
 
     const columns = [
         {
@@ -91,7 +91,7 @@ export default function Security():JSX.Element {
     useEffect(()=>{
         const selectedSecgroupInfo = allSecgroups?.filter((secgroup)=>secgroup.sgId === selectedSecgroups[0])[0];
         if(selectedSecgroupInfo){
-            const newRes:Secgroupdata[] = [...selectedSecgroupInfo.ibPermissions];
+            const newRes:Secgroupdata[] = [ ...selectedSecgroupInfo.ibPermissions ];
             const data = newRes.map(i=>{
                 const item = { ...i };
                 item.strategy = 'Restricted';
@@ -100,7 +100,7 @@ export default function Security():JSX.Element {
             changeData(data);
         }
     }
-    ,[selectedSecgroups]);
+    , [ selectedSecgroups ]);
     if (currentServerState) {
         // 由于返回的字段与之前的定义不同，所以需要做一下转化
         const secGroups = currentServerState.svrSecurity.map((sec) => {
@@ -117,7 +117,7 @@ export default function Security():JSX.Element {
                 <div>Security Groups</div>
                 <div className={classnames('flex')}>
                     <CSecOpt multi={ false } secgroups={secGroups} changeSelectedSecgroups={changeSelectedSecgroups} />
-                    <div className={classnames('flex', 'flex-col','p-2','justify-around')}>
+                    <div className={classnames('flex', 'flex-col', 'p-2', 'justify-around')}>
                         <button
                             className={ classnames('btn-yellow-sm')}
                             onClick={()=>{console.log('Create New');

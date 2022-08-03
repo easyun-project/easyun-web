@@ -73,8 +73,8 @@ const WithStorage = (props): JSX.Element => {
 };
 
 const BucketPage = (): JSX.Element => {
-    const storageSate = useSelector((state: RootState) => state.storage);
-    const { loading, bucketList } = storageSate;
+    const BucketSate = useSelector((state: RootState) => state.stbucket);
+    const { loading, bucketList } = BucketSate;
 
     return (
         <Spin spinning={loading} tip="Loading...">

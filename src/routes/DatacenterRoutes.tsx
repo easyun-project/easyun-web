@@ -12,6 +12,8 @@ import SubnetDetail from '@/views/DataCenter/Subnet/SubnetDetail';
 import AddSubnet from '@/views/DataCenter/Subnet/AddSubnet';
 import IntGateway from '@/views/DataCenter/IntGateway';
 import NatGateway from '@/views/DataCenter/NatGateway';
+import RouteTable from '@/views/DataCenter/RouteTable';
+import SecurityGroup from '@/views/DataCenter/SecGroup';
 
 
 export default [
@@ -41,7 +43,7 @@ export default [
     },
     {
         path:'route',
-        element:<NoResource resourceName={'route'} buttonName={'Add Route'} routePath={'/route/add'} />
+        element:<RouteTable />
     },
     {
         path:'internet',
@@ -53,7 +55,7 @@ export default [
     },
     {
         path:'security',
-        element:<NoResource resourceName={'security'} buttonName={'Add SecurityGroup'} routePath={'/security/add'} />
+        element:<SecurityGroup />
     },
     {
         path:'staticip',

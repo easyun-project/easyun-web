@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { getBucketDetail } from '@/redux/storageSlice';
+import { getBucketDetail } from '@/redux/stbucketSlice';
 import Objects from './Objects';
 import Permissions from './Permissions';
 import Properties from './Properties';
@@ -22,7 +22,7 @@ export default function BucketManage() {
         dev:'test'
     });
     useEffect(()=>{
-        dispatch(getBucketDetail({ bucketId, dcName }));
+        dispatch(getBucketDetail({ bucketId, dc: dcName }));
     }, []);
     const { TabPane } = Tabs;
 

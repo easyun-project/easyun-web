@@ -18,7 +18,7 @@ export default function Network(): JSX.Element {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const server = useSelector((state: RootState) => state.server.currentServer);
-    const dc = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo?.dcName);
+    const dc = useSelector((state: RootState) => state.dataCenter.current?.dcName);
     const [isModalVisible, changeIsModalVisible] = useState(false);
     const [selectedEip, changeSelectedEip] = useState('');
     const [eips, changeEips] = useState<StaticIpBasic[]>([]);

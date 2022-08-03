@@ -1,18 +1,24 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import appStore from '@/redux/appSlice';
-import userStore from '@/redux/userSlice';
-import dataCenterStore from '@/redux/dataCenterSlice';
-import networkStore from '@/redux/networkSlice';
-import resourceStore from '@/redux/resourceSlice';
-import serverStore from '@/redux/serverSlice';
-import storageStore from '@/redux/storageSlice';
-import databaseStore from '@/redux/databaseSlice';
-import { persistReducer, persistStore } from 'redux-persist';
-import { getStoredState, REHYDRATE } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-// import { ResourceStore } from 'i18next';
+import { persistReducer, persistStore, getStoredState, REHYDRATE } from 'redux-persist';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import appReducer from '@/redux/appSlice';
+import userReducer from '@/redux/userSlice';
+import dataCenterReducer from '@/redux/dataCenterSlice';
+import subnetReducer from '@/redux/subnetSlice';
+import routeReducer from '@/redux/routeSlice';
+import secgroupReducer from '@/redux/secgroupSlice';
+import intgatewayReducer from '@/redux/intgatewaySlice';
+import natgatewayReducer from '@/redux/natgatewaySlice';
+import staticipReducer from '@/redux/staticipSlice';
+import serverReducer from '@/redux/serverSlice';
+import bucketReducer from '@/redux/stbucketSlice';
+import volumeReducer from '@/redux/stvolumeSlice';
+import databaseReducer from '@/redux/databaseSlice';
+import loadbalancerReducer from '@/redux/loadbalancerSlice';
+// import { ResourceReducer } from 'i18next';
 // import hardSet from 'redux-persist/lib/stateReconciler/hardSet';
 // import sessionStorage from 'redux-persist/es/storage/session';
+
 
 export function crossBrowserListener(store, persistConfig) {
     return async function() {
@@ -26,14 +32,20 @@ export function crossBrowserListener(store, persistConfig) {
 }
 
 const reducer = {
-    user: userStore,
-    app: appStore,
-    dataCenter: dataCenterStore,
-    network: networkStore,
-    resource: resourceStore,
-    server: serverStore,
-    storage: storageStore,
-    database: databaseStore
+    user: userReducer,
+    app: appReducer,
+    dataCenter: dataCenterReducer,
+    subnet: subnetReducer,
+    route: routeReducer,
+    secgroup: secgroupReducer,
+    intgateway: intgatewayReducer,
+    natgateway: natgatewayReducer,
+    staticip: staticipReducer,
+    server: serverReducer,
+    stbucket: bucketReducer,
+    stvolume: volumeReducer,
+    database: databaseReducer,
+    loadbalancer: loadbalancerReducer
 };
 
 const storageConfig = {

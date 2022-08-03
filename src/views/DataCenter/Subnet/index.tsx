@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function index() {
     const navigate = useNavigate();
-    const subnets = useSelector((state: RootState) => state.dataCenter.currentDC.subnet);
+    const subnets = useSelector((state: RootState) => state.subnet.list);
     const [ sortBy, changeSortBy ] = useState('Name');
     const menu = (
         <Menu onClick={e => { changeSortBy(e.key); }}>

@@ -70,6 +70,58 @@ export interface DcDropDown {
     rtbList: string[];
 }
 
+// DataCenter workload resource summary
+export interface ResourceSummary {
+    bucketNum: number,
+    efsNum: number,
+    efsbackupNum: number,
+    elbNum: number,
+    elbtgNum: number,
+    rdsNum: number,
+    rdsbackupNum: number,
+    serverNum: number,
+    volbackupNum: number,
+    volumeNum: number
+}
+
+// DataCenter workload Cost&Usage summary
+export interface CostUsageItem {
+    metric?: string
+    unit: string
+    value: string
+}
+
+export interface TimePeriodItem {
+    Start: string
+    End: string
+}
+
+export interface GroupCostUsage {
+    service: string
+    cost: CostUsageItem
+    usage: CostUsageItem
+}
+
+export interface PeriodMonthlyCost {
+    timePeriod: TimePeriodItem
+    groupCost: GroupCostUsage[]
+    totalCost: CostUsageItem
+}
+
+export interface PeriodTotalCost {
+    timePeriod: TimePeriodItem
+    totalCost: CostUsageItem
+}
+
+export interface CostSummary {
+    currMonthTotal: PeriodTotalCost
+    lastMonthTotal: PeriodTotalCost
+    forecastTotal?: PeriodTotalCost
+    latestWeekCost: PeriodTotalCost[]
+    currMonthCost: PeriodMonthlyCost
+}
+
+// DataCenter Management
 export interface DeleteDcParm {
     dcName: string;
     isForceDel?: boolean
@@ -172,6 +224,44 @@ export interface RegionItem {
     regionName: string;
 }
 
+export interface SubnetInfo {
+    availableIpNum: number
+    cidrBlock: string
+    isMapPublicIp: boolean
+    subnetAz: string
+    subnetId: string
+    subnetState: string
+    subnetType: string
+    vpcId: string
+    tagName: string
+}
+
+export interface RouteTableInfo {
+    rtbId: string,
+    vpcId: string,
+    tagName: string,
+    routes: {
+        'DestinationCidrBlock': string,
+        'GatewayId': string,
+        'Origin': string,
+        'State': string,
+      }[],
+      associations: {
+        'AssociationState': Record<'State', string>,
+        'Main': boolean,
+        'RouteTableAssociationId': string,
+        'RouteTableId': string,
+        'SubnetId': string
+      }[],
+      propagateVgws: Record<string, unknown>[]
+}
+
+export interface RouteTableBasic {
+    rtbId: string,
+    vpcId: string,
+    tagName: string
+}
+
 export interface SecurityGroupInfo {
     'ibPermissions':
         {
@@ -212,18 +302,6 @@ export interface SecurityGroupBasic {
     'sgId': string
     'sgName': string
     'tagName': string
-}
-
-export interface SubnetInfo {
-    availableIpNum: number
-    cidrBlock: string
-    isMapPublicIp: boolean
-    subnetAz: string
-    subnetId: string
-    subnetState: string
-    subnetType: string
-    vpcId: string
-    tagName: string
 }
 
 export interface StaticIpBasic {

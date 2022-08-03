@@ -13,6 +13,8 @@ import BucketPage from '@/views/Resource/StBucket';
 import BucketManage from '@/views/Resource/StBucket/BucketManage';
 import VolumeManage from '@/views/Resource/StVolume/VolumeManage';
 import DatabasePage from '@/views/Resource/Database';
+import LoadbalancerPage from '@/views/Resource/LoadBalancer';
+
 
 export default [
     {
@@ -61,7 +63,7 @@ export default [
     },
     {
         path: 'loadbalancer',
-        element: <NoResource resourceName={'loadbalancer'} buttonName={'Add Load Balancer'} routePath={'/loadbalancer/add'} />
+        element: <LoadbalancerPage />
     },
     {
         path: 'backup',

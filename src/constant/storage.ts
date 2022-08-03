@@ -15,7 +15,7 @@ export interface StBucketCreateParms {
   dcName: string
 }
 
-export interface StBucketModel {
+export interface StBucketInfo {
     bucketAccess: {
       description: string
       status: string
@@ -30,7 +30,7 @@ export interface StBucketModel {
     createTime: string
 }
 
-export interface StBucketDetailModel {
+export interface StBucketDetail {
     bucketBasic: {
       bucketId: string
       bucketRegion: string
@@ -59,7 +59,7 @@ export interface StBucketDetailModel {
     userTags: Record<'Key'|'Value', string>[]
 }
 
-export interface VolumeBasic {
+interface VolumeBasic {
     createTime: string
     tagName: string
     volumeAz: string
@@ -67,7 +67,7 @@ export interface VolumeBasic {
     volumeState: string
   }
 
-export interface StVolumeModel{
+export interface StVolumeDetail{
     volumeAttach: {
         attachPath: string
         attachTime: string
@@ -86,7 +86,7 @@ export interface StVolumeModel{
     userTags: Record<'Key'|'Value', string>[]
   }
 
-export interface VolumeInfo{
+export interface StVolumeInfo{
     volumeAttach: {
         attachPath: string
         svrId: string
@@ -105,6 +105,16 @@ export interface VolumeInfo{
     volumeThruput?:number
     volumeType:string
   }
+
+export interface StVolumeBasic{
+    isAvailable: boolean
+    tagName: string
+    volumeAz: string
+    volumeId: string
+    volumeSize: number
+    volumeState: string
+    volumeType: string
+}
 
 export interface SelectedVolumeTypeInfo{
     typeDesc:string,

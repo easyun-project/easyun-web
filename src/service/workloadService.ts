@@ -3,15 +3,14 @@ import { DataCenterSum } from '@/constant/apiConst';
 import {
     ResourceSummary,
     CostSummary,
-} from '@/constant/resource';
-
+} from '@/constant/workload';
 
 
 export interface DcNameQueryParm {
     dc: string
 }
 
-export default class ResourceService {
+export default class WorkloadService {
 
     /*
      * 获取指定数据中心云资源（resource）概要( for overview page)

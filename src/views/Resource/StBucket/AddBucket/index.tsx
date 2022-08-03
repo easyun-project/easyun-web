@@ -18,8 +18,8 @@ const AddBucket = (): JSX.Element => {
     const flagUtil = new FlagUtil();
     const defaultBucketName = 'bucket-easyun-test' + parseInt(Math.random() * 900 + 100 + '', 10);
     //redux state
-    const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
-    const currentRegion = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.regionCode);
+    const dcName = useSelector((state: RootState) => state.dataCenter.current!.dcName);
+    const currentRegion = useSelector((state: RootState) => state.dataCenter.current!.regionCode);
     const regionList = useSelector((state: RootState) => state.dataCenter.regionList!);
     //component state
     const [ region, setRegion ] = useState(regionList.filter(region => region.regionCode === currentRegion)[0]);

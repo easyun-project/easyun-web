@@ -6,9 +6,10 @@ import { Menu, Dropdown } from 'antd';
 import { classnames } from 'tailwindcss-classnames';
 import { DownOutlined } from '@ant-design/icons';
 //redux相关
-import { getDataCenterEip } from '@/redux/dataCenterSlice';
+import { listAllStaticIp } from '@/redux/staticipSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import StaticIPService from '@/service/dcmStaticipServices';
 import DataCenterService from '@/service/dataCenterService';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
@@ -18,9 +19,9 @@ export default function Network() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     // const [eipInfos, changeEipInfos] = useState<'loading'|EipInfo[]>('loading');
-    const eipInfos = useSelector((state: RootState) => state.dataCenter.currentDC.eip);
-    const loading = useSelector((state: RootState) => state.dataCenter.loading);
-    const dc = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
+    const eipInfos = useSelector((state: RootState) => state.staticip.list);
+    const loading = useSelector((state: RootState) => state.staticip.loading);
+    const dc = useSelector((state: RootState) => state.dataCenter.current!.dcName);
     const [creating, changeCreating] = useState(false);
     const [sortBy, changeSortBy] = useState('Name');
     const menu = (
@@ -44,10 +45,10 @@ export default function Network() {
 
     return (
         <div>
-            <div className='mx-14 mt-2 text-2xl font-bold align-middle'>Select a Static IP</div>
-            <div className={classnames('flex', 'items-center', 'justify-between', 'mx-14')}>
+            <div className='mx-8 mt-2 text-xl font-bold align-middle'>Select a Static IP</div>
+            <div className='flex justify-between items-center mx-8'>
                 <div className={classnames('flex', 'text-sm')}>
-                    <div className={classnames()}>sort by </div>
+                    <div className={classnames()}>Sort by </div>
                     <Dropdown overlay={menu} >
                         <div className={classnames('text-yellow-550', 'font-bold', 'mx-1', 'cursor-pointer')}>{sortBy} <DownOutlined /></div>
                     </Dropdown>
@@ -55,9 +56,9 @@ export default function Network() {
 
                 <button className='flex items-center btn-yellow' onClick={() => {
                     changeCreating(true);
-                    DataCenterService.createEip('Easyun').then(
+                    StaticIPService.create({ dcName:dc }).then(
                         () => {
-                            dispatch(getDataCenterEip({ dc }));
+                            dispatch(listAllStaticIp({ dc }));
                             changeCreating(false);
                         }
                     );

@@ -2,20 +2,19 @@ import React from 'react';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Menu, Dropdown } from 'antd';
 import { Icon } from '@iconify/react';
-import { useNavigate,Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { updateCurrentDC } from '@/redux/dataCenterSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { StaticIpInfo } from '@/constant/dataCenter';
-import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import StaticIPService from '@/service/dcmStaticipServices';
-import { getDataCenterEip } from '@/redux/dataCenterSlice';
+import { listAllStaticIp } from '@/redux/staticipSlice';
 
 
 export default function EipCard(props:StaticIpInfo) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const dc = useSelector((state:RootState)=>state.dataCenter.currentDC.basicInfo!.dcName);
+    const dc = useSelector((state:RootState)=>state.dataCenter.current!.dcName);
     const { tagName, publicIp, assoTarget, boarderGroup, eipId } = props;
     const menu = (
         <Menu>
@@ -32,7 +31,7 @@ export default function EipCard(props:StaticIpInfo) {
                     dcName: dc,
                     publicIp
                 }).then(
-                    ()=>dispatch(getDataCenterEip({ dc })),
+                    ()=>dispatch(listAllStaticIp({ dc })),
                     err=>alert(err));}
                 }
             >

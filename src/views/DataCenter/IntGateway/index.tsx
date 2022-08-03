@@ -9,7 +9,7 @@ import { InternetGWCard } from '@/components/Datacenter/GatewayCard';
 
 export default function index() {
     const navigate = useNavigate();
-    const igws = useSelector((state: RootState) => state.dataCenter.currentDC.intgateway);
+    const igws = useSelector((state: RootState) => state.intgateway.list);
     const [ sortBy, changeSortBy ] = useState('Name');
     const menu = (
         <Menu onClick={e => { changeSortBy(e.key); }}>
@@ -31,7 +31,7 @@ export default function index() {
             <div className='mx-8 mt-2 text-xl font-bold align-middle'>Select an Internet Gateway</div>
             <div className='flex justify-between items-center mx-8 '>
                 <div className='flex text-sm'>
-                    <div>sort by </div>
+                    <div>Sort by </div>
                     <Dropdown overlay={menu} >
                         <div className='mx-1 font-bold text-yellow-550 cursor-pointer '>{sortBy} <DownOutlined /></div>
                     </Dropdown>

@@ -4,7 +4,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import { Card, Switch, Select } from 'antd';
 import CTags from '@/components/Logic/CTags';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
-import volumeService from '@/service/stVolumeService';
+import VolumeService from '@/service/stVolumeService';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
@@ -15,7 +15,7 @@ const { Option } = Select;
 
 const AddVolume = (): JSX.Element => {
     const navigate = useNavigate();
-    const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
+    const dcName = useSelector((state: RootState) => state.dataCenter.current!.dcName);
     const [ creating, changeCreating ] = useState(false);
     const { t } = useTranslation();
     const [ tags, changeTags ] = useState<Record<string, string>>({});
@@ -83,7 +83,7 @@ const AddVolume = (): JSX.Element => {
             <button className="m-5 w-32 btn-yellow" onClick={() => {
                 changeCreating(true);
                 // TODO:跟后端沟通接口后修改
-                volumeService.addVolume({
+                VolumeService.addVolume({
                     ...newDiskProps,
                     // multiattch,
                     azName,
