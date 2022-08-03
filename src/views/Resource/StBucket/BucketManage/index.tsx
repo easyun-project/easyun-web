@@ -12,12 +12,13 @@ import CTags from '@/components/Logic/CTags';
 import { CPartialLoading } from '@/components/Common/CPartialLoading';
 
 
+
 export default function BucketManage() {
     const params = useParams();
     const bucketId  = params.bucketId as string;
     const dispatch = useDispatch();
-    const dcName = useSelector((state: RootState) => state.dataCenter.currentDC.basicInfo!.dcName);
-    const { currentBucket } = useSelector((state: RootState) => state.storage);
+    const dcName = useSelector((state: RootState) => state.dataCenter.current?.dcName) as string;
+    const { currentBucket } = useSelector((state: RootState) => state.stbucket);
     const [ tags, changeTags ] = useState<Record<string, string>>({
         dev:'test'
     });

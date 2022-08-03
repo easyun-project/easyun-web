@@ -10,7 +10,7 @@ export interface NatGatewayState {
 }
 
 const initialState: NatGatewayState = {
-    loading: true,
+    loading: false,
     list: undefined,
     current: undefined,
 };

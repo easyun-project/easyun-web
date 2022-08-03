@@ -10,7 +10,7 @@ export interface StaticIpState {
 }
 
 const initialState: StaticIpState = {
-    loading: true,
+    loading: false,
     list: undefined,
     current: undefined
 };

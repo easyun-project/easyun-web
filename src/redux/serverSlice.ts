@@ -10,7 +10,7 @@ export interface ServerState {
 }
 
 const initialState: ServerState = {
-    loading: true,
+    loading: false,
     servers: [],
     currentServer: undefined
 };

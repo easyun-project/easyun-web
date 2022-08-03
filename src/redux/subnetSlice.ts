@@ -10,7 +10,7 @@ export interface SubnetState {
 }
 
 const initialState: SubnetState = {
-    loading: true,
+    loading: false,
     list: undefined,
     current: undefined,
 };

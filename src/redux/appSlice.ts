@@ -6,9 +6,8 @@ export interface AppState {
 }
 
 const initialState: AppState = {
-    loading: true,
+    loading: false,
     hostUrl: undefined
-
 };
 
 export const appSlice = createSlice({

@@ -16,7 +16,7 @@ import { Icon } from '@iconify/react';
 
 export default function Permissions() {
     const { t } = useTranslation();
-    const { currentBucket } = useSelector((state:RootState)=>state.storage);
+    const currentBucket  = useSelector((state: RootState) => state.stbucket.currentBucket) ;
     const [ changing, setChanging ] = useState(false);
     const [ settings, setSettings ] = useState<Record<string, boolean>>({});
     useEffect(()=>console.log(settings), [ settings ]);

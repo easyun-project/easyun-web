@@ -25,7 +25,7 @@ export interface UserState {
 
 // const initUser: UserModel | undefined = undefined;
 const initialState: UserState = {
-    loading: true,
+    loading: false,
     currentUser: {
         username: undefined,
         accountId: undefined,

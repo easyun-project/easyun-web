@@ -83,7 +83,7 @@ export interface DataCenterState {
 }
 
 const initialState: DataCenterState = {
-    loading: true,
+    loading: false,
     regionList: undefined,
     datacenterParams: undefined,
     list: undefined,
@@ -144,7 +144,6 @@ export const datacenterSlice = createSlice({
         builder.addCase(getDatacenterSummary.rejected, (state: DataCenterState) => {
             state.loading = false;
         });
-
         builder.addCase(getResourceSummary.pending, (state: DataCenterState) => {
             state.loading = true;
         });

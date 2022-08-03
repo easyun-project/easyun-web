@@ -10,7 +10,7 @@ export interface IntGatewayState {
 }
 
 const initialState: IntGatewayState = {
-    loading: true,
+    loading: false,
     list: undefined,
     current: undefined,
 };

@@ -11,7 +11,7 @@ export interface LoadbalancerState {
 }
 
 const initialState: LoadbalancerState = {
-    loading: true,
+    loading: false,
     list: [],
     current: undefined
 };

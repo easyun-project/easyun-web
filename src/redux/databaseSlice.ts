@@ -20,7 +20,7 @@ export interface DatabaseState {
 }
 
 const initialState: DatabaseState = {
-    loading: true,
+    loading: false,
     dbInstanceList: [],
     dbClusterList: [],
     currentDbInstance: undefined

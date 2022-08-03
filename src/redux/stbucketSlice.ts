@@ -25,7 +25,7 @@ export interface StBucketState {
 }
 
 const initialState: StBucketState = {
-    loading: true,
+    loading: false,
     bucketList: [],
     currentBucket: 'loading',
 };

@@ -32,7 +32,7 @@ export interface StVolumeState {
 }
 
 const initialState: StVolumeState = {
-    loading: true,
+    loading: false,
     volumeList: [],
     currentVolume: 'loading',
 };

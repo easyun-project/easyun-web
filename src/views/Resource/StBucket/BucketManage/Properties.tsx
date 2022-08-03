@@ -11,7 +11,7 @@ export default function Properties() {
     //hooks
     const { t } = useTranslation();
     //redux state
-    const { currentBucket } = useSelector((state:RootState)=>state.storage);
+    const currentBucket  = useSelector((state: RootState) => state.stbucket.currentBucket) ;
     const initEncryption = (typeof currentBucket === 'string' ? undefined : currentBucket.bucketProperty.isEncryption);
     const initVersioning = (typeof currentBucket === 'string' ? undefined : currentBucket.bucketProperty.isVersioning);
     //component state

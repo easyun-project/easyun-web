@@ -10,7 +10,7 @@ export interface RouteState {
 }
 
 const initialState: RouteState = {
-    loading: true,
+    loading: false,
     list: [],
     current: undefined,
 };

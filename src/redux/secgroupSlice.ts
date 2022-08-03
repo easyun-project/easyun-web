@@ -10,7 +10,7 @@ export interface SecGroupState {
 }
 
 const initialState: SecGroupState = {
-    loading: true,
+    loading: false,
     list: undefined,
     current: undefined,
 };
