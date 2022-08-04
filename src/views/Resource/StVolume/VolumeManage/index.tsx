@@ -4,8 +4,8 @@ import { Icon } from '@iconify/react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import VolumeService from '@/service/stVolumeService';
-import { useTranslation } from 'react-i18next';
+// import VolumeService from '@/service/stVolumeService';
+// import { useTranslation } from 'react-i18next';
 import Attachment from './Attachment';
 import Tags from './Tags';
 import Snapshots from './Snapshots';
@@ -15,7 +15,7 @@ import Configure from './Configure';
 const { TabPane } = Tabs;
 
 export default function VolumeManage() {
-    const { t } = useTranslation();
+    // const { t } = useTranslation();
     const { volumeId } = useParams();
     const [ seletedTab, setSeletedTab ] = useState('Attachment');
     const volumeList = useSelector((state:RootState)=>state.stvolume.volumeList);

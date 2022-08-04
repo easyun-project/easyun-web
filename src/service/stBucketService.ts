@@ -8,13 +8,18 @@ export interface BucketPathParam extends DcNameQueryParm{
     bucketId:string
 }
 
+interface GetBucketDetailParams{
+    bucketId:string
+    dcName:string
+}
+
 export default class BucketService {
 
     static async listAllBucket(params:DcNameQueryParm): Promise<StBucketInfo[]> {
         // TODO temp static
         const url =  StBucketPath;
-        const result = await axios.get(url, { params:{ dc:params.dcName } });
-        return result.data.detail as StBucketModel[];
+        const result = await axios.get(url, { params:{ dc:params.dc } });
+        return result.data.detail as StBucketInfo[];
     }
 
     static async getBucketList(params:DcNameQueryParm) {

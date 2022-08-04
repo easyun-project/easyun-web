@@ -44,8 +44,8 @@ export default function DataCenterCard(props: DataCenterModel) {
         dispatch(getCostSummary({ dc: dcName }));
         dispatch(getResourceSummary({ dc: dcName }));
         dispatch(listAllServer({ dc: dcName }));
-        dispatch(listAllVolume({ dcName }));
-        dispatch(listAllBucket({ dcName }));
+        dispatch(listAllVolume({ dc: dcName }));
+        dispatch(listAllBucket({ dc: dcName }));
         dispatch(listAllDatabase({ dc: dcName }));
         dispatch(listAllLoadbalancer({ dc: dcName }));
     };

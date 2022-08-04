@@ -9,8 +9,8 @@ import { useSelector } from 'react-redux';
 
 export default function Configure() {
     const { volumeId } = useParams();
-    const thisVolume = useSelector((state:RootState)=>state.storage.volumeList.filter(vol=>vol.volumeId === volumeId)[0]);
-    const { volumeType, volumeSize, volumeIops, volumeThruput, volumeAttach, isEncrypted } = thisVolume;
+    const thisVolume = useSelector((state:RootState)=>state.stvolume.volumeList.filter(vol=>vol.volumeId === volumeId)[0]);
+    const { volumeType, volumeSize, volumeIops, volumeThruput, isEncrypted } = thisVolume;
     const { newDiskProps, newDisk } = useNewDisk([ 'haha' ]);
     const [ changing, setChanging ] = useState(true);
     const [ loading, setLoading ] = useState(false);

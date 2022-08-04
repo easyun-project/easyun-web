@@ -101,16 +101,15 @@ const ServerList = ():JSX.Element => {
     const [ isModalVisble, changeIsModalVisble ] = useState(false);
     const [ newName, changeNewName ] = useState('');
     const [ settingName, changeSettingName ] = useState(false);
-    const dcName = useSelector((state: RootState) => {
-        return state.dataCenter.currentDC.basicInfo?.dcName;
-    });
+    const dcName = useSelector((state: RootState) => state.dataCenter.current!.dcName);
 
     useEffect(() => {
-        if(dcName){
-            // dispatch(listAllServer({ dc:dcName! }));
-            // dispatch(getDataCenterSecgroup({ dc }));
-        }
-        else{navigate('/home');}
+        // if(dcName){
+        //     // dispatch(listAllServer({ dc:dcName! }));
+        //     // dispatch(getDataCenterSecgroup({ dc }));
+        // }
+        // else{navigate('/home');}
+        !dcName && navigate('/home');
     }, []);
 
     const newServerDataSource = serverDataSource.map((item)=> ({ ...item, 'key':item.svrId }));

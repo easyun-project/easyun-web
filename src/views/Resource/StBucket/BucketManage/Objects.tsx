@@ -63,7 +63,7 @@ export default function Objects() {
             sonFolders.add(item.key.replace(path, ''));
             sonFoldersList.push({
                 key:item.key,
-                name:item.key.replace(path, ''),
+                name:item.key.replace(path, '').replace('/', ''),
                 size:item.size,
                 modified:item.modifiedTime,
                 type:item.type });
@@ -81,7 +81,7 @@ export default function Objects() {
                 sonFolders.add(folderPath);
                 sonFoldersList.push({
                     key:item.key,
-                    name:folderPath,
+                    name:folderPath.replace('/', ''),
                     size:0,
                     modified:item.modifiedTime,
                     type:'Folder' });
@@ -170,7 +170,7 @@ export default function Objects() {
         render: (text, record) =>
             searchedColumn === dataIndex
                 ? (record['type'] === 'Folder'
-                    ? <a className='text-blue-500' onClick={()=>setPath(path + text)}>
+                    ? <a className='text-blue-500' onClick={()=>setPath(path + text + '/')}>
                         <Highlighter
                             highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
                             searchWords={[ searchText ]}
@@ -186,7 +186,7 @@ export default function Objects() {
                     />
                 )
                 : (
-                    record['type'] === 'Folder' ? <a className='text-blue-500' onClick={()=>setPath(path + text)}>{text}</a> : text
+                    record['type'] === 'Folder' ? <a className='text-blue-500' onClick={()=>setPath(path + text + '/')}>{text}</a> : text
                 ),
     });
 
@@ -195,7 +195,7 @@ export default function Objects() {
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
-            ...getColumnSearchProps('name') as ColumnType<DataType>
+            ...getColumnSearchProps('name')
         },
         {
             title: 'Size',

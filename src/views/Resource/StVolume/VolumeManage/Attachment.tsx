@@ -19,7 +19,7 @@ export default function Attachment(props:StVolumeInfo) {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const { volumeAttach, volumeId } = props;
-    const vols = useSelector((state: RootState) => state.storage.volumeList);
+    const vols = useSelector((state: RootState) => state.stvolume.volumeList);
     const dcName = useSelector((state: RootState) => state.dataCenter.current!.dcName);
     const { servers } = useSelector((state:RootState)=>state.server);
     const [ attaching, changeAttaching ] = useState(false);
