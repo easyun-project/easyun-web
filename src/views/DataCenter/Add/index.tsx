@@ -78,8 +78,8 @@ const AddDataCenter = (): JSX.Element => {
         return state.dataCenter;
     });
 
-    const dcParams = dataCenterState.defaultDcParams?.dcParms;
-    const dropDown = dataCenterState.defaultDcParams?.dropDown;
+    const dcParams = dataCenterState.datacenterParams?.dcParms;
+    const dropDown = dataCenterState.datacenterParams?.dropDown;
     const regionList = dataCenterState.regionList;
     // 获取创建数据中心的默认参数
     const getdcParams = (parms: QueryNewDcParm) => {
@@ -304,3 +304,4 @@ const AddDataCenter = (): JSX.Element => {
 
 
 export default AddDataCenter;
+
