@@ -14,6 +14,8 @@ import Networking, { SubnetInfo } from './Networking';
 import { useState, useEffect } from 'react';
 import serverService from '@/service/serverService';
 import DataCenterService from '@/service/dataCenterService';
+import SecgroupService from '@/service/dcmSecgroupServices';
+import SubnetService from '@/service/dcmSubnetServices';
 import AccountService from '@/service/accountService';
 import { amiInfo } from '@/components/Logic/CAmi';
 import { InsType } from './InstanceList';
@@ -139,8 +141,8 @@ const AddServer = (): JSX.Element => {
     };
 
     useEffect(() => {
-        DataCenterService.listAllSecgroup({ dc }).then((res) => changeSecgroups(res));
-        DataCenterService.listAllSubnet({ dc }).then((res) => changeSubnets(res));
+        SecgroupService.listAll({ dc }).then((res) => changeSecgroups(res));
+        SubnetService.listAll({ dc }).then((res) => changeSubnets(res));
         AccountService.getSSHKeys().then((res) => changeKeyPairs(res));
     }, []);
 

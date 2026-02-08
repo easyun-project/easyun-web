@@ -7,7 +7,7 @@ import FlagUtil from '@/utils/flagUtil';
 import dashboard from '@/service/dashboard';
 import { AntdTable } from '@/components/Common/CTable/AntdTable';
 import { DictListSelect } from '@/components/DashboardCommon/DictListSelect';
-import './index.less';
+import './index.css';
 import { HealthType, TableType } from '@/views/Dashboard/dashboard';
 import { DashboardsTabList } from '@/views/Dashboard/detail/tabList';
 import { DashboardsTabGraphical } from '@/views/Dashboard/detail/tabGraphical';

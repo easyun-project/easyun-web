@@ -47,7 +47,7 @@ export const useNewDisk = (availablePaths:string[]) => {
                                 <Popover content={
                                     `max:${selectedTypeInfo.volumeSize?.at(1)} min:${selectedTypeInfo.volumeSize?.at(0)}`
                                 } title="Tips">
-                                    <InputNumber className= 'w-16' size='small' min={selectedTypeInfo.volumeSize?.at(0)} max={selectedTypeInfo.volumeSize?.at(1)} defaultValue={8} onChange={(value)=>changeVolumeSize(value)}/>
+                                    <InputNumber className= 'w-16' size='small' min={selectedTypeInfo.volumeSize?.at(0)} max={selectedTypeInfo.volumeSize?.at(1)} defaultValue={8} onChange={(value)=>changeVolumeSize(value ?? 0)}/>
                                 </Popover>
                             </div>
                             <div>
@@ -56,7 +56,7 @@ export const useNewDisk = (availablePaths:string[]) => {
                                     `max:${selectedTypeInfo.volumeIops?.at(1)} min:${selectedTypeInfo.volumeIops?.at(0)}`
                                 } title="Tips">
                                     <InputNumber className= 'w-16' disabled={!selectedTypeInfo.volumeIops} size='small' min={selectedTypeInfo.volumeIops?.at(0)} max={selectedTypeInfo.volumeIops?.at(1)} defaultValue={3000}
-                                        onChange={(value) => changeVolumeIOPS(value)} />
+                                        onChange={(value) => changeVolumeIOPS(value ?? 0)} />
                                 </Popover>
                             </div>
                             <div>
@@ -65,7 +65,7 @@ export const useNewDisk = (availablePaths:string[]) => {
                                     `max:${selectedTypeInfo.volumeThruput?.at(1)} min:${selectedTypeInfo.volumeThruput?.at(0)}`
                                 } title="Tips">
                                     <InputNumber className= 'w-16' disabled={!selectedTypeInfo.volumeThruput} size='small' min={selectedTypeInfo.volumeThruput?.at(0)} max={selectedTypeInfo.volumeThruput?.at(1)} defaultValue={125}
-                                        onChange={(value) => changeVolumeThruputs(value)} />
+                                        onChange={(value) => changeVolumeThruputs(value ?? 0)} />
                                 </Popover>
                             </div>
                         </div>

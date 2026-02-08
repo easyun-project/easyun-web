@@ -1,6 +1,7 @@
 import React from 'react';
 import { classnames } from '@@/tailwindcss-classnames';
 import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch } from '@/redux/store';
 import { RootState } from '@/redux/store';
 import { Icon } from '@iconify/react';
 import DataCenterService from '@/service/dataCenterService';
@@ -16,7 +17,7 @@ import StaticIPService from '@/service/dcmStaticipServices';
 
 export default function Network(): JSX.Element {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const server = useSelector((state: RootState) => state.server.currentServer);
     const dc = useSelector((state: RootState) => state.dataCenter.current?.dcName);
     const [isModalVisible, changeIsModalVisible] = useState(false);

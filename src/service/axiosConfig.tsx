@@ -1,12 +1,10 @@
 import axios from 'axios';
 import { message } from 'antd';
 import { getHeader, getHostUrl } from '@/utils/api';
-import { createBrowserHistory } from 'history';
 import { UserLogin } from '@/constant/apiConst';
 
 
 axios.defaults.timeout = 50000;
-const history = createBrowserHistory();
 // Create an instance
 const request = axios.create({
     baseURL: getHostUrl()
@@ -17,7 +15,8 @@ request.interceptors.request.use(function (config) {
     // Do something before request is sent
     // 如果不是登录，那么需要获取一个token
     if (config.url !== UserLogin) {
-        config.headers = getHeader();
+        const headers = getHeader();
+        Object.assign(config.headers, headers);
     }
     return config;
 }, function (error) {
@@ -35,8 +34,7 @@ request.interceptors.response.use((response) => {
     // Do something with response error
     switch (error.response.status) {
     case 401:
-        history.replace('/login');
-        history.go(0);
+        window.location.href = '/login';
         message.error('Please login');
         break;
     case 400:

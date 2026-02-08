@@ -5,6 +5,7 @@ import { Tooltip, Skeleton, Menu, Dropdown, Modal, Radio, Space } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { classnames } from '@@/tailwindcss-classnames';
 import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch } from '@/redux/store';
 import { RootState } from '@/redux/store';
 import { StVolumeDetail, AddVolumeParams, StVolumeInfo } from '@/constant/storage';
 import { getServerDetail } from '@/redux/serverSlice';
@@ -23,7 +24,7 @@ interface DiskProps{
 }
 
 function ExistDisk(props:DiskProps) {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const { availablePaths, changeAvaliablePaths, volumeId } = props;
     const svrId = useSelector((state: RootState) =>state.server.currentServer!.svrProperty.instanceId);
     const dcName = useSelector((state: RootState) => state.dataCenter.current!.dcName);
@@ -151,7 +152,7 @@ interface NewDiskProps {
 }
 
 function NewDisk(props:NewDiskProps) {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const { changeIsAdding, availablePaths } = props;
     const InstanceId = useSelector((state: RootState) => {
         return state.server.currentServer!.svrProperty.instanceId;
@@ -216,7 +217,7 @@ export default function Disk():JSX.Element {
         return arr;
     };
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
 
     const dcName = useSelector((state: RootState) => state.dataCenter.current!.dcName);
     const currentServerDisks = useSelector((state: RootState) => state.server.currentServer!.svrDisk);

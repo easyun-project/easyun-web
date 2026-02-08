@@ -2,7 +2,7 @@
 node_modules
 *.iml
 dist
-package-lock.json
+lsp.json
 .vscode
 nohup.out
 
@@ -17,3 +17,7 @@ Thumbs.db
 *.sublime-workspace
 *.pem
 .eslintcache
+
+# env files
+envs/.env.*
+!envs/.env.example

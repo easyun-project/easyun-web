@@ -5,6 +5,7 @@ import { Icon } from '@iconify/react';
 import { useNavigate, Link } from 'react-router-dom';
 import { updateCurrentDC } from '@/redux/dataCenterSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch } from '@/redux/store';
 import { StaticIpInfo } from '@/constant/dataCenter';
 import { RootState } from '@/redux/store';
 import StaticIPService from '@/service/dcmStaticipServices';
@@ -12,7 +13,7 @@ import { listAllStaticIp } from '@/redux/staticipSlice';
 
 
 export default function EipCard(props:StaticIpInfo) {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
     const dc = useSelector((state:RootState)=>state.dataCenter.current!.dcName);
     const { tagName, publicIp, assoTarget, boarderGroup, eipId } = props;

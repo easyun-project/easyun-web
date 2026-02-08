@@ -15,7 +15,7 @@ export default function index() {
     return (
         <Spin spinning={loading} tip="Loading...">
             <div>
-                {list.length === 0 ? <WithoutResource /> : <WithResource resList={list} />}
+                {list?.length === 0 ? <WithoutResource /> : <WithResource resList={list} />}
             </div>
         </Spin>
     );

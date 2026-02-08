@@ -6,6 +6,7 @@ import { Icon } from '@iconify/react';
 import { StVolumeInfo } from '@/constant/storage';
 import serverService from '@/service/serverService';
 import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch } from '@/redux/store';
 import { listAllVolume } from '@/redux/stvolumeSlice';
 import { listAllServer } from '@/redux/serverSlice';
 import { RootState } from '@/redux/store';
@@ -17,9 +18,9 @@ const { Option } = Select;
 // TODO:挂载卸载的接口。
 export default function Attachment(props:StVolumeInfo) {
     const { t } = useTranslation();
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const { volumeAttach, volumeId } = props;
-    const vols = useSelector((state: RootState) => state.storage.volumeList);
+    const vols = useSelector((state: RootState) => state.stvolume.volumeList);
     const dcName = useSelector((state: RootState) => state.dataCenter.current!.dcName);
     const { servers } = useSelector((state:RootState)=>state.server);
     const [ attaching, changeAttaching ] = useState(false);

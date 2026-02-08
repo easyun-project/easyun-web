@@ -5,6 +5,7 @@ import { Menu, Dropdown, notification } from 'antd';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import type { AppDispatch } from '@/redux/store';
 import { DataCenterModel } from '@/constant/dataCenter';
 import { deleteDataCenter, updateCurrentDC, getDatacenterSummary, listAllDataCenter } from '@/redux/dataCenterSlice';
 import { listAllSubnet } from '@/redux/subnetSlice';
@@ -23,7 +24,7 @@ import { listAllLoadbalancer } from '@/redux/loadbalancerSlice';
 
 export default function DataCenterCard(props: DataCenterModel) {
     const { t } = useTranslation();
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
     const { dcName, vpcID, cidrBlock, regionCode } = props;
     // this function is used to initialize a datacenter

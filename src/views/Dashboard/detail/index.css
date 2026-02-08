@@ -1,0 +1,9 @@
+.Alarms div {
+  padding: 1rem;
+}
+.CloudWatch {
+  padding: 1rem;
+}
+.CloudWatch li {
+  list-style: disc;
+}

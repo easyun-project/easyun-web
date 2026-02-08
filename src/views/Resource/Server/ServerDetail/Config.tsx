@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import serverService from '@/service/serverService';
 import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch } from '@/redux/store';
 import { RootState } from '@/redux/store';
 import { InsTypeFamily } from '../AddServer';
 import { Cascader, message } from 'antd';
@@ -21,7 +22,7 @@ type Option = {
 }[]
 
 export default function Config() {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     // const arr = [
     //     {
     //         'insType': 'm5.24xlarge',

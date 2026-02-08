@@ -30,7 +30,7 @@ export default function Objects() {
                     value: 'Joe',
                 }
             ],
-            filterMode: 'tree',
+            filterMode: 'tree' as const,
             filterSearch: true,
             onFilter: (value: string, record) => record.name.includes(value),
         },
@@ -91,7 +91,7 @@ export default function Objects() {
                 <Table rowSelection={{
                     type: 'checkbox',
                     ...rowSelection,
-                }} dataSource={dataSource} columns={columns} />
+                }} dataSource={dataSource} columns={columns as any} />
             </div>
         </>
     );

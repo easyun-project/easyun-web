@@ -3,7 +3,7 @@ import { classnames } from '@@/tailwindcss-classnames';
 import { DashboardDetail } from '@/views/Dashboard/detail';
 import { Button } from 'antd';
 import { DictListSelect } from '@/components/DashboardCommon/DictListSelect';
-import './detail/index.less';
+import './detail/index.css';
 import { TTailwindString } from 'tailwindcss-classnames';
 import { useNavigate } from 'react-router-dom';
 import DataCenterService from '@/service/dataCenterService';

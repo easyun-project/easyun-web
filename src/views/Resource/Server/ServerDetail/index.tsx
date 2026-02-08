@@ -4,6 +4,7 @@ import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
 import { Col, message, Row, Tabs, Typography } from 'antd';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch } from '@/redux/store';
 import { getServerDetail } from '@/redux/serverSlice';
 import { RootState } from '@/redux/store';
 import { CPartialLoading } from '@/components/Common/CPartialLoading';
@@ -23,7 +24,7 @@ const { TabPane } = Tabs;
 
 
 const ServerDetail = ():JSX.Element => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const params = useParams();
     const serverId = params.serverId;
     const serverState = useSelector((state: RootState) => state.server);

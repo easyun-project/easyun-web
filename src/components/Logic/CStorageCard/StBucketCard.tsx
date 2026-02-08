@@ -5,6 +5,7 @@ import { Menu, Dropdown } from 'antd';
 import bucketManage from '@/service/stBucketService';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch } from '@/redux/store';
 import { getBucketDetail, listAllBucket } from '@/redux/stbucketSlice';
 import { RootState } from '@/redux/store';
 
@@ -24,8 +25,8 @@ const CStBucketCard = (props): JSX.Element => {
     const { bucketId,  bucketRegion, bucketAccess:{ description, status } } = props;
     const dcName = useSelector((state: RootState) => state.dataCenter.current!.dcName);
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const init = async ()=> dispatch(getBucketDetail({ bucketId, dcName }));
+    const dispatch = useDispatch<AppDispatch>();
+    const init = async ()=> dispatch(getBucketDetail({ bucketId, dc: dcName }));
     const menu = (
         <Menu>
             <Menu.Item key="manage" onClick={() => {

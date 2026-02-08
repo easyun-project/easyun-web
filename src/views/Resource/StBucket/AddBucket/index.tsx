@@ -30,12 +30,12 @@ const AddBucket = (): JSX.Element => {
     const [ creating, setCreating ] = useState(false);
     //life cycle
     //由于timer不能在在重新渲染时被重置，因此需要用useRef保存
-    const refTimer = useRef<NodeJS.Timeout>(setTimeout(() => undefined, 1000));
+    const refTimer = useRef<ReturnType<typeof setTimeout>>(setTimeout(() => undefined, 1000));
     useEffect(()=>{
         clearTimeout(refTimer.current);
         // 重新开启一个定时器
         refTimer.current = setTimeout(
-            () => bucketManage.validateBucketId({ dcName, bucketId }).then(res => setValid(res)), 1000);
+            () => bucketManage.validateBucketId({ dc: dcName, bucketId }).then(res => setValid(res)), 1000);
     }, [ bucketId ]);
 
     return (

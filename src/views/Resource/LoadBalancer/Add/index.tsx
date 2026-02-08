@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch } from '@/redux/store';
 import { RootState } from '@/redux/store';
 import { Icon } from '@iconify/react';
 import { classnames } from '@@/tailwindcss-classnames';
@@ -8,7 +9,6 @@ import CPlatform from '@/components/Logic/CPlatform';
 import { CButton } from '@/components/Common/CButton';
 import { Row, Col, Divider, Typography, message, Select, Input, Form, Progress, Cascader, Card } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
-import { useState, useEffect } from 'react';
 // import LoadbalancerService from '@/service/LoadbalancerService';
 import { RegionItem  } from '@/constant/dataCenter';
 import FlagUtil from '@/utils/flagUtil';
@@ -27,7 +27,7 @@ export interface InsTypeFamily {
 
 const AddLoadbalancer = (): JSX.Element => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const flagUtil = new FlagUtil();
 
     const [creating, setCreating] = useState(false);
@@ -38,7 +38,7 @@ const AddLoadbalancer = (): JSX.Element => {
     const [validStatus, setValidStatus] = useState(false);
 
     const cloudState = useSelector((state: RootState) => {
-        return state.cloud;
+        return state.dataCenter;
     });
     const regionList = cloudState.regionList;
     const dcParams = cloudState.datacenterParams?.dcParms;

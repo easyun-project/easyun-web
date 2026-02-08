@@ -16,7 +16,7 @@ import { Icon } from '@iconify/react';
 
 export default function Permissions() {
     const { t } = useTranslation();
-    const { currentBucket } = useSelector((state:RootState)=>state.storage);
+    const { currentBucket } = useSelector((state:RootState)=>state.stbucket);
     const [ changing, setChanging ] = useState(false);
     const [ settings, setSettings ] = useState<Record<string, boolean>>({});
     useEffect(()=>console.log(settings), [ settings ]);
@@ -24,7 +24,7 @@ export default function Permissions() {
         checked
             ? <Icon icon="bxs:lock-alt" width='24' className='mr-2 text-red-500'/>
             : <Icon icon="bxs:lock-open-alt" width='24' className='mr-2 text-green-500 '/>);
-    const treeData = [
+    const treeData: any[] = [
         {
             title: <Trans i18nKey={'bucketManagePermissions.blockAll'}/>,
             key: '0-0',

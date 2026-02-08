@@ -3,6 +3,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { NoResource } from '@/views/Resource';
 import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch } from '@/redux/store';
 import { RootState } from '@/redux/store';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Link, useNavigate } from 'react-router-dom';
@@ -91,7 +92,7 @@ export const serverColumns = [
 
 const ServerList = ():JSX.Element => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
 
     const serverState = useSelector((state: RootState) =>  state.server);
     const serverDataSource = serverState.servers;

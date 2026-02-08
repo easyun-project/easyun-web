@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import type { AppDispatch } from '@/redux/store';
 import { userAction } from '@/redux/userSlice';
 import userService from '@/service/userService';
 import { Row, Input, message, Typography, Form, Checkbox, Menu, Dropdown } from 'antd';
@@ -14,7 +15,7 @@ import logo3 from '@@/src/assets/images/logo/easyun03.svg';
 
 const LoginPage = (): JSX.Element => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     //multiple language setting
     const { t } = useTranslation();
     // 定义修改API Server 模态框显示状态
@@ -77,7 +78,7 @@ const LoginPage = (): JSX.Element => {
                         wrapperCol={{ span: 16 }}
                         initialValues={{ remember: true }}
                         onFinish={reqLogin}
-                        onFinishFailed={err => message.error(err)}
+                        onFinishFailed={err => message.error(String(err))}
                         autoComplete="off" >
                         <Form.Item
                             name="username"

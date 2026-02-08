@@ -8,6 +8,7 @@ import { CButton } from '@/components/Common/CButton';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch } from '@/redux/store';
 import { Row, Col, Divider, Typography, message, Select, Input, Form, Progress } from 'antd';
 import { RootState } from '@/redux/store';
 import { listAllDataCenter, getDataCenterParams } from '@/redux/dataCenterSlice';
@@ -18,7 +19,7 @@ const { Title, Text } = Typography;
 
 const AddDataCenter = (): JSX.Element => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const flagUtil = new FlagUtil();
 
     const [inputDcName, setInputDcName] = useState('');
@@ -78,8 +79,8 @@ const AddDataCenter = (): JSX.Element => {
         return state.dataCenter;
     });
 
-    const dcParams = dataCenterState.defaultDcParams?.dcParms;
-    const dropDown = dataCenterState.defaultDcParams?.dropDown;
+    const dcParams = dataCenterState.datacenterParams?.dcParms;
+    const dropDown = dataCenterState.datacenterParams?.dropDown;
     const regionList = dataCenterState.regionList;
     // 获取创建数据中心的默认参数
     const getdcParams = (parms: QueryNewDcParm) => {

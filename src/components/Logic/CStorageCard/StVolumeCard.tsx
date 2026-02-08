@@ -2,6 +2,7 @@ import React from 'react';
 import { Icon } from '@iconify/react';
 import { Menu, Dropdown, message } from 'antd';
 import { useDispatch } from 'react-redux';
+import type { AppDispatch } from '@/redux/store';
 import { useNavigate, Link } from 'react-router-dom';
 import { StVolumeInfo } from '@/constant/storage';
 // import serverService from '@/service/serverService';
@@ -16,7 +17,7 @@ const CStVolumeCard = (props: StVolumeInfo): JSX.Element => {
     const { volumeId, volumeAz, volumeSize, volumeAttach } = props;
     const navigate = useNavigate();
     const dcName = useSelector((state: RootState) => state.dataCenter.current!.dcName);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const menu = (
         <Menu>
             <Menu.Item key="manage" onClick={() => {

@@ -18,10 +18,10 @@ export default function HostModal( props:HostModalProps ) {
     };
 
     return (
-        <Modal title={title} visible={isVisible}
+        <Modal title={title} open={isVisible}
             onOk={() => {
                 if (!hostUrl) {
-                    message.warn(msg);
+                    message.warning(msg);
                     return;
                 } else {
                     updateHostUrl(hostUrl);

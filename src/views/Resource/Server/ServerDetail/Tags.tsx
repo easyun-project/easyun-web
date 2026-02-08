@@ -3,12 +3,13 @@ import { Icon } from '@iconify/react';
 import { Input } from 'antd';
 import { ArrowRightOutlined, TagOutlined } from '@ant-design/icons';
 import { useDispatch,useSelector } from 'react-redux';
+import type { AppDispatch } from '@/redux/store';
 import { RootState } from '@/redux/store';
 import { updateServerTags } from '@/redux/serverSlice';
 import serverService from '@/service/serverService';
 
 export default function Tags() {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     // 获取到tags并且做一定的处理
     const initServerTags = useSelector((state:RootState)=>{
         const  tags  = state.server.currentServer!.svrTags;

@@ -1,9 +1,9 @@
 import React from 'react';
 import bucketImage from '@/assets/images/resource/stbucket.png';
 import { getDomain } from '@/views/Resource/StBucket/BucketManage/utils';
-import { StBucketModel } from '@/constant/storage';
+import { StBucketInfo } from '@/constant/storage';
 
-export default function CBucketCard(props: StBucketModel) {
+export default function CBucketCard(props: StBucketInfo) {
     const { bucketId, bucketRegion, bucketAccess } = props;
     return (
         <div className='flex'>

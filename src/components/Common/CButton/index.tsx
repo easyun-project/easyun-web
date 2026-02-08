@@ -8,7 +8,7 @@ export interface CButtonProps {
     classes?: TTailwindString;
     click?: () => void;
     disabled?: boolean;
-    type?: 'link' | 'text' | 'ghost' | 'default' | 'primary' | 'dashed' | undefined;
+    type?: 'link' | 'text' | 'default' | 'primary' | 'dashed' | undefined;
     htmlType?: 'button' | 'submit' | 'reset' | undefined
 }
 

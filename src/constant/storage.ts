@@ -55,7 +55,7 @@ export interface StBucketDetail {
     userTags: Record<'Key'|'Value', string>[]
 }
 
-interface VolumeBasic {
+export interface VolumeBasic {
     createTime: string
     tagName: string
     volumeAz: string

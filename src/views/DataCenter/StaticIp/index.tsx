@@ -8,6 +8,7 @@ import { DownOutlined } from '@ant-design/icons';
 //redux相关
 import { listAllStaticIp } from '@/redux/staticipSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch } from '@/redux/store';
 import { RootState } from '@/redux/store';
 import StaticIPService from '@/service/dcmStaticipServices';
 import DataCenterService from '@/service/dataCenterService';
@@ -16,7 +17,7 @@ import { Icon } from '@iconify/react';
 
 
 export default function Network() {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
     // const [eipInfos, changeEipInfos] = useState<'loading'|EipInfo[]>('loading');
     const eipInfos = useSelector((state: RootState) => state.staticip.list);

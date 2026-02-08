@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch } from '@/redux/store';
 import { RootState } from '@/redux/store';
 import CSecOpt from '@/components/Logic/CSecurityGroup/CSecOpt';
 import { Table, Space, Modal, Radio } from 'antd';
@@ -20,7 +21,7 @@ type Secgroupdata = {
 };
 
 export default function Security():JSX.Element {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const currentServerState = useSelector((state: RootState) => {
         return state.server.currentServer;
     });

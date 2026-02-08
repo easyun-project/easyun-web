@@ -1,4 +1,9 @@
-import moment from 'moment-timezone';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 interface UtcConvertTimeZoneParams {
     date?: Date | string | null;
@@ -6,18 +11,9 @@ interface UtcConvertTimeZoneParams {
 }
 
 const TimeUtil = {
-    /**
-     * 获取用户时区
-     */
-    timeZone: moment.tz.guess(),
-    /**
-     * 将UTC中央时间转成用户时区对应时间
-     * @param date 用户时间
-     * @param formatter 转化格式 - 默认为 YYYY/MM/DD HH:mm:ss
-     * @return 用户时区对应时间 String
-     */
+    timeZone: dayjs.tz.guess(),
     utcConvertTimeZone({ date, formatter = 'YYYY/MM/DD HH:mm:ss' }: UtcConvertTimeZoneParams) {
-        return moment(date).tz(this.timeZone).format(formatter);
+        return dayjs(date as string | Date | undefined).tz(this.timeZone).format(formatter);
     }
 };
 

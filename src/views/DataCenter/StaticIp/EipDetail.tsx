@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import { useSelector } from 'react-redux';
+import type { AppDispatch } from '@/redux/store';
 import { RootState } from '@/redux/store';
 import serverService from '@/service/serverService';
 import { useNavigate } from 'react-router-dom';
@@ -17,7 +18,7 @@ import { listAllStaticIp } from '@/redux/staticipSlice';
 const { Option } = Select;
 
 export default function EipDetail() {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
     const dc = useSelector((state:RootState)=>state.dataCenter.current!.dcName);
     //解构赋值的连续性写法

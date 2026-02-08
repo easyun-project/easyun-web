@@ -1,11 +1,11 @@
 import { StBucketPath } from '@/constant/apiConst';
 import { Result } from '@/constant/result';
 import axios from './axiosConfig';
-import { StBucketParms } from '@/constant/storage';
+import { StBucketCreateParms } from '@/constant/storage';
 
 export default class bucketManage {
 
-    static async addBucket<T>(params: StBucketParms): Promise<Result<T>> {
+    static async addBucket<T>(params: StBucketCreateParms): Promise<Result<T>> {
         const url =  StBucketPath;
         const result = await axios.post(url, params);
         return result.data as Result<T>;
