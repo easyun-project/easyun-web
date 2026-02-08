@@ -38,7 +38,12 @@ request.interceptors.response.use((response) => {
         message.error('Please login');
         break;
     case 400:
-        message.error(error.response.data.message);
+        if (error.response.data?.status_code !== 2012) {
+            message.error(error.response.data.message);
+        }
+        break;
+    case 409:
+        // Let caller handle conflict
         break;
     default:
         message.error('Request failed');

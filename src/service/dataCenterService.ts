@@ -87,16 +87,24 @@ export default class DataCenterService {
     /**
      * 删除datacenter
      */
-    static async deleteDataCenter(params: DeleteDcParm) {
+    static async deleteDataCenter(params: DeleteDcParm): Promise<TaskInfo | { conflict: true; message: string } | undefined> {
         const url = DataCenterPath;
-        const result = await axios.delete(url, {
-            data: params,
-            headers: getHeader()
-        });
-        if (result.status == 200) {
-            return result.data.task;
+        try {
+            const result = await axios.delete(url, {
+                data: params,
+                headers: getHeader()
+            });
+            if (result.status == 200) {
+                return result.data.task;
+            }
+            return undefined;
+        } catch (err: any) {
+            const resp = err.response;
+            if (resp && resp.data?.status_code === 2012) {
+                return { conflict: true, message: resp.data.message };
+            }
+            return undefined;
         }
-        return result.data.message;
     }
 
 
@@ -105,17 +113,12 @@ export default class DataCenterService {
      */
     static async getTaskResult(id: string): Promise<TaskDetail | undefined> {
         const url = DataCenterPath + '/task';
-        const replacedId = id.replaceAll('-', '_');
         const result = await axios.get(url, {
-            params: {
-                id: replacedId
-            },
+            params: { id },
             headers: getHeader()
         });
         if (result.status == 200) {
             return result.data.task as TaskDetail;
-        } else if (result.status == 400) {
-            return result.data.message;
         }
         return undefined;
     }

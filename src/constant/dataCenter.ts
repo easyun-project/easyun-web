@@ -3,16 +3,18 @@ export interface DcNameQueryParm {
 }
 
 export interface TaskInfo {
-    description: string
     taskId: string
+    status: string
+    description?: string
 }
 
 
 export interface TaskDetail {
+    taskId: string
+    status: string
     current: number,
     total: number,
     description: string
-    taskId: string
 }
 
 export interface DCProgressInfo {
@@ -41,6 +43,7 @@ export interface DataCenterParams {
     securityGroup0: SecurityGroupParms;
     securityGroup1: SecurityGroupParms;
     securityGroup2: SecurityGroupParms;
+    createNatGW?: boolean;
     keypair?: string
 }
 

@@ -166,6 +166,11 @@ export const datacenterSlice = createSlice({
         builder.addCase(getCostSummary.rejected, (state: DataCenterState) => {
             state.loading = false;
         });
+
+        // get region list
+        builder.addCase(getRegionList.fulfilled, (state: DataCenterState, action) => {
+            state.regionList = action.payload;
+        });
     }
 });
 

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/redux/store';
+import type { AppDispatch } from '@/redux/store';
 import { useNavigate } from 'react-router-dom';
 import { Menu, Dropdown, Spin } from 'antd';
 import { classnames } from '@@/tailwindcss-classnames';
@@ -9,17 +10,23 @@ import Nodc from './Nodc';
 import DataCenterCard from '@/components/Datacenter/DataCenterCard';
 import { CButton } from '@/components/Common/CButton';
 import { DownOutlined } from '@ant-design/icons';
+import { listAllDataCenter } from '@/redux/dataCenterSlice';
 
 
 export default function Home(): JSX.Element {
     const navigate = useNavigate();
     const { t } = useTranslation();
+    const dispatch = useDispatch<AppDispatch>();
 
     const [ sortBy, changeSortBy ] = useState('Name');
 
     const dataCenterState = useSelector((state: RootState) => state.dataCenter);
     const dataCenterList = dataCenterState.list;
-    const dcListLoading = dataCenterState.loading;
+
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        dispatch(listAllDataCenter()).finally(() => setLoading(false));
+    }, []);
 
     // const [datacenters,changeDatacenters] = useState<'loading'|DataCenterModel[]>('loading');
     // useEffect(()=>{
@@ -76,8 +83,8 @@ export default function Home(): JSX.Element {
                 <CButton type="primary" click={() => navigate('/datacenter/add')}>{t('home.addButton')}</CButton>
             </div>
 
-            <Spin spinning={dcListLoading} tip="Loading...">{
-                dataCenterList?.length === 0
+            <Spin spinning={loading} tip="Loading...">{
+                !dataCenterList?.length
                     ? <Nodc /> :
                     <div className={classnames('grid', '2xl:grid-cols-3', 'lg:grid-cols-2', 'gap-4', 'justify-items-center', 'items-center', 'mt-4')}>
                         {dataCenterList?.slice().sort((a, b) => {

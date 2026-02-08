@@ -1,12 +1,13 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { classnames } from '@@/tailwindcss-classnames';
-import { Menu, Dropdown, notification } from 'antd';
+import { Menu, Dropdown, notification, Modal } from 'antd';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { DataCenterModel } from '@/constant/dataCenter';
+import DataCenterService from '@/service/dataCenterService';
 import { deleteDataCenter, updateCurrentDC, getDatacenterSummary, listAllDataCenter } from '@/redux/dataCenterSlice';
 import { listAllSubnet } from '@/redux/subnetSlice';
 import { listAllRouteTable } from '@/redux/routeSlice';
@@ -50,23 +51,66 @@ export default function DataCenterCard(props: DataCenterModel) {
         dispatch(listAllDatabase({ dc: dcName }));
         dispatch(listAllLoadbalancer({ dc: dcName }));
     };
-    //fix-me: 在通知窗口提示Datacenter删除状态
-    const openNotification = (placement) => {
+    //删除DC并轮询任务状态
+    const handleDelete = async (params: { dcName: string; isForceDel?: boolean }) => {
         notification.open({
-            placement,
-            key : 'updatable',
-            message: 'Start',
-            description: 'Start deleting Datacenter.',
+            placement: 'bottomRight',
+            key: 'dc-delete',
+            message: 'Deleting',
+            description: `Deleting datacenter "${params.dcName}"...`,
+            duration: 0,
         });
-        setTimeout(() => {
-            notification.open({
-                placement,
-                key : 'updatable',
-                message: 'Deleting',
-                description: 'Deleting the Datacenter.',
+        let task: any;
+        try {
+            task = await DataCenterService.deleteDataCenter(params);
+        } catch {
+            notification.error({ key: 'dc-delete', message: 'Failed', description: 'Delete request failed' });
+            return;
+        }
+        if (!task) {
+            notification.error({ key: 'dc-delete', message: 'Failed', description: 'Delete request failed' });
+            return;
+        }
+        // 409 conflict — ask user to force delete
+        if ('conflict' in task) {
+            notification.destroy('dc-delete');
+            Modal.confirm({
+                title: 'Resource Conflict',
+                content: `${task.message}\n\nDo you want to force delete?`,
+                okText: 'Force Delete',
+                okButtonProps: { danger: true },
+                onOk: () => handleDelete({ dcName: params.dcName, isForceDel: true }),
             });
-        }, 1000);
-        dispatch(listAllDataCenter());
+            return;
+        }
+        if (!task.taskId) {
+            notification.error({ key: 'dc-delete', message: 'Failed', description: 'No task ID returned' });
+            return;
+        }
+        const poll = setInterval(async () => {
+            const result = await DataCenterService.getTaskResult(task.taskId);
+            if (!result) {
+                clearInterval(poll);
+                notification.error({ key: 'dc-delete', message: 'Error', description: 'Cannot get task status' });
+                return;
+            }
+            if (result.status === 'SUCCESS') {
+                clearInterval(poll);
+                notification.success({ key: 'dc-delete', message: 'Deleted', description: `Datacenter "${params.dcName}" deleted successfully` });
+                dispatch(listAllDataCenter());
+            } else if (result.status === 'FAILURE') {
+                clearInterval(poll);
+                notification.error({ key: 'dc-delete', message: 'Failed', description: result.description });
+            } else {
+                notification.open({
+                    placement: 'bottomRight',
+                    key: 'dc-delete',
+                    message: 'Deleting',
+                    description: result.description || 'In progress...',
+                    duration: 0,
+                });
+            }
+        }, 2000);
     };
     const menu = (
         <Menu>
@@ -83,22 +127,14 @@ export default function DataCenterCard(props: DataCenterModel) {
             <Menu.Item
                 danger
                 key="delete"
-                onClick={() => {
-                    openNotification('bottomRight');
-                    dispatch(deleteDataCenter({ dcName: dcName }));
-                    navigate('/home');
-                }}
+                onClick={() => handleDelete({ dcName })}
             >
                 {t('home.dcCard.menu.delete')}
             </Menu.Item>
             <Menu.Item
                 danger
                 key="forceDel"
-                onClick={() => {
-                    openNotification('bottomRight');
-                    dispatch(deleteDataCenter({ dcName: dcName, isForceDel: true }));
-                    navigate('/home');
-                }}
+                onClick={() => handleDelete({ dcName, isForceDel: true })}
             >
                 {t('home.dcCard.menu.forceDelete')}
             </Menu.Item>

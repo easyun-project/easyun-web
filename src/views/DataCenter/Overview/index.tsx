@@ -21,9 +21,9 @@ function AzSummaryCard(props: AzSummary) {
     const { azName, subnetNum } = props;
     const color = subnetNum > 0 ? '#FFBF00' : '#d9d9d9';
     return (
-        <Col span={2}>
+        <Col span={4}>
             <Badge size="small" count={subnetNum} showZero offset={[ -15, 15 ]} color={color}>
-                <Card className={classnames('rounded-md', 'border-2', 'border-gray-400')}>{azName}</Card>
+                <Card className={classnames('rounded-md', 'border-2', 'border-gray-400')} style={{ minWidth: 120 }}>{azName}</Card>
             </Badge>
         </Col>
     );
@@ -35,7 +35,7 @@ function VpcSummaryCard(props: any) {
 
     return (
         <Col span={3}>
-            <Card hoverable >
+            <Card hoverable style={{ height: 120 }}>
                 <Statistic title={title} value={value} />
             </Card>
         </Col>
@@ -50,13 +50,9 @@ export default function DataCenterOverview(): JSX.Element {
     const dcBasic = dcState.current;
     const dcSummary = dcState.summary.datacenter;
 
-    // const dispatch = useDispatch();
-    // useEffect(() => {
-    //     const params: DcNameQueryParm = {
-    //         dc: thisDC!.dcName
-    //     };
-    //     dispatch(getDataCenter(params));
-    // }, []);
+    if (!dcBasic) {
+        return <Spin spinning tip="Loading..." className="mt-20 flex justify-center" />;
+    }
     const flagUtil = new FlagUtil();
     return (
         <div className={classnames('ml-3', 'mt-5')}>
@@ -73,24 +69,29 @@ export default function DataCenterOverview(): JSX.Element {
                         </Row>
 
                         <Row gutter={16}>
-                            <Col span={5}>
-                                <Text strong>{t('datacenter.overview.dcInfo.vpcid')}</Text> <Text copyable>{dcBasic?.vpcID}</Text>
-                                <br />
-                                <Text strong>{t('datacenter.overview.dcInfo.cidrv4')}</Text> <Text copyable>{dcBasic?.cidrBlock}</Text>
+                            <Col span={8}>
+                                <div style={{ whiteSpace: 'nowrap' }}>
+                                    <Text strong>{t('datacenter.overview.dcInfo.vpcid')}</Text> <Text copyable>{dcBasic?.vpcID}</Text>
+                                </div>
+                                <div style={{ whiteSpace: 'nowrap' }}>
+                                    <Text strong>{t('datacenter.overview.dcInfo.cidrv4')}</Text> <Text copyable>{dcBasic?.cidrBlock}</Text>
+                                </div>
                             </Col>
-                            <Col span={12}>
+                            <Col span={8}>
                             </Col>
-                            <Col span={5}>
+                            <Col span={8}>
                                 <div className={classnames('my-2')}>
-                                    <Text strong>{t('datacenter.overview.dcInfo.region')}</Text> <Text>{flagUtil.getRegionName(dcBasic!.regionCode)}</Text>
-                                    <span className={classnames('inline-block', 'pr-1', 'h-4')}>
-                                        <Icon className={'ml-5'} icon={flagUtil.getFlagIconByRegion(dcBasic!.regionCode)}
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                        <Text strong>{t('datacenter.overview.dcInfo.region')}</Text>
+                                        <Text>{flagUtil.getRegionName(dcBasic!.regionCode)}</Text>
+                                        <Icon icon={flagUtil.getFlagIconByRegion(dcBasic!.regionCode)}
                                             color="#5c6f9a"
                                             width="25" height="25"
                                             fr={undefined} />
-                                    </span>
-                                    <br />
-                                    <Text strong>{t('datacenter.overview.dcInfo.createDate')}</Text> <Text>{TimeUtil.utcConvertTimeZone({ date: dcBasic?.createDate })}</Text>
+                                    </div>
+                                    <div>
+                                        <Text strong>{t('datacenter.overview.dcInfo.createDate')}</Text> <Text>{TimeUtil.utcConvertTimeZone({ date: dcBasic?.createDate })}</Text>
+                                    </div>
                                 </div>
                             </Col>
                         </Row>

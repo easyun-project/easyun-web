@@ -43,6 +43,10 @@ export const natgatewaySlice = createSlice({
             state.loading = false;
             state.list = action.payload;
         });
+        builder.addCase(listAllNatGateway.rejected, (state: NatGatewayState) => {
+            state.loading = false;
+            state.list = [];
+        });
 
         builder.addCase(getNatGatewayDetail.fulfilled, (state: NatGatewayState, action) => {
             state.loading = false;

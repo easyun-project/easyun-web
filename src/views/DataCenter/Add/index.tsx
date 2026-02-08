@@ -9,7 +9,7 @@ import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
-import { Row, Col, Divider, Typography, message, Select, Input, Form, Progress } from 'antd';
+import { Row, Col, Divider, Typography, message, Select, Input, Form, Progress, Checkbox } from 'antd';
 import { RootState } from '@/redux/store';
 import { listAllDataCenter, getDataCenterParams } from '@/redux/dataCenterSlice';
 import { DataCenterParams, DCProgressInfo, RegionItem, SecurityGroupParms, SubnetParms } from '@/constant/dataCenter';
@@ -73,6 +73,7 @@ const AddDataCenter = (): JSX.Element => {
     });
 
     const [validStatus, setValidStatus] = useState(false);
+    const [createNatGW, setCreateNatGW] = useState(false);
     const [dcProgress, setDCProgress] = useState<DCProgressInfo>({ current: 0, description: '' });
 
     const dataCenterState = useSelector((state: RootState) => {
@@ -82,6 +83,25 @@ const AddDataCenter = (): JSX.Element => {
     const dcParams = dataCenterState.datacenterParams?.dcParms;
     const dropDown = dataCenterState.datacenterParams?.dropDown;
     const regionList = dataCenterState.regionList;
+
+    // 根据 VPC CIDR 前缀重算子网 CIDR
+    const rebaseSubnetCidr = (subnetCidr: string, newVpcCidr: string): string => {
+        const vpcParts = newVpcCidr.split('/')[0].split('.');
+        const subParts = subnetCidr.split('/');
+        const oldOctets = subParts[0].split('.');
+        return `${vpcParts[0]}.${vpcParts[1]}.${oldOctets[2]}.${oldOctets[3]}/${subParts[1]}`;
+    };
+
+    const handleCidrChange = (newCidr: string) => {
+        setCidrBlock(newCidr);
+        if (!newCidr.match(/^\d+\.\d+\.\d+\.\d+\/\d+$/)) return;
+        const rebase = (s: SubnetParms) => ({ ...s, cidrBlock: rebaseSubnetCidr(s.cidrBlock, newCidr) });
+        setPubSubnet1(prev => rebase(prev));
+        setPubSubnet2(prev => rebase(prev));
+        setPriSubnet1(prev => rebase(prev));
+        setPriSubnet2(prev => rebase(prev));
+    };
+
     // 获取创建数据中心的默认参数
     const getdcParams = (parms: QueryNewDcParm) => {
         if (parms.dc === '') dispatch(getDataCenterParams({ dc: 'default' }));
@@ -124,41 +144,53 @@ const AddDataCenter = (): JSX.Element => {
     }, [inputDcName, regionCode, cidrBlock]);
 
     // 创建数据中心
+    const [creating, setCreating] = useState(false);
+    const intervalRef = useRef<number>(0);
+
     const createDateCenter = async (params: DataCenterParams) => {
         if (params.dcName === '') {
             message.error('Please Input a valid Datacenter Name!');
             return;
         }
+        setCreating(true);
         const created = await DataCenterService.createDataCenter(params);
         if (!created) {
+            setCreating(false);
+            message.error('Failed to create datacenter');
             return;
         }
-        const intervalId = setInterval(
-            () => { getRealTimeTaskResult(created.taskId); },
-            1000
+        intervalRef.current = window.setInterval(
+            () => pollTaskResult(created.taskId), 2000
         );
-        setIntervalId(intervalId);
     };
 
-    //定时循环调用task result接口，获取执行结果
-    const [intervalId, setIntervalId] = useState<number>(0);
-    const getRealTimeTaskResult = async (taskId: string) => {
-        const taskResult = await DataCenterService.getTaskResult(taskId);
-        if (taskResult === undefined) {
-            message.error('can not get task result');
+    const pollTaskResult = async (taskId: string) => {
+        const task = await DataCenterService.getTaskResult(taskId);
+        if (!task) {
+            clearInterval(intervalRef.current);
+            setCreating(false);
+            message.error('Cannot get task result');
             return;
         }
-        if (taskResult.current === taskResult.total) {
-            clearInterval(intervalId);
+        setDCProgress({
+            current: Math.round((task.current / (task.total || 1)) * 100),
+            description: task.description,
+        });
+        if (task.status === 'SUCCESS') {
+            clearInterval(intervalRef.current);
+            setCreating(false);
             dispatch(listAllDataCenter());
             navigate('/datacenter/add/result');
-        } else {
-            setDCProgress({
-                current: taskResult.current,
-                description: taskResult.description,
-            });
+        } else if (task.status === 'FAILURE') {
+            clearInterval(intervalRef.current);
+            setCreating(false);
+            message.error(`Create failed: ${task.description}`);
         }
     };
+
+    useEffect(() => {
+        return () => clearInterval(intervalRef.current);
+    }, []);
 
     return (
         <div>
@@ -168,7 +200,7 @@ const AddDataCenter = (): JSX.Element => {
                         icon="ant-design:plus-circle-twotone" />
                     <Title level={3} style={{ display: 'inline-block' }}>Create New Cloud DataCenter</Title>
                     {
-                        dcProgress.current > 0 && (
+                        creating && (
                             <div>
                                 <Progress percent={dcProgress.current} status="active" />
                                 <span>{dcProgress.description}</span>
@@ -213,18 +245,23 @@ const AddDataCenter = (): JSX.Element => {
                     <Title level={5} className='mt-4 mb-2'>Defining DataCenter Networking</Title>
                     <Text style={{ width: 150 }} className={classnames('inline-block', 'ml-4')}>CIDR block(IPv4):</Text>
                     <Input defaultValue={dcParams?.dcVPC.cidrBlock} style={{ width: 280 }}
-                        onChange={(e) => { setCidrBlock(e.target.value); }}
+                        onChange={(e) => { handleCidrChange(e.target.value); }}
                         className={classnames('border')} type="text" />
+                    <div className='ml-4 my-2'>
+                        <Checkbox checked={createNatGW} onChange={(e) => setCreateNatGW(e.target.checked)}>
+                            Create NAT Gateway
+                        </Checkbox>
+                    </div>
                     <Row gutter={12}>
-                        <SubnetOption subnet={dcParams?.pubSubnet1} dropdown={dropDown} index={1} isPublic={true}
+                        <SubnetOption subnet={pubSubnet1} dropdown={dropDown} index={1} isPublic={true}
                             classes={classnames('w-96', 'inline-block')} />
-                        <SubnetOption subnet={dcParams?.pubSubnet2} dropdown={dropDown} index={2} isPublic={true}
+                        <SubnetOption subnet={pubSubnet2} dropdown={dropDown} index={2} isPublic={true}
                             classes={classnames('w-96', 'inline-block')} />
                     </Row>
                     <Row gutter={12}>
-                        <SubnetOption subnet={dcParams?.priSubnet1} dropdown={dropDown} index={1} isPublic={false}
+                        <SubnetOption subnet={priSubnet1} dropdown={dropDown} index={1} isPublic={false}
                             classes={classnames('w-96', 'inline-block')} />
-                        <SubnetOption subnet={dcParams?.priSubnet2} dropdown={dropDown} index={2} isPublic={false}
+                        <SubnetOption subnet={priSubnet2} dropdown={dropDown} index={2} isPublic={false}
                             classes={classnames('w-96', 'inline-block')} />
                     </Row>
 
@@ -267,7 +304,7 @@ const AddDataCenter = (): JSX.Element => {
                                 width="20" height="20" fr={undefined} />
                             Back</CButton>
                         <CButton
-                            disabled={!validStatus}
+                            disabled={!validStatus || creating}
                             type='primary'
                             click={() => {
                                 if (inputDcName == 'easyun') {
@@ -278,6 +315,7 @@ const AddDataCenter = (): JSX.Element => {
                                 const elemDcParams: DataCenterParams = {
                                     dcName: inputDcName,
                                     dcRegion: regionCode,
+                                    ...(createNatGW && { createNatGW: true }),
                                     dcVPC: {
                                         cidrBlock: cidrBlock ?? '',
                                     },
@@ -288,11 +326,8 @@ const AddDataCenter = (): JSX.Element => {
                                     securityGroup0: secGroup0,
                                     securityGroup1: secGroup1,
                                     securityGroup2: secGroup2,
-                                    // keypair: sshKey
                                 };
-                                // console.log(dcParams);
-                                // console.log(elemDcParams);
-                                createDateCenter(dcParams!);
+                                createDateCenter(elemDcParams);
                             }}
                         >Create</CButton>
                     </div>

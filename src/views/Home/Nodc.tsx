@@ -8,7 +8,7 @@ export default function Nodc() {
     const navigate = useNavigate();
     return (
         <div className={classnames('min-h-screen','flex','items-center','justify-center')}>
-            <button className={classnames('btn-yellow')} onClick={()=>navigate('/datacenter')}>{t('home.addButton')}</button>
+            <button className={classnames('btn-yellow')} onClick={()=>navigate('/datacenter/add')}>{t('home.addButton')}</button>
         </div>
     );
 }
