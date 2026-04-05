@@ -1,81 +1,46 @@
 import React from 'react';
-import { Menu, Dropdown } from 'antd';
-import { Icon } from '@iconify/react';
 import { useNavigate, Link } from 'react-router-dom';
-import { updateCurrentDC } from '@/redux/dataCenterSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
-import { StaticIpInfo } from '@/constant/dataCenter';
 import { RootState } from '@/redux/store';
-import { getApiV1DatacenterStaticipList, postApiV1DatacenterStaticip, deleteApiV1DatacenterStaticip } from '@/api-client';
+import { StaticIpInfo } from '@/constant/dataCenter';
+import { deleteApiV1DatacenterStaticip } from '@/api-client';
 import { listAllStaticIp } from '@/redux/staticipSlice';
+import { updateCurrentDC } from '@/redux/dataCenterSlice';
+import { ResourceCard } from '@/components/ui/resource-card';
 
-
-export default function EipCard(props:StaticIpInfo) {
+export default function EipCard(props: StaticIpInfo) {
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
-    const dc = useSelector((state:RootState)=>state.dataCenter.current!.dcName) || '';
+    const dc = useSelector((state: RootState) => state.dataCenter.current!.dcName) || '';
     const { tagName, publicIp, assoTarget, boarderGroup, eipId } = props;
-    const menu = (
-        <Menu>
-            <Menu.Item key="resource" onClick={()=>{
-                dispatch(updateCurrentDC(props));
-                navigate(publicIp);}}>
-          Detail
-            </Menu.Item>
-            <Menu.Item
-                danger
-                key="delete"
-                onClick={() =>{(deleteApiV1DatacenterStaticip as any)({
-                    eipId: eipId || '',
-                    dcName: dc,
-                    publicIp: publicIp || ''
-                }).then(
-                    ()=>dispatch(listAllStaticIp({ dc })),
-                    err=>alert(err));}
-                }
-            >
-        Delete
-            </Menu.Item>
-        </Menu>
-    );
+
+    const attachInfo = assoTarget.eniId
+        ? <span className="text-xs text-gray-500">
+            Attached to
+            {assoTarget.eniType !== 'nat_gateway'
+                ? <Link to={'/resource/server/' + assoTarget.svrId} className="ml-1 text-blue-600">{assoTarget.tagName}</Link>
+                : <span className="ml-1">{assoTarget.tagName}</span>}
+        </span>
+        : <span className="text-xs text-red-500">Not Attached</span>;
 
     return (
-        <div
-            className={"flex flex-col bg-gray-200 rounded-border w-96 p-2"}
-        >
-            <div className={"flex flex-row mb-2"}>
-                <Icon icon="iconoir:ip-address" color="#e9862e" width="60"fr={undefined}/>
-                <div className='grow ml-2' >
-                    <Link to='detail' state={{ publicIp }} className={"text-blue-600 text-lg"}>{tagName}</Link>
-                    <div className={"text-xs text-gray-500"}>{eipId}</div>
-                </div>
-                <Dropdown overlay={menu}>
-                    <Icon
-                        icon="fluent:more-vertical-20-filled"
-                        width="20"
-                        fr={undefined}
-                        className={"cursor-pointer hover:text-yellow-550"}
-                    />
-                </Dropdown>
-            </div>
-            <div
-                className={"flex justify-between border-t-2 items-center border-gray-300 border-dashed mx-2"}
-            >
-                {assoTarget.eniId
-                    ? <div className={"text-xs text-gray-500"}>
-                        Attached to
-                        {assoTarget.eniType !== 'nat_gateway'
-                            ? <Link to={'/resource/server/' + assoTarget.svrId} className='ml-1 text-blue-600'>{assoTarget.tagName}</Link>
-                            : <span className={"ml-1"}>{assoTarget.tagName}</span>}
-                    </div>
-                    : <div className={"text-xs text-red-500"}>Not Attached</div>
-                }
-                <div className={"text-xs text-gray-500"}>
-                    <div>{publicIp}</div>
-                    <div>{boarderGroup}</div>
-                </div>
-            </div>
-        </div>
+        <ResourceCard
+            icon="iconoir:ip-address"
+            title={tagName}
+            titleLink={publicIp}
+            subtitle={eipId}
+            actions={[
+                { label: 'Detail', onClick: () => { dispatch(updateCurrentDC(props) as any); navigate(publicIp); } },
+                {
+                    label: 'Delete', danger: true, onClick: () => {
+                        (deleteApiV1DatacenterStaticip as any)({ eipId: eipId || '', dcName: dc, publicIp: publicIp || '' })
+                            .then(() => dispatch(listAllStaticIp({ dc })), err => alert(err));
+                    }
+                },
+            ]}
+            footerLeft={attachInfo}
+            footerRight={<><div>{publicIp}</div><div>{boarderGroup}</div></>}
+        />
     );
 }

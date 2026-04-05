@@ -32,6 +32,8 @@ interface ResourceListPageProps {
     addButtonText?: string;
     /** 添加按钮跳转路径 */
     addPath?: string;
+    /** 自定义添加按钮（优先于 addPath） */
+    addButton?: React.ReactNode;
     /** 空状态提示 */
     emptyTitle?: string;
     emptyDescription?: string;
@@ -41,7 +43,7 @@ interface ResourceListPageProps {
 
 export function ResourceListPage({
     title, loading, items, sortOptions, sortBy, onSortChange,
-    addButtonText, addPath, emptyTitle, emptyDescription, children,
+    addButtonText, addPath, addButton, emptyTitle, emptyDescription, children,
 }: ResourceListPageProps) {
     const navigate = useNavigate();
 
@@ -53,6 +55,12 @@ export function ResourceListPage({
         );
     }
 
+    const addEl = addButton || (addPath && (
+        <Button onClick={() => navigate(addPath)} className="btn-yellow">
+            {addButtonText || `Add ${title}`}
+        </Button>
+    ));
+
     if (!items || items.length === 0) {
         return (
             <div className="flex flex-col justify-center items-center m-10">
@@ -60,11 +68,7 @@ export function ResourceListPage({
                 <div className="my-2 text-sm text-gray-700">
                     {emptyDescription || `Add a ${title} to get started with Easyun!`}
                 </div>
-                {addPath && (
-                    <Button onClick={() => navigate(addPath)} className="btn-yellow">
-                        {addButtonText || `Add ${title}`}
-                    </Button>
-                )}
+                {addEl}
             </div>
         );
     }
@@ -92,11 +96,7 @@ export function ResourceListPage({
                         </DropdownMenu>
                     </div>
                 ) : <div />}
-                {addPath && (
-                    <Button onClick={() => navigate(addPath)} className="btn-yellow">
-                        {addButtonText || `Add ${title}`}
-                    </Button>
-                )}
+                {addEl}
             </div>
             <div className="grid gap-4 justify-items-center items-center mt-4 lg:grid-cols-2 2xl:grid-cols-3">
                 {children}

@@ -1,6 +1,6 @@
 import React from 'react';
 import bucketImage from '@/assets/images/resource/stbucket.png';
-import { BucketCardInfo } from '../CStorageCard/StBucketCard';
+type BucketCardInfo = any;
 import { getDomain } from '@/views/Resource/StBucket/BucketManage/utils';
 
 export default function BucketCard({ bktDetail }: { bktDetail: BucketCardInfo }) {
