@@ -1,17 +1,17 @@
+import { putApiV1ServerEip } from "@/api-client";
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import { useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { RootState } from '@/redux/store';
-import serverService from '@/service/serverService';
 import { useNavigate } from 'react-router-dom';
 // import { SeverDetailModel } from '@/constant/server';
 import ServerCard from '@/components/Logic/CCard/ServerCard';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Select } from 'antd';
 import { useDispatch } from 'react-redux';
-import StaticIPService from '@/service/dcmStaticipServices';
+import { getApiV1DatacenterStaticipList, postApiV1DatacenterStaticip, deleteApiV1DatacenterStaticip } from '@/api-client';
 import { listAllStaticIp } from '@/redux/staticipSlice';
 // import { classnames } from 'tailwindcss-classnames';
 // import { WarningOutlined, InfoCircleOutlined } from '@ant-design/icons';
@@ -54,7 +54,7 @@ export default function EipDetail() {
                     <div className='self-center'>
                         <button className="w-32 btn-red" onClick={()=>{
                             if(confirm('Are you sure to release this Eip?'))
-                            {StaticIPService.delete({
+                            {(deleteApiV1DatacenterStaticip as any)({
                                 eipId: thisEip!.eipId || '',
                                 dcName: dc,
                                 publicIp
@@ -91,11 +91,11 @@ export default function EipDetail() {
                                 { <ServerCard serverId={thisEip.assoTarget.svrId || ''}>
                                     <button className='flex items-center self-start text-yellow-550' onClick={() => {
                                         changeDetaching(true);
-                                        serverService.bindServerEip({
+                                        (putApiV1ServerEip as any)({ body: {
                                             action: 'detach',
                                             publicIp: publicIp,
                                             svrId: thisEip.assoTarget.svrId || ''
-                                        }).then(()=>{
+                                        } }).then(()=>{
                                             return dispatch(listAllStaticIp({ dc }));
                                         }).then(()=>changeDetaching(false));
                                     }}>
@@ -131,11 +131,11 @@ export default function EipDetail() {
                                             ? <ServerCard serverId={selectedSvr} active>
                                                 <button className='flex items-center self-start text-green-700' onClick={() => {
                                                     changeAttaching(true);
-                                                    serverService.bindServerEip({
+                                                    (putApiV1ServerEip as any)({ body: {
                                                         action: 'attach',
                                                         publicIp: publicIp,
                                                         svrId: selectedSvr,
-                                                    }).then(()=>{
+                                                    } }).then(()=>{
                                                         return dispatch(listAllStaticIp({ dc }));
                                                     }).then(()=>changeAttaching(false)); }}>
                                                     {attaching

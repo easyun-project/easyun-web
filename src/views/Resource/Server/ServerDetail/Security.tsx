@@ -6,7 +6,7 @@ import type { AppDispatch } from '@/redux/store';
 import { RootState } from '@/redux/store';
 import CSecOpt from '@/components/Logic/CSecurityGroup/CSecOpt';
 import { Table, Space, Modal, Radio } from 'antd';
-import serverService from '@/service/serverService';
+import { postApiV1ServerAction, deleteApiV1Server, postApiV1ServerConfig, putApiV1ServerName, putApiV1ServerDisk, putApiV1ServerEip, putApiV1ServerSecgroup, getApiV1ServerParamImage, getApiV1ServerParamInstypeList, getApiV1ServerParamInsfamily, postApiV1Server, getApiV1ServerDetailBySvrId, deleteApiV1ServerTagsBySvrId, putApiV1ServerTagsBySvrId } from '@/api-client';
 import { getServerDetail } from '@/redux/serverSlice';
 
 type Secgroupdata = {
@@ -133,11 +133,11 @@ export default function Security():JSX.Element {
                         </button>
                         <button
                             className={ classnames('btn-red-sm')}
-                            onClick={()=>{serverService.bindServerSecgroup({
+                            onClick={()=>{putApiV1ServerSecgroup({ body: {
                                 action: 'detach',
                                 secgroupId: selectedSecgroups[0],
                                 svrId: serverId,
-                            }).then(
+                            } }).then(
                                 ()=>dispatch(getServerDetail({ serverId }))
                             )
                             ;}}>
@@ -146,11 +146,11 @@ export default function Security():JSX.Element {
                     </div>
 
                     <Modal title="Select a security group to attach" visible={isModalVisible} onOk={()=>{
-                        serverService.bindServerSecgroup({
+                        putApiV1ServerSecgroup({ body: {
                             action: 'attach',
                             secgroupId: selectedSecgroup,
                             svrId: serverId,
-                        }).then(()=>{
+                        } }).then(()=>{
                             changeIsModalVisible(false);
                             dispatch(getServerDetail({ serverId }));
                         });

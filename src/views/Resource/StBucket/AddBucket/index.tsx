@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
-import bucketManage from '@/service/stBucketService';
+import { getApiV1StorageBucketVaildate, postApiV1StorageBucketAdd, deleteApiV1StorageBucket } from '@/api-client';
 import { Switch, Input, Select, Card, Tooltip, message } from 'antd';
 import { useTranslation, Trans } from 'react-i18next';
 import FlagUtil from '@/utils/flagUtil';
@@ -35,7 +35,7 @@ const AddBucket = (): JSX.Element => {
         clearTimeout(refTimer.current);
         // 重新开启一个定时器
         refTimer.current = setTimeout(
-            () => bucketManage.validateBucketId({ dc: dcName, bucketId }).then(res => setValid(res)), 1000);
+            () => (getApiV1StorageBucketVaildate as any)({ query: { dc: dcName, bucket_id: bucketId } }).then(({ data }) => setValid(data?.detail as any)), 1000);
     }, [ bucketId ]);
 
     return (
@@ -145,7 +145,7 @@ const AddBucket = (): JSX.Element => {
                             bucketId: bucketId,
                             dcName
                         };
-                        bucketManage.addBucket(params).then(()=>{
+                        postApiV1StorageBucketAdd({ body: params as any }).then(()=>{
                             setCreating(false);
                             message.success('Create success');
                             navigate('/resource/object');

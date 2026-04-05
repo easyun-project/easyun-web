@@ -6,7 +6,7 @@ import type { AppDispatch } from '@/redux/store';
 import { useNavigate, Link } from 'react-router-dom';
 import { StVolumeInfo } from '@/constant/storage';
 // import serverService from '@/service/serverService';
-import VolumeService from '@/service/stVolumeService';
+import { postApiV1StorageVolume, getApiV1StorageVolumeByVolumeId, deleteApiV1StorageVolume } from '@/api-client';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { listAllVolume } from '@/redux/stvolumeSlice';
@@ -30,7 +30,7 @@ const CStVolumeCard = (props: StVolumeInfo): JSX.Element => {
                 key="delete"
                 onClick={()=>{
                     //TODO:此处还需要解绑一下
-                    VolumeService.deleteVolume({ dcName, volumeIds: [ volumeId || '' ] }).then(()=>
+                    (deleteApiV1StorageVolume as any)({ body: { dcName, volumeIds: [volumeId || ''] } }).then(()=>
                     {
                         dispatch(listAllVolume({ dc: dcName }));
                         message.info('Delete volume success');

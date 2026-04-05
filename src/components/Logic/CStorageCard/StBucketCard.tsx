@@ -2,7 +2,7 @@ import React from 'react';
 import { TTailwindString } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { Menu, Dropdown } from 'antd';
-import bucketManage from '@/service/stBucketService';
+import { deleteApiV1StorageBucket } from '@/api-client';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
@@ -39,7 +39,7 @@ const CStBucketCard = (props): JSX.Element => {
                 danger
                 key="delete"
                 onClick={() => {
-                    bucketManage.deleteBucket({ dcName, bucketId: bucketId || '' })
+                    (deleteApiV1StorageBucket as any)({ query: { dc: dcName || '', bucket_id: bucketId || '' } })
                         .then(
                             () => {
                                 alert('删除成功');

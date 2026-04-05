@@ -6,7 +6,7 @@ import { useDispatch,useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { RootState } from '@/redux/store';
 import { updateServerTags } from '@/redux/serverSlice';
-import serverService from '@/service/serverService';
+import { postApiV1ServerAction, deleteApiV1Server, postApiV1ServerConfig, putApiV1ServerName, putApiV1ServerDisk, putApiV1ServerEip, putApiV1ServerSecgroup, getApiV1ServerParamImage, getApiV1ServerParamInstypeList, getApiV1ServerParamInsfamily, postApiV1Server, getApiV1ServerDetailBySvrId, deleteApiV1ServerTagsBySvrId, putApiV1ServerTagsBySvrId } from '@/api-client';
 
 export default function Tags() {
     const dispatch = useDispatch<AppDispatch>();
@@ -70,10 +70,9 @@ export default function Tags() {
                             color='#dd6b10'
                             onClick={() => {
                                 if (window.confirm('Are you sure delete this tag?'))
-                                {   serverService.deleteServerTags({
-                                    tag:{ Key:i,Value:serverTags[i] },
-                                    svrId
-                                });
+                                {   (deleteApiV1ServerTagsBySvrId as any)({ path: { svr_id: svrId }, body: {
+                                    Key:i, Value:serverTags[i]
+                                } });
                                 deleteTag(i);}
                             }} />
                     </div>
@@ -138,10 +137,9 @@ export default function Tags() {
                                         ...serverTags,
                                         [tagKey]: tagValue
                                     });
-                                serverService.updateServerTags({
-                                    tag:{ Key:tagKey,Value:tagValue },
-                                    svrId
-                                });
+                                (putApiV1ServerTagsBySvrId as any)({ path: { svr_id: svrId }, body: {
+                                    Key:tagKey, Value:tagValue
+                                } });
                                 changeIsAdding(false);
                                 changeIsChanging(false);
                                 changeKey('');

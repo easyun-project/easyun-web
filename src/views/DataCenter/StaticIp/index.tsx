@@ -10,8 +10,8 @@ import { listAllStaticIp } from '@/redux/staticipSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { RootState } from '@/redux/store';
-import StaticIPService from '@/service/dcmStaticipServices';
-import DataCenterService from '@/service/dataCenterService';
+import { getApiV1DatacenterStaticipList, postApiV1DatacenterStaticip, deleteApiV1DatacenterStaticip } from '@/api-client';
+import { getApiV1DatacenterSecgroupList as _dcSecgroupList, getApiV1DatacenterSubnetList as _dcSubnetList } from '@/api-client';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
 
@@ -57,7 +57,7 @@ export default function Network() {
 
                 <button className='flex items-center btn-yellow' onClick={() => {
                     changeCreating(true);
-                    StaticIPService.create({ dcName:dc }).then(
+                    (postApiV1DatacenterStaticip as any)({ body: { dcName: dc } }).then(
                         () => {
                             dispatch(listAllStaticIp({ dc }));
                             changeCreating(false);

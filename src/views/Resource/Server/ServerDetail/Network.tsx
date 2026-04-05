@@ -1,18 +1,18 @@
+import { putApiV1ServerEip } from "@/api-client";
 import React from 'react';
 import { classnames } from '@@/tailwindcss-classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { RootState } from '@/redux/store';
 import { Icon } from '@iconify/react';
-import DataCenterService from '@/service/dataCenterService';
+import { getApiV1DatacenterSecgroupList as _dcSecgroupList, getApiV1DatacenterSubnetList as _dcSubnetList } from '@/api-client';
 import { useState, useEffect } from 'react';
 import { Modal, Radio, Space, Button } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { StaticIpBasic } from '@/constant/dataCenter';
-import serverService from '@/service/serverService';
 import { getServerDetail } from '@/redux/serverSlice';
 import { useNavigate } from 'react-router-dom';
-import StaticIPService from '@/service/dcmStaticipServices';
+import { getApiV1DatacenterStaticipList, postApiV1DatacenterStaticip, deleteApiV1DatacenterStaticip } from '@/api-client';
 
 
 export default function Network(): JSX.Element {
@@ -28,7 +28,7 @@ export default function Network(): JSX.Element {
     useEffect(
         () => {
             if (dc) {
-                StaticIPService.getList(dc).then(
+                (getApiV1DatacenterStaticipList as any)({ query: { dc } }).then(({ data }: any) => data?.detail).then(
                     (res) => {
                         changeEips(res);
                     },
@@ -56,11 +56,11 @@ export default function Network(): JSX.Element {
                                 ?
                                 <button className={classnames('text-yellow-550')} onClick={() => {
                                     changeOperating(true);
-                                    serverService.bindServerEip({
+                                    (putApiV1ServerEip as any)({ body: {
                                         action: 'detach',
                                         publicIp: server.svrNetworking.publicIp,
                                         svrId: server?.svrProperty.instanceId
-                                    }).then(
+                                    } }).then(
                                         () => {
                                             dispatch(getServerDetail({
                                                 serverId: server?.svrProperty.instanceId
@@ -82,7 +82,7 @@ export default function Network(): JSX.Element {
                                 :
                                 (<><button onClick={() => {
                                     changeOperating(true);
-                                    StaticIPService.create({ dcName: dc! }).then(
+                                    (postApiV1DatacenterStaticip as any)({ body: { dcName: dc } }).then(
                                         () => changeOperating(false)
                                     );
                                 }}
@@ -98,7 +98,7 @@ export default function Network(): JSX.Element {
                                 <button onClick={() => {
                                     changeIsModalVisible(true);
                                     // fix-me: 不应该写死‘Easyun’
-                                    StaticIPService.getList('Easyun').then(
+                                    (getApiV1DatacenterStaticipList as any)({ query: { dc: 'Easyun' } }).then(({ data }: any) => data?.detail).then(
                                         (res) => {
                                             changeEips(res);
                                         },
@@ -118,11 +118,11 @@ export default function Network(): JSX.Element {
                                         <Button key="submit" type="primary" loading={operating} onClick={
                                             () => {
                                                 changeOperating(true);
-                                                serverService.bindServerEip({
+                                                (putApiV1ServerEip as any)({ body: {
                                                     action: 'attach',
                                                     publicIp: selectedEip,
                                                     svrId: server?.svrProperty.instanceId
-                                                }
+                                                } }
                                                 ).then(
                                                     () => {
                                                         dispatch(getServerDetail({

@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { StaticIpInfo } from '@/constant/dataCenter';
 import { RootState } from '@/redux/store';
-import StaticIPService from '@/service/dcmStaticipServices';
+import { getApiV1DatacenterStaticipList, postApiV1DatacenterStaticip, deleteApiV1DatacenterStaticip } from '@/api-client';
 import { listAllStaticIp } from '@/redux/staticipSlice';
 
 
@@ -27,7 +27,7 @@ export default function EipCard(props:StaticIpInfo) {
             <Menu.Item
                 danger
                 key="delete"
-                onClick={() =>{StaticIPService.delete({
+                onClick={() =>{(deleteApiV1DatacenterStaticip as any)({
                     eipId: eipId || '',
                     dcName: dc,
                     publicIp: publicIp || ''

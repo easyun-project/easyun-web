@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { DataCenterModel } from '@/constant/dataCenter';
-import DataCenterService from '@/service/dataCenterService';
+import { postApiV1Datacenter, getApiV1DatacenterTask, getApiV1DatacenterList, deleteApiV1Datacenter } from '@/api-client';
 import { deleteDataCenter, updateCurrentDC, getDatacenterSummary, listAllDataCenter } from '@/redux/dataCenterSlice';
 import { listAllSubnet } from '@/redux/subnetSlice';
 import { listAllRouteTable } from '@/redux/routeSlice';
@@ -62,7 +62,7 @@ export default function DataCenterCard(props: DataCenterModel) {
         });
         let task: any;
         try {
-            task = await DataCenterService.deleteDataCenter(params);
+            task = await deleteApiV1Datacenter({ body: params as any }).then(({ data }) => data?.task as any);
         } catch {
             notification.error({ key: 'dc-delete', message: 'Failed', description: 'Delete request failed' });
             return;
@@ -88,7 +88,7 @@ export default function DataCenterCard(props: DataCenterModel) {
             return;
         }
         const poll = setInterval(async () => {
-            const result = await DataCenterService.getTaskResult(task.taskId);
+            const result = await getApiV1DatacenterTask({ query: { id: task.taskId } }).then(({ data }) => data?.task as any);
             if (!result) {
                 clearInterval(poll);
                 notification.error({ key: 'dc-delete', message: 'Error', description: 'Cannot get task status' });

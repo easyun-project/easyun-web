@@ -4,7 +4,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import { Card, Switch, Select } from 'antd';
 import CTags from '@/components/Logic/CTags';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
-import VolumeService from '@/service/stVolumeService';
+import { postApiV1StorageVolume, getApiV1StorageVolumeByVolumeId, deleteApiV1StorageVolume } from '@/api-client';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
@@ -83,14 +83,14 @@ const AddVolume = (): JSX.Element => {
             <button className="m-5 w-32 btn-yellow" onClick={() => {
                 changeCreating(true);
                 // TODO:跟后端沟通接口后修改
-                VolumeService.addVolume({
+                (postApiV1StorageVolume as any)({ body: {
                     ...newDiskProps,
                     // multiattch,
                     azName: azName || '',
                     dcName,
                     svrId: '1234',
                     tagName: '1234'
-                }).then(
+                } }).then(
                     () => {
                         changeCreating(false);
                         alert('创建成功');

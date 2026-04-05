@@ -15,7 +15,7 @@ import Security from './Security';
 import Connect from './Connect';
 import Network from './Network';
 import Tags from './Tags';
-import serverService from '@/service/serverService';
+import { postApiV1ServerAction, deleteApiV1Server, postApiV1ServerConfig, putApiV1ServerName, putApiV1ServerDisk, putApiV1ServerEip, putApiV1ServerSecgroup, getApiV1ServerParamImage, getApiV1ServerParamInstypeList, getApiV1ServerParamInsfamily, postApiV1Server, getApiV1ServerDetailBySvrId, deleteApiV1ServerTagsBySvrId, putApiV1ServerTagsBySvrId } from '@/api-client';
 import { LoadingOutlined } from '@ant-design/icons';
 
 
@@ -97,24 +97,24 @@ const ServerDetail = ():JSX.Element => {
                                 {serverState.loading ? <LoadingOutlined /> : null}
                             </div>
                             <div className={classnames('flex')}>
-                                <button className={classnames('btn-yellow','w-32','m-5')} value='start' onClick={(e)=>serverService.changeServerState({
+                                <button className={classnames('btn-yellow','w-32','m-5')} value='start' onClick={(e)=>postApiV1ServerAction({ body: {
                                     action: e.currentTarget.value,
                                     svr_ids: [serverId]
-                                }).then(()=>refresh(3))
+                                } as any }).then(()=>refresh(3))
                                 }>
                             Start
                                 </button>
-                                <button className={classnames('btn-yellow','w-32','m-5')} value='stop' onClick={(e)=>serverService.changeServerState({
+                                <button className={classnames('btn-yellow','w-32','m-5')} value='stop' onClick={(e)=>postApiV1ServerAction({ body: {
                                     action: e.currentTarget.value,
                                     svr_ids: [serverId]
-                                }).then(()=>refresh(6))
+                                } as any }).then(()=>refresh(6))
                                 }>
                             Stop
                                 </button>
-                                <button className={classnames('btn-yellow','w-32','m-5')} value='restart' onClick={(e)=>serverService.changeServerState({
+                                <button className={classnames('btn-yellow','w-32','m-5')} value='restart' onClick={(e)=>postApiV1ServerAction({ body: {
                                     action: e.currentTarget.value,
                                     svr_ids: [serverId]
-                                }).then(()=>refresh(8))}>
+                                } as any }).then(()=>refresh(8))}>
                             Restart
                                 </button>
                                 <button className={classnames('btn-red','w-32','m-5')} value='delete' onClick={()=>message.info('I think you delete the instance')}>

@@ -6,7 +6,7 @@ import { DictListSelect } from '@/components/DashboardCommon/DictListSelect';
 import './detail/index.css';
 import { TTailwindString } from 'tailwindcss-classnames';
 import { useNavigate } from 'react-router-dom';
-import DataCenterService from '@/service/dataCenterService';
+import { postApiV1Datacenter, getApiV1DatacenterTask, getApiV1DatacenterList, deleteApiV1Datacenter } from '@/api-client';
 
 
 export const Dashboard = (props): JSX.Element => {
@@ -23,7 +23,8 @@ export const Dashboard = (props): JSX.Element => {
      * 获取数据中心列表，且默认选中第一个
      */
     const getDataCenterList = () => {
-        DataCenterService.getDataCenterList().then(res => {
+        getApiV1DatacenterList().then(({ data }) => {
+            const res = (data?.detail || []) as any[];
             res.length > 0 && setDcName(res[0].dcName);
         });
     };

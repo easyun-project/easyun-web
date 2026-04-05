@@ -11,7 +11,7 @@ AWS 云资源管理平台前端项目。
 - **路由**: React Router DOM 6
 - **CSS 框架**: Tailwind CSS 3，tailwindcss-classnames 提供类型约束
 - **国际化**: i18next，默认支持中文、英文、日语
-- **HTTP 请求**: @hey-api/openapi-ts 自动生成类型安全的 API Client（逐步替换手写 service）
+- **HTTP 请求**: @hey-api/openapi-ts 自动生成类型安全的 API Client
 - **日期处理**: Day.js
 
 ## 特性
@@ -77,7 +77,6 @@ npm run serve
     ├── redux                        状态管理（slice 和 store）
     ├── routes                       路由配置
     ├── api-client                 自动生成的 API Client（勿手动修改，npm run gen:api 生成）
-    ├── service                      业务服务（遗留，逐步迁移至 api-client）
     ├── utils                        通用方法
     └── views                        页面
         ├── Dashboard                  仪表盘

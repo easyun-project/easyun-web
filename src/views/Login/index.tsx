@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { userAction } from '@/redux/userSlice';
-import userService from '@/service/userService';
+import { postApiV1UserAuth, deleteApiV1UserLogout } from '@/api-client';
 import { Row, Input, message, Typography, Form, Checkbox, Menu, Dropdown } from 'antd';
 import HostModal from '@/components/Logic/CModal';
 import { listAllDataCenter, getRegionList } from '@/redux/dataCenterSlice';
@@ -32,8 +32,8 @@ const LoginPage = (): JSX.Element => {
             return;
         }
         // console.log(values);
-        userService.login(username, password).then(
-            loginRes=>{dispatch(userAction({ ...loginRes, loginTime: Date.now() }));
+        postApiV1UserAuth({ body: { username, password } }).then(({ data }) => data?.detail).then(
+            loginRes=>{dispatch(userAction({ ...loginRes, loginTime: Date.now() } as any));
                 // localStorage.setItem('token', loginRes.token);
                 initDataCenterList().then(() => navigate('/home'));
             },

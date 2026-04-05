@@ -4,7 +4,7 @@ import ServerCard from '@/components/Logic/CCard/ServerCard';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
 import { StVolumeInfo } from '@/constant/storage';
-import serverService from '@/service/serverService';
+import { postApiV1ServerAction, deleteApiV1Server, postApiV1ServerConfig, putApiV1ServerName, putApiV1ServerDisk, putApiV1ServerEip, putApiV1ServerSecgroup, getApiV1ServerParamImage, getApiV1ServerParamInstypeList, getApiV1ServerParamInsfamily, postApiV1Server, getApiV1ServerDetailBySvrId, deleteApiV1ServerTagsBySvrId, putApiV1ServerTagsBySvrId } from '@/api-client';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { listAllVolume } from '@/redux/stvolumeSlice';
@@ -42,12 +42,12 @@ export default function Attachment(props:StVolumeInfo) {
                             <ServerCard serverId={selectedSvr} active>
                                 <button className='flex items-center self-start text-green-700' onClick={() => {
                                     changeAttaching(true);
-                                    serverService.bindServerDisk({
+                                    putApiV1ServerDisk({ body: {
                                         action:'attach',
                                         svrId:selectedSvr,
                                         volumeId: volumeId || '',
                                         diskPath:attachPath
-                                    }).then(()=>{
+                                    } }).then(()=>{
                                         dispatch(listAllServer({ dc:dcName }));
                                         dispatch(listAllVolume({ dc:dcName }));
                                         changeAttaching(false);
@@ -73,12 +73,12 @@ export default function Attachment(props:StVolumeInfo) {
                 : volumeAttach.map(vol=><ServerCard key={vol.svrId} serverId={vol.svrId}>
                     <button className='flex items-center self-start text-yellow-550' onClick={() => {
                         changeDetaching(true);
-                        serverService.bindServerDisk({
+                        putApiV1ServerDisk({ body: {
                             action:'detach',
                             svrId:vol.svrId || '',
                             volumeId: volumeId || '',
                             diskPath:vol.attachPath || ''
-                        }).then(
+                        } }).then(
                             ()=>{
                                 changeDetaching(false);
                                 dispatch(listAllVolume({ dc: dcName }));

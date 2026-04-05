@@ -12,11 +12,10 @@ import { Cascader, Card, Input } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import Networking, { SubnetInfo } from './Networking';
 import { useState, useEffect } from 'react';
-import serverService from '@/service/serverService';
-import DataCenterService from '@/service/dataCenterService';
-import SecgroupService from '@/service/dcmSecgroupServices';
-import SubnetService from '@/service/dcmSubnetServices';
-import AccountService from '@/service/accountService';
+import { postApiV1ServerAction, deleteApiV1Server, postApiV1ServerConfig, putApiV1ServerName, putApiV1ServerDisk, putApiV1ServerEip, putApiV1ServerSecgroup, getApiV1ServerParamImage, getApiV1ServerParamInstypeList, getApiV1ServerParamInsfamily, postApiV1Server, getApiV1ServerDetailBySvrId, deleteApiV1ServerTagsBySvrId, putApiV1ServerTagsBySvrId } from '@/api-client';
+import { getApiV1DatacenterSecgroupList as _dcSecgroupList, getApiV1DatacenterSubnetList as _dcSubnetList } from '@/api-client';
+import { getApiV1DatacenterSecgroupList, getApiV1DatacenterSubnetList } from '@/api-client';
+import { getApiV1AccountKeypairList } from '@/api-client';
 import { amiInfo } from '@/components/Logic/CAmi';
 import { InsType } from './InstanceList';
 import { CSecOptInfo } from '@/components/Logic/CSecurityGroup/CSecOpt';
@@ -141,34 +140,34 @@ const AddServer = (): JSX.Element => {
     };
 
     useEffect(() => {
-        SecgroupService.listAll({ dc }).then((res) => changeSecgroups(res));
-        SubnetService.listAll({ dc }).then((res) => changeSubnets(res));
-        AccountService.getSSHKeys().then((res) => changeKeyPairs(res));
+        getApiV1DatacenterSecgroupList({ query: { dc } as any }).then(({ data }) => changeSecgroups(data?.detail as any));
+        getApiV1DatacenterSubnetList({ query: { dc } as any }).then(({ data }) => changeSubnets(data?.detail as any));
+        getApiV1AccountKeypairList({} as any).then(({ data }: any) => changeKeyPairs(data?.detail));
     }, []);
 
     useEffect(() => {
         console.log(arch, os);
         changeAmis('loading');
-        serverService.getServerImages({
+        getApiV1ServerParamImage({ query: {
             os: os,
             arch,
             dc
-        }).then((res: amiInfo[]) => changeAmis(res));
+        } as any }).then(({ data }) => { const res = data?.detail as any; return res; }).then((res) => changeAmis(res));
     }, [ arch, os ]);
 
     useEffect(() => {
         changeInsTypes('loading');
-        serverService.getServerInstypes({
+        getApiV1ServerParamInstypeList({ query: {
             arch,
             os: os,
             family: insFamily.toLowerCase(),
             dc
-        }).then(res => changeInsTypes(res));
+        } as any }).then(({ data }) => changeInsTypes(data?.detail as any));
 
-        serverService.getServerInsfamily({
+        getApiV1ServerParamInsfamily({ query: {
             arch,
             dc
-        }).then(res => {
+        } as any }).then(({ data }) => { const res = data?.detail as any; return res; }).then((res) => {
             generateOptions(res);
         }
         );
@@ -262,7 +261,7 @@ const AddServer = (): JSX.Element => {
                     <button className={classnames('btn-gray', 'w-32', 'm-5')} onClick={() => navigate(-1)}>Back</button>
                     <button className={classnames('btn-yellow', 'w-32', 'm-5')} onClick={() => {
                         changeCreating(true);
-                        serverService.addServer({
+                        postApiV1Server({ body: {
                             'BlockDeviceMappings': disks,
                             'ImageId': selectedAmi,
                             'InstanceType': selectedIns,
@@ -272,7 +271,7 @@ const AddServer = (): JSX.Element => {
                             'dcName': dc,
                             'svrNumber': svrNumber,
                             'tagName': tagName
-                        } as any).then(
+                        } as any }).then(
                             () => {
                                 changeCreating(false);
                                 alert('创建成功');

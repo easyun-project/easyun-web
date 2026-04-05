@@ -1,7 +1,7 @@
 import { Select } from 'antd';
 import { classnames } from '@@/tailwindcss-classnames';
 import React, { useEffect, useState } from 'react';
-import DataCenterService from '@/service/dataCenterService';
+import { postApiV1Datacenter, getApiV1DatacenterTask, getApiV1DatacenterList, deleteApiV1Datacenter } from '@/api-client';
 
 const { Option } = Select;
 
@@ -15,9 +15,9 @@ export const DictListSelect = (props): JSX.Element => {
     }, []);
 
     const getDataCenterList = () => {
-        DataCenterService.getDataCenterList().then(res => {
+        getApiV1DatacenterList().then(({ data }) => {
+            const res = (data?.detail || []) as any[];
             setDictList(res);
-            // 没有传dcName且数据中心长度大于0，则默认选中第一个数据中心。
             !dcName && res.length > 0 && changeDictName(res[0].dcName);
         });
     };

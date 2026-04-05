@@ -4,7 +4,12 @@ import { DashCard } from '@/components/DashboardCommon/DashCard';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import FlagUtil from '@/utils/flagUtil';
-import dashboard from '@/service/dashboard';
+import {
+    getApiV1DashboardSummaryDatacenter,
+    getApiV1DashboardSummaryHealth,
+    getApiV1DashboardSummaryResource,
+    getApiV1DashboardInventoryByResource,
+} from '@/api-client';
 import { AntdTable } from '@/components/Common/CTable/AntdTable';
 import { DictListSelect } from '@/components/DashboardCommon/DictListSelect';
 import './index.css';
@@ -117,41 +122,33 @@ export const DashboardDetail = (props): JSX.Element => {
     const getDatacenter = () => {
         const temp = { ...tableList };
         setDataCenterLoading(true);
-        dashboard.getDatacenter({ dcName }).then(res => {
-            temp['dataCenter']['data']['dataSource'] = res;
+        getApiV1DashboardSummaryDatacenter({ query: { dc: dcName } }).then(({ data }) => {
+            temp['dataCenter']['data']['dataSource'] = data?.detail as any;
             setTableList(temp);
             setDataCenterLoading(false);
         });
     };
 
-    /**
-     * 获取首行数据 Health
-     */
     const getHealth = () => {
         setHealthLoading(true);
-        dashboard.getHealth({ dcName }).then(res => {
-            setHealth(res);
+        getApiV1DashboardSummaryHealth({ query: { dc: dcName } }).then(({ data }) => {
+            setHealth(data?.detail as any);
             setHealthLoading(false);
         });
     };
-    /**
-     * 获取Graphical面板
-     */
+
     const getGraphical = () => {
         setGraphicalLoading(true);
-        dashboard.getGraphical({ dcName }).then(res => {
-            setGraphicalData(res);
+        getApiV1DashboardSummaryResource({ query: { dc: dcName } }).then(({ data }) => {
+            setGraphicalData(data?.detail as any);
             setGraphicalLoading(false);
         });
     };
 
-    /**
-     * 获取list面板数据
-     */
     const getInventory = () => {
         setInventoryLoading(true);
-        dashboard.getInventory({ dcName }).then(res => {
-            setInventoryData(res);
+        getApiV1DashboardInventoryByResource({ path: { resource: 'all' }, query: { dc: dcName } }).then(({ data }) => {
+            setInventoryData(data?.detail as any);
             setInventoryLoading(false);
         });
     };

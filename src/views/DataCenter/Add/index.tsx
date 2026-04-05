@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import DataCenterService from '@/service/dataCenterService';
+import { postApiV1Datacenter, getApiV1DatacenterTask, getApiV1DatacenterList, deleteApiV1Datacenter } from '@/api-client';
 import { QueryNewDcParm, DcDropDown } from '@/constant/dataCenter';
 import { classnames } from '@@/tailwindcss-classnames';
 import SubnetOption from '@/components/Datacenter/SubnetOptionCard';
@@ -153,7 +153,8 @@ const AddDataCenter = (): JSX.Element => {
             return;
         }
         setCreating(true);
-        const created = await DataCenterService.createDataCenter(params);
+        const { data: createData } = await postApiV1Datacenter({ body: params as any });
+        const created = createData?.task as any;
         if (!created) {
             setCreating(false);
             message.error('Failed to create datacenter');
@@ -165,7 +166,8 @@ const AddDataCenter = (): JSX.Element => {
     };
 
     const pollTaskResult = async (taskId: string) => {
-        const task = await DataCenterService.getTaskResult(taskId);
+        const { data: taskData } = await getApiV1DatacenterTask({ query: { id: taskId } });
+        const task = taskData?.task as any;
         if (!task) {
             clearInterval(intervalRef.current);
             setCreating(false);

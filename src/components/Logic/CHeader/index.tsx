@@ -8,7 +8,7 @@ import { classnames } from '@@/tailwindcss-classnames';
 import { Menu, Dropdown  } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import HostModal from '@/components/Logic/CModal';
-import userService from '@/service/userService';
+import { postApiV1UserAuth, deleteApiV1UserLogout } from '@/api-client';
 import logo3 from '@@/src/assets/images/logo/easyun03.svg';
 
 
@@ -59,7 +59,7 @@ export const CHeader = (): JSX.Element => {
     };
 
     const handleLogout = ()=>{
-        userService.logout().then(() => navigate('/login'));
+        deleteApiV1UserLogout().then(() => navigate('/login'));
     };
 
     const systemMenu = (

@@ -9,7 +9,7 @@ import { classnames } from '@@/tailwindcss-classnames';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Dropdown, Menu, Table, Modal, Input } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
-import serverService from '@/service/serverService';
+import { postApiV1ServerAction, deleteApiV1Server, postApiV1ServerConfig, putApiV1ServerName, putApiV1ServerDisk, putApiV1ServerEip, putApiV1ServerSecgroup, getApiV1ServerParamImage, getApiV1ServerParamInstypeList, getApiV1ServerParamInsfamily, postApiV1Server, getApiV1ServerDetailBySvrId, deleteApiV1ServerTagsBySvrId, putApiV1ServerTagsBySvrId } from '@/api-client';
 import { LoadingOutlined } from '@ant-design/icons';
 import { listAllServer } from '@/redux/serverSlice';
 
@@ -120,7 +120,7 @@ const ServerList = ():JSX.Element => {
             changeActing(true);
             if (e.key === 'delete'){
                 if (window.confirm('Are you sure to delete(irrevocable)?')){
-                    serverService.deleteServerState({ svrIds: selectedServers }).then(
+                    deleteApiV1Server({ body: { svrIds: selectedServers } as any }).then(
                         ()=>{alert('delete success');
                             dispatch(listAllServer({ dc:dcName! }));
                         },
@@ -129,10 +129,10 @@ const ServerList = ():JSX.Element => {
                 }
             }
             else{
-                serverService.changeServerState({
+                postApiV1ServerAction({ body: {
                     action: e.key,
                     svr_ids: selectedServers
-                }).then(
+                } as any }).then(
                     ()=>{
                         alert('action success');
                         dispatch(listAllServer({ dc:dcName! }));
@@ -200,10 +200,10 @@ const ServerList = ():JSX.Element => {
                             <Button key="submit" type="primary" loading={settingName} onClick={
                                 ()=>{
                                     changeSettingName(true);
-                                    serverService.changeServerName({
+                                    putApiV1ServerName({ body: {
                                         svr_name:newName,
                                         svr_ids:selectedServers as string[]
-                                    }).then(()=>{
+                                    } as any }).then(()=>{
                                         changeSettingName(false);
                                         changeIsModalVisble(false);
                                         dispatch(listAllServer({ dc:dcName! }));

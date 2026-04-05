@@ -3,7 +3,7 @@ import { Row, Card, message, Switch, DatePicker } from 'antd';
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
-import accountService from '@/service/accountService';
+import { getApiV1AccountKeypairList, getApiV1AccountKeypairStoreByKeyName, deleteApiV1AccountKeypair, getApiV1AccountReminderFreetier, putApiV1AccountReminderFreetier } from '@/api-client';
 import { IsshkeyItem } from '@/constant/awsInfo';
 interface itemSSHKey {
   name: string;
@@ -31,7 +31,8 @@ const Component = (): JSX.Element => {
     // 对数据进行分组
     const [list, setList] = useState<itemSSHKey[]>([]);
     const getList = async () => {
-        const res = await accountService.getSSHKeys();
+        const { data } = await getApiV1AccountKeypairList({} as any);
+        const res = data?.detail as any;
         const groupList = handleSourceData(res);
         setList(groupList);
     };

@@ -9,12 +9,13 @@ import {
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
-import accountService from '@/service/accountService';
+import { getApiV1AccountKeypairList, getApiV1AccountKeypairStoreByKeyName, deleteApiV1AccountKeypair, getApiV1AccountReminderFreetier, putApiV1AccountReminderFreetier } from '@/api-client';
 const Component = (): JSX.Element => {
     const [ remainder, setRemainder ] = useState(0);
     // 这个接口暂时有问题
     const getRemainder = async () => {
-        const { remainder } = await accountService.getFreeTier();
+        const { data } = await getApiV1AccountReminderFreetier();
+        const { remainder } = data?.detail as any;
         setRemainder(remainder);
     };
     const [ checkedFree, setCheckedFree ] = useState(false);
@@ -36,13 +37,12 @@ const Component = (): JSX.Element => {
             message.warning('select date!');
             return;
         };
-        const res = await accountService.putFreeTire({
+        const { data } = await putApiV1AccountReminderFreetier({ body: {
             active_date: activationData,
-        });
+        } as any });
+        const res = data?.detail as any;
         setStatusData(true);
-        // 设置天数
         setRemainder(res.remainder);
-        // 剩余天数
         message.warning(`remainder time ${res.remainder} day`);
     };
     useEffect(() => {

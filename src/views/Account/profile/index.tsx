@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, message } from 'antd';
 import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
-import accountService from '@/service/accountService';
+import { getApiV1AccountKeypairList, getApiV1AccountKeypairStoreByKeyName, deleteApiV1AccountKeypair, getApiV1AccountReminderFreetier, putApiV1AccountReminderFreetier } from '@/api-client';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 const  Component = (): JSX.Element => {

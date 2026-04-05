@@ -1,3 +1,4 @@
+import { putApiV1ServerDisk } from "@/api-client";
 import React from 'react';
 import { Icon } from '@iconify/react';
 import { useState, useEffect } from 'react';
@@ -11,8 +12,7 @@ import { StVolumeDetail, AddVolumeParams, StVolumeInfo } from '@/constant/storag
 import { getServerDetail } from '@/redux/serverSlice';
 import { listAllVolume } from '@/redux/stvolumeSlice';
 import { LoadingOutlined } from '@ant-design/icons';
-import serverService from '@/service/serverService';
-import VolumeService from '@/service/stVolumeService';
+import { postApiV1StorageVolume, getApiV1StorageVolumeByVolumeId, deleteApiV1StorageVolume } from '@/api-client';
 import { useNewDisk } from '@/utils/hooks';
 
 
@@ -33,7 +33,7 @@ function ExistDisk(props:DiskProps) {
     const svrStatus = useSelector((state: RootState) =>state.server.currentServer!.svrProperty.status) || '';
     useEffect(
         ()=>{
-            VolumeService.getVolumeDetail({ volumeId, dc:dcName }).then(
+            (getApiV1StorageVolumeByVolumeId as any)({ path: { volume_id: volumeId }, query: { dc: dcName } }).then(({ data }: any) => data?.detail).then(
                 res=>changeDiskInfo(res),
                 error=>console.log(error)
             );}, []);
@@ -60,12 +60,12 @@ function ExistDisk(props:DiskProps) {
         const volumeAttachInfo = volumeAttach.filter((item)=>item.svrId === svrId)[0];
         const detachDisk = ()=>{
             changeDetaching(true);
-            serverService.bindServerDisk({
+            (putApiV1ServerDisk as any)({ body: {
                 action:'detach',
                 svrId,
                 volumeId:diskInfo.volumeBasic.volumeId || '',
                 diskPath:volumeAttachInfo?.attachPath || ''
-            }).then(()=>
+            } }).then(()=>
             {
                 dispatch(listAllVolume({ dc:dcName }));
                 return dispatch(getServerDetail({ serverId: svrId }));
@@ -75,13 +75,13 @@ function ExistDisk(props:DiskProps) {
 
         const deleteDisk = ()=>{
             changeDetaching(true);
-            serverService.bindServerDisk({
+            (putApiV1ServerDisk as any)({ body: {
                 action:'detach',
                 svrId,
                 volumeId:diskInfo.volumeBasic.volumeId || '',
                 diskPath:volumeAttachInfo?.attachPath || ''
-            }).then(
-                ()=>{VolumeService.deleteVolume({ dcName, volumeIds:[ props.volumeId ] });}
+            } }).then(
+                ()=>{(deleteApiV1StorageVolume as any)({ body: { dcName, volumeIds: [props.volumeId] } });}
             ).then(
                 ()=> dispatch(getServerDetail({ serverId: svrId }))
             ).then(()=>()=>changeDetaching(false));
@@ -192,7 +192,7 @@ function NewDisk(props:NewDiskProps) {
                                     ...newDiskProps
                                 };
                                 changeCreating(true);
-                                VolumeService.addVolume(params).then(
+                                (postApiV1StorageVolume as any)({ body: params }).then(
                                     ()=>{dispatch(getServerDetail({
                                         serverId: InstanceId
                                     }));
@@ -280,12 +280,12 @@ export default function Disk():JSX.Element {
                     </button>
                     <Modal title="Select a disk to attach" visible={isModalVisible} onOk={()=>{
                         changeConfirmLoading(true);
-                        serverService.bindServerDisk({
+                        (putApiV1ServerDisk as any)({ body: {
                             action:'attach',
                             svrId,
                             volumeId:seletedDisk,
                             diskPath:availablePaths[0]
-                        }).then(()=>{
+                        } }).then(()=>{
                             dispatch(listAllVolume({ dc:dcName }));
                             return dispatch(getServerDetail({ serverId: svrId }));
                         },

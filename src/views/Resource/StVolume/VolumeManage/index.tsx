@@ -4,7 +4,7 @@ import { Icon } from '@iconify/react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import VolumeService from '@/service/stVolumeService';
+import { postApiV1StorageVolume, getApiV1StorageVolumeByVolumeId, deleteApiV1StorageVolume } from '@/api-client';
 import { useTranslation } from 'react-i18next';
 import Attachment from './Attachment';
 import Tags from './Tags';

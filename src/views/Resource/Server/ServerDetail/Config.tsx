@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
-import serverService from '@/service/serverService';
+import { postApiV1ServerAction, deleteApiV1Server, postApiV1ServerConfig, putApiV1ServerName, putApiV1ServerDisk, putApiV1ServerEip, putApiV1ServerSecgroup, getApiV1ServerParamImage, getApiV1ServerParamInstypeList, getApiV1ServerParamInsfamily, postApiV1Server, getApiV1ServerDetailBySvrId, deleteApiV1ServerTagsBySvrId, putApiV1ServerTagsBySvrId } from '@/api-client';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { RootState } from '@/redux/store';
@@ -188,10 +188,10 @@ export default function Config() {
     // 获取可选的instypefamily
     useEffect(() => {
         if (arch !== 'unknown') {
-            serverService.getServerInsfamily({
+            getApiV1ServerParamInsfamily({ query: {
                 arch,
                 dc
-            }).then(res => generateOptions(res));
+            } as any }).then(({ data }) => { const res = data?.detail as any; return res; }).then((res) => generateOptions(res));
         }
 
     }, []);
@@ -199,12 +199,12 @@ export default function Config() {
     useEffect(() => {
         if (arch !== 'unknown') {
             changeInsTypes('loading');
-            serverService.getServerInstypes({
+            getApiV1ServerParamInstypeList({ query: {
                 arch,
                 os: os,
                 family: insFamily.toLowerCase(),
                 dc
-            }).then(res => changeInsTypes(res));
+            } as any }).then(({ data }) => changeInsTypes(data?.detail as any));
         }
     }, [ insFamily ]);
     const generateOptions = (family: InsTypeFamily[]) => {
@@ -297,10 +297,10 @@ export default function Config() {
                                             width="24" height="24"
                                             color="green"
                                             onClick={() => {
-                                                serverService.changeServerConfig({
+                                                postApiV1ServerConfig({ body: {
                                                     ins_type: insTypes[selectedConfig].insType,
                                                     svr_ids: [ instanceId ]
-                                                }).then(
+                                                } as any }).then(
                                                     () => {
                                                         message.success('修改成功!');
                                                         dispatch(getServerDetail({ serverId: instanceId }));
