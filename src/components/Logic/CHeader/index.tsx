@@ -4,180 +4,105 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { Icon } from '@iconify/react';
-import { Menu, Dropdown  } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import { deleteApiV1UserLogout } from '@/api-client';
 import HostModal from '@/components/Logic/CModal';
-import { postApiV1UserAuth, deleteApiV1UserLogout } from '@/api-client';
 import logo3 from '@@/src/assets/images/logo/easyun03.svg';
-
+import { ChevronDown } from 'lucide-react';
+import {
+    DropdownMenu, DropdownMenuContent, DropdownMenuItem,
+    DropdownMenuTrigger, DropdownMenuSeparator,
+} from '@/components/ui/dropdown-menu';
 
 export const CHeader = (): JSX.Element => {
-    // const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    // const [selectedIndex, setSelectedIndex] = React.useState(1);
-    // const open = Boolean(anchorEl);
-    // const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    //     setAnchorEl(event.currentTarget);
-    // };
-    //multiple language setting
     const { t, i18n } = useTranslation();
-    // const lang = i18n.language === 'zh-CN' ? 'en-US' : 'zh-CN';
-
     const userState = useSelector((state: RootState) => state.user.currentUser);
-
-    const [ current, changeCurrent ] = useState('Home');
-    const [ isModalVisible, setIsModalVisible ] = useState(false);
-
+    const [current, setCurrent] = useState('home');
+    const [isModalVisible, setIsModalVisible] = useState(false);
     const navigate = useNavigate();
-    const handleClick = (e)=>{
-        changeCurrent(e.key);
-        navigate(`/${e.key}`);
-    };
 
-    const menu = (
-        <Menu onClick={handleClick} selectedKeys={[ current ]} mode="vertical" className={"text-xl"}>
-            <Menu.Item key="home">{t('base.mainMenu.home')}</Menu.Item>
-            <Menu.Item key="dashboard">{t('base.mainMenu.dashboard')}</Menu.Item>
-            <Menu.Item key="event">{t('base.mainMenu.event')}</Menu.Item>
-            <Menu.Item key="account">{t('base.mainMenu.account')}</Menu.Item>
-        </Menu>
-    );
-
-    const getTitle = (key: string) => {
-        switch (key) {
-        case 'home':
-            return t('base.mainMenu.home');
-        case 'dashboard':
-            return t('base.mainMenu.dashboard');
-        case 'event':
-            return t('base.mainMenu.event');
-        case 'account':
-            return t('base.mainMenu.account');
-        default:
-            return t('base.mainMenu.home');
-        }
-    };
-
-    const handleLogout = ()=>{
-        deleteApiV1UserLogout().then(() => navigate('/login'));
-    };
-
-    const systemMenu = (
-        <Menu>
-            <Menu.Item key="hosturl" onClick={() => setIsModalVisible(true)} >API Server</Menu.Item>
-            <Menu.Item key="setting">Settings</Menu.Item>
-        </Menu>
-    );
-
-    const userMenu = (
-        <Menu>
-            <Menu.Item onClick={handleLogout} key="logout">{t('base.userMenu.Logout')}</Menu.Item>
-            <Menu.Divider></Menu.Divider>
-            <Menu.Item key="changepwd">{t('base.userMenu.Passwd')}</Menu.Item>
-        </Menu>
-    );
-
-    const langMenu = (
-        <Menu onClick={(e) => i18n.changeLanguage(e.key)}>
-            <Menu.Item  key="en-US">English</Menu.Item>
-            <Menu.Item  key="zh-CN">简体中文</Menu.Item>
-            <Menu.Item  key="ja-JP">日本語</Menu.Item>
-        </Menu>
-    );
+    const navItems = [
+        { key: 'home', label: t('base.mainMenu.home') },
+        { key: 'dashboard', label: t('base.mainMenu.dashboard') },
+        { key: 'event', label: t('base.mainMenu.event') },
+        { key: 'account', label: t('base.mainMenu.account') },
+    ];
+    const currentLabel = navItems.find(i => i.key === current)?.label || t('base.mainMenu.home');
 
     return (
-        <div className='flex items-center text-3xl text-white bg-gray-600' >
-            <span id='logo'
-                className={"mx-10 cursor-pointer flex"}
-                onClick={() => navigate('/home')}
-            >
+        <div className="flex items-center text-3xl text-white bg-gray-600">
+            <span className="mx-10 cursor-pointer flex" onClick={() => navigate('/home')}>
                 <img src={logo3} alt="Easyun" width="150" />
             </span>
-            <span>
-                <Dropdown overlay={menu}>
-                    <a className={"flex items-baseline"} onClick={e => {
-                        e.preventDefault();
-                        navigate(`/${current}`);
-                    }}>
-                        <span className={"text-2xl"}>{getTitle(current)}</span>
-                        <DownOutlined style={{ fontSize: '20px' }}/>
-                    </a>
-                </Dropdown>
-            </span>
 
-            <div className='inline-flex absolute right-0 flex-none items-center' >
-                <span id="free-trial" className={"cursor-pointer inline-flex"} >
-                    <Icon icon="fa:heartbeat"
-                        className={"cursor-pointer"}
-                        color="#9fbe8a"
-                        width="25"
-                        height="25"
-                        fr={undefined}
-                    />
-                </span>
-                <Icon icon="radix-icons:divider-vertical"
-                    className={'mx-3'}
-                    color="#5c6f9a"
-                    width="25"
-                    height="25"
-                    hFlip={true}
-                    fr={undefined}
-                />
+            {/* Main nav dropdown */}
+            <DropdownMenu>
+                <DropdownMenuTrigger>
+                    <span className="flex items-baseline cursor-pointer">
+                        <span className="text-2xl">{currentLabel}</span>
+                        <ChevronDown className="ml-1 size-5" />
+                    </span>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                    {navItems.map(item => (
+                        <DropdownMenuItem key={item.key} onClick={() => { setCurrent(item.key); navigate(`/${item.key}`); }}>
+                            {item.label}
+                        </DropdownMenuItem>
+                    ))}
+                </DropdownMenuContent>
+            </DropdownMenu>
 
-                <Dropdown overlay={systemMenu} trigger={[ 'click' ]} placement='bottom' className='inline-flex'>
-                    <a onClick={e => e.preventDefault()}>
-                        <span id="system" className='inline-flex cursor-pointer'>
-                            <Icon icon="ant-design:setting-filled"
-                                className='inline-block'
-                                color="#5c6f9a" width="25" height="25" hFlip={true} fr={undefined} />
-                            <Icon icon="iconoir:nav-arrow-down"
-                                className='inline-block mr-2'
-                                color="#5c6f9a" width="25" height="25" hFlip={true} fr={undefined} />
+            <div className="inline-flex absolute right-0 flex-none items-center">
+                <Icon icon="fa:heartbeat" color="#9fbe8a" width="25" height="25" fr={undefined} />
+                <Icon icon="radix-icons:divider-vertical" className="mx-3" color="#5c6f9a" width="25" height="25" fr={undefined} />
+
+                {/* System menu */}
+                <DropdownMenu>
+                    <DropdownMenuTrigger>
+                        <span className="inline-flex cursor-pointer items-center">
+                            <Icon icon="ant-design:setting-filled" color="#5c6f9a" width="25" height="25" fr={undefined} />
+                            <ChevronDown className="size-4 mr-2" style={{ color: '#5c6f9a' }} />
                         </span>
-                    </a>
-                </Dropdown>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuItem onClick={() => setIsModalVisible(true)}>API Server</DropdownMenuItem>
+                        <DropdownMenuItem>Settings</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
 
-                <HostModal title='配置服务器地址' msg='请输入您服务器的地址' isVisible={isModalVisible} setIsVisible={setIsModalVisible} />
+                <HostModal title="配置服务器地址" msg="请输入您服务器的地址" isVisible={isModalVisible} setIsVisible={setIsModalVisible} />
 
-                <Dropdown overlay={langMenu} trigger={[ 'click' ]} className='inline-flex'>
-                    <a onClick={e => e.preventDefault()}>
-                        <span id="language" className={"text-lg"} style={{ color: '#5c6f9a' }}>
+                {/* Language menu */}
+                <DropdownMenu>
+                    <DropdownMenuTrigger>
+                        <span className="inline-flex items-center cursor-pointer text-lg" style={{ color: '#5c6f9a' }}>
                             {t('base.langMenu.title')}
+                            <ChevronDown className="size-4 mr-2" style={{ color: '#5c6f9a' }} />
                         </span>
-                        <Icon icon="iconoir:nav-arrow-down"
-                            className={"mr-2"}
-                            color="#5c6f9a"
-                            width="25"
-                            height="25"
-                            hFlip={true}
-                            fr={undefined}
-                        />
-                    </a>
-                </Dropdown>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuItem onClick={() => i18n.changeLanguage('en-US')}>English</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => i18n.changeLanguage('zh-CN')}>简体中文</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => i18n.changeLanguage('ja-JP')}>日本語</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
 
-                <Dropdown overlay={userMenu} >
-                    <a onClick={e => e.preventDefault()}>
-                        <span id="user" className={"cursor-pointer inline-flex"} >
-                            <Icon icon="bi:person-fill"
-                                className={"ml-2 inline-block"}
-                                color="#5c6f9a"
-                                width="25"
-                                height="25"
-                                fr={undefined}
-                            />
-                            <span id="username" className={"ml-1 text-lg"} style={{ color: '#5c6f9a' }}>
-                                { userState.username }
-                            </span>
-                            <Icon icon="iconoir:nav-arrow-down"
-                                className={"mr-2"}
-                                color="#5c6f9a"
-                                width="25"
-                                height="25"
-                                hFlip={true}
-                                fr={undefined}
-                            />
+                {/* User menu */}
+                <DropdownMenu>
+                    <DropdownMenuTrigger>
+                        <span className="cursor-pointer inline-flex items-center">
+                            <Icon icon="bi:person-fill" className="ml-2" color="#5c6f9a" width="25" height="25" fr={undefined} />
+                            <span className="ml-1 text-lg" style={{ color: '#5c6f9a' }}>{userState.username}</span>
+                            <ChevronDown className="size-4 mr-2" style={{ color: '#5c6f9a' }} />
                         </span>
-                    </a>
-                </Dropdown>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuItem onClick={() => deleteApiV1UserLogout().then(() => navigate('/login'))}>
+                            {t('base.userMenu.Logout')}
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem>{t('base.userMenu.Passwd')}</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
         </div>
     );

@@ -1,37 +1,13 @@
-import React, { useState } from 'react';
-import { useNavigate, useLocation, Outlet } from 'react-router-dom';
-import { Menu } from 'antd';
-const Home = (): JSX.Element => {
-    const [current, changeCurrent] = useState('profile');
-    const navigate = useNavigate();
-    const location = useLocation();
-    // 刷新时 保持定位一致
-    const url_route_pathname = location.pathname.split('/')[2];
-    if (current !== url_route_pathname) changeCurrent(url_route_pathname);
-    const handleClick = (e) => {
-        changeCurrent(e.key);
-        navigate(`/account/${e.key}`);
-    };
+import React from 'react';
+import { TabLayout } from '@/components/ui/tab-layout';
 
-    return (
-        <div>
-            <div className={"ml-3 min-h-screen"}>
-                <Menu
-                    onClick={handleClick}
-                    selectedKeys={[ current ]}
-                    mode="horizontal"
-                >
-                    <Menu.Item key="profile">Profile</Menu.Item>
-                    <Menu.Item key="reminder">Reminder</Menu.Item>
-                    <Menu.Item key="keypair">Keypair</Menu.Item>
-                    <Menu.Item key="quotas">Quotas</Menu.Item>
-                </Menu>
-                <div className={"p-12"}>
-                    <Outlet />
-                </div>
-            </div>
-        </div>
-    );
-};
-export default Home;
+const accountTabs = [
+    { key: 'profile', label: 'Profile' },
+    { key: 'reminder', label: 'Reminder' },
+    { key: 'keypair', label: 'Keypair' },
+    { key: 'quotas', label: 'Quotas' },
+];
 
+export default function Account() {
+    return <TabLayout basePath="/account" tabs={accountTabs} className="ml-3 min-h-screen" />;
+}

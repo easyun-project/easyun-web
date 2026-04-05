@@ -1,72 +1,34 @@
-//react 相关
 import * as React from 'react';
-import { useState } from 'react';
-import { useNavigate, useLocation, Outlet } from 'react-router-dom';
-
-//UI 相关
-import { Menu } from 'antd';
-
-
+import { useNavigate } from 'react-router-dom';
+import { TabLayout } from '@/components/ui/tab-layout';
 
 interface NotDataProps {
-    resourceName: string,
-    buttonName: string,
-    routePath: string
-
+    resourceName: string;
+    buttonName: string;
+    routePath: string;
 }
 
 export const NoResource = (props: NotDataProps): JSX.Element => {
     const navigate = useNavigate();
-
     return (
-        <div className={"ml-3 mt-5 m-20 flex flex-col items-center"}>
-            <div className={"text-3xl m-1"}>you have no {props.resourceName} right now.</div>
-            <div className={"text-sm m-1"}>
-                Add a cloud {props.resourceName} and get started with Easyun!
-            </div>
-            <div>
-                <button
-                    onClick={() => navigate(props.routePath)}
-                    className={"btn-yellow"}>
-                    {props.buttonName}
-                </button>
-            </div>
+        <div className="ml-3 mt-5 m-20 flex flex-col items-center">
+            <div className="text-3xl m-1">you have no {props.resourceName} right now.</div>
+            <div className="text-sm m-1">Add a cloud {props.resourceName} and get started with Easyun!</div>
+            <button onClick={() => navigate(props.routePath)} className="btn-yellow">{props.buttonName}</button>
         </div>
     );
-
 };
 
-export const DataCenter = (): JSX.Element => {
-    // const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    // };
-    const location = useLocation();
-    const subPath = location.pathname.split('/')[2];
-    const [ current, setCurrent ] = useState(subPath);
+const dcTabs = [
+    { key: 'overview', label: 'Overview' },
+    { key: 'subnet', label: 'Subnet' },
+    { key: 'route', label: 'Route' },
+    { key: 'internet', label: 'Internet' },
+    { key: 'nat', label: 'NAT' },
+    { key: 'security', label: 'Security' },
+    { key: 'staticip', label: 'Static IP' },
+];
 
-    const navigate = useNavigate();
-    const handleClick = (e) => {
-        setCurrent(e.key);
-        navigate(`/datacenter/${e.key}`);
-    };
-    return (
-        <>
-            <div>
-                <div className='m-3'>
-                    <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" >
-                        <Menu.Item key="overview">Overview</Menu.Item>
-                        <Menu.Item key="subnet">Subnet</Menu.Item>
-                        <Menu.Item key="route">Route</Menu.Item>
-                        <Menu.Item key="internet">Internet</Menu.Item>
-                        <Menu.Item key="nat">NAT</Menu.Item>
-                        <Menu.Item key="security">Security</Menu.Item>
-                        <Menu.Item key="staticip">Static IP</Menu.Item>
-                    </Menu>
-                    <Outlet />
-                </div>
-            </div>
-        </>
-    );
-};
-
-
-export default DataCenter;
+export default function DataCenter() {
+    return <TabLayout basePath="/datacenter" tabs={dcTabs} />;
+}

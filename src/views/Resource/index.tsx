@@ -1,43 +1,29 @@
-// react related
 import * as React from 'react';
-import { useState } from 'react';
-import { useNavigate, useLocation, Outlet } from 'react-router-dom';
-// UI contents
-import { Menu, Table } from 'antd';
-// services and interface/schema
+import { useNavigate } from 'react-router-dom';
+import { Table } from 'antd';
 import { ServerModel } from '@/constant/server';
+import { TabLayout } from '@/components/ui/tab-layout';
 
 interface NotDataProps {
-    resourceName: string,
-    buttonName: string,
-    routePath: string
-
+    resourceName: string;
+    buttonName: string;
+    routePath: string;
 }
+
 export const NoResource = (props: NotDataProps): JSX.Element => {
     const navigate = useNavigate();
-
     return (
-        <div className={"m-20 flex flex-col items-center"}>
-            <div className={"text-3xl m-1"}>you have no {props.resourceName} right now.</div>
-            <div className={"text-sm m-1"}>
-                Add a cloud {props.resourceName} and get started with Easyun!
-            </div>
-            <div>
-                <button
-                    onClick={() => navigate(props.routePath)}
-                    className={"btn-yellow"}>
-                    {props.buttonName}
-                </button>
-            </div>
+        <div className="m-20 flex flex-col items-center">
+            <div className="text-3xl m-1">you have no {props.resourceName} right now.</div>
+            <div className="text-sm m-1">Add a cloud {props.resourceName} and get started with Easyun!</div>
+            <button onClick={() => navigate(props.routePath)} className="btn-yellow">{props.buttonName}</button>
         </div>
     );
-
 };
-
 
 interface TableProps {
     dataSource: ServerModel[] | undefined | never[];
-    columns: never[]
+    columns: never[];
 }
 
 export const ResourceTable = (props: TableProps): JSX.Element => {
@@ -51,37 +37,16 @@ export const ResourceTable = (props: TableProps): JSX.Element => {
     );
 };
 
+const resourceTabs = [
+    { key: 'overview', label: 'Overview' },
+    { key: 'server', label: 'Server' },
+    { key: 'volume', label: 'Volume' },
+    { key: 'object', label: 'Bucket' },
+    { key: 'database', label: 'Database' },
+    { key: 'loadbalancer', label: 'Load Balancer' },
+    { key: 'backup', label: 'Backup' },
+];
 
-const Resource = (): JSX.Element => {
-    // const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    // };
-    const location = useLocation();
-    const currentTab = location.pathname.split('/').at(2) as string;
-    const [ current, changeCurrent ] = useState(currentTab);
-    const navigate = useNavigate();
-    const handleClick = (e) => {
-        changeCurrent(e.key);
-        navigate(`/resource/${e.key}`);
-    };
-    return (
-        <>
-            <div>
-                <div className={"m-3"}>
-                    <Menu onClick={handleClick} selectedKeys={[ current ]} mode="horizontal" >
-                        <Menu.Item key="overview">Overview</Menu.Item>
-                        <Menu.Item key="server">Server</Menu.Item>
-                        <Menu.Item key="volume">Volume</Menu.Item>
-                        <Menu.Item key="object">Bucket</Menu.Item>
-                        <Menu.Item key="database">Database</Menu.Item>
-                        <Menu.Item key="loadbalancer">Load Balancer</Menu.Item>
-                        <Menu.Item key="backup">Backup</Menu.Item>
-                    </Menu>
-                    <Outlet />
-                </div>
-            </div>
-        </>
-    );
-};
-
-
-export default Resource;
+export default function Resource() {
+    return <TabLayout basePath="/resource" tabs={resourceTabs} />;
+}
