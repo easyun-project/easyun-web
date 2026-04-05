@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 // UI contents
 import { Menu, Table } from 'antd';
-import { classnames } from '@@/tailwindcss-classnames';
 // services and interface/schema
 import { ServerModel } from '@/constant/server';
 
@@ -18,15 +17,15 @@ export const NoResource = (props: NotDataProps): JSX.Element => {
     const navigate = useNavigate();
 
     return (
-        <div className={classnames('m-20', 'flex', 'flex-col', 'items-center')}>
-            <div className={classnames('text-3xl', 'm-1')}>you have no {props.resourceName} right now.</div>
-            <div className={classnames('text-sm', 'm-1')}>
+        <div className={"m-20 flex flex-col items-center"}>
+            <div className={"text-3xl m-1"}>you have no {props.resourceName} right now.</div>
+            <div className={"text-sm m-1"}>
                 Add a cloud {props.resourceName} and get started with Easyun!
             </div>
             <div>
                 <button
                     onClick={() => navigate(props.routePath)}
-                    className={classnames('btn-yellow')}>
+                    className={"btn-yellow"}>
                     {props.buttonName}
                 </button>
             </div>
@@ -67,7 +66,7 @@ const Resource = (): JSX.Element => {
     return (
         <>
             <div>
-                <div className={classnames('m-3')}>
+                <div className={"m-3"}>
                     <Menu onClick={handleClick} selectedKeys={[ current ]} mode="horizontal" >
                         <Menu.Item key="overview">Overview</Menu.Item>
                         <Menu.Item key="server">Server</Menu.Item>

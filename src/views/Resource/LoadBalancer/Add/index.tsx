@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { RootState } from '@/redux/store';
 import { Icon } from '@iconify/react';
-import { classnames } from '@@/tailwindcss-classnames';
 import CPlatform from '@/components/Logic/CPlatform';
 import { CButton } from '@/components/Common/CButton';
 import { Row, Col, Divider, Typography, message, Select, Input, Form, Progress, Cascader, Card } from 'antd';
@@ -60,10 +59,10 @@ const AddLoadbalancer = (): JSX.Element => {
             </Row>
             <Divider />
 
-            <Card title="Identify your load balancer" className={classnames('rounded-border', 'mt-5')}>
+            <Card title="Identify your load balancer" className={"rounded-border mt-5"}>
                 <span>Your Lightsail load balancers must all have unique names.</span>
                 <div className='flex items-center'>
-                    <Input className={classnames('w-36')} type="text"
+                    <Input className={"w-36"} type="text"
                         defaultValue={tagName}
                         onChange={e => setTagName(e.target.value)} />
                 </div>
@@ -88,7 +87,7 @@ const AddLoadbalancer = (): JSX.Element => {
                         </Form.Item>
                     </Form>
 
-                    <Text style={{ width: 61 }} className={classnames('inline-block', 'ml-4', 'my-2')}>Region:</Text>
+                    <Text style={{ width: 61 }} className={"inline-block ml-4 my-2"}>Region:</Text>
                     <Select defaultValue={dcParams?.dcRegion} style={{ width: 280 }} listHeight={360} disabled={!validStatus}
                         onChange={(value) => {
                             setRegionCode(value);
@@ -99,18 +98,18 @@ const AddLoadbalancer = (): JSX.Element => {
                         })}
                     </Select>
                     <Icon icon={flagUtil.getFlagIconByRegion(regionCode)}
-                        className={classnames('ml-5', 'inline-block')} color="#5c6f9a" width="25" height="25" fr={undefined} />
+                        className={"ml-5 inline-block"} color="#5c6f9a" width="25" height="25" fr={undefined} />
                 </Col>
             </Row>
 
 
             <Row gutter={16} id="create-buttons">
                 <Col span={16}>
-                    <div className={classnames('flex', 'justify-center', 'm-16')}>
+                    <div className={"flex justify-center m-16"}>
                         <CButton click={() => {
                             navigate('/resource/loadbalancer');
-                        }} classes={classnames('bg-gray-400', 'text-white')}>
-                            <Icon className={classnames('inline-block', 'mr-2')} icon="akar-icons:arrow-left"
+                        }} classes={"bg-gray-400 text-white"}>
+                            <Icon className={"inline-block mr-2"} icon="akar-icons:arrow-left"
                                 color="white"
                                 width="20" height="20" fr={undefined} />
                             Back</CButton>

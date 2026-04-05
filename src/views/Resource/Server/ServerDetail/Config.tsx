@@ -10,7 +10,6 @@ import { InsType } from '../AddServer/InstanceList';
 import { Skeleton } from 'antd';
 import { getServerDetail } from '@/redux/serverSlice';
 import CWarn from '@/components/Common/CWarn';
-import { classnames } from 'tailwindcss-classnames';
 
 type Option = {
     value: string
@@ -267,7 +266,7 @@ export default function Config() {
     else {
         return (
             <>
-                <div><span className={classnames('mx-2')}>instance type</span>
+                <div><span className={"mx-2"}>instance type</span>
                     <Cascader style={{ width: '15%' }} options={insfamilyOptions} placeholder="选择实例类型"
                         onChange={(e) => {
                             if (e[1]) { changeInsFamily(e[1] as string); }
@@ -275,25 +274,25 @@ export default function Config() {
                 </div>
                 {insTypes === 'loading'
                     ? <Skeleton active paragraph={{ rows: 8 }} />
-                    : <div className={classnames('grid', 'grid-rows-1', 'grid-flow-col', 'auto-cols-min', '2xl:w-1/2', 'm-8', 'overflow-x-auto')}>
-                        {/* <button className={classnames('btn-yellow')} onClick={()=>scrollBy({
+                    : <div className={"grid grid-rows-1 grid-flow-col auto-cols-min 2xl:w-1/2 m-8 overflow-x-auto"}>
+                        {/* <button className={"btn-yellow"} onClick={()=>scrollBy({
                     top: 20,
                     left: -20,
                     behavior: 'smooth'
                 })}>123</button> */}
                         {insTypes.map((i, index) =>
-                            <div className={classnames('flex', 'flex-col', 'w-32')} key={index}>
+                            <div className={"flex flex-col w-32"} key={index}>
                                 {selectedConfig === index
-                                    ? <div className={classnames('flex', 'h-4', 'items-center', 'justify-center')}>
+                                    ? <div className={"flex h-4 items-center justify-center"}>
                                         <Icon fr={undefined}
                                             icon="icons8:cancel"
-                                            className={classnames('mx-1', 'cursor-pointer')}
+                                            className={"mx-1 cursor-pointer"}
                                             width="24" height="24"
                                             color='red'
                                             onClick={() => changeSelectedConfig(-1)} />
                                         <Icon fr={undefined}
                                             icon="icons8:checked"
-                                            className={classnames('mx-1', 'cursor-pointer')}
+                                            className={"mx-1 cursor-pointer"}
                                             width="24" height="24"
                                             color="green"
                                             onClick={() => {
@@ -308,27 +307,27 @@ export default function Config() {
                                                 );
                                             }} />
                                     </div>
-                                    : <div className={classnames('h-4')} />}
+                                    : <div className={"h-4"} />}
 
                                 <button className={selectedConfig === index
-                                    ? classnames('h-20', 'mx-6', 'my-2', 'rounded-border', 'ring', 'ring-yellow-550', 'ring-offset-2', 'bg-yellow-550', 'text-white', 'font-bold')
-                                    : classnames('h-20', 'mx-6', 'my-2', 'rounded-border', 'border-yellow-550', 'font-bold')}
+                                    ? "h-20 mx-6 my-2 rounded-border ring ring-yellow-550 ring-offset-2 bg-yellow-550 text-white font-bold"
+                                    : "h-20 mx-6 my-2 rounded-border border-yellow-550 font-bold"}
                                 onClick={() => changeSelectedConfig(index)}>{i.insType}</button>
-                                <div className={classnames('text-center', 'border-b-2')}>{i.insType}</div>
-                                <div className={classnames('text-center', 'border-b-2')}>{i.vcpuNum} vCPU</div>
-                                <div className={classnames('text-center', 'border-b-2')}>{i.memSize} GiB</div>
-                                <div className={classnames('text-center', 'border-b-2')}>{i.netSpeed}</div>
-                                <div className={classnames('text-center', 'border-b-2')}>{i.monthPrice.value.toFixed(2)} {i.monthPrice.currency} </div>
+                                <div className={"text-center border-b-2"}>{i.insType}</div>
+                                <div className={"text-center border-b-2"}>{i.vcpuNum} vCPU</div>
+                                <div className={"text-center border-b-2"}>{i.memSize} GiB</div>
+                                <div className={"text-center border-b-2"}>{i.netSpeed}</div>
+                                <div className={"text-center border-b-2"}>{i.monthPrice.value.toFixed(2)} {i.monthPrice.currency} </div>
 
                             </div>)}
-                        <div className={classnames('flex', 'flex-col', 'w-32', 'sticky', 'right-0', 'bg-white')}>
+                        <div className={"flex flex-col w-32 sticky right-0 bg-white"}>
                             {/* 以下这个段落用于兼容确认模组和选择框 */}
-                            <div className={classnames('h-16', 'm-6')} />
-                            <div className={classnames('text-center', 'font-bold', 'border-b-2', 'border-l-2')}>Type</div>
-                            <div className={classnames('text-center', 'font-bold', 'border-b-2', 'border-l-2')}>Process</div>
-                            <div className={classnames('text-center', 'font-bold', 'border-b-2', 'border-l-2')}>Memory</div>
-                            <div className={classnames('text-center', 'font-bold', 'border-b-2', 'border-l-2')}>Network</div>
-                            <div className={classnames('text-center', 'font-bold', 'border-b-2', 'border-l-2')}>Price</div>
+                            <div className={"h-16 m-6"} />
+                            <div className={"text-center font-bold border-b-2 border-l-2"}>Type</div>
+                            <div className={"text-center font-bold border-b-2 border-l-2"}>Process</div>
+                            <div className={"text-center font-bold border-b-2 border-l-2"}>Memory</div>
+                            <div className={"text-center font-bold border-b-2 border-l-2"}>Network</div>
+                            <div className={"text-center font-bold border-b-2 border-l-2"}>Price</div>
                         </div>
                     </div>}
             </>

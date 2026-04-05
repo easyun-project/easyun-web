@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, message } from 'antd';
-import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { getApiV1AccountKeypairList, getApiV1AccountKeypairStoreByKeyName, deleteApiV1AccountKeypair, getApiV1AccountReminderFreetier, putApiV1AccountReminderFreetier } from '@/api-client';
 import { useSelector } from 'react-redux';
@@ -46,7 +45,7 @@ const  Component = (): JSX.Element => {
             <Row>
                 <Col span={1}>
                     <Icon
-                        className={classnames('mx-0', 'inline-block')}
+                        className={"mx-0 inline-block"}
                         width="50"
                         height="50"
                         icon="bi:person-circle"
@@ -62,43 +61,33 @@ const  Component = (): JSX.Element => {
             <Row>
                 <div
                     onClick={openMangerAwsProfile}
-                    className={classnames(
-                        'flex',
-                        'items-center',
-                        'text-indigo-500',
-                        'p-2'
-                    )}
+                    className={"flex items-center text-indigo-500 p-2"}
                 >
-                    <div className={classnames('mr-2.5')}>Manager your AWS profile</div>
+                    <div className={"mr-2.5"}>Manager your AWS profile</div>
                     <Icon icon="ri:share-box-fill" />
                 </div>
             </Row>
             <Row>
                 <Card
-                    className={classnames('min-w-3/4')}
+                    className={"min-w-3/4"}
                     title="Nofification contacts"
                 >
                     <Row>
                         <Col span={12}>
-                            <div className={classnames('text-gray-900', 'font-extrabold')}>
+                            <div className={"text-gray-900 font-extrabold"}>
                   Email
                             </div>
                             <div>Email notification are supported in AWS Regions</div>
                             <div
                                 onClick={addEmail}
-                                className={classnames(
-                                    'mt-5',
-                                    'flex',
-                                    'items-center',
-                                    'text-orange-400'
-                                )}
+                                className={"mt-5 flex items-center text-orange-400"}
                             >
                                 <Icon icon="fluent:add-12-filled" />
                   Add email address
                             </div>
                         </Col>
                         <Col span={12}>
-                            <div className={classnames('text-gray-900', 'font-extrabold')}>
+                            <div className={"text-gray-900 font-extrabold"}>
                   SMS
                             </div>
                             <div>
@@ -107,11 +96,7 @@ const  Component = (): JSX.Element => {
                             </div>
                             <div
                                 onClick={addSMS}
-                                className={classnames(
-                                    'flex',
-                                    'items-center',
-                                    'text-orange-400'
-                                )}
+                                className={"flex items-center text-orange-400"}
                             >
                                 <Icon icon="fluent:add-12-filled" />
                   Add SMS number
@@ -120,19 +105,14 @@ const  Component = (): JSX.Element => {
                     </Row>
                     <Row>
                         <Col span={12}>
-                            <div className={classnames('text-gray-900', 'font-extrabold')}>
+                            <div className={"text-gray-900 font-extrabold"}>
                   Wechat
                             </div>
                             <div>send notification through chat messages.</div>
                             <div>Corporaion ID:</div>
                             <div>Corporaion Secret:</div>
                             <div
-                                className={classnames(
-                                    'mt-5',
-                                    'flex',
-                                    'items-center',
-                                    'text-orange-400'
-                                )}
+                                className={"mt-5 flex items-center text-orange-400"}
                             >
                                 <Icon icon="fluent:add-12-filled" />
                   Configure

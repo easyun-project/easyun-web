@@ -1,5 +1,5 @@
+import clsx from 'clsx';
 import React from 'react';
-import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 
 export interface configType {
@@ -7,8 +7,8 @@ export interface configType {
 	isShowTableHeader: boolean;
 	title?: string;
 	isFull?: boolean;
-	tabelRowTitleClassNames?: TTailwindString;
-	tabbelColumnTitleClassNames?: TTailwindString;
+	tabelRowTitleClassNames?: string;
+	tabbelColumnTitleClassNames?: string;
 }
 export interface dataType {
 	name: string;
@@ -26,7 +26,7 @@ export interface dataConfigType {
 }
 export interface PropsType {
 	children?: HTMLElement;
-	classes?: TTailwindString;
+	classes?: string;
 	dataConfig: dataConfigType;
 }
 export const CTable = (props: PropsType): JSX.Element => {
@@ -39,10 +39,10 @@ export const CTable = (props: PropsType): JSX.Element => {
     const { isFull } = config;
     const { tabelRowTitleClassNames } = config;
     const { tabbelColumnTitleClassNames } = config;
-    const containerHasTitle = classnames('w-auto', 'mx-3', 'my-2', 'inline-block', 'border', 'rounded', 'shadow', 'max-h-80', 'overflow-y-scroll');
-    const container = classnames('w-auto', 'mx-3', 'my-2', 'inline-block', 'max-h-80', 'overflow-y-scroll');
+    const containerHasTitle = "w-auto mx-3 my-2 inline-block border rounded shadow max-h-80 overflow-y-scroll";
+    const container = "w-auto mx-3 my-2 inline-block max-h-80 overflow-y-scroll";
     const iconFlag = (country: string): JSX.Element => (
-        <span className={classnames('inline-block', 'pr-1', 'h-4')}>
+        <span className={"inline-block pr-1 h-4"}>
             <Icon className={'ml-5'} icon={`twemoji:flag-for-flag-${country}`} color='#5c6f9a' width='25' height='25' fr={undefined} />
         </span>
     );
@@ -58,28 +58,28 @@ export const CTable = (props: PropsType): JSX.Element => {
     );
     return (
         <div className={`${isShowTitle ? containerHasTitle : container} ${'hidden-scroll flex-1 min-w-30'} ${isFull ? 'fill-available' : ''}`}>
-            {isShowTitle ? <div className={classnames('p-4', 'border-b', 'w-auto')}>{title}</div> : null}
+            {isShowTitle ? <div className={"p-4 border-b w-auto"}>{title}</div> : null}
             <div>
-                <table className={classnames('table', 'w-full', 'border-collapse')}>
+                <table className={"table w-full border-collapse"}>
                     {isShowTableHeader
                         ? (
-                            <thead className={`${classnames('table-row-group' as any)} ${tabelRowTitleClassNames}`}>
+                            <thead className={`${"table-row-group"} ${tabelRowTitleClassNames}`}>
                                 {tableTitle.map((row, index) => (
-                                    <th key={index} className={classnames('font-medium', 'text-sm', 'tracking-wide', 'table-cell', 'border-b', 'border-gray-200', 'p-4', 'text-left', 'text-gray-600')}>
+                                    <th key={index} className={"font-medium text-sm tracking-wide table-cell border-b border-gray-200 p-4 text-left text-gray-600"}>
                                         {row}
                                     </th>
                                 ))}
                             </thead>
                         )
                         : null}
-                    <tbody className={classnames('table-row-group' as any)}>
+                    <tbody className={"table-row-group"}>
                         {data.map((row, index) => (
-                            <tr key={index} className={classnames('table-row', 'align-middle', 'outline-none')}>
+                            <tr key={index} className={"table-row align-middle outline-none"}>
                                 {
                                     Object.keys(row).map((val, idx) => (
-                                        <th key={idx} className={`${classnames('text-sm', 'tracking-wide', 'table-cell', 'border-b', 'border-gray-200', 'p-4', 'text-left', 'text-gray-600', 'font-normal', 'flex')} ${idx === 0 ? tabbelColumnTitleClassNames : ''}`} scope='row'>
+                                        <th key={idx} className={`${"text-sm tracking-wide table-cell border-b border-gray-200 p-4 text-left text-gray-600 font-normal flex"} ${idx === 0 ? tabbelColumnTitleClassNames : ''}`} scope='row'>
                                             {row[val].icon ? iconFlag(row[val].icon) : null}
-                                            {typeof row[val] === 'object' ? <span className={classnames('h-4')}>{row[val].text}</span> : <span>{row[val]}</span>}
+                                            {typeof row[val] === 'object' ? <span className={"h-4"}>{row[val].text}</span> : <span>{row[val]}</span>}
                                             {val === 'light' ? iconCircle(row[val]) : null}
                                         </th>
                                     ))
@@ -105,10 +105,10 @@ export const CTable = (props: PropsType): JSX.Element => {
 //     const { isFull } = config;
 //     const { tabelRowTitleClassNames } = config;
 //     const { tabbelColumnTitleClassNames } = config;
-//     const containerHasTitle = classnames('w-auto', 'mx-3', 'my-2', 'inline-block', 'border', 'rounded', 'shadow', 'max-h-80', 'overflow-y-scroll');
-//     const container = classnames('w-auto', 'mx-3', 'my-2', 'inline-block', 'max-h-80', 'overflow-y-scroll');
+//     const containerHasTitle = "w-auto mx-3 my-2 inline-block border rounded shadow max-h-80 overflow-y-scroll";
+//     const container = "w-auto mx-3 my-2 inline-block max-h-80 overflow-y-scroll";
 //     const iconFlag = (country: string): JSX.Element => (
-//         <span className={classnames('inline-block', 'pr-1', 'h-4')}>
+//         <span className={"inline-block pr-1 h-4"}>
 //             <Icon className={'ml-5'} icon={`twemoji:flag-for-flag-${country}`} color='#5c6f9a' width='25' height='25' fr={undefined} />
 //         </span>
 //     );
@@ -120,14 +120,14 @@ export const CTable = (props: PropsType): JSX.Element => {
 //     );
 //     return (
 //         <div className={`${isShowTitle ? containerHasTitle : container} ${'hidden-scroll flex-1 min-w-30'} ${isFull ? 'fill-available' : ''}`}>
-//             {isShowTitle ? <div className={classnames('p-4', 'border-b', 'w-auto')}>{title}</div> : null}
+//             {isShowTitle ? <div className={"p-4 border-b w-auto"}>{title}</div> : null}
 //             <TableContainer component={Paper} style={isShowTitle ? { boxShadow: 'none' } : undefined}>
 //                 <Table sx={{ minWidth: 650 }} aria-label='simple table'>
 //                     {isShowTableHeader ? (
 //                         <TableHead>
 //                             <TableRow>
 //                                 {tableTitle.map((row, index) => (
-//                                     <TableCell key={index} align={index === data.length - 1 ? 'right' : 'left'} className={classnames(tabelRowTitleClassNames)}>
+//                                     <TableCell key={index} align={index === data.length - 1 ? 'right' : 'left'} className={clsx(tabelRowTitleClassNames)}>
 //                                         {row}
 //                                     </TableCell>
 //                                 ))}
@@ -139,9 +139,9 @@ export const CTable = (props: PropsType): JSX.Element => {
 // {data.map((row, index) => (
 //     <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
 //         {Object.keys(row).map((val, idx) => (
-//             <TableCell key={idx} align={idx === 0 ? 'left' : 'right'} component={idx === 0 ? 'th' : undefined} scope={idx === 0 ? 'row' : undefined} className={classnames('flex', `${idx === 0 ? tabbelColumnTitleClassNames : ''}`)}>
+//             <TableCell key={idx} align={idx === 0 ? 'left' : 'right'} component={idx === 0 ? 'th' : undefined} scope={idx === 0 ? 'row' : undefined} className={clsx('flex', `${idx === 0 ? tabbelColumnTitleClassNames : ''}`)}>
 //                 {row[val].icon ? iconFlag(row[val].icon) : null}
-//                 {typeof row[val] === 'object' ? <span className={classnames('h-4')}>{row[val].text}</span> : <span>{row[val]}</span>}
+//                 {typeof row[val] === 'object' ? <span className={"h-4"}>{row[val].text}</span> : <span>{row[val]}</span>}
 //                 {val === 'light' ? iconCircle(row[val]) : null}
 //             </TableCell>
 //         ))}

@@ -1,9 +1,9 @@
+import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import EipCard from '@/components/Datacenter/EipCard';
 import { useNavigate } from 'react-router-dom';
 import { CPartialLoading } from '@/components/Common/CPartialLoading';
 import { Menu, Dropdown } from 'antd';
-import { classnames } from 'tailwindcss-classnames';
 import { DownOutlined } from '@ant-design/icons';
 //redux相关
 import { listAllStaticIp } from '@/redux/staticipSlice';
@@ -48,10 +48,10 @@ export default function Network() {
         <div>
             <div className='mx-8 mt-2 text-xl font-bold align-middle'>Select a Static IP</div>
             <div className='flex justify-between items-center mx-8'>
-                <div className={classnames('flex', 'text-sm')}>
-                    <div className={classnames()}>Sort by </div>
+                <div className={"flex text-sm"}>
+                    <div className={clsx()}>Sort by </div>
                     <Dropdown overlay={menu} >
-                        <div className={classnames('text-yellow-550', 'font-bold', 'mx-1', 'cursor-pointer')}>{sortBy} <DownOutlined /></div>
+                        <div className={"text-yellow-550 font-bold mx-1 cursor-pointer"}>{sortBy} <DownOutlined /></div>
                     </Dropdown>
                 </div>
 
@@ -64,16 +64,16 @@ export default function Network() {
                         }
                     );
                 }}> {creating
-                        ? <LoadingOutlined className={classnames('align-middle', 'mr-2')} />
+                        ? <LoadingOutlined className={"align-middle mr-2"} />
                         : <Icon icon="carbon:add" className='mx-1'
                             width="15"
                             height="15"
                             inline={true} />}Add Static IP</button>
             </div>
             {loading || !eipInfos
-                ? <CPartialLoading classes={classnames('h-96')} />
+                ? <CPartialLoading classes={"h-96"} />
                 : (eipInfos.length !== 0
-                    ? <div className={classnames('grid', '2xl:grid-cols-3', 'lg:grid-cols-2', 'gap-4', 'justify-items-center', 'items-center', 'mt-4')}>
+                    ? <div className={"grid 2xl:grid-cols-3 lg:grid-cols-2 gap-4 justify-items-center items-center mt-4"}>
                         {eipInfos.map(item => <EipCard key={item.publicIp} {...item} />)}
                     </div>
                     : <div>No Eips</div>)}

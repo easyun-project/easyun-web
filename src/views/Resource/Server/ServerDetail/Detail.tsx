@@ -2,7 +2,6 @@ import React from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Col, Divider, message, Row, Typography } from 'antd';
 import { Icon } from '@iconify/react';
-import { classnames,  } from '@@/tailwindcss-classnames';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import TimeUtil from '@/utils/time';
@@ -27,7 +26,7 @@ export default function Detail():JSX.Element {
                 Launch Time: <Text>{TimeUtil.utcConvertTimeZone({ date:server.svrProperty.launchTime })} </Text>
             </div>
 
-            <div id='hostnameType' className={classnames('mt-4')}>
+            <div id='hostnameType' className={"mt-4"}>
                 <div>Hostname Type</div>
                 <div id='ipName'>
                             IP name:
@@ -36,7 +35,7 @@ export default function Detail():JSX.Element {
                             message.success('copied to clipboard!');
                         }}>
                         <span>
-                            <Icon width={20} className={classnames('inline-block', 'mx-2')} icon="ep:document-copy"
+                            <Icon width={20} className={"inline-block mx-2"} icon="ep:document-copy"
                                 fr={undefined}/>
                             {server.svrProperty.privateIpv4Dns}</span>
                     </CopyToClipboard>
@@ -48,7 +47,7 @@ export default function Detail():JSX.Element {
                             message.success('copied to clipboard!');
                         }}>
                         <span>
-                            <Icon width={20} className={classnames('inline-block', 'mx-2')} icon="ep:document-copy"
+                            <Icon width={20} className={"inline-block mx-2"} icon="ep:document-copy"
                                 fr={undefined}/>
                             {server.svrProperty.privateIpv4Dns}
                         </span>
@@ -61,14 +60,14 @@ export default function Detail():JSX.Element {
                             message.success('copied to clipboard!');
                         }}>
                         <span>
-                            <Icon width={20} className={classnames('inline-block', 'mx-2')} icon="ep:document-copy"
+                            <Icon width={20} className={"inline-block mx-2"} icon="ep:document-copy"
                                 fr={undefined}/>
                             {server.svrProperty.publicIpv4Dns}</span>
                     </CopyToClipboard>
                 </div>
             </div>
 
-            <div id='platformDetail' className={classnames('mt-5')}>
+            <div id='platformDetail' className={"mt-5"}>
                 <Row>
                     <Col span={8}>
                         <div>
@@ -106,7 +105,7 @@ export default function Detail():JSX.Element {
                                     message.success('copied to clipboard!');
                                 }}>
                                 <span>
-                                    <Icon width={20} className={classnames('inline-block', 'mx-2')} icon="ep:document-copy"
+                                    <Icon width={20} className={"inline-block mx-2"} icon="ep:document-copy"
                                         fr={undefined}/>
                                     {server.svrProperty.amiId}</span>
                             </CopyToClipboard>
@@ -119,7 +118,7 @@ export default function Detail():JSX.Element {
                                     message.success('copied to clipboard!');
                                 }}>
                                 <span>
-                                    <Icon width={20} className={classnames('inline-block', 'mx-2')} icon="ep:document-copy"
+                                    <Icon width={20} className={"inline-block mx-2"} icon="ep:document-copy"
                                         fr={undefined}/>
                                     {server.svrProperty.amiName}
                                 </span>
@@ -133,7 +132,7 @@ export default function Detail():JSX.Element {
                                     message.success('copied to clipboard!');
                                 }}>
                                 <span>
-                                    <Icon width={20} className={classnames('inline-block', 'mx-2')} icon="ep:document-copy"
+                                    <Icon width={20} className={"inline-block mx-2"} icon="ep:document-copy"
                                         fr={undefined}/>
                                     {server.svrProperty.amiPath}
                                 </span>
@@ -147,7 +146,7 @@ export default function Detail():JSX.Element {
                                     message.success('copied to clipboard!');
                                 }}>
                                 <span>
-                                    <Icon width={20} className={classnames('inline-block', 'mx-2')} icon="ep:document-copy"
+                                    <Icon width={20} className={"inline-block mx-2"} icon="ep:document-copy"
                                         fr={undefined}/>
                                     {server.svrProperty.keyPairName}
                                 </span>
@@ -161,7 +160,7 @@ export default function Detail():JSX.Element {
                                     message.success('copied to clipboard!');
                                 }}>
                                 <span>
-                                    <Icon width={20} className={classnames('inline-block', 'mx-2')} icon="ep:document-copy"
+                                    <Icon width={20} className={"inline-block mx-2"} icon="ep:document-copy"
                                         fr={undefined}/>
                                     {server.svrProperty.iamRole}
                                 </span>

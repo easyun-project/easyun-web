@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 // UI contents
 import { useTranslation } from 'react-i18next';
-import { classnames } from '@@/tailwindcss-classnames';
 import { Row, Col, Typography, Divider, Badge, Card, Statistic, Spin } from 'antd';
 import { Icon } from '@iconify/react';
 // services and interface/schema
@@ -23,7 +22,7 @@ function AzSummaryCard(props: AzSummary) {
     return (
         <Col span={4}>
             <Badge size="small" count={subnetNum} showZero offset={[ -15, 15 ]} color={color}>
-                <Card className={classnames('rounded-md', 'border-2', 'border-gray-400')} style={{ minWidth: 120 }}>{azName}</Card>
+                <Card className={"rounded-md border-2 border-gray-400"} style={{ minWidth: 120 }}>{azName}</Card>
             </Badge>
         </Col>
     );
@@ -55,7 +54,7 @@ export default function DataCenterOverview(): JSX.Element {
     }
     const flagUtil = new FlagUtil();
     return (
-        <div className={classnames('ml-3', 'mt-5')}>
+        <div className={"ml-3 mt-5"}>
             <div id="dcBasic">
                 <Row gutter={16}>
                     <Col span={2}>
@@ -80,7 +79,7 @@ export default function DataCenterOverview(): JSX.Element {
                             <Col span={8}>
                             </Col>
                             <Col span={8}>
-                                <div className={classnames('my-2')}>
+                                <div className={"my-2"}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                                         <Text strong>{t('datacenter.overview.dcInfo.region')}</Text>
                                         <Text>{flagUtil.getRegionName(dcBasic!.regionCode)}</Text>

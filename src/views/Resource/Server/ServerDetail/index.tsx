@@ -1,6 +1,6 @@
+import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
-import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
 import { Col, message, Row, Tabs, Typography } from 'antd';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -39,7 +39,7 @@ const ServerDetail = ():JSX.Element => {
 
     if(firstLoading){
         return (
-            <CPartialLoading classes={classnames('h-96')}/>
+            <CPartialLoading classes={"h-96"}/>
         );
     }
 
@@ -49,7 +49,7 @@ const ServerDetail = ():JSX.Element => {
     }
 
     else {
-        let color: TTailwindString;
+        let color: string;
         // 刷新n次，每次间隔5s
         const refresh = (times?:number)=>{
             const serverId = server.svrProperty.instanceId;
@@ -65,14 +65,14 @@ const ServerDetail = ():JSX.Element => {
             time();
         };
         if (server.svrProperty.status === 'running') {
-            color = classnames('text-green-600');
+            color = "text-green-600";
         } else if (server.svrProperty.status == 'stopped') {
-            color = classnames('text-red-700');
+            color = "text-red-700";
         } else {
-            color = classnames('text-yellow-550');
+            color = "text-yellow-550";
         }
         return (
-            <div className={classnames('ml-3','mt-5')}>
+            <div className={"ml-3 mt-5"}>
                 <Row gutter={16}>
                     <Col span={2}>
                         <Icon icon="logos:ubuntu" width={60} fr={undefined}/>
@@ -91,33 +91,33 @@ const ServerDetail = ():JSX.Element => {
                     </Col>
                     <Col span={8}>
                         <div id="operationPanel">
-                            <div className={classnames('my-2')}>
+                            <div className={"my-2"}>
                             Status:
-                                <span className={classnames(color, 'mx-2')}>{server.svrProperty.status}</span>
+                                <span className={clsx(color, 'mx-2')}>{server.svrProperty.status}</span>
                                 {serverState.loading ? <LoadingOutlined /> : null}
                             </div>
-                            <div className={classnames('flex')}>
-                                <button className={classnames('btn-yellow','w-32','m-5')} value='start' onClick={(e)=>postApiV1ServerAction({ body: {
+                            <div className={"flex"}>
+                                <button className={"btn-yellow w-32 m-5"} value='start' onClick={(e)=>postApiV1ServerAction({ body: {
                                     action: e.currentTarget.value,
                                     svr_ids: [serverId]
                                 } as any }).then(()=>refresh(3))
                                 }>
                             Start
                                 </button>
-                                <button className={classnames('btn-yellow','w-32','m-5')} value='stop' onClick={(e)=>postApiV1ServerAction({ body: {
+                                <button className={"btn-yellow w-32 m-5"} value='stop' onClick={(e)=>postApiV1ServerAction({ body: {
                                     action: e.currentTarget.value,
                                     svr_ids: [serverId]
                                 } as any }).then(()=>refresh(6))
                                 }>
                             Stop
                                 </button>
-                                <button className={classnames('btn-yellow','w-32','m-5')} value='restart' onClick={(e)=>postApiV1ServerAction({ body: {
+                                <button className={"btn-yellow w-32 m-5"} value='restart' onClick={(e)=>postApiV1ServerAction({ body: {
                                     action: e.currentTarget.value,
                                     svr_ids: [serverId]
                                 } as any }).then(()=>refresh(8))}>
                             Restart
                                 </button>
-                                <button className={classnames('btn-red','w-32','m-5')} value='delete' onClick={()=>message.info('I think you delete the instance')}>
+                                <button className={"btn-red w-32 m-5"} value='delete' onClick={()=>message.info('I think you delete the instance')}>
                             Delete
                                 </button>
                             </div>
@@ -125,7 +125,7 @@ const ServerDetail = ():JSX.Element => {
                     </Col>
                 </Row>
 
-                <Tabs className={classnames('pl-3')} activeKey={seletedTab} onChange={(key=>changeSelectedTab(key))}>
+                <Tabs className={"pl-3"} activeKey={seletedTab} onChange={(key=>changeSelectedTab(key))}>
                     <TabPane tab="Detail" key="Detail">
                         <Detail />
                     </TabPane>

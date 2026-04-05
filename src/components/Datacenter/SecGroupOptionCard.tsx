@@ -1,11 +1,11 @@
+import clsx from 'clsx';
 import React, { useState, useEffect } from 'react';
-import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { Typography, Checkbox } from 'antd';
 import { SecurityGroupParms } from '@/constant/dataCenter';
 
 interface SecGroupProps {
-    classes?: TTailwindString,
+    classes?: string,
     ibList: JSX.Element | undefined,
     sg: SecurityGroupParms | undefined,
     setSg
@@ -26,14 +26,14 @@ const SecGroupOption = (props: SecGroupProps): JSX.Element => {
 
 
     return (
-        <div className={classnames(classes)}>
-            <div className={classnames('my-1', 'p-3', 'border-2', 'border-yellow-550', 'rounded-xl', 'w-56')}>
-                <Icon className={classnames('inline-block', 'mr-2')} width="25" height="25" color='black'
+        <div className={clsx(classes)}>
+            <div className={"my-1 p-3 border-2 border-yellow-550 rounded-xl w-56"}>
+                <Icon className={"inline-block mr-2"} width="25" height="25" color='black'
                     icon="ant-design:lock-outlined" fr={undefined}/>
                 {sg?.tagName}
             </div>
 
-            <div className={classnames( 'border-2', 'border-dashed', 'border-yellow-550', 'rounded', 'w-56', 'p-3')}>
+            <div className={"border-2 border-dashed border-yellow-550 rounded w-56 p-3"}>
                 <Typography.Text style={{ width: 150 }} className='inline-block'>Enable Ping:</Typography.Text>
                 <Checkbox defaultChecked={checkedPing}
                     onChange={(e)=>setCheckedPing(e.target.checked)}>
@@ -49,7 +49,7 @@ const SecGroupOption = (props: SecGroupProps): JSX.Element => {
                     onChange={(e)=>setCheckedRDP(e.target.checked)}>
                 </Checkbox>
 
-                <Typography.Text strong className={classnames('inline-block','mt-4')}>In Bound Port:</Typography.Text>
+                <Typography.Text strong className={"inline-block mt-4"}>In Bound Port:</Typography.Text>
                 {ibList}
             </div>
 

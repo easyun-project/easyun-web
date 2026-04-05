@@ -1,5 +1,5 @@
+import clsx from 'clsx';
 import React from 'react';
-import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 
 interface platformProps{
@@ -17,21 +17,21 @@ const CPlatform = (props:platformProps): JSX.Element => {
         changePlatform(platform);
         return;
     };
-    const selectedStyle = classnames('rounded-border','border-yellow-550');
+    const selectedStyle = "rounded-border border-yellow-550";
 
-    const containerClasses = classnames('cursor-pointer', 'items-center', 'w-32','mx-5','p-1', 'grid', 'grid-cols-2');
+    const containerClasses = "cursor-pointer items-center w-32 mx-5 p-1 grid grid-cols-2";
     // if (selected === '') {
     //
     // }
 
     return (
-        <div className={classnames('flex','items-center')}>
+        <div className={"flex items-center"}>
             <div> select your server os </div>
             <div
                 onClick={() => {
                     handleSelect('linux');
                 }}
-                className={classnames(containerClasses,platform === 'linux' ? selectedStyle : undefined)}>
+                className={clsx(containerClasses,platform === 'linux' ? selectedStyle : undefined)}>
                 <Icon icon="logos:linux-tux" width="50" height="50" fr={undefined}/>
                 <span>Linux/Unix</span>
             </div>
@@ -40,7 +40,7 @@ const CPlatform = (props:platformProps): JSX.Element => {
                 onClick={() => {
                     handleSelect('windows');
                 }}
-                className={classnames(containerClasses,platform === 'windows' ? selectedStyle : undefined)}>
+                className={clsx(containerClasses,platform === 'windows' ? selectedStyle : undefined)}>
                 <Icon icon="logos:microsoft-windows" width="50" height="50"
                     fr={undefined}/>
                 <span>Microsoft<br/> Windows</span>
@@ -49,7 +49,7 @@ const CPlatform = (props:platformProps): JSX.Element => {
                 onClick={() => {
                     handleSelect('macos');
                 }}
-                className={classnames(containerClasses)}>
+                className={clsx(containerClasses)}>
                 <Icon icon="wpf:mac-os" width="50" height="50" fr={undefined}/>
                 <span>Macos</span>
             </div> */}

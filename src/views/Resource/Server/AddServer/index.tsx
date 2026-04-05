@@ -1,6 +1,6 @@
+import clsx from 'clsx';
 import React from 'react';
 import { Icon } from '@iconify/react';
-import { classnames } from '@@/tailwindcss-classnames';
 import CPlatform from '@/components/Logic/CPlatform';
 import { CButton } from '@/components/Common/CButton';
 import CAmis from '@/components/Logic/CAmi';
@@ -180,29 +180,29 @@ const AddServer = (): JSX.Element => {
 
     return (
         <div>
-            <div id="add-cloud-server-title" className={classnames('m-5')}>
-                <Icon className={classnames('inline-block')} icon="fluent:add-circle-20-regular" width="30"
+            <div id="add-cloud-server-title" className={"m-5"}>
+                <Icon className={"inline-block"} icon="fluent:add-circle-20-regular" width="30"
                     height="30" fr={undefined} />
                 <span>Add Cloud Server(EC2 Instance)</span>
             </div>
 
-            <Card title="Identify your server" className={classnames('rounded-border', 'mt-5')}>
+            <Card title="Identify your server" className={"rounded-border mt-5"}>
                 <div className='flex items-center'>
-                    <Input className={classnames('w-36')} type="text"
+                    <Input className={"w-36"} type="text"
                         defaultValue={tagName}
                         onChange={e => changeTagName(e.target.value)} />
                     <span className='text-gray-500'>x</span>
                     <Input min={1} max={99} defaultValue={1} maxLength={2}
-                        className={classnames('w-20')}
+                        className={"w-20"}
                         type="number" onChange={e => changeSvrNumber(parseInt(e.target.value))} />
                 </div>
             </Card>
 
-            <Card title="Select your server os and arch" className={classnames('rounded-border', 'mt-5')}>
+            <Card title="Select your server os and arch" className={"rounded-border mt-5"}>
                 {/* 下面的组件用于选择服务器架构 */}
-                <div className={classnames('flex', 'items-center')}>
+                <div className={"flex items-center"}>
                     <div> select your server arch </div>
-                    <CButton classes={classnames(
+                    <CButton classes={clsx(
                         arch === 'x86_64' ? 'bg-yellow-550' : 'bg-gray-400',
                         'text-white',
                         'rounded-3xl',
@@ -211,7 +211,7 @@ const AddServer = (): JSX.Element => {
                         'px-5',
                         'm-5')}
                     click={() => { changeArch('x86_64'); }}>64-bit(x86)</CButton>
-                    <CButton classes={classnames(
+                    <CButton classes={clsx(
                         arch === 'arm64' ? 'bg-yellow-550' : 'bg-gray-400',
                         'text-white',
                         'rounded-3xl',
@@ -225,11 +225,11 @@ const AddServer = (): JSX.Element => {
                 <CPlatform platform={os} changePlatform={changeOs} />
             </Card>
 
-            <Card title="Select your image(AMI)" className={classnames('rounded-border', 'mt-5')} loading={amis === 'loading'}>
+            <Card title="Select your image(AMI)" className={"rounded-border mt-5"} loading={amis === 'loading'}>
                 <CAmis amis={amis} selectedAmi={selectedAmi} changeSelectedAmi={changeSelectedAmi} />
             </Card>
 
-            <Card title="Select your instance type" className={classnames('rounded-border', 'mt-5')}>
+            <Card title="Select your instance type" className={"rounded-border mt-5"}>
                 {/* e是级联菜单中被选定的值，是一个列表 */}
                 <Cascader style={{ width: '20%' }} options={insfamilyOptions} placeholder="选择实例类型"
                     onChange={(e) => {
@@ -239,27 +239,27 @@ const AddServer = (): JSX.Element => {
                 <InstanceList insTypes={insTypes} changeselectefIns={changeselectedIns} />
             </Card>
 
-            <Card title="Setting your disk" className={classnames('rounded-border', 'mt-5')}>
+            <Card title="Setting your disk" className={"rounded-border mt-5"}>
                 <DiskConfigurations disks={disks} changeDisks={changeDisks} />
             </Card>
 
-            <Card title="Setting your security groups" className={classnames('rounded-border', 'mt-5')} extra={<span>you can choose more than one </span>}>
+            <Card title="Setting your security groups" className={"rounded-border mt-5"} extra={<span>you can choose more than one </span>}>
                 <CSecOpt multi={true} secgroups={secgroups} changeSelectedSecgroups={changeSelectedSecgroups} />
             </Card>
 
-            <Card title="Setting your subnet" className={classnames('rounded-border', 'mt-5')}>
+            <Card title="Setting your subnet" className={"rounded-border mt-5"}>
                 <Networking subnets={subnets} changeSelectedSubnet={changeSelectedSubnet} />
             </Card>
 
-            <Card title="Setting your keypair" className={classnames('rounded-border', 'mt-5')}>
+            <Card title="Setting your keypair" className={"rounded-border mt-5"}>
                 <SSHkeys keyPairs={keyPairs} changeSelectedKey={changeSelectedKey} />
             </Card>
 
 
             <div id="create-buttons">
                 <div>
-                    <button className={classnames('btn-gray', 'w-32', 'm-5')} onClick={() => navigate(-1)}>Back</button>
-                    <button className={classnames('btn-yellow', 'w-32', 'm-5')} onClick={() => {
+                    <button className={"btn-gray w-32 m-5"} onClick={() => navigate(-1)}>Back</button>
+                    <button className={"btn-yellow w-32 m-5"} onClick={() => {
                         changeCreating(true);
                         postApiV1Server({ body: {
                             'BlockDeviceMappings': disks,

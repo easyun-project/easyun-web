@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { DashCard } from '@/components/DashboardCommon/DashCard';
 import { AntdTable } from '@/components/Common/CTable/AntdTable';
 import { TableType } from '@/views/Dashboard/dashboard';
-import { classnames } from '@@/tailwindcss-classnames';
 import TimeUtil from '@/utils/time';
 import { Table } from 'antd';
 import { Link } from 'react-router-dom';
@@ -27,7 +26,7 @@ export const DashboardsTabList = (props): JSX.Element => {
                         key: 'svrId',
                         render: (text: string) => {
                             return <Link to={`/resource/server/${text}`}
-                                className={classnames('text-blue-500', 'underline')}>{text}</Link>;
+                                className={"text-blue-500 underline"}>{text}</Link>;
                         },
                         sorter: (a, b) => a.svrId?.localeCompare(b.svrId)
                     },
@@ -43,11 +42,11 @@ export const DashboardsTabList = (props): JSX.Element => {
                         key: 'svrState',
                         render: (text: string) => {
                             if (text === 'running' || text === 'pending') {
-                                return <span className={classnames('text-green-400')}>{text}</span>;
+                                return <span className={"text-green-400"}>{text}</span>;
                             } else if (text === 'stopped' || text === 'shutting-down') {
-                                return <span className={classnames('text-gray-500')}>{text}</span>;
+                                return <span className={"text-gray-500"}>{text}</span>;
                             } else {
-                                return <span className={classnames('text-red-500')}>{text}</span>;
+                                return <span className={"text-red-500"}>{text}</span>;
                             }
                         },
                         sorter: (a, b) => {
@@ -130,7 +129,7 @@ export const DashboardsTabList = (props): JSX.Element => {
                         key: 'volumeId',
                         render: (text: string) => {
                             return <Link to={`/resource/volume/${text}`}
-                                className={classnames('text-blue-500', 'underline')}>{text}</Link>;
+                                className={"text-blue-500 underline"}>{text}</Link>;
                         },
                         sorter: (a, b) => a.volumeId?.localeCompare(b.volumeId)
                     },
@@ -233,7 +232,7 @@ export const DashboardsTabList = (props): JSX.Element => {
                         key: 'bktId',
                         render: (text: string) => {
                             return <Link to={`/resource/bucket/object/${text}`}
-                                className={classnames('text-blue-500', 'underline')}>{text}</Link>;
+                                className={"text-blue-500 underline"}>{text}</Link>;
                         },
                         sorter: (a, b) => a.bktId?.localeCompare(b.bktId)
                     },
@@ -387,7 +386,7 @@ export const DashboardsTabList = (props): JSX.Element => {
                         key: 'subnetId',
                         render: (text: string) => {
                             return <Link to={`/datacenter/subnet/${text}`}
-                                className={classnames('text-blue-500', 'underline')}>{text}</Link>;
+                                className={"text-blue-500 underline"}>{text}</Link>;
                         },
                         sorter: (a, b) => a.subnetId?.localeCompare(b.subnetId)
                     },
@@ -463,7 +462,7 @@ export const DashboardsTabList = (props): JSX.Element => {
                         key: 'sgId',
                         render: (text: string) => {
                             return <Link to={`/datacenter/security/${text}`}
-                                className={classnames('text-blue-500', 'underline')}>{text}</Link>;
+                                className={"text-blue-500 underline"}>{text}</Link>;
                         },
                         sorter: (a, b) => a.sgId?.localeCompare(b.sgId)
                     },
@@ -542,7 +541,7 @@ export const DashboardsTabList = (props): JSX.Element => {
     };
 
     return (
-        <div className={classnames('space-y-4')}>
+        <div className={"space-y-4"}>
             {
                 listShow && listShow.map((item, index) => (
                     <DashCard key={item} cardTitle={tableList[item]['cardTitle']}

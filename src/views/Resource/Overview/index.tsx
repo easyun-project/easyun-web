@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 // UI contents
 import { useTranslation } from 'react-i18next';
-import { classnames } from '@@/tailwindcss-classnames';
 import { Row, Col, Typography, Table, Timeline, Card, Statistic, Spin } from 'antd';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 // services and interface/schema
@@ -128,7 +127,7 @@ export const ResourceOverview = (): JSX.Element => {
 
 
     return (
-        <div className={classnames('ml-3', 'mt-5')}>
+        <div className={"ml-3 mt-5"}>
             <div>
                 <Row gutter={[16, 24]} className='py-2'>
                     <Col span={4}>

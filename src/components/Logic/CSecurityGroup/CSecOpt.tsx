@@ -1,5 +1,4 @@
 import React from 'react';
-import { classnames } from '@@/tailwindcss-classnames';
 import { useState } from 'react';
 
 interface CSecOptProps {
@@ -18,8 +17,8 @@ export interface CSecOptInfo {
 const CSecOpt = (props: CSecOptProps): JSX.Element => {
     const { secgroups, changeSelectedSecgroups, multi } = props;
     const [current, setcurrent] = useState<string[]>([]);
-    const currentStyle = classnames('border-2', 'rounded-lg', 'border-yellow-550', 'm-5', 'h-20', 'w-20', 'text-center', 'align-middle', 'inline-block');
-    const otherStyle = classnames('border-2', 'rounded-lg', 'border-blue-900', 'm-5', 'h-20', 'w-20', 'text-center', 'align-middle', 'inline-block');
+    const currentStyle = "border-2 rounded-lg border-yellow-550 m-5 h-20 w-20 text-center align-middle inline-block";
+    const otherStyle = "border-2 rounded-lg border-blue-900 m-5 h-20 w-20 text-center align-middle inline-block";
     return (
         <div>
             {secgroups.map((item) =>

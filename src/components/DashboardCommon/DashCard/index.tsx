@@ -1,5 +1,5 @@
+import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
-import { classnames, TClasses, THeight, TKey } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import DataConversionTool from '@/utils/dataConversionTool';
 
@@ -31,7 +31,7 @@ interface PropsType {
     type?: string,
     cardTitle?: string,
     showIcon?: boolean,
-    height?: THeight,
+    height?: string,
     content: any | GraphicalData
 }
 
@@ -53,26 +53,26 @@ export const DashCard = (props: PropsType): JSX.Element => {
     };
 
     return (
-        <div className={classnames('rounded-md', 'border', 'border-gray-300')}>
+        <div className={"rounded-md border border-gray-300"}>
             {cardTitle &&
-                  <div id='cardTitle' className={classnames('border-b', 'border-gray-300', 'p-2')}>
-                      <p className={classnames('font-bold', 'text-xl')}>{cardTitle}</p>
+                  <div id='cardTitle' className={"border-b border-gray-300 p-2"}>
+                      <p className={"font-bold text-xl"}>{cardTitle}</p>
                   </div>
             }
             {type === 'Graphical' ?
-                <div className={classnames('grid', 'grid-cols-2')} style={{ height: `calc(${titleHeight})` }}>
+                <div className={"grid grid-cols-2"} style={{ height: `calc(${titleHeight})` }}>
                     <div
-                        className={classnames('p-2', 'text-center', 'flex', 'flex-col', 'justify-center', 'border-r')}>
-                        <div className={classnames('text-5xl', 'font-medium')}>{content['leftData']['value']}</div>
-                        <div className={classnames('text-xl')}>{content['leftData']['unit']}</div>
+                        className={"p-2 text-center flex flex-col justify-center border-r"}>
+                        <div className={"text-5xl font-medium"}>{content['leftData']['value']}</div>
+                        <div className={"text-xl"}>{content['leftData']['unit']}</div>
                     </div>
-                    <div className={classnames('p-6', 'text-base')}>
+                    <div className={"p-6 text-base"}>
                         {
                             content['rightData'].map((item, index) => (
-                                <div key={index} className={classnames('grid', 'grid-cols-3', 'items-center')}>
-                                    <div className={classnames('flex', 'items-center', 'col-span-2')}>
+                                <div key={index} className={"grid grid-cols-3 items-center"}>
+                                    <div className={"flex items-center col-span-2"}>
                                         {showIcon &&
-                                              <div className={classnames('w-1/4')}>
+                                              <div className={"w-1/4"}>
                                                   <Icon icon={item.icon?.name} color={item.icon?.color} width='20'
                                                       height='20'/>
                                               </div>
@@ -91,7 +91,7 @@ export const DashCard = (props: PropsType): JSX.Element => {
                     </div>
                 </div>
                 :
-            // <div className={classnames('p-2', 'overflow-auto', {height? height : 'h-60'})}>
+            // <div className={clsx('p-2', 'overflow-auto', {height? height : 'h-60'})}>
                 <div className={`p-2 overflow-auto ${height}`}>
                     {content}
                 </div>

@@ -4,7 +4,6 @@ import { Icon } from '@iconify/react';
 import { useState, useEffect } from 'react';
 import { Tooltip, Skeleton, Menu, Dropdown, Modal, Radio, Space } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
-import { classnames } from '@@/tailwindcss-classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { RootState } from '@/redux/store';
@@ -98,11 +97,11 @@ function ExistDisk(props:DiskProps) {
                 </Menu.Item>
             </Menu>);
         return (
-            <div className={classnames('rounded-border', 'm-2', '2xl:w-1/3', 'lg:w-1/2', 'md:w-96')}>
-                <div className={classnames('flex', 'm-2')}>
+            <div className={"rounded-border m-2 2xl:w-1/3 lg:w-1/2 md:w-96"}>
+                <div className={"flex m-2"}>
                     <span><Icon icon={ volumeAttachInfo?.diskType === 'system' ? 'icon-park-outline:folder-settings' : 'icon-park-outline:solid-state-disk'} width="64" fr={undefined}/> </span>
                     <div className='grow mx-3'>
-                        <div className={classnames('flex')}>
+                        <div className={"flex"}>
                             <span className='grow font-bold'>{ volumeAttachInfo?.diskType === 'system' ? 'System Disk' : 'User Disk'}</span>
                             <span className='w-4 h-4'>
                                 { volumeAttachInfo?.diskType  === 'system' && svrStatus !== 'stopped'
@@ -113,32 +112,32 @@ function ExistDisk(props:DiskProps) {
                                             <Icon
                                                 icon="fluent:more-vertical-20-filled"
                                                 fr={undefined}
-                                                className={classnames('cursor-pointer', 'hover:text-yellow-650')}
+                                                className={"cursor-pointer hover:text-yellow-650"}
                                             />
                                         </Dropdown>}
                             </span>
                         </div>
 
-                        <div className={classnames('flex', 'mt-2', 'justify-between')}>
-                            <div className={classnames('flex', 'flex-row')}>
+                        <div className={"flex mt-2 justify-between"}>
+                            <div className={"flex flex-row"}>
                                 <span>size(GiB):</span>
                                 <span>{volumeConfig?.volumeSize}GB</span>
                             </div>
-                            <div className={classnames('flex', 'flex-row')}>
+                            <div className={"flex flex-row"}>
                                 <span>IOPS:</span>
                                 <span>{volumeConfig?.volumeIops ? volumeConfig.volumeIops : 'Null'}</span>
                             </div>
-                            <div className={classnames('flex', 'flex-row')}>
+                            <div className={"flex flex-row"}>
                                 <span>Thruputs(MB/s):</span>
                                 <span>{volumeConfig?.volumeThruput ? volumeConfig.volumeThruput : 'Null'}</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className={classnames('flex', 'justify-between', 'border-t-2', 'border-gray-300', 'border-dashed', 'ml-12', 'mr-6', 'p-2')}>
+                <div className={"flex justify-between border-t-2 border-gray-300 border-dashed ml-12 mr-6 p-2"}>
                     <div>
                         <span>Disk path:</span>
-                        <span className={classnames('font-bold')}>{ volumeAttachInfo?.attachPath}</span>
+                        <span className={"font-bold"}>{ volumeAttachInfo?.attachPath}</span>
                     </div>
                 </div>
             </div>
@@ -163,24 +162,24 @@ function NewDisk(props:NewDiskProps) {
     const [ creating, changeCreating ] = useState(false);
     const { newDiskProps, newDisk } = useNewDisk(availablePaths);
     return (
-        <div className={classnames('flex', 'items-center')}>
+        <div className={"flex items-center"}>
             {/* 添加disk框体 */}
             {newDisk}
             {/* 确认模组 */}
-            <div className={classnames('items-center', 'justify-center')}>
+            <div className={"items-center justify-center"}>
                 {creating
                     ? <LoadingOutlined/>
                     : <>
                         <Icon
                             icon="icons8:cancel"
-                            className={classnames('mx-1', 'cursor-pointer')}
+                            className={"mx-1 cursor-pointer"}
                             width="24" height="24"
                             color='red'
                             onClick={() => changeIsAdding(false)}/>
 
                         <Icon
                             icon="icons8:checked"
-                            className={classnames('mx-1', 'cursor-pointer')}
+                            className={"mx-1 cursor-pointer"}
                             width="24" height="24"
                             color="green"
                             onClick={() => {
@@ -261,18 +260,18 @@ export default function Disk():JSX.Element {
                 ? <NewDisk changeIsAdding={ changeIsAdding } availablePaths={availablePaths} changeAvaliablePaths={changeAvaliablePaths}/>
                 : <>
                     <button onClick={() => changeIsAdding(true)}
-                        className={classnames('inline', 'text-yellow-550')}>
+                        className={"inline text-yellow-550"}>
                         <Icon icon="carbon:add"
-                            className={classnames('inline-block', 'mx-1')}
+                            className={"inline-block mx-1"}
                             width="15"
                             height="15"
                             fr={undefined} />
                     Create new disk
                     </button>
                     <button onClick={() => changeIsModalVisible(true)}
-                        className={classnames('inline', 'text-yellow-550')}>
+                        className={"inline text-yellow-550"}>
                         <Icon icon="carbon:add"
-                            className={classnames('inline-block', 'mx-1')}
+                            className={"inline-block mx-1"}
                             width="15"
                             height="15"
                             fr={undefined} />

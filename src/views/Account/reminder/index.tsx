@@ -7,7 +7,6 @@ import {
     DatePicker,
 } from 'antd';
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
-import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { getApiV1AccountKeypairList, getApiV1AccountKeypairStoreByKeyName, deleteApiV1AccountKeypair, getApiV1AccountReminderFreetier, putApiV1AccountReminderFreetier } from '@/api-client';
 const Component = (): JSX.Element => {
@@ -58,23 +57,23 @@ const Component = (): JSX.Element => {
     return (
         <>
             <Row>
-                <Card className={classnames('min-w-3/4')} title="Reminder">
+                <Card className={"min-w-3/4"} title="Reminder">
                     <div>
                         <div>
                             <Switch
                                 checked={checkedFree}
                                 onChange={onChangeFree}
-                                className={classnames('mr-1')}
+                                className={"mr-1"}
                                 checkedChildren={<CheckOutlined />}
                                 unCheckedChildren={<CloseOutlined />}
                             />
                 Free Tier Reminder
                         </div>
-                        <div className={classnames('ml-12', 'flex')}>
+                        <div className={"ml-12 flex"}>
                             <div>Activation data:</div>
-                            <div className={classnames('flex', 'items-center')}>
+                            <div className={"flex items-center"}>
                                 <DatePicker
-                                    className={classnames('ml-4')}
+                                    className={"ml-4"}
                                     size="small"
                                     onChange={onChangeActivationData}
                                 />
@@ -85,14 +84,14 @@ const Component = (): JSX.Element => {
                                     onClick={onChangeStatusData}
                                     className={
                                         statusData
-                                            ? classnames('text-emerald-500', 'ml-2')
-                                            : classnames('text-gray-500', 'ml-2')
+                                            ? "text-emerald-500 ml-2"
+                                            : "text-gray-500 ml-2"
                                     }
                                 />
                             </div>
                         </div>
                     </div>
-                    <div className={classnames('mt-10')}>
+                    <div className={"mt-10"}>
                         <div>
                             <Switch
                                 disabled={true}

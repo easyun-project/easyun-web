@@ -1,4 +1,4 @@
-import { classnames } from '@@/tailwindcss-classnames';
+import clsx from 'clsx';
 import { Spin } from 'antd';
 import { DashCard } from '@/components/DashboardCommon/DashCard';
 import React, { useEffect, useState } from 'react';
@@ -42,7 +42,7 @@ export const DashboardDetail = (props): JSX.Element => {
                         key: 'dcRegion',
                         render: dcRegion => {
                             return <div>
-                                <span className={classnames('inline-block', 'pr-1', 'h-4')}>
+                                <span className={"inline-block pr-1 h-4"}>
                                     <Icon className={'ml-5'} icon={flagUtil.getFlagIcon(dcRegion?.icon)}
                                         color="#5c6f9a"
                                         width="25" height="25"
@@ -164,12 +164,12 @@ export const DashboardDetail = (props): JSX.Element => {
     };
 
     return (
-        <div className={classnames('space-y-4')}>
-            <div className={classnames('flex', 'justify-end', 'items-center')}>
+        <div className={"space-y-4"}>
+            <div className={"flex justify-end items-center"}>
                 <span>当前数据中心：</span>
                 <DictListSelect propDcName={dcName} onChangeClick={changeDictName}/>
             </div>
-            <div className={classnames('grid', 'grid-cols-2', 'gap-4')}>
+            <div className={"grid grid-cols-2 gap-4"}>
                 <Spin spinning={dataCenterLoading} tip="Loading...">
                     <DashCard height={'h-60'} cardTitle={tableList['dataCenter']['cardTitle']}
                         content={tableView('dataCenter')}/>
@@ -178,15 +178,15 @@ export const DashboardDetail = (props): JSX.Element => {
                     <DashboardsHealthCard health={health}/>
                 </Spin>
             </div>
-            <div className={classnames('flex', 'justify-end')}>
+            <div className={"flex justify-end"}>
                 <div
-                    className={classnames('flex', 'justify-end', 'items-center', 'border', 'border-gray-300', 'rounded-md', 'p-2')}>
+                    className={"flex justify-end items-center border border-gray-300 rounded-md p-2"}>
                     <div>View:</div>
-                    <div className={classnames('p-2', { 'font-semibold': isShowGraphical })}
+                    <div className={clsx('p-2', { 'font-semibold': isShowGraphical })}
                         onClick={() => changeShow('Graphical')}>Graphical
                     </div>
                     <div>|</div>
-                    <div className={classnames('pl-2', { 'font-semibold': !isShowGraphical })}
+                    <div className={clsx('pl-2', { 'font-semibold': !isShowGraphical })}
                         onClick={() => changeShow('List')}>List
                     </div>
                 </div>

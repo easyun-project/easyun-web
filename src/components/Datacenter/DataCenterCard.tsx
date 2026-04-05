@@ -1,6 +1,5 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { classnames } from '@@/tailwindcss-classnames';
 import { Menu, Dropdown, notification, Modal } from 'antd';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
@@ -143,47 +142,33 @@ export default function DataCenterCard(props: DataCenterModel) {
 
     return (
         <div
-            className={classnames(
-                'flex',
-                'flex-col',
-                'bg-gray-200',
-                'rounded-border',
-                'w-96',
-                'p-2'
-            )}
+            className={"flex flex-col bg-gray-200 rounded-border w-96 p-2"}
         >
-            <div className={classnames('flex', 'mb-2')}>
+            <div className={"flex mb-2"}>
                 {/* <img
                     src={stbucket}
                     alt="stbucket.png"
-                    className={classnames('w-12', 'h-12')}
+                    className={"w-12 h-12"}
                 /> */}
                 <Icon icon="ic:round-cloud-circle" color="#e9862e" width="60" />
                 <div className='grow ml-2' >
-                    <a className={classnames('text-blue-600', 'text-lg')} onClick={() => { initResource().then(() => navigate('/resource')); }}>{dcName}</a>
-                    <div className={classnames('text-xs', 'text-gray-500')}>{vpcID}</div>
+                    <a className={"text-blue-600 text-lg"} onClick={() => { initResource().then(() => navigate('/resource')); }}>{dcName}</a>
+                    <div className={"text-xs text-gray-500"}>{vpcID}</div>
                 </div>
                 <Dropdown overlay={menu}>
                     <Icon
                         icon="fluent:more-vertical-20-filled"
                         width="20"
                         fr={undefined}
-                        className={classnames('cursor-pointer', 'hover:text-yellow-550')}
+                        className={"cursor-pointer hover:text-yellow-550"}
                     />
                 </Dropdown>
             </div>
             <div
-                className={classnames(
-                    'flex',
-                    'justify-between',
-                    'border-t-2',
-                    'border-gray-300',
-                    'border-dashed',
-                    'mx-2'
-                )}
+                className={"flex justify-between border-t-2 border-gray-300 border-dashed mx-2"}
             >
-                <div className={classnames('text-xs', 'text-gray-500')}>{cidrBlock}</div>
-                <div className={classnames('text-xs', 'text-gray-500')}>{regionCode}</div>
+                <div className={"text-xs text-gray-500"}>{cidrBlock}</div>
+                <div className={"text-xs text-gray-500"}>{regionCode}</div>
             </div>
         </div>
     );

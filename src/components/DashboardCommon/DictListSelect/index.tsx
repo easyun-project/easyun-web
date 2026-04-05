@@ -1,5 +1,4 @@
 import { Select } from 'antd';
-import { classnames } from '@@/tailwindcss-classnames';
 import React, { useEffect, useState } from 'react';
 import { postApiV1Datacenter, getApiV1DatacenterTask, getApiV1DatacenterList, deleteApiV1Datacenter } from '@/api-client';
 
@@ -35,7 +34,7 @@ export const DictListSelect = (props): JSX.Element => {
     };
 
     return (<Select key={dcName} onChange={changeDictName} defaultValue={dcName}
-        className={classnames('w-32')}>
+        className={"w-32"}>
         {dictView()}
     </Select>);
 };

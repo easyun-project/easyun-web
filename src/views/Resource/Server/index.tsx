@@ -5,7 +5,6 @@ import { NoResource } from '@/views/Resource';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { RootState } from '@/redux/store';
-import { classnames } from '@@/tailwindcss-classnames';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Dropdown, Menu, Table, Modal, Input } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
@@ -20,7 +19,7 @@ export const serverColumns = [
         key: 'svrId',
         render: (text:string):React.ReactNode => <Link
             to={`${text}`}
-            className={classnames('text-blue-500', 'underline')}>
+            className={"text-blue-500 underline"}>
             {text}
         </Link>
     },
@@ -40,11 +39,11 @@ export const serverColumns = [
 
         render: (text:string):React.ReactNode => {
             if (text === 'running' || text === 'pending') {
-                return <span className={classnames('text-green-400')}>{text}</span>;
+                return <span className={"text-green-400"}>{text}</span>;
             } else if (text === 'stopped' || text === 'shutting-down') {
-                return <span className={classnames('text-gray-500')}>{text}</span>;
+                return <span className={"text-gray-500"}>{text}</span>;
             }
-            else {return <span className={classnames('text-red-500')}>{text}</span>;}
+            else {return <span className={"text-red-500"}>{text}</span>;}
         },
     },
     {
@@ -181,13 +180,13 @@ const ServerList = ():JSX.Element => {
     if (serverDataSource.length !== 0) {
         return (
             <>
-                <div id="operation" className={classnames('my-3', 'float-right')}>
-                    <Dropdown overlay={actionMenu} className={classnames('inline-block', 'mr-2')}>
+                <div id="operation" className={"my-3 float-right"}>
+                    <Dropdown overlay={actionMenu} className={"inline-block mr-2"}>
                         <Button>
-                            Actions {acting ? <LoadingOutlined className={classnames('align-middle')} /> : <DownOutlined /> }
+                            Actions {acting ? <LoadingOutlined className={"align-middle"} /> : <DownOutlined /> }
                         </Button>
                     </Dropdown>
-                    <Dropdown overlay={modifyMenu} className={classnames('inline-block', 'mr-2')}>
+                    <Dropdown overlay={modifyMenu} className={"inline-block mr-2"}>
                         <Button>
                             Modify <DownOutlined />
                         </Button>
@@ -219,7 +218,7 @@ const ServerList = ():JSX.Element => {
                         <Input placeholder='Please enter server name' onChange={e=>changeNewName(e.target.value)}/>
                     </Modal>
                     <button onClick={() => navigate('/resource/server/add')}
-                        className={classnames('btn-yellow')}>Add Server</button>
+                        className={"btn-yellow"}>Add Server</button>
                 </div>
                 <Table loading={serverState.loading} bordered={true} dataSource={newServerDataSource} columns={serverColumns} rowSelection={{
                     type: 'checkbox',

@@ -1,10 +1,9 @@
 import React from 'react';
 import { CPartialLoading } from '@/components/Common/CPartialLoading';
-import { TTailwindString } from '@@/tailwindcss-classnames';
 
 export interface ContainerProps {
 	loading: boolean;
-	classes?: TTailwindString;
+	classes?: string;
 	component: JSX.Element;
 
 }

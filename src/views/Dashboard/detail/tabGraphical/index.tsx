@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { classnames } from '@@/tailwindcss-classnames';
 import { DashCard } from '@/components/DashboardCommon/DashCard';
 import { GraphicalType } from '@/views/Dashboard/dashboard';
 
@@ -231,7 +230,7 @@ export const DashboardsTabGraphical = (props): JSX.Element => {
     };
 
     return (
-        <div className={classnames('grid', 'grid-cols-3', 'gap-4')}>
+        <div className={"grid grid-cols-3 gap-4"}>
             {
                 Object.keys(graphicalData).map((type) => {
                     return <DashCard key={type} type="Graphical" {...graphicalData[type]} />;

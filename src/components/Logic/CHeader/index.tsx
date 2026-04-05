@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { Icon } from '@iconify/react';
-import { classnames } from '@@/tailwindcss-classnames';
 import { Menu, Dropdown  } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import HostModal from '@/components/Logic/CModal';
@@ -35,7 +34,7 @@ export const CHeader = (): JSX.Element => {
     };
 
     const menu = (
-        <Menu onClick={handleClick} selectedKeys={[ current ]} mode="vertical" className={classnames('text-xl')}>
+        <Menu onClick={handleClick} selectedKeys={[ current ]} mode="vertical" className={"text-xl"}>
             <Menu.Item key="home">{t('base.mainMenu.home')}</Menu.Item>
             <Menu.Item key="dashboard">{t('base.mainMenu.dashboard')}</Menu.Item>
             <Menu.Item key="event">{t('base.mainMenu.event')}</Menu.Item>
@@ -88,27 +87,27 @@ export const CHeader = (): JSX.Element => {
     return (
         <div className='flex items-center text-3xl text-white bg-gray-600' >
             <span id='logo'
-                className={classnames('mx-10', 'cursor-pointer', 'flex')}
+                className={"mx-10 cursor-pointer flex"}
                 onClick={() => navigate('/home')}
             >
                 <img src={logo3} alt="Easyun" width="150" />
             </span>
             <span>
                 <Dropdown overlay={menu}>
-                    <a className={classnames('flex', 'items-baseline')} onClick={e => {
+                    <a className={"flex items-baseline"} onClick={e => {
                         e.preventDefault();
                         navigate(`/${current}`);
                     }}>
-                        <span className={classnames('text-2xl')}>{getTitle(current)}</span>
+                        <span className={"text-2xl"}>{getTitle(current)}</span>
                         <DownOutlined style={{ fontSize: '20px' }}/>
                     </a>
                 </Dropdown>
             </span>
 
             <div className='inline-flex absolute right-0 flex-none items-center' >
-                <span id="free-trial" className={classnames('cursor-pointer', 'inline-flex')} >
+                <span id="free-trial" className={"cursor-pointer inline-flex"} >
                     <Icon icon="fa:heartbeat"
-                        className={classnames('cursor-pointer')}
+                        className={"cursor-pointer"}
                         color="#9fbe8a"
                         width="25"
                         height="25"
@@ -141,11 +140,11 @@ export const CHeader = (): JSX.Element => {
 
                 <Dropdown overlay={langMenu} trigger={[ 'click' ]} className='inline-flex'>
                     <a onClick={e => e.preventDefault()}>
-                        <span id="language" className={classnames('text-lg')} style={{ color: '#5c6f9a' }}>
+                        <span id="language" className={"text-lg"} style={{ color: '#5c6f9a' }}>
                             {t('base.langMenu.title')}
                         </span>
                         <Icon icon="iconoir:nav-arrow-down"
-                            className={classnames('mr-2')}
+                            className={"mr-2"}
                             color="#5c6f9a"
                             width="25"
                             height="25"
@@ -157,19 +156,19 @@ export const CHeader = (): JSX.Element => {
 
                 <Dropdown overlay={userMenu} >
                     <a onClick={e => e.preventDefault()}>
-                        <span id="user" className={classnames('cursor-pointer', 'inline-flex')} >
+                        <span id="user" className={"cursor-pointer inline-flex"} >
                             <Icon icon="bi:person-fill"
-                                className={classnames('ml-2', 'inline-block')}
+                                className={"ml-2 inline-block"}
                                 color="#5c6f9a"
                                 width="25"
                                 height="25"
                                 fr={undefined}
                             />
-                            <span id="username" className={classnames('ml-1', 'text-lg')} style={{ color: '#5c6f9a' }}>
+                            <span id="username" className={"ml-1 text-lg"} style={{ color: '#5c6f9a' }}>
                                 { userState.username }
                             </span>
                             <Icon icon="iconoir:nav-arrow-down"
-                                className={classnames('mr-2')}
+                                className={"mr-2"}
                                 color="#5c6f9a"
                                 width="25"
                                 height="25"

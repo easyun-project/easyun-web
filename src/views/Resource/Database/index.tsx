@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { classnames } from '@@/tailwindcss-classnames';
 import { useNavigate } from 'react-router-dom';
 import { Spin, Dropdown, Menu } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
@@ -80,7 +79,7 @@ const WithoutResource = (): JSX.Element => {
             <div className= 'flex flex-row '>
                 <button
                     onClick={() => navigate('/database/add')}
-                    className={classnames('btn-yellow')}>
+                    className={"btn-yellow"}>
                     Add Database
                 </button>
             </div>

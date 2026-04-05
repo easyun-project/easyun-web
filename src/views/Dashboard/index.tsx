@@ -1,10 +1,9 @@
+import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
-import { classnames } from '@@/tailwindcss-classnames';
 import { DashboardDetail } from '@/views/Dashboard/detail';
 import { Button } from 'antd';
 import { DictListSelect } from '@/components/DashboardCommon/DictListSelect';
 import './detail/index.css';
-import { TTailwindString } from 'tailwindcss-classnames';
 import { useNavigate } from 'react-router-dom';
 import { postApiV1Datacenter, getApiV1DatacenterTask, getApiV1DatacenterList, deleteApiV1Datacenter } from '@/api-client';
 
@@ -13,7 +12,7 @@ export const Dashboard = (props): JSX.Element => {
     const navigate = useNavigate();
     const [dcName, setDcName] = useState<string>('');
     const [detailShow, setDetailShow] = useState<boolean>(false);
-    const buttonStyle: TTailwindString = classnames('bg-yellow-550', 'text-white', 'rounded-3xl', 'h-10', 'w-32', 'px-5', 'block');
+    const buttonStyle: string = "bg-yellow-550 text-white rounded-3xl h-10 w-32 px-5 block";
 
     useEffect(() => {
         getDataCenterList();
@@ -30,16 +29,16 @@ export const Dashboard = (props): JSX.Element => {
     };
 
     return (
-        <div className={classnames('p-3')}>
+        <div className={"p-3"}>
             {
                 dcName
                     ? <DashboardDetail propDcName={dcName}/>
-                    : <div className={classnames('m-20', 'flex', 'flex-col', 'items-center','space-y-2')}>
-                        <div className={classnames('text-3xl', 'm-1')}>You have not a data center</div>
-                        <div className={classnames('flex', 'items-center', 'text-sm', 'm-1', 'space-x-2')}>
+                    : <div className={"m-20 flex flex-col items-center space-y-2"}>
+                        <div className={"text-3xl m-1"}>You have not a data center</div>
+                        <div className={"flex items-center text-sm m-1 space-x-2"}>
                             <span>Please create a data center</span>
                         </div>
-                        <Button className={classnames(buttonStyle)} onClick={() => navigate('/datacenter/add')}>Next</Button>
+                        <Button className={clsx(buttonStyle)} onClick={() => navigate('/datacenter/add')}>Next</Button>
                     </div>
             }
         </div>

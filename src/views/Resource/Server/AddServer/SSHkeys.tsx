@@ -2,7 +2,6 @@ import React from 'react';
 import { Radio,message } from 'antd';
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
-import { classnames } from '@@/tailwindcss-classnames';
 import { IsshkeyItem } from '@/constant/awsInfo';
 // import { TablePaginationConfig } from 'antd';
 
@@ -26,24 +25,14 @@ export default function SSHkeys(props: SSHkeysProps): JSX.Element {
             onChange={e => {
                 setSelected(e.target.value);
                 changeSelectedKey(e.target.value);}}>
-            <div className={classnames('flex','flex-col')}>
+            <div className={"flex flex-col"}>
                 {keyPairs.map((keyPair)=>
                     <Radio key={keyPair.key_name} value={keyPair.key_name}>
                         <div key={keyPair.id}
-                            className={classnames(
-                                'flex',
-                                'items-center',
-                                'justify-between',
-                                'border-b-2',
-                            )}>
-                            <div className={classnames(
-                                'flex',
-                                'w-96'
-                            )}>
+                            className={"flex items-center justify-between border-b-2"}>
+                            <div className={"flex w-96"}>
                                 <Icon fr={undefined}
-                                    className={classnames(
-                                        'mr-2'
-                                    )}
+                                    className={"mr-2"}
                                     icon="codicon:key"
                                     width="18"
                                     height="18"
@@ -54,18 +43,12 @@ export default function SSHkeys(props: SSHkeysProps): JSX.Element {
                                 <span>{keyPair.key_name}</span>
                             </div>
                             <div
-                                className={classnames(
-                                    'flex',
-                                    'text-yellow-550'
-                                )}
+                                className={"flex text-yellow-550"}
                             >
                                 <span>Download</span>
                                 <Icon fr={undefined}
                                     onClick={downloadSSHItem}
-                                    className={classnames(
-                                        'ml-2',
-                                        'mr-10'
-                                    )}
+                                    className={"ml-2 mr-10"}
                                     icon="entypo:download"
                                     width="18"
                                     height="18"

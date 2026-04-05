@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { postApiV1Datacenter, getApiV1DatacenterTask, getApiV1DatacenterList, deleteApiV1Datacenter } from '@/api-client';
 import { QueryNewDcParm, DcDropDown } from '@/constant/dataCenter';
-import { classnames } from '@@/tailwindcss-classnames';
 import SubnetOption from '@/components/Datacenter/SubnetOptionCard';
 import SecGroupOption from '@/components/Datacenter/SecGroupOptionCard';
 import { CButton } from '@/components/Common/CButton';
@@ -231,7 +230,7 @@ const AddDataCenter = (): JSX.Element => {
                         </Form.Item>
                     </Form>
 
-                    <Text style={{ width: 61 }} className={classnames('inline-block', 'ml-4', 'my-2')}>Region:</Text>
+                    <Text style={{ width: 61 }} className={"inline-block ml-4 my-2"}>Region:</Text>
                     <Select defaultValue={dcParams?.dcRegion} style={{ width: 280 }} listHeight={360} disabled={!validStatus}
                         onChange={(value) => {
                             setRegionCode(value);
@@ -242,13 +241,13 @@ const AddDataCenter = (): JSX.Element => {
                         })}
                     </Select>
                     <Icon icon={flagUtil.getFlagIconByRegion(regionCode)}
-                        className={classnames('ml-5', 'inline-block')} color="#5c6f9a" width="25" height="25" fr={undefined} />
+                        className={"ml-5 inline-block"} color="#5c6f9a" width="25" height="25" fr={undefined} />
 
                     <Title level={5} className='mt-4 mb-2'>Defining DataCenter Networking</Title>
-                    <Text style={{ width: 150 }} className={classnames('inline-block', 'ml-4')}>CIDR block(IPv4):</Text>
+                    <Text style={{ width: 150 }} className={"inline-block ml-4"}>CIDR block(IPv4):</Text>
                     <Input defaultValue={dcParams?.dcVPC.cidrBlock} style={{ width: 280 }}
                         onChange={(e) => { handleCidrChange(e.target.value); }}
-                        className={classnames('border')} type="text" />
+                        className={"border"} type="text" />
                     <div className='ml-4 my-2'>
                         <Checkbox checked={createNatGW} onChange={(e) => setCreateNatGW(e.target.checked)}>
                             Create NAT Gateway
@@ -256,30 +255,30 @@ const AddDataCenter = (): JSX.Element => {
                     </div>
                     <Row gutter={12}>
                         <SubnetOption subnet={pubSubnet1} dropdown={dropDown as any} index={1} isPublic={true}
-                            classes={classnames('w-96', 'inline-block')} />
+                            classes={"w-96 inline-block"} />
                         <SubnetOption subnet={pubSubnet2} dropdown={dropDown as any} index={2} isPublic={true}
-                            classes={classnames('w-96', 'inline-block')} />
+                            classes={"w-96 inline-block"} />
                     </Row>
                     <Row gutter={12}>
                         <SubnetOption subnet={priSubnet1} dropdown={dropDown as any} index={1} isPublic={false}
-                            classes={classnames('w-96', 'inline-block')} />
+                            classes={"w-96 inline-block"} />
                         <SubnetOption subnet={priSubnet2} dropdown={dropDown as any} index={2} isPublic={false}
-                            classes={classnames('w-96', 'inline-block')} />
+                            classes={"w-96 inline-block"} />
                     </Row>
 
                     <Title level={5} className='mt-4 mb-2'>Defining DataCenter Security Group</Title>
                     <Row gutter={16}>
                         <SecGroupOption sg={dcParams?.securityGroup0} setSg={setSecGroup0}
-                            classes={classnames('mx-4', 'inline-block')}
+                            classes={"mx-4 inline-block"}
                             ibList={<p>TCP 660: 0.0.0.0/0</p>} />
                         <SecGroupOption sg={dcParams?.securityGroup1} setSg={setSecGroup1}
-                            classes={classnames('mx-4', 'inline-block')}
+                            classes={"mx-4 inline-block"}
                             ibList={<>
                                 <p>TCP 80: 0.0.0.0/0</p>
                                 <p>TCP 443: 0.0.0.0/0</p>
                             </>} />
                         <SecGroupOption sg={dcParams?.securityGroup2} setSg={setSecGroup2}
-                            classes={classnames('mx-4', 'inline-block')}
+                            classes={"mx-4 inline-block"}
                             ibList={<>
                                 <p>TCP 3306: 0.0.0.0/0</p>
                                 <p>TCP 1443: 0.0.0.0/0</p>
@@ -296,12 +295,12 @@ const AddDataCenter = (): JSX.Element => {
 
             <Row gutter={16}>
                 <Col span={16}>
-                    <div className={classnames('flex', 'justify-center', 'm-16')}>
+                    <div className={"flex justify-center m-16"}>
                         <CButton click={() => {
                             dispatch(listAllDataCenter()); // 临时使用，便于调试
                             navigate('/home');
-                        }} classes={classnames('bg-gray-400', 'text-white')}>
-                            <Icon className={classnames('inline-block', 'mr-2')} icon="akar-icons:arrow-left"
+                        }} classes={"bg-gray-400 text-white"}>
+                            <Icon className={"inline-block mr-2"} icon="akar-icons:arrow-left"
                                 color="white"
                                 width="20" height="20" fr={undefined} />
                             Back</CButton>

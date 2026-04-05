@@ -106,7 +106,7 @@ const LoginPage = (): JSX.Element => {
 
                         <Form.Item className='flex justify-center'>
                             <button type='submit' className='w-full btn-yellow'>{t('login.button')}</button>
-                            {/* <CButton type="primary" htmlType="submit" classes={classnames('w-36')}>{t('login.button')}</CButton> */}
+                            {/* <CButton type="primary" htmlType="submit" classes={"w-36"}>{t('login.button')}</CButton> */}
                         </Form.Item>
                     </Form>
                 </Row>

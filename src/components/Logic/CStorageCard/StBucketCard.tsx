@@ -1,5 +1,4 @@
 import React from 'react';
-import { TTailwindString } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { Menu, Dropdown } from 'antd';
 import { deleteApiV1StorageBucket } from '@/api-client';
@@ -11,7 +10,7 @@ import { RootState } from '@/redux/store';
 
 
 export interface BucketCardInfo {
-    class?: TTailwindString;
+    class?: string;
     bucketUrl?: string;
     CreationDate?: string;
     bktName: string;

@@ -13,8 +13,7 @@ import { Select } from 'antd';
 import { useDispatch } from 'react-redux';
 import { getApiV1DatacenterStaticipList, postApiV1DatacenterStaticip, deleteApiV1DatacenterStaticip } from '@/api-client';
 import { listAllStaticIp } from '@/redux/staticipSlice';
-// import { classnames } from 'tailwindcss-classnames';
-// import { WarningOutlined, InfoCircleOutlined } from '@ant-design/icons';
+// // import { WarningOutlined, InfoCircleOutlined } from '@ant-design/icons';
 const { Option } = Select;
 
 export default function EipDetail() {

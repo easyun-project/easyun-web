@@ -1,6 +1,5 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
-import { classnames } from '@@/tailwindcss-classnames';
 import { useState,useEffect } from 'react';
 import { Switch, InputNumber, Select,Popover } from 'antd';
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
@@ -96,21 +95,21 @@ const DiskConfiguration = (props:DiskProps) :JSX.Element=>{
 
     },[diskType,encryption,volumeSize,volumeIOPS,volumeThruputs]);
     return(
-        <div className={classnames('w-4/5','rounded-border','flex','flex-col','mt-2','mr-2')}>
-            <div className={classnames('flex','flex-row','m-2')}>
+        <div className={"w-4/5 rounded-border flex flex-col mt-2 mr-2"}>
+            <div className={"flex flex-row m-2"}>
                 <span><Icon icon="icon-park-outline:solid-state-disk" width="64" fr={undefined}/> </span>
                 <div className='grow mx-3'>
                     <span >Disk type:</span>
-                    <Select defaultValue={ diskType } className={classnames('w-48')} onChange={value=>changeDiskType(value)} size='small'>
+                    <Select defaultValue={ diskType } className={"w-48"} onChange={value=>changeDiskType(value)} size='small'>
                         {Object.keys(VolumeTypeInfo).map(key=><Option value={key} key={key}>{VolumeTypeInfo[key].typeDesc}</Option>)}
                     </Select>
-                    <div className={classnames('flex','mt-2','justify-between')}>
+                    <div className={"flex mt-2 justify-between"}>
                         <div>
                             <span>size(GiB):</span>
                             <Popover content={
                                 `max:${volumeTypeInfo.volumeSize?.at(1)} min:${volumeTypeInfo.volumeSize?.at(0)}`
                             } title="Tips">
-                                <InputNumber className={classnames('w-16')} size='small' min={volumeTypeInfo.volumeSize?.at(0)} max={volumeTypeInfo.volumeSize?.at(1)} defaultValue={8} onChange={(value)=>changeVolumeSize(value)}/>
+                                <InputNumber className={"w-16"} size='small' min={volumeTypeInfo.volumeSize?.at(0)} max={volumeTypeInfo.volumeSize?.at(1)} defaultValue={8} onChange={(value)=>changeVolumeSize(value)}/>
                             </Popover>
                         </div>
                         <div>
@@ -118,7 +117,7 @@ const DiskConfiguration = (props:DiskProps) :JSX.Element=>{
                             <Popover content={
                                 `max:${volumeTypeInfo.volumeIops?.at(1)} min:${volumeTypeInfo.volumeIops?.at(0)}`
                             } title="Tips">
-                                <InputNumber className={classnames('w-16')} disabled={!volumeTypeInfo.volumeIops} size='small' min={volumeTypeInfo.volumeIops?.at(0)} max={volumeTypeInfo.volumeIops?.at(1)} defaultValue={3000}
+                                <InputNumber className={"w-16"} disabled={!volumeTypeInfo.volumeIops} size='small' min={volumeTypeInfo.volumeIops?.at(0)} max={volumeTypeInfo.volumeIops?.at(1)} defaultValue={3000}
                                     onChange={(value) => changeVolumeIOPS(value)} />
                             </Popover>
 
@@ -128,7 +127,7 @@ const DiskConfiguration = (props:DiskProps) :JSX.Element=>{
                             <Popover content={
                                 `max:${volumeTypeInfo.volumeThruput?.at(1)} min:${volumeTypeInfo.volumeThruput?.at(0)}`
                             } title="Tips">
-                                <InputNumber className={classnames('w-16')} disabled={!volumeTypeInfo.volumeThruput} size='small' min={volumeTypeInfo.volumeThruput?.at(0)} max={volumeTypeInfo.volumeThruput?.at(1)} defaultValue={125}
+                                <InputNumber className={"w-16"} disabled={!volumeTypeInfo.volumeThruput} size='small' min={volumeTypeInfo.volumeThruput?.at(0)} max={volumeTypeInfo.volumeThruput?.at(1)} defaultValue={125}
                                     onChange={(value) => changeVolumeThruputs(value)} />
                             </Popover>
 
@@ -137,7 +136,7 @@ const DiskConfiguration = (props:DiskProps) :JSX.Element=>{
                 </div>
                 <Icon fr={undefined}
                     icon="clarity:times-line"
-                    className={classnames('inline-block','mx-1', 'cursor-pointer')}
+                    className={"inline-block mx-1 cursor-pointer"}
                     width="24" height="24"
                     color='#dd6b10'
                     onClick={() => {
@@ -150,10 +149,10 @@ const DiskConfiguration = (props:DiskProps) :JSX.Element=>{
                     } }/>
             </div>
 
-            <div className={classnames('flex','flex-row','justify-between','border-t-2','border-gray-300','border-dashed','ml-12','mr-6','p-2')}>
+            <div className={"flex flex-row justify-between border-t-2 border-gray-300 border-dashed ml-12 mr-6 p-2"}>
                 <div>
                     <span>Disk path:</span>
-                    <span className={classnames('font-bold')}>{disk['DeviceName']}</span>
+                    <span className={"font-bold"}>{disk['DeviceName']}</span>
                 </div>
                 <div>
                     <span>Encryption</span>
@@ -178,7 +177,7 @@ const DiskConfigurations = (props: DisksProps): JSX.Element => {
     const { disks, changeDisks } = props;
     return (
         <>
-            <div className={classnames('grid','grid-cols-2','gap-4','justify-items-center')}>
+            <div className={"grid grid-cols-2 gap-4 justify-items-center"}>
                 {disks.map((disk, index) => <DiskConfiguration index={ index } disk={disk} key={disk.DeviceName} disks={disks} changeDisks={changeDisks} />)}
             </div>
 
@@ -196,10 +195,10 @@ const DiskConfigurations = (props: DisksProps): JSX.Element => {
                         'VolumeThruputs': 125,
                         'Encrypted': true
                     } }]);
-            }} className={classnames('inline', 'text-yellow-550','ml-12','mt-2')}>
+            }} className={"inline text-yellow-550 ml-12 mt-2"}>
                 <Icon fr={undefined}
                     icon="carbon:add"
-                    className={classnames('inline-block', 'mx-1')}
+                    className={"inline-block mx-1"}
                     width="15"
                     height="15"
                 />

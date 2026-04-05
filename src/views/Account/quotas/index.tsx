@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Card, message, Switch, DatePicker } from 'antd';
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
-import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { getApiV1AccountKeypairList, getApiV1AccountKeypairStoreByKeyName, deleteApiV1AccountKeypair, getApiV1AccountReminderFreetier, putApiV1AccountReminderFreetier } from '@/api-client';
 import { IsshkeyItem } from '@/constant/awsInfo';
@@ -58,23 +57,18 @@ const Component = (): JSX.Element => {
                     list.map((item,index)=>{
                         return (
                             <div key={index} className={'w-11/12'}>
-                                <div className={classnames('flex', 'items-center')}>
+                                <div className={"flex items-center"}>
                                     <div>{item.name} </div>
                                     <div
                                         onClick={openRegionDashboard}
-                                        className={classnames(
-                                            'flex',
-                                            'items-center',
-                                            'ml-2',
-                                            'text-blue-600'
-                                        )}
+                                        className={"flex items-center ml-2 text-blue-600"}
                                     >
                                 view quotas
                                         <Icon icon="ri:share-box-fill" />
                                     </div>
                                 </div>
 
-                                <div className={classnames('flex', 'ml-10')}>
+                                <div className={"flex ml-10"}>
                                     {item.list.map((xtem, xdex) => {
                                         return (
                                             <div key={xdex}>{xtem.item_name || '无'}</div>
@@ -82,11 +76,7 @@ const Component = (): JSX.Element => {
                                     })}
                                 </div>
                                 <div
-                                    className={classnames(
-                                        'h-52',
-                                        'ml-10',
-                                        'border-2'
-                                    )}
+                                    className={"h-52 ml-10 border-2"}
                                 >
                                     {item.list.map((xtem, xdex) => {
                                         return <div key={xdex}>{xtem.key_name}</div>;

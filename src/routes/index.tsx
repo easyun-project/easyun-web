@@ -15,8 +15,8 @@ import datacenterRoutes from '@/routes/DatacenterRoutes';
 import resourceRoutes from '@/routes/ResourceRoutes';
 
 import { Navigate } from 'react-router-dom';
-//权限路由所需
-import store from '@/redux/store';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 
 
@@ -85,18 +85,10 @@ export default [
 
 //权限路由写法
 function RequireAuth({ children }: { children: JSX.Element }) {
-    const token = store.getState().user.currentUser?.token;
-    const loginTime = store.getState().user.currentUser?.loginTime;
-    // const location = useLocation();
-    // const token = localStorage.getItem('token');
+    const token = useSelector((state: RootState) => state.user.currentUser?.token);
+    const loginTime = useSelector((state: RootState) => state.user.currentUser?.loginTime);
 
-    if (!token || loginTime && Date.now() - loginTime > 7200000) {
-        //如果未登录或者上次登录时间已超过2小时
-    // Redirect them to the /login page, but save the current location they were
-    // trying to go to when they were redirected. This allows us to send them
-    // along to that page after they login, which is a nicer user experience
-    // than dropping them off on the home page.
-        // return <Navigate to="/login" state={{ from: location }} replace />;
+    if (!token || (loginTime && Date.now() - loginTime > 7200000)) {
         return <Navigate to="/login" replace/>;
     }
     return children;

@@ -7,7 +7,6 @@ import {
     Select,
     message
 } from 'antd';
-import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { getApiV1AccountKeypairList, getApiV1AccountKeypairStoreByKeyName, deleteApiV1AccountKeypair, getApiV1AccountReminderFreetier, putApiV1AccountReminderFreetier } from '@/api-client';
 import { IsshkeyItem } from '@/constant/awsInfo';
@@ -110,43 +109,32 @@ const Component = (): JSX.Element => {
     return (
         <>
             <Row>
-                <Card className={classnames('min-w-3/4')} title="SSH keys">
+                <Card className={"min-w-3/4"} title="SSH keys">
                     <div>you can store up to 100 keys per AWS Region.</div>
                     {list.map((item, index) => {
                         return (
                             <div key={index}>
-                                <div className={classnames('flex', 'items-center')}>
+                                <div className={"flex items-center"}>
                                     <Icon
-                                        className={classnames('text-orange-400', 'mr-1')}
+                                        className={"text-orange-400 mr-1"}
                                         icon="ant-design:cloud-sync-outlined"
                                         width="30"
                                         height="30"
                                     />
                                     <div>{item.name}</div>
                                 </div>
-                                <div className={classnames('ml-10')}>
+                                <div className={"ml-10"}>
                                     {item.list.map((kitem, kindex) => {
                                         return (
                                             <div
                                                 key={kindex}
-                                                className={classnames(
-                                                    'flex',
-                                                    'items-center',
-                                                    'justify-between',
-                                                    'border-b-2'
-                                                )}
+                                                className={"flex items-center justify-between border-b-2"}
                                             >
                                                 <div
-                                                    className={classnames(
-                                                        'flex',
-                                                        'items-center'
-                                                    )}
+                                                    className={"flex items-center"}
                                                 >
                                                     <Icon
-                                                        className={classnames(
-                                                            'mr-2',
-                                                            'text-orange-400'
-                                                        )}
+                                                        className={"mr-2 text-orange-400"}
                                                         icon="codicon:key"
                                                         width="18"
                                                         height="18"
@@ -155,19 +143,12 @@ const Component = (): JSX.Element => {
                                                     {kitem.key_name}
                                                 </div>
                                                 <div
-                                                    className={classnames(
-                                                        'flex',
-                                                        'items-center',
-                                                        'text-orange-400'
-                                                    )}
+                                                    className={"flex items-center text-orange-400"}
                                                 >
                                               Download
                                                     <Icon
                                                         onClick={()=>{downItem(kitem.id);}}
-                                                        className={classnames(
-                                                            'ml-2',
-                                                            'mr-10'
-                                                        )}
+                                                        className={"ml-2 mr-10"}
                                                         icon="entypo:download"
                                                         width="18"
                                                         height="18"
@@ -191,16 +172,10 @@ const Component = (): JSX.Element => {
                         );
                     })}
                     <div
-                        className={classnames(
-                            'flex',
-                            'justify-end',
-                            'items-center',
-                            'mt-4',
-                            'text-orange-400'
-                        )}
+                        className={"flex justify-end items-center mt-4 text-orange-400"}
                     >
                         <div
-                            className={classnames('flex', 'items-center')}
+                            className={"flex items-center"}
                             onClick={showModal}
                         >
                             <Icon icon="carbon:add" width="30" height="30" />
@@ -208,19 +183,13 @@ const Component = (): JSX.Element => {
                         </div>
                     </div>
                 </Card>
-                <Card className={classnames('min-w-3/4','mt-10')} title="API access keys">
+                <Card className={"min-w-3/4 mt-10"} title="API access keys">
                     <div>
             if you want to use AWS API. you must create API access keys in the
             Access keys section of the AWS IAM console.
                         <div
                             onClick={openIAMconsle}
-                            className={classnames(
-                                'flex',
-                                'items-center',
-                                'text-blue-600',
-                                'underline',
-                                'w-48'
-                            )}
+                            className={"flex items-center text-blue-600 underline w-48"}
                         >
               Go to the IAM console.
                             <Icon icon="ri:share-box-fill" />

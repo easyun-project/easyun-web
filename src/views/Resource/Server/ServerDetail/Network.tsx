@@ -1,6 +1,5 @@
 import { putApiV1ServerEip } from "@/api-client";
 import React from 'react';
-import { classnames } from '@@/tailwindcss-classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { RootState } from '@/redux/store';
@@ -42,19 +41,19 @@ export default function Network(): JSX.Element {
     if (server) {
         return (
             <>
-                <div className={classnames('text-2xl')}>IPv4 networking</div>
-                <div className={classnames('text-gray-600')}>The public IP address of your instance is accessible to the internet.</div>
-                <div className={classnames('text-gray-600')}>The private IP address is accessible only to other resources in your Datacenter.</div>
-                <div className={classnames('flex', 'mt-6', 'mb-2')}>
+                <div className={"text-2xl"}>IPv4 networking</div>
+                <div className={"text-gray-600"}>The public IP address of your instance is accessible to the internet.</div>
+                <div className={"text-gray-600"}>The private IP address is accessible only to other resources in your Datacenter.</div>
+                <div className={"flex mt-6 mb-2"}>
                     {/* public ip part */}
-                    <div className={classnames('w-96')}>
-                        <div className={classnames('text-gray-400')}>PUBLIC IP</div>
-                        <div className={classnames('rounded-border', 'mr-4', 'p-2')}>
+                    <div className={"w-96"}>
+                        <div className={"text-gray-400"}>PUBLIC IP</div>
+                        <div className={"rounded-border mr-4 p-2"}>
                             {/* <div>{currentServerState.PublicIpAddress}</div> */}
-                            <div className={classnames('text-2xl', 'font-bold')}>{server.svrNetworking.publicIp ? server.svrNetworking.publicIp : 'Null'}</div>
+                            <div className={"text-2xl font-bold"}>{server.svrNetworking.publicIp ? server.svrNetworking.publicIp : 'Null'}</div>
                             {hasEip
                                 ?
-                                <button className={classnames('text-yellow-550')} onClick={() => {
+                                <button className={"text-yellow-550"} onClick={() => {
                                     changeOperating(true);
                                     (putApiV1ServerEip as any)({ body: {
                                         action: 'detach',
@@ -72,9 +71,9 @@ export default function Network(): JSX.Element {
                                     );
                                 }}>
                                     {operating
-                                        ? <LoadingOutlined className={classnames('align-middle', 'mr-2')} />
+                                        ? <LoadingOutlined className={"align-middle mr-2"} />
                                         : <Icon icon="clarity:times-line"
-                                            className={classnames('inline-block', 'mx-1')}
+                                            className={"inline-block mx-1"}
                                             width="15"
                                             height="15"
                                             fr={undefined} />}
@@ -86,11 +85,11 @@ export default function Network(): JSX.Element {
                                         () => changeOperating(false)
                                     );
                                 }}
-                                className={classnames('inline', 'text-yellow-550')}>
+                                className={"inline text-yellow-550"}>
                                     {operating
-                                        ? <LoadingOutlined className={classnames('align-middle', 'mr-2')} />
+                                        ? <LoadingOutlined className={"align-middle mr-2"} />
                                         : <Icon icon="carbon:add"
-                                            className={classnames('inline-block', 'mx-1')}
+                                            className={"inline-block mx-1"}
                                             width="15"
                                             height="15"
                                             fr={undefined} />}
@@ -104,9 +103,9 @@ export default function Network(): JSX.Element {
                                         },
                                         (error) => console.log(error));
                                 }}
-                                className={classnames('inline', 'text-yellow-550')}>
+                                className={"inline text-yellow-550"}>
                                     <Icon icon="fluent:branch-fork-20-regular"
-                                        className={classnames('inline-block', 'mx-1')}
+                                        className={"inline-block mx-1"}
                                         width="15"
                                         height="15"
                                         fr={undefined} />Associate EIP</button>
@@ -152,16 +151,16 @@ export default function Network(): JSX.Element {
                         </div>
                     </div>
                     {/* private ip part */}
-                    <div className={classnames('w-96')}>
-                        <div className={classnames('text-gray-400')}>PRIVATE IP</div>
-                        <div className={classnames('rounded-border', 'p-2')}>
-                            <div className={classnames('text-2xl', 'font-bold')}>{server.svrNetworking.privateIp ? server.svrNetworking.privateIp : 'Null'}</div>
-                            <div className={classnames('text-blue-500')}>
+                    <div className={"w-96"}>
+                        <div className={"text-gray-400"}>PRIVATE IP</div>
+                        <div className={"rounded-border p-2"}>
+                            <div className={"text-2xl font-bold"}>{server.svrNetworking.privateIp ? server.svrNetworking.privateIp : 'Null'}</div>
+                            <div className={"text-blue-500"}>
                                 <a href="https://aws.amazon.com/cn/ec2" target="_blank" rel="noreferrer">
                                     What is this for?
                                     <Icon
                                         icon="akar-icons:link-out"
-                                        className={classnames('inline-block', 'mx-1', 'text-blue-500')}
+                                        className={"inline-block mx-1 text-blue-500"}
                                         width="15"
                                         height="15"
                                         fr={undefined}
@@ -171,8 +170,8 @@ export default function Network(): JSX.Element {
                         </div>
                     </div>
                 </div>
-                <div className={classnames('text-gray-600', 'text-xs')}>Your public IPv4 address changes when you stop and start your instance.</div>
-                <div className={classnames('text-gray-600', 'text-xs')}>Attach a static IPv4 address to your instance to keep it from changing.</div>
+                <div className={"text-gray-600 text-xs"}>Your public IPv4 address changes when you stop and start your instance.</div>
+                <div className={"text-gray-600 text-xs"}>Attach a static IPv4 address to your instance to keep it from changing.</div>
             </>);
     }
     else {

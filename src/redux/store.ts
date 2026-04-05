@@ -49,9 +49,9 @@ const reducer = {
 };
 
 const storageConfig = {
-    key: 'easyun', // 必须有的
-    storage, // 缓存机制
-    // stateReconciler: hardSet
+    key: 'easyun',
+    storage,
+    whitelist: ['user', 'app'],
 };
 const persistedReducer = persistReducer(storageConfig, combineReducers(reducer));
 const store = configureStore({

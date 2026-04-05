@@ -1,11 +1,11 @@
+import clsx from 'clsx';
 import React from 'react';
-import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 
 
 export interface CAmiProps {
     children?;
-    classes?: TTailwindString;
+    classes?: string;
     click?: () => void;
     osName: string;
     osVersion: string;
@@ -26,12 +26,12 @@ export const CAmi = (props: CAmiProps): JSX.Element => {
         'Windows':'microsoft-windows',
     };
     return(
-        <button className={classnames('flex','items-center','p-2',classes)}
+        <button className={clsx('flex','items-center','p-2',classes)}
             onClick={()=>{changeSelectedAmi(imgID);}}>
             <Icon icon={`logos:${icons[osName.split(' ')[0]]}`} width="30" fr={undefined}/>
-            <div className={classnames('ml-3','text-left')}>
-                <div className={classnames('text-black','font-semibold')}>{osName}</div>
-                <div className={classnames('text-gray-400')}>{osVersion}</div>
+            <div className={"ml-3 text-left"}>
+                <div className={"text-black font-semibold"}>{osName}</div>
+                <div className={"text-gray-400"}>{osVersion}</div>
             </div>
         </button>);
 };
@@ -67,8 +67,8 @@ const CAmis = (props:CAmisProps): JSX.Element => {
     }
     else{
         return (
-            <div className={classnames('grid','grid-cols-5','gap-4','items-center')}>
-                {amis.map((amiInfo)=><CAmi classes={selectedAmi === amiInfo.imgID ? classnames('rounded-border','border-yellow-550') : undefined}
+            <div className={"grid grid-cols-5 gap-4 items-center"}>
+                {amis.map((amiInfo)=><CAmi classes={selectedAmi === amiInfo.imgID ? "rounded-border border-yellow-550" : undefined}
                     key={amiInfo.imgID} {...amiInfo} changeSelectedAmi={changeSelectedAmi}/>)}
             </div>);
     }

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { classnames } from '@@/tailwindcss-classnames';
 import { useNavigate } from 'react-router-dom';
 // import { updateElbList } from '@/redux/LoadbalancerSlice';
 import { Spin, Dropdown, Menu } from 'antd';
@@ -81,7 +80,7 @@ const WithoutResource = (): JSX.Element => {
             <div className= 'flex flex-row '>
                 <button
                     onClick={() => navigate('/Loadbalancer/add')}
-                    className={classnames('btn-yellow')}>
+                    className={"btn-yellow"}>
                     Add Load balancer
                 </button>
             </div>

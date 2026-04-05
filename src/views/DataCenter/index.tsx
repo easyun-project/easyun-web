@@ -5,7 +5,6 @@ import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 
 //UI 相关
 import { Menu } from 'antd';
-import { classnames } from '@@/tailwindcss-classnames';
 
 
 
@@ -20,15 +19,15 @@ export const NoResource = (props: NotDataProps): JSX.Element => {
     const navigate = useNavigate();
 
     return (
-        <div className={classnames('ml-3', 'mt-5', 'm-20', 'flex', 'flex-col', 'items-center')}>
-            <div className={classnames('text-3xl', 'm-1')}>you have no {props.resourceName} right now.</div>
-            <div className={classnames('text-sm', 'm-1')}>
+        <div className={"ml-3 mt-5 m-20 flex flex-col items-center"}>
+            <div className={"text-3xl m-1"}>you have no {props.resourceName} right now.</div>
+            <div className={"text-sm m-1"}>
                 Add a cloud {props.resourceName} and get started with Easyun!
             </div>
             <div>
                 <button
                     onClick={() => navigate(props.routePath)}
-                    className={classnames('btn-yellow')}>
+                    className={"btn-yellow"}>
                     {props.buttonName}
                 </button>
             </div>

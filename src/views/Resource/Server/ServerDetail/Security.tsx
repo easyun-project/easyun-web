@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { classnames } from '@@/tailwindcss-classnames';
 import { Icon } from '@iconify/react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
@@ -71,14 +70,14 @@ export default function Security():JSX.Element {
                 <Space size="middle">
                     <Icon fr={undefined}
                         icon="ep:edit"
-                        className={classnames('inline-block', 'mx-1', 'cursor-pointer')}
+                        className={"inline-block mx-1 cursor-pointer"}
                         width="24" height="24"
                         color='#dd6b10'
                         onClick={() => {console.log('edit', record);
                         }} />
                     <Icon fr={undefined}
                         icon="clarity:times-line"
-                        className={classnames('inline-block', 'mx-1', 'cursor-pointer')}
+                        className={"inline-block mx-1 cursor-pointer"}
                         width="24" height="24"
                         color='#dd6b10'
                         onClick={() => {console.log('delete', record);
@@ -116,23 +115,23 @@ export default function Security():JSX.Element {
         return (
             <>
                 <div>Security Groups</div>
-                <div className={classnames('flex')}>
+                <div className={"flex"}>
                     <CSecOpt multi={ false } secgroups={secGroups} changeSelectedSecgroups={changeSelectedSecgroups} />
-                    <div className={classnames('flex', 'flex-col', 'p-2', 'justify-around')}>
+                    <div className={"flex flex-col p-2 justify-around"}>
                         <button
-                            className={ classnames('btn-yellow-sm')}
+                            className={ "btn-yellow-sm"}
                             onClick={()=>{console.log('Create New');
                             }
                             }>
                     + Create New
                         </button>
                         <button
-                            className={ classnames('btn-yellow-sm')}
+                            className={ "btn-yellow-sm"}
                             onClick={()=>{changeIsModalVisible(true);}}>
                     + Attach New
                         </button>
                         <button
-                            className={ classnames('btn-red-sm')}
+                            className={ "btn-red-sm"}
                             onClick={()=>{putApiV1ServerSecgroup({ body: {
                                 action: 'detach',
                                 secgroupId: selectedSecgroups[0],
@@ -169,21 +168,21 @@ export default function Security():JSX.Element {
                 </div>
 
                 <div>Create rules to open ports to the internet, or to a specific IPv4 address or range.</div>
-                <a className={classnames('text-blue-500')} href="https://aws.amazon.com/cn/ec2" target="_blank" rel="noreferrer">
+                <a className={"text-blue-500"} href="https://aws.amazon.com/cn/ec2" target="_blank" rel="noreferrer">
                 Learn more about firewall rules
                     <Icon
                         icon="akar-icons:link-out"
-                        className={classnames('inline-block', 'mx-1', 'text-blue-500')}
+                        className={"inline-block mx-1 text-blue-500"}
                         width="15"
                         height="15"
                         fr={undefined}
                     />
                 </a>
                 <div>
-                    <button onClick={() => console.log('click')} className={classnames('inline', 'text-yellow-550')}>
+                    <button onClick={() => console.log('click')} className={"inline text-yellow-550"}>
                         <Icon fr={undefined}
                             icon="carbon:add"
-                            className={classnames('inline-block', 'mx-1')}
+                            className={"inline-block mx-1"}
                             width="15"
                             height="15"
                         />

@@ -1,11 +1,11 @@
+import clsx from 'clsx';
 import React from 'react';
-import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
 import { Button } from 'antd';
 
 
 export interface CButtonProps {
     children;
-    classes?: TTailwindString;
+    classes?: string;
     click?: () => void;
     disabled?: boolean;
     type?: 'link' | 'text' | 'default' | 'primary' | 'dashed' | undefined;
@@ -18,7 +18,7 @@ export const CButton = (props: CButtonProps): JSX.Element => {
         type={props.type}
         htmlType={props.htmlType}
         onClick={props.click}
-        className={classnames(props.classes, 'rounded-2xl', 'w-32', 'h-9', 'mx-5')}>
+        className={clsx(props.classes, 'rounded-2xl', 'w-32', 'h-9', 'mx-5')}>
         {props.children}
     </Button>;
 };

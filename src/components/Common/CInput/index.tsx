@@ -1,8 +1,8 @@
+import clsx from 'clsx';
 import React, { RefObject } from 'react';
-import { classnames, TTailwindString } from '@@/tailwindcss-classnames';
 
 interface Props {
-    classes?: TTailwindString;
+    classes?: string;
     type: string;
     label?: string;
 	ref:RefObject<HTMLInputElement>;
@@ -11,8 +11,8 @@ interface Props {
 }
 
 export const CInput = (props: Props): JSX.Element => {
-    const classes = classnames('w-11/12', 'h-12', 'border', 'border-gray-400', 'rounded', 'm-2', 'p-5');
-    const label = classnames('mx-2', 'mt-5');
+    const classes = "w-11/12 h-12 border border-gray-400 rounded m-2 p-5";
+    const label = "mx-2 mt-5";
     return (
         <div>
             {
@@ -22,7 +22,7 @@ export const CInput = (props: Props): JSX.Element => {
                 ref={props.ref}
                 placeholder={props.placeholder}
                 autoFocus={props.autofocus}
-                className={classnames(classes, props.classes)}/>
+                className={clsx(classes, props.classes)}/>
         </div>
 
     );
