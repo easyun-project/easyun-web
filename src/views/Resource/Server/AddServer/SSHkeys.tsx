@@ -1,5 +1,6 @@
+import { toast } from 'sonner';
 import React from 'react';
-import { Radio,message } from 'antd';
+import { Radio } from 'antd';
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import { IsshkeyItem } from '@/constant/awsInfo';
@@ -18,7 +19,7 @@ export default function SSHkeys(props: SSHkeysProps): JSX.Element {
     // changeSelectedKey(selected);
 
     const downloadSSHItem = () => {
-        message.warning(selected);
+        toast.warning(selected);
     };
     return (
         <Radio.Group

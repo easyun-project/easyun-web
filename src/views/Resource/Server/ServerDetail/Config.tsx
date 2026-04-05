@@ -1,3 +1,4 @@
+import { toast } from 'sonner';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import { postApiV1ServerAction, deleteApiV1Server, postApiV1ServerConfig, putApiV1ServerName, putApiV1ServerDisk, putApiV1ServerEip, putApiV1ServerSecgroup, getApiV1ServerParamImage, getApiV1ServerParamInstypeList, getApiV1ServerParamInsfamily, postApiV1Server, getApiV1ServerDetailBySvrId, deleteApiV1ServerTagsBySvrId, putApiV1ServerTagsBySvrId } from '@/api-client';
@@ -5,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { RootState } from '@/redux/store';
 import { InsTypeFamily } from '../AddServer';
-import { Cascader, message } from 'antd';
+import { Cascader } from 'antd';
 import { InsType } from '../AddServer/InstanceList';
 import { Skeleton } from 'antd';
 import { getServerDetail } from '@/redux/serverSlice';
@@ -301,7 +302,7 @@ export default function Config() {
                                                     svr_ids: [ instanceId ]
                                                 } as any }).then(
                                                     () => {
-                                                        message.success('修改成功!');
+                                                        toast.success('修改成功!');
                                                         dispatch(getServerDetail({ serverId: instanceId }));
                                                     }
                                                 );

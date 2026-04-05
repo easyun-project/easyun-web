@@ -1,7 +1,8 @@
+import { toast } from 'sonner';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
-import { Col, message, Row, Tabs, Typography } from 'antd';
+import { Col, Row, Tabs, Typography } from 'antd';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
@@ -117,7 +118,7 @@ const ServerDetail = ():JSX.Element => {
                                 } as any }).then(()=>refresh(8))}>
                             Restart
                                 </button>
-                                <button className={"btn-red w-32 m-5"} value='delete' onClick={()=>message.info('I think you delete the instance')}>
+                                <button className={"btn-red w-32 m-5"} value='delete' onClick={()=>toast.info('I think you delete the instance')}>
                             Delete
                                 </button>
                             </div>

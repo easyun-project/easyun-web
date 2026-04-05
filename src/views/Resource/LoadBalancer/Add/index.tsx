@@ -1,3 +1,4 @@
+import { toast } from 'sonner';
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,7 +7,7 @@ import { RootState } from '@/redux/store';
 import { Icon } from '@iconify/react';
 import CPlatform from '@/components/Logic/CPlatform';
 import { Button } from '@/components/ui/button';
-import { Row, Col, Divider, Typography, message, Select, Input, Form, Progress, Cascader, Card } from 'antd';
+import { Row, Col, Divider, Typography, Select, Input, Form, Progress, Cascader, Card } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 // import LoadbalancerService from '@/service/LoadbalancerService';
 import { RegionItem  } from '@/constant/dataCenter';
@@ -119,7 +120,7 @@ const AddLoadbalancer = (): JSX.Element => {
                             onClick={() => {
                                 if (tagName == '') {
                                     setValidStatus(false);
-                                    message.error('Please input a valid load balancer name');
+                                    toast.error('Please input a valid load balancer name');
                                     return;
                                 }
 

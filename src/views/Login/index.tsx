@@ -1,3 +1,4 @@
+import { toast } from 'sonner';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 // import { CButton } from '@/components/Common/CButton';
@@ -7,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { userAction } from '@/redux/userSlice';
 import { postApiV1UserAuth, deleteApiV1UserLogout } from '@/api-client';
-import { Row, Input, message, Typography, Form, Checkbox, Menu, Dropdown } from 'antd';
+import { Row, Input, Typography, Form, Checkbox, Menu, Dropdown } from 'antd';
 import HostModal from '@/components/Logic/CModal';
 import { listAllDataCenter, getRegionList } from '@/redux/dataCenterSlice';
 
@@ -37,7 +38,7 @@ const LoginPage = (): JSX.Element => {
                 // localStorage.setItem('token', loginRes.token);
                 initDataCenterList().then(() => navigate('/home'));
             },
-            ()=>message.error('Username and Password do not match.')
+            ()=>toast.error('Username and Password do not match.')
         );
     };
 
@@ -78,15 +79,14 @@ const LoginPage = (): JSX.Element => {
                         wrapperCol={{ span: 16 }}
                         initialValues={{ remember: true }}
                         onFinish={reqLogin}
-                        onFinishFailed={err => message.error(String(err))}
+                        onFinishFailed={err => toast.error(String(err))}
                         autoComplete="off" >
                         <Form.Item
                             name="username"
                             rules={[
                                 { required: true, message: 'Please input your username!' },
                                 {
-                                    pattern: /^[a-zA-Z0-9_]+$/,
-                                    message: 'Username must contain only letters numbers and underscores'
+                                    pattern: /^[a-zA-Z0-9_]+$/, message: 'Username must contain only letters numbers and underscores'
                                 },
                             ]}
                         >

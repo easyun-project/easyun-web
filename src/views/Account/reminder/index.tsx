@@ -1,8 +1,8 @@
+import { toast } from 'sonner';
 import React, { useState, useEffect } from 'react';
 import {
     Row,
     Card,
-    message,
     Switch,
     DatePicker,
 } from 'antd';
@@ -33,7 +33,7 @@ const Component = (): JSX.Element => {
     const [ statusData, setStatusData ] = useState(false);
     const onChangeStatusData = async () => {
         if (!activationData){
-            message.warning('select date!');
+            toast.warning('select date!');
             return;
         };
         const { data } = await putApiV1AccountReminderFreetier({ body: {
@@ -42,7 +42,7 @@ const Component = (): JSX.Element => {
         const res = data?.detail as any;
         setStatusData(true);
         setRemainder(res.remainder);
-        message.warning(`remainder time ${res.remainder} day`);
+        toast.warning(`remainder time ${res.remainder} day`);
     };
     useEffect(() => {
         getRemainder();

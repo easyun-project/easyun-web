@@ -1,5 +1,6 @@
+import { toast } from 'sonner';
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, message } from 'antd';
+import { Row, Col, Card } from 'antd';
 import { Icon } from '@iconify/react';
 import { getApiV1AccountKeypairList, getApiV1AccountKeypairStoreByKeyName, deleteApiV1AccountKeypair, getApiV1AccountReminderFreetier, putApiV1AccountReminderFreetier } from '@/api-client';
 import { useSelector } from 'react-redux';
@@ -34,11 +35,11 @@ const  Component = (): JSX.Element => {
     };
     // 新增邮箱
     const addEmail = () => {
-        message.warning('正在火速研发中!');
+        toast.warning('正在火速研发中!');
     };
     // 新增SMS
     const addSMS = () => {
-        message.warning('正在火速研发中!');
+        toast.warning('正在火速研发中!');
     };
     return (
         <>

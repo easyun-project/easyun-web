@@ -46,12 +46,15 @@ const App = (): JSX.Element => {
     );
 };
 
+import { Toaster } from '@/components/ui/sonner';
+
 const root = createRoot(document.getElementById('root')!);
 root.render(
     <BrowserRouter>
         <Provider store={store}>
             <PersistGate loading={null} persistor={persist}>
                 <App />
+                <Toaster position="top-center" richColors />
             </PersistGate>
         </Provider>
     </BrowserRouter>

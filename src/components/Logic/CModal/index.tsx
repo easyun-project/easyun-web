@@ -1,6 +1,7 @@
+import { toast } from 'sonner';
 import React, { useState } from 'react';
 import { getHostUrl } from '@/utils/api';
-import { Modal, message, Input } from 'antd';
+import { Modal, Input } from 'antd';
 
 
 interface HostModalProps {
@@ -21,7 +22,7 @@ export default function HostModal( props:HostModalProps ) {
         <Modal title={title} open={isVisible}
             onOk={() => {
                 if (!hostUrl) {
-                    message.warning(msg);
+                    toast.warning(msg);
                     return;
                 } else {
                     updateHostUrl(hostUrl);

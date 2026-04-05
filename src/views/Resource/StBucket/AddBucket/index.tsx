@@ -1,8 +1,9 @@
+import { toast } from 'sonner';
 import React, { useEffect, useRef, useState } from 'react';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { getApiV1StorageBucketVaildate, postApiV1StorageBucketAdd, deleteApiV1StorageBucket } from '@/api-client';
-import { Switch, Input, Select, Card, Tooltip, message } from 'antd';
+import { Switch, Input, Select, Card, Tooltip } from 'antd';
 import { useTranslation, Trans } from 'react-i18next';
 import FlagUtil from '@/utils/flagUtil';
 import { useSelector } from 'react-redux';
@@ -147,7 +148,7 @@ const AddBucket = (): JSX.Element => {
                         };
                         postApiV1StorageBucketAdd({ body: params as any }).then(()=>{
                             setCreating(false);
-                            message.success('Create success');
+                            toast.success('Create success');
                             navigate('/resource/object');
                         }, ()=>setCreating(false));
                     }

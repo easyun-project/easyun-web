@@ -1,6 +1,7 @@
+import { toast } from 'sonner';
 import React from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Col, Divider, message, Row, Typography } from 'antd';
+import { Col, Divider, Row, Typography } from 'antd';
 import { Icon } from '@iconify/react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
@@ -32,7 +33,7 @@ export default function Detail():JSX.Element {
                             IP name:
                     <CopyToClipboard text={server.svrNetworking.privateIp}
                         onCopy={() => {
-                            message.success('copied to clipboard!');
+                            toast.success('copied to clipboard!');
                         }}>
                         <span>
                             <Icon width={20} className={"inline-block mx-2"} icon="ep:document-copy"
@@ -44,7 +45,7 @@ export default function Detail():JSX.Element {
                             Private Ipv4 DNS:
                     <CopyToClipboard text={server.svrProperty.privateIpv4Dns}
                         onCopy={() => {
-                            message.success('copied to clipboard!');
+                            toast.success('copied to clipboard!');
                         }}>
                         <span>
                             <Icon width={20} className={"inline-block mx-2"} icon="ep:document-copy"
@@ -57,7 +58,7 @@ export default function Detail():JSX.Element {
                             Public Ipv4 DNS:
                     <CopyToClipboard text={server.svrProperty.publicIpv4Dns}
                         onCopy={() => {
-                            message.success('copied to clipboard!');
+                            toast.success('copied to clipboard!');
                         }}>
                         <span>
                             <Icon width={20} className={"inline-block mx-2"} icon="ep:document-copy"
@@ -102,7 +103,7 @@ export default function Detail():JSX.Element {
                                     AMI ID:
                             <CopyToClipboard text={server.svrProperty.amiId}
                                 onCopy={() => {
-                                    message.success('copied to clipboard!');
+                                    toast.success('copied to clipboard!');
                                 }}>
                                 <span>
                                     <Icon width={20} className={"inline-block mx-2"} icon="ep:document-copy"
@@ -115,7 +116,7 @@ export default function Detail():JSX.Element {
                                     AMI Name:
                             <CopyToClipboard text={server.svrProperty.amiName}
                                 onCopy={() => {
-                                    message.success('copied to clipboard!');
+                                    toast.success('copied to clipboard!');
                                 }}>
                                 <span>
                                     <Icon width={20} className={"inline-block mx-2"} icon="ep:document-copy"
@@ -129,7 +130,7 @@ export default function Detail():JSX.Element {
                                     AMI Path:
                             <CopyToClipboard text={server.svrProperty.amiPath}
                                 onCopy={() => {
-                                    message.success('copied to clipboard!');
+                                    toast.success('copied to clipboard!');
                                 }}>
                                 <span>
                                     <Icon width={20} className={"inline-block mx-2"} icon="ep:document-copy"
@@ -143,7 +144,7 @@ export default function Detail():JSX.Element {
                                     Key pair name:
                             <CopyToClipboard text={server.svrProperty.keyPairName}
                                 onCopy={() => {
-                                    message.success('copied to clipboard!');
+                                    toast.success('copied to clipboard!');
                                 }}>
                                 <span>
                                     <Icon width={20} className={"inline-block mx-2"} icon="ep:document-copy"
@@ -157,7 +158,7 @@ export default function Detail():JSX.Element {
                                     IAM Role:
                             <CopyToClipboard text={server.svrProperty.iamRole}
                                 onCopy={() => {
-                                    message.success('copied to clipboard!');
+                                    toast.success('copied to clipboard!');
                                 }}>
                                 <span>
                                     <Icon width={20} className={"inline-block mx-2"} icon="ep:document-copy"

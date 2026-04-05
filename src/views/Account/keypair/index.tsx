@@ -1,11 +1,11 @@
+import { toast } from 'sonner';
 import React, { useState, useEffect } from 'react';
 import {
     Row,
     Card,
     Modal,
     Input,
-    Select,
-    message
+    Select
 } from 'antd';
 import { Icon } from '@iconify/react';
 import { getApiV1AccountKeypairList, getApiV1AccountKeypairStoreByKeyName, deleteApiV1AccountKeypair, getApiV1AccountReminderFreetier, putApiV1AccountReminderFreetier } from '@/api-client';
@@ -104,7 +104,7 @@ const Component = (): JSX.Element => {
     const deleteItem = async (id)=>{
         const { data } = await (deleteApiV1AccountKeypair as any)({ query: { key_name: id } });
         const res = data;
-        message.success(res.message);
+        toast.success(res.message);
     };
     return (
         <>

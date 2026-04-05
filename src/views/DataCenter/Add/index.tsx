@@ -1,3 +1,4 @@
+import { toast } from 'sonner';
 import React, { useEffect, useState, useRef } from 'react';
 import { postApiV1Datacenter, getApiV1DatacenterTask, getApiV1DatacenterList, deleteApiV1Datacenter } from '@/api-client';
 import { QueryNewDcParm, DcDropDown } from '@/constant/dataCenter';
@@ -8,7 +9,7 @@ import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
-import { Row, Col, Divider, Typography, message, Select, Input, Form, Progress, Checkbox } from 'antd';
+import { Row, Col, Divider, Typography, Select, Input, Form, Progress, Checkbox } from 'antd';
 import { RootState } from '@/redux/store';
 import { listAllDataCenter, getDataCenterParams } from '@/redux/dataCenterSlice';
 import { DataCenterParams, DCProgressInfo, RegionItem, SecurityGroupParms, SubnetParms } from '@/constant/dataCenter';
@@ -148,7 +149,7 @@ const AddDataCenter = (): JSX.Element => {
 
     const createDateCenter = async (params: DataCenterParams) => {
         if (params.dcName === '') {
-            message.error('Please Input a valid Datacenter Name!');
+            toast.error('Please Input a valid Datacenter Name!');
             return;
         }
         setCreating(true);
@@ -156,7 +157,7 @@ const AddDataCenter = (): JSX.Element => {
         const created = createData?.task as any;
         if (!created) {
             setCreating(false);
-            message.error('Failed to create datacenter');
+            toast.error('Failed to create datacenter');
             return;
         }
         intervalRef.current = window.setInterval(
@@ -170,7 +171,7 @@ const AddDataCenter = (): JSX.Element => {
         if (!task) {
             clearInterval(intervalRef.current);
             setCreating(false);
-            message.error('Cannot get task result');
+            toast.error('Cannot get task result');
             return;
         }
         setDCProgress({
@@ -185,7 +186,7 @@ const AddDataCenter = (): JSX.Element => {
         } else if (task.status === 'FAILURE') {
             clearInterval(intervalRef.current);
             setCreating(false);
-            message.error(`Create failed: ${task.description}`);
+            toast.error(`Create failed: ${task.description}`);
         }
     };
 
@@ -310,7 +311,7 @@ const AddDataCenter = (): JSX.Element => {
                             onClick={() => {
                                 if (inputDcName == 'easyun') {
                                     setValidStatus(false);
-                                    message.error('easyun DataCenter name is not allowed,please change it');
+                                    toast.error('easyun DataCenter name is not allowed,please change it');
                                     return;
                                 }
                                 const elemDcParams: DataCenterParams = {
