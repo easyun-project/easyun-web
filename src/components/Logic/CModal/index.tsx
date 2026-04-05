@@ -1,42 +1,35 @@
 import { toast } from 'sonner';
 import React, { useState } from 'react';
 import { getHostUrl } from '@/utils/api';
-import { Modal, Input } from 'antd';
-
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 interface HostModalProps {
-    title: string,
-    msg: string,
-    isVisible: boolean,
-    setIsVisible
+    title: string;
+    msg: string;
+    isVisible: boolean;
+    setIsVisible: (v: boolean) => void;
 }
 
-export default function HostModal( props:HostModalProps ) {
-    const { title, msg, isVisible, setIsVisible } = props;
-    const [ hostUrl, setHostUrl ] = useState(getHostUrl());
-    const updateHostUrl = (value:string) => {
-        localStorage.setItem('server', value);
-    };
+export default function HostModal({ title, msg, isVisible, setIsVisible }: HostModalProps) {
+    const [hostUrl, setHostUrl] = useState(getHostUrl());
 
     return (
-        <Modal title={title} open={isVisible}
-            onOk={() => {
-                if (!hostUrl) {
-                    toast.warning(msg);
-                    return;
-                } else {
-                    updateHostUrl(hostUrl);
-                };
-                setIsVisible(false);
-            }}
-            onCancel={()=>setIsVisible(false)}>
-            <Input placeholder='please your server url'
-                value={hostUrl}
-                onChange={ (e) => {
-                    setHostUrl(e.target.value);
-                }
-                } />
-        </Modal>
+        <Dialog open={isVisible} onOpenChange={setIsVisible}>
+            <DialogContent>
+                <DialogHeader><DialogTitle>{title}</DialogTitle></DialogHeader>
+                <Input placeholder="please input your server url" value={hostUrl}
+                    onChange={(e) => setHostUrl(e.target.value)} />
+                <DialogFooter>
+                    <Button variant="outline" onClick={() => setIsVisible(false)}>Cancel</Button>
+                    <Button onClick={() => {
+                        if (!hostUrl) { toast.warning(msg); return; }
+                        localStorage.setItem('server', hostUrl);
+                        setIsVisible(false);
+                    }}>OK</Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
     );
 }
-

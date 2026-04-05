@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { Tree, Spin, Empty, Switch } from 'antd';
+import { Tree, Empty, Switch } from 'antd';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { useTranslation, Trans } from 'react-i18next';
 import WithEdit from '@/components/Logic/CWithEdit';
@@ -60,7 +60,6 @@ export default function Permissions() {
     }
 
     return (
-        <Spin spinning={currentBucket === 'loading'}>
             <div className='p-2'>
                 <div className='text-2xl'>{t('bucketManagePermissions.title')}</div>
                 <Trans i18nKey={'bucketManagePermissions.tip'}/>
@@ -115,6 +114,6 @@ export default function Permissions() {
                         />
                     </WithEdit>}
             </div>
-        </Spin>
+        
     );
 }

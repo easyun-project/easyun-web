@@ -9,13 +9,12 @@ import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
-import { Row, Col, Divider, Typography, Select, Input, Form, Progress, Checkbox } from 'antd';
+import { Select, Input, Form, Progress, Checkbox } from 'antd';
 import { RootState } from '@/redux/store';
 import { listAllDataCenter, getDataCenterParams } from '@/redux/dataCenterSlice';
 import { DataCenterParams, DCProgressInfo, RegionItem, SecurityGroupParms, SubnetParms } from '@/constant/dataCenter';
 import FlagUtil from '@/utils/flagUtil';
 
-const { Title, Text } = Typography;
 
 const AddDataCenter = (): JSX.Element => {
     const navigate = useNavigate();
@@ -196,11 +195,11 @@ const AddDataCenter = (): JSX.Element => {
 
     return (
         <div>
-            <Row gutter={16}>
-                <Col span={24}>
+            <div className="flex gap-4">
+                <div className="w-full">
                     <Icon className='inline-block mx-1' width="25"
                         icon="ant-design:plus-circle-twotone" />
-                    <Title level={3} style={{ display: 'inline-block' }}>Create New Cloud DataCenter</Title>
+                    <h3 style={{ display: 'inline-block' }}>Create New Cloud DataCenter</h3>
                     {
                         creating && (
                             <div>
@@ -209,12 +208,12 @@ const AddDataCenter = (): JSX.Element => {
                             </div>
                         )
                     }
-                </Col>
-            </Row>
-            <Divider />
-            <Row gutter={16}>
-                <Col span={16}>
-                    <Title level={5}>Identify your Datacenter</Title>
+                </div>
+            </div>
+            <hr className="my-4 border-gray-200" />
+            <div className="flex gap-4">
+                <div className="flex-1">
+                    <h5>Identify your Datacenter</h5>
                     <Form autoComplete="off" layout='inline'
                         initialValues={{ defaultValue: inputDcName }}
                     >
@@ -231,7 +230,7 @@ const AddDataCenter = (): JSX.Element => {
                         </Form.Item>
                     </Form>
 
-                    <Text style={{ width: 61 }} className={"inline-block ml-4 my-2"}>Region:</Text>
+                    <span style={{ width: 61 }} className={"inline-block ml-4 my-2"}>Region:</span>
                     <Select defaultValue={dcParams?.dcRegion} style={{ width: 280 }} listHeight={360} disabled={!validStatus}
                         onChange={(value) => {
                             setRegionCode(value);
@@ -244,8 +243,8 @@ const AddDataCenter = (): JSX.Element => {
                     <Icon icon={flagUtil.getFlagIconByRegion(regionCode)}
                         className={"ml-5 inline-block"} color="#5c6f9a" width="25" height="25" fr={undefined} />
 
-                    <Title level={5} className='mt-4 mb-2'>Defining DataCenter Networking</Title>
-                    <Text style={{ width: 150 }} className={"inline-block ml-4"}>CIDR block(IPv4):</Text>
+                    <h5 className='mt-4 mb-2'>Defining DataCenter Networking</h5>
+                    <span style={{ width: 150 }} className={"inline-block ml-4"}>CIDR block(IPv4):</span>
                     <Input defaultValue={dcParams?.dcVPC.cidrBlock} style={{ width: 280 }}
                         onChange={(e) => { handleCidrChange(e.target.value); }}
                         className={"border"} type="text" />
@@ -254,21 +253,21 @@ const AddDataCenter = (): JSX.Element => {
                             Create NAT Gateway
                         </Checkbox>
                     </div>
-                    <Row gutter={12}>
+                    <div className="flex gap-3">
                         <SubnetOption subnet={pubSubnet1} dropdown={dropDown as any} index={1} isPublic={true}
                             classes={"w-96 inline-block"} />
                         <SubnetOption subnet={pubSubnet2} dropdown={dropDown as any} index={2} isPublic={true}
                             classes={"w-96 inline-block"} />
-                    </Row>
-                    <Row gutter={12}>
+                    </div>
+                    <div className="flex gap-3">
                         <SubnetOption subnet={priSubnet1} dropdown={dropDown as any} index={1} isPublic={false}
                             classes={"w-96 inline-block"} />
                         <SubnetOption subnet={priSubnet2} dropdown={dropDown as any} index={2} isPublic={false}
                             classes={"w-96 inline-block"} />
-                    </Row>
+                    </div>
 
-                    <Title level={5} className='mt-4 mb-2'>Defining DataCenter Security Group</Title>
-                    <Row gutter={16}>
+                    <h5 className='mt-4 mb-2'>Defining DataCenter Security Group</h5>
+                    <div className="flex gap-4">
                         <SecGroupOption sg={dcParams?.securityGroup0} setSg={setSecGroup0}
                             classes={"mx-4 inline-block"}
                             ibList={<p>TCP 660: 0.0.0.0/0</p>} />
@@ -286,16 +285,16 @@ const AddDataCenter = (): JSX.Element => {
                                 <p>TCP 5432: 0.0.0.0/0</p>
                                 <p>TCP 1521: 0.0.0.0/0</p>
                             </>} />
-                    </Row>
+                    </div>
 
-                </Col>
-                {/* <Col span={8}>
+                </div>
+                {/* <div className="w-8/24">
                     <p>picture here</p>
-                </Col> */}
-            </Row>
+                </div> */}
+            </div>
 
-            <Row gutter={16}>
-                <Col span={16}>
+            <div className="flex gap-4">
+                <div className="flex-1">
                     <div className={"flex justify-center m-16"}>
                         <Button onClick={() => {
                             dispatch(listAllDataCenter()); // 临时使用，便于调试
@@ -333,8 +332,8 @@ const AddDataCenter = (): JSX.Element => {
                             }}
                         >Create</Button>
                     </div>
-                </Col>
-            </Row>
+                </div>
+            </div>
 
         </div>
     );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Card, message, Switch, DatePicker } from 'antd';
+import { Card, message, Switch, DatePicker } from 'antd';
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
 import { getApiV1AccountKeypairList, getApiV1AccountKeypairStoreByKeyName, deleteApiV1AccountKeypair, getApiV1AccountReminderFreetier, putApiV1AccountReminderFreetier } from '@/api-client';
@@ -46,7 +46,7 @@ const Component = (): JSX.Element => {
     };
     return (
         <>
-            <Row>
+            <div className="flex flex-wrap">
                 <div>
           Service Quotas enables you to view and manage you quotas for AWS
           services in a Region. Quotas also referred to as limits in AWS, are
@@ -89,7 +89,7 @@ const Component = (): JSX.Element => {
                 <div>
 
                 </div>
-            </Row>
+            </div>
         </>
     );
 };

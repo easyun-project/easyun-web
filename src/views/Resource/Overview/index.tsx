@@ -5,12 +5,11 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 // UI contents
 import { useTranslation } from 'react-i18next';
-import { Row, Col, Typography, Table, Timeline, Card, Statistic, Spin } from 'antd';
+import { Table, Timeline, Card, Statistic } from 'antd';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 // services and interface/schema
 // import { CostSummary, CostUsageItem, PeriodTotalCost, PeriodMonthlyCost } from '@/constant/resource';
 
-const { Title, Paragraph, Text } = Typography;
 
 
 export interface CostCardProps {
@@ -39,7 +38,7 @@ const TotalCostCard = (props: CostCardProps): JSX.Element => {
                 value={amount}
                 precision={2}
                 valueStyle={valueColor}
-                prefix={<Text italic className='text-sm'>{unit}</Text>}
+                prefix={<span className='text-sm'>{unit}</span>}
                 suffix={trendIcon}
             />
         </Card>
@@ -54,7 +53,7 @@ function LatestWeekDailyCost(props) {
             // 通过.slice() 深拷贝 避免 .reverse() 对原数组影响
             costList.slice().reverse().map((item, index) =>
                 <Timeline.Item key={index} label={item.timePeriod.Start}>
-                    {<Text italic type="secondary">{item.totalCost.unit}</Text>} <Text>{item.totalCost.value}</Text>
+                    {<span>{item.totalCost.unit}</span>} <span>{item.totalCost.value}</span>
                 </Timeline.Item>
             )
         }</Timeline>
@@ -64,11 +63,11 @@ function LatestWeekDailyCost(props) {
 function RescSummaryCard(props) {
     const { title, value } = props;
     return (
-        <Col span={3}>
+        <div className="w-3/24">
             <Card hoverable >
                 <Statistic title={title} value={value} />
             </Card>
-        </Col>
+        </div>
     );
 }
 
@@ -129,54 +128,54 @@ export const ResourceOverview = (): JSX.Element => {
     return (
         <div className={"ml-3 mt-5"}>
             <div>
-                <Row gutter={[16, 24]} className='py-2'>
-                    <Col span={4}>
-                        <Title level={4}>{t('resource.overview.costSummary.title')}</Title>
-                        <Spin spinning={dcLoading} tip="Loading...">
-                            {/* <Row gutter={16}> */}
+                <div className="flex flex-wrap">
+                    <div className="w-4/24">
+                        <h4>{t('resource.overview.costSummary.title')}</h4>
+                        
+                            {/* <div className="flex gap-4"> */}
                             <TotalCostCard value={currMonthTotalCost.value} unit={currMonthTotalCost.unit} text={t('resource.overview.totalCost.current')} />
                             <TotalCostCard value={forecastTotalCost.value} unit={forecastTotalCost.unit} text={t('resource.overview.totalCost.forecast')} isRise={(forecastTotalCost.value >= lastMonthTotalCost.value)} />
                             <TotalCostCard value={lastMonthTotalCost.value} unit={lastMonthTotalCost.unit} text={t('resource.overview.totalCost.last')} />
-                            {/* </Row> */}
-                        </Spin>
-                    </Col>
+                            {/* </div> */}
+                        
+                    </div>
 
-                    <Col span={4}>
-                        <Title className="ml-12" level={4}>{t('resource.overview.lastWeek.title')}</Title>
-                        <Spin spinning={dcLoading} tip="Loading...">
+                    <div className="w-4/24">
+                        <h4 className="ml-12">{t('resource.overview.lastWeek.title')}</h4>
+                        
                             <LatestWeekDailyCost costList={costSummary?.latestWeekCost} />
-                        </Spin>
-                    </Col>
+                        
+                    </div>
 
-                    <Col span={1}></Col>
+                    <div className="w-1/24"></div>
 
-                    <Col span={14}>
-                        <Title level={4}>{costDate?.substr(0, 7)}{t('resource.overview.costUsage.title')}</Title>
+                    <div className="flex-1">
+                        <h4>{costDate?.substr(0, 7)}{t('resource.overview.costUsage.title')}</h4>
                         <Table
                             loading={dcLoading} size="middle" pagination={{ pageSize: 10 }}
                             scroll={{ y: 280, scrollToFirstRowOnChange: true }}
                             columns={costColumns} dataSource={costData} />
-                    </Col>
-                </Row>
+                    </div>
+                </div>
             </div>
 
             <div id='vpcSummary'>
-                <Title level={4}>{t('resource.overview.resSummary.title')}</Title>
-                <Paragraph >{t('resource.overview.resSummary.para')}</Paragraph>
-                <Row gutter={[ 16, 24 ]} className='py-2'>
+                <h4>{t('resource.overview.resSummary.title')}</h4>
+                <p >{t('resource.overview.resSummary.para')}</p>
+                <div className="flex flex-wrap">
                     <RescSummaryCard title='Server (EC2)' value={rescSummary?.serverNum} />
                     <RescSummaryCard title='Database (RDS)' value={rescSummary?.rdsNum} />
                     <RescSummaryCard title='Load Balancer (ELB)' value={rescSummary?.elbNum} />
                     <RescSummaryCard title='Target Group' value={rescSummary?.elbtgNum} />
-                </Row>
-                <Row gutter={[ 16, 24 ]} className='py-2'>
+                </div>
+                <div className="flex flex-wrap">
                     <RescSummaryCard title='Volume (EBS)' value={rescSummary?.volumeNum} />
                     <RescSummaryCard title='Bucket (S3) ' value={rescSummary?.bucketNum} />
                     <RescSummaryCard title='Filesystem (EFS) ' value={rescSummary?.efsNum} />
                     <RescSummaryCard title='Volume Backup' value={rescSummary?.volbackupNum} />
                     <RescSummaryCard title='Filesystem Backup' value={rescSummary?.efsbackupNum} />
                     <RescSummaryCard title='Database Backup' value={rescSummary?.rdsbackupNum} />
-                </Row>
+                </div>
             </div>
         </div>
     );

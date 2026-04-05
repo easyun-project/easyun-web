@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React, { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
-import { Typography, Checkbox } from 'antd';
+import { Checkbox } from 'antd';
 import { SecurityGroupParms } from '@/constant/dataCenter';
 
 interface SecGroupProps {
@@ -34,22 +34,22 @@ const SecGroupOption = (props: SecGroupProps): JSX.Element => {
             </div>
 
             <div className={"border-2 border-dashed border-yellow-550 rounded w-56 p-3"}>
-                <Typography.Text style={{ width: 150 }} className='inline-block'>Enable Ping:</Typography.Text>
+                <span style={{ width: 150 }} className='inline-block'>Enable Ping:</span>
                 <Checkbox defaultChecked={checkedPing}
                     onChange={(e)=>setCheckedPing(e.target.checked)}>
                 </Checkbox>
                 <br />
-                <Typography.Text style={{ width: 150 }} className='inline-block'>Enable SSH:</Typography.Text>
+                <span style={{ width: 150 }} className='inline-block'>Enable SSH:</span>
                 <Checkbox defaultChecked={checkedSSH}
                     onChange={(e)=>setCheckedSSH(e.target.checked)}>
                 </Checkbox>
                 <br />
-                <Typography.Text style={{ width: 150 }} className='inline-block'>Enable RDP:</Typography.Text>
+                <span style={{ width: 150 }} className='inline-block'>Enable RDP:</span>
                 <Checkbox defaultChecked={checkedRDP}
                     onChange={(e)=>setCheckedRDP(e.target.checked)}>
                 </Checkbox>
 
-                <Typography.Text strong className={"inline-block mt-4"}>In Bound Port:</Typography.Text>
+                <span className={"inline-block mt-4"}>In Bound Port:</span>
                 {ibList}
             </div>
 

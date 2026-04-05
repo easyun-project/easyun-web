@@ -2,7 +2,7 @@ import { putApiV1ServerDisk } from "@/api-client";
 import React from 'react';
 import { Icon } from '@iconify/react';
 import { useState, useEffect } from 'react';
-import { Tooltip, Skeleton, Menu, Dropdown, Modal, Radio, Space } from 'antd';
+import { Tooltip, Skeleton, Menu, Dropdown, Modal, Radio } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
@@ -304,14 +304,14 @@ export default function Disk():JSX.Element {
                                     }} className='btn-yellow'>No available disks, create a new one</button>
                                 </div>
                                 : <Radio.Group onChange={(e)=>{changeSeletedDisk(e.target.value);}} value={seletedDisk}>
-                                    <Space direction="vertical">
+                                    <div className="flex gap-2 items-center">
                                         { allDisks.filter((item)=>{
                                             return isAvailable(item);
                                         }).map((item:StVolumeInfo)=>
                                             <Radio value={item.volumeId} key={item.volumeId}>
                                                 {item.volumeId}({item.tagName})
                                             </Radio>)}
-                                    </Space>
+                                    </div>
                                 </Radio.Group>
                         }
                     </Modal>

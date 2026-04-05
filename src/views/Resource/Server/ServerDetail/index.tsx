@@ -2,7 +2,7 @@ import { toast } from 'sonner';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
-import { Col, Row, Tabs, Typography } from 'antd';
+import { Tabs } from 'antd';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
@@ -74,23 +74,23 @@ const ServerDetail = ():JSX.Element => {
         }
         return (
             <div className={"ml-3 mt-5"}>
-                <Row gutter={16}>
-                    <Col span={2}>
+                <div className="flex gap-4">
+                    <div className="w-2/24">
                         <Icon icon="logos:ubuntu" width={60} fr={undefined}/>
-                    </Col>
-                    <Col span={4}>
+                    </div>
+                    <div className="w-4/24">
                         <div id="serverInfo">
-                            <Typography.Title level={4}>{server.svrProperty.instanceName}</Typography.Title>
+                            <h4>{server.svrProperty.instanceName}</h4>
                             <div>
                             instance Type : {server.svrProperty.instanceType}({server.svrProperty.vCpu}vCPU, {server.svrProperty.memory} Gib)
                             </div>
                             <div>Private Ip: {server.svrNetworking.privateIp}</div>
                             <div>Public Ip: {server.svrNetworking.publicIp}</div>
                         </div>
-                    </Col>
-                    <Col span={8}>
-                    </Col>
-                    <Col span={8}>
+                    </div>
+                    <div className="w-8/24">
+                    </div>
+                    <div className="w-8/24">
                         <div id="operationPanel">
                             <div className={"my-2"}>
                             Status:
@@ -123,8 +123,8 @@ const ServerDetail = ():JSX.Element => {
                                 </button>
                             </div>
                         </div>
-                    </Col>
-                </Row>
+                    </div>
+                </div>
 
                 <Tabs className={"pl-3"} activeKey={seletedTab} onChange={(key=>changeSelectedTab(key))}>
                     <TabPane tab="Detail" key="Detail">

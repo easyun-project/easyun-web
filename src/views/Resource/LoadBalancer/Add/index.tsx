@@ -7,14 +7,13 @@ import { RootState } from '@/redux/store';
 import { Icon } from '@iconify/react';
 import CPlatform from '@/components/Logic/CPlatform';
 import { Button } from '@/components/ui/button';
-import { Row, Col, Divider, Typography, Select, Input, Form, Progress, Cascader, Card } from 'antd';
+import { Select, Input, Form, Progress, Cascader, Card } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 // import LoadbalancerService from '@/service/LoadbalancerService';
 import { RegionItem  } from '@/constant/dataCenter';
 import FlagUtil from '@/utils/flagUtil';
 
 
-const { Title, Text } = Typography;
 
 
 export interface InsTypeFamily {
@@ -50,15 +49,15 @@ const AddLoadbalancer = (): JSX.Element => {
 
     return (
         <>
-            <Row gutter={16}>
-                <Col span={24}>
+            <div className="flex gap-4">
+                <div className="w-full">
                     <Icon className='inline-block mx-1' width="25"
                         icon="ant-design:plus-circle-twotone" />
-                    <Title level={3} style={{ display: 'inline-block' }}>Add a new load balancer</Title>
+                    <h3 style={{ display: 'inline-block' }}>Add a new load balancer</h3>
                     <span>A load balancer distributes traffic among multiple servers to share the load.</span>
-                </Col>
-            </Row>
-            <Divider />
+                </div>
+            </div>
+            <hr className="my-4 border-gray-200" />
 
             <Card title="Identify your load balancer" className={"rounded-border mt-5"}>
                 <span>Your Lightsail load balancers must all have unique names.</span>
@@ -69,9 +68,9 @@ const AddLoadbalancer = (): JSX.Element => {
                 </div>
             </Card>
 
-            <Row gutter={16}>
-                <Col span={16}>
-                    <Title level={5}>Identify your Loadbalancer</Title>
+            <div className="flex gap-4">
+                <div className="flex-1">
+                    <h5>Identify your Loadbalancer</h5>
                     <Form autoComplete="off" layout='inline'
                         initialValues={{ defaultValue: tagName }}
                     >
@@ -88,7 +87,7 @@ const AddLoadbalancer = (): JSX.Element => {
                         </Form.Item>
                     </Form>
 
-                    <Text style={{ width: 61 }} className={"inline-block ml-4 my-2"}>Region:</Text>
+                    <span style={{ width: 61 }} className={"inline-block ml-4 my-2"}>Region:</span>
                     <Select defaultValue={dcParams?.dcRegion} style={{ width: 280 }} listHeight={360} disabled={!validStatus}
                         onChange={(value) => {
                             setRegionCode(value);
@@ -100,12 +99,12 @@ const AddLoadbalancer = (): JSX.Element => {
                     </Select>
                     <Icon icon={flagUtil.getFlagIconByRegion(regionCode)}
                         className={"ml-5 inline-block"} color="#5c6f9a" width="25" height="25" fr={undefined} />
-                </Col>
-            </Row>
+                </div>
+            </div>
 
 
-            <Row gutter={16} id="create-buttons">
-                <Col span={16}>
+            <div className="flex flex-wrap">
+                <div className="flex-1">
                     <div className={"flex justify-center m-16"}>
                         <Button onClick={() => {
                             navigate('/resource/loadbalancer');
@@ -149,8 +148,8 @@ const AddLoadbalancer = (): JSX.Element => {
                             }}
                         >Create</Button>
                     </div>
-                </Col>
-            </Row>
+                </div>
+            </div>
         </>
     );
 };

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 // UI contents
 import { useTranslation } from 'react-i18next';
-import { Row, Col, Typography, Divider, Badge, Card, Statistic, Spin } from 'antd';
+import { Card, Statistic } from 'antd';
 import { Icon } from '@iconify/react';
 // services and interface/schema
 import { AzSummary } from '@/constant/dataCenter';
@@ -13,18 +13,17 @@ import { AzSummary } from '@/constant/dataCenter';
 import FlagUtil from '@/utils/flagUtil';
 import TimeUtil from '@/utils/time';
 
-const { Title, Paragraph, Text } = Typography;
 
 
 function AzSummaryCard(props: AzSummary) {
     const { azName, subnetNum } = props;
     const color = subnetNum > 0 ? '#FFBF00' : '#d9d9d9';
     return (
-        <Col span={4}>
-            <Badge size="small" count={subnetNum} showZero offset={[ -15, 15 ]} color={color}>
+        <div className="w-4/24">
+            <span>
                 <Card className={"rounded-md border-2 border-gray-400"} style={{ minWidth: 120 }}>{azName}</Card>
-            </Badge>
-        </Col>
+            </span>
+        </div>
     );
 }
 
@@ -33,11 +32,11 @@ function VpcSummaryCard(props: any) {
     const { title, value } = props;
 
     return (
-        <Col span={3}>
+        <div className="w-3/24">
             <Card hoverable style={{ height: 120 }}>
                 <Statistic title={title} value={value} />
             </Card>
-        </Col>
+        </div>
     );
 }
 
@@ -50,81 +49,81 @@ export default function DataCenterOverview(): JSX.Element {
     const dcSummary = dcState.summary.datacenter;
 
     if (!dcBasic) {
-        return <Spin spinning tip="Loading..." className="mt-20 flex justify-center" />;
+        return <div className="flex w-full items-center justify-center h-96"></div>;
     }
     const flagUtil = new FlagUtil();
     return (
         <div className={"ml-3 mt-5"}>
             <div id="dcBasic">
-                <Row gutter={16}>
-                    <Col span={2}>
+                <div className="flex gap-4">
+                    <div className="w-2/24">
                         <Icon icon="ic:round-cloud-circle" color="#e9862e" width={100} fr={undefined} />
-                    </Col>
-                    <Col span={22}>
-                        <Row gutter={16}>
-                            <Col span={4}>
-                                <Title level={3}> {dcBasic!.dcName} </Title>
-                            </Col>
-                        </Row>
+                    </div>
+                    <div className="flex-1">
+                        <div className="flex gap-4">
+                            <div className="w-4/24">
+                                <h3> {dcBasic!.dcName} </h3>
+                            </div>
+                        </div>
 
-                        <Row gutter={16}>
-                            <Col span={8}>
+                        <div className="flex gap-4">
+                            <div className="w-8/24">
                                 <div style={{ whiteSpace: 'nowrap' }}>
-                                    <Text strong>{t('datacenter.overview.dcInfo.vpcid')}</Text> <Text copyable>{dcBasic?.vpcID}</Text>
+                                    <span>{t('datacenter.overview.dcInfo.vpcid')}</span> <span>{dcBasic?.vpcID}</span>
                                 </div>
                                 <div style={{ whiteSpace: 'nowrap' }}>
-                                    <Text strong>{t('datacenter.overview.dcInfo.cidrv4')}</Text> <Text copyable>{dcBasic?.cidrBlock}</Text>
+                                    <span>{t('datacenter.overview.dcInfo.cidrv4')}</span> <span>{dcBasic?.cidrBlock}</span>
                                 </div>
-                            </Col>
-                            <Col span={8}>
-                            </Col>
-                            <Col span={8}>
+                            </div>
+                            <div className="w-8/24">
+                            </div>
+                            <div className="w-8/24">
                                 <div className={"my-2"}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                                        <Text strong>{t('datacenter.overview.dcInfo.region')}</Text>
-                                        <Text>{flagUtil.getRegionName(dcBasic!.regionCode)}</Text>
+                                        <span>{t('datacenter.overview.dcInfo.region')}</span>
+                                        <span>{flagUtil.getRegionName(dcBasic!.regionCode)}</span>
                                         <Icon icon={flagUtil.getFlagIconByRegion(dcBasic!.regionCode)}
                                             color="#5c6f9a"
                                             width="25" height="25"
                                             fr={undefined} />
                                     </div>
                                     <div>
-                                        <Text strong>{t('datacenter.overview.dcInfo.createDate')}</Text> <Text>{TimeUtil.utcConvertTimeZone({ date: dcBasic?.createDate })}</Text>
+                                        <span>{t('datacenter.overview.dcInfo.createDate')}</span> <span>{TimeUtil.utcConvertTimeZone({ date: dcBasic?.createDate })}</span>
                                     </div>
                                 </div>
-                            </Col>
-                        </Row>
-                    </Col>
-                </Row>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <Divider />
+            <hr className="my-4 border-gray-200" />
 
             <div id='azSummary'>
-                <Title level={4}>{t('datacenter.overview.dcDist.title')}</Title>
-                <Spin spinning={dcLoading} tip="Loading...">
-                    <Row gutter={[ 16, 24 ]} className='py-2'>
-                        {/* <Space size='middle'> */}
+                <h4>{t('datacenter.overview.dcDist.title')}</h4>
+                
+                    <div className="flex flex-wrap">
+                        {/* <div className="flex gap-2 items-center"> */}
                         {dcSummary?.azSummary?.map((item, index) => <AzSummaryCard key={index} azName={item.azName || ''} subnetNum={item.subnetNum || 0} />)}
-                        {/* </Space> */}
-                    </Row>
-                </Spin>
+                        {/* </div> */}
+                    </div>
+                
             </div>
 
             <div id='vpcSummary'>
-                <Paragraph className='pt-4'>{t('datacenter.overview.dcDist.para')}</Paragraph>
-                <Row gutter={[ 16, 24 ]} className='py-2'>
+                <p className='pt-4'>{t('datacenter.overview.dcDist.para')}</p>
+                <div className="flex flex-wrap">
                     <VpcSummaryCard title='Public Subnets' value={dcSummary?.vpcSummary?.pubNum} />
                     <VpcSummaryCard title='Internet Gateways' value={dcSummary?.vpcSummary?.igwNum} />
                     <VpcSummaryCard title='Security Groups' value={dcSummary?.vpcSummary?.sgNum} />
                     <VpcSummaryCard title='Route Tables' value={dcSummary?.vpcSummary?.rtbNum} />
-                </Row>
-                <Row gutter={[ 16, 24 ]} className='py-2'>
+                </div>
+                <div className="flex flex-wrap">
                     <VpcSummaryCard title='Private Subnets' value={dcSummary?.vpcSummary?.priNum} />
                     <VpcSummaryCard title='NAT Gateways' value={dcSummary?.vpcSummary?.natNum} />
                     <VpcSummaryCard title='Network ACLs' value={dcSummary?.vpcSummary?.aclNum} />
                     <VpcSummaryCard title='Static IP(EIP)' value={dcSummary?.vpcSummary?.eipNum} />
-                </Row>
+                </div>
             </div>
         </div>
     );

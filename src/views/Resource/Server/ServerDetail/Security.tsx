@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { RootState } from '@/redux/store';
 import CSecOpt from '@/components/Logic/CSecurityGroup/CSecOpt';
-import { Table, Space, Modal, Radio } from 'antd';
+import { Table, Modal, Radio } from 'antd';
 import { postApiV1ServerAction, deleteApiV1Server, postApiV1ServerConfig, putApiV1ServerName, putApiV1ServerDisk, putApiV1ServerEip, putApiV1ServerSecgroup, getApiV1ServerParamImage, getApiV1ServerParamInstypeList, getApiV1ServerParamInsfamily, postApiV1Server, getApiV1ServerDetailBySvrId, deleteApiV1ServerTagsBySvrId, putApiV1ServerTagsBySvrId } from '@/api-client';
 import { getServerDetail } from '@/redux/serverSlice';
 
@@ -67,7 +67,7 @@ export default function Security():JSX.Element {
             title: '',
             key: 'ruleId',
             render: (text, record) => (
-                <Space size="middle">
+                <div className="flex gap-2 items-center">
                     <Icon fr={undefined}
                         icon="ep:edit"
                         className={"inline-block mx-1 cursor-pointer"}
@@ -82,7 +82,7 @@ export default function Security():JSX.Element {
                         color='#dd6b10'
                         onClick={() => {console.log('delete', record);
                         }} />
-                </Space>
+                </div>
             ),
         },
     ];
@@ -156,13 +156,13 @@ export default function Security():JSX.Element {
                     }}
                     onCancel={()=>{changeIsModalVisible(false);}}>
                         <Radio.Group onChange={(e)=>{changeSelectedSecgroup(e.target.value);}} value={selectedSecgroup}>
-                            <Space direction="vertical">
+                            <div className="flex gap-2 items-center">
                                 {/* filter secgroups that not attached to currentServer */}
                                 {allSecgroups?.filter(item=>!secGroups.map(sg=>sg.sgId).includes(item.sgId)).map((item)=>
                                     <Radio value={item.sgId} key={item.sgId}>
                                         {item.sgName}({item.sgId})
                                     </Radio>)}
-                            </Space>
+                            </div>
                         </Radio.Group>
                     </Modal>
                 </div>

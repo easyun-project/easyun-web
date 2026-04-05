@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { userAction } from '@/redux/userSlice';
 import { postApiV1UserAuth, deleteApiV1UserLogout } from '@/api-client';
-import { Row, Input, Typography, Form, Checkbox, Menu, Dropdown } from 'antd';
+import { Input, Form, Checkbox, Menu, Dropdown } from 'antd';
 import HostModal from '@/components/Logic/CModal';
 import { listAllDataCenter, getRegionList } from '@/redux/dataCenterSlice';
 
@@ -69,10 +69,10 @@ const LoginPage = (): JSX.Element => {
             </div>
             {/* 登录框体 */}
             <div id="login-container" className='items-center py-12 mt-36 sm:w-96 md:w-1/2 lg:w-1/3 rounded-border'>
-                <Row id="login-content" gutter={16} className='flex flex-col items-center' >
-                    <Row className='mb-4'>
-                        <Typography.Title level={4} >{t('login.title')}</Typography.Title>
-                    </Row>
+                <div className="flex flex-wrap">
+                    <div className="flex flex-wrap">
+                        <h4 >{t('login.title')}</h4>
+                    </div>
 
                     <Form name="login"
                         labelCol={{ span: 8 }}
@@ -109,7 +109,7 @@ const LoginPage = (): JSX.Element => {
                             {/* <CButton type="primary" htmlType="submit" classes={"w-36"}>{t('login.button')}</CButton> */}
                         </Form.Item>
                     </Form>
-                </Row>
+                </div>
             </div>
         </div>
     );

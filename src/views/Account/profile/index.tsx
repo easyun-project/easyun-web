@@ -1,6 +1,6 @@
 import { toast } from 'sonner';
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card } from 'antd';
+import { Card } from 'antd';
 import { Icon } from '@iconify/react';
 import { getApiV1AccountKeypairList, getApiV1AccountKeypairStoreByKeyName, deleteApiV1AccountKeypair, getApiV1AccountReminderFreetier, putApiV1AccountReminderFreetier } from '@/api-client';
 import { useSelector } from 'react-redux';
@@ -43,23 +43,23 @@ const  Component = (): JSX.Element => {
     };
     return (
         <>
-            <Row>
-                <Col span={1}>
+            <div className="flex flex-wrap">
+                <div className="w-1/24">
                     <Icon
                         className={"mx-0 inline-block"}
                         width="50"
                         height="50"
                         icon="bi:person-circle"
                     />
-                </Col>
-                <Col span={23}>
+                </div>
+                <div className="flex-1">
                     <div>
               Account ID: {userState.accountId} [{userState.accountType}]
                     </div>
                     <div>Sercurity credentials: {userState.role}</div>
-                </Col>
-            </Row>
-            <Row>
+                </div>
+            </div>
+            <div className="flex flex-wrap">
                 <div
                     onClick={openMangerAwsProfile}
                     className={"flex items-center text-indigo-500 p-2"}
@@ -67,14 +67,14 @@ const  Component = (): JSX.Element => {
                     <div className={"mr-2.5"}>Manager your AWS profile</div>
                     <Icon icon="ri:share-box-fill" />
                 </div>
-            </Row>
-            <Row>
+            </div>
+            <div className="flex flex-wrap">
                 <Card
                     className={"min-w-3/4"}
                     title="Nofification contacts"
                 >
-                    <Row>
-                        <Col span={12}>
+                    <div className="flex flex-wrap">
+                        <div className="flex-1">
                             <div className={"text-gray-900 font-extrabold"}>
                   Email
                             </div>
@@ -86,8 +86,8 @@ const  Component = (): JSX.Element => {
                                 <Icon icon="fluent:add-12-filled" />
                   Add email address
                             </div>
-                        </Col>
-                        <Col span={12}>
+                        </div>
+                        <div className="flex-1">
                             <div className={"text-gray-900 font-extrabold"}>
                   SMS
                             </div>
@@ -102,10 +102,10 @@ const  Component = (): JSX.Element => {
                                 <Icon icon="fluent:add-12-filled" />
                   Add SMS number
                             </div>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span={12}>
+                        </div>
+                    </div>
+                    <div className="flex flex-wrap">
+                        <div className="flex-1">
                             <div className={"text-gray-900 font-extrabold"}>
                   Wechat
                             </div>
@@ -118,10 +118,10 @@ const  Component = (): JSX.Element => {
                                 <Icon icon="fluent:add-12-filled" />
                   Configure
                             </div>
-                        </Col>
-                    </Row>
+                        </div>
+                    </div>
                 </Card>
-            </Row>
+            </div>
         </>
     );
 };

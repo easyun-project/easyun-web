@@ -1,7 +1,6 @@
 import { toast } from 'sonner';
 import React, { useState, useEffect } from 'react';
 import {
-    Row,
     Card,
     Modal,
     Input,
@@ -108,7 +107,7 @@ const Component = (): JSX.Element => {
     };
     return (
         <>
-            <Row>
+            <div className="flex flex-wrap">
                 <Card className={"min-w-3/4"} title="SSH keys">
                     <div>you can store up to 100 keys per AWS Region.</div>
                     {list.map((item, index) => {
@@ -196,7 +195,7 @@ const Component = (): JSX.Element => {
                         </div>
                     </div>
                 </Card>
-            </Row>
+            </div>
             <Modal
                 title="Add SSH key"
                 visible={visible}

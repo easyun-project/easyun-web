@@ -1,7 +1,6 @@
 import { toast } from 'sonner';
 import React, { useState, useEffect } from 'react';
 import {
-    Row,
     Card,
     Switch,
     DatePicker,
@@ -56,7 +55,7 @@ const Component = (): JSX.Element => {
     };
     return (
         <>
-            <Row>
+            <div className="flex flex-wrap">
                 <Card className={"min-w-3/4"} title="Reminder">
                     <div>
                         <div>
@@ -104,7 +103,7 @@ const Component = (): JSX.Element => {
                         </div>
                     </div>
                 </Card>
-            </Row>
+            </div>
         </>
     );
 };

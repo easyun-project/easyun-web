@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React, { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
-import { Typography, Select, Input } from 'antd';
+import { Select, Input } from 'antd';
 import { DcDropDown, SubnetParms } from '@/constant/dataCenter';
 
 interface SubnetProps {
@@ -40,15 +40,15 @@ export const SubnetOption = (props: SubnetProps): JSX.Element => {
                         fr={undefined}/>
             }
             <div>
-                <Typography.Title level={5} className='mb-2'>{title}</Typography.Title>
+                <h5 className='mb-2'>{title}</h5>
 
                 <div className="my-1">
-                    <Typography.Text style={{ width: 130 }} className='inline-block'>CIDR Block(ipv4):</Typography.Text>
+                    <span style={{ width: 130 }} className='inline-block'>CIDR Block(ipv4):</span>
                     <Input style={{ width: 168 }} className='h-6' value={subnet?.cidrBlock} />
                 </div>
 
                 <div className="my-1">
-                    <Typography.Text style={{ width: 130 }} className='inline-block'>Availability Zone:</Typography.Text>
+                    <span style={{ width: 130 }} className='inline-block'>Availability Zone:</span>
                     {/* <Select style={{ width: 168 }} className='h-6' defaultValue={subnet?.azName}>
                         {props.dropdown?.azList.map((item, index) => (
                             <Select.Option key={index} value={index}>{item} </Select.Option>
@@ -71,7 +71,7 @@ export const SubnetOption = (props: SubnetProps): JSX.Element => {
                 </div>
 
                 <div className="my-1">
-                    <Typography.Text style={{ width: 130 }} className='inline-block'>Gateway:</Typography.Text>
+                    <span style={{ width: 130 }} className='inline-block'>Gateway:</span>
                     <select style={{ width: 168 }} className='pl-2 h-6 border' defaultValue={0}>
                         {
                             <option value={subnet?.gwName}> {subnet?.gwName} </option>
@@ -83,7 +83,7 @@ export const SubnetOption = (props: SubnetProps): JSX.Element => {
                 </div>
 
                 <div className="my-1">
-                    <Typography.Text style={{ width: 130 }} className='inline-block'>Route Table:</Typography.Text>
+                    <span style={{ width: 130 }} className='inline-block'>Route Table:</span>
                     <select style={{ width: 168 }} className='pl-2 h-6 border' defaultValue={0}>
                         {
                             <option value={subnet?.routeTable}> {subnet?.routeTable} </option>

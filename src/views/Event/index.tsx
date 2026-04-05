@@ -1,7 +1,7 @@
 import React from 'react';
 // import "./index.css";
 import { Icon } from '@iconify/react';
-import { Col, Row, Table } from 'antd';
+import { Table } from 'antd';
 
 const Event = (): JSX.Element => {
     const columns = [
@@ -71,8 +71,8 @@ const Event = (): JSX.Element => {
             <div className="content-body">
                 <div className="color-black-weight800">Event Log</div>
                 <div className="margin-t-b20">
-                    <Row>
-                        <Col span={8}>
+                    <div className="flex flex-wrap">
+                        <div className="w-8/24">
                             <div
                                 className="flex-align-center  color-link"
                                 onClick={openCloudWatch}
@@ -80,16 +80,16 @@ const Event = (): JSX.Element => {
                                 <div className="left-text">Amazon CloudWatch Events</div>
                                 <Icon icon="ri:share-box-fill" fr={undefined} />
                             </div>
-                        </Col>
-                        <Col span={8} offset={8}>
+                        </div>
+                        <div className="w-8/24">
                             <div className="flex-align-center">
                                 <div className="left-text">
                   Last refreshed less than 1 min ago
                                 </div>
                                 <Icon className="yellow-text-color" icon="ci:refresh" fr={undefined} />
                             </div>
-                        </Col>
-                    </Row>
+                        </div>
+                    </div>
                 </div>
                 <div className="width100">
                     <Table

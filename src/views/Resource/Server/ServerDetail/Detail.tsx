@@ -1,16 +1,14 @@
 import { toast } from 'sonner';
 import React from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Col, Divider, Row, Typography } from 'antd';
+import { Divider } from 'antd';
 import { Icon } from '@iconify/react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import TimeUtil from '@/utils/time';
 
 
-// const { Title, Paragraph, Text } = Typography;
-const { Text } = Typography;
-
+// 
 export default function Detail():JSX.Element {
     const serverState = useSelector((state: RootState) => {
         return state.server;
@@ -20,11 +18,11 @@ export default function Detail():JSX.Element {
         <>
             <div id='instanceId'>
                 Instance Id:
-                <Text copyable> {server.svrProperty.instanceId} </Text>
+                <span> {server.svrProperty.instanceId} </span>
             </div>
 
             <div>
-                Launch Time: <Text>{TimeUtil.utcConvertTimeZone({ date:server.svrProperty.launchTime })} </Text>
+                Launch Time: <span>{TimeUtil.utcConvertTimeZone({ date:server.svrProperty.launchTime })} </span>
             </div>
 
             <div id='hostnameType' className={"mt-4"}>
@@ -69,8 +67,8 @@ export default function Detail():JSX.Element {
             </div>
 
             <div id='platformDetail' className={"mt-5"}>
-                <Row>
-                    <Col span={8}>
+                <div className="flex flex-wrap">
+                    <div className="w-8/24">
                         <div>
                                     Platform details: {server.svrProperty.platformDetails}
                         </div>
@@ -94,11 +92,11 @@ export default function Detail():JSX.Element {
                                     Termination protection: {server.svrProperty.terminationProtection}
                         </div>
 
-                    </Col>
-                    <Col span={2}>
-                        <Divider type={'vertical'}/>
-                    </Col>
-                    <Col span={8}>
+                    </div>
+                    <div className="w-2/24">
+                        <hr className="my-4 border-gray-200" />
+                    </div>
+                    <div className="w-8/24">
                         <div id='amiId'>
                                     AMI ID:
                             <CopyToClipboard text={server.svrProperty.amiId}
@@ -168,8 +166,8 @@ export default function Detail():JSX.Element {
                             </CopyToClipboard>
                         </div>
 
-                    </Col>
-                </Row>
+                    </div>
+                </div>
             </div>
         </>
     );}

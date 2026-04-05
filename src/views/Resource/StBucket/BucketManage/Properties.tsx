@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CheckOutlined, CloseOutlined, InfoCircleOutlined } from '@ant-design/icons';
-import { Spin, Empty, Switch } from 'antd';
+import { Empty, Switch } from 'antd';
 import { Icon } from '@iconify/react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -23,7 +23,6 @@ export default function Properties() {
         console.log('🚀 ~ file: Properties.tsx ~ line 8 ~ return ~ checked');
     }, [isEncryption, isVersioning]);
     return (
-        <Spin spinning={currentBucket === 'loading'}>
             <div className='flex'>
                 <div className='w-5/12'>
                     <p className='my-2 text-2xl'>{t('bucketManageProperties.encryptionTitle')}</p>
@@ -87,6 +86,6 @@ export default function Properties() {
                     </div>
                 </div>
             </div>
-        </Spin>
+        
     );
 }

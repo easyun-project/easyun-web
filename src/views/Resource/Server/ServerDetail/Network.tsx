@@ -6,7 +6,7 @@ import { RootState } from '@/redux/store';
 import { Icon } from '@iconify/react';
 import { getApiV1DatacenterSecgroupList as _dcSecgroupList, getApiV1DatacenterSubnetList as _dcSubnetList } from '@/api-client';
 import { useState, useEffect } from 'react';
-import { Modal, Radio, Space, Button } from 'antd';
+import { Modal, Radio, Button } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { StaticIpBasic } from '@/constant/dataCenter';
 import { getServerDetail } from '@/redux/serverSlice';
@@ -140,12 +140,12 @@ export default function Network(): JSX.Element {
 
                                     onCancel={() => changeIsModalVisible(false)}>
                                     <Radio.Group onChange={(e) => { changeSelectedEip(e.target.value); }} value={selectedEip}>
-                                        <Space direction="vertical">
+                                        <div className="flex gap-2 items-center">
                                             {eips.map((item: StaticIpBasic) =>
                                                 <Radio value={item.publicIp} key={item.eipId} disabled={!item.isAvailable}>
                                                     {item.publicIp}({item.isAvailable ? 'Available' : 'Unavailable'})
                                                 </Radio>)}
-                                        </Space>
+                                        </div>
                                     </Radio.Group>
                                 </Modal></>)}
                         </div>
