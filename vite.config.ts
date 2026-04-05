@@ -27,17 +27,12 @@ export default defineConfig(({ mode }) => {
         },
         build: {
             outDir: env.VITE_OUTPUT_DIR || 'dist',
+            chunkSizeWarningLimit: 600,
             rollupOptions: {
                 output: {
                     manualChunks: (id) => {
-                        if (id.includes('node_modules')) {
-                            return id
-                                .toString()
-                                .split('node_modules/')[1]
-                                .split('/')[0]
-                                .toString();
-                        }
-                        return null;
+                        if (!id.includes('node_modules')) return null;
+                        return id.split('node_modules/')[1].split('/')[0];
                     },
                     entryFileNames: 'js/[name].[hash].js',
                     chunkFileNames: 'js/[name].[hash].js',
