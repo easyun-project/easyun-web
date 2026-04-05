@@ -5,7 +5,7 @@ import type { AppDispatch } from '@/redux/store';
 import { RootState } from '@/redux/store';
 import { Icon } from '@iconify/react';
 import CPlatform from '@/components/Logic/CPlatform';
-import { CButton } from '@/components/Common/CButton';
+import { Button } from '@/components/ui/button';
 import { Row, Col, Divider, Typography, message, Select, Input, Form, Progress, Cascader, Card } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 // import LoadbalancerService from '@/service/LoadbalancerService';
@@ -106,17 +106,17 @@ const AddLoadbalancer = (): JSX.Element => {
             <Row gutter={16} id="create-buttons">
                 <Col span={16}>
                     <div className={"flex justify-center m-16"}>
-                        <CButton click={() => {
+                        <Button onClick={() => {
                             navigate('/resource/loadbalancer');
-                        }} classes={"bg-gray-400 text-white"}>
+                        }} className={"bg-gray-400 text-white"}>
                             <Icon className={"inline-block mr-2"} icon="akar-icons:arrow-left"
                                 color="white"
                                 width="20" height="20" fr={undefined} />
-                            Back</CButton>
-                        <CButton
+                            Back</Button>
+                        <Button
                             disabled={!validStatus}
-                            type='primary'
-                            click={() => {
+                            
+                            onClick={() => {
                                 if (tagName == '') {
                                     setValidStatus(false);
                                     message.error('Please input a valid load balancer name');
@@ -146,7 +146,7 @@ const AddLoadbalancer = (): JSX.Element => {
                                 //     },
                                 // );
                             }}
-                        >Create</CButton>
+                        >Create</Button>
                     </div>
                 </Col>
             </Row>

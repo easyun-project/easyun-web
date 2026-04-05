@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { Menu, Dropdown, Spin } from 'antd';
 import Nodc from './Nodc';
 import DataCenterCard from '@/components/Datacenter/DataCenterCard';
-import { CButton } from '@/components/Common/CButton';
+import { Button } from '@/components/ui/button';
 import { DownOutlined } from '@ant-design/icons';
 import { listAllDataCenter } from '@/redux/dataCenterSlice';
 
@@ -80,7 +80,7 @@ export default function Home(): JSX.Element {
                         <div className={"text-yellow-550 font-bold mx-1 cursor-pointer"}>{sortBy} <DownOutlined /></div>
                     </Dropdown>
                 </div>
-                <CButton type="primary" click={() => navigate('/datacenter/add')}>{t('home.addButton')}</CButton>
+                <Button  onClick={() => navigate('/datacenter/add')}>{t('home.addButton')}</Button>
             </div>
 
             <Spin spinning={loading} tip="Loading...">{
@@ -95,7 +95,7 @@ export default function Home(): JSX.Element {
             }</Spin>
 
             {/* {datacenters === 'loading'
-            ? <CPartialLoading classes={"h-96"}/>
+            ? <CPartialLoading className={"h-96"}/>
             : (datacenters.length !== 0
                 ? <div className={"grid 2xl:grid-cols-3 lg:grid-cols-2 gap-4 justify-items-center items-center mt-4"}>
                     {datacenters.sort((a,b)=>{

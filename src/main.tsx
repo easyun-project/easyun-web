@@ -34,13 +34,13 @@ import '@/assets/styles/index.css';
 import '@/i18n';
 //视图与组件
 import routes from '@/routes';
-import { CFullLoading } from '@/components/Common/CFullLoading';
+import { Spinner } from '@/components/ui/spinner';
 
 
 const App = (): JSX.Element => {
     const element = useRoutes(routes);
     return (
-        <Suspense fallback={<CFullLoading />}>
+        <Suspense fallback={<div className="bg-black w-screen h-screen flex items-center justify-center"><Spinner className="size-16 text-purple-500" /></div>}>
             {element}
         </Suspense>
     );

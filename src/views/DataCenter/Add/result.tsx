@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Result } from 'antd';
-import { CButton } from '@/components/Common/CButton';
+import { Button } from '@/components/ui/button';
 
 
 const AddDcResult = (): JSX.Element => {
@@ -14,8 +14,8 @@ const AddDcResult = (): JSX.Element => {
             subTitle="A Datacenter is the first step in your journey to the cloud."
             extra={
                 <>
-                    <CButton type="primary" click={() => { navigate('/home'); }}>Go Home</CButton>
-                    <CButton type="primary" click={() => { navigate('/datacenter/add'); }}>Add Another</CButton>
+                    <Button  onClick={() => { navigate('/home'); }}>Go Home</Button>
+                    <Button  onClick={() => { navigate('/datacenter/add'); }}>Add Another</Button>
                 </>
             }
         />

@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { getServerDetail } from '@/redux/serverSlice';
 import { RootState } from '@/redux/store';
-import { CPartialLoading } from '@/components/Common/CPartialLoading';
+import { Spinner } from '@/components/ui/spinner';
 import Detail from './Detail';
 import Config from './Config';
 import Disk from './Disk';
@@ -39,7 +39,7 @@ const ServerDetail = ():JSX.Element => {
 
     if(firstLoading){
         return (
-            <CPartialLoading classes={"h-96"}/>
+            <div className="flex w-full items-center justify-center h-96"><Spinner className="size-8" /></div>
         );
     }
 

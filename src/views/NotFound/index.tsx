@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Result } from 'antd';
-import { CButton } from '@/components/Common/CButton';
+import { Button } from '@/components/ui/button';
 
 
 const NotFound = (): JSX.Element => {
@@ -12,7 +12,7 @@ const NotFound = (): JSX.Element => {
             status="404"
             title="404"
             subTitle="Sorry, the page you visited does not exist."
-            extra={<CButton type="primary" click={() => { navigate('/home'); }}>Back Home</CButton>}
+            extra={<Button  onClick={() => { navigate('/home'); }}>Back Home</Button>}
         />
     );
 };

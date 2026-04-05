@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import React from 'react';
 import { Icon } from '@iconify/react';
 import CPlatform from '@/components/Logic/CPlatform';
-import { CButton } from '@/components/Common/CButton';
+import { Button } from '@/components/ui/button';
 import CAmis from '@/components/Logic/CAmi';
 import CSecOpt from '@/components/Logic/CSecurityGroup/CSecOpt';
 import DiskConfigurations from './DiskConfiguration';
@@ -202,7 +202,7 @@ const AddServer = (): JSX.Element => {
                 {/* 下面的组件用于选择服务器架构 */}
                 <div className={"flex items-center"}>
                     <div> select your server arch </div>
-                    <CButton classes={clsx(
+                    <Button className={clsx(
                         arch === 'x86_64' ? 'bg-yellow-550' : 'bg-gray-400',
                         'text-white',
                         'rounded-3xl',
@@ -210,8 +210,8 @@ const AddServer = (): JSX.Element => {
                         'w-32',
                         'px-5',
                         'm-5')}
-                    click={() => { changeArch('x86_64'); }}>64-bit(x86)</CButton>
-                    <CButton classes={clsx(
+                    onClick={() => { changeArch('x86_64'); }}>64-bit(x86)</Button>
+                    <Button className={clsx(
                         arch === 'arm64' ? 'bg-yellow-550' : 'bg-gray-400',
                         'text-white',
                         'rounded-3xl',
@@ -219,7 +219,7 @@ const AddServer = (): JSX.Element => {
                         'w-32',
                         'px-5',
                         'm-5')}
-                    click={() => { changeArch('arm64'); }}>64-bit(arm)</CButton>
+                    onClick={() => { changeArch('arm64'); }}>64-bit(arm)</Button>
                 </div>
                 {/* 下面的用于选择操作系统 */}
                 <CPlatform platform={os} changePlatform={changeOs} />

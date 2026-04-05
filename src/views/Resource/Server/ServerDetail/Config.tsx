@@ -9,7 +9,7 @@ import { Cascader, message } from 'antd';
 import { InsType } from '../AddServer/InstanceList';
 import { Skeleton } from 'antd';
 import { getServerDetail } from '@/redux/serverSlice';
-import CWarn from '@/components/Common/CWarn';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 type Option = {
     value: string
@@ -259,9 +259,9 @@ export default function Config() {
         changeInsfamilyOptions(options);
     };
     if (arch === 'unknown') return (
-        <CWarn>
-            <div className='font-semibold'>Architecture of this instance is unknown.</div>
-        </CWarn>
+        <Alert variant="destructive" className="w-max">
+            <AlertDescription className='font-semibold'>Architecture of this instance is unknown.</AlertDescription>
+        </Alert>
     );
     else {
         return (

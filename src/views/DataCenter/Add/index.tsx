@@ -3,7 +3,7 @@ import { postApiV1Datacenter, getApiV1DatacenterTask, getApiV1DatacenterList, de
 import { QueryNewDcParm, DcDropDown } from '@/constant/dataCenter';
 import SubnetOption from '@/components/Datacenter/SubnetOptionCard';
 import SecGroupOption from '@/components/Datacenter/SecGroupOptionCard';
-import { CButton } from '@/components/Common/CButton';
+import { Button } from '@/components/ui/button';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -296,18 +296,18 @@ const AddDataCenter = (): JSX.Element => {
             <Row gutter={16}>
                 <Col span={16}>
                     <div className={"flex justify-center m-16"}>
-                        <CButton click={() => {
+                        <Button onClick={() => {
                             dispatch(listAllDataCenter()); // 临时使用，便于调试
                             navigate('/home');
-                        }} classes={"bg-gray-400 text-white"}>
+                        }} className={"bg-gray-400 text-white"}>
                             <Icon className={"inline-block mr-2"} icon="akar-icons:arrow-left"
                                 color="white"
                                 width="20" height="20" fr={undefined} />
-                            Back</CButton>
-                        <CButton
+                            Back</Button>
+                        <Button
                             disabled={!validStatus || creating}
-                            type='primary'
-                            click={() => {
+                            
+                            onClick={() => {
                                 if (inputDcName == 'easyun') {
                                     setValidStatus(false);
                                     message.error('easyun DataCenter name is not allowed,please change it');
@@ -330,7 +330,7 @@ const AddDataCenter = (): JSX.Element => {
                                 };
                                 createDateCenter(elemDcParams);
                             }}
-                        >Create</CButton>
+                        >Create</Button>
                     </div>
                 </Col>
             </Row>

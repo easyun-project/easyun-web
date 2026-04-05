@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import EipCard from '@/components/Datacenter/EipCard';
 import { useNavigate } from 'react-router-dom';
-import { CPartialLoading } from '@/components/Common/CPartialLoading';
+import { Spinner } from '@/components/ui/spinner';
 import { Menu, Dropdown } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 //redux相关
@@ -71,7 +71,7 @@ export default function Network() {
                             inline={true} />}Add Static IP</button>
             </div>
             {loading || !eipInfos
-                ? <CPartialLoading classes={"h-96"} />
+                ? <div className="flex w-full items-center justify-center h-96"><Spinner className="size-8" /></div>
                 : (eipInfos.length !== 0
                     ? <div className={"grid 2xl:grid-cols-3 lg:grid-cols-2 gap-4 justify-items-center items-center mt-4"}>
                         {eipInfos.map(item => <EipCard key={item.publicIp} {...item} />)}
