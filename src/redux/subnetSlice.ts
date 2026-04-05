@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import SubnetService, { SubnetPathParam, SubnetDetail } from '@/service/dcmSubnetServices';
-import { DcNameQueryParm, SubnetInfo } from '@/constant/dataCenter';
+import { getApiV1DatacenterSubnetList, getApiV1DatacenterSubnetBySubnetId } from '@/api-client';
 
 
 export interface SubnetState {
     loading: boolean,
-    list: SubnetInfo[] | undefined,
-    current: SubnetDetail | undefined,
+    list: any[] | undefined,
+    current: any | undefined,
 }
 
 const initialState: SubnetState = {
@@ -17,15 +16,17 @@ const initialState: SubnetState = {
 
 export const listAllSubnet = createAsyncThunk(
     'subnet/listAllSubnet',
-    async (params: DcNameQueryParm) => {
-        return await SubnetService.listAll(params);
+    async (params: { dc: string }) => {
+        const { data } = await getApiV1DatacenterSubnetList({ query: { dc: params.dc } });
+        return data?.detail as any;
     }
 );
 
 export const getSubnetDetail = createAsyncThunk(
     'subnet/getSubnetDetail',
-    async (params: SubnetPathParam) => {
-        return await SubnetService.getDetail(params);
+    async (params: { dc: string; subnetId: string }) => {
+        const { data } = await getApiV1DatacenterSubnetBySubnetId({ path: { subnet_id: params.subnetId }, query: { dc: params.dc } });
+        return data?.detail as any;
     }
 );
 
@@ -35,7 +36,6 @@ export const subnetSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        // update datacenter subnet
         builder.addCase(listAllSubnet.pending, (state: SubnetState) => {
             state.loading = true;
         });
@@ -61,4 +61,3 @@ export const subnetSlice = createSlice({
 });
 
 export default subnetSlice.reducer;
-// export const {  updateServerTags } = subnetSlice.actions;

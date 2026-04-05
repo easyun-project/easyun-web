@@ -235,7 +235,7 @@ const AddDataCenter = (): JSX.Element => {
                             setRegionCode(value);
                             // getDcParams();
                         }} >
-                        {regionList?.map((item: RegionItem, index) => {
+                        {regionList?.map((item: any, index) => {
                             return (<Select.Option key={index} value={item.regionCode}> {item.regionCode} - {item.regionName} </Select.Option>);
                         })}
                     </Select>
@@ -253,15 +253,15 @@ const AddDataCenter = (): JSX.Element => {
                         </Checkbox>
                     </div>
                     <Row gutter={12}>
-                        <SubnetOption subnet={pubSubnet1} dropdown={dropDown} index={1} isPublic={true}
+                        <SubnetOption subnet={pubSubnet1} dropdown={dropDown as any} index={1} isPublic={true}
                             classes={classnames('w-96', 'inline-block')} />
-                        <SubnetOption subnet={pubSubnet2} dropdown={dropDown} index={2} isPublic={true}
+                        <SubnetOption subnet={pubSubnet2} dropdown={dropDown as any} index={2} isPublic={true}
                             classes={classnames('w-96', 'inline-block')} />
                     </Row>
                     <Row gutter={12}>
-                        <SubnetOption subnet={priSubnet1} dropdown={dropDown} index={1} isPublic={false}
+                        <SubnetOption subnet={priSubnet1} dropdown={dropDown as any} index={1} isPublic={false}
                             classes={classnames('w-96', 'inline-block')} />
-                        <SubnetOption subnet={priSubnet2} dropdown={dropDown} index={2} isPublic={false}
+                        <SubnetOption subnet={priSubnet2} dropdown={dropDown as any} index={2} isPublic={false}
                             classes={classnames('w-96', 'inline-block')} />
                     </Row>
 

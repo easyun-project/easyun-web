@@ -17,7 +17,7 @@ export default function BucketManage() {
     const  bucketId  = params.bucketId as string;
     const dispatch = useDispatch<AppDispatch>();
     const { state } = useLocation();
-    const dcName = useSelector((state: RootState) => state.dataCenter.current!.dcName);
+    const dcName = useSelector((state: RootState) => state.dataCenter.current!.dcName) || '';
     const bucketList = useSelector((state: RootState) => state.stbucket.bucketList);
     // just for test
     const demoBucket = bucketList[0];
@@ -31,7 +31,7 @@ export default function BucketManage() {
     const { TabPane } = Tabs;
     return (
         <>
-            <CBucketCard {...demoBucket} />
+            <CBucketCard {...demoBucket as any} />
             <Tabs defaultActiveKey="Objects">
                 <TabPane tab="Objects" key="Objects">
                     <Objects />

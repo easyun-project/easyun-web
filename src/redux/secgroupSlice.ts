@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import SecgroupService, { SecgroupPathParam, SecgroupDetail } from '@/service/dcmSecgroupServices';
-import { DcNameQueryParm, SecurityGroupInfo } from '@/constant/dataCenter';
+import { getApiV1DatacenterSecgroupList, getApiV1DatacenterSecgroupBySgId } from '@/api-client';
 
 
 export interface SecGroupState {
     loading: boolean,
-    list: SecurityGroupInfo[] | undefined,
-    current: SecgroupDetail | undefined,
+    list: any[] | undefined,
+    current: any | undefined,
 }
 
 const initialState: SecGroupState = {
@@ -17,15 +16,17 @@ const initialState: SecGroupState = {
 
 export const listAllSecGroup = createAsyncThunk(
     'datacenter/listAllSecGroup',
-    async (params: DcNameQueryParm) => {
-        return await SecgroupService.listAll(params);
+    async (params: { dc: string }) => {
+        const { data } = await getApiV1DatacenterSecgroupList({ query: { dc: params.dc } });
+        return data?.detail as any;
     }
 );
 
 export const getSecgroupDetail = createAsyncThunk(
     'datacenter/getSecgroupDetail',
-    async (params: SecgroupPathParam) => {
-        return await SecgroupService.getDetail(params);
+    async (params: { dc: string; sgId: string }) => {
+        const { data } = await getApiV1DatacenterSecgroupBySgId({ path: { sg_id: params.sgId }, query: { dc: params.dc } });
+        return data?.detail as any;
     }
 );
 
@@ -34,7 +35,6 @@ export const secgroupSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        // update datacenter security group
         builder.addCase(listAllSecGroup.pending, (state: SecGroupState) => {
             state.loading = true;
         });
@@ -53,9 +53,7 @@ export const secgroupSlice = createSlice({
         builder.addCase(getSecgroupDetail.rejected, (state: SecGroupState) => {
             state.loading = false;
         });
-
     }
 });
 
 export default secgroupSlice.reducer;
-// export const {  updateServerTags } = secgroupSlice.actions;

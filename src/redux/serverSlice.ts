@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { ServerModel, SeverDetailModel } from '@/constant/server';
-import serverService, { DcNameQueryParm, ServerDetailParams } from '@/service/serverService';
+import { getApiV1ServerList, getApiV1Server, getApiV1ServerDetailBySvrId } from '@/api-client';
 
 
 export interface ServerState {
     loading: boolean,
-    servers: ServerModel[],
-    currentServer: SeverDetailModel | undefined
+    servers: any[],
+    currentServer: any | undefined
 }
 
 const initialState: ServerState = {
@@ -17,22 +16,25 @@ const initialState: ServerState = {
 
 export const listAllServer = createAsyncThunk(
     'server/listAllServer',
-    async (params: DcNameQueryParm) => {
-        return await serverService.listAllServer(params);
+    async ({ dc }: { dc: string }) => {
+        const { data } = await getApiV1ServerList({ query: { dc } });
+        return data?.detail;
     }
 );
 
 export const getServerList = createAsyncThunk(
     'server/getServerList',
-    async (params: DcNameQueryParm) => {
-        return await serverService.getServerList(params);
+    async ({ dc }: { dc: string }) => {
+        const { data } = await getApiV1Server({ query: { dc } });
+        return data?.detail;
     }
 );
 
 export const getServerDetail = createAsyncThunk(
     'server/getServerDetail',
-    async (params: ServerDetailParams) => {
-        return await serverService.getServerDetail(params);
+    async ({ serverId }: { serverId: string }) => {
+        const { data } = await getApiV1ServerDetailBySvrId({ path: { svr_id: serverId } });
+        return data?.detail;
     }
 );
 
@@ -50,7 +52,7 @@ export const serverSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(listAllServer.fulfilled, (state: ServerState, action) => {
             state.loading = false;
-            state.servers = action.payload;
+            state.servers = action.payload as any;
         });
         builder.addCase(listAllServer.pending, (state: ServerState) => {
             state.loading = true;
@@ -61,7 +63,7 @@ export const serverSlice = createSlice({
 
         builder.addCase(getServerList.fulfilled, (state: ServerState, action) => {
             state.loading = false;
-            state.servers = action.payload;
+            state.servers = action.payload as any;
         });
         builder.addCase(getServerList.pending, (state: ServerState) => {
             state.loading = true;

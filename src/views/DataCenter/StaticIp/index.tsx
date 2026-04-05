@@ -22,7 +22,7 @@ export default function Network() {
     // const [eipInfos, changeEipInfos] = useState<'loading'|EipInfo[]>('loading');
     const eipInfos = useSelector((state: RootState) => state.staticip.list);
     const loading = useSelector((state: RootState) => state.staticip.loading);
-    const dc = useSelector((state: RootState) => state.dataCenter.current!.dcName);
+    const dc = useSelector((state: RootState) => state.dataCenter.current!.dcName) || '';
     const [creating, changeCreating] = useState(false);
     const [sortBy, changeSortBy] = useState('Name');
     const menu = (

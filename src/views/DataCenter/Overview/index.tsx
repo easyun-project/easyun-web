@@ -106,7 +106,7 @@ export default function DataCenterOverview(): JSX.Element {
                 <Spin spinning={dcLoading} tip="Loading...">
                     <Row gutter={[ 16, 24 ]} className='py-2'>
                         {/* <Space size='middle'> */}
-                        {dcSummary?.azSummary.map((item, index) => <AzSummaryCard key={index} azName={item.azName} subnetNum={item.subnetNum} />)}
+                        {dcSummary?.azSummary?.map((item, index) => <AzSummaryCard key={index} azName={item.azName || ''} subnetNum={item.subnetNum || 0} />)}
                         {/* </Space> */}
                     </Row>
                 </Spin>
@@ -115,16 +115,16 @@ export default function DataCenterOverview(): JSX.Element {
             <div id='vpcSummary'>
                 <Paragraph className='pt-4'>{t('datacenter.overview.dcDist.para')}</Paragraph>
                 <Row gutter={[ 16, 24 ]} className='py-2'>
-                    <VpcSummaryCard title='Public Subnets' value={dcSummary?.vpcSummary.pubNum} />
-                    <VpcSummaryCard title='Internet Gateways' value={dcSummary?.vpcSummary.igwNum} />
-                    <VpcSummaryCard title='Security Groups' value={dcSummary?.vpcSummary.sgNum} />
-                    <VpcSummaryCard title='Route Tables' value={dcSummary?.vpcSummary.rtbNum} />
+                    <VpcSummaryCard title='Public Subnets' value={dcSummary?.vpcSummary?.pubNum} />
+                    <VpcSummaryCard title='Internet Gateways' value={dcSummary?.vpcSummary?.igwNum} />
+                    <VpcSummaryCard title='Security Groups' value={dcSummary?.vpcSummary?.sgNum} />
+                    <VpcSummaryCard title='Route Tables' value={dcSummary?.vpcSummary?.rtbNum} />
                 </Row>
                 <Row gutter={[ 16, 24 ]} className='py-2'>
-                    <VpcSummaryCard title='Private Subnets' value={dcSummary?.vpcSummary.priNum} />
-                    <VpcSummaryCard title='NAT Gateways' value={dcSummary?.vpcSummary.natNum} />
-                    <VpcSummaryCard title='Network ACLs' value={dcSummary?.vpcSummary.aclNum} />
-                    <VpcSummaryCard title='Static IP(EIP)' value={dcSummary?.vpcSummary.eipNum} />
+                    <VpcSummaryCard title='Private Subnets' value={dcSummary?.vpcSummary?.priNum} />
+                    <VpcSummaryCard title='NAT Gateways' value={dcSummary?.vpcSummary?.natNum} />
+                    <VpcSummaryCard title='Network ACLs' value={dcSummary?.vpcSummary?.aclNum} />
+                    <VpcSummaryCard title='Static IP(EIP)' value={dcSummary?.vpcSummary?.eipNum} />
                 </Row>
             </div>
         </div>

@@ -46,7 +46,7 @@ type Option = {
 const AddServer = (): JSX.Element => {
     const dc = useSelector((state: RootState) => {
         return state.dataCenter.current!.dcName;
-    });
+    }) || '';
     const navigate = useNavigate();
     const [creating, changeCreating] = useState(false);
     //server tag and name
@@ -272,7 +272,7 @@ const AddServer = (): JSX.Element => {
                             'dcName': dc,
                             'svrNumber': svrNumber,
                             'tagName': tagName
-                        }).then(
+                        } as any).then(
                             () => {
                                 changeCreating(false);
                                 alert('创建成功');

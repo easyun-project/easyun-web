@@ -11,7 +11,8 @@
         "lint": "eslint --ext .jsx,.js,.ts,.tsx .",
         "tailwind": "tailwindcss-classnames -i tailwind.config.js -x tailwindcss-custom-classnames.ts -o tailwindcss-classnames.ts",
         "server": "nodemon main.js",
-        "generate-css-types": "tailwindcss-classnames -i tailwind.config.js -o output-file.ts"
+        "generate-css-types": "tailwindcss-classnames -i tailwind.config.js -o output-file.ts",
+        "gen:api": "openapi-ts"
     },
     "dependencies": {
         "@ant-design/icons": "^5.6.1",
@@ -38,6 +39,8 @@
         "tailwindcss-classnames": "2"
     },
     "devDependencies": {
+        "@hey-api/client-axios": "^0.9.1",
+        "@hey-api/openapi-ts": "^0.95.0",
         "@iconify/react": "^5.2.0",
         "@types/node": "^22.13.1",
         "@types/react": "^18.3.18",

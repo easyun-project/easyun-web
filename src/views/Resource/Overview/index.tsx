@@ -77,8 +77,8 @@ export const ResourceOverview = (): JSX.Element => {
     const { t } = useTranslation();
     const dcState = useSelector((state: RootState) => state.dataCenter);
     const dcLoading = dcState.loading;
-    const costSummary = dcState.summary.cost;
-    const rescSummary = dcState.summary.resource;
+    const costSummary = dcState.summary.cost as any;
+    const rescSummary = dcState.summary.resource as any;
 
     const costDate = costSummary?.currMonthCost.timePeriod.Start;
     // const costTotal = costSummary?.currMonthCost.totalCost.value;

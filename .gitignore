@@ -21,3 +21,4 @@ Thumbs.db
 # env files
 envs/.env.*
 !envs/.env.example
+.dev/

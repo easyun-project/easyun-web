@@ -1,34 +1,27 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import VolumeService from '@/service/stVolumeService';
-import { DcNameQueryParm } from '@/constant/dataCenter';
-import { StVolumeInfo, StVolumeDetail } from '@/constant/storage';
+import { getApiV1StorageVolumeList, getApiV1StorageVolume } from '@/api-client';
 
 //获取指定数据中心的 Volume 列表
 export const listAllVolume = createAsyncThunk(
     'stvoluem/listAllVolume',
-    async (params: DcNameQueryParm)  => {
-        return await VolumeService.listAllVolume(params);
+    async ({ dc }: { dc: string }) => {
+        const { data } = await getApiV1StorageVolumeList({ query: { dc } });
+        return data?.detail;
     }
 );
 
 export const getVolumeList = createAsyncThunk(
     'storage/getVolumeList',
-    async (params: DcNameQueryParm)  => {
-        return await VolumeService.getVolumeList(params);
+    async ({ dc }: { dc: string }) => {
+        const { data } = await getApiV1StorageVolume({ query: { dc } });
+        return data?.detail;
     }
 );
 
-// export const getVolumeDetail = createAsyncThunk(
-//     'storage/getBucketDetail',
-//     async (params: GetBucketDetailParams)  => {
-//         return await VolumeService.getVolumeDetail(params);
-//     }
-// );
-
 export interface StVolumeState {
     loading: boolean,
-    volumeList: StVolumeInfo[],
-    currentVolume:StVolumeDetail | 'loading' | 'failed'
+    volumeList: any[],
+    currentVolume: any | 'loading' | 'failed'
 }
 
 const initialState: StVolumeState = {
@@ -69,7 +62,7 @@ export const stvolumeSlice = createSlice({
 
         builder.addCase(listAllVolume.fulfilled, (state: StVolumeState, action) => {
             state.loading = false;
-            state.volumeList = action.payload;
+            state.volumeList = action.payload as any;
         });
         builder.addCase(listAllVolume.pending, (state: StVolumeState) => {
             state.loading = true;
@@ -77,16 +70,6 @@ export const stvolumeSlice = createSlice({
         builder.addCase(listAllVolume.rejected, (state: StVolumeState) => {
             state.loading = false;
         });
-
-        // builder.addCase(getVolumeDetail.pending, (state: StVolumeState) => {
-        //     state.currentVolume = 'loading';
-        // });
-        // builder.addCase(getVolumeDetail.fulfilled, (state: StVolumeState, action) => {
-        //     state.currentVolume = action.payload;
-        // });
-        // builder.addCase(getVolumeDetail.rejected, (state: StVolumeState) => {
-        //     state.currentVolume = 'failed';
-        // });
     }
 });
 export const { updateStorage, deleteVolume, updateVolumeList } = stvolumeSlice.actions;

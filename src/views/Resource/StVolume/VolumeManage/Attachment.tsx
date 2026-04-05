@@ -21,7 +21,7 @@ export default function Attachment(props:StVolumeInfo) {
     const dispatch = useDispatch<AppDispatch>();
     const { volumeAttach, volumeId } = props;
     const vols = useSelector((state: RootState) => state.stvolume.volumeList);
-    const dcName = useSelector((state: RootState) => state.dataCenter.current!.dcName);
+    const dcName = useSelector((state: RootState) => state.dataCenter.current!.dcName) || '';
     const { servers } = useSelector((state:RootState)=>state.server);
     const [ attaching, changeAttaching ] = useState(false);
     const [ detaching, changeDetaching ] = useState(false);
@@ -45,7 +45,7 @@ export default function Attachment(props:StVolumeInfo) {
                                     serverService.bindServerDisk({
                                         action:'attach',
                                         svrId:selectedSvr,
-                                        volumeId,
+                                        volumeId: volumeId || '',
                                         diskPath:attachPath
                                     }).then(()=>{
                                         dispatch(listAllServer({ dc:dcName }));
@@ -75,9 +75,9 @@ export default function Attachment(props:StVolumeInfo) {
                         changeDetaching(true);
                         serverService.bindServerDisk({
                             action:'detach',
-                            svrId:vol.svrId,
-                            volumeId,
-                            diskPath:vol.attachPath
+                            svrId:vol.svrId || '',
+                            volumeId: volumeId || '',
+                            diskPath:vol.attachPath || ''
                         }).then(
                             ()=>{
                                 changeDetaching(false);

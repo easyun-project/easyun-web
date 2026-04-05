@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import GatewayService, { IntGWPathParam, IntGatewayDetail } from '@/service/dcmGatewayServices';
-import { IntGatewayInfo } from '@/constant/dataCenter';
+import { getApiV1DatacenterGatewayInternet, getApiV1DatacenterGatewayInternetByIgwId } from '@/api-client';
 
 
 export interface IntGatewayState {
     loading: boolean,
-    list: IntGatewayInfo[] | undefined,
-    current: IntGatewayDetail | undefined,
+    list: any[] | undefined,
+    current: any | undefined,
 }
 
 const initialState: IntGatewayState = {
@@ -18,14 +17,16 @@ const initialState: IntGatewayState = {
 export const listAllIntGateway = createAsyncThunk(
     'datacenter/getDataCenterIntGateway',
     async (params: { dc: string }) => {
-        return await GatewayService.listAllIntGw(params);
+        const { data } = await getApiV1DatacenterGatewayInternet({ query: { dc: params.dc } });
+        return data?.detail as any;
     }
 );
 
 export const getIntGatewayDetail = createAsyncThunk(
     'datacenter/getIntGatewayDetail',
-    async (params: IntGWPathParam) => {
-        return await GatewayService.getIntGWDetail(params);
+    async (params: { dc: string; igwId: string }) => {
+        const { data } = await getApiV1DatacenterGatewayInternetByIgwId({ path: { igw_id: params.igwId }, query: { dc: params.dc } });
+        return data?.detail as any;
     }
 );
 
@@ -34,7 +35,6 @@ export const intgatewaySlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        // update datacenter Internet Gateway
         builder.addCase(listAllIntGateway.pending, (state: IntGatewayState) => {
             state.loading = true;
         });
@@ -57,4 +57,3 @@ export const intgatewaySlice = createSlice({
 });
 
 export default intgatewaySlice.reducer;
-// export const {  updateServerTags } = intgatewaySlice.actions;

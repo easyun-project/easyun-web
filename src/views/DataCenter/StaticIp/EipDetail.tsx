@@ -20,7 +20,7 @@ const { Option } = Select;
 export default function EipDetail() {
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
-    const dc = useSelector((state:RootState)=>state.dataCenter.current!.dcName);
+    const dc = useSelector((state:RootState)=>state.dataCenter.current!.dcName) || '';
     //解构赋值的连续性写法
     const { state:{ publicIp } }  = useLocation() as {state:{publicIp:string}};
     const eipInfos = useSelector((state:RootState)=>state.staticip.list);
@@ -55,7 +55,7 @@ export default function EipDetail() {
                         <button className="w-32 btn-red" onClick={()=>{
                             if(confirm('Are you sure to release this Eip?'))
                             {StaticIPService.delete({
-                                eipId: thisEip!.eipId,
+                                eipId: thisEip!.eipId || '',
                                 dcName: dc,
                                 publicIp
                             }).then(()=>navigate(-1));}
@@ -88,13 +88,13 @@ export default function EipDetail() {
                         // already attached to a server
                             ? <>
                                 <div className='text-xl font-semibold'>Detach from an instance</div>
-                                { <ServerCard serverId={thisEip.assoTarget.svrId}>
+                                { <ServerCard serverId={thisEip.assoTarget.svrId || ''}>
                                     <button className='flex items-center self-start text-yellow-550' onClick={() => {
                                         changeDetaching(true);
                                         serverService.bindServerEip({
                                             action: 'detach',
                                             publicIp: publicIp,
-                                            svrId: thisEip.assoTarget.svrId
+                                            svrId: thisEip.assoTarget.svrId || ''
                                         }).then(()=>{
                                             return dispatch(listAllStaticIp({ dc }));
                                         }).then(()=>changeDetaching(false));

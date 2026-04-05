@@ -1,22 +1,21 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-// import databaseService, { GetDbDetailParams }from '@/service/databaseService';
-import DatabaseService, { DcNameQueryParm } from '@/service/databaseService';
-import { DbiModel, DbiDetail } from '@/constant/database';
+import { getApiV1DatabaseList } from '@/api-client';
 
 
 //获取指定数据中心的Database列表
 export const listAllDatabase = createAsyncThunk(
     'storage/listAllDatabase',
-    async (params: DcNameQueryParm) => {
-        return await DatabaseService.listAll(params);
+    async ({ dc }: { dc: string }) => {
+        const { data } = await getApiV1DatabaseList({ query: { dc } });
+        return data?.detail;
     }
 );
 
 export interface DatabaseState {
     loading: boolean,
-    dbInstanceList: DbiModel[],
-    dbClusterList: DbiModel[],
-    currentDbInstance: DbiDetail | undefined
+    dbInstanceList: any[],
+    dbClusterList: any[],
+    currentDbInstance: any | undefined
 }
 
 const initialState: DatabaseState = {
@@ -54,7 +53,7 @@ export const databaseSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(listAllDatabase.fulfilled, (state: DatabaseState, action) => {
             state.loading = false;
-            state.dbInstanceList = action.payload;
+            state.dbInstanceList = action.payload as any;
         });
         builder.addCase(listAllDatabase.pending, (state: DatabaseState) => {
             state.loading = true;

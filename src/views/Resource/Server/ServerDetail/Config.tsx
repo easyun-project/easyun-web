@@ -183,7 +183,7 @@ export default function Config() {
     const [ insFamily, changeInsFamily ] = useState(currentInstype);
     const [ insTypes, changeInsTypes ] = useState<'loading' | InsType[]>('loading');
     const arch = useSelector((state: RootState) => state.server.currentServer!.svrConfig.arch as 'x86_64' | 'arm64' | 'unknown');
-    const dc = useSelector((state: RootState) => state.dataCenter.current!.dcName);
+    const dc = useSelector((state: RootState) => state.dataCenter.current!.dcName) || '';
     const os = useSelector((state: RootState) => state.server.currentServer?.svrConfig.os as 'windows' | 'linux');
     // 获取可选的instypefamily
     useEffect(() => {

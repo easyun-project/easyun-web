@@ -18,11 +18,11 @@ const AddBucket = (): JSX.Element => {
     const flagUtil = new FlagUtil();
     const defaultBucketName = 'bucket-easyun-test' + parseInt(Math.random() * 900 + 100 + '', 10);
     //redux state
-    const dcName = useSelector((state: RootState) => state.dataCenter.current!.dcName);
-    const currentRegion = useSelector((state: RootState) => state.dataCenter.current!.regionCode);
+    const dcName = useSelector((state: RootState) => state.dataCenter.current!.dcName) || '';
+    const currentRegion = useSelector((state: RootState) => state.dataCenter.current!.regionCode) || '';
     const regionList = useSelector((state: RootState) => state.dataCenter.regionList!);
     //component state
-    const [ region, setRegion ] = useState(regionList.filter(region => region.regionCode === currentRegion)[0]);
+    const [ region, setRegion ] = useState<any>(regionList.filter((region: any) => region.regionCode === currentRegion)[0]);
     const [ bucketId, setBucketId ] = useState(defaultBucketName);
     const [ encryption, setEncryption ] = useState(false);
     const [ versioning, setVersioning ] = useState(true);
@@ -64,8 +64,8 @@ const AddBucket = (): JSX.Element => {
                         <div className= 'mx-5 '>
                             <Trans i18nKey={'addBucket.locationTip'} values={{ regionCity:region.regionName, region:region.regionCode }}/>
                         </div>
-                        <Select className='mx-5 w-96' placeholder={t('addBucket.locationButton')} onChange={(value)=>setRegion(regionList.filter(region=>region.regionCode === value)[0])}>
-                            {regionList.map(region=> <Option key={region.regionCode} value={region.regionCode}>{`${region.regionCode} - ${region.regionName}`}</Option>)}
+                        <Select className='mx-5 w-96' placeholder={t('addBucket.locationButton')} onChange={(value)=>setRegion(regionList.filter((region: any)=>region.regionCode === value)[0])}>
+                            {regionList.map((region: any)=> <Option key={region.regionCode} value={region.regionCode}>{`${region.regionCode} - ${region.regionName}`}</Option>)}
                         </Select>
                     </div>
                 </div>

@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import RouteService, { RoutetabPathParam, RouteTableDetail } from '@/service/dcmRouteService';
-import { DcNameQueryParm, RouteTableInfo } from '@/constant/dataCenter';
+import { getApiV1DatacenterRoutetableList, getApiV1DatacenterRoutetableByRtbId } from '@/api-client';
 
 
 export interface RouteState {
     loading: boolean,
-    list: RouteTableInfo[],
-    current: RouteTableDetail | undefined,
+    list: any[],
+    current: any | undefined,
 }
 
 const initialState: RouteState = {
@@ -17,15 +16,17 @@ const initialState: RouteState = {
 
 export const listAllRouteTable = createAsyncThunk(
     'datacenter/listAllRouteTable',
-    async (params: DcNameQueryParm) => {
-        return await RouteService.listAll(params);
+    async (params: { dc: string }) => {
+        const { data } = await getApiV1DatacenterRoutetableList({ query: { dc: params.dc } });
+        return data?.detail as any;
     }
 );
 
 export const getRouteTableDetail = createAsyncThunk(
     'datacenter/getStaticIpDetail',
-    async (params: RoutetabPathParam) => {
-        return await RouteService.getDetail(params);
+    async (params: { dc: string; rtbId: string }) => {
+        const { data } = await getApiV1DatacenterRoutetableByRtbId({ path: { rtb_id: params.rtbId }, query: { dc: params.dc } });
+        return data?.detail as any;
     }
 );
 
@@ -34,7 +35,6 @@ export const routeSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-
         builder.addCase(listAllRouteTable.fulfilled, (state: RouteState, action) => {
             state.loading = false;
             state.list = action.payload;
@@ -60,4 +60,3 @@ export const routeSlice = createSlice({
 });
 
 export default routeSlice.reducer;
-// export const {  updateServerTags } = routeSlice.actions;

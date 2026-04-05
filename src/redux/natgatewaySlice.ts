@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import GatewayService, { NatGWPathParam, NatGatewayDetail } from '@/service/dcmGatewayServices';
-import { NatGatewayInfo } from '@/constant/dataCenter';
+import { getApiV1DatacenterGatewayNat, getApiV1DatacenterGatewayNatByNatgwId } from '@/api-client';
 
 
 export interface NatGatewayState {
     loading: boolean,
-    list: NatGatewayInfo[] | undefined,
-    current: NatGatewayDetail | undefined,
+    list: any[] | undefined,
+    current: any | undefined,
 }
 
 const initialState: NatGatewayState = {
@@ -18,14 +17,16 @@ const initialState: NatGatewayState = {
 export const listAllNatGateway = createAsyncThunk(
     'datacenter/listAllNatGateway',
     async (params: { dc: string }) => {
-        return await GatewayService.listAllNatGW(params);
+        const { data } = await getApiV1DatacenterGatewayNat({ query: { dc: params.dc } });
+        return data?.detail as any;
     }
 );
 
 export const getNatGatewayDetail = createAsyncThunk(
     'datacenter/getNatGatewayDetail',
-    async (params: NatGWPathParam) => {
-        return await GatewayService.getNatGWDetail(params);
+    async (params: { dc: string; natgwId: string }) => {
+        const { data } = await getApiV1DatacenterGatewayNatByNatgwId({ path: { natgw_id: params.natgwId }, query: { dc: params.dc } });
+        return data?.detail as any;
     }
 );
 
@@ -35,7 +36,6 @@ export const natgatewaySlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        // update datacenter NAT Gateway
         builder.addCase(listAllNatGateway.pending, (state: NatGatewayState) => {
             state.loading = true;
         });
@@ -58,9 +58,7 @@ export const natgatewaySlice = createSlice({
         builder.addCase(getNatGatewayDetail.rejected, (state: NatGatewayState) => {
             state.loading = false;
         });
-
     }
 });
 
 export default natgatewaySlice.reducer;
-// export const {  updateServerTags } = natgatewaySlice.actions;

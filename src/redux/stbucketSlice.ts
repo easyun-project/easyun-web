@@ -1,27 +1,27 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import BucketService, { BucketPathParam }from '@/service/stBucketService';
-import { DcNameQueryParm } from '@/constant/dataCenter';
-import { StBucketInfo, StBucketDetail } from '@/constant/storage';
+import { getApiV1StorageBucketList, getApiV1StorageBucketByBucketId } from '@/api-client';
 
 //获取指定数据中心的Bucket列表
 export const listAllBucket = createAsyncThunk(
     'storage/listAllBucket',
-    async (params: DcNameQueryParm)  => {
-        return await BucketService.listAllBucket(params);
+    async ({ dc }: { dc: string }) => {
+        const { data } = await getApiV1StorageBucketList({ query: { dc } });
+        return data?.detail;
     }
 );
 
 export const getBucketDetail = createAsyncThunk(
     'storage/getBucketDetail',
-    async (params: BucketPathParam)  => {
-        return await BucketService.getBucketDetail(params);
+    async ({ bucketId, dc }: { bucketId: string; dc: string }) => {
+        const { data } = await getApiV1StorageBucketByBucketId({ path: { bucket_id: bucketId }, query: { dc } });
+        return data?.detail;
     }
 );
 
 export interface StBucketState {
     loading: boolean,
-    bucketList: StBucketInfo[],
-    currentBucket:StBucketDetail | 'loading' | 'failed'
+    bucketList: any[],
+    currentBucket: any | 'loading' | 'failed'
 }
 
 const initialState: StBucketState = {
@@ -59,7 +59,7 @@ export const stbucketSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(listAllBucket.fulfilled, (state: StBucketState, action) => {
             state.loading = false;
-            state.bucketList = action.payload;
+            state.bucketList = action.payload as any;
         });
         builder.addCase(listAllBucket.pending, (state: StBucketState) => {
             state.loading = true;

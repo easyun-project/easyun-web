@@ -16,7 +16,7 @@ import { listAllVolume } from '@/redux/stvolumeSlice';
 const CStVolumeCard = (props: StVolumeInfo): JSX.Element => {
     const { volumeId, volumeAz, volumeSize, volumeAttach } = props;
     const navigate = useNavigate();
-    const dcName = useSelector((state: RootState) => state.dataCenter.current!.dcName);
+    const dcName = useSelector((state: RootState) => state.dataCenter.current!.dcName) || '';
     const dispatch = useDispatch<AppDispatch>();
     const menu = (
         <Menu>
@@ -30,7 +30,7 @@ const CStVolumeCard = (props: StVolumeInfo): JSX.Element => {
                 key="delete"
                 onClick={()=>{
                     //TODO:此处还需要解绑一下
-                    VolumeService.deleteVolume({ dcName, volumeIds: [ volumeId ] }).then(()=>
+                    VolumeService.deleteVolume({ dcName, volumeIds: [ volumeId || '' ] }).then(()=>
                     {
                         dispatch(listAllVolume({ dc: dcName }));
                         message.info('Delete volume success');

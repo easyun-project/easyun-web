@@ -23,7 +23,7 @@ export interface BucketCardInfo {
 
 const CStBucketCard = (props): JSX.Element => {
     const { bucketId,  bucketRegion, bucketAccess:{ description, status } } = props;
-    const dcName = useSelector((state: RootState) => state.dataCenter.current!.dcName);
+    const dcName = useSelector((state: RootState) => state.dataCenter.current!.dcName) || '';
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
     const init = async ()=> dispatch(getBucketDetail({ bucketId, dc: dcName }));
@@ -39,7 +39,7 @@ const CStBucketCard = (props): JSX.Element => {
                 danger
                 key="delete"
                 onClick={() => {
-                    bucketManage.deleteBucket({ dcName, bucketId })
+                    bucketManage.deleteBucket({ dcName, bucketId: bucketId || '' })
                         .then(
                             () => {
                                 alert('删除成功');

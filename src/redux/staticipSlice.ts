@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import StaticIPService, { EipPathParam, EipDetail } from '@/service/dcmStaticipServices';
-import { DcNameQueryParm, StaticIpInfo } from '@/constant/dataCenter';
+import { getApiV1DatacenterStaticipList, getApiV1DatacenterStaticipByEipId } from '@/api-client';
 
 
 export interface StaticIpState {
     loading: boolean,
-    list: StaticIpInfo[] | undefined,
-    current: EipDetail | undefined,
+    list: any[] | undefined,
+    current: any | undefined,
 }
 
 const initialState: StaticIpState = {
@@ -17,15 +16,17 @@ const initialState: StaticIpState = {
 
 export const listAllStaticIp = createAsyncThunk(
     'datacenter/listAllStaticIp',
-    async (params: DcNameQueryParm) => {
-        return await StaticIPService.listAll(params);
+    async (params: { dc: string }) => {
+        const { data } = await getApiV1DatacenterStaticipList({ query: { dc: params.dc } });
+        return data?.detail as any;
     }
 );
 
 export const getStaticIpDetail = createAsyncThunk(
     'datacenter/getStaticIpDetail',
-    async (params: EipPathParam) => {
-        return await StaticIPService.getDetail(params);
+    async (params: { dc: string; eipId: string }) => {
+        const { data } = await getApiV1DatacenterStaticipByEipId({ path: { eip_id: params.eipId }, query: { dc: params.dc } });
+        return data?.detail as any;
     }
 );
 
@@ -34,8 +35,6 @@ export const staticipSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-
-        // update datacenter Statip Ip
         builder.addCase(listAllStaticIp.pending, (state: StaticIpState) => {
             state.loading = true;
         });
@@ -58,4 +57,3 @@ export const staticipSlice = createSlice({
 });
 
 export default staticipSlice.reducer;
-// export const {  updateServerTags } = staticipSlice.actions;

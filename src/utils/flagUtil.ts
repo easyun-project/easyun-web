@@ -76,7 +76,7 @@ const FlagIcons: FlagIconType = {
 };
 
 class FlagUtil {
-    public regionList: Array<RegionType> | undefined;
+    public regionList: any[] | undefined;
     defaultFlag: string;
 
     constructor() {

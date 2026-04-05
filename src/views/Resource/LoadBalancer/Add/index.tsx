@@ -94,7 +94,7 @@ const AddLoadbalancer = (): JSX.Element => {
                             setRegionCode(value);
                             // getDcParams();
                         }} >
-                        {regionList?.map((item: RegionItem, index) => {
+                        {regionList?.map((item: any, index) => {
                             return (<Select.Option key={index} value={item.regionCode}> {item.regionCode} - {item.regionName} </Select.Option>);
                         })}
                     </Select>

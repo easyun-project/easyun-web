@@ -15,7 +15,7 @@ const { Option } = Select;
 
 const AddVolume = (): JSX.Element => {
     const navigate = useNavigate();
-    const dcName = useSelector((state: RootState) => state.dataCenter.current!.dcName);
+    const dcName = useSelector((state: RootState) => state.dataCenter.current!.dcName) || '';
     const [ creating, changeCreating ] = useState(false);
     const { t } = useTranslation();
     const [ tags, changeTags ] = useState<Record<string, string>>({});
@@ -86,7 +86,7 @@ const AddVolume = (): JSX.Element => {
                 VolumeService.addVolume({
                     ...newDiskProps,
                     // multiattch,
-                    azName,
+                    azName: azName || '',
                     dcName,
                     svrId: '1234',
                     tagName: '1234'

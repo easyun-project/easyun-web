@@ -1,13 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-// import loadbalancerService, { GetDbDetailParams }from '@/service/loadbalancerService';
-import LoadbalancerService, { DcNameQueryParm } from '@/service/loadbalancerService';
-import { ElbModel, ElbDetail } from '@/constant/loadbalancer';
+import { getApiV1LoadbalancerList } from '@/api-client';
 
 
 export interface LoadbalancerState {
     loading: boolean,
-    list: ElbModel[],
-    current: ElbDetail | undefined
+    list: any[],
+    current: any | undefined
 }
 
 const initialState: LoadbalancerState = {
@@ -19,8 +17,9 @@ const initialState: LoadbalancerState = {
 //获取指定数据中心的Loadbalancer列表
 export const listAllLoadbalancer = createAsyncThunk(
     'storage/listAllLoadbalancer',
-    async (params: DcNameQueryParm) => {
-        return await LoadbalancerService.listAll(params);
+    async ({ dc }: { dc: string }) => {
+        const { data } = await getApiV1LoadbalancerList({ query: { dc } });
+        return data?.detail;
     }
 );
 
@@ -30,7 +29,7 @@ export const loadbalancerSlice = createSlice({
     reducers: {
         // 将loadbalancer直接置为传过来的值
         updateElbList: (state, action) => {
-            state.list = action.payload;
+            state.list = action.payload as any;
         },
 
         // 删除指定name的值
@@ -51,7 +50,7 @@ export const loadbalancerSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(listAllLoadbalancer.fulfilled, (state: LoadbalancerState, action) => {
             state.loading = false;
-            state.list = action.payload;
+            state.list = action.payload as any;
         });
         builder.addCase(listAllLoadbalancer.pending, (state: LoadbalancerState) => {
             state.loading = true;
