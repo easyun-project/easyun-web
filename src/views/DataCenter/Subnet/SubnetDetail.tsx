@@ -1,10 +1,10 @@
+import { SimpleSelect as Select, SimpleOption as Option } from '@/components/ui/simple-select';
 import { Switch } from '@/components/ui/switch';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { Select } from 'antd';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 
 
@@ -14,8 +14,7 @@ export default function SubnetDetail() {
     const subnet = useSelector((state:RootState)=>state.subnet.list?.filter(subnet=>subnet.subnetId === subnetId).at(0));
     const [ seletedRoute, changeSeletedRoute ] = useState('');
     const [ autoAssign, changeAutoAssign ] = useState(true);
-    const { Option } = Select;
-    return (
+        return (
         <div className='flex m-4'>
             {subnet?.subnetType === 'public'
                 ? <Icon className='mr-8' icon="gis:globe-alt-o" width="100" color='#686868' inline={true} />
@@ -53,7 +52,7 @@ export default function SubnetDetail() {
 
                 <div className='text-lg font-bold'>Subnet route table settings</div>
                 <div>Route table ID</div>
-                <Select className='w-96' placeholder='slect a route table' onChange={value=>changeSeletedRoute(value)}>
+                <Select className='w-96' placeholder='slect a route table' onValueChange={value=>changeSeletedRoute(value)}>
                     <Option value='rtb-1'>rtb-1</Option>
                     <Option value='rtb-2'>rtb-2</Option>
                 </Select>

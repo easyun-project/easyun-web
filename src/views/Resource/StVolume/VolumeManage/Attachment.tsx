@@ -1,3 +1,4 @@
+import { SimpleSelect as Select, SimpleOption as Option } from '@/components/ui/simple-select';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ServerCard from '@/components/Logic/CCard/ServerCard';
@@ -10,10 +11,8 @@ import type { AppDispatch } from '@/redux/store';
 import { listAllVolume } from '@/redux/stvolumeSlice';
 import { listAllServer } from '@/redux/serverSlice';
 import { RootState } from '@/redux/store';
-import { Select } from 'antd';
 import getAvaliablePaths from '@/utils/pathTool';
 
-const { Option } = Select;
 
 // TODO:挂载卸载的接口。
 export default function Attachment(props:StVolumeInfo) {
@@ -34,7 +33,7 @@ export default function Attachment(props:StVolumeInfo) {
             <div>{t('volumeManageAttachment.tip')}</div>
             {volumeAttach.length === 0
                 ? <div>
-                    <Select placeholder="Select a cloud server..." className='mb-4 w-96' onChange={value=>setSeletedSvr(value)}>
+                    <Select placeholder="Select a cloud server..." className='mb-4 w-96' onValueChange={value=>setSeletedSvr(value)}>
                         {servers.map(server=><Option key={server.svrId} value={server.svrId}>{`${server.tagName} : ${server.svrId}`}</Option>)}
                     </Select>
                     {selectedSvr
@@ -64,8 +63,8 @@ export default function Attachment(props:StVolumeInfo) {
                                     <span>Attach</span>
                                 </button>
                             </ServerCard>
-                            <Select className='w-96' value={attachPath} onChange={value=>setAttachPath(value)}>
-                                {getAvaliablePaths(selectedSvr, vols).slice(0, 5).map(path=><Option key={path}>{path}</Option>)}
+                            <Select className='w-96' value={attachPath} onValueChange={value=>setAttachPath(value)}>
+                                {getAvaliablePaths(selectedSvr, vols).slice(0, 5).map(path=><Option key={path} value={path}>{path}</Option>)}
                             </Select>
                         </>
                         : undefined}

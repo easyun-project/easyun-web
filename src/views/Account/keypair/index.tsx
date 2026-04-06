@@ -1,7 +1,8 @@
+import { SimpleSelect as Select, SimpleOption as Option } from '@/components/ui/simple-select';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import React, { useState, useEffect } from 'react';
-import { Card, Modal, Select } from 'antd';
+import { Card, Modal } from 'antd';
 import { Icon } from '@iconify/react';
 import { getApiV1AccountKeypairList, getApiV1AccountKeypairStoreByKeyName, deleteApiV1AccountKeypair, getApiV1AccountReminderFreetier, putApiV1AccountReminderFreetier } from '@/api-client';
 import { IsshkeyItem } from '@/constant/awsInfo';
@@ -32,8 +33,7 @@ const olddata = [
     },
 ];
 const Component = (): JSX.Element => {
-    const { Option } = Select;
-
+    
     function handleChange(value) {
         console.log(`selected ${value}`);
     }
@@ -211,8 +211,8 @@ const Component = (): JSX.Element => {
                         <div>
                             <Select
                                 defaultValue=""
-                                style={{ width: '100%' }}
-                                onChange={handleChange}
+                               
+                                onValueChange={handleChange}
                             >
                                 <Option value="A">A</Option>
                                 <Option value="B">B</Option>

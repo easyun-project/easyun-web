@@ -1,7 +1,8 @@
+import { SimpleSelect as Select, SimpleOption as Option } from '@/components/ui/simple-select';
 import { Switch } from '@/components/ui/switch';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
-import { Select, Popover, InputNumber } from 'antd';
+import { Popover, InputNumber } from 'antd';
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 
 import { VolumeTypeInfo, SelectedVolumeTypeInfo } from '@/constant/storage';
@@ -16,8 +17,7 @@ export const useMount = (callback) => {
 
 // 添加新disk的钩子函数，需要传入可用的attach path
 export const useNewDisk = (availablePaths:string[]) => {
-    const { Option } = Select;
-    const [ volumeType, changeVolumeType ] = useState('standard');
+        const [ volumeType, changeVolumeType ] = useState('standard');
     const [ isEncrypted, changeIsEncryption ] = useState(true);
     const [ volumeSize, changeVolumeSize ] = useState(8);
     const [ volumeIOPS, changeVolumeIOPS ] = useState(3000);
@@ -39,7 +39,7 @@ export const useNewDisk = (availablePaths:string[]) => {
                     <span><Icon icon="icon-park-outline:solid-state-disk" width="64" fr={undefined}/> </span>
                     <div className='grow mx-3'>
                         <span >Disk type:</span>
-                        <Select className= 'w-1/2' defaultValue={ 'standard' } onChange={value=>changeVolumeType(value)} size='small'>
+                        <Select className= 'w-1/2' defaultValue={ 'standard' } onValueChange={value=>changeVolumeType(value)}>
                             {Object.keys(VolumeTypeInfo).map(key=><Option value={key} key={key}>{VolumeTypeInfo[key].typeDesc}</Option>)}
                         </Select>
                         <div className= 'flex justify-between mt-2'>
@@ -48,7 +48,7 @@ export const useNewDisk = (availablePaths:string[]) => {
                                 <Popover content={
                                     `max:${selectedTypeInfo.volumeSize?.at(1)} min:${selectedTypeInfo.volumeSize?.at(0)}`
                                 } title="Tips">
-                                    <InputNumber className= 'w-16' size='small' min={selectedTypeInfo.volumeSize?.at(0)} max={selectedTypeInfo.volumeSize?.at(1)} defaultValue={8} onChange={(value)=>changeVolumeSize(value ?? 0)}/>
+                                    <InputNumber className= 'w-16' min={selectedTypeInfo.volumeSize?.at(0)} max={selectedTypeInfo.volumeSize?.at(1)} defaultValue={8} onChange={(value)=>changeVolumeSize(value ?? 0)}/>
                                 </Popover>
                             </div>
                             <div>
@@ -56,7 +56,7 @@ export const useNewDisk = (availablePaths:string[]) => {
                                 <Popover content={
                                     `max:${selectedTypeInfo.volumeIops?.at(1)} min:${selectedTypeInfo.volumeIops?.at(0)}`
                                 } title="Tips">
-                                    <InputNumber className= 'w-16' disabled={!selectedTypeInfo.volumeIops} size='small' min={selectedTypeInfo.volumeIops?.at(0)} max={selectedTypeInfo.volumeIops?.at(1)} defaultValue={3000}
+                                    <InputNumber className= 'w-16' disabled={!selectedTypeInfo.volumeIops} min={selectedTypeInfo.volumeIops?.at(0)} max={selectedTypeInfo.volumeIops?.at(1)} defaultValue={3000}
                                         onChange={(value) => changeVolumeIOPS(value ?? 0)} />
                                 </Popover>
                             </div>
@@ -65,7 +65,7 @@ export const useNewDisk = (availablePaths:string[]) => {
                                 <Popover content={
                                     `max:${selectedTypeInfo.volumeThruput?.at(1)} min:${selectedTypeInfo.volumeThruput?.at(0)}`
                                 } title="Tips">
-                                    <InputNumber className= 'w-16' disabled={!selectedTypeInfo.volumeThruput} size='small' min={selectedTypeInfo.volumeThruput?.at(0)} max={selectedTypeInfo.volumeThruput?.at(1)} defaultValue={125}
+                                    <InputNumber className= 'w-16' disabled={!selectedTypeInfo.volumeThruput} min={selectedTypeInfo.volumeThruput?.at(0)} max={selectedTypeInfo.volumeThruput?.at(1)} defaultValue={125}
                                         onChange={(value) => changeVolumeThruputs(value ?? 0)} />
                                 </Popover>
                             </div>
@@ -75,7 +75,7 @@ export const useNewDisk = (availablePaths:string[]) => {
                 <div className= 'flex justify-between p-2 mr-6 ml-12 border-t-2 border-gray-300 border-dashed'>
                     <div className= 'flex'>
                         <span>Disk path:</span>
-                        <Select defaultValue={availablePaths[0]} size='small' style={{ width: 120 }} onChange={(e)=>changeAttachPath(e)}>
+                        <Select defaultValue={availablePaths[0]} onValueChange={(e)=>changeAttachPath(e)}>
                             {availablePaths.slice(0, 5).map((path)=><Option key ={path} value={path}>{path}</Option>)}
                         </Select>
                     </div>

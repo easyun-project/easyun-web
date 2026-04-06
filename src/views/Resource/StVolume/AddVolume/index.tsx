@@ -1,8 +1,9 @@
+import { SimpleSelect as Select, SimpleOption as Option } from '@/components/ui/simple-select';
 import { Switch } from '@/components/ui/switch';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import { useTranslation, Trans } from 'react-i18next';
-import { Card, Select } from 'antd';
+import { Card } from 'antd';
 import CTags from '@/components/Logic/CTags';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { postApiV1StorageVolume, getApiV1StorageVolumeByVolumeId, deleteApiV1StorageVolume } from '@/api-client';
@@ -12,7 +13,6 @@ import { RootState } from '@/redux/store';
 import { LoadingOutlined } from '@ant-design/icons';
 import { useNewDisk } from '@/utils/hooks';
 
-const { Option } = Select;
 
 const AddVolume = (): JSX.Element => {
     const navigate = useNavigate();
@@ -43,8 +43,8 @@ const AddVolume = (): JSX.Element => {
             </div>
             <Card title={t('addVolume.zone.title')} className="mt-5 rounded-border">
                 <div>{t('addVolume.zone.tip')}</div>
-                <Select defaultValue={availableZones[0]} size="small" style={{ width: 120 }}
-                    onChange={(e) => changeAzName(e)}>
+                <Select defaultValue={availableZones[0]}
+                    onValueChange={(e) => changeAzName(e)}>
                     {availableZones.map((zone) => <Option key={zone} value={zone}>{zone}</Option>)}
                 </Select>
             </Card>

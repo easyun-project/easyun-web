@@ -1,3 +1,4 @@
+import { SimpleSelect as Select, SimpleOption as Option } from '@/components/ui/simple-select';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import React, { useEffect, useState, useRef } from 'react';
@@ -8,7 +9,7 @@ import { RootState } from '@/redux/store';
 import { Icon } from '@iconify/react';
 import CPlatform from '@/components/Logic/CPlatform';
 import { Button } from '@/components/ui/button';
-import { Select, Form, Progress, Cascader, Card } from 'antd';
+import { Form, Progress, Cascader, Card } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 // import LoadbalancerService from '@/service/LoadbalancerService';
 import { RegionItem  } from '@/constant/dataCenter';
@@ -78,7 +79,7 @@ const AddLoadbalancer = (): JSX.Element => {
                         <Form.Item label="Name:" name="dcName" className='ml-4'
                             rules={[{ required: true, message: 'Please input the load balancer name!' }]}
                         >
-                            <Input style={{ width: 280 }}
+                            <Input
                                 onChange={(e) => { setTagName(e.target.value); }}
                                 onBlur={(e) => {
                                     if (!e.target.value) setValidStatus(false);
@@ -88,14 +89,14 @@ const AddLoadbalancer = (): JSX.Element => {
                         </Form.Item>
                     </Form>
 
-                    <span style={{ width: 61 }} className={"inline-block ml-4 my-2"}>Region:</span>
-                    <Select defaultValue={dcParams?.dcRegion} style={{ width: 280 }} listHeight={360} disabled={!validStatus}
-                        onChange={(value) => {
+                    <span className={"inline-block ml-4 my-2"}>Region:</span>
+                    <Select defaultValue={dcParams?.dcRegion} disabled={!validStatus}
+                        onValueChange={(value) => {
                             setRegionCode(value);
                             // getDcParams();
                         }} >
                         {regionList?.map((item: any, index) => {
-                            return (<Select.Option key={index} value={item.regionCode}> {item.regionCode} - {item.regionName} </Select.Option>);
+                            return (<Option key={index} value={item.regionCode}> {item.regionCode} - {item.regionName} </Option>);
                         })}
                     </Select>
                     <Icon icon={flagUtil.getFlagIconByRegion(regionCode)}

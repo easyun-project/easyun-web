@@ -1,8 +1,8 @@
+import { SimpleSelect as Select, SimpleOption as Option } from '@/components/ui/simple-select';
 import { Input } from '@/components/ui/input';
 import clsx from 'clsx';
 import React, { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
-import { Select } from 'antd';
 import { DcDropDown, SubnetParms } from '@/constant/dataCenter';
 
 interface SubnetProps {
@@ -44,18 +44,18 @@ export const SubnetOption = (props: SubnetProps): JSX.Element => {
                 <h5 className='mb-2'>{title}</h5>
 
                 <div className="my-1">
-                    <span style={{ width: 130 }} className='inline-block'>CIDR Block(ipv4):</span>
-                    <Input style={{ width: 168 }} className='h-6' value={subnet?.cidrBlock} />
+                    <span className='inline-block'>CIDR Block(ipv4):</span>
+                    <Input className='h-6' value={subnet?.cidrBlock} />
                 </div>
 
                 <div className="my-1">
-                    <span style={{ width: 130 }} className='inline-block'>Availability Zone:</span>
-                    {/* <Select style={{ width: 168 }} className='h-6' defaultValue={subnet?.azName}>
+                    <span className='inline-block'>Availability Zone:</span>
+                    {/* <Select className='h-6' defaultValue={subnet?.azName}>
                         {props.dropdown?.azList.map((item, index) => (
-                            <Select.Option key={index} value={index}>{item} </Select.Option>
+                            <Option key={index} value={index}>{item} </Option>
                         ))}
                     </Select> */}
-                    <select style={{ width: 168 }} className='pl-2 h-6 border'
+                    <select className='pl-2 h-6 border'
                         onChange={(e)=>setSlectedAz(dropdown?.azList[e.target.value])} >
                         {
                             dropdown?.azList.map((item, index) => {
@@ -72,8 +72,8 @@ export const SubnetOption = (props: SubnetProps): JSX.Element => {
                 </div>
 
                 <div className="my-1">
-                    <span style={{ width: 130 }} className='inline-block'>Gateway:</span>
-                    <select style={{ width: 168 }} className='pl-2 h-6 border' defaultValue={0}>
+                    <span className='inline-block'>Gateway:</span>
+                    <select className='pl-2 h-6 border' defaultValue={0}>
                         {
                             <option value={subnet?.gwName}> {subnet?.gwName} </option>
                             // props.dropdown?.rtbList.map((item, index) => {
@@ -84,8 +84,8 @@ export const SubnetOption = (props: SubnetProps): JSX.Element => {
                 </div>
 
                 <div className="my-1">
-                    <span style={{ width: 130 }} className='inline-block'>Route Table:</span>
-                    <select style={{ width: 168 }} className='pl-2 h-6 border' defaultValue={0}>
+                    <span className='inline-block'>Route Table:</span>
+                    <select className='pl-2 h-6 border' defaultValue={0}>
                         {
                             <option value={subnet?.routeTable}> {subnet?.routeTable} </option>
                             // props.dropdown?.rtbList.map((item, index) => {

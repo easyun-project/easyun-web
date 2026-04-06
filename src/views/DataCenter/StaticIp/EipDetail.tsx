@@ -1,3 +1,4 @@
+import { SimpleSelect as Select, SimpleOption as Option } from '@/components/ui/simple-select';
 import { putApiV1ServerEip } from "@/api-client";
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -9,12 +10,10 @@ import { useNavigate } from 'react-router-dom';
 // import { SeverDetailModel } from '@/constant/server';
 import ServerCard from '@/components/Logic/CCard/ServerCard';
 import { LoadingOutlined } from '@ant-design/icons';
-import { Select } from 'antd';
 import { useDispatch } from 'react-redux';
 import { getApiV1DatacenterStaticipList, postApiV1DatacenterStaticip, deleteApiV1DatacenterStaticip } from '@/api-client';
 import { listAllStaticIp } from '@/redux/staticipSlice';
 // // import { WarningOutlined, InfoCircleOutlined } from '@ant-design/icons';
-const { Option } = Select;
 
 export default function EipDetail() {
     const dispatch = useDispatch<AppDispatch>();
@@ -119,7 +118,7 @@ export default function EipDetail() {
                                     ? 'nat_gateway'
                                 // not attached to a nat_gateway or a server
                                     : <div>
-                                        <Select placeholder="Select a cloud server..." className='mb-4 w-96' onChange={
+                                        <Select placeholder="Select a cloud server..." className='mb-4 w-96' onValueChange={
                                             value=>{
                                                 changeSelectedSvr(value);
                                             }

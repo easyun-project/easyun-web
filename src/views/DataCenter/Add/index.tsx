@@ -1,3 +1,4 @@
+import { SimpleSelect as Select, SimpleOption as Option } from '@/components/ui/simple-select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
@@ -11,7 +12,7 @@ import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
-import { Select, Form, Progress } from 'antd';
+import { Form, Progress } from 'antd';
 import { RootState } from '@/redux/store';
 import { listAllDataCenter, getDataCenterParams } from '@/redux/dataCenterSlice';
 import { DataCenterParams, DCProgressInfo, RegionItem, SecurityGroupParms, SubnetParms } from '@/constant/dataCenter';
@@ -222,7 +223,7 @@ const AddDataCenter = (): JSX.Element => {
                         <Form.Item label="Name:" name="dcName" className='ml-4'
                             rules={[{ required: true, message: 'Please input the datacenter name!' }]}
                         >
-                            <Input style={{ width: 280 }}
+                            <Input
                                 onChange={(e) => { setInputDcName(e.target.value); }}
                                 onBlur={(e) => {
                                     if (!e.target.value) setValidStatus(false);
@@ -232,22 +233,22 @@ const AddDataCenter = (): JSX.Element => {
                         </Form.Item>
                     </Form>
 
-                    <span style={{ width: 61 }} className={"inline-block ml-4 my-2"}>Region:</span>
-                    <Select defaultValue={dcParams?.dcRegion} style={{ width: 280 }} listHeight={360} disabled={!validStatus}
-                        onChange={(value) => {
+                    <span className={"inline-block ml-4 my-2"}>Region:</span>
+                    <Select defaultValue={dcParams?.dcRegion} disabled={!validStatus}
+                        onValueChange={(value) => {
                             setRegionCode(value);
                             // getDcParams();
                         }} >
                         {regionList?.map((item: any, index) => {
-                            return (<Select.Option key={index} value={item.regionCode}> {item.regionCode} - {item.regionName} </Select.Option>);
+                            return (<Option key={index} value={item.regionCode}> {item.regionCode} - {item.regionName} </Option>);
                         })}
                     </Select>
                     <Icon icon={flagUtil.getFlagIconByRegion(regionCode)}
                         className={"ml-5 inline-block"} color="#5c6f9a" width="25" height="25" fr={undefined} />
 
                     <h5 className='mt-4 mb-2'>Defining DataCenter Networking</h5>
-                    <span style={{ width: 150 }} className={"inline-block ml-4"}>CIDR block(IPv4):</span>
-                    <Input defaultValue={dcParams?.dcVPC.cidrBlock} style={{ width: 280 }}
+                    <span className={"inline-block ml-4"}>CIDR block(IPv4):</span>
+                    <Input defaultValue={dcParams?.dcVPC.cidrBlock}
                         onChange={(e) => { handleCidrChange(e.target.value); }}
                         className={"border"} type="text" />
                     <div className='ml-4 my-2'>

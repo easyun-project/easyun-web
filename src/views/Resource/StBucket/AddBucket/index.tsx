@@ -1,3 +1,4 @@
+import { SimpleSelect as Select, SimpleOption as Option } from '@/components/ui/simple-select';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { toast } from 'sonner';
@@ -5,14 +6,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { getApiV1StorageBucketVaildate, postApiV1StorageBucketAdd, deleteApiV1StorageBucket } from '@/api-client';
-import { Select, Card, Tooltip } from 'antd';
+import { Card, Tooltip } from 'antd';
 import { useTranslation, Trans } from 'react-i18next';
 import FlagUtil from '@/utils/flagUtil';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { LoadingOutlined } from '@ant-design/icons';
 
-const { Option } = Select;
 
 const AddBucket = (): JSX.Element => {
     //hooks and utils
@@ -67,7 +67,7 @@ const AddBucket = (): JSX.Element => {
                         <div className= 'mx-5 '>
                             <Trans i18nKey={'addBucket.locationTip'} values={{ regionCity:region.regionName, region:region.regionCode }}/>
                         </div>
-                        <Select className='mx-5 w-96' placeholder={t('addBucket.locationButton')} onChange={(value)=>setRegion(regionList.filter((region: any)=>region.regionCode === value)[0])}>
+                        <Select className='mx-5 w-96' placeholder={t('addBucket.locationButton')} onValueChange={(value)=>setRegion(regionList.filter((region: any)=>region.regionCode === value)[0])}>
                             {regionList.map((region: any)=> <Option key={region.regionCode} value={region.regionCode}>{`${region.regionCode} - ${region.regionName}`}</Option>)}
                         </Select>
                     </div>

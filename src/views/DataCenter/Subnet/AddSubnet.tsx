@@ -1,7 +1,8 @@
+import { SimpleSelect as Select, SimpleOption as Option } from '@/components/ui/simple-select';
 import { Input } from '@/components/ui/input';
 import React, { useState } from 'react';
 import { Icon } from '@iconify/react';
-import { Card, Select } from 'antd';
+import { Card } from 'antd';
 import CTags from '@/components/Logic/CTags';
 
 export default function AddSubnet() {
@@ -9,8 +10,7 @@ export default function AddSubnet() {
     const [zone, changeZone] = useState('us-east-1a');
     const [cidr, changeCidr] = useState('10.0.0.0/24');
     const [tags, changeTags] = useState<Record<string, string>>({ he: 'llo' });
-    const { Option } = Select;
-    return (
+        return (
         <div>
             <div className='flex items-center'>
                 <Icon icon="fluent:add-circle-20-regular" width="30" height="30" />
@@ -23,7 +23,7 @@ export default function AddSubnet() {
             </Card>
             <Card title="Availability Zone" className='mt-5 rounded-border'>
                 <div>Choose the zone in which your subnet will reside.</div>
-                <Select className='w-96' onChange={(value => changeZone(value))} defaultValue={zone}>
+                <Select className='w-96' onValueChange={(value => changeZone(value))} defaultValue={zone}>
                     <Option value='us-east-1a'> US East(N. Virginia)/ us-east-1a</Option>
                     <Option value='us-east-1b'> US East(N. Virginia)/ us-east-1b</Option>
                 </Select>

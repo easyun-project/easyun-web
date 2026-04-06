@@ -1,8 +1,7 @@
-import { Select } from 'antd';
+import { SimpleSelect as Select, SimpleOption as Option } from '@/components/ui/simple-select';
 import React, { useEffect, useState } from 'react';
 import { postApiV1Datacenter, getApiV1DatacenterTask, getApiV1DatacenterList, deleteApiV1Datacenter } from '@/api-client';
 
-const { Option } = Select;
 
 export const DictListSelect = (props): JSX.Element => {
     const { propDcName } = props;
@@ -33,7 +32,7 @@ export const DictListSelect = (props): JSX.Element => {
         return domList;
     };
 
-    return (<Select key={dcName} onChange={changeDictName} defaultValue={dcName}
+    return (<Select key={dcName} onValueChange={changeDictName} defaultValue={dcName}
         className={"w-32"}>
         {dictView()}
     </Select>);
