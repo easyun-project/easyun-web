@@ -1,3 +1,4 @@
+import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -7,7 +8,7 @@ import { RootState } from '@/redux/store';
 import { Icon } from '@iconify/react';
 import CPlatform from '@/components/Logic/CPlatform';
 import { Button } from '@/components/ui/button';
-import { Select, Input, Form, Progress, Cascader, Card } from 'antd';
+import { Select, Form, Progress, Cascader, Card } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 // import LoadbalancerService from '@/service/LoadbalancerService';
 import { RegionItem  } from '@/constant/dataCenter';

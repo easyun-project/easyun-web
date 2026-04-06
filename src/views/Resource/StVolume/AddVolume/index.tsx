@@ -1,7 +1,8 @@
+import { Switch } from '@/components/ui/switch';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import { useTranslation, Trans } from 'react-i18next';
-import { Card, Switch, Select } from 'antd';
+import { Card, Select } from 'antd';
 import CTags from '@/components/Logic/CTags';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { postApiV1StorageVolume, getApiV1StorageVolumeByVolumeId, deleteApiV1StorageVolume } from '@/api-client';
@@ -53,10 +54,10 @@ const AddVolume = (): JSX.Element => {
                 <div className="flex">
                     <Switch
                         className="mt-2"
-                        checkedChildren={<CheckOutlined/>}
-                        unCheckedChildren={<CloseOutlined/>}
-                        defaultChecked={false}
-                        onChange={() =>
+                       
+                       
+                        checked={false}
+                        onCheckedChange ={() =>
                             changeMultiattch(!multiattch)}
                     />
                     <div className="ml-4">

@@ -1,6 +1,7 @@
+import { Switch } from '@/components/ui/switch';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
-import {  Switch, Select, Popover, InputNumber } from 'antd';
+import { Select, Popover, InputNumber } from 'antd';
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 
 import { VolumeTypeInfo, SelectedVolumeTypeInfo } from '@/constant/storage';
@@ -81,10 +82,10 @@ export const useNewDisk = (availablePaths:string[]) => {
                     <div>
                         <span className= 'mr-2'>Encryption</span>
                         <Switch
-                            checkedChildren={<CheckOutlined className= 'align-middle'/>}
-                            unCheckedChildren={<CloseOutlined className= 'align-middle'/>}
-                            defaultChecked
-                            onChange = {()=>
+                           
+                           
+                            checked
+                            onCheckedChange = {()=>
                                 changeIsEncryption(!isEncrypted)}
                         />
                     </div>

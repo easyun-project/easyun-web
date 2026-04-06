@@ -1,9 +1,10 @@
+import { Switch } from '@/components/ui/switch';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { Switch, Select } from 'antd';
+import { Select } from 'antd';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 
 
@@ -38,12 +39,12 @@ export default function SubnetDetail() {
                     <div className='text-xs text-gray-500'>Enable the auto-assign Ip setting to automatically request a public IPv4 or IPv6 address for a new network interface in this subnet.</div>
                     <div className='flex items-center my-2'>
                         <Switch
-                            // checkedChildren={<CheckOutlined className='align-middle'/>}
-                            // unCheckedChildren={<CloseOutlined className='align-middle'/>}
-                            checkedChildren={<CheckOutlined/>}
-                            unCheckedChildren={<CloseOutlined/>}
-                            defaultChecked
-                            onChange = {()=>
+                            //
+                            //
+                           
+                           
+                            checked
+                            onCheckedChange = {()=>
                                 changeAutoAssign(!autoAssign)}
                         />
                         <div>{autoAssign ? 'Enable' : 'Disable'} auto-assign public IPv4 address</div>

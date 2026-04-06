@@ -1,6 +1,7 @@
+import { Input } from '@/components/ui/input';
 import React, { useState,useEffect } from 'react';
 import { Icon } from '@iconify/react';
-import { Input } from 'antd';
+
 import { ArrowRightOutlined, TagOutlined } from '@ant-design/icons';
 import { useDispatch,useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
@@ -96,7 +97,7 @@ export default function Tags() {
                             disabled={isChanging}
                             defaultValue={tagKey}
                             placeholder="Tag key (e.g. Project)"
-                            prefix={<TagOutlined className="site-form-item-icon"/>}
+                           
                             onChange={(e)=>changeKey(e.target.value)}
                         />
                     </div>
@@ -105,7 +106,7 @@ export default function Tags() {
                         <Input
                             defaultValue={tagValue}
                             placeholder="Tag value (e.g. Blog)"
-                            prefix={<ArrowRightOutlined className="site-form-item-icon" />}
+                           
                             onChange={(e)=>changeValue(e.target.value)}
                         />
                     </div>

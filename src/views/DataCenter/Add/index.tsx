@@ -1,3 +1,5 @@
+import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import React, { useEffect, useState, useRef } from 'react';
 import { postApiV1Datacenter, getApiV1DatacenterTask, getApiV1DatacenterList, deleteApiV1Datacenter } from '@/api-client';
@@ -9,7 +11,7 @@ import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
-import { Select, Input, Form, Progress, Checkbox } from 'antd';
+import { Select, Form, Progress } from 'antd';
 import { RootState } from '@/redux/store';
 import { listAllDataCenter, getDataCenterParams } from '@/redux/dataCenterSlice';
 import { DataCenterParams, DCProgressInfo, RegionItem, SecurityGroupParms, SubnetParms } from '@/constant/dataCenter';
@@ -249,9 +251,8 @@ const AddDataCenter = (): JSX.Element => {
                         onChange={(e) => { handleCidrChange(e.target.value); }}
                         className={"border"} type="text" />
                     <div className='ml-4 my-2'>
-                        <Checkbox checked={createNatGW} onChange={(e) => setCreateNatGW(e.target.checked)}>
-                            Create NAT Gateway
-                        </Checkbox>
+                        <Checkbox checked={createNatGW} onCheckedChange={(v) => setCreateNatGW(!!v)} />
+                        <span className="ml-2">Create NAT Gateway</span>
                     </div>
                     <div className="flex gap-3">
                         <SubnetOption subnet={pubSubnet1} dropdown={dropDown as any} index={1} isPublic={true}

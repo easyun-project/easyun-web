@@ -1,6 +1,7 @@
+import { Switch } from '@/components/ui/switch';
 import React, { useEffect, useState } from 'react';
 import { CheckOutlined, CloseOutlined, InfoCircleOutlined } from '@ant-design/icons';
-import { Empty, Switch } from 'antd';
+import { Empty } from 'antd';
 import { Icon } from '@iconify/react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -34,9 +35,9 @@ export default function Properties() {
                             <div>
                                 <Switch
                                     checked={isEncryption}
-                                    checkedChildren={<CheckOutlined />}
-                                    unCheckedChildren={<CloseOutlined />}
-                                    onChange={()=>setIsEncryption(!isEncryption)}
+                                   
+                                   
+                                    onCheckedChange ={()=>setIsEncryption(!isEncryption)}
                                 />
                             </div>
                             <div className='ml-2'>
@@ -64,9 +65,9 @@ export default function Properties() {
                             <div>
                                 <Switch
                                     checked={isVersioning}
-                                    checkedChildren={<CheckOutlined />}
-                                    unCheckedChildren={<CloseOutlined />}
-                                    onChange={()=>setIsVersioning(!isVersioning)}
+                                   
+                                   
+                                    onCheckedChange ={()=>setIsVersioning(!isVersioning)}
                                 />
                             </div>
                             <div className='ml-2'>

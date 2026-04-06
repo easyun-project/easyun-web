@@ -1,11 +1,7 @@
+import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import React, { useState, useEffect } from 'react';
-import {
-    Card,
-    Modal,
-    Input,
-    Select
-} from 'antd';
+import { Card, Modal, Select } from 'antd';
 import { Icon } from '@iconify/react';
 import { getApiV1AccountKeypairList, getApiV1AccountKeypairStoreByKeyName, deleteApiV1AccountKeypair, getApiV1AccountReminderFreetier, putApiV1AccountReminderFreetier } from '@/api-client';
 import { IsshkeyItem } from '@/constant/awsInfo';

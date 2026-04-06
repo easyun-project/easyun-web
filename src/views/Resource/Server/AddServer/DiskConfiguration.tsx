@@ -1,7 +1,8 @@
+import { Switch } from '@/components/ui/switch';
 import React from 'react';
 import { Icon } from '@iconify/react';
 import { useState,useEffect } from 'react';
-import { Switch, InputNumber, Select,Popover } from 'antd';
+import { InputNumber, Select, Popover } from 'antd';
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 import { VolumeTypeInfo } from '@/constant/storage';
 
@@ -157,10 +158,10 @@ const DiskConfiguration = (props:DiskProps) :JSX.Element=>{
                 <div>
                     <span>Encryption</span>
                     <Switch
-                        checkedChildren={<CheckOutlined />}
-                        unCheckedChildren={<CloseOutlined />}
-                        defaultChecked
-                        onChange = {()=>
+                       
+                       
+                        checked
+                        onCheckedChange = {()=>
                             changeEncryption(!encryption)}
                     />
                 </div>

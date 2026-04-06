@@ -1,5 +1,6 @@
+import { Switch } from '@/components/ui/switch';
 import React, { useState, useEffect } from 'react';
-import { Card, message, Switch, DatePicker } from 'antd';
+import { Card, message, DatePicker } from 'antd';
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
 import { getApiV1AccountKeypairList, getApiV1AccountKeypairStoreByKeyName, deleteApiV1AccountKeypair, getApiV1AccountReminderFreetier, putApiV1AccountReminderFreetier } from '@/api-client';

@@ -1,8 +1,9 @@
+import { Switch } from '@/components/ui/switch';
 import React, { useEffect, useState } from 'react';
 import { useNewDisk } from '@/utils/hooks';
 import { Icon } from '@iconify/react';
 import { CheckOutlined, CloseOutlined, LoadingOutlined } from '@ant-design/icons';
-import { Switch } from 'antd';
+
 import { useParams } from 'react-router-dom';
 import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
@@ -20,9 +21,9 @@ export default function Configure() {
             <span className='text-2xl font-bold'>Change Disk Configuration</span>
             <Switch
                 checked={changing}
-                onChange={()=>setChanging(!changing)}
-                checkedChildren={<CheckOutlined/>}
-                unCheckedChildren={<CloseOutlined/>}/>
+                onCheckedChange={()=>setChanging(!changing)}
+               
+               />
             {changing
                 ? <div className='flex'>
                     {newDisk}

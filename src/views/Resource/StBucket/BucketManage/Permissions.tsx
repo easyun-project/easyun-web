@@ -1,10 +1,11 @@
+import { Switch } from '@/components/ui/switch';
 /*
  * @Author: lishihao
  * @Description: one of bucketManage page tabs
  */
 
 import React, { useEffect, useState } from 'react';
-import { Tree, Empty, Switch } from 'antd';
+import { Tree, Empty } from 'antd';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { useTranslation, Trans } from 'react-i18next';
 import WithEdit from '@/components/Logic/CWithEdit';
@@ -83,9 +84,9 @@ export default function Permissions() {
                     <div className='ml-8 font-semibold text-yellow-550'>
                         <Switch
                             checked={changing}
-                            onChange={()=>setChanging(!changing)}
-                            checkedChildren={<CheckOutlined/>}
-                            unCheckedChildren={<CloseOutlined/>}/>
+                            onCheckedChange={()=>setChanging(!changing)}
+                           
+                           />
                         <span>{t('bucketManagePermissions.infoButton')}</span>
                     </div>
                 </div>

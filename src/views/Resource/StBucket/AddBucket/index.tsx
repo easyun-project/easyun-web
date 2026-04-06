@@ -1,9 +1,11 @@
+import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
 import { toast } from 'sonner';
 import React, { useEffect, useRef, useState } from 'react';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { getApiV1StorageBucketVaildate, postApiV1StorageBucketAdd, deleteApiV1StorageBucket } from '@/api-client';
-import { Switch, Input, Select, Card, Tooltip } from 'antd';
+import { Select, Card, Tooltip } from 'antd';
 import { useTranslation, Trans } from 'react-i18next';
 import FlagUtil from '@/utils/flagUtil';
 import { useSelector } from 'react-redux';
@@ -97,7 +99,7 @@ const AddBucket = (): JSX.Element => {
                 <div className= 'flex flex-row my-4 '>
                     <Switch
                         checked={encryption}
-                        onChange={()=>setEncryption(!encryption)}
+                        onCheckedChange={()=>setEncryption(!encryption)}
                     />
                     <div className= 'flex flex-col '>
                         <div className= 'mx-5 font-bold text-black '>
@@ -111,7 +113,7 @@ const AddBucket = (): JSX.Element => {
                     {/* 版本管理组件 */}
                     <Switch
                         checked={versioning}
-                        onChange={()=>setVersioning(!versioning)}
+                        onCheckedChange={()=>setVersioning(!versioning)}
                     />
                     <div className= 'flex flex-col '>
                         <div className= 'mx-5 font-bold text-black '>

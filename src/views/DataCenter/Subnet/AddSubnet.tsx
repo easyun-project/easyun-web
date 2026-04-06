@@ -1,6 +1,7 @@
+import { Input } from '@/components/ui/input';
 import React, { useState } from 'react';
 import { Icon } from '@iconify/react';
-import { Card, Input, Select } from 'antd';
+import { Card, Select } from 'antd';
 import CTags from '@/components/Logic/CTags';
 
 export default function AddSubnet() {
@@ -16,7 +17,7 @@ export default function AddSubnet() {
                 <span>Add Subnet</span>
             </div>
             <Card title="Identify your subnet" className='mt-5 rounded-border'>
-                <Input className='w-72' type="text" defaultValue={subnetName} size='middle'
+                <Input className='w-72' type="text" defaultValue={subnetName}
                     onChange={e => changeSubnetName(e.target.value)} />
                 <div>The name can be up to 256 characters long.</div>
             </Card>
@@ -28,7 +29,7 @@ export default function AddSubnet() {
                 </Select>
             </Card>
             <Card title="IPv4 CIDR block" className='mt-5 rounded-border'>
-                <Input className='w-72' type="text" defaultValue={cidr} size='middle'
+                <Input className='w-72' type="text" defaultValue={cidr}
                     onChange={e => changeCidr(e.target.value)} />
             </Card>
             <Card className='mt-5 rounded-border' title={

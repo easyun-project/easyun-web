@@ -1,7 +1,8 @@
+import { Input } from '@/components/ui/input';
 import React,{ useState } from 'react';
 import { TagOutlined,ArrowRightOutlined } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
-import { Input } from 'antd';
+
 
 interface CTagsProps{
     tags:Record<string,string>
@@ -71,7 +72,7 @@ export default function CTags(props:CTagsProps) {
                                 disabled={isChanging}
                                 defaultValue={tagKey}
                                 placeholder="Tag key (e.g. Project)"
-                                prefix={<TagOutlined/>}
+                               
                                 onChange={(e)=>changeKey(e.target.value)}
                             />
                         </div>
@@ -80,7 +81,7 @@ export default function CTags(props:CTagsProps) {
                             <Input
                                 defaultValue={tagValue}
                                 placeholder="Tag value (e.g. Blog)"
-                                prefix={<ArrowRightOutlined/>}
+                               
                                 onChange={(e)=>changeValue(e.target.value)}
                             />
                         </div>

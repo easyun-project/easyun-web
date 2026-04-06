@@ -1,7 +1,8 @@
+import { Input } from '@/components/ui/input';
 import clsx from 'clsx';
 import React, { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
-import { Select, Input } from 'antd';
+import { Select } from 'antd';
 import { DcDropDown, SubnetParms } from '@/constant/dataCenter';
 
 interface SubnetProps {

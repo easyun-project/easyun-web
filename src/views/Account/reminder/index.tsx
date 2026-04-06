@@ -1,10 +1,7 @@
+import { Switch } from '@/components/ui/switch';
 import { toast } from 'sonner';
 import React, { useState, useEffect } from 'react';
-import {
-    Card,
-    Switch,
-    DatePicker,
-} from 'antd';
+import { Card, DatePicker } from 'antd';
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
 import { getApiV1AccountKeypairList, getApiV1AccountKeypairStoreByKeyName, deleteApiV1AccountKeypair, getApiV1AccountReminderFreetier, putApiV1AccountReminderFreetier } from '@/api-client';
@@ -61,10 +58,10 @@ const Component = (): JSX.Element => {
                         <div>
                             <Switch
                                 checked={checkedFree}
-                                onChange={onChangeFree}
+                                onCheckedChange={onChangeFree}
                                 className={"mr-1"}
-                                checkedChildren={<CheckOutlined />}
-                                unCheckedChildren={<CloseOutlined />}
+                               
+                               
                             />
                 Free Tier Reminder
                         </div>
@@ -95,9 +92,9 @@ const Component = (): JSX.Element => {
                             <Switch
                                 disabled={true}
                                 checked={checkedCredits}
-                                onChange={onChangeCredits}
-                                checkedChildren={<CheckOutlined />}
-                                unCheckedChildren={<CloseOutlined />}
+                                onCheckedChange={onChangeCredits}
+                               
+                               
                             />
                 Credits Reminder
                         </div>

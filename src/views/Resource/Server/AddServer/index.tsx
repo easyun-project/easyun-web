@@ -1,3 +1,4 @@
+import { Input } from '@/components/ui/input';
 import clsx from 'clsx';
 import React from 'react';
 import { Icon } from '@iconify/react';
@@ -8,7 +9,7 @@ import CSecOpt from '@/components/Logic/CSecurityGroup/CSecOpt';
 import DiskConfigurations from './DiskConfiguration';
 import InstanceList from './InstanceList';
 import SSHkeys from './SSHkeys';
-import { Cascader, Card, Input } from 'antd';
+import { Cascader, Card } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import Networking, { SubnetInfo } from './Networking';
 import { useState, useEffect } from 'react';

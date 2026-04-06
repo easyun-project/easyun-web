@@ -1,3 +1,5 @@
+import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { userAction } from '@/redux/userSlice';
 import { postApiV1UserAuth, deleteApiV1UserLogout } from '@/api-client';
-import { Input, Form, Checkbox, Menu, Dropdown } from 'antd';
+import { Form, Menu, Dropdown } from 'antd';
 import HostModal from '@/components/Logic/CModal';
 import { listAllDataCenter, getRegionList } from '@/redux/dataCenterSlice';
 
@@ -97,7 +99,7 @@ const LoginPage = (): JSX.Element => {
                             name="password"
                             rules={[{ required: true, message: 'Please input your password!' }]}
                         >
-                            <Input.Password className='w-80 h-12 rounded-border' placeholder="Enter your password" />
+                            <Input className='w-80 h-12 rounded-border' placeholder="Enter your password" />
                         </Form.Item>
 
                         <Form.Item name="remember" valuePropName="" wrapperCol={{ offset: 0, span: 16 }}>
