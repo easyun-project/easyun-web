@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import { Spin } from 'antd';
 import { DashCard } from '@/components/DashboardCommon/DashCard';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
@@ -170,13 +169,13 @@ export const DashboardDetail = (props): JSX.Element => {
                 <DictListSelect propDcName={dcName} onChangeClick={changeDictName}/>
             </div>
             <div className={"grid grid-cols-2 gap-4"}>
-                <Spin spinning={dataCenterLoading} tip="Loading...">
+                
                     <DashCard height={'h-60'} cardTitle={tableList['dataCenter']['cardTitle']}
                         content={tableView('dataCenter')}/>
-                </Spin>
-                <Spin spinning={healthLoading} tip="Loading...">
+                
+                
                     <DashboardsHealthCard health={health}/>
-                </Spin>
+                
             </div>
             <div className={"flex justify-end"}>
                 <div
@@ -193,13 +192,13 @@ export const DashboardDetail = (props): JSX.Element => {
             </div>
             {
                 isShowGraphical ?
-                    <Spin spinning={graphicalLoading} tip="Loading...">
+                    
                         <DashboardsTabGraphical listData={graphicalData}/>
-                    </Spin>
+                    
                     :
-                    <Spin spinning={inventoryLoading} tip="Loading...">
+                    
                         <DashboardsTabList listData={inventoryData}/>
-                    </Spin>
+                    
             }
         </div>
     );

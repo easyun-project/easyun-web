@@ -9,7 +9,7 @@ import CSecOpt from '@/components/Logic/CSecurityGroup/CSecOpt';
 import DiskConfigurations from './DiskConfiguration';
 import InstanceList from './InstanceList';
 import SSHkeys from './SSHkeys';
-import { Cascader, Card } from 'antd';
+import { Cascader } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import Networking, { SubnetInfo } from './Networking';
 import { useState, useEffect } from 'react';
@@ -187,7 +187,7 @@ const AddServer = (): JSX.Element => {
                 <span>Add Cloud Server(EC2 Instance)</span>
             </div>
 
-            <Card title="Identify your server" className={"rounded-border mt-5"}>
+            <div className={"rounded-border mt-5"}><h5 className="font-semibold mb-2">Identify your server</h5>
                 <div className='flex items-center'>
                     <Input className={"w-36"} type="text"
                         defaultValue={tagName}
@@ -197,9 +197,9 @@ const AddServer = (): JSX.Element => {
                         className={"w-20"}
                         type="number" onChange={e => changeSvrNumber(parseInt(e.target.value))} />
                 </div>
-            </Card>
+            </div>
 
-            <Card title="Select your server os and arch" className={"rounded-border mt-5"}>
+            <div className={"rounded-border mt-5"}><h5 className="font-semibold mb-2">Select your server os and arch</h5>
                 {/* 下面的组件用于选择服务器架构 */}
                 <div className={"flex items-center"}>
                     <div> select your server arch </div>
@@ -224,13 +224,13 @@ const AddServer = (): JSX.Element => {
                 </div>
                 {/* 下面的用于选择操作系统 */}
                 <CPlatform platform={os} changePlatform={changeOs} />
-            </Card>
+            </div>
 
-            <Card title="Select your image(AMI)" className={"rounded-border mt-5"} loading={amis === 'loading'}>
+            <div className={"rounded-border mt-5"}><h5 className="font-semibold mb-2">Select your image(AMI)</h5>
                 <CAmis amis={amis} selectedAmi={selectedAmi} changeSelectedAmi={changeSelectedAmi} />
-            </Card>
+            </div>
 
-            <Card title="Select your instance type" className={"rounded-border mt-5"}>
+            <div className={"rounded-border mt-5"}><h5 className="font-semibold mb-2">Select your instance type</h5>
                 {/* e是级联菜单中被选定的值，是一个列表 */}
                 <Cascader style={{ width: '20%' }} options={insfamilyOptions} placeholder="选择实例类型"
                     onChange={(e) => {
@@ -238,23 +238,23 @@ const AddServer = (): JSX.Element => {
                     }} changeOnSelect />
                 {/* 在获取到insType的值后，渲染列表 */}
                 <InstanceList insTypes={insTypes} changeselectefIns={changeselectedIns} />
-            </Card>
+            </div>
 
-            <Card title="Setting your disk" className={"rounded-border mt-5"}>
+            <div className={"rounded-border mt-5"}><h5 className="font-semibold mb-2">Setting your disk</h5>
                 <DiskConfigurations disks={disks} changeDisks={changeDisks} />
-            </Card>
+            </div>
 
-            <Card title="Setting your security groups" className={"rounded-border mt-5"} extra={<span>you can choose more than one </span>}>
+            <div className={"rounded-border mt-5"}>
                 <CSecOpt multi={true} secgroups={secgroups} changeSelectedSecgroups={changeSelectedSecgroups} />
-            </Card>
+            </div>
 
-            <Card title="Setting your subnet" className={"rounded-border mt-5"}>
+            <div className={"rounded-border mt-5"}><h5 className="font-semibold mb-2">Setting your subnet</h5>
                 <Networking subnets={subnets} changeSelectedSubnet={changeSelectedSubnet} />
-            </Card>
+            </div>
 
-            <Card title="Setting your keypair" className={"rounded-border mt-5"}>
+            <div className={"rounded-border mt-5"}><h5 className="font-semibold mb-2">Setting your keypair</h5>
                 <SSHkeys keyPairs={keyPairs} changeSelectedKey={changeSelectedKey} />
-            </Card>
+            </div>
 
 
             <div id="create-buttons">

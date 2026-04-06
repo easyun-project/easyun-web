@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 // UI contents
 import { useTranslation } from 'react-i18next';
-import { Card, Statistic } from 'antd';
 import { Icon } from '@iconify/react';
 // services and interface/schema
 import { AzSummary } from '@/constant/dataCenter';
@@ -21,7 +20,7 @@ function AzSummaryCard(props: AzSummary) {
     return (
         <div className="w-4/24">
             <span>
-                <Card className={"rounded-md border-2 border-gray-400"} style={{ minWidth: 120 }}>{azName}</Card>
+                <div className={"rounded-md border-2 border-gray-400"} style={{ minWidth: 120 }}>{azName}</div>
             </span>
         </div>
     );
@@ -33,9 +32,9 @@ function VpcSummaryCard(props: any) {
 
     return (
         <div className="w-3/24">
-            <Card hoverable style={{ height: 120 }}>
-                <Statistic title={title} value={value} />
-            </Card>
+            <div style={{ height: 120 }}>
+                
+            </div>
         </div>
     );
 }

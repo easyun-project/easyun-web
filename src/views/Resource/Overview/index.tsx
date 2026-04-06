@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 // UI contents
 import { useTranslation } from 'react-i18next';
-import { Table, Timeline, Card, Statistic } from 'antd';
+import { Table } from 'antd';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 // services and interface/schema
 // import { CostSummary, CostUsageItem, PeriodTotalCost, PeriodMonthlyCost } from '@/constant/resource';
@@ -31,17 +31,15 @@ const TotalCostCard = (props: CostCardProps): JSX.Element => {
         valueColor = isRise ? { color: '#cf1322' } : { color: '#3f8600' };
     }
     return (
-        <Card className='mb-2 min-w-fit border-l-4'>
-            {/* <Card.Meta title={unit+' '+amount.toFixed(2)} description={text} /> */}
-            <Statistic
-                title={text}
-                value={amount}
-                precision={2}
-                valueStyle={valueColor}
-                prefix={<span className='text-sm'>{unit}</span>}
-                suffix={trendIcon}
-            />
-        </Card>
+        <div className='mb-2 min-w-fit border-l-4'>
+            {/* <div.Meta title={unit+' '+amount.toFixed(2)} description={text} /> */}
+            <div>
+                <div className="text-xs text-gray-500">{text}</div>
+                <div className="text-lg font-semibold" style={valueColor}>
+                    <span className="text-sm">{unit}</span> {amount.toFixed(2)} {trendIcon}
+                </div>
+            </div>
+        </div>
     );
 };
 
@@ -49,14 +47,14 @@ const TotalCostCard = (props: CostCardProps): JSX.Element => {
 function LatestWeekDailyCost(props) {
     const { costList } = props;
     return (
-        <Timeline mode='left' className='mt-8 min-w-fit' >{
+        <div>{
             // 通过.slice() 深拷贝 避免 .reverse() 对原数组影响
             costList.slice().reverse().map((item, index) =>
-                <Timeline.Item key={index} label={item.timePeriod.Start}>
+                <div key={index}>
                     {<span>{item.totalCost.unit}</span>} <span>{item.totalCost.value}</span>
-                </Timeline.Item>
+                </div>
             )
-        }</Timeline>
+        }</div>
     );
 }
 
@@ -64,9 +62,9 @@ function RescSummaryCard(props) {
     const { title, value } = props;
     return (
         <div className="w-3/24">
-            <Card hoverable >
-                <Statistic title={title} value={value} />
-            </Card>
+            <div >
+                
+            </div>
         </div>
     );
 }

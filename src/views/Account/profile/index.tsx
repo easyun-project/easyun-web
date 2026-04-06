@@ -1,6 +1,5 @@
 import { toast } from 'sonner';
 import React, { useState, useEffect } from 'react';
-import { Card } from 'antd';
 import { Icon } from '@iconify/react';
 import { getApiV1AccountKeypairList, getApiV1AccountKeypairStoreByKeyName, deleteApiV1AccountKeypair, getApiV1AccountReminderFreetier, putApiV1AccountReminderFreetier } from '@/api-client';
 import { useSelector } from 'react-redux';
@@ -69,7 +68,7 @@ const  Component = (): JSX.Element => {
                 </div>
             </div>
             <div className="flex flex-wrap">
-                <Card
+                <div
                     className={"min-w-3/4"}
                     title="Nofification contacts"
                 >
@@ -120,7 +119,7 @@ const  Component = (): JSX.Element => {
                             </div>
                         </div>
                     </div>
-                </Card>
+                </div>
             </div>
         </>
     );

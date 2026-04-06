@@ -2,7 +2,7 @@ import { putApiV1ServerDisk } from "@/api-client";
 import React from 'react';
 import { Icon } from '@iconify/react';
 import { useState, useEffect } from 'react';
-import { Tooltip, Skeleton, Menu, Dropdown, Modal, Radio } from 'antd';
+import { Menu, Dropdown, Modal, Radio } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
@@ -52,7 +52,7 @@ function ExistDisk(props:DiskProps) {
 
 
     if( diskInfo === 'loading')
-    { return(<Skeleton active />); }
+    { return(<div className="animate-pulse h-20 bg-gray-200 rounded" />); }
     else if (Object.keys(diskInfo).length === 0){ return <></>; }
     else {
         const { volumeConfig, volumeAttach } = diskInfo;
@@ -251,9 +251,9 @@ export default function Disk():JSX.Element {
         <>
             <div className='flex flex-row items-center'>
                 <p>Block storage disk</p>
-                <Tooltip placement="topLeft" title={'text'}>
+                <span title={'text'}>
                     <QuestionCircleOutlined />
-                </Tooltip>
+                </span>
             </div>
             <div > {currentServerDisks?.volumeIds.map(volumeId => <ExistDisk key={volumeId} volumeId={volumeId} availablePaths={availablePaths} changeAvaliablePaths={changeAvaliablePaths}/>)}</div>
             {isAdding

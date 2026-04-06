@@ -1,3 +1,4 @@
+import { Progress } from '@/components/ui/progress';
 import { SimpleSelect as Select, SimpleOption as Option } from '@/components/ui/simple-select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
@@ -12,7 +13,7 @@ import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
-import { Form, Progress } from 'antd';
+import { Form } from 'antd';
 import { RootState } from '@/redux/store';
 import { listAllDataCenter, getDataCenterParams } from '@/redux/dataCenterSlice';
 import { DataCenterParams, DCProgressInfo, RegionItem, SecurityGroupParms, SubnetParms } from '@/constant/dataCenter';
@@ -206,7 +207,7 @@ const AddDataCenter = (): JSX.Element => {
                     {
                         creating && (
                             <div>
-                                <Progress percent={dcProgress.current} status="active" />
+                                <Progress value={dcProgress.current} />
                                 <span>{dcProgress.description}</span>
                             </div>
                         )

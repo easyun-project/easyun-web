@@ -1,6 +1,6 @@
 {
     "name": "easyun-webui",
-    "version": "0.3.7",
+    "version": "0.3.8",
     "scripts": {
         "dev": "vite --host",
         "dev:stg": "vite --mode stg",

@@ -1,6 +1,5 @@
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
-import { Tooltip } from 'antd';
 import React from 'react';
 import { useState } from 'react';
 
@@ -25,16 +24,16 @@ const withEdit = (WrappedComponent, callback, border = 'border-dashed') => {
 
     const editArea = (
         <div className='flex flex-col justify-end ml-3 text-2xl'>
-            <Tooltip title="cancel" placement="right">
+            <span title="cancel">
                 <div onClick={handleSubmit} className="mb-2">
                     <Icon className="mb-1 text-red-600 cursor-pointer" icon="mdi:cancel" fr={undefined} />
                 </div>
-            </Tooltip>
-            <Tooltip title="submit" placement="right">
+            </span>
+            <span title="submit">
                 <div onClick={toggleShow}>
                     <Icon className="text-green-600 cursor-pointer" icon="mdi:checkbox-marked-circle-outline" fr={undefined}></Icon>
                 </div>
-            </Tooltip>
+            </span>
 
         </div>
     );

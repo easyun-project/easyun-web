@@ -1,7 +1,6 @@
 import { toast } from 'sonner';
 import React from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Divider } from 'antd';
 import { Icon } from '@iconify/react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';

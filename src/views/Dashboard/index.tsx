@@ -1,7 +1,7 @@
+import { Button } from '@/components/ui/button';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import { DashboardDetail } from '@/views/Dashboard/detail';
-import { Button } from 'antd';
 import { DictListSelect } from '@/components/DashboardCommon/DictListSelect';
 import './detail/index.css';
 import { useNavigate } from 'react-router-dom';

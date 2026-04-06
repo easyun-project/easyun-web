@@ -3,7 +3,6 @@ import { Switch } from '@/components/ui/switch';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import { useTranslation, Trans } from 'react-i18next';
-import { Card } from 'antd';
 import CTags from '@/components/Logic/CTags';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { postApiV1StorageVolume, getApiV1StorageVolumeByVolumeId, deleteApiV1StorageVolume } from '@/api-client';
@@ -41,15 +40,15 @@ const AddVolume = (): JSX.Element => {
                 />
                 Add Cloud Storage(S3 Bucket)
             </div>
-            <Card title={t('addVolume.zone.title')} className="mt-5 rounded-border">
+            <div className="mt-5 rounded-border"><h5 className="font-semibold mb-2">{t('addVolume.zone.title')}</h5>
                 <div>{t('addVolume.zone.tip')}</div>
                 <Select defaultValue={availableZones[0]}
                     onValueChange={(e) => changeAzName(e)}>
                     {availableZones.map((zone) => <Option key={zone} value={zone}>{zone}</Option>)}
                 </Select>
-            </Card>
+            </div>
 
-            <Card title={t('addVolume.configuration.title')} className="mt-5 rounded-border">
+            <div className="mt-5 rounded-border"><h5 className="font-semibold mb-2">{t('addVolume.configuration.title')}</h5>
                 {newDisk}
                 <div className="flex">
                     <Switch
@@ -74,11 +73,11 @@ const AddVolume = (): JSX.Element => {
                 </div>
 
 
-            </Card>
+            </div>
 
-            <Card title={t('addVolume.tags.title')} className="mt-5 rounded-border">
+            <div className="mt-5 rounded-border"><h5 className="font-semibold mb-2">{t('addVolume.tags.title')}</h5>
                 <CTags tags={tags} changeTags={changeTags}/>
-            </Card>
+            </div>
 
             <button className="m-5 w-32 btn-gray" onClick={() => navigate(-1)}>Back</button>
             <button className="m-5 w-32 btn-yellow" onClick={() => {

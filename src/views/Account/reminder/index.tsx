@@ -1,7 +1,7 @@
 import { Switch } from '@/components/ui/switch';
 import { toast } from 'sonner';
 import React, { useState, useEffect } from 'react';
-import { Card, DatePicker } from 'antd';
+import { DatePicker } from 'antd';
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
 import { getApiV1AccountKeypairList, getApiV1AccountKeypairStoreByKeyName, deleteApiV1AccountKeypair, getApiV1AccountReminderFreetier, putApiV1AccountReminderFreetier } from '@/api-client';
@@ -53,7 +53,7 @@ const Component = (): JSX.Element => {
     return (
         <>
             <div className="flex flex-wrap">
-                <Card className={"min-w-3/4"} title="Reminder">
+                <div className={"min-w-3/4"} title="Reminder">
                     <div>
                         <div>
                             <Switch
@@ -99,7 +99,7 @@ const Component = (): JSX.Element => {
                 Credits Reminder
                         </div>
                     </div>
-                </Card>
+                </div>
             </div>
         </>
     );

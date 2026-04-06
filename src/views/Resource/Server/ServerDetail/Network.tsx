@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import { putApiV1ServerEip } from "@/api-client";
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,7 +7,7 @@ import { RootState } from '@/redux/store';
 import { Icon } from '@iconify/react';
 import { getApiV1DatacenterSecgroupList as _dcSecgroupList, getApiV1DatacenterSubnetList as _dcSubnetList } from '@/api-client';
 import { useState, useEffect } from 'react';
-import { Modal, Radio, Button } from 'antd';
+import { Modal, Radio } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { StaticIpBasic } from '@/constant/dataCenter';
 import { getServerDetail } from '@/redux/serverSlice';
@@ -114,7 +115,7 @@ export default function Network(): JSX.Element {
                                         <Button key="back" onClick={() => changeIsModalVisible(false)}>
                                             Cancel
                                         </Button>,
-                                        <Button key="submit" type="primary" loading={operating} onClick={
+                                        <Button key="submit"  onClick={
                                             () => {
                                                 changeOperating(true);
                                                 (putApiV1ServerEip as any)({ body: {

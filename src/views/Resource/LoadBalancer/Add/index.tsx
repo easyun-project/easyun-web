@@ -1,3 +1,4 @@
+import { Progress } from '@/components/ui/progress';
 import { SimpleSelect as Select, SimpleOption as Option } from '@/components/ui/simple-select';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
@@ -9,7 +10,7 @@ import { RootState } from '@/redux/store';
 import { Icon } from '@iconify/react';
 import CPlatform from '@/components/Logic/CPlatform';
 import { Button } from '@/components/ui/button';
-import { Form, Progress, Cascader, Card } from 'antd';
+import { Form, Cascader } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 // import LoadbalancerService from '@/service/LoadbalancerService';
 import { RegionItem  } from '@/constant/dataCenter';
@@ -61,14 +62,14 @@ const AddLoadbalancer = (): JSX.Element => {
             </div>
             <hr className="my-4 border-gray-200" />
 
-            <Card title="Identify your load balancer" className={"rounded-border mt-5"}>
+            <div className={"rounded-border mt-5"}><h5 className="font-semibold mb-2">Identify your load balancer</h5>
                 <span>Your Lightsail load balancers must all have unique names.</span>
                 <div className='flex items-center'>
                     <Input className={"w-36"} type="text"
                         defaultValue={tagName}
                         onChange={e => setTagName(e.target.value)} />
                 </div>
-            </Card>
+            </div>
 
             <div className="flex gap-4">
                 <div className="flex-1">

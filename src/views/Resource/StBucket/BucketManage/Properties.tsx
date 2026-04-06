@@ -1,7 +1,6 @@
 import { Switch } from '@/components/ui/switch';
 import React, { useEffect, useState } from 'react';
 import { CheckOutlined, CloseOutlined, InfoCircleOutlined } from '@ant-design/icons';
-import { Empty } from 'antd';
 import { Icon } from '@iconify/react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -30,7 +29,7 @@ export default function Properties() {
                     <p className='font-semibold text-gray-500'>Server-side encryption</p>
                     <p className='font-bold'>Amazon S3 master-key(SSE-S3)</p>
                     {currentBucket === 'failed'
-                        ? <Empty/>
+                        ? <div className="text-center text-gray-400 py-10">No data</div>
                         : <div className='flex items-center my-3'>
                             <div>
                                 <Switch
@@ -60,7 +59,7 @@ export default function Properties() {
                         />
                     </a>
                     {currentBucket === 'failed'
-                        ? <Empty/>
+                        ? <div className="text-center text-gray-400 py-10">No data</div>
                         : <div className='flex items-center my-3'>
                             <div>
                                 <Switch

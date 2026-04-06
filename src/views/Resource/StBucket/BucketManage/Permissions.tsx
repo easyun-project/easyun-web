@@ -5,7 +5,7 @@ import { Switch } from '@/components/ui/switch';
  */
 
 import React, { useEffect, useState } from 'react';
-import { Tree, Empty } from 'antd';
+import { Tree } from 'antd';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { useTranslation, Trans } from 'react-i18next';
 import WithEdit from '@/components/Logic/CWithEdit';
@@ -91,7 +91,7 @@ export default function Permissions() {
                     </div>
                 </div>
                 {currentBucket === 'failed'
-                    ? <Empty/>
+                    ? <div className="text-center text-gray-400 py-10">No data</div>
                     : <WithEdit visible={changing} onCancel={()=>setChanging(!changing)} onOk={()=>setChanging(!changing)}>
                         <Tree
                             showIcon

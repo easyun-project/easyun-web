@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import React from 'react';
 // import { useEffect,useState } from 'react';
@@ -7,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { RootState } from '@/redux/store';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, Dropdown, Menu, Table, Modal } from 'antd';
+import { Dropdown, Menu, Table, Modal } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import { postApiV1ServerAction, deleteApiV1Server, postApiV1ServerConfig, putApiV1ServerName, putApiV1ServerDisk, putApiV1ServerEip, putApiV1ServerSecgroup, getApiV1ServerParamImage, getApiV1ServerParamInstypeList, getApiV1ServerParamInstypeFamily, postApiV1Server, getApiV1ServerDetailBySvrId, deleteApiV1ServerTagsBySvrId, putApiV1ServerTagsBySvrId } from '@/api-client';
 import { LoadingOutlined } from '@ant-design/icons';
@@ -197,7 +198,7 @@ const ServerList = ():JSX.Element => {
                             <Button key="back" onClick={()=>changeIsModalVisble(false)}>
                                 Cancel
                             </Button>,
-                            <Button key="submit" type="primary" loading={settingName} onClick={
+                            <Button key="submit"  onClick={
                                 ()=>{
                                     changeSettingName(true);
                                     putApiV1ServerName({ body: {
@@ -221,7 +222,7 @@ const ServerList = ():JSX.Element => {
                     <button onClick={() => navigate('/resource/server/add')}
                         className={"btn-yellow"}>Add Server</button>
                 </div>
-                <Table loading={serverState.loading} bordered={true} dataSource={newServerDataSource} columns={serverColumns} rowSelection={{
+                <Table bordered={true} dataSource={newServerDataSource} columns={serverColumns} rowSelection={{
                     type: 'checkbox',
                     onChange:(selectedRowKeys:React.Key[])=>{
                         changeSelectedServers(selectedRowKeys);

@@ -2,7 +2,7 @@ import { SimpleSelect as Select, SimpleOption as Option } from '@/components/ui/
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import React, { useState, useEffect } from 'react';
-import { Card, Modal } from 'antd';
+import { Modal } from 'antd';
 import { Icon } from '@iconify/react';
 import { getApiV1AccountKeypairList, getApiV1AccountKeypairStoreByKeyName, deleteApiV1AccountKeypair, getApiV1AccountReminderFreetier, putApiV1AccountReminderFreetier } from '@/api-client';
 import { IsshkeyItem } from '@/constant/awsInfo';
@@ -104,7 +104,7 @@ const Component = (): JSX.Element => {
     return (
         <>
             <div className="flex flex-wrap">
-                <Card className={"min-w-3/4"} title="SSH keys">
+                <div className={"min-w-3/4"} title="SSH keys">
                     <div>you can store up to 100 keys per AWS Region.</div>
                     {list.map((item, index) => {
                         return (
@@ -177,8 +177,8 @@ const Component = (): JSX.Element => {
               Add SSH key
                         </div>
                     </div>
-                </Card>
-                <Card className={"min-w-3/4 mt-10"} title="API access keys">
+                </div>
+                <div className={"min-w-3/4 mt-10"} title="API access keys">
                     <div>
             if you want to use AWS API. you must create API access keys in the
             Access keys section of the AWS IAM console.
@@ -190,7 +190,7 @@ const Component = (): JSX.Element => {
                             <Icon icon="ri:share-box-fill" />
                         </div>
                     </div>
-                </Card>
+                </div>
             </div>
             <Modal
                 title="Add SSH key"

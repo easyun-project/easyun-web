@@ -6,7 +6,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { getApiV1StorageBucketVaildate, postApiV1StorageBucketAdd, deleteApiV1StorageBucket } from '@/api-client';
-import { Card, Tooltip } from 'antd';
 import { useTranslation, Trans } from 'react-i18next';
 import FlagUtil from '@/utils/flagUtil';
 import { useSelector } from 'react-redux';
@@ -52,7 +51,7 @@ const AddBucket = (): JSX.Element => {
                 />
                 {t('addBucket.title')}
             </div>
-            <Card className='w-max rounded-border' title={t('addBucket.locationTitle')}>
+            <div className='w-max rounded-border' title={t('addBucket.locationTitle')}>
                 <div className= 'flex flex-row items-center mx-5'>
                     <div className= 'flex flex-row items-center mx-5'>
                         <Icon icon={flagUtil.getFlagIconByRegion(region.regionCode)}
@@ -72,8 +71,8 @@ const AddBucket = (): JSX.Element => {
                         </Select>
                     </div>
                 </div>
-            </Card>
-            <Card className='my-4 w-max rounded-border' title={t('addBucket.urlTitle')}>
+            </div>
+            <div className='my-4 w-max rounded-border' title={t('addBucket.urlTitle')}>
                 <div className= 'mx-5 '>{t('addBucket.tip')}</div>
                 <div className= 'flex items-center mx-2 mt-2 mb-5'>
                     {/* bucketname输入框 */}
@@ -87,8 +86,8 @@ const AddBucket = (): JSX.Element => {
                         }}
                     />
                     {valid
-                        ? <Tooltip title='valid'><Icon icon="icons8:checked" width="24" height="24" color="green"/></Tooltip>
-                        : <Tooltip title='unvalid'><Icon icon="icons8:cancel" width="24" height="24" color='red'/></Tooltip>
+                        ? <span title='valid'><Icon icon="icons8:checked" width="24" height="24" color="green"/></span>
+                        : <span title='unvalid'><Icon icon="icons8:cancel" width="24" height="24" color='red'/></span>
                     }
                 </div>
                 <div className= 'mx-5 text-gray-400 '>{t('addBucket.bucketUrlHint')}</div>
@@ -124,7 +123,7 @@ const AddBucket = (): JSX.Element => {
                         </div>
                     </div>
                 </div>
-            </Card>
+            </div>
             <div className='ml-48'>
                 <button className='btn-gray' onClick={()=>navigate(-1)}>
           Back

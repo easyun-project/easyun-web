@@ -2,7 +2,6 @@ import React,{ useEffect,useState } from 'react';
 import { Icon } from '@iconify/react';
 import { SeverDetailModel } from '@/constant/server';
 import { Link } from 'react-router-dom';
-import { Skeleton } from 'antd';
 import { postApiV1ServerAction, deleteApiV1Server, postApiV1ServerConfig, putApiV1ServerName, putApiV1ServerDisk, putApiV1ServerEip, putApiV1ServerSecgroup, getApiV1ServerParamImage, getApiV1ServerParamInstypeList, getApiV1ServerParamInstypeFamily, postApiV1Server, getApiV1ServerDetailBySvrId, deleteApiV1ServerTagsBySvrId, putApiV1ServerTagsBySvrId } from '@/api-client';
 
 interface ServerCardProps{
@@ -30,7 +29,7 @@ export default function ServerCard(props:ServerCardProps) {
     };
 
     return server === 'loading'
-        ? <Skeleton active/>
+        ? <div className="animate-pulse h-20 bg-gray-200 rounded" />
         : (
             <div className={active
                 ? 'flex items-center p-2 w-96 bg-gray-200 active-border'
