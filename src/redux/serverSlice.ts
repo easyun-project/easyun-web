@@ -33,7 +33,7 @@ export const getServerList = createAsyncThunk(
 export const getServerDetail = createAsyncThunk(
     'server/getServerDetail',
     async ({ serverId }: { serverId: string }) => {
-        const { data } = await getApiV1ServerDetailBySvrId({ path: { svr_id: serverId } });
+        const { data } = await (getApiV1ServerDetailBySvrId as any)({ path: { svr_id: serverId } });
         return data?.detail;
     }
 );

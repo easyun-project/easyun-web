@@ -3,7 +3,7 @@ import { Icon } from '@iconify/react';
 import { SeverDetailModel } from '@/constant/server';
 import { Link } from 'react-router-dom';
 import { Skeleton } from 'antd';
-import { postApiV1ServerAction, deleteApiV1Server, postApiV1ServerConfig, putApiV1ServerName, putApiV1ServerDisk, putApiV1ServerEip, putApiV1ServerSecgroup, getApiV1ServerParamImage, getApiV1ServerParamInstypeList, getApiV1ServerParamInsfamily, postApiV1Server, getApiV1ServerDetailBySvrId, deleteApiV1ServerTagsBySvrId, putApiV1ServerTagsBySvrId } from '@/api-client';
+import { postApiV1ServerAction, deleteApiV1Server, postApiV1ServerConfig, putApiV1ServerName, putApiV1ServerDisk, putApiV1ServerEip, putApiV1ServerSecgroup, getApiV1ServerParamImage, getApiV1ServerParamInstypeList, getApiV1ServerParamInstypeFamily, postApiV1Server, getApiV1ServerDetailBySvrId, deleteApiV1ServerTagsBySvrId, putApiV1ServerTagsBySvrId } from '@/api-client';
 
 interface ServerCardProps{
     serverId:string
@@ -17,7 +17,7 @@ export default function ServerCard(props:ServerCardProps) {
     const { children,active,serverId } = props;
     useEffect(() => {
         setServer('loading');
-        getApiV1ServerDetailBySvrId({ path: { svr_id: serverId } }).then(({ data }) => setServer(data?.detail as any));
+        (getApiV1ServerDetailBySvrId as any)({ path: { svr_id: serverId } }).then(({ data }) => setServer(data?.detail as any));
     }, [serverId]);
     const icons = {
         'Debian':'debian',

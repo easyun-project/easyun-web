@@ -12,7 +12,7 @@ import { Cascader, Card, Input } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import Networking, { SubnetInfo } from './Networking';
 import { useState, useEffect } from 'react';
-import { postApiV1ServerAction, deleteApiV1Server, postApiV1ServerConfig, putApiV1ServerName, putApiV1ServerDisk, putApiV1ServerEip, putApiV1ServerSecgroup, getApiV1ServerParamImage, getApiV1ServerParamInstypeList, getApiV1ServerParamInsfamily, postApiV1Server, getApiV1ServerDetailBySvrId, deleteApiV1ServerTagsBySvrId, putApiV1ServerTagsBySvrId } from '@/api-client';
+import { postApiV1ServerAction, deleteApiV1Server, postApiV1ServerConfig, putApiV1ServerName, putApiV1ServerDisk, putApiV1ServerEip, putApiV1ServerSecgroup, getApiV1ServerParamImage, getApiV1ServerParamInstypeList, getApiV1ServerParamInstypeFamily, postApiV1Server, getApiV1ServerDetailBySvrId, deleteApiV1ServerTagsBySvrId, putApiV1ServerTagsBySvrId } from '@/api-client';
 import { getApiV1DatacenterSecgroupList as _dcSecgroupList, getApiV1DatacenterSubnetList as _dcSubnetList } from '@/api-client';
 import { getApiV1DatacenterSecgroupList, getApiV1DatacenterSubnetList } from '@/api-client';
 import { getApiV1AccountKeypairList } from '@/api-client';
@@ -164,7 +164,7 @@ const AddServer = (): JSX.Element => {
             dc
         } as any }).then(({ data }) => changeInsTypes(data?.detail as any));
 
-        getApiV1ServerParamInsfamily({ query: {
+        getApiV1ServerParamInstypeFamily({ query: {
             arch,
             dc
         } as any }).then(({ data }) => { const res = data?.detail as any; return res; }).then((res) => {

@@ -76,6 +76,7 @@ export type SvrStateChangeItem = {
 
 export type SvrIdList = {
     svrIds: Array<string>;
+    dcName?: string;
 };
 
 export type SvrDetailItem = {
@@ -175,6 +176,7 @@ export type EipAttachInfoIn = {
     action: "attach" | "detach";
     svrId: string;
     publicIp: string;
+    dcName?: string;
 };
 
 export type SvrBriefItem = {
@@ -193,6 +195,7 @@ export type SvrTagNameItem = {
 export type ModSvrNameParm = {
     svrIds: Array<string>;
     svrName: string;
+    dcName?: string;
 };
 
 export type DiskInfoIn = {
@@ -200,6 +203,7 @@ export type DiskInfoIn = {
     svrId: string;
     diskPath: string;
     volumeId: string;
+    dcName?: string;
 };
 
 export type ElbAzItem = {
@@ -230,11 +234,13 @@ export type PasswordParm = {
 export type OperateIn = {
     svr_ids: Array<string>;
     action: "start" | "stop" | "restart";
+    dcName?: string;
 };
 
 export type ConfigIn = {
     svr_ids: Array<string>;
     ins_type: string;
+    dcName?: string;
 };
 
 export type DbiBriefItem = {
@@ -351,6 +357,7 @@ export type SgAttachInfoIn = {
     action: "attach" | "detach";
     svrId: string;
     secgroupId: string;
+    dcName?: string;
 };
 
 export type KeypairOut = {
@@ -409,6 +416,12 @@ export type AddSubnetParm = {
     tagName?: string;
 };
 
+export type ModSubnetParm = {
+    dcName: string;
+    subnetId: string;
+    isMapPublicIp?: boolean;
+};
+
 export type SvrProtectionOut = {
     success?: Array<string>;
     failed?: Array<string>;
@@ -417,6 +430,7 @@ export type SvrProtectionOut = {
 export type ModSvrProtectionParm = {
     svrIds: Array<string>;
     action: "enable" | "disable";
+    dcName?: string;
 };
 
 export type ElbBriefItem = {
@@ -560,6 +574,29 @@ export type DetachVolParm = {
     attachPath?: string;
 };
 
+export type ElbBasic = {
+    elbId?: string;
+    tagName?: string;
+    dnsName?: string;
+    elbType?: string;
+    elbState?: string;
+    elbScheme?: string;
+};
+
+export type ElbDetail = {
+    elbBasic?: ElbBasic;
+    elbListeners?: Array<{
+        [key: string]: unknown;
+    }>;
+    elbConfig?: {
+        [key: string]: unknown;
+    };
+    elbProperty?: {
+        [key: string]: unknown;
+    };
+    userTags?: Array<TagItem>;
+};
+
 export type SubnetBasic = {
     subnetId?: string;
     subnetState?: string;
@@ -586,13 +623,6 @@ export type AddNatGateway = {
     subnetId: string;
     allocationId: string;
     tagName?: string;
-};
-
-export type InsFamilyItem = {
-    catgName?: string;
-    catdesCode?: string;
-    familyName?: string;
-    familyDes?: string;
 };
 
 export type SvrPropertyOut = {
@@ -664,6 +694,13 @@ export type SvrInstypeParam = {
     imgID?: string;
 };
 
+export type FreeTierInfo = {
+    isReminderOn?: boolean;
+    activeDate?: string;
+    remainDays?: number;
+    iconColor?: string;
+};
+
 export type AzSummaryBrief = {
     azName?: string;
     subnetNum?: number;
@@ -720,13 +757,6 @@ export type InsTypeBriefItem = {
     insType?: string;
     familyName?: string;
     familyDes?: string;
-};
-
-export type FreeTierInfo = {
-    isReminderOn?: boolean;
-    activeDate?: string;
-    remainDays?: number;
-    iconColor?: string;
 };
 
 export type FreeTierParm = {
@@ -806,6 +836,13 @@ export type SecGroupDetail = {
     sgBasic?: SecGroupBasic;
 };
 
+export type InsFamilyItem = {
+    catgName?: string;
+    catdesCode?: string;
+    familyName?: string;
+    familyDes?: string;
+};
+
 export type StaticIpDetail = {
     eipBasic?: StaticIpBasic;
     eipProperty?: unknown;
@@ -840,6 +877,22 @@ export type SubnetDetail = {
     userTags?: Array<TagItem>;
 };
 
+export type RouteTableDetail = {
+    rtbId?: string;
+    tagName?: string;
+    vpcId?: string;
+    associations?: Array<{
+        [key: string]: unknown;
+    }>;
+    routes?: Array<{
+        [key: string]: unknown;
+    }>;
+    propagateVgws?: Array<{
+        [key: string]: unknown;
+    }>;
+    userTags?: Array<TagItem>;
+};
+
 export type InventoryTypeItem = {
     type?: string;
     data?: Array<unknown>;
@@ -854,9 +907,10 @@ export type ObjectContents = {
     modifiedTime: string;
 };
 
-export type BucketProperty1 = {
-    isEncryption: boolean;
-    isVersioning: boolean;
+export type BucketPropertyOut = {
+    bucketId?: string;
+    isEncryption?: boolean;
+    isVersioning?: boolean;
 };
 
 export type BucketPropertyParm = {
@@ -864,13 +918,9 @@ export type BucketPropertyParm = {
     isVersioning?: boolean;
 };
 
-export type BucketPermission1 = {
-    status?: string;
-    description?: string;
-    bucketACL?: string;
-    pubBlockConfig?: {
-        [key: string]: unknown;
-    };
+export type BucketPermissionOut = {
+    bucketId?: string;
+    bucketPermission?: BucketPermission;
 };
 
 export type BucketPublicParm = {
@@ -1025,7 +1075,7 @@ export type DeleteApiV1ServerResponses = {
      */
     200: {
         message?: string;
-        detail?: SvrStateChangeItem;
+        detail?: Array<SvrStateChangeItem>;
         status_code?: number;
         task?: unknown;
     };
@@ -1071,7 +1121,7 @@ export type GetApiV1ServerResponses = {
      */
     200: {
         message?: string;
-        detail?: SvrDetailItem;
+        detail?: Array<SvrDetailItem>;
         status_code?: number;
         task?: unknown;
     };
@@ -1115,7 +1165,7 @@ export type PostApiV1ServerResponses = {
      */
     200: {
         message?: string;
-        detail?: NewSvrItem;
+        detail?: Array<NewSvrItem>;
         status_code?: number;
         task?: unknown;
     };
@@ -1161,7 +1211,7 @@ export type GetApiV1DatabaseResponses = {
      */
     200: {
         message?: string;
-        detail?: DbiDetailItem;
+        detail?: Array<DbiDetailItem>;
         status_code?: number;
         task?: unknown;
     };
@@ -1231,7 +1281,7 @@ export type ListAllUsersResponses = {
      */
     200: {
         message?: string;
-        detail?: UserModel;
+        detail?: Array<UserModel>;
         status_code?: number;
         task?: unknown;
     };
@@ -1310,7 +1360,7 @@ export type GetApiV1DatacenterResponses = {
      */
     200: {
         message?: string;
-        detail?: DataCenterModel;
+        detail?: Array<DataCenterModel>;
         status_code?: number;
         task?: unknown;
     };
@@ -1479,7 +1529,7 @@ export type GetApiV1ServerListResponses = {
      */
     200: {
         message?: string;
-        detail?: SvrBriefItem;
+        detail?: Array<SvrBriefItem>;
         status_code?: number;
         task?: unknown;
     };
@@ -1495,6 +1545,15 @@ export type PutApiV1ServerNameData = {
 };
 
 export type PutApiV1ServerNameErrors = {
+    /**
+     * Authentication error
+     */
+    401: {
+        message?: string;
+        detail?: HttpError;
+        status_code?: number;
+        task?: unknown;
+    };
     /**
      * Validation error
      */
@@ -1514,7 +1573,7 @@ export type PutApiV1ServerNameResponses = {
      */
     200: {
         message?: string;
-        detail?: SvrTagNameItem;
+        detail?: Array<SvrTagNameItem>;
         status_code?: number;
         task?: unknown;
     };
@@ -1604,7 +1663,7 @@ export type GetApiV1LoadbalancerResponses = {
      */
     200: {
         message?: string;
-        detail?: ElbDetailItem;
+        detail?: Array<ElbDetailItem>;
         status_code?: number;
         task?: unknown;
     };
@@ -1692,7 +1751,7 @@ export type PostApiV1ServerActionResponses = {
      */
     200: {
         message?: string;
-        detail?: SvrStateChangeItem;
+        detail?: Array<SvrStateChangeItem>;
         status_code?: number;
         task?: unknown;
     };
@@ -1782,7 +1841,7 @@ export type GetApiV1DatabaseListResponses = {
      */
     200: {
         message?: string;
-        detail?: DbiBriefItem;
+        detail?: Array<DbiBriefItem>;
         status_code?: number;
         task?: unknown;
     };
@@ -1862,7 +1921,7 @@ export type GetApiV1AccountQuotaResponses = {
      */
     200: {
         message?: string;
-        detail?: QuotaItem;
+        detail?: Array<QuotaItem>;
         status_code?: number;
         task?: unknown;
     };
@@ -1953,7 +2012,7 @@ export type GetApiV1StorageBucketResponses = {
      */
     200: {
         message?: string;
-        detail?: BucketModel;
+        detail?: Array<BucketModel>;
         status_code?: number;
         task?: unknown;
     };
@@ -2088,7 +2147,7 @@ export type GetApiV1StorageVolumeResponses = {
      */
     200: {
         message?: string;
-        detail?: VolumeModel;
+        detail?: Array<VolumeModel>;
         status_code?: number;
         task?: unknown;
     };
@@ -2167,7 +2226,7 @@ export type GetApiV1DatacenterListResponses = {
      */
     200: {
         message?: string;
-        detail?: DataCenterBasic;
+        detail?: Array<DataCenterBasic>;
         status_code?: number;
         task?: unknown;
     };
@@ -2348,7 +2407,7 @@ export type GetApiV1AccountKeypairResponses = {
      */
     200: {
         message?: string;
-        detail?: KeypairOut;
+        detail?: Array<KeypairOut>;
         status_code?: number;
         task?: unknown;
     };
@@ -2427,7 +2486,7 @@ export type GetApiV1DatacenterRegionResponses = {
      */
     200: {
         message?: string;
-        detail?: RegionModel;
+        detail?: Array<RegionModel>;
         status_code?: number;
         task?: unknown;
     };
@@ -2520,7 +2579,7 @@ export type GetApiV1DatacenterSubnetResponses = {
      */
     200: {
         message?: string;
-        detail?: SubnetModel;
+        detail?: Array<SubnetModel>;
         status_code?: number;
         task?: unknown;
     };
@@ -2575,7 +2634,7 @@ export type PostApiV1DatacenterSubnetResponse =
     PostApiV1DatacenterSubnetResponses[keyof PostApiV1DatacenterSubnetResponses];
 
 export type PutApiV1DatacenterSubnetData = {
-    body?: never;
+    body?: ModSubnetParm;
     path?: never;
     query?: never;
     url: "/api/v1/datacenter/subnet";
@@ -2588,6 +2647,15 @@ export type PutApiV1DatacenterSubnetErrors = {
     401: {
         message?: string;
         detail?: HttpError;
+        status_code?: number;
+        task?: unknown;
+    };
+    /**
+     * Validation error
+     */
+    422: {
+        message?: string;
+        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -2618,6 +2686,15 @@ export type PutApiV1ServerProtectionData = {
 };
 
 export type PutApiV1ServerProtectionErrors = {
+    /**
+     * Authentication error
+     */
+    401: {
+        message?: string;
+        detail?: HttpError;
+        status_code?: number;
+        task?: unknown;
+    };
     /**
      * Validation error
      */
@@ -2673,7 +2750,7 @@ export type GetApiV1StorageS3RegionResponses = {
      */
     200: {
         message?: string;
-        detail?: RegionModel;
+        detail?: Array<RegionModel>;
         status_code?: number;
         task?: unknown;
     };
@@ -2730,7 +2807,7 @@ export type GetApiV1DatabaseByRdsIdResponses = {
      */
     200: {
         message?: string;
-        detail?: unknown;
+        detail?: DbiDetailItem;
         status_code?: number;
         task?: unknown;
     };
@@ -2776,7 +2853,7 @@ export type GetApiV1LoadbalancerListResponses = {
      */
     200: {
         message?: string;
-        detail?: ElbBriefItem;
+        detail?: Array<ElbBriefItem>;
         status_code?: number;
         task?: unknown;
     };
@@ -2812,7 +2889,7 @@ export type GetApiV1AccountQuotaAllResponses = {
      */
     200: {
         message?: string;
-        detail?: unknown;
+        detail?: MsgOut;
         status_code?: number;
         task?: unknown;
     };
@@ -2942,7 +3019,7 @@ export type GetApiV1ServerParamImageResponses = {
      */
     200: {
         message?: string;
-        detail?: ImageItem;
+        detail?: Array<ImageItem>;
         status_code?: number;
         task?: unknown;
     };
@@ -3080,7 +3157,7 @@ export type GetApiV1DatacenterSecgroupResponses = {
      */
     200: {
         message?: string;
-        detail?: SecGroupModel;
+        detail?: Array<SecGroupModel>;
         status_code?: number;
         task?: unknown;
     };
@@ -3264,7 +3341,7 @@ export type GetApiV1DatacenterStaticipResponses = {
      */
     200: {
         message?: string;
-        detail?: StaticIpModel;
+        detail?: Array<StaticIpModel>;
         status_code?: number;
         task?: unknown;
     };
@@ -3357,7 +3434,7 @@ export type GetApiV1StorageBucketListResponses = {
      */
     200: {
         message?: string;
-        detail?: BucketBasic;
+        detail?: Array<BucketBasic>;
         status_code?: number;
         task?: unknown;
     };
@@ -3404,7 +3481,7 @@ export type GetApiV1StorageVolumeListResponses = {
      */
     200: {
         message?: string;
-        detail?: VolumeBasic;
+        detail?: Array<VolumeBasic>;
         status_code?: number;
         task?: unknown;
     };
@@ -3418,7 +3495,9 @@ export type GetApiV1ServerNameBySvrIdData = {
     path: {
         svr_id: string;
     };
-    query?: never;
+    query: {
+        dc: string;
+    };
     url: "/api/v1/server/name/{svr_id}";
 };
 
@@ -3438,6 +3517,15 @@ export type GetApiV1ServerNameBySvrIdErrors = {
     404: {
         message?: string;
         detail?: HttpError;
+        status_code?: number;
+        task?: unknown;
+    };
+    /**
+     * Validation error
+     */
+    422: {
+        message?: string;
+        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -3466,79 +3554,8 @@ export type GetApiV1ServerParamInstypeData = {
     query: {
         dc: string;
         arch: "x86_64" | "arm64";
-        family:
-            | "all"
-            | "t2"
-            | "t3"
-            | "t3a"
-            | "m4"
-            | "m5"
-            | "m5d"
-            | "m5n"
-            | "m5zn"
-            | "m6i"
-            | "m5a"
-            | "m5ad"
-            | "m6a"
-            | "t4g"
-            | "a1"
-            | "m6g"
-            | "m6gd"
-            | "c4"
-            | "c5"
-            | "c6i"
-            | "c5a"
-            | "c5d"
-            | "c5ad"
-            | "c5n"
-            | "c6g"
-            | "c6gn"
-            | "c6gd"
-            | "c7g"
-            | "r4"
-            | "r5"
-            | "r5d"
-            | "r5a"
-            | "r5ad"
-            | "r5b"
-            | "r5n"
-            | "r5dn"
-            | "r6i"
-            | "r6g"
-            | "r6gd"
-            | "x1"
-            | "x1e"
-            | "z1d"
-            | "x2idn"
-            | "x2iedn"
-            | "x2iezn"
-            | "x2gd"
-            | "x2g"
-            | "d2"
-            | "d3"
-            | "d3en"
-            | "h1"
-            | "i3"
-            | "i3en"
-            | "i4i"
-            | "is4gen"
-            | "im4gn"
-            | "p2"
-            | "p3"
-            | "p3dn"
-            | "p4d"
-            | "g3"
-            | "g3s"
-            | "g4dn"
-            | "g4ad"
-            | "g5"
-            | "g5g"
-            | "inf1"
-            | "trn1"
-            | "dl1"
-            | "f1"
-            | "vt1";
-        os?: "amzn2" | "ubuntu" | "debian" | "linux" | "rhel" | "sles" | "windows";
+        family: string;
+        os?: string;
     };
     url: "/api/v1/server/param/instype";
 };
@@ -3572,7 +3589,7 @@ export type GetApiV1ServerParamInstypeResponses = {
      */
     200: {
         message?: string;
-        detail?: InsTypeItem;
+        detail?: Array<InsTypeItem>;
         status_code?: number;
         task?: unknown;
     };
@@ -3586,7 +3603,9 @@ export type DeleteApiV1ServerTagsBySvrIdData = {
     path: {
         svr_id: string;
     };
-    query?: never;
+    query: {
+        dc: string;
+    };
     url: "/api/v1/server/tags/{svr_id}";
 };
 
@@ -3629,7 +3648,7 @@ export type DeleteApiV1ServerTagsBySvrIdResponses = {
      */
     200: {
         message?: string;
-        detail?: TagItem;
+        detail?: Array<TagItem>;
         status_code?: number;
         task?: unknown;
     };
@@ -3643,7 +3662,9 @@ export type GetApiV1ServerTagsBySvrIdData = {
     path: {
         svr_id: string;
     };
-    query?: never;
+    query: {
+        dc: string;
+    };
     url: "/api/v1/server/tags/{svr_id}";
 };
 
@@ -3666,6 +3687,15 @@ export type GetApiV1ServerTagsBySvrIdErrors = {
         status_code?: number;
         task?: unknown;
     };
+    /**
+     * Validation error
+     */
+    422: {
+        message?: string;
+        detail?: ValidationError;
+        status_code?: number;
+        task?: unknown;
+    };
 };
 
 export type GetApiV1ServerTagsBySvrIdError = GetApiV1ServerTagsBySvrIdErrors[keyof GetApiV1ServerTagsBySvrIdErrors];
@@ -3676,7 +3706,7 @@ export type GetApiV1ServerTagsBySvrIdResponses = {
      */
     200: {
         message?: string;
-        detail?: TagItem;
+        detail?: Array<TagItem>;
         status_code?: number;
         task?: unknown;
     };
@@ -3690,7 +3720,9 @@ export type PutApiV1ServerTagsBySvrIdData = {
     path: {
         svr_id: string;
     };
-    query?: never;
+    query: {
+        dc: string;
+    };
     url: "/api/v1/server/tags/{svr_id}";
 };
 
@@ -3732,7 +3764,7 @@ export type PutApiV1ServerTagsBySvrIdResponses = {
      */
     200: {
         message?: string;
-        detail?: TagItem;
+        detail?: Array<TagItem>;
         status_code?: number;
         task?: unknown;
     };
@@ -3779,7 +3811,7 @@ export type GetApiV1AccountKeypairListResponses = {
      */
     200: {
         message?: string;
-        detail?: KeypairOut;
+        detail?: Array<KeypairOut>;
         status_code?: number;
         task?: unknown;
     };
@@ -3825,7 +3857,7 @@ export type DeleteApiV1DatacenterRoutetableResponses = {
      */
     200: {
         message?: string;
-        detail?: unknown;
+        detail?: DcMsgOut;
         status_code?: number;
         task?: unknown;
     };
@@ -3873,7 +3905,7 @@ export type GetApiV1DatacenterRoutetableResponses = {
      */
     200: {
         message?: string;
-        detail?: RouteTableModel;
+        detail?: Array<RouteTableModel>;
         status_code?: number;
         task?: unknown;
     };
@@ -3919,7 +3951,7 @@ export type PostApiV1DatacenterRoutetableResponses = {
      */
     200: {
         message?: string;
-        detail?: unknown;
+        detail?: RouteTableModel;
         status_code?: number;
         task?: unknown;
     };
@@ -4070,7 +4102,7 @@ export type GetApiV1LoadbalancerByElbIdResponses = {
      */
     200: {
         message?: string;
-        detail?: unknown;
+        detail?: ElbDetail;
         status_code?: number;
         task?: unknown;
     };
@@ -4118,7 +4150,7 @@ export type GetApiV1DatacenterSubnetListResponses = {
      */
     200: {
         message?: string;
-        detail?: SubnetBasic;
+        detail?: Array<SubnetBasic>;
         status_code?: number;
         task?: unknown;
     };
@@ -4166,7 +4198,7 @@ export type GetApiV1DatacenterGatewayNatResponses = {
      */
     200: {
         message?: string;
-        detail?: GatewayModel;
+        detail?: Array<GatewayModel>;
         status_code?: number;
         task?: unknown;
     };
@@ -4221,61 +4253,14 @@ export type PostApiV1DatacenterGatewayNatResponses = {
 export type PostApiV1DatacenterGatewayNatResponse =
     PostApiV1DatacenterGatewayNatResponses[keyof PostApiV1DatacenterGatewayNatResponses];
 
-export type GetApiV1ServerParamInsfamilyData = {
-    body?: never;
-    path?: never;
-    query: {
-        dc: string;
-        arch: "x86_64" | "arm64";
-    };
-    url: "/api/v1/server/param/insfamily";
-};
-
-export type GetApiV1ServerParamInsfamilyErrors = {
-    /**
-     * Authentication error
-     */
-    401: {
-        message?: string;
-        detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
-        status_code?: number;
-        task?: unknown;
-    };
-};
-
-export type GetApiV1ServerParamInsfamilyError =
-    GetApiV1ServerParamInsfamilyErrors[keyof GetApiV1ServerParamInsfamilyErrors];
-
-export type GetApiV1ServerParamInsfamilyResponses = {
-    /**
-     * Successful response
-     */
-    200: {
-        message?: string;
-        detail?: InsFamilyItem;
-        status_code?: number;
-        task?: unknown;
-    };
-};
-
-export type GetApiV1ServerParamInsfamilyResponse =
-    GetApiV1ServerParamInsfamilyResponses[keyof GetApiV1ServerParamInsfamilyResponses];
-
 export type GetApiV1ServerDetailBySvrIdData = {
     body?: never;
     path: {
         svr_id: string;
     };
-    query?: never;
+    query: {
+        dc: string;
+    };
     url: "/api/v1/server/detail/{svr_id}";
 };
 
@@ -4295,6 +4280,15 @@ export type GetApiV1ServerDetailBySvrIdErrors = {
     404: {
         message?: string;
         detail?: HttpError;
+        status_code?: number;
+        task?: unknown;
+    };
+    /**
+     * Validation error
+     */
+    422: {
+        message?: string;
+        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -4357,7 +4351,7 @@ export type GetApiV1DatacenterRegionZonesResponses = {
      */
     200: {
         message?: string;
-        detail?: unknown;
+        detail?: MsgOut;
         status_code?: number;
         task?: unknown;
     };
@@ -4419,7 +4413,9 @@ export type GetApiV1ServerInstypeBySvrIdData = {
     path: {
         svr_id: string;
     };
-    query?: never;
+    query: {
+        dc: string;
+    };
     url: "/api/v1/server/instype/{svr_id}";
 };
 
@@ -4439,6 +4435,15 @@ export type GetApiV1ServerInstypeBySvrIdErrors = {
     404: {
         message?: string;
         detail?: HttpError;
+        status_code?: number;
+        task?: unknown;
+    };
+    /**
+     * Validation error
+     */
+    422: {
+        message?: string;
+        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -4550,7 +4555,7 @@ export type GetApiV1AccountReminderCreditResponses = {
      */
     200: {
         message?: string;
-        detail?: unknown;
+        detail?: FreeTierInfo;
         status_code?: number;
         task?: unknown;
     };
@@ -4600,7 +4605,7 @@ export type PutApiV1AccountReminderCreditResponses = {
      */
     200: {
         message?: string;
-        detail?: unknown;
+        detail?: FreeTierInfo;
         status_code?: number;
         task?: unknown;
     };
@@ -4696,7 +4701,7 @@ export type GetApiV1DatacenterSecgroupListResponses = {
      */
     200: {
         message?: string;
-        detail?: SecGroupBasic;
+        detail?: Array<SecGroupBasic>;
         status_code?: number;
         task?: unknown;
     };
@@ -4744,7 +4749,7 @@ export type GetApiV1DatacenterStaticipListResponses = {
      */
     200: {
         message?: string;
-        detail?: StaticIpBasic;
+        detail?: Array<StaticIpBasic>;
         status_code?: number;
         task?: unknown;
     };
@@ -4807,78 +4812,7 @@ export type GetApiV1ServerParamInstypeListData = {
     query: {
         dc: string;
         arch: "x86_64" | "arm64";
-        family:
-            | "all"
-            | "t2"
-            | "t3"
-            | "t3a"
-            | "m4"
-            | "m5"
-            | "m5d"
-            | "m5n"
-            | "m5zn"
-            | "m6i"
-            | "m5a"
-            | "m5ad"
-            | "m6a"
-            | "t4g"
-            | "a1"
-            | "m6g"
-            | "m6gd"
-            | "c4"
-            | "c5"
-            | "c6i"
-            | "c5a"
-            | "c5d"
-            | "c5ad"
-            | "c5n"
-            | "c6g"
-            | "c6gn"
-            | "c6gd"
-            | "c7g"
-            | "r4"
-            | "r5"
-            | "r5d"
-            | "r5a"
-            | "r5ad"
-            | "r5b"
-            | "r5n"
-            | "r5dn"
-            | "r6i"
-            | "r6g"
-            | "r6gd"
-            | "x1"
-            | "x1e"
-            | "z1d"
-            | "x2idn"
-            | "x2iedn"
-            | "x2iezn"
-            | "x2gd"
-            | "x2g"
-            | "d2"
-            | "d3"
-            | "d3en"
-            | "h1"
-            | "i3"
-            | "i3en"
-            | "i4i"
-            | "is4gen"
-            | "im4gn"
-            | "p2"
-            | "p3"
-            | "p3dn"
-            | "p4d"
-            | "g3"
-            | "g3s"
-            | "g4dn"
-            | "g4ad"
-            | "g5"
-            | "g5g"
-            | "inf1"
-            | "trn1"
-            | "dl1"
-            | "f1"
-            | "vt1";
+        family: string;
     };
     url: "/api/v1/server/param/instype/list";
 };
@@ -4913,7 +4847,7 @@ export type GetApiV1ServerParamInstypeListResponses = {
      */
     200: {
         message?: string;
-        detail?: InsTypeBriefItem;
+        detail?: Array<InsTypeBriefItem>;
         status_code?: number;
         task?: unknown;
     };
@@ -5055,7 +4989,7 @@ export type GetApiV1DatacenterRoutetableListResponses = {
      */
     200: {
         message?: string;
-        detail?: RouteTableBasic;
+        detail?: Array<RouteTableBasic>;
         status_code?: number;
         task?: unknown;
     };
@@ -5221,7 +5155,7 @@ export type GetApiV1DashboardSummaryResourceResponses = {
      */
     200: {
         message?: string;
-        detail?: ResourceSumItem;
+        detail?: Array<ResourceSumItem>;
         status_code?: number;
         task?: unknown;
     };
@@ -5376,7 +5310,7 @@ export type GetApiV1DatacenterGatewayInternetResponses = {
      */
     200: {
         message?: string;
-        detail?: GatewayModel;
+        detail?: Array<GatewayModel>;
         status_code?: number;
         task?: unknown;
     };
@@ -5490,6 +5424,54 @@ export type GetApiV1DatacenterSecgroupBySgIdResponses = {
 export type GetApiV1DatacenterSecgroupBySgIdResponse =
     GetApiV1DatacenterSecgroupBySgIdResponses[keyof GetApiV1DatacenterSecgroupBySgIdResponses];
 
+export type GetApiV1ServerParamInstypeFamilyData = {
+    body?: never;
+    path?: never;
+    query: {
+        dc: string;
+    };
+    url: "/api/v1/server/param/instype/family";
+};
+
+export type GetApiV1ServerParamInstypeFamilyErrors = {
+    /**
+     * Authentication error
+     */
+    401: {
+        message?: string;
+        detail?: HttpError;
+        status_code?: number;
+        task?: unknown;
+    };
+    /**
+     * Validation error
+     */
+    422: {
+        message?: string;
+        detail?: ValidationError;
+        status_code?: number;
+        task?: unknown;
+    };
+};
+
+export type GetApiV1ServerParamInstypeFamilyError =
+    GetApiV1ServerParamInstypeFamilyErrors[keyof GetApiV1ServerParamInstypeFamilyErrors];
+
+export type GetApiV1ServerParamInstypeFamilyResponses = {
+    /**
+     * Successful response
+     */
+    200: {
+        message?: string;
+        detail?: Array<InsFamilyItem>;
+        status_code?: number;
+        task?: unknown;
+    };
+};
+
+export type GetApiV1ServerParamInstypeFamilyResponse =
+    GetApiV1ServerParamInstypeFamilyResponses[keyof GetApiV1ServerParamInstypeFamilyResponses];
+
 export type GetApiV1DatacenterStaticipByEipIdData = {
     body?: never;
     path: {
@@ -5588,7 +5570,7 @@ export type GetApiV1DashboardSummaryDatacenterResponses = {
      */
     200: {
         message?: string;
-        detail?: AzSummaryItem;
+        detail?: Array<AzSummaryItem>;
         status_code?: number;
         task?: unknown;
     };
@@ -5706,7 +5688,7 @@ export type GetApiV1DatacenterRoutetableByRtbIdResponses = {
      */
     200: {
         message?: string;
-        detail?: unknown;
+        detail?: RouteTableDetail;
         status_code?: number;
         task?: unknown;
     };
@@ -5765,7 +5747,7 @@ export type GetApiV1DashboardInventoryByResourceResponses = {
      */
     200: {
         message?: string;
-        detail?: InventoryTypeItem;
+        detail?: Array<InventoryTypeItem>;
         status_code?: number;
         task?: unknown;
     };
@@ -5942,7 +5924,7 @@ export type GetApiV1StorageBucketByBucketIdObjectResponses = {
      */
     200: {
         message?: string;
-        detail?: ObjectContents;
+        detail?: Array<ObjectContents>;
         status_code?: number;
         task?: unknown;
     };
@@ -5956,7 +5938,9 @@ export type PutApiV1StorageBucketByBucketIdPropertyData = {
     path: {
         bucket_id: string;
     };
-    query?: never;
+    query: {
+        dc: string;
+    };
     url: "/api/v1/storage/bucket/{bucket_id}/property";
 };
 
@@ -5999,7 +5983,7 @@ export type PutApiV1StorageBucketByBucketIdPropertyResponses = {
      */
     200: {
         message?: string;
-        detail?: BucketProperty1;
+        detail?: BucketPropertyOut;
         status_code?: number;
         task?: unknown;
     };
@@ -6072,7 +6056,9 @@ export type PutApiV1StorageBucketByBucketIdPermissionData = {
     path: {
         bucket_id: string;
     };
-    query?: never;
+    query: {
+        dc: string;
+    };
     url: "/api/v1/storage/bucket/{bucket_id}/permission";
 };
 
@@ -6115,7 +6101,7 @@ export type PutApiV1StorageBucketByBucketIdPermissionResponses = {
      */
     200: {
         message?: string;
-        detail?: BucketPermission1;
+        detail?: BucketPermissionOut;
         status_code?: number;
         task?: unknown;
     };
@@ -6175,7 +6161,7 @@ export type GetApiV1StorageBucketByBucketIdByObjectKeyResponses = {
      */
     200: {
         message?: string;
-        detail?: unknown;
+        detail?: ObjectContents;
         status_code?: number;
         task?: unknown;
     };

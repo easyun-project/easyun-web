@@ -20,7 +20,7 @@ export default defineConfig(({ mode }) => {
         server: {
             cors: true,
             host: true,
-            port: Number(env.VITE_PORT) || 8888,
+            port: Number(env.VITE_PORT) || 8080,
             hmr: {
                 host: 'localhost',
                 protocol: 'ws',

@@ -188,11 +188,11 @@ import type {
     GetApiV1ServerParamImageData,
     GetApiV1ServerParamImageErrors,
     GetApiV1ServerParamImageResponses,
-    GetApiV1ServerParamInsfamilyData,
-    GetApiV1ServerParamInsfamilyErrors,
-    GetApiV1ServerParamInsfamilyResponses,
     GetApiV1ServerParamInstypeData,
     GetApiV1ServerParamInstypeErrors,
+    GetApiV1ServerParamInstypeFamilyData,
+    GetApiV1ServerParamInstypeFamilyErrors,
+    GetApiV1ServerParamInstypeFamilyResponses,
     GetApiV1ServerParamInstypeListData,
     GetApiV1ServerParamInstypeListErrors,
     GetApiV1ServerParamInstypeListResponses,
@@ -552,6 +552,7 @@ export const putApiV1ServerName = <ThrowOnError extends boolean = false>(
     options?: Options<PutApiV1ServerNameData, ThrowOnError>,
 ) =>
     (options?.client ?? client).put<PutApiV1ServerNameResponses, PutApiV1ServerNameErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
         url: "/api/v1/server/name",
         ...options,
         headers: {
@@ -903,7 +904,7 @@ export const postApiV1DatacenterSubnet = <ThrowOnError extends boolean = false>(
     );
 
 /**
- * 修改数据中心Subnet 【to-be-done】
+ * 修改数据中心 Subnet 属性
  */
 export const putApiV1DatacenterSubnet = <ThrowOnError extends boolean = false>(
     options?: Options<PutApiV1DatacenterSubnetData, ThrowOnError>,
@@ -912,6 +913,10 @@ export const putApiV1DatacenterSubnet = <ThrowOnError extends boolean = false>(
         security: [{ scheme: "bearer", type: "http" }],
         url: "/api/v1/datacenter/subnet",
         ...options,
+        headers: {
+            "Content-Type": "application/json",
+            ...options?.headers,
+        },
     });
 
 /**
@@ -921,6 +926,7 @@ export const putApiV1ServerProtection = <ThrowOnError extends boolean = false>(
     options?: Options<PutApiV1ServerProtectionData, ThrowOnError>,
 ) =>
     (options?.client ?? client).put<PutApiV1ServerProtectionResponses, PutApiV1ServerProtectionErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
         url: "/api/v1/server/protection",
         ...options,
         headers: {
@@ -1260,7 +1266,7 @@ export const getApiV1AccountKeypairList = <ThrowOnError extends boolean = false>
     );
 
 /**
- * 删除 指定RouteTable路由表【to-be-done】
+ * 删除指定 RouteTable 路由表
  */
 export const deleteApiV1DatacenterRoutetable = <ThrowOnError extends boolean = false>(
     options?: Options<DeleteApiV1DatacenterRoutetableData, ThrowOnError>,
@@ -1296,7 +1302,7 @@ export const getApiV1DatacenterRoutetable = <ThrowOnError extends boolean = fals
     });
 
 /**
- * 新增 RouteTable路由表【to-be-done】
+ * 新增 RouteTable 路由表
  */
 export const postApiV1DatacenterRoutetable = <ThrowOnError extends boolean = false>(
     options?: Options<PostApiV1DatacenterRoutetableData, ThrowOnError>,
@@ -1316,7 +1322,7 @@ export const postApiV1DatacenterRoutetable = <ThrowOnError extends boolean = fal
     });
 
 /**
- * 块存储关联云服务器(ec2)【ToBeFix】
+ * 块存储关联云服务器
  */
 export const putApiV1StorageVolumeAttach = <ThrowOnError extends boolean = false>(
     options?: Options<PutApiV1StorageVolumeAttachData, ThrowOnError>,
@@ -1336,7 +1342,7 @@ export const putApiV1StorageVolumeAttach = <ThrowOnError extends boolean = false
     });
 
 /**
- * 块存储分离云服务器(ec2)【ToBeFix】
+ * 块存储分离云服务器(ec2)
  */
 export const putApiV1StorageVolumeDetach = <ThrowOnError extends boolean = false>(
     options?: Options<PutApiV1StorageVolumeDetachData, ThrowOnError>,
@@ -1356,7 +1362,7 @@ export const putApiV1StorageVolumeDetach = <ThrowOnError extends boolean = false
     });
 
 /**
- * 获取指定负载均衡器(Elb)详细信息【to-be-done】
+ * 获取指定负载均衡器(ELB)详细信息
  */
 export const getApiV1LoadbalancerByElbId = <ThrowOnError extends boolean = false>(
     options: Options<GetApiV1LoadbalancerByElbIdData, ThrowOnError>,
@@ -1424,22 +1430,6 @@ export const postApiV1DatacenterGatewayNat = <ThrowOnError extends boolean = fal
     });
 
 /**
- * 获取可用的Instance Family列表
- */
-export const getApiV1ServerParamInsfamily = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1ServerParamInsfamilyData, ThrowOnError>,
-) =>
-    (options.client ?? client).get<
-        GetApiV1ServerParamInsfamilyResponses,
-        GetApiV1ServerParamInsfamilyErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/server/param/insfamily",
-        ...options,
-    });
-
-/**
  * 获取指定云服务器详情信息
  */
 export const getApiV1ServerDetailBySvrId = <ThrowOnError extends boolean = false>(
@@ -1488,7 +1478,7 @@ export const getApiV1DatacenterSummaryCost = <ThrowOnError extends boolean = fal
     });
 
 /**
- * 获取指定云服务器实例参数 [测试]
+ * 获取指定云服务器实例参数
  */
 export const getApiV1ServerInstypeBySvrId = <ThrowOnError extends boolean = false>(
     options: Options<GetApiV1ServerInstypeBySvrIdData, ThrowOnError>,
@@ -1504,7 +1494,7 @@ export const getApiV1ServerInstypeBySvrId = <ThrowOnError extends boolean = fals
     });
 
 /**
- * 查询存储桶名称全局范围是否可用【fix-me】
+ * 查询存储桶名称全局范围是否可用
  */
 export const getApiV1StorageBucketVaildate = <ThrowOnError extends boolean = false>(
     options: Options<GetApiV1StorageBucketVaildateData, ThrowOnError>,
@@ -1816,6 +1806,22 @@ export const getApiV1DatacenterSecgroupBySgId = <ThrowOnError extends boolean = 
     });
 
 /**
+ * 获取可用的Instance Family列表
+ */
+export const getApiV1ServerParamInstypeFamily = <ThrowOnError extends boolean = false>(
+    options: Options<GetApiV1ServerParamInstypeFamilyData, ThrowOnError>,
+) =>
+    (options.client ?? client).get<
+        GetApiV1ServerParamInstypeFamilyResponses,
+        GetApiV1ServerParamInstypeFamilyErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/server/param/instype/family",
+        ...options,
+    });
+
+/**
  * 获取 指定静态IP(EIP)信息
  */
 export const getApiV1DatacenterStaticipByEipId = <ThrowOnError extends boolean = false>(
@@ -1864,7 +1870,7 @@ export const getApiV1DatacenterSubnetBySubnetId = <ThrowOnError extends boolean 
     });
 
 /**
- * 获取 指定RouteTable路由表详细信息【to-be-done】
+ * 获取指定 RouteTable 路由表详细信息
  */
 export const getApiV1DatacenterRoutetableByRtbId = <ThrowOnError extends boolean = false>(
     options: Options<GetApiV1DatacenterRoutetableByRtbIdData, ThrowOnError>,
@@ -2000,7 +2006,7 @@ export const putApiV1StorageBucketByBucketIdPermission = <ThrowOnError extends b
     });
 
 /**
- * 获取指定存储桶(Bucket)内单个对象文件信息【to-be-done】
+ * 获取指定存储桶(Bucket)内单个对象文件信息
  */
 export const getApiV1StorageBucketByBucketIdByObjectKey = <ThrowOnError extends boolean = false>(
     options: Options<GetApiV1StorageBucketByBucketIdByObjectKeyData, ThrowOnError>,
