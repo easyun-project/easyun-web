@@ -1,63 +1,63 @@
-name: Push-to-EC2
+name: Deploy to Dev Server (EC2)
 
 on:
   push:
-    branches: [ develop,master ]
-  pull_request:
-    branches: [ develop,master ]
+    branches:
+      - develop
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
-  ci-staging:
-    name: Push to EC2 Instance stging
+  deploy:
+    name: Deploy easyun-web via SSM
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/deploy/staging' || startsWith(github.ref, 'refs/heads/hotfix/')
 
     steps:
-      - name: Code Checkout
-        uses: actions/checkout@v2
-      - name: Deploy to my EC2 instance
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY_TOKYO }}
-          SOURCE: "./"
-          REMOTE_HOST: ${{secrets.TOKYO_IP}}
-          REMOTE_USER: "ec2-user"
-          TARGET: "/home/ec2-user/easyun-web"
-          EXCLUDE: ".git/, node_modules/"
-      - name: executing remote ssh commands using ssh key
-        uses: appleboy/ssh-action@master
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          host: ${{ secrets.TOKYO_IP }}
-          username: "ec2-user"
-          key: ${{ secrets.EC2_SSH_KEY_TOKYO }}
-          script: sh easyun-web/deploy.sh
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_DEPLOY_REGION }}
 
+      - name: Deploy via SSM
+        run: |
+          COMMAND_ID=$(aws ssm send-command \
+            --instance-ids "${{ secrets.EC2_INSTANCE_ID }}" \
+            --document-name "AWS-RunShellScript" \
+            --parameters 'commands=["sudo -u ec2-user bash -c \"source /home/ec2-user/.nvm/nvm.sh && cd /home/ec2-user/easyun-web && git pull origin develop && npm ci && npm run build\" && cp /home/ec2-user/easyun-web/deployment/easyun-web.conf /etc/nginx/conf.d/ && nginx -t && systemctl reload nginx"]' \
+            --comment "GitHub Actions deploy ${{ github.sha }}" \
+            --timeout-seconds 120 \
+            --output text \
+            --query "Command.CommandId")
 
-  ci-production:
-    name: Push to EC2 Instance prod
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
+          echo "Command ID: $COMMAND_ID"
 
-    steps:
-      - name: Code Checkout
-        uses: actions/checkout@v2
-      - name: Deploy to my EC2 instance
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY_TOKYO }}
-          SOURCE: "./"
-          REMOTE_HOST: ${{secrets.TOKYO_IP}}
-          REMOTE_USER: "ec2-user"
-          TARGET: "/home/ec2-user/easyun-web"
-          EXCLUDE: ".git/, node_modules/"
-      - name: executing remote ssh commands using ssh key
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.TOKYO_IP }}
-          username: "ec2-user"
-          key: ${{ secrets.EC2_SSH_KEY_TOKYO }}
-          script: sh easyun-web/deploy.sh
+          for i in $(seq 1 30); do
+            STATUS=$(aws ssm get-command-invocation \
+              --command-id "$COMMAND_ID" \
+              --instance-id "${{ secrets.EC2_INSTANCE_ID }}" \
+              --output text \
+              --query "Status" 2>/dev/null || echo "Pending")
 
+            echo "Attempt $i: $STATUS"
 
+            if [ "$STATUS" = "Success" ]; then
+              echo "Deploy succeeded"
+              exit 0
+            elif [ "$STATUS" = "Failed" ] || [ "$STATUS" = "Cancelled" ] || [ "$STATUS" = "TimedOut" ]; then
+              echo "Deploy failed with status: $STATUS"
+              aws ssm get-command-invocation \
+                --command-id "$COMMAND_ID" \
+                --instance-id "${{ secrets.EC2_INSTANCE_ID }}" \
+                --output text \
+                --query "StandardErrorContent"
+              exit 1
+            fi
 
+            sleep 5
+          done
 
+          echo "Deploy timed out"
+          exit 1
