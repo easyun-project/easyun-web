@@ -17,7 +17,7 @@ const initialState: RouteState = {
 export const listAllRouteTable = createAsyncThunk(
     'datacenter/listAllRouteTable',
     async (params: { dc: string }) => {
-        const { data } = await getApiV1DatacenterRoutetableList({ query: { dc: params.dc } });
+        const { data } = await getApiV1DatacenterRoutetableList();
         return data?.detail as any;
     }
 );
@@ -25,7 +25,7 @@ export const listAllRouteTable = createAsyncThunk(
 export const getRouteTableDetail = createAsyncThunk(
     'datacenter/getStaticIpDetail',
     async (params: { dc: string; rtbId: string }) => {
-        const { data } = await getApiV1DatacenterRoutetableByRtbId({ path: { rtb_id: params.rtbId }, query: { dc: params.dc } });
+        const { data } = await getApiV1DatacenterRoutetableByRtbId({ path: { rtb_id: params.rtbId } });
         return data?.detail as any;
     }
 );

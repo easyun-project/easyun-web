@@ -55,7 +55,6 @@ export type NewSvrItem = {
 };
 
 export type SvrParmIn = {
-    dcName: string;
     tagName: string;
     svrNumber: number;
     ImageId: string;
@@ -76,7 +75,6 @@ export type SvrStateChangeItem = {
 
 export type SvrIdList = {
     svrIds: Array<string>;
-    dcName?: string;
 };
 
 export type SvrDetailItem = {
@@ -114,7 +112,7 @@ export type LoginParm = {
 };
 
 export type DataCenterModel = {
-    dcName?: string;
+    dcName: string;
     regionCode?: string;
     vpcID?: string;
     cidrBlock?: string;
@@ -176,7 +174,6 @@ export type EipAttachInfoIn = {
     action: "attach" | "detach";
     svrId: string;
     publicIp: string;
-    dcName?: string;
 };
 
 export type SvrBriefItem = {
@@ -195,7 +192,6 @@ export type SvrTagNameItem = {
 export type ModSvrNameParm = {
     svrIds: Array<string>;
     svrName: string;
-    dcName?: string;
 };
 
 export type DiskInfoIn = {
@@ -203,7 +199,6 @@ export type DiskInfoIn = {
     svrId: string;
     diskPath: string;
     volumeId: string;
-    dcName?: string;
 };
 
 export type ElbAzItem = {
@@ -232,15 +227,13 @@ export type PasswordParm = {
 };
 
 export type OperateIn = {
-    svr_ids: Array<string>;
+    svrIds: Array<string>;
     action: "start" | "stop" | "restart";
-    dcName?: string;
 };
 
 export type ConfigIn = {
-    svr_ids: Array<string>;
-    ins_type: string;
-    dcName?: string;
+    svrIds: Array<string>;
+    insType: string;
 };
 
 export type DbiBriefItem = {
@@ -348,7 +341,7 @@ export type DelVolumeParm = {
 };
 
 export type DataCenterBasic = {
-    dcName?: string;
+    dcName: string;
     regionCode?: string;
     vpcID?: string;
 };
@@ -357,13 +350,11 @@ export type SgAttachInfoIn = {
     action: "attach" | "detach";
     svrId: string;
     secgroupId: string;
-    dcName?: string;
 };
 
 export type KeypairOut = {
     keyName: string;
     keyType?: string;
-    keyFile?: string;
     keyFingerprint?: string;
     keyTags?: Array<{
         [key: string]: unknown;
@@ -430,7 +421,6 @@ export type SvrProtectionOut = {
 export type ModSvrProtectionParm = {
     svrIds: Array<string>;
     action: "enable" | "disable";
-    dcName?: string;
 };
 
 export type ElbBriefItem = {
@@ -651,11 +641,6 @@ export type SvrPropertyOut = {
     iamRole?: string;
 };
 
-export type SvrConfigOut = {
-    arch?: string;
-    os?: string;
-};
-
 export type SvrSecGroupItem = {
     sgId?: string;
     sgName?: string;
@@ -663,7 +648,9 @@ export type SvrSecGroupItem = {
 
 export type SvrEntityOut = {
     svrProperty?: SvrPropertyOut;
-    svrConfig?: SvrConfigOut;
+    svrConfig?: {
+        [key: string]: unknown;
+    };
     svrDisk?: {
         [key: string]: unknown;
     };
@@ -1086,9 +1073,7 @@ export type DeleteApiV1ServerResponse = DeleteApiV1ServerResponses[keyof DeleteA
 export type GetApiV1ServerData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/server";
 };
 
@@ -1099,15 +1084,6 @@ export type GetApiV1ServerErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -1176,9 +1152,7 @@ export type PostApiV1ServerResponse = PostApiV1ServerResponses[keyof PostApiV1Se
 export type GetApiV1DatabaseData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/database";
 };
 
@@ -1189,15 +1163,6 @@ export type GetApiV1DatabaseErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -1494,9 +1459,7 @@ export type DeleteApiV1UserLogoutResponse = DeleteApiV1UserLogoutResponses[keyof
 export type GetApiV1ServerListData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/server/list";
 };
 
@@ -1507,15 +1470,6 @@ export type GetApiV1ServerListErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -1628,9 +1582,7 @@ export type PutApiV1ServerDiskResponse = PutApiV1ServerDiskResponses[keyof PutAp
 export type GetApiV1LoadbalancerData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/loadbalancer";
 };
 
@@ -1641,15 +1593,6 @@ export type GetApiV1LoadbalancerErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -1806,9 +1749,7 @@ export type PostApiV1ServerConfigResponse = PostApiV1ServerConfigResponses[keyof
 export type GetApiV1DatabaseListData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/database/list";
 };
 
@@ -1819,15 +1760,6 @@ export type GetApiV1DatabaseListErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -1977,9 +1909,7 @@ export type DeleteApiV1StorageBucketResponse =
 export type GetApiV1StorageBucketData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/storage/bucket";
 };
 
@@ -1990,15 +1920,6 @@ export type GetApiV1StorageBucketErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -2112,9 +2033,7 @@ export type DeleteApiV1StorageVolumeResponse =
 export type GetApiV1StorageVolumeData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/storage/volume";
 };
 
@@ -2125,15 +2044,6 @@ export type GetApiV1StorageVolumeErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -2372,9 +2282,7 @@ export type DeleteApiV1AccountKeypairResponse =
 export type GetApiV1AccountKeypairData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/account/keypair";
 };
 
@@ -2385,15 +2293,6 @@ export type GetApiV1AccountKeypairErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -2544,9 +2443,7 @@ export type DeleteApiV1DatacenterSubnetResponse =
 export type GetApiV1DatacenterSubnetData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/datacenter/subnet";
 };
 
@@ -2557,15 +2454,6 @@ export type GetApiV1DatacenterSubnetErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -2763,9 +2651,7 @@ export type GetApiV1DatabaseByRdsIdData = {
     path: {
         rds_id: string;
     };
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/database/{rds_id}";
 };
 
@@ -2785,15 +2671,6 @@ export type GetApiV1DatabaseByRdsIdErrors = {
     404: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -2818,9 +2695,7 @@ export type GetApiV1DatabaseByRdsIdResponse = GetApiV1DatabaseByRdsIdResponses[k
 export type GetApiV1LoadbalancerListData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/loadbalancer/list";
 };
 
@@ -2831,15 +2706,6 @@ export type GetApiV1LoadbalancerListErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -2903,40 +2769,32 @@ export type GetApiV1DatacenterDefaultData = {
     query: {
         dc: string;
         region?:
-            | "af-south-1"
-            | "ap-east-1"
-            | "ap-east-2"
-            | "ap-northeast-1"
-            | "ap-northeast-2"
-            | "ap-northeast-3"
-            | "ap-south-1"
-            | "ap-south-2"
-            | "ap-southeast-1"
-            | "ap-southeast-2"
-            | "ap-southeast-3"
-            | "ap-southeast-4"
-            | "ap-southeast-5"
-            | "ap-southeast-6"
-            | "ap-southeast-7"
-            | "ca-central-1"
-            | "ca-west-1"
-            | "eu-central-1"
-            | "eu-central-2"
-            | "eu-north-1"
-            | "eu-south-1"
-            | "eu-south-2"
-            | "eu-west-1"
-            | "eu-west-2"
-            | "eu-west-3"
-            | "il-central-1"
-            | "me-central-1"
-            | "me-south-1"
-            | "mx-central-1"
-            | "sa-east-1"
             | "us-east-1"
             | "us-east-2"
             | "us-west-1"
-            | "us-west-2";
+            | "us-west-2"
+            | "af-south-1"
+            | "ap-east-1"
+            | "ap-south-1"
+            | "ap-northeast-3"
+            | "ap-northeast-2"
+            | "ap-southeast-1"
+            | "ap-southeast-2"
+            | "ap-southeast-3"
+            | "ap-northeast-1"
+            | "ca-central-1"
+            | "eu-central-1"
+            | "eu-west-1"
+            | "eu-west-2"
+            | "eu-south-1"
+            | "eu-west-3"
+            | "eu-north-1"
+            | "me-south-1"
+            | "sa-east-1"
+            | "us-gov-east-1"
+            | "us-gov-west-1"
+            | "cn-north-1"
+            | "cn-northwest-1";
     };
     url: "/api/v1/datacenter/default";
 };
@@ -3122,9 +2980,7 @@ export type DeleteApiV1DatacenterSecgroupResponse =
 export type GetApiV1DatacenterSecgroupData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/datacenter/secgroup";
 };
 
@@ -3135,15 +2991,6 @@ export type GetApiV1DatacenterSecgroupErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -3306,9 +3153,7 @@ export type DeleteApiV1DatacenterStaticipResponse =
 export type GetApiV1DatacenterStaticipData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/datacenter/staticip";
 };
 
@@ -3319,15 +3164,6 @@ export type GetApiV1DatacenterStaticipErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -3399,9 +3235,7 @@ export type PostApiV1DatacenterStaticipResponse =
 export type GetApiV1StorageBucketListData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/storage/bucket/list";
 };
 
@@ -3412,15 +3246,6 @@ export type GetApiV1StorageBucketListErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -3446,9 +3271,7 @@ export type GetApiV1StorageBucketListResponse =
 export type GetApiV1StorageVolumeListData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/storage/volume/list";
 };
 
@@ -3459,15 +3282,6 @@ export type GetApiV1StorageVolumeListErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -3495,9 +3309,7 @@ export type GetApiV1ServerNameBySvrIdData = {
     path: {
         svr_id: string;
     };
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/server/name/{svr_id}";
 };
 
@@ -3517,15 +3329,6 @@ export type GetApiV1ServerNameBySvrIdErrors = {
     404: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -3603,9 +3406,7 @@ export type DeleteApiV1ServerTagsBySvrIdData = {
     path: {
         svr_id: string;
     };
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/server/tags/{svr_id}";
 };
 
@@ -3662,9 +3463,7 @@ export type GetApiV1ServerTagsBySvrIdData = {
     path: {
         svr_id: string;
     };
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/server/tags/{svr_id}";
 };
 
@@ -3684,15 +3483,6 @@ export type GetApiV1ServerTagsBySvrIdErrors = {
     404: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -3720,9 +3510,7 @@ export type PutApiV1ServerTagsBySvrIdData = {
     path: {
         svr_id: string;
     };
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/server/tags/{svr_id}";
 };
 
@@ -3776,9 +3564,7 @@ export type PutApiV1ServerTagsBySvrIdResponse =
 export type GetApiV1AccountKeypairListData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/account/keypair/list";
 };
 
@@ -3789,15 +3575,6 @@ export type GetApiV1AccountKeypairListErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -3869,9 +3646,7 @@ export type DeleteApiV1DatacenterRoutetableResponse =
 export type GetApiV1DatacenterRoutetableData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/datacenter/routetable";
 };
 
@@ -3882,15 +3657,6 @@ export type GetApiV1DatacenterRoutetableErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -4057,9 +3823,7 @@ export type GetApiV1LoadbalancerByElbIdData = {
     path: {
         elb_id: string;
     };
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/loadbalancer/{elb_id}";
 };
 
@@ -4079,15 +3843,6 @@ export type GetApiV1LoadbalancerByElbIdErrors = {
     404: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -4114,9 +3869,7 @@ export type GetApiV1LoadbalancerByElbIdResponse =
 export type GetApiV1DatacenterSubnetListData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/datacenter/subnet/list";
 };
 
@@ -4127,15 +3880,6 @@ export type GetApiV1DatacenterSubnetListErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -4162,9 +3906,7 @@ export type GetApiV1DatacenterSubnetListResponse =
 export type GetApiV1DatacenterGatewayNatData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/datacenter/gateway/nat";
 };
 
@@ -4175,15 +3917,6 @@ export type GetApiV1DatacenterGatewayNatErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -4258,9 +3991,7 @@ export type GetApiV1ServerDetailBySvrIdData = {
     path: {
         svr_id: string;
     };
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/server/detail/{svr_id}";
 };
 
@@ -4280,15 +4011,6 @@ export type GetApiV1ServerDetailBySvrIdErrors = {
     404: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -4315,9 +4037,7 @@ export type GetApiV1ServerDetailBySvrIdResponse =
 export type GetApiV1DatacenterRegionZonesData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/datacenter/region/zones";
 };
 
@@ -4328,15 +4048,6 @@ export type GetApiV1DatacenterRegionZonesErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -4363,9 +4074,7 @@ export type GetApiV1DatacenterRegionZonesResponse =
 export type GetApiV1DatacenterSummaryCostData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/datacenter/summary/cost";
 };
 
@@ -4376,15 +4085,6 @@ export type GetApiV1DatacenterSummaryCostErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -4413,9 +4113,7 @@ export type GetApiV1ServerInstypeBySvrIdData = {
     path: {
         svr_id: string;
     };
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/server/instype/{svr_id}";
 };
 
@@ -4435,15 +4133,6 @@ export type GetApiV1ServerInstypeBySvrIdErrors = {
     404: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -4520,7 +4209,7 @@ export type GetApiV1AccountReminderCreditData = {
     body?: never;
     path?: never;
     query?: {
-        account_id?: string;
+        accountId?: string;
     };
     url: "/api/v1/account/reminder/credit";
 };
@@ -4617,9 +4306,7 @@ export type PutApiV1AccountReminderCreditResponse =
 export type GetApiV1DatacenterSummaryBasicData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/datacenter/summary/basic";
 };
 
@@ -4630,15 +4317,6 @@ export type GetApiV1DatacenterSummaryBasicErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -4665,9 +4343,7 @@ export type GetApiV1DatacenterSummaryBasicResponse =
 export type GetApiV1DatacenterSecgroupListData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/datacenter/secgroup/list";
 };
 
@@ -4678,15 +4354,6 @@ export type GetApiV1DatacenterSecgroupListErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -4713,9 +4380,7 @@ export type GetApiV1DatacenterSecgroupListResponse =
 export type GetApiV1DatacenterStaticipListData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/datacenter/staticip/list";
 };
 
@@ -4726,15 +4391,6 @@ export type GetApiV1DatacenterStaticipListErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -4761,9 +4417,7 @@ export type GetApiV1DatacenterStaticipListResponse =
 export type GetApiV1DashboardSummaryHealthData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/dashboard/summary/health";
 };
 
@@ -4774,15 +4428,6 @@ export type GetApiV1DashboardSummaryHealthErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -4860,7 +4505,7 @@ export type GetApiV1AccountReminderFreetierData = {
     body?: never;
     path?: never;
     query?: {
-        account_id?: string;
+        accountId?: string;
     };
     url: "/api/v1/account/reminder/freetier";
 };
@@ -4953,9 +4598,7 @@ export type PutApiV1AccountReminderFreetierResponse =
 export type GetApiV1DatacenterRoutetableListData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/datacenter/routetable/list";
 };
 
@@ -4966,15 +4609,6 @@ export type GetApiV1DatacenterRoutetableListErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -5003,9 +4637,7 @@ export type GetApiV1StorageBucketByBucketIdData = {
     path: {
         bucket_id: string;
     };
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/storage/bucket/{bucket_id}";
 };
 
@@ -5025,15 +4657,6 @@ export type GetApiV1StorageBucketByBucketIdErrors = {
     404: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -5062,9 +4685,7 @@ export type GetApiV1StorageVolumeByVolumeIdData = {
     path: {
         volume_id: string;
     };
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/storage/volume/{volume_id}";
 };
 
@@ -5084,15 +4705,6 @@ export type GetApiV1StorageVolumeByVolumeIdErrors = {
     404: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -5119,9 +4731,7 @@ export type GetApiV1StorageVolumeByVolumeIdResponse =
 export type GetApiV1DashboardSummaryResourceData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/dashboard/summary/resource";
 };
 
@@ -5132,15 +4742,6 @@ export type GetApiV1DashboardSummaryResourceErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -5169,9 +4770,7 @@ export type GetApiV1AccountKeypairByKeyNameData = {
     path: {
         key_name: string;
     };
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/account/keypair/{key_name}";
 };
 
@@ -5191,15 +4790,6 @@ export type GetApiV1AccountKeypairByKeyNameErrors = {
     404: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -5226,9 +4816,7 @@ export type GetApiV1AccountKeypairByKeyNameResponse =
 export type GetApiV1DatacenterSummaryResourceData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/datacenter/summary/resource";
 };
 
@@ -5239,15 +4827,6 @@ export type GetApiV1DatacenterSummaryResourceErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -5274,9 +4853,7 @@ export type GetApiV1DatacenterSummaryResourceResponse =
 export type GetApiV1DatacenterGatewayInternetData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/datacenter/gateway/internet";
 };
 
@@ -5287,15 +4864,6 @@ export type GetApiV1DatacenterGatewayInternetErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -5370,9 +4938,7 @@ export type GetApiV1DatacenterSecgroupBySgIdData = {
     path: {
         sg_id: string;
     };
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/datacenter/secgroup/{sg_id}";
 };
 
@@ -5392,15 +4958,6 @@ export type GetApiV1DatacenterSecgroupBySgIdErrors = {
     404: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -5477,9 +5034,7 @@ export type GetApiV1DatacenterStaticipByEipIdData = {
     path: {
         eip_id: string;
     };
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/datacenter/staticip/{eip_id}";
 };
 
@@ -5499,15 +5054,6 @@ export type GetApiV1DatacenterStaticipByEipIdErrors = {
     404: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -5534,9 +5080,7 @@ export type GetApiV1DatacenterStaticipByEipIdResponse =
 export type GetApiV1DashboardSummaryDatacenterData = {
     body?: never;
     path?: never;
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/dashboard/summary/datacenter";
 };
 
@@ -5547,15 +5091,6 @@ export type GetApiV1DashboardSummaryDatacenterErrors = {
     401: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -5584,9 +5119,7 @@ export type GetApiV1DatacenterSubnetBySubnetIdData = {
     path: {
         subnet_id: string;
     };
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/datacenter/subnet/{subnet_id}";
 };
 
@@ -5606,15 +5139,6 @@ export type GetApiV1DatacenterSubnetBySubnetIdErrors = {
     404: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -5643,9 +5167,7 @@ export type GetApiV1DatacenterRoutetableByRtbIdData = {
     path: {
         rtb_id: string;
     };
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/datacenter/routetable/{rtb_id}";
 };
 
@@ -5665,15 +5187,6 @@ export type GetApiV1DatacenterRoutetableByRtbIdErrors = {
     404: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -5702,9 +5215,7 @@ export type GetApiV1DashboardInventoryByResourceData = {
     path: {
         resource: string;
     };
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/dashboard/inventory/{resource}";
 };
 
@@ -5724,15 +5235,6 @@ export type GetApiV1DashboardInventoryByResourceErrors = {
     404: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -5761,9 +5263,7 @@ export type GetApiV1AccountKeypairStoreByKeyNameData = {
     path: {
         key_name: string;
     };
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/account/keypair/store/{key_name}";
 };
 
@@ -5783,15 +5283,6 @@ export type GetApiV1AccountKeypairStoreByKeyNameErrors = {
     404: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -5820,9 +5311,7 @@ export type GetApiV1DatacenterGatewayNatByNatgwIdData = {
     path: {
         natgw_id: string;
     };
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/datacenter/gateway/nat/{natgw_id}";
 };
 
@@ -5842,15 +5331,6 @@ export type GetApiV1DatacenterGatewayNatByNatgwIdErrors = {
     404: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -5879,9 +5359,7 @@ export type GetApiV1StorageBucketByBucketIdObjectData = {
     path: {
         bucket_id: string;
     };
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/storage/bucket/{bucket_id}/object";
 };
 
@@ -5901,15 +5379,6 @@ export type GetApiV1StorageBucketByBucketIdObjectErrors = {
     404: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -5938,9 +5407,7 @@ export type PutApiV1StorageBucketByBucketIdPropertyData = {
     path: {
         bucket_id: string;
     };
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/storage/bucket/{bucket_id}/property";
 };
 
@@ -5997,9 +5464,7 @@ export type GetApiV1DatacenterGatewayInternetByIgwIdData = {
     path: {
         igw_id: string;
     };
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/datacenter/gateway/internet/{igw_id}";
 };
 
@@ -6019,15 +5484,6 @@ export type GetApiV1DatacenterGatewayInternetByIgwIdErrors = {
     404: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };
@@ -6056,9 +5512,7 @@ export type PutApiV1StorageBucketByBucketIdPermissionData = {
     path: {
         bucket_id: string;
     };
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/storage/bucket/{bucket_id}/permission";
 };
 
@@ -6116,9 +5570,7 @@ export type GetApiV1StorageBucketByBucketIdByObjectKeyData = {
         bucket_id: string;
         object_key: string;
     };
-    query: {
-        dc: string;
-    };
+    query?: never;
     url: "/api/v1/storage/bucket/{bucket_id}/{object_key}";
 };
 
@@ -6138,15 +5590,6 @@ export type GetApiV1StorageBucketByBucketIdByObjectKeyErrors = {
     404: {
         message?: string;
         detail?: HttpError;
-        status_code?: number;
-        task?: unknown;
-    };
-    /**
-     * Validation error
-     */
-    422: {
-        message?: string;
-        detail?: ValidationError;
         status_code?: number;
         task?: unknown;
     };

@@ -18,7 +18,7 @@ const initialState: LoadbalancerState = {
 export const listAllLoadbalancer = createAsyncThunk(
     'storage/listAllLoadbalancer',
     async ({ dc }: { dc: string }) => {
-        const { data } = await getApiV1LoadbalancerList({ query: { dc } });
+        const { data } = await getApiV1LoadbalancerList();
         return data?.detail;
     }
 );

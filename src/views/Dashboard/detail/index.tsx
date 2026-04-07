@@ -121,7 +121,7 @@ export const DashboardDetail = (props): JSX.Element => {
     const getDatacenter = () => {
         const temp = { ...tableList };
         setDataCenterLoading(true);
-        getApiV1DashboardSummaryDatacenter({ query: { dc: dcName } }).then(({ data }) => {
+        getApiV1DashboardSummaryDatacenter().then(({ data }) => {
             temp['dataCenter']['data']['dataSource'] = data?.detail as any;
             setTableList(temp);
             setDataCenterLoading(false);
@@ -130,7 +130,7 @@ export const DashboardDetail = (props): JSX.Element => {
 
     const getHealth = () => {
         setHealthLoading(true);
-        getApiV1DashboardSummaryHealth({ query: { dc: dcName } }).then(({ data }) => {
+        getApiV1DashboardSummaryHealth().then(({ data }) => {
             setHealth(data?.detail as any);
             setHealthLoading(false);
         });
@@ -138,7 +138,7 @@ export const DashboardDetail = (props): JSX.Element => {
 
     const getGraphical = () => {
         setGraphicalLoading(true);
-        getApiV1DashboardSummaryResource({ query: { dc: dcName } }).then(({ data }) => {
+        getApiV1DashboardSummaryResource().then(({ data }) => {
             setGraphicalData(data?.detail as any);
             setGraphicalLoading(false);
         });
@@ -146,7 +146,7 @@ export const DashboardDetail = (props): JSX.Element => {
 
     const getInventory = () => {
         setInventoryLoading(true);
-        getApiV1DashboardInventoryByResource({ path: { resource: 'all' }, query: { dc: dcName } }).then(({ data }) => {
+        getApiV1DashboardInventoryByResource({ path: { resource: 'all' } }).then(({ data }) => {
             setInventoryData(data?.detail as any);
             setInventoryLoading(false);
         });

@@ -17,7 +17,7 @@ const initialState: SecGroupState = {
 export const listAllSecGroup = createAsyncThunk(
     'datacenter/listAllSecGroup',
     async (params: { dc: string }) => {
-        const { data } = await getApiV1DatacenterSecgroupList({ query: { dc: params.dc } });
+        const { data } = await getApiV1DatacenterSecgroupList();
         return data?.detail as any;
     }
 );
@@ -25,7 +25,7 @@ export const listAllSecGroup = createAsyncThunk(
 export const getSecgroupDetail = createAsyncThunk(
     'datacenter/getSecgroupDetail',
     async (params: { dc: string; sgId: string }) => {
-        const { data } = await getApiV1DatacenterSecgroupBySgId({ path: { sg_id: params.sgId }, query: { dc: params.dc } });
+        const { data } = await getApiV1DatacenterSecgroupBySgId({ path: { sg_id: params.sgId } });
         return data?.detail as any;
     }
 );

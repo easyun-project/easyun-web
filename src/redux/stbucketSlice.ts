@@ -5,7 +5,7 @@ import { getApiV1StorageBucketList, getApiV1StorageBucketByBucketId } from '@/ap
 export const listAllBucket = createAsyncThunk(
     'storage/listAllBucket',
     async ({ dc }: { dc: string }) => {
-        const { data } = await getApiV1StorageBucketList({ query: { dc } });
+        const { data } = await getApiV1StorageBucketList();
         return data?.detail;
     }
 );
@@ -13,7 +13,7 @@ export const listAllBucket = createAsyncThunk(
 export const getBucketDetail = createAsyncThunk(
     'storage/getBucketDetail',
     async ({ bucketId, dc }: { bucketId: string; dc: string }) => {
-        const { data } = await getApiV1StorageBucketByBucketId({ path: { bucket_id: bucketId }, query: { dc } });
+        const { data } = await getApiV1StorageBucketByBucketId({ path: { bucket_id: bucketId } });
         return data?.detail;
     }
 );

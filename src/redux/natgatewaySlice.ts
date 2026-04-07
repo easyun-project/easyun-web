@@ -17,7 +17,7 @@ const initialState: NatGatewayState = {
 export const listAllNatGateway = createAsyncThunk(
     'datacenter/listAllNatGateway',
     async (params: { dc: string }) => {
-        const { data } = await getApiV1DatacenterGatewayNat({ query: { dc: params.dc } });
+        const { data } = await getApiV1DatacenterGatewayNat();
         return data?.detail as any;
     }
 );
@@ -25,7 +25,7 @@ export const listAllNatGateway = createAsyncThunk(
 export const getNatGatewayDetail = createAsyncThunk(
     'datacenter/getNatGatewayDetail',
     async (params: { dc: string; natgwId: string }) => {
-        const { data } = await getApiV1DatacenterGatewayNatByNatgwId({ path: { natgw_id: params.natgwId }, query: { dc: params.dc } });
+        const { data } = await getApiV1DatacenterGatewayNatByNatgwId({ path: { natgw_id: params.natgwId } });
         return data?.detail as any;
     }
 );

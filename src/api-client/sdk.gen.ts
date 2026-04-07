@@ -400,9 +400,9 @@ export const deleteApiV1Server = <ThrowOnError extends boolean = false>(
  * 获取数据中心全部云服务器信息
  */
 export const getApiV1Server = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1ServerData, ThrowOnError>,
+    options?: Options<GetApiV1ServerData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<GetApiV1ServerResponses, GetApiV1ServerErrors, ThrowOnError>({
+    (options?.client ?? client).get<GetApiV1ServerResponses, GetApiV1ServerErrors, ThrowOnError>({
         security: [{ scheme: "bearer", type: "http" }],
         url: "/api/v1/server",
         ...options,
@@ -428,9 +428,9 @@ export const postApiV1Server = <ThrowOnError extends boolean = false>(
  * 获取数据中心全部数据库(RDS)信息
  */
 export const getApiV1Database = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DatabaseData, ThrowOnError>,
+    options?: Options<GetApiV1DatabaseData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<GetApiV1DatabaseResponses, GetApiV1DatabaseErrors, ThrowOnError>({
+    (options?.client ?? client).get<GetApiV1DatabaseResponses, GetApiV1DatabaseErrors, ThrowOnError>({
         security: [{ scheme: "bearer", type: "http" }],
         url: "/api/v1/database",
         ...options,
@@ -537,9 +537,9 @@ export const deleteApiV1UserLogout = <ThrowOnError extends boolean = false>(
  * 获取数据中心全部云服务器列表[仅基础字段]
  */
 export const getApiV1ServerList = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1ServerListData, ThrowOnError>,
+    options?: Options<GetApiV1ServerListData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<GetApiV1ServerListResponses, GetApiV1ServerListErrors, ThrowOnError>({
+    (options?.client ?? client).get<GetApiV1ServerListResponses, GetApiV1ServerListErrors, ThrowOnError>({
         security: [{ scheme: "bearer", type: "http" }],
         url: "/api/v1/server/list",
         ...options,
@@ -581,9 +581,9 @@ export const putApiV1ServerDisk = <ThrowOnError extends boolean = false>(
  * 获取数据中心全部负载均衡器信息
  */
 export const getApiV1Loadbalancer = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1LoadbalancerData, ThrowOnError>,
+    options?: Options<GetApiV1LoadbalancerData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<GetApiV1LoadbalancerResponses, GetApiV1LoadbalancerErrors, ThrowOnError>({
+    (options?.client ?? client).get<GetApiV1LoadbalancerResponses, GetApiV1LoadbalancerErrors, ThrowOnError>({
         security: [{ scheme: "bearer", type: "http" }],
         url: "/api/v1/loadbalancer",
         ...options,
@@ -641,9 +641,9 @@ export const postApiV1ServerConfig = <ThrowOnError extends boolean = false>(
  * 获取数据中心全部数据库(RDS)列表[仅基础字段]
  */
 export const getApiV1DatabaseList = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DatabaseListData, ThrowOnError>,
+    options?: Options<GetApiV1DatabaseListData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<GetApiV1DatabaseListResponses, GetApiV1DatabaseListErrors, ThrowOnError>({
+    (options?.client ?? client).get<GetApiV1DatabaseListResponses, GetApiV1DatabaseListErrors, ThrowOnError>({
         security: [{ scheme: "bearer", type: "http" }],
         url: "/api/v1/database/list",
         ...options,
@@ -683,9 +683,9 @@ export const deleteApiV1StorageBucket = <ThrowOnError extends boolean = false>(
  * 获取全部存储桶(Bucket)信息
  */
 export const getApiV1StorageBucket = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1StorageBucketData, ThrowOnError>,
+    options?: Options<GetApiV1StorageBucketData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<GetApiV1StorageBucketResponses, GetApiV1StorageBucketErrors, ThrowOnError>({
+    (options?.client ?? client).get<GetApiV1StorageBucketResponses, GetApiV1StorageBucketErrors, ThrowOnError>({
         security: [{ scheme: "bearer", type: "http" }],
         url: "/api/v1/storage/bucket",
         ...options,
@@ -729,9 +729,9 @@ export const deleteApiV1StorageVolume = <ThrowOnError extends boolean = false>(
  * 获取数据中心全部块存储信息
  */
 export const getApiV1StorageVolume = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1StorageVolumeData, ThrowOnError>,
+    options?: Options<GetApiV1StorageVolumeData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<GetApiV1StorageVolumeResponses, GetApiV1StorageVolumeErrors, ThrowOnError>({
+    (options?.client ?? client).get<GetApiV1StorageVolumeResponses, GetApiV1StorageVolumeErrors, ThrowOnError>({
         security: [{ scheme: "bearer", type: "http" }],
         url: "/api/v1/storage/volume",
         ...options,
@@ -817,9 +817,9 @@ export const deleteApiV1AccountKeypair = <ThrowOnError extends boolean = false>(
  * 获取指定数据中心的keypair信息
  */
 export const getApiV1AccountKeypair = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1AccountKeypairData, ThrowOnError>,
+    options?: Options<GetApiV1AccountKeypairData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<GetApiV1AccountKeypairResponses, GetApiV1AccountKeypairErrors, ThrowOnError>({
+    (options?.client ?? client).get<GetApiV1AccountKeypairResponses, GetApiV1AccountKeypairErrors, ThrowOnError>({
         security: [{ scheme: "bearer", type: "http" }],
         url: "/api/v1/account/keypair",
         ...options,
@@ -877,9 +877,9 @@ export const deleteApiV1DatacenterSubnet = <ThrowOnError extends boolean = false
  * 获取 全部subnet子网信息
  */
 export const getApiV1DatacenterSubnet = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DatacenterSubnetData, ThrowOnError>,
+    options?: Options<GetApiV1DatacenterSubnetData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<GetApiV1DatacenterSubnetResponses, GetApiV1DatacenterSubnetErrors, ThrowOnError>({
+    (options?.client ?? client).get<GetApiV1DatacenterSubnetResponses, GetApiV1DatacenterSubnetErrors, ThrowOnError>({
         security: [{ scheme: "bearer", type: "http" }],
         url: "/api/v1/datacenter/subnet",
         ...options,
@@ -963,9 +963,9 @@ export const getApiV1DatabaseByRdsId = <ThrowOnError extends boolean = false>(
  * 获取数据中心全部负载均衡器列表[仅基础字段]
  */
 export const getApiV1LoadbalancerList = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1LoadbalancerListData, ThrowOnError>,
+    options?: Options<GetApiV1LoadbalancerListData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<GetApiV1LoadbalancerListResponses, GetApiV1LoadbalancerListErrors, ThrowOnError>({
+    (options?.client ?? client).get<GetApiV1LoadbalancerListResponses, GetApiV1LoadbalancerListErrors, ThrowOnError>({
         security: [{ scheme: "bearer", type: "http" }],
         url: "/api/v1/loadbalancer/list",
         ...options,
@@ -1049,15 +1049,17 @@ export const deleteApiV1DatacenterSecgroup = <ThrowOnError extends boolean = fal
  * 获取数据中心全部SecurityGroup信息
  */
 export const getApiV1DatacenterSecgroup = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DatacenterSecgroupData, ThrowOnError>,
+    options?: Options<GetApiV1DatacenterSecgroupData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<GetApiV1DatacenterSecgroupResponses, GetApiV1DatacenterSecgroupErrors, ThrowOnError>(
-        {
-            security: [{ scheme: "bearer", type: "http" }],
-            url: "/api/v1/datacenter/secgroup",
-            ...options,
-        },
-    );
+    (options?.client ?? client).get<
+        GetApiV1DatacenterSecgroupResponses,
+        GetApiV1DatacenterSecgroupErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter/secgroup",
+        ...options,
+    });
 
 /**
  * 新建 SecurityGroup
@@ -1123,15 +1125,17 @@ export const deleteApiV1DatacenterStaticip = <ThrowOnError extends boolean = fal
  * 获取 全部静态IP(EIP)信息
  */
 export const getApiV1DatacenterStaticip = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DatacenterStaticipData, ThrowOnError>,
+    options?: Options<GetApiV1DatacenterStaticipData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<GetApiV1DatacenterStaticipResponses, GetApiV1DatacenterStaticipErrors, ThrowOnError>(
-        {
-            security: [{ scheme: "bearer", type: "http" }],
-            url: "/api/v1/datacenter/staticip",
-            ...options,
-        },
-    );
+    (options?.client ?? client).get<
+        GetApiV1DatacenterStaticipResponses,
+        GetApiV1DatacenterStaticipErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter/staticip",
+        ...options,
+    });
 
 /**
  * 新增 静态IP(EIP)
@@ -1157,9 +1161,9 @@ export const postApiV1DatacenterStaticip = <ThrowOnError extends boolean = false
  * 获取全部存储桶(Bucket)列表
  */
 export const getApiV1StorageBucketList = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1StorageBucketListData, ThrowOnError>,
+    options?: Options<GetApiV1StorageBucketListData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<GetApiV1StorageBucketListResponses, GetApiV1StorageBucketListErrors, ThrowOnError>({
+    (options?.client ?? client).get<GetApiV1StorageBucketListResponses, GetApiV1StorageBucketListErrors, ThrowOnError>({
         security: [{ scheme: "bearer", type: "http" }],
         url: "/api/v1/storage/bucket/list",
         ...options,
@@ -1169,9 +1173,9 @@ export const getApiV1StorageBucketList = <ThrowOnError extends boolean = false>(
  * 获取数据中心全部块存储列表[仅基础字段]
  */
 export const getApiV1StorageVolumeList = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1StorageVolumeListData, ThrowOnError>,
+    options?: Options<GetApiV1StorageVolumeListData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<GetApiV1StorageVolumeListResponses, GetApiV1StorageVolumeListErrors, ThrowOnError>({
+    (options?.client ?? client).get<GetApiV1StorageVolumeListResponses, GetApiV1StorageVolumeListErrors, ThrowOnError>({
         security: [{ scheme: "bearer", type: "http" }],
         url: "/api/v1/storage/volume/list",
         ...options,
@@ -1255,15 +1259,17 @@ export const putApiV1ServerTagsBySvrId = <ThrowOnError extends boolean = false>(
  * 获取指定数据中心的keypair列表[仅基础字段]
  */
 export const getApiV1AccountKeypairList = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1AccountKeypairListData, ThrowOnError>,
+    options?: Options<GetApiV1AccountKeypairListData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<GetApiV1AccountKeypairListResponses, GetApiV1AccountKeypairListErrors, ThrowOnError>(
-        {
-            security: [{ scheme: "bearer", type: "http" }],
-            url: "/api/v1/account/keypair/list",
-            ...options,
-        },
-    );
+    (options?.client ?? client).get<
+        GetApiV1AccountKeypairListResponses,
+        GetApiV1AccountKeypairListErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/account/keypair/list",
+        ...options,
+    });
 
 /**
  * 删除指定 RouteTable 路由表
@@ -1289,9 +1295,9 @@ export const deleteApiV1DatacenterRoutetable = <ThrowOnError extends boolean = f
  * 获取 全部RouteTable路由表信息
  */
 export const getApiV1DatacenterRoutetable = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DatacenterRoutetableData, ThrowOnError>,
+    options?: Options<GetApiV1DatacenterRoutetableData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<
+    (options?.client ?? client).get<
         GetApiV1DatacenterRoutetableResponses,
         GetApiV1DatacenterRoutetableErrors,
         ThrowOnError
@@ -1381,9 +1387,9 @@ export const getApiV1LoadbalancerByElbId = <ThrowOnError extends boolean = false
  * 获取 全部subnet子网列表[仅基础字段]
  */
 export const getApiV1DatacenterSubnetList = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DatacenterSubnetListData, ThrowOnError>,
+    options?: Options<GetApiV1DatacenterSubnetListData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<
+    (options?.client ?? client).get<
         GetApiV1DatacenterSubnetListResponses,
         GetApiV1DatacenterSubnetListErrors,
         ThrowOnError
@@ -1397,9 +1403,9 @@ export const getApiV1DatacenterSubnetList = <ThrowOnError extends boolean = fals
  * 获取全部NAT网关(natgw)信息
  */
 export const getApiV1DatacenterGatewayNat = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DatacenterGatewayNatData, ThrowOnError>,
+    options?: Options<GetApiV1DatacenterGatewayNatData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<
+    (options?.client ?? client).get<
         GetApiV1DatacenterGatewayNatResponses,
         GetApiV1DatacenterGatewayNatErrors,
         ThrowOnError
@@ -1449,9 +1455,9 @@ export const getApiV1ServerDetailBySvrId = <ThrowOnError extends boolean = false
  * 获取可用的Region列表
  */
 export const getApiV1DatacenterRegionZones = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DatacenterRegionZonesData, ThrowOnError>,
+    options?: Options<GetApiV1DatacenterRegionZonesData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<
+    (options?.client ?? client).get<
         GetApiV1DatacenterRegionZonesResponses,
         GetApiV1DatacenterRegionZonesErrors,
         ThrowOnError
@@ -1465,9 +1471,9 @@ export const getApiV1DatacenterRegionZones = <ThrowOnError extends boolean = fal
  * 获取指定的数据中心成本及用量统计信息
  */
 export const getApiV1DatacenterSummaryCost = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DatacenterSummaryCostData, ThrowOnError>,
+    options?: Options<GetApiV1DatacenterSummaryCostData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<
+    (options?.client ?? client).get<
         GetApiV1DatacenterSummaryCostResponses,
         GetApiV1DatacenterSummaryCostErrors,
         ThrowOnError
@@ -1545,9 +1551,9 @@ export const putApiV1AccountReminderCredit = <ThrowOnError extends boolean = fal
  * 获取指定的数据中心VPC基础服务统计信息
  */
 export const getApiV1DatacenterSummaryBasic = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DatacenterSummaryBasicData, ThrowOnError>,
+    options?: Options<GetApiV1DatacenterSummaryBasicData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<
+    (options?.client ?? client).get<
         GetApiV1DatacenterSummaryBasicResponses,
         GetApiV1DatacenterSummaryBasicErrors,
         ThrowOnError
@@ -1561,9 +1567,9 @@ export const getApiV1DatacenterSummaryBasic = <ThrowOnError extends boolean = fa
  * 获取 全部SecurityGroup列表[仅基础字段]
  */
 export const getApiV1DatacenterSecgroupList = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DatacenterSecgroupListData, ThrowOnError>,
+    options?: Options<GetApiV1DatacenterSecgroupListData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<
+    (options?.client ?? client).get<
         GetApiV1DatacenterSecgroupListResponses,
         GetApiV1DatacenterSecgroupListErrors,
         ThrowOnError
@@ -1577,9 +1583,9 @@ export const getApiV1DatacenterSecgroupList = <ThrowOnError extends boolean = fa
  * 获取 全部静态IP列表(EIP)[仅基础字段]
  */
 export const getApiV1DatacenterStaticipList = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DatacenterStaticipListData, ThrowOnError>,
+    options?: Options<GetApiV1DatacenterStaticipListData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<
+    (options?.client ?? client).get<
         GetApiV1DatacenterStaticipListResponses,
         GetApiV1DatacenterStaticipListErrors,
         ThrowOnError
@@ -1593,9 +1599,9 @@ export const getApiV1DatacenterStaticipList = <ThrowOnError extends boolean = fa
  * 获取健康状态 Summary信息
  */
 export const getApiV1DashboardSummaryHealth = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DashboardSummaryHealthData, ThrowOnError>,
+    options?: Options<GetApiV1DashboardSummaryHealthData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<
+    (options?.client ?? client).get<
         GetApiV1DashboardSummaryHealthResponses,
         GetApiV1DashboardSummaryHealthErrors,
         ThrowOnError
@@ -1661,9 +1667,9 @@ export const putApiV1AccountReminderFreetier = <ThrowOnError extends boolean = f
  * 获取 全部RouteTable路由表[仅基础字段]
  */
 export const getApiV1DatacenterRoutetableList = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DatacenterRoutetableListData, ThrowOnError>,
+    options?: Options<GetApiV1DatacenterRoutetableListData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<
+    (options?.client ?? client).get<
         GetApiV1DatacenterRoutetableListResponses,
         GetApiV1DatacenterRoutetableListErrors,
         ThrowOnError
@@ -1709,9 +1715,9 @@ export const getApiV1StorageVolumeByVolumeId = <ThrowOnError extends boolean = f
  * 获取所有IaaS资源 Summary信息
  */
 export const getApiV1DashboardSummaryResource = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DashboardSummaryResourceData, ThrowOnError>,
+    options?: Options<GetApiV1DashboardSummaryResourceData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<
+    (options?.client ?? client).get<
         GetApiV1DashboardSummaryResourceResponses,
         GetApiV1DashboardSummaryResourceErrors,
         ThrowOnError
@@ -1741,9 +1747,9 @@ export const getApiV1AccountKeypairByKeyName = <ThrowOnError extends boolean = f
  * 获取指定的数据中心Resource统计信息
  */
 export const getApiV1DatacenterSummaryResource = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DatacenterSummaryResourceData, ThrowOnError>,
+    options?: Options<GetApiV1DatacenterSummaryResourceData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<
+    (options?.client ?? client).get<
         GetApiV1DatacenterSummaryResourceResponses,
         GetApiV1DatacenterSummaryResourceErrors,
         ThrowOnError
@@ -1757,9 +1763,9 @@ export const getApiV1DatacenterSummaryResource = <ThrowOnError extends boolean =
  * 获取全部Internet网关(igw)信息
  */
 export const getApiV1DatacenterGatewayInternet = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DatacenterGatewayInternetData, ThrowOnError>,
+    options?: Options<GetApiV1DatacenterGatewayInternetData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<
+    (options?.client ?? client).get<
         GetApiV1DatacenterGatewayInternetResponses,
         GetApiV1DatacenterGatewayInternetErrors,
         ThrowOnError
@@ -1841,9 +1847,9 @@ export const getApiV1DatacenterStaticipByEipId = <ThrowOnError extends boolean =
  * 获取数据中心 Summary信息
  */
 export const getApiV1DashboardSummaryDatacenter = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DashboardSummaryDatacenterData, ThrowOnError>,
+    options?: Options<GetApiV1DashboardSummaryDatacenterData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<
+    (options?.client ?? client).get<
         GetApiV1DashboardSummaryDatacenterResponses,
         GetApiV1DashboardSummaryDatacenterErrors,
         ThrowOnError

@@ -38,7 +38,7 @@ export const getDataCenterParams = createAsyncThunk(
 export const getDatacenterSummary = createAsyncThunk(
     'dataCenter/getDataCenterSummary',
     async (params: { dc: string }) => {
-        const { data } = await getApiV1DatacenterSummaryBasic({ query: params });
+        const { data } = await getApiV1DatacenterSummaryBasic();
         return data?.detail as DcSummaryBasicOut | undefined;
     }
 );
@@ -46,7 +46,7 @@ export const getDatacenterSummary = createAsyncThunk(
 export const getResourceSummary = createAsyncThunk(
     'dataCenter/getResourceSummary',
     async (params: { dc: string }) => {
-        const { data } = await getApiV1DatacenterSummaryResource({ query: params });
+        const { data } = await getApiV1DatacenterSummaryResource();
         return data?.detail as DcResSummaryOut | undefined;
     }
 );
@@ -54,7 +54,7 @@ export const getResourceSummary = createAsyncThunk(
 export const getCostSummary = createAsyncThunk(
     'dataCenter/getCostSummary',
     async (params: { dc: string }) => {
-        const { data } = await getApiV1DatacenterSummaryCost({ query: params });
+        const { data } = await getApiV1DatacenterSummaryCost();
         return data?.detail as DcCostSummaryOut | undefined;
     }
 );

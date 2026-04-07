@@ -17,7 +17,7 @@ const initialState: SubnetState = {
 export const listAllSubnet = createAsyncThunk(
     'subnet/listAllSubnet',
     async (params: { dc: string }) => {
-        const { data } = await getApiV1DatacenterSubnetList({ query: { dc: params.dc } });
+        const { data } = await getApiV1DatacenterSubnetList();
         return data?.detail as any;
     }
 );
@@ -25,7 +25,7 @@ export const listAllSubnet = createAsyncThunk(
 export const getSubnetDetail = createAsyncThunk(
     'subnet/getSubnetDetail',
     async (params: { dc: string; subnetId: string }) => {
-        const { data } = await getApiV1DatacenterSubnetBySubnetId({ path: { subnet_id: params.subnetId }, query: { dc: params.dc } });
+        const { data } = await getApiV1DatacenterSubnetBySubnetId({ path: { subnet_id: params.subnetId } });
         return data?.detail as any;
     }
 );

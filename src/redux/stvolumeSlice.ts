@@ -5,7 +5,7 @@ import { getApiV1StorageVolumeList, getApiV1StorageVolume } from '@/api-client';
 export const listAllVolume = createAsyncThunk(
     'stvoluem/listAllVolume',
     async ({ dc }: { dc: string }) => {
-        const { data } = await getApiV1StorageVolumeList({ query: { dc } });
+        const { data } = await getApiV1StorageVolumeList();
         return data?.detail;
     }
 );
@@ -13,7 +13,7 @@ export const listAllVolume = createAsyncThunk(
 export const getVolumeList = createAsyncThunk(
     'storage/getVolumeList',
     async ({ dc }: { dc: string }) => {
-        const { data } = await getApiV1StorageVolume({ query: { dc } });
+        const { data } = await getApiV1StorageVolume();
         return data?.detail;
     }
 );

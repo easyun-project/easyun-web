@@ -17,7 +17,7 @@ const initialState: StaticIpState = {
 export const listAllStaticIp = createAsyncThunk(
     'datacenter/listAllStaticIp',
     async (params: { dc: string }) => {
-        const { data } = await getApiV1DatacenterStaticipList({ query: { dc: params.dc } });
+        const { data } = await getApiV1DatacenterStaticipList();
         return data?.detail as any;
     }
 );
@@ -25,7 +25,7 @@ export const listAllStaticIp = createAsyncThunk(
 export const getStaticIpDetail = createAsyncThunk(
     'datacenter/getStaticIpDetail',
     async (params: { dc: string; eipId: string }) => {
-        const { data } = await getApiV1DatacenterStaticipByEipId({ path: { eip_id: params.eipId }, query: { dc: params.dc } });
+        const { data } = await getApiV1DatacenterStaticipByEipId({ path: { eip_id: params.eipId } });
         return data?.detail as any;
     }
 );

@@ -748,7 +748,6 @@ export type {
     SubnetModel,
     SubnetParm,
     SvrBriefItem,
-    SvrConfigOut,
     SvrDetailItem,
     SvrEntityOut,
     SvrIdList,

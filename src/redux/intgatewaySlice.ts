@@ -17,7 +17,7 @@ const initialState: IntGatewayState = {
 export const listAllIntGateway = createAsyncThunk(
     'datacenter/getDataCenterIntGateway',
     async (params: { dc: string }) => {
-        const { data } = await getApiV1DatacenterGatewayInternet({ query: { dc: params.dc } });
+        const { data } = await getApiV1DatacenterGatewayInternet();
         return data?.detail as any;
     }
 );
@@ -25,7 +25,7 @@ export const listAllIntGateway = createAsyncThunk(
 export const getIntGatewayDetail = createAsyncThunk(
     'datacenter/getIntGatewayDetail',
     async (params: { dc: string; igwId: string }) => {
-        const { data } = await getApiV1DatacenterGatewayInternetByIgwId({ path: { igw_id: params.igwId }, query: { dc: params.dc } });
+        const { data } = await getApiV1DatacenterGatewayInternetByIgwId({ path: { igw_id: params.igwId } });
         return data?.detail as any;
     }
 );

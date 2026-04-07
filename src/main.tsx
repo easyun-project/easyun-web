@@ -20,6 +20,8 @@ client.interceptors.request.use((request) => {
         request.headers.set('Authorization', `Bearer ${token}`);
         if (region) request.headers.set('region', region);
     }
+    const dcName = store.getState().dataCenter.current?.dcName;
+    if (dcName) request.headers.set('X-Datacenter', dcName);
     return request;
 });
 client.interceptors.response.use((response) => {

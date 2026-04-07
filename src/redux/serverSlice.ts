@@ -17,7 +17,7 @@ const initialState: ServerState = {
 export const listAllServer = createAsyncThunk(
     'server/listAllServer',
     async ({ dc }: { dc: string }) => {
-        const { data } = await getApiV1ServerList({ query: { dc } });
+        const { data } = await getApiV1ServerList();
         return data?.detail;
     }
 );
@@ -25,7 +25,7 @@ export const listAllServer = createAsyncThunk(
 export const getServerList = createAsyncThunk(
     'server/getServerList',
     async ({ dc }: { dc: string }) => {
-        const { data } = await getApiV1Server({ query: { dc } });
+        const { data } = await getApiV1Server();
         return data?.detail;
     }
 );

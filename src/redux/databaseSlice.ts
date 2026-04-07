@@ -6,7 +6,7 @@ import { getApiV1DatabaseList } from '@/api-client';
 export const listAllDatabase = createAsyncThunk(
     'storage/listAllDatabase',
     async ({ dc }: { dc: string }) => {
-        const { data } = await getApiV1DatabaseList({ query: { dc } });
+        const { data } = await getApiV1DatabaseList();
         return data?.detail;
     }
 );
