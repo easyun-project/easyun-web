@@ -1,9 +1,9 @@
+import { X, Check } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { SimpleSelect as Select, SimpleOption as Option } from '@/components/ui/simple-select';
 import { Switch } from '@/components/ui/switch';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
-import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 
 import { VolumeTypeInfo, SelectedVolumeTypeInfo } from '@/constant/storage';
 

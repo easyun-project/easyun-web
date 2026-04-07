@@ -1,3 +1,5 @@
+import { Loader2 } from 'lucide-react';
+import { SimpleSelect } from '@/components/ui/simple-select';
 import { Input } from '@/components/ui/input';
 import clsx from 'clsx';
 import React from 'react';
@@ -9,8 +11,7 @@ import CSecOpt from '@/components/Logic/CSecurityGroup/CSecOpt';
 import DiskConfigurations from './DiskConfiguration';
 import InstanceList from './InstanceList';
 import SSHkeys from './SSHkeys';
-import { Cascader } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+
 import Networking, { SubnetInfo } from './Networking';
 import { useState, useEffect } from 'react';
 import { postApiV1ServerAction, deleteApiV1Server, postApiV1ServerConfig, putApiV1ServerName, putApiV1ServerDisk, putApiV1ServerEip, putApiV1ServerSecgroup, getApiV1ServerParamImage, getApiV1ServerParamInstypeList, getApiV1ServerParamInstypeFamily, postApiV1Server, getApiV1ServerDetailBySvrId, deleteApiV1ServerTagsBySvrId, putApiV1ServerTagsBySvrId } from '@/api-client';
@@ -232,10 +233,9 @@ const AddServer = (): JSX.Element => {
 
             <div className={"rounded-border mt-5"}><h5 className="font-semibold mb-2">Select your instance type</h5>
                 {/* e是级联菜单中被选定的值，是一个列表 */}
-                <Cascader style={{ width: '20%' }} options={insfamilyOptions} placeholder="选择实例类型"
-                    onChange={(e) => {
-                        if (e[1]) { changeInsFamily(e[1] as string); }
-                    }} changeOnSelect />
+                <SimpleSelect className="w-48" placeholder="Select instance family"
+                    onChange={(v) => { if (v) changeInsFamily(v); }}
+                    options={(insfamilyOptions as any)?.flatMap((g: any) => g.children?.map((c: any) => ({ value: c.value, label: g.label + ' / ' + c.label })) || []) || []} />
                 {/* 在获取到insType的值后，渲染列表 */}
                 <InstanceList insTypes={insTypes} changeselectefIns={changeselectedIns} />
             </div>
@@ -284,7 +284,7 @@ const AddServer = (): JSX.Element => {
                             },
                         );
                     }
-                    }> {creating ? <LoadingOutlined className='align-middle' /> : undefined} Create</button>
+                    }> {creating ? <Loader2 className='align-middle' /> : undefined} Create</button>
                 </div>
             </div>
         </div>

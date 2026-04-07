@@ -1,16 +1,18 @@
+import { Loader2 } from "lucide-react";
+import { HelpCircle } from 'lucide-react';
 import { putApiV1ServerDisk } from "@/api-client";
 import React from 'react';
 import { Icon } from '@iconify/react';
 import { useState, useEffect } from 'react';
-import { Menu, Dropdown, Modal, Radio } from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+const AnyDialog = Dialog as any;
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { RootState } from '@/redux/store';
 import { StVolumeDetail, AddVolumeParams, StVolumeInfo } from '@/constant/storage';
 import { getServerDetail } from '@/redux/serverSlice';
 import { listAllVolume } from '@/redux/stvolumeSlice';
-import { LoadingOutlined } from '@ant-design/icons';
 import { postApiV1StorageVolume, getApiV1StorageVolumeByVolumeId, deleteApiV1StorageVolume } from '@/api-client';
 import { useNewDisk } from '@/utils/hooks';
 
@@ -86,16 +88,7 @@ function ExistDisk(props:DiskProps) {
             ).then(()=>()=>changeDetaching(false));
         };
 
-        const menu = (
-            <Menu>
-                <Menu.Item key="detach"
-                    onClick={detachDisk}>
-            Detach
-                </Menu.Item>
-                <Menu.Item danger key="delete" onClick={deleteDisk}>
-            Delete
-                </Menu.Item>
-            </Menu>);
+        // menu items rendered inline in DropdownMenu below
         return (
             <div className={"rounded-border m-2 2xl:w-1/3 lg:w-1/2 md:w-96"}>
                 <div className={"flex m-2"}>
@@ -107,14 +100,20 @@ function ExistDisk(props:DiskProps) {
                                 { volumeAttachInfo?.diskType  === 'system' && svrStatus !== 'stopped'
                                     ? undefined
                                     : detaching
-                                        ? <LoadingOutlined className='align-middle'/>
-                                        : <Dropdown overlay={menu}>
+                                        ? <Loader2 className='align-middle'/>
+                                        : <DropdownMenu>
+                                            <DropdownMenuTrigger>
                                             <Icon
                                                 icon="fluent:more-vertical-20-filled"
                                                 fr={undefined}
                                                 className={"cursor-pointer hover:text-yellow-650"}
                                             />
-                                        </Dropdown>}
+                                        </DropdownMenuTrigger>
+<DropdownMenuContent>
+<DropdownMenuItem>Detach</DropdownMenuItem>
+<DropdownMenuItem className="text-red-600">Delete</DropdownMenuItem>
+</DropdownMenuContent>
+</DropdownMenu>}
                             </span>
                         </div>
 
@@ -168,7 +167,7 @@ function NewDisk(props:NewDiskProps) {
             {/* 确认模组 */}
             <div className={"items-center justify-center"}>
                 {creating
-                    ? <LoadingOutlined/>
+                    ? <Loader2/>
                     : <>
                         <Icon
                             icon="icons8:cancel"
@@ -252,7 +251,7 @@ export default function Disk():JSX.Element {
             <div className='flex flex-row items-center'>
                 <p>Block storage disk</p>
                 <span title={'text'}>
-                    <QuestionCircleOutlined />
+                    <HelpCircle />
                 </span>
             </div>
             <div > {currentServerDisks?.volumeIds.map(volumeId => <ExistDisk key={volumeId} volumeId={volumeId} availablePaths={availablePaths} changeAvaliablePaths={changeAvaliablePaths}/>)}</div>
@@ -277,7 +276,7 @@ export default function Disk():JSX.Element {
                             fr={undefined} />
                     Attach new disk
                     </button>
-                    <Modal title="Select a disk to attach" visible={isModalVisible} onOk={()=>{
+                    <AnyDialog title="Select a disk to attach" open={isModalVisible} onOk={()=>{
                         changeConfirmLoading(true);
                         (putApiV1ServerDisk as any)({ body: {
                             action:'attach',
@@ -303,18 +302,18 @@ export default function Disk():JSX.Element {
                                         changeIsAdding(true);
                                     }} className='btn-yellow'>No available disks, create a new one</button>
                                 </div>
-                                : <Radio.Group onChange={(e)=>{changeSeletedDisk(e.target.value);}} value={seletedDisk}>
+                                : <div data-x={""} onChange={(e)=>{changeSeletedDisk((e.target as any).value);}} data-value={seletedDisk}>
                                     <div className="flex gap-2 items-center">
                                         { allDisks.filter((item)=>{
                                             return isAvailable(item);
                                         }).map((item:StVolumeInfo)=>
-                                            <Radio value={item.volumeId} key={item.volumeId}>
+                                            <label className="flex items-center gap-2"><input type="radio" defaultValue={item.volumeId} key={item.volumeId} />
                                                 {item.volumeId}({item.tagName})
-                                            </Radio>)}
+                                            </label>)}
                                     </div>
-                                </Radio.Group>
+                                </div>
                         }
-                    </Modal>
+                    </AnyDialog>
                 </>
             }
         </>

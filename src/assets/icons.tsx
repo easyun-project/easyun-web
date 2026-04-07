@@ -1,7 +1,7 @@
+import { X, Loader2, Check } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import React from 'react';
 import { Icon } from '@iconify/react';
-import { LoadingOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
 
 
 export default function icons() {
@@ -34,7 +34,7 @@ export default function icons() {
             color='#dd6b10'
             onClick={() => console.log('delete') }/>
         加载图标
-        <LoadingOutlined />
+        <Loader2 />
         取消图标
         <Icon
             icon="icons8:cancel"

@@ -1,3 +1,4 @@
+import { Loader2 } from 'lucide-react';
 import { SimpleSelect as Select, SimpleOption as Option } from '@/components/ui/simple-select';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
@@ -10,7 +11,6 @@ import { useTranslation, Trans } from 'react-i18next';
 import FlagUtil from '@/utils/flagUtil';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { LoadingOutlined } from '@ant-design/icons';
 
 
 const AddBucket = (): JSX.Element => {
@@ -155,7 +155,7 @@ const AddBucket = (): JSX.Element => {
                     }
                     }
                 >
-                    Create{creating ? <LoadingOutlined /> : undefined}
+                    Create{creating ? <Loader2 /> : undefined}
                 </button>
             </div>
         </>

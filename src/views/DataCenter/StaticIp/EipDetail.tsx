@@ -1,3 +1,4 @@
+import { Loader2 } from 'lucide-react';
 import { SimpleSelect as Select, SimpleOption as Option } from '@/components/ui/simple-select';
 import { putApiV1ServerEip } from "@/api-client";
 import React, { useState } from 'react';
@@ -9,12 +10,10 @@ import { RootState } from '@/redux/store';
 import { useNavigate } from 'react-router-dom';
 // import { SeverDetailModel } from '@/constant/server';
 import ServerCard from '@/components/Logic/CCard/ServerCard';
-import { LoadingOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import { getApiV1DatacenterStaticipList, postApiV1DatacenterStaticip, deleteApiV1DatacenterStaticip } from '@/api-client';
 import { listAllStaticIp } from '@/redux/staticipSlice';
-// // import { WarningOutlined, InfoCircleOutlined } from '@ant-design/icons';
-
+// // 
 export default function EipDetail() {
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
@@ -98,7 +97,7 @@ export default function EipDetail() {
                                         }).then(()=>changeDetaching(false));
                                     }}>
                                         {detaching
-                                            ? <LoadingOutlined className='mx-1'/>
+                                            ? <Loader2 className='mx-1'/>
                                             : <Icon fr={undefined}
                                                 icon="clarity:times-line"
                                                 className='mx-1'
@@ -137,7 +136,7 @@ export default function EipDetail() {
                                                         return dispatch(listAllStaticIp({ dc }));
                                                     }).then(()=>changeAttaching(false)); }}>
                                                     {attaching
-                                                        ? <LoadingOutlined className='mx-1'/>
+                                                        ? <Loader2 className='mx-1'/>
                                                         : <Icon fr={undefined}
                                                             icon="icons8:checked"
                                                             className='mx-1'

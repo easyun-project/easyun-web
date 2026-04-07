@@ -1,8 +1,8 @@
+import { ArrowRight, Tag } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import React, { useState,useEffect } from 'react';
 import { Icon } from '@iconify/react';
 
-import { ArrowRightOutlined, TagOutlined } from '@ant-design/icons';
 import { useDispatch,useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { RootState } from '@/redux/store';
@@ -50,8 +50,8 @@ export default function Tags() {
                 tagsArray.push
                 (<div
                     key={i} className='grid grid-cols-4 p-2 my-4 w-96 rounded-border'>
-                    <div><TagOutlined className='pr-2'/>{i}</div>
-                    <div><ArrowRightOutlined className='pr-2' />{serverTags[i]}</div>
+                    <div><Tag className='pr-2'/>{i}</div>
+                    <div><ArrowRight className='pr-2' />{serverTags[i]}</div>
                     <div className='col-start-4'>
                         <Icon fr={undefined}
                             icon="ep:edit"

@@ -1,8 +1,8 @@
+import { X, Loader2, Check } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import React, { useEffect, useState } from 'react';
 import { useNewDisk } from '@/utils/hooks';
 import { Icon } from '@iconify/react';
-import { CheckOutlined, CloseOutlined, LoadingOutlined } from '@ant-design/icons';
 
 import { useParams } from 'react-router-dom';
 import { RootState } from '@/redux/store';
@@ -30,7 +30,7 @@ export default function Configure() {
                     <div className='self-end mb-4'>
                         {
                             loading
-                                ? <LoadingOutlined />
+                                ? <Loader2 />
                                 : <>
                                     <Icon
                                         icon="icons8:cancel"

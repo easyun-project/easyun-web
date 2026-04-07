@@ -1,5 +1,5 @@
 import React from 'react';
-import { AntdTable } from '@/components/Common/CTable/AntdTable';
+import { DataTable, fromLegacyColumns } from '@/components/ui/data-table';
 
 export interface InsType {
     key?:React.Key;
@@ -53,24 +53,12 @@ export default function InstanceList(props: {insTypes:'loading'|InsType[], chang
     if (instances !== 'loading') {
         const instance = instances.map((item: InsType) => { item.key = item.insType; return item; });
         return (
-            <AntdTable rowSelection={{
-                type: 'radio',
-                onChange: (selectedRowKeys: React.Key[]) => {
-                    // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-                    props.changeselectefIns(selectedRowKeys.toString());
-                },
-            }} dataSource={instance} columns={columns}/>
+            <DataTable selectable data={instance} columns={fromLegacyColumns(columns) as any}/>
         );
     }
     else {return (
-        <AntdTable rowSelection={{
-            type: 'radio',
-            onChange: (selectedRowKeys: React.Key[]) => {
-                // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-                props.changeselectefIns(selectedRowKeys.toString());
-            },
-        }} columns={columns}
-        loading={ true }/>
+        <DataTable selectable data={[]} columns={fromLegacyColumns(columns) as any}
+       />
     ); }
 
 }

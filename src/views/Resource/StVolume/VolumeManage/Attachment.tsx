@@ -1,8 +1,8 @@
+import { Loader2 } from 'lucide-react';
 import { SimpleSelect as Select, SimpleOption as Option } from '@/components/ui/simple-select';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ServerCard from '@/components/Logic/CCard/ServerCard';
-import { LoadingOutlined } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
 import { StVolumeInfo } from '@/constant/storage';
 import { postApiV1ServerAction, deleteApiV1Server, postApiV1ServerConfig, putApiV1ServerName, putApiV1ServerDisk, putApiV1ServerEip, putApiV1ServerSecgroup, getApiV1ServerParamImage, getApiV1ServerParamInstypeList, getApiV1ServerParamInstypeFamily, postApiV1Server, getApiV1ServerDetailBySvrId, deleteApiV1ServerTagsBySvrId, putApiV1ServerTagsBySvrId } from '@/api-client';
@@ -54,7 +54,7 @@ export default function Attachment(props:StVolumeInfo) {
                                     ()=>changeAttaching(false));
                                 }}>
                                     {attaching
-                                        ? <LoadingOutlined className='mx-1'/>
+                                        ? <Loader2 className='mx-1'/>
                                         : <Icon fr={undefined}
                                             icon="icons8:checked"
                                             className='mx-1'
@@ -85,7 +85,7 @@ export default function Attachment(props:StVolumeInfo) {
                         );
                     }}>
                         {detaching
-                            ? <LoadingOutlined className='mx-1'/>
+                            ? <Loader2 className='mx-1'/>
                             : <Icon fr={undefined}
                                 icon="clarity:times-line"
                                 className='mx-1'

@@ -1,3 +1,4 @@
+import { X, Check } from 'lucide-react';
 import { SimpleSelect as Select, SimpleOption as Option } from '@/components/ui/simple-select';
 import { Switch } from '@/components/ui/switch';
 import React, { useState } from 'react';
@@ -5,7 +6,6 @@ import { useParams } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 
 
 export default function SubnetDetail() {

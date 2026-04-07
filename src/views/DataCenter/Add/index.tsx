@@ -13,7 +13,7 @@ import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
-import { Form } from 'antd';
+
 import { RootState } from '@/redux/store';
 import { listAllDataCenter, getDataCenterParams } from '@/redux/dataCenterSlice';
 import { DataCenterParams, DCProgressInfo, RegionItem, SecurityGroupParms, SubnetParms } from '@/constant/dataCenter';
@@ -218,21 +218,13 @@ const AddDataCenter = (): JSX.Element => {
             <div className="flex gap-4">
                 <div className="flex-1">
                     <h5>Identify your Datacenter</h5>
-                    <Form autoComplete="off" layout='inline'
-                        initialValues={{ defaultValue: inputDcName }}
-                    >
-                        <Form.Item label="Name:" name="dcName" className='ml-4'
-                            rules={[{ required: true, message: 'Please input the datacenter name!' }]}
-                        >
-                            <Input
-                                onChange={(e) => { setInputDcName(e.target.value); }}
-                                onBlur={(e) => {
-                                    if (!e.target.value) setValidStatus(false);
-                                    else setValidStatus(true);
-                                }}
-                                type="text" placeholder='Datacenter name' />
-                        </Form.Item>
-                    </Form>
+                    <div className="flex items-center gap-2 ml-4">
+                        <label>Name:</label>
+                        <Input
+                            onChange={(e) => { setInputDcName(e.target.value); }}
+                            onBlur={(e) => { setValidStatus(!!e.target.value); }}
+                            type="text" placeholder="Datacenter name" className="w-72" required />
+                    </div>
 
                     <span className={"inline-block ml-4 my-2"}>Region:</span>
                     <Select defaultValue={dcParams?.dcRegion} disabled={!validStatus}

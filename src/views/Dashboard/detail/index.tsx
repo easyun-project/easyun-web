@@ -9,7 +9,7 @@ import {
     getApiV1DashboardSummaryResource,
     getApiV1DashboardInventoryByResource,
 } from '@/api-client';
-import { AntdTable } from '@/components/Common/CTable/AntdTable';
+import { DataTable, fromLegacyColumns } from '@/components/ui/data-table';
 import { DictListSelect } from '@/components/DashboardCommon/DictListSelect';
 import './index.css';
 import { HealthType, TableType } from '@/views/Dashboard/dashboard';
@@ -157,9 +157,7 @@ export const DashboardDetail = (props): JSX.Element => {
      * @param type ：对应tableList中key值
      */
     const tableView = (type) => {
-        return <AntdTable key={type}
-            config={tableList[type]['config']}
-            data={tableList[type]['data']}/>;
+        return <DataTable key={type} columns={fromLegacyColumns(tableList[type]['data']['columns'])} data={tableList[type]['data']['dataSource']} />;
     };
 
     return (

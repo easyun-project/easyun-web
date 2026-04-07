@@ -1,3 +1,4 @@
+import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { putApiV1ServerEip } from "@/api-client";
 import React from 'react';
@@ -7,8 +8,8 @@ import { RootState } from '@/redux/store';
 import { Icon } from '@iconify/react';
 import { getApiV1DatacenterSecgroupList as _dcSecgroupList, getApiV1DatacenterSubnetList as _dcSubnetList } from '@/api-client';
 import { useState, useEffect } from 'react';
-import { Modal, Radio } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+const AnyDialog = Dialog as any;
 import { StaticIpBasic } from '@/constant/dataCenter';
 import { getServerDetail } from '@/redux/serverSlice';
 import { useNavigate } from 'react-router-dom';
@@ -72,7 +73,7 @@ export default function Network(): JSX.Element {
                                     );
                                 }}>
                                     {operating
-                                        ? <LoadingOutlined className={"align-middle mr-2"} />
+                                        ? <Loader2 className={"align-middle mr-2"} />
                                         : <Icon icon="clarity:times-line"
                                             className={"inline-block mx-1"}
                                             width="15"
@@ -88,7 +89,7 @@ export default function Network(): JSX.Element {
                                 }}
                                 className={"inline text-yellow-550"}>
                                     {operating
-                                        ? <LoadingOutlined className={"align-middle mr-2"} />
+                                        ? <Loader2 className={"align-middle mr-2"} />
                                         : <Icon icon="carbon:add"
                                             className={"inline-block mx-1"}
                                             width="15"
@@ -110,7 +111,7 @@ export default function Network(): JSX.Element {
                                         width="15"
                                         height="15"
                                         fr={undefined} />Associate EIP</button>
-                                <Modal title="Please select an eip." visible={isModalVisible}
+                                <AnyDialog title="Please select an eip." open={isModalVisible}
                                     footer={[
                                         <Button key="back" onClick={() => changeIsModalVisible(false)}>
                                             Cancel
@@ -140,15 +141,15 @@ export default function Network(): JSX.Element {
                                     ]}
 
                                     onCancel={() => changeIsModalVisible(false)}>
-                                    <Radio.Group onChange={(e) => { changeSelectedEip(e.target.value); }} value={selectedEip}>
+                                    <div data-x={""} onChange={(e: any) => { changeSelectedEip(e.target.value); }} data-value={selectedEip}>
                                         <div className="flex gap-2 items-center">
                                             {eips.map((item: StaticIpBasic) =>
-                                                <Radio value={item.publicIp} key={item.eipId} disabled={!item.isAvailable}>
+                                                <label className="flex items-center gap-2"><input type="radio" defaultValue={item.publicIp} key={item.eipId} />
                                                     {item.publicIp}({item.isAvailable ? 'Available' : 'Unavailable'})
-                                                </Radio>)}
+                                                </label>)}
                                         </div>
-                                    </Radio.Group>
-                                </Modal></>)}
+                                    </div>
+                                </AnyDialog></>)}
                         </div>
                     </div>
                     {/* private ip part */}

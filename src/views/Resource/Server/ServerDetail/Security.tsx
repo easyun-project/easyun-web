@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { RootState } from '@/redux/store';
 import CSecOpt from '@/components/Logic/CSecurityGroup/CSecOpt';
-import { Table, Modal, Radio } from 'antd';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+const AnyDialog = Dialog as any;
+import { DataTable, fromLegacyColumns } from '@/components/ui/data-table';
 import { postApiV1ServerAction, deleteApiV1Server, postApiV1ServerConfig, putApiV1ServerName, putApiV1ServerDisk, putApiV1ServerEip, putApiV1ServerSecgroup, getApiV1ServerParamImage, getApiV1ServerParamInstypeList, getApiV1ServerParamInstypeFamily, postApiV1Server, getApiV1ServerDetailBySvrId, deleteApiV1ServerTagsBySvrId, putApiV1ServerTagsBySvrId } from '@/api-client';
 import { getServerDetail } from '@/redux/serverSlice';
 
@@ -144,7 +146,7 @@ export default function Security():JSX.Element {
                         </button>
                     </div>
 
-                    <Modal title="Select a security group to attach" visible={isModalVisible} onOk={()=>{
+                    <AnyDialog title="Select a security group to attach" open={isModalVisible} onOk={()=>{
                         putApiV1ServerSecgroup({ body: {
                             action: 'attach',
                             secgroupId: selectedSecgroup,
@@ -155,16 +157,16 @@ export default function Security():JSX.Element {
                         });
                     }}
                     onCancel={()=>{changeIsModalVisible(false);}}>
-                        <Radio.Group onChange={(e)=>{changeSelectedSecgroup(e.target.value);}} value={selectedSecgroup}>
+                        <div data-x={""} onChange={(e)=>{changeSelectedSecgroup((e.target as any).value);}} data-value={selectedSecgroup}>
                             <div className="flex gap-2 items-center">
                                 {/* filter secgroups that not attached to currentServer */}
                                 {allSecgroups?.filter(item=>!secGroups.map(sg=>sg.sgId).includes(item.sgId)).map((item)=>
-                                    <Radio value={item.sgId} key={item.sgId}>
+                                    <label className="flex items-center gap-2"><input type="radio" defaultValue={item.sgId} key={item.sgId} />
                                         {item.sgName}({item.sgId})
-                                    </Radio>)}
+                                    </label>)}
                             </div>
-                        </Radio.Group>
-                    </Modal>
+                        </div>
+                    </AnyDialog>
                 </div>
 
                 <div>Create rules to open ports to the internet, or to a specific IPv4 address or range.</div>
@@ -188,7 +190,7 @@ export default function Security():JSX.Element {
                         />
                 Add rule
                     </button>
-                    <Table columns={columns} dataSource={data} />
+                    <DataTable columns={fromLegacyColumns(columns)} data={data} />
                 </div>
 
             </>);

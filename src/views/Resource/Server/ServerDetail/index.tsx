@@ -1,8 +1,9 @@
+import { Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
-import { Tabs } from 'antd';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
@@ -17,11 +18,9 @@ import Connect from './Connect';
 import Network from './Network';
 import Tags from './Tags';
 import { postApiV1ServerAction, deleteApiV1Server, postApiV1ServerConfig, putApiV1ServerName, putApiV1ServerDisk, putApiV1ServerEip, putApiV1ServerSecgroup, getApiV1ServerParamImage, getApiV1ServerParamInstypeList, getApiV1ServerParamInstypeFamily, postApiV1Server, getApiV1ServerDetailBySvrId, deleteApiV1ServerTagsBySvrId, putApiV1ServerTagsBySvrId } from '@/api-client';
-import { LoadingOutlined } from '@ant-design/icons';
 
 
 
-const { TabPane } = Tabs;
 
 
 const ServerDetail = ():JSX.Element => {
@@ -95,7 +94,7 @@ const ServerDetail = ():JSX.Element => {
                             <div className={"my-2"}>
                             Status:
                                 <span className={clsx(color, 'mx-2')}>{server.svrProperty.status}</span>
-                                {serverState.loading ? <LoadingOutlined /> : null}
+                                {serverState.loading ? <Loader2 /> : null}
                             </div>
                             <div className={"flex"}>
                                 <button className={"btn-yellow w-32 m-5"} value='start' onClick={(e)=>postApiV1ServerAction({ body: {
@@ -126,34 +125,43 @@ const ServerDetail = ():JSX.Element => {
                     </div>
                 </div>
 
-                <Tabs className={"pl-3"} activeKey={seletedTab} onChange={(key=>changeSelectedTab(key))}>
-                    <TabPane tab="Detail" key="Detail">
+                <Tabs className={"pl-3"} value={seletedTab} onValueChange={changeSelectedTab}>
+                    <TabsList>
+                        <TabsTrigger value="Detail">Detail</TabsTrigger>
+                        <TabsTrigger value="Config">Config</TabsTrigger>
+                        <TabsTrigger value="Disk">Disk</TabsTrigger>
+                        <TabsTrigger value="Networking">Networking</TabsTrigger>
+                        <TabsTrigger value="Security">Security</TabsTrigger>
+                        <TabsTrigger value="Tags">Tags</TabsTrigger>
+                        <TabsTrigger value="Connect">Connect</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="Detail">
                         <Detail />
-                    </TabPane>
+                    </TabsContent>
 
-                    <TabPane tab="Config" key="Config">
+                    <TabsContent value="Config">
                         <Config />
-                    </TabPane>
+                    </TabsContent>
 
-                    <TabPane tab="Disk" key="Disk">
+                    <TabsContent value="Disk">
                         <Disk />
-                    </TabPane>
+                    </TabsContent>
 
-                    <TabPane tab="Networking" key="Networking">
+                    <TabsContent value="Networking">
                         <Network />
-                    </TabPane>
+                    </TabsContent>
 
-                    <TabPane tab="Security" key="Security">
+                    <TabsContent value="Security">
                         <Security />
-                    </TabPane>
+                    </TabsContent>
 
-                    <TabPane tab="Tags" key="Tags">
+                    <TabsContent value="Tags">
                         <Tags />
-                    </TabPane>
+                    </TabsContent>
 
-                    <TabPane tab="Connect" key="Connect">
+                    <TabsContent value="Connect">
                         <Connect />
-                    </TabPane>
+                    </TabsContent>
                 </Tabs>
 
             </div>

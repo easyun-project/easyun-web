@@ -1,6 +1,6 @@
+import { ArrowRight, Tag } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import React,{ useState } from 'react';
-import { TagOutlined,ArrowRightOutlined } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
 
 
@@ -29,8 +29,8 @@ export default function CTags(props:CTagsProps) {
                 tagsArray.push
                 (<div
                     key={i} className='grid grid-cols-4 p-2 my-4 w-96 rounded-border '>
-                    <div><TagOutlined className='pr-2'/>{i}</div>
-                    <div><ArrowRightOutlined className='pr-2' />{tags[i]}</div>
+                    <div><Tag className='pr-2'/>{i}</div>
+                    <div><ArrowRight className='pr-2' />{tags[i]}</div>
                     <div className='col-start-4 '>
                         <Icon fr={undefined}
                             icon="ep:edit"

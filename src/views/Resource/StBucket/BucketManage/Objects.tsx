@@ -1,6 +1,6 @@
+import { Home, ArrowUpToLine, RotateCw, User } from 'lucide-react';
 import React from 'react';
-import { AntdTable } from '@/components/Common/CTable/AntdTable';
-import { HomeOutlined, RedoOutlined, UserOutlined, VerticalAlignTopOutlined } from '@ant-design/icons';
+import { DataTable, fromLegacyColumns } from '@/components/ui/data-table';
 import { Icon } from '@iconify/react';
 
 
@@ -73,17 +73,14 @@ export default function Objects() {
                     </button>
                     <button onClick={() => console.log('click')} className='mx-1 text-yellow-550'>
                     Upload
-                        <VerticalAlignTopOutlined />
+                        <ArrowUpToLine />
                     </button>
                     <button onClick={() => console.log('click')} className='mx-1 text-yellow-550'>
                     Refresh
-                        <RedoOutlined />
+                        <RotateCw />
                     </button>
                 </div>
-                <AntdTable rowSelection={{
-                    type: 'checkbox',
-                    ...rowSelection,
-                }} dataSource={dataSource} columns={columns as any} />
+                <DataTable selectable data={dataSource} columns={fromLegacyColumns(columns as any)} />
             </div>
         </>
     );

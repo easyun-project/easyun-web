@@ -1,15 +1,15 @@
+import { Loader2 } from "lucide-react";
+import { X, Check } from 'lucide-react';
 import { SimpleSelect as Select, SimpleOption as Option } from '@/components/ui/simple-select';
 import { Switch } from '@/components/ui/switch';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import { useTranslation, Trans } from 'react-i18next';
 import CTags from '@/components/Logic/CTags';
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { postApiV1StorageVolume, getApiV1StorageVolumeByVolumeId, deleteApiV1StorageVolume } from '@/api-client';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { LoadingOutlined } from '@ant-design/icons';
 import { useNewDisk } from '@/utils/hooks';
 
 
@@ -102,7 +102,7 @@ const AddVolume = (): JSX.Element => {
                     },
                 );
             }
-            }> {creating ? <LoadingOutlined className="align-middle"/> : undefined} Create
+            }> {creating ? <Loader2 className="align-middle"/> : undefined} Create
             </button>
         </>
     );

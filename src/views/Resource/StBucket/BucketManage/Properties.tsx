@@ -1,6 +1,6 @@
+import { X, Info, Check } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import React, { useEffect, useState } from 'react';
-import { CheckOutlined, CloseOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -77,7 +77,7 @@ export default function Properties() {
 
                     <div className='flex items-center'>
                         <div>
-                            <InfoCircleOutlined className='text-3xl text-green-700' />
+                            <Info className='text-3xl text-green-700' />
                         </div>
                         <div className='ml-2'>
                             <p className='text-gray-500'>{t('bucketManageProperties.versioningInfoTitle')}</p>

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { DashCard } from '@/components/DashboardCommon/DashCard';
-import { AntdTable } from '@/components/Common/CTable/AntdTable';
+import { DataTable, fromLegacyColumns } from '@/components/ui/data-table';
 import { TableType } from '@/views/Dashboard/dashboard';
 import TimeUtil from '@/utils/time';
-import { Table } from 'antd';
 import { Link } from 'react-router-dom';
 
 export const DashboardsTabList = (props): JSX.Element => {
@@ -535,9 +534,7 @@ export const DashboardsTabList = (props): JSX.Element => {
      * @param type ：对应tableList中key值
      */
     const tableView = (type) => {
-        return <AntdTable key={type}
-            config={tableList[type]['config']}
-            data={tableList[type]['data']}/>;
+        return <DataTable key={type} columns={fromLegacyColumns(tableList[type]['data']['columns'])} data={tableList[type]['data']['dataSource']} />;
     };
 
     return (
@@ -549,7 +546,7 @@ export const DashboardsTabList = (props): JSX.Element => {
                 ))
             }
             {
-                !listShow && <Table/>
+                !listShow && <DataTable columns={[]} data={[]} />
             }
         </div>
     );

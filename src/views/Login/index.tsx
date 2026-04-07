@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { userAction } from '@/redux/userSlice';
 import { postApiV1UserAuth, deleteApiV1UserLogout } from '@/api-client';
-import { Form } from 'antd';
+
 import HostModal from '@/components/Logic/CModal';
 import { listAllDataCenter, getRegionList } from '@/redux/dataCenterSlice';
 
@@ -30,8 +30,11 @@ const LoginPage = (): JSX.Element => {
         dispatch(getRegionList());
     };
 
-    const reqLogin = (values) => {
-        const { username, password } = values;
+    const reqLogin = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const fd = new FormData(e.currentTarget);
+        const username = fd.get('username') as string;
+        const password = fd.get('password') as string;
         if (!username || !password) {
             return;
         }
@@ -70,41 +73,16 @@ const LoginPage = (): JSX.Element => {
                         <h4 >{t('login.title')}</h4>
                     </div>
 
-                    <Form name="login"
-                        labelCol={{ span: 8 }}
-                        wrapperCol={{ span: 16 }}
-                        initialValues={{ remember: true }}
-                        onFinish={reqLogin}
-                        onFinishFailed={err => toast.error(String(err))}
-                        autoComplete="off" >
-                        <Form.Item
-                            name="username"
-                            rules={[
-                                { required: true, message: 'Please input your username!' },
-                                {
-                                    pattern: /^[a-zA-Z0-9_]+$/, message: 'Username must contain only letters numbers and underscores'
-                                },
-                            ]}
-                        >
-                            <Input className='w-80 h-12 rounded-border' placeholder="Enter your username" />
-                        </Form.Item>
-
-                        <Form.Item
-                            name="password"
-                            rules={[{ required: true, message: 'Please input your password!' }]}
-                        >
-                            <Input className='w-80 h-12 rounded-border' placeholder="Enter your password" />
-                        </Form.Item>
-
-                        <Form.Item name="remember" valuePropName="" wrapperCol={{ offset: 0, span: 16 }}>
-                            <Checkbox>{t('login.remember')}</Checkbox>
-                        </Form.Item>
-
-                        <Form.Item className='flex justify-center'>
-                            <button type='submit' className='w-full btn-yellow'>{t('login.button')}</button>
-                            {/* <CButton type="primary" htmlType="submit" classes={"w-36"}>{t('login.button')}</CButton> */}
-                        </Form.Item>
-                    </Form>
+                    <form onSubmit={reqLogin} autoComplete="off" className="space-y-4">
+                        <Input name="username" className="w-80 h-12 rounded-border" placeholder="Enter your username" required pattern="^[a-zA-Z0-9_]+$" />
+                        <Input name="password" type="password" className="w-80 h-12 rounded-border" placeholder="Enter your password" required />
+                        <label className="flex items-center gap-2">
+                            <Checkbox name="remember" /> {t('login.remember')}
+                        </label>
+                        <div className="flex justify-center">
+                            <button type="submit" className="w-full btn-yellow">{t('login.button')}</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

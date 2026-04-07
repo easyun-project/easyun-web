@@ -1,3 +1,4 @@
+import { Loader2 } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 import { SimpleSelect as Select, SimpleOption as Option } from '@/components/ui/simple-select';
 import { Input } from '@/components/ui/input';
@@ -10,8 +11,7 @@ import { RootState } from '@/redux/store';
 import { Icon } from '@iconify/react';
 import CPlatform from '@/components/Logic/CPlatform';
 import { Button } from '@/components/ui/button';
-import { Form, Cascader } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+
 // import LoadbalancerService from '@/service/LoadbalancerService';
 import { RegionItem  } from '@/constant/dataCenter';
 import FlagUtil from '@/utils/flagUtil';
@@ -74,21 +74,13 @@ const AddLoadbalancer = (): JSX.Element => {
             <div className="flex gap-4">
                 <div className="flex-1">
                     <h5>Identify your Loadbalancer</h5>
-                    <Form autoComplete="off" layout='inline'
-                        initialValues={{ defaultValue: tagName }}
-                    >
-                        <Form.Item label="Name:" name="dcName" className='ml-4'
-                            rules={[{ required: true, message: 'Please input the load balancer name!' }]}
-                        >
-                            <Input
-                                onChange={(e) => { setTagName(e.target.value); }}
-                                onBlur={(e) => {
-                                    if (!e.target.value) setValidStatus(false);
-                                    else setValidStatus(true);
-                                }}
-                                type="text" placeholder='Datacenter name' />
-                        </Form.Item>
-                    </Form>
+                    <div className="flex items-center gap-2 ml-4">
+                        <label>Name:</label>
+                        <Input
+                            onChange={(e) => { setTagName(e.target.value); }}
+                            onBlur={(e) => { setValidStatus(!!e.target.value); }}
+                            type="text" placeholder="Load balancer name" className="w-72" required />
+                    </div>
 
                     <span className={"inline-block ml-4 my-2"}>Region:</span>
                     <Select defaultValue={dcParams?.dcRegion} disabled={!validStatus}

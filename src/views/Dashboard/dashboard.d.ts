@@ -1,4 +1,12 @@
-import { TableConfig, TableProp } from '@/components/Common/CTable/AntdTable';
+interface TableConfig {
+    pagination?: false | { pageSize?: number };
+    [key: string]: any;
+}
+
+interface TableProp {
+    columns: { title?: string; dataIndex?: string; key?: string; render?: (text: any, record: any, index: number) => any; [k: string]: any }[];
+    dataSource: any[];
+}
 import { GraphicalData } from '@/components/DashboardCommon/DashCard';
 
 export type TableType = {

@@ -124,3 +124,14 @@ export function DataTable<TData>({
         </div>
     );
 }
+
+/** 将旧格式的 columns 转换为 TanStack 格式 */
+export function fromLegacyColumns(legacyCols: { title?: string; dataIndex?: string; key?: string; render?: (text: any, record: any, index: number) => any; [k: string]: any }[]): ColumnDef<any>[] {
+    return legacyCols.map(col => ({
+        header: col.title || '',
+        accessorKey: col.dataIndex || col.key || '',
+        cell: col.render
+            ? ({ row, getValue }: any) => col.render!(getValue(), row.original, row.index)
+            : undefined,
+    }));
+}

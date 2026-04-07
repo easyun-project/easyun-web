@@ -1,3 +1,4 @@
+import { ArrowUp, ArrowDown } from 'lucide-react';
 // react related
 import React from 'react';
 // redux related
@@ -5,8 +6,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 // UI contents
 import { useTranslation } from 'react-i18next';
-import { AntdTable } from '@/components/Common/CTable/AntdTable';
-import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
+import { DataTable, fromLegacyColumns } from '@/components/ui/data-table';
 // services and interface/schema
 // import { CostSummary, CostUsageItem, PeriodTotalCost, PeriodMonthlyCost } from '@/constant/resource';
 
@@ -27,7 +27,7 @@ const TotalCostCard = (props: CostCardProps): JSX.Element => {
         trendIcon = null;
         valueColor = null;
     } else {
-        trendIcon = isRise ? <ArrowUpOutlined /> : <ArrowDownOutlined />;
+        trendIcon = isRise ? <ArrowUp /> : <ArrowDown />;
         valueColor = isRise ? { color: '#cf1322' } : { color: '#3f8600' };
     }
     return (
@@ -149,10 +149,9 @@ export const ResourceOverview = (): JSX.Element => {
 
                     <div className="flex-1">
                         <h4>{costDate?.substr(0, 7)}{t('resource.overview.costUsage.title')}</h4>
-                        <AntdTable
-                            loading={dcLoading} size="middle" pagination={{ pageSize: 10 }}
-                            scroll={{ y: 280, scrollToFirstRowOnChange: true }}
-                            columns={costColumns} dataSource={costData} />
+                        <DataTable
+                            pageSize={10}
+                            columns={fromLegacyColumns(costColumns)} data={costData} />
                     </div>
                 </div>
             </div>

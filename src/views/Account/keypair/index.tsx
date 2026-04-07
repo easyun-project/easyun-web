@@ -2,7 +2,8 @@ import { SimpleSelect as Select, SimpleOption as Option } from '@/components/ui/
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import React, { useState, useEffect } from 'react';
-import { Modal } from 'antd';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 import { Icon } from '@iconify/react';
 import { getApiV1AccountKeypairList, getApiV1AccountKeypairStoreByKeyName, deleteApiV1AccountKeypair, getApiV1AccountReminderFreetier, putApiV1AccountReminderFreetier } from '@/api-client';
 import { IsshkeyItem } from '@/constant/awsInfo';
@@ -192,13 +193,9 @@ const Component = (): JSX.Element => {
                     </div>
                 </div>
             </div>
-            <Modal
-                title="Add SSH key"
-                visible={visible}
-                onOk={handleOk}
-                confirmLoading={confirmLoading}
-                onCancel={handleCancel}
-            >
+            <Dialog open={visible} onOpenChange={(v) => { if (!v) handleCancel(); }}>
+                <DialogContent>
+                    <DialogHeader><DialogTitle>Add SSH key</DialogTitle></DialogHeader>
                 <div>
                     <div>
                         <div>key name:</div>
@@ -221,7 +218,12 @@ const Component = (): JSX.Element => {
                         </div>
                     </div>
                 </div>
-            </Modal>
+                    <DialogFooter>
+                        <Button variant="outline" onClick={handleCancel}>Cancel</Button>
+                        <Button onClick={handleOk} disabled={confirmLoading}>OK</Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </>
     );
 };

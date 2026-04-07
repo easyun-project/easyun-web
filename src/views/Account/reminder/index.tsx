@@ -1,8 +1,8 @@
+import { X, Check } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import { toast } from 'sonner';
 import React, { useState, useEffect } from 'react';
-import { DatePicker } from 'antd';
-import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
+import { Input } from '@/components/ui/input';
 import { Icon } from '@iconify/react';
 import { getApiV1AccountKeypairList, getApiV1AccountKeypairStoreByKeyName, deleteApiV1AccountKeypair, getApiV1AccountReminderFreetier, putApiV1AccountReminderFreetier } from '@/api-client';
 const Component = (): JSX.Element => {
@@ -68,10 +68,10 @@ const Component = (): JSX.Element => {
                         <div className={"ml-12 flex"}>
                             <div>Activation data:</div>
                             <div className={"flex items-center"}>
-                                <DatePicker
+                                <Input type="date"
                                     className={"ml-4"}
-                                    size="small"
-                                    onChange={onChangeActivationData}
+                                    
+                                    onChange={(e) => onChangeActivationData(null, e.target.value)}
                                 />
                                 <Icon
                                     icon="ant-design:check-circle-outlined"

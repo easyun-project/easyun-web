@@ -1,3 +1,4 @@
+import { SimpleSelect } from '@/components/ui/simple-select';
 import { toast } from 'sonner';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
@@ -6,9 +7,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { RootState } from '@/redux/store';
 import { InsTypeFamily } from '../AddServer';
-import { Cascader } from 'antd';
+
 import { InsType } from '../AddServer/InstanceList';
-import { Skeleton } from 'antd';
+
 import { getServerDetail } from '@/redux/serverSlice';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
@@ -268,13 +269,12 @@ export default function Config() {
         return (
             <>
                 <div><span className={"mx-2"}>instance type</span>
-                    <Cascader style={{ width: '15%' }} options={insfamilyOptions} placeholder="选择实例类型"
-                        onChange={(e) => {
-                            if (e[1]) { changeInsFamily(e[1] as string); }
-                        }} changeOnSelect />
+                    <SimpleSelect className="w-48" placeholder="Select instance family"
+                        onChange={(v) => { if (v) changeInsFamily(v); }}
+                        options={(insfamilyOptions as any)?.flatMap((g: any) => g.children?.map((c: any) => ({ value: c.value, label: g.label + ' / ' + c.label })) || []) || []} />
                 </div>
                 {insTypes === 'loading'
-                    ? <Skeleton active paragraph={{ rows: 8 }} />
+                    ? <div className="animate-pulse space-y-3">{Array(8).fill(0).map((_,i)=><div key={i} className="h-4 bg-gray-200 rounded"></div>)}</div>
                     : <div className={"grid grid-rows-1 grid-flow-col auto-cols-min 2xl:w-1/2 m-8 overflow-x-auto"}>
                         {/* <button className={"btn-yellow"} onClick={()=>scrollBy({
                     top: 20,

@@ -1,4 +1,4 @@
-import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import { XCircle, CheckCircle } from 'lucide-react';
 import { Icon } from '@iconify/react';
 import React from 'react';
 import { useState } from 'react';

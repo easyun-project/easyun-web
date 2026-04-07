@@ -1,3 +1,4 @@
+import { X, Check } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 /*
  * @Author: lishihao
@@ -5,8 +6,7 @@ import { Switch } from '@/components/ui/switch';
  */
 
 import React, { useEffect, useState } from 'react';
-import { Tree } from 'antd';
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { Checkbox } from '@/components/ui/checkbox';
 import { useTranslation, Trans } from 'react-i18next';
 import WithEdit from '@/components/Logic/CWithEdit';
 import { useSelector } from 'react-redux';
@@ -93,26 +93,19 @@ export default function Permissions() {
                 {currentBucket === 'failed'
                     ? <div className="text-center text-gray-400 py-10">No data</div>
                     : <WithEdit visible={changing} onCancel={()=>setChanging(!changing)} onOk={()=>setChanging(!changing)}>
-                        <Tree
-                            showIcon
-                            disabled={!changing}
-                            checkable
-                            defaultExpandedKeys={[ 'allAcl' ]}
-                            defaultCheckedKeys={defaultCheckedKeys}
-                            onCheck={
-                                checkedKeys=>
-                                {
-                                    const keys = checkedKeys as React.Key[];
-                                    setSettings({
-                                        allPolicy: keys.includes('allPolicy'),
-                                        allAcl: keys.includes('allAcl'),
-                                        newAcl: keys.includes('newAcl'),
-                                        newPolicy: keys.includes('newPolicy')
-                                    });
-                                }
-                            }
-                            treeData={treeData}
-                        />
+                        <div className="space-y-2 ml-4">
+                            <div className="font-semibold mb-2"><Trans i18nKey={'bucketManagePermissions.blockAll'}/></div>
+                            {(['newAcl', 'allAcl', 'newPolicy', 'allPolicy'] as const).map(key => (
+                                <label key={key} className="flex items-center gap-2">
+                                    <Checkbox
+                                        disabled={!changing}
+                                        checked={settings[key]}
+                                        onCheckedChange={(v) => setSettings(prev => ({ ...prev, [key]: !!v }))}
+                                    />
+                                    <Trans i18nKey={`bucketManagePermissions.${key === 'newAcl' ? 'blockNewACLs' : key === 'allAcl' ? 'blockAnyACLs' : key === 'newPolicy' ? 'blockNewPublic' : 'blockAnyPublic'}`}/>
+                                </label>
+                            ))}
+                        </div>
                     </WithEdit>}
             </div>
         
