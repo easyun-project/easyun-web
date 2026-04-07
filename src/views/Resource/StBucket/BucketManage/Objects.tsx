@@ -1,5 +1,5 @@
 import React from 'react';
-import { Breadcrumb, Table } from 'antd';
+import { AntdTable } from '@/components/Common/CTable/AntdTable';
 import { HomeOutlined, RedoOutlined, UserOutlined, VerticalAlignTopOutlined } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
 
@@ -57,15 +57,7 @@ export default function Objects() {
     return (
         <>
             <div>
-                <Breadcrumb>
-                    <Breadcrumb.Item>
-                        <HomeOutlined />
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item>
-                        <span>Application List</span>
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item>Application</Breadcrumb.Item>
-                </Breadcrumb>
+                <nav className="flex gap-1 text-sm text-gray-500"><span>Home</span><span>/</span><span>Application List</span><span>/</span><span>Application</span></nav>
             </div>
             <div className='p-2 rounded-border'>
                 <div className='text-2xl'>Object list</div>
@@ -88,7 +80,7 @@ export default function Objects() {
                         <RedoOutlined />
                     </button>
                 </div>
-                <Table rowSelection={{
+                <AntdTable rowSelection={{
                     type: 'checkbox',
                     ...rowSelection,
                 }} dataSource={dataSource} columns={columns as any} />

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 // UI contents
 import { useTranslation } from 'react-i18next';
-import { Table } from 'antd';
+import { AntdTable } from '@/components/Common/CTable/AntdTable';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 // services and interface/schema
 // import { CostSummary, CostUsageItem, PeriodTotalCost, PeriodMonthlyCost } from '@/constant/resource';
@@ -149,7 +149,7 @@ export const ResourceOverview = (): JSX.Element => {
 
                     <div className="flex-1">
                         <h4>{costDate?.substr(0, 7)}{t('resource.overview.costUsage.title')}</h4>
-                        <Table
+                        <AntdTable
                             loading={dcLoading} size="middle" pagination={{ pageSize: 10 }}
                             scroll={{ y: 280, scrollToFirstRowOnChange: true }}
                             columns={costColumns} dataSource={costData} />

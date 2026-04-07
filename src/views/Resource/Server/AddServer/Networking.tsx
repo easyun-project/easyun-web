@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import React from 'react';
-// import { Table } from 'antd';
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
 

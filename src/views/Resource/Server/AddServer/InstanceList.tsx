@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'antd';
+import { AntdTable } from '@/components/Common/CTable/AntdTable';
 
 export interface InsType {
     key?:React.Key;
@@ -53,7 +53,7 @@ export default function InstanceList(props: {insTypes:'loading'|InsType[], chang
     if (instances !== 'loading') {
         const instance = instances.map((item: InsType) => { item.key = item.insType; return item; });
         return (
-            <Table rowSelection={{
+            <AntdTable rowSelection={{
                 type: 'radio',
                 onChange: (selectedRowKeys: React.Key[]) => {
                     // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
@@ -63,7 +63,7 @@ export default function InstanceList(props: {insTypes:'loading'|InsType[], chang
         );
     }
     else {return (
-        <Table rowSelection={{
+        <AntdTable rowSelection={{
             type: 'radio',
             onChange: (selectedRowKeys: React.Key[]) => {
                 // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);

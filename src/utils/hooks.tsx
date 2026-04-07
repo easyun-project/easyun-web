@@ -1,8 +1,8 @@
+import { Input } from '@/components/ui/input';
 import { SimpleSelect as Select, SimpleOption as Option } from '@/components/ui/simple-select';
 import { Switch } from '@/components/ui/switch';
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
-import { Popover, InputNumber } from 'antd';
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 
 import { VolumeTypeInfo, SelectedVolumeTypeInfo } from '@/constant/storage';
@@ -45,29 +45,23 @@ export const useNewDisk = (availablePaths:string[]) => {
                         <div className= 'flex justify-between mt-2'>
                             <div>
                                 <span>size(GiB):</span>
-                                <Popover content={
-                                    `max:${selectedTypeInfo.volumeSize?.at(1)} min:${selectedTypeInfo.volumeSize?.at(0)}`
-                                } title="Tips">
-                                    <InputNumber className= 'w-16' min={selectedTypeInfo.volumeSize?.at(0)} max={selectedTypeInfo.volumeSize?.at(1)} defaultValue={8} onChange={(value)=>changeVolumeSize(value ?? 0)}/>
-                                </Popover>
+                                <span title={`size: ${selectedTypeInfo.volumeSize?.at(0)}-${selectedTypeInfo.volumeSize?.at(1)}`}>
+                                    <Input type="number" className= 'w-16' min={selectedTypeInfo.volumeSize?.at(0)} max={selectedTypeInfo.volumeSize?.at(1)} defaultValue={8} onChange={(e)=>changeVolumeSize(Number(e.target.value) || 0)}/>
+                                </span>
                             </div>
                             <div>
                                 <span>IOPS:</span>
-                                <Popover content={
-                                    `max:${selectedTypeInfo.volumeIops?.at(1)} min:${selectedTypeInfo.volumeIops?.at(0)}`
-                                } title="Tips">
-                                    <InputNumber className= 'w-16' disabled={!selectedTypeInfo.volumeIops} min={selectedTypeInfo.volumeIops?.at(0)} max={selectedTypeInfo.volumeIops?.at(1)} defaultValue={3000}
-                                        onChange={(value) => changeVolumeIOPS(value ?? 0)} />
-                                </Popover>
+                                <span title={`iops: ${selectedTypeInfo.volumeIops?.at(0)}-${selectedTypeInfo.volumeIops?.at(1)}`}>
+                                    <Input type="number" className= 'w-16' disabled={!selectedTypeInfo.volumeIops} min={selectedTypeInfo.volumeIops?.at(0)} max={selectedTypeInfo.volumeIops?.at(1)} defaultValue={3000}
+                                        onChange={(e) => changeVolumeIOPS(Number(e.target.value) || 0)} />
+                                </span>
                             </div>
                             <div>
                                 <span>Thruputs(MB/s):</span>
-                                <Popover content={
-                                    `max:${selectedTypeInfo.volumeThruput?.at(1)} min:${selectedTypeInfo.volumeThruput?.at(0)}`
-                                } title="Tips">
-                                    <InputNumber className= 'w-16' disabled={!selectedTypeInfo.volumeThruput} min={selectedTypeInfo.volumeThruput?.at(0)} max={selectedTypeInfo.volumeThruput?.at(1)} defaultValue={125}
-                                        onChange={(value) => changeVolumeThruputs(value ?? 0)} />
-                                </Popover>
+                                <span title={`thruput: ${selectedTypeInfo.volumeThruput?.at(0)}-${selectedTypeInfo.volumeThruput?.at(1)}`}>
+                                    <Input type="number" className= 'w-16' disabled={!selectedTypeInfo.volumeThruput} min={selectedTypeInfo.volumeThruput?.at(0)} max={selectedTypeInfo.volumeThruput?.at(1)} defaultValue={125}
+                                        onChange={(e) => changeVolumeThruputs(Number(e.target.value) || 0)} />
+                                </span>
                             </div>
                         </div>
                     </div>

@@ -1,9 +1,9 @@
+import { Input } from '@/components/ui/input';
 import { SimpleSelect as Select, SimpleOption as Option } from '@/components/ui/simple-select';
 import { Switch } from '@/components/ui/switch';
 import React from 'react';
 import { Icon } from '@iconify/react';
 import { useState,useEffect } from 'react';
-import { InputNumber, Popover } from 'antd';
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 import { VolumeTypeInfo } from '@/constant/storage';
 
@@ -107,30 +107,24 @@ const DiskConfiguration = (props:DiskProps) :JSX.Element=>{
                     <div className={"flex mt-2 justify-between"}>
                         <div>
                             <span>size(GiB):</span>
-                            <Popover content={
-                                `max:${volumeTypeInfo.volumeSize?.at(1)} min:${volumeTypeInfo.volumeSize?.at(0)}`
-                            } title="Tips">
-                                <InputNumber className={"w-16"} min={volumeTypeInfo.volumeSize?.at(0)} max={volumeTypeInfo.volumeSize?.at(1)} defaultValue={8} onChange={(value)=>changeVolumeSize(value)}/>
-                            </Popover>
+                            <span title={`size: ${volumeTypeInfo.volumeSize?.at(0)}-${volumeTypeInfo.volumeSize?.at(1)}`}>
+                                <Input type="number" className={"w-16"} min={volumeTypeInfo.volumeSize?.at(0)} max={volumeTypeInfo.volumeSize?.at(1)} defaultValue={8} onChange={(e)=>changeVolumeSize(Number(e.target.value)||0)}/>
+                            </span>
                         </div>
                         <div>
                             <span>IOPS:</span>
-                            <Popover content={
-                                `max:${volumeTypeInfo.volumeIops?.at(1)} min:${volumeTypeInfo.volumeIops?.at(0)}`
-                            } title="Tips">
-                                <InputNumber className={"w-16"} disabled={!volumeTypeInfo.volumeIops} min={volumeTypeInfo.volumeIops?.at(0)} max={volumeTypeInfo.volumeIops?.at(1)} defaultValue={3000}
-                                    onChange={(value) => changeVolumeIOPS(value)} />
-                            </Popover>
+                            <span title={`iops: ${volumeTypeInfo.volumeIops?.at(0)}-${volumeTypeInfo.volumeIops?.at(1)}`}>
+                                <Input type="number" className={"w-16"} disabled={!volumeTypeInfo.volumeIops} min={volumeTypeInfo.volumeIops?.at(0)} max={volumeTypeInfo.volumeIops?.at(1)} defaultValue={3000}
+                                    onChange={(e) => changeVolumeIOPS(Number(e.target.value)||0)} />
+                            </span>
 
                         </div>
                         <div>
                             <span>Thruputs(MB/s):</span>
-                            <Popover content={
-                                `max:${volumeTypeInfo.volumeThruput?.at(1)} min:${volumeTypeInfo.volumeThruput?.at(0)}`
-                            } title="Tips">
-                                <InputNumber className={"w-16"} disabled={!volumeTypeInfo.volumeThruput} min={volumeTypeInfo.volumeThruput?.at(0)} max={volumeTypeInfo.volumeThruput?.at(1)} defaultValue={125}
-                                    onChange={(value) => changeVolumeThruputs(value)} />
-                            </Popover>
+                            <span title={`thruput: ${volumeTypeInfo.volumeThruput?.at(0)}-${volumeTypeInfo.volumeThruput?.at(1)}`}>
+                                <Input type="number" className={"w-16"} disabled={!volumeTypeInfo.volumeThruput} min={volumeTypeInfo.volumeThruput?.at(0)} max={volumeTypeInfo.volumeThruput?.at(1)} defaultValue={125}
+                                    onChange={(e) => changeVolumeThruputs(Number(e.target.value)||0)} />
+                            </span>
 
                         </div>
                     </div>

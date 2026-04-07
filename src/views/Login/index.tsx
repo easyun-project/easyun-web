@@ -1,3 +1,4 @@
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
@@ -10,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '@/redux/store';
 import { userAction } from '@/redux/userSlice';
 import { postApiV1UserAuth, deleteApiV1UserLogout } from '@/api-client';
-import { Form, Menu, Dropdown } from 'antd';
+import { Form } from 'antd';
 import HostModal from '@/components/Logic/CModal';
 import { listAllDataCenter, getRegionList } from '@/redux/dataCenterSlice';
 
@@ -44,11 +45,6 @@ const LoginPage = (): JSX.Element => {
         );
     };
 
-    const systemMenu = (
-        <Menu>
-            <Menu.Item onClick={() => setIsModalVisible(true)} key="sethost">API Server</Menu.Item>
-        </Menu>
-    );
 
     return (
         <div className='flex flex-col items-center'>
@@ -57,16 +53,14 @@ const LoginPage = (): JSX.Element => {
                 <div className='grow ml-10'>
                     <img src={logo3} alt="Easyun" width='150' />
                 </div>
-                <Dropdown overlay={systemMenu} placement='bottomRight' className='inline-flex'>
-                    <a onClick={e => e.preventDefault()}>
-                        <Icon icon="ant-design:setting-filled"
-                            className='inline-block ml-10'
-                            color="#5c6f9a" width="25" height="25" hFlip={true} fr={undefined} />
-                        <Icon icon="iconoir:nav-arrow-down"
-                            className='inline-block mr-3'
-                            color="#5c6f9a" width="25" height="25" hFlip={true} fr={undefined} />
-                    </a>
-                </Dropdown>
+                <DropdownMenu>
+                    <DropdownMenuTrigger>
+                        <span className="cursor-pointer"><Icon icon="ant-design:setting-filled" color="#5c6f9a" width="25" height="25" fr={undefined} /></span>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuItem onClick={() => setIsModalVisible(true)}>API Server</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
                 <HostModal title='配置服务器地址' msg='请输入您服务器的地址' isVisible={isModalVisible} setIsVisible={setIsModalVisible} />
             </div>
             {/* 登录框体 */}

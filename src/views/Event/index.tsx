@@ -1,109 +1,50 @@
 import React from 'react';
-// import "./index.css";
 import { Icon } from '@iconify/react';
-import { Table } from 'antd';
+import { ColumnDef } from '@tanstack/react-table';
+import { DataTable } from '@/components/ui/data-table';
 
-const Event = (): JSX.Element => {
-    const columns = [
-        {
-            title: 'Eventd',
-            dataIndex: 'eventd',
-            key: 'eventd',
-            render: (text) => (
-                <span onClick={openlogItem} className="color-link">
-                    {text}
-                </span>
-            ),
-        },
-        {
-            title: 'Status',
-            dataIndex: 'status',
-            key: 'status',
-        },
-        {
-            title: 'Category',
-            dataIndex: 'category',
-            key: 'category',
-        },
-        {
-            title: 'Region/Zone',
-            key: 'region_zone',
-            dataIndex: 'region_zone',
-        },
-        {
-            title: 'Start time',
-            key: 'start_time',
-            dataIndex: 'start_time',
-        },
-        {
-            title: 'last update time',
-            key: 'last_update_time',
-            dataIndex: 'last_update_time',
-        },
-        {
-            title: 'Affected resources',
-            key: 'affected_resources',
-            dataIndex: 'affected_resources',
-        },
-    ];
-    const data = Array(100).fill(0).map((item,index)=>{
-        return {
-            key: index,
-            eventd: 'S3 operation issuse',
-            status: 'Closed',
-            category: 'Issuse',
-            region_zone: 'us-east-1',
-            start_time: '2021.09.01 06:23:11',
-            last_update_time: '2021.12.01 16:23:11',
-            affected_resources: '-',
-        };
-    });
-    const openCloudWatch = ()=>{
-        const url = 'https://console.aws.amazon.com/cloudwatch/home/?region=us-east-1';
-        window.open(url, '_blank');
-    };
-    const openlogItem = () => {
-        const url = 'https://console.aws.amazon.com/phd/home/?region=us-east-1#/event-log';
-        window.open(url, '_blank');
-    };
-    return (
-        <div>
-            <div className="content-body">
-                <div className="color-black-weight800">Event Log</div>
-                <div className="margin-t-b20">
-                    <div className="flex flex-wrap">
-                        <div className="w-8/24">
-                            <div
-                                className="flex-align-center  color-link"
-                                onClick={openCloudWatch}
-                            >
-                                <div className="left-text">Amazon CloudWatch Events</div>
-                                <Icon icon="ri:share-box-fill" fr={undefined} />
-                            </div>
-                        </div>
-                        <div className="w-8/24">
-                            <div className="flex-align-center">
-                                <div className="left-text">
-                  Last refreshed less than 1 min ago
-                                </div>
-                                <Icon className="yellow-text-color" icon="ci:refresh" fr={undefined} />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="width100">
-                    <Table
-                        pagination={false}
-                        bordered
-                        columns={columns}
-                        dataSource={data}
-                    />
-                </div>
-            </div>
-            <div className="fix-footer">
-            </div>
-        </div>
-    );
+type EventRow = {
+    eventd: string; status: string; category: string;
+    region_zone: string; start_time: string; last_update_time: string; affected_resources: string;
 };
 
-export default Event;
+const openlogItem = () => window.open('https://console.aws.amazon.com/phd/home/?region=us-east-1#/event-log', '_blank');
+const openCloudWatch = () => window.open('https://console.aws.amazon.com/cloudwatch/home/?region=us-east-1', '_blank');
+
+const columns: ColumnDef<EventRow>[] = [
+    { header: 'Event', accessorKey: 'eventd', cell: ({ getValue }) => (
+        <span onClick={openlogItem} className="text-blue-600 cursor-pointer">{getValue() as string}</span>
+    )},
+    { header: 'Status', accessorKey: 'status' },
+    { header: 'Category', accessorKey: 'category' },
+    { header: 'Region/Zone', accessorKey: 'region_zone' },
+    { header: 'Start time', accessorKey: 'start_time' },
+    { header: 'Last update', accessorKey: 'last_update_time' },
+    { header: 'Affected resources', accessorKey: 'affected_resources' },
+];
+
+const data: EventRow[] = Array(100).fill(0).map((_, i) => ({
+    eventd: 'S3 operation issue', status: 'Closed', category: 'Issue',
+    region_zone: 'us-east-1', start_time: '2021.09.01 06:23:11',
+    last_update_time: '2021.12.01 16:23:11', affected_resources: '-',
+}));
+
+export default function Event() {
+    return (
+        <div className="p-4">
+            <div className="font-bold text-xl">Event Log</div>
+            <div className="flex flex-wrap my-4">
+                <div className="w-1/3">
+                    <span className="text-blue-600 cursor-pointer flex items-center gap-1" onClick={openCloudWatch}>
+                        Amazon CloudWatch Events <Icon icon="ri:share-box-fill" fr={undefined} />
+                    </span>
+                </div>
+                <div className="w-1/3 flex items-center gap-1">
+                    Last refreshed less than 1 min ago
+                    <Icon className="text-yellow-550" icon="ci:refresh" fr={undefined} />
+                </div>
+            </div>
+            <DataTable columns={columns} data={data} pageSize={20} />
+        </div>
+    );
+}

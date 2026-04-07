@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Table } from 'antd';
-import { ServerModel } from '@/constant/server';
+
 import { TabLayout } from '@/components/ui/tab-layout';
 
 interface NotDataProps {
@@ -21,21 +20,6 @@ export const NoResource = (props: NotDataProps): JSX.Element => {
     );
 };
 
-interface TableProps {
-    dataSource: ServerModel[] | undefined | never[];
-    columns: never[];
-}
-
-export const ResourceTable = (props: TableProps): JSX.Element => {
-    return (
-        <Table bordered={true} dataSource={props.dataSource} columns={props.columns} rowSelection={{
-            type: 'checkbox',
-            onChange: (selectedRowKeys: React.Key[], selectedRows: ServerModel[]) => {
-                console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-            }
-        }} />
-    );
-};
 
 const resourceTabs = [
     { key: 'overview', label: 'Overview' },
