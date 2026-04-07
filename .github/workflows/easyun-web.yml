@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Configure AWS credentials (OIDC)
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v5
         with:
           role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_DEPLOY_REGION }}
@@ -26,7 +26,7 @@ jobs:
           COMMAND_ID=$(aws ssm send-command \
             --instance-ids "${{ secrets.EC2_INSTANCE_ID }}" \
             --document-name "AWS-RunShellScript" \
-            --parameters 'commands=["sudo -u ec2-user bash -c \"source /home/ec2-user/.nvm/nvm.sh && cd /home/ec2-user/easyun-web && git pull origin develop && npm ci && npm run build\" && cp /home/ec2-user/easyun-web/deployment/easyun-web.conf /etc/nginx/conf.d/ && nginx -t && systemctl reload nginx"]' \
+            --parameters 'commands=["sudo -u ec2-user bash -c \"source /home/ec2-user/.nvm/nvm.sh && cd /home/ec2-user/easyun-web && git pull origin develop && test -f .env || cp .env.example .env && npm ci && npm run build\" && cp /home/ec2-user/easyun-web/deployment/easyun-web.conf /etc/nginx/conf.d/ && nginx -t && systemctl reload nginx"]' \
             --comment "GitHub Actions deploy ${{ github.sha }}" \
             --timeout-seconds 120 \
             --output text \

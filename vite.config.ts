@@ -5,11 +5,10 @@ import * as path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-    const env = loadEnv(mode, path.resolve(__dirname, 'envs'));
+    const env = loadEnv(mode, __dirname);
 
     return {
         plugins: [ react(), tailwindcss() ],
-        envDir: 'envs',
         base: env.VITE_BASE_URL || './',
         resolve: {
             alias: {

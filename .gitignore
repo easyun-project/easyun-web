@@ -19,6 +19,6 @@ Thumbs.db
 .eslintcache
 
 # env files
-envs/.env.*
-!envs/.env.example
+.env*
+!.env.example
 .dev/

@@ -2,7 +2,7 @@ import store from '@/redux/store';
 
 
 export const getHostUrl = (): string => {
-    return localStorage.getItem('server') || import.meta.env.VITE_APP_BASE_API || 'http://localhost:6660';
+    return localStorage.getItem('server') || import.meta.env.VITE_APP_BASE_API || 'http://localhost:8443';
 };
 
 export const getHeader = ():Record<string, string> | undefined=> {

@@ -33,8 +33,8 @@ cd Easyun/web
 npm install
 
 # 配置环境变量
-cp envs/.env.example envs/.env.local
-# 编辑 envs/.env.local，设置 VITE_APP_BASE_API 为后端 API 地址
+cp .env.example .env
+# 编辑 .env，设置 VITE_APP_BASE_API 为后端 API 地址
 
 # 启动开发服务器
 npm run dev
@@ -45,20 +45,20 @@ npm run build
 
 ### 多环境配置
 
-环境配置文件位于 `envs/` 目录，Vite 根据运行模式自动加载：
+环境配置文件位于 `` 目录，Vite 根据运行模式自动加载：
 
 | 命令 | 配置文件 |
 |---|---|
-| `npm run dev` | `envs/.env.local` |
-| `npm run dev:stg` | `envs/.env.stg` |
-| `npm run build:prod` | `envs/.env.prod` |
+| `npm run dev` | `.env` |
+| `npm run dev:stg` | `.env.stg` |
+| `npm run build:prod` | `.env.prod` |
 
 > 除 `.env.example` 外，所有 env 文件已被 `.gitignore` 忽略。
 
 ### 常用命令
 
 ```bash
-npm run dev              # 本地开发（HMR，端口 8888）
+npm run dev              # 本地开发（HMR，端口 8080）
 npm run dev:stg          # 测试环境
 npm run build            # 生产构建
 npm run serve            # 预览构建结果
@@ -80,7 +80,7 @@ npm run gen:api
 
 ```
 easyun-web/
-├── envs/                           多环境配置文件
+├──                            多环境配置文件
 ├── src/
 │   ├── api-client/                 自动生成的 API Client（勿手动修改）
 │   ├── assets/

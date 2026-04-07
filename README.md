@@ -35,8 +35,8 @@ cd Easyun/web
 npm install
 
 # Configure environment
-cp envs/.env.example envs/.env.local
-# Edit envs/.env.local — set VITE_APP_BASE_API to your backend URL
+cp .env.example .env
+# Edit .env — set VITE_APP_BASE_API to your backend URL
 
 # Start dev server
 npm run dev
@@ -47,13 +47,13 @@ npm run build
 
 ### Environment Configuration
 
-Config files are in `envs/`. Vite loads the matching file by mode:
+Config files are in ``. Vite loads the matching file by mode:
 
 | Command | Config File |
 |---|---|
-| `npm run dev` | `envs/.env.local` |
-| `npm run dev:stg` | `envs/.env.stg` |
-| `npm run build:prod` | `envs/.env.prod` |
+| `npm run dev` | `.env` |
+| `npm run dev:stg` | `.env.stg` |
+| `npm run build:prod` | `.env.prod` |
 
 > All env files except `.env.example` are gitignored.
 
@@ -71,7 +71,7 @@ This reads `../easyun-server/openapi.json` and outputs to `src/api-client/`. Do 
 
 ```
 easyun-web/
-├── envs/                           Environment config files
+├──                            Environment config files
 ├── src/
 │   ├── api-client/                 Auto-generated API client (do not edit)
 │   ├── assets/

@@ -1,12 +1,9 @@
 {
     "name": "easyun-webui",
-    "version": "0.4.1",
+    "version": "0.4.2",
     "scripts": {
         "dev": "vite --host",
-        "dev:stg": "vite --mode stg",
         "build": "vite build",
-        "build:stg": "cross-env vite build --mode test",
-        "build:prod": "cross-env vite build --mode production",
         "serve": "vite preview",
         "lint": "eslint --ext .jsx,.js,.ts,.tsx .",
         "server": "nodemon main.js",
@@ -54,7 +51,6 @@
         "@typescript-eslint/eslint-plugin": "^8.23.0",
         "@typescript-eslint/parser": "^8.23.0",
         "@vitejs/plugin-react": "^4.3.4",
-        "cross-env": "^7.0.3",
         "eslint": "^8.57.1",
         "eslint-config-airbnb": "^19.0.4",
         "eslint-config-prettier": "^9.1.0",

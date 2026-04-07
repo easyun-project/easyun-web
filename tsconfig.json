@@ -21,5 +21,6 @@
             "@@/*": ["./*"]
         }
     },
-    "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx"]
+    "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx"],
+    "exclude": ["openapi-ts.config.ts"]
 }
