@@ -22,7 +22,7 @@ const CStBucketCard = (props): JSX.Element => {
                 { label: 'Manage', onClick: () => navigate(`/resource/object/${bucketId}`, { state: props }) },
                 {
                     label: 'Delete', danger: true, onClick: () => {
-                        (deleteApiV1StorageBucket as any)({ query: { dc: dcName, bucket_id: bucketId } })
+                        (deleteApiV1StorageBucket as any)({ query: { bucket_id: bucketId } })
                             .then(() => { alert('删除成功'); dispatch(listAllBucket({ dc: dcName })); });
                     }
                 },

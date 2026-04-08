@@ -34,7 +34,7 @@ function ExistDisk(props:DiskProps) {
     const svrStatus = useSelector((state: RootState) =>state.server.currentServer!.svrProperty.status) || '';
     useEffect(
         ()=>{
-            (getApiV1StorageVolumeByVolumeId as any)({ path: { volume_id: volumeId }, query: { dc: dcName } }).then(({ data }: any) => data?.detail).then(
+            (getApiV1StorageVolumeByVolumeId as any)({ path: { volume_id: volumeId } }).then(({ data }: any) => data?.detail).then(
                 res=>changeDiskInfo(res),
                 error=>console.log(error)
             );}, []);

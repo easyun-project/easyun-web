@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import React, { useEffect, useState, useRef } from 'react';
 import { postApiV1Datacenter, getApiV1DatacenterTask, getApiV1DatacenterList, deleteApiV1Datacenter } from '@/api-client';
-import { QueryNewDcParm, DcDropDown } from '@/constant/dataCenter';
+import { DcDropDown } from '@/constant/dataCenter';
 import SubnetOption from '@/components/Datacenter/SubnetOptionCard';
 import SecGroupOption from '@/components/Datacenter/SecGroupOptionCard';
 import { Button } from '@/components/ui/button';
@@ -106,9 +106,8 @@ const AddDataCenter = (): JSX.Element => {
     };
 
     // 获取创建数据中心的默认参数
-    const getdcParams = (parms: QueryNewDcParm) => {
-        if (parms.dc === '') dispatch(getDataCenterParams({ dc: 'default' }));
-        else dispatch(getDataCenterParams(parms));
+    const getdcParams = () => {
+        dispatch(getDataCenterParams());
     };
     // 批量更新 elements params
     const updateDcParams = () => {
@@ -127,7 +126,7 @@ const AddDataCenter = (): JSX.Element => {
     };
     // 页面载入后首次渲染
     useEffect(() => {
-        dispatch(getDataCenterParams({ dc: 'default' }));
+        dispatch(getDataCenterParams());
         updateDcParams();
     }, []);
 
@@ -143,7 +142,7 @@ const AddDataCenter = (): JSX.Element => {
         clearTimeout(refTimer.current);
         // 重新开启一个定时器
         refTimer.current = setTimeout(
-            () => getdcParams({ dc: inputDcName, region: regionCode }), 600);
+            () => getdcParams(), 600);
     }, [inputDcName, regionCode, cidrBlock]);
 
     // 创建数据中心

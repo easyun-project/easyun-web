@@ -353,447 +353,6 @@ export const get = <ThrowOnError extends boolean = false>(options?: Options<GetD
     (options?.client ?? client).get<GetResponses, unknown, ThrowOnError>({ url: "/", ...options });
 
 /**
- * 删除指定用户
- */
-export const deleteAUser = <ThrowOnError extends boolean = false>(options?: Options<DeleteAuserData, ThrowOnError>) =>
-    (options?.client ?? client).delete<DeleteAuserResponses, DeleteAuserErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/user",
-        ...options,
-        headers: {
-            "Content-Type": "application/json",
-            ...options?.headers,
-        },
-    });
-
-/**
- * 添加新用户
- */
-export const addNewUser = <ThrowOnError extends boolean = false>(options?: Options<AddNewUserData, ThrowOnError>) =>
-    (options?.client ?? client).post<AddNewUserResponses, AddNewUserErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/user",
-        ...options,
-        headers: {
-            "Content-Type": "application/json",
-            ...options?.headers,
-        },
-    });
-
-/**
- * 删除(Terminate)云服务器
- */
-export const deleteApiV1Server = <ThrowOnError extends boolean = false>(
-    options?: Options<DeleteApiV1ServerData, ThrowOnError>,
-) =>
-    (options?.client ?? client).delete<DeleteApiV1ServerResponses, DeleteApiV1ServerErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/server",
-        ...options,
-        headers: {
-            "Content-Type": "application/json",
-            ...options?.headers,
-        },
-    });
-
-/**
- * 获取数据中心全部云服务器信息
- */
-export const getApiV1Server = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1ServerData, ThrowOnError>,
-) =>
-    (options?.client ?? client).get<GetApiV1ServerResponses, GetApiV1ServerErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/server",
-        ...options,
-    });
-
-/**
- * 新建云服务器(EC2)
- */
-export const postApiV1Server = <ThrowOnError extends boolean = false>(
-    options?: Options<PostApiV1ServerData, ThrowOnError>,
-) =>
-    (options?.client ?? client).post<PostApiV1ServerResponses, PostApiV1ServerErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/server",
-        ...options,
-        headers: {
-            "Content-Type": "application/json",
-            ...options?.headers,
-        },
-    });
-
-/**
- * 获取数据中心全部数据库(RDS)信息
- */
-export const getApiV1Database = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1DatabaseData, ThrowOnError>,
-) =>
-    (options?.client ?? client).get<GetApiV1DatabaseResponses, GetApiV1DatabaseErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/database",
-        ...options,
-    });
-
-/**
- * 用户登录 (auth token)
- */
-export const postApiV1UserAuth = <ThrowOnError extends boolean = false>(
-    options?: Options<PostApiV1UserAuthData, ThrowOnError>,
-) =>
-    (options?.client ?? client).post<PostApiV1UserAuthResponses, PostApiV1UserAuthErrors, ThrowOnError>({
-        url: "/api/v1/user/auth",
-        ...options,
-        headers: {
-            "Content-Type": "application/json",
-            ...options?.headers,
-        },
-    });
-
-/**
- * 查询当前用户列表
- */
-export const listAllUsers = <ThrowOnError extends boolean = false>(options?: Options<ListAllUsersData, ThrowOnError>) =>
-    (options?.client ?? client).get<ListAllUsersResponses, ListAllUsersErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/user/list",
-        ...options,
-    });
-
-/**
- * 删除 Datacenter 及基础资源[异步]
- */
-export const deleteApiV1Datacenter = <ThrowOnError extends boolean = false>(
-    options?: Options<DeleteApiV1DatacenterData, ThrowOnError>,
-) =>
-    (options?.client ?? client).delete<DeleteApiV1DatacenterResponses, DeleteApiV1DatacenterErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter",
-        ...options,
-        headers: {
-            "Content-Type": "application/json",
-            ...options?.headers,
-        },
-    });
-
-/**
- * 获取Easyun管理的所有数据中心信息
- */
-export const getApiV1Datacenter = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1DatacenterData, ThrowOnError>,
-) =>
-    (options?.client ?? client).get<GetApiV1DatacenterResponses, GetApiV1DatacenterErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter",
-        ...options,
-    });
-
-/**
- * 创建 Datacenter 及基础资源[异步]
- */
-export const postApiV1Datacenter = <ThrowOnError extends boolean = false>(
-    options?: Options<PostApiV1DatacenterData, ThrowOnError>,
-) =>
-    (options?.client ?? client).post<PostApiV1DatacenterResponses, PostApiV1DatacenterErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter",
-        ...options,
-        headers: {
-            "Content-Type": "application/json",
-            ...options?.headers,
-        },
-    });
-
-/**
- * 云服务器关联和解绑静态IP(eip)
- */
-export const putApiV1ServerEip = <ThrowOnError extends boolean = false>(
-    options?: Options<PutApiV1ServerEipData, ThrowOnError>,
-) =>
-    (options?.client ?? client).put<PutApiV1ServerEipResponses, PutApiV1ServerEipErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/server/eip",
-        ...options,
-        headers: {
-            "Content-Type": "application/json",
-            ...options?.headers,
-        },
-    });
-
-/**
- * 注销当前用户 (revoke token)
- */
-export const deleteApiV1UserLogout = <ThrowOnError extends boolean = false>(
-    options?: Options<DeleteApiV1UserLogoutData, ThrowOnError>,
-) =>
-    (options?.client ?? client).delete<DeleteApiV1UserLogoutResponses, DeleteApiV1UserLogoutErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/user/logout",
-        ...options,
-    });
-
-/**
- * 获取数据中心全部云服务器列表[仅基础字段]
- */
-export const getApiV1ServerList = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1ServerListData, ThrowOnError>,
-) =>
-    (options?.client ?? client).get<GetApiV1ServerListResponses, GetApiV1ServerListErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/server/list",
-        ...options,
-    });
-
-/**
- * 修改指定云服务器名称
- */
-export const putApiV1ServerName = <ThrowOnError extends boolean = false>(
-    options?: Options<PutApiV1ServerNameData, ThrowOnError>,
-) =>
-    (options?.client ?? client).put<PutApiV1ServerNameResponses, PutApiV1ServerNameErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/server/name",
-        ...options,
-        headers: {
-            "Content-Type": "application/json",
-            ...options?.headers,
-        },
-    });
-
-/**
- * 云服务器关联与解绑磁盘(volume)
- */
-export const putApiV1ServerDisk = <ThrowOnError extends boolean = false>(
-    options?: Options<PutApiV1ServerDiskData, ThrowOnError>,
-) =>
-    (options?.client ?? client).put<PutApiV1ServerDiskResponses, PutApiV1ServerDiskErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/server/disk",
-        ...options,
-        headers: {
-            "Content-Type": "application/json",
-            ...options?.headers,
-        },
-    });
-
-/**
- * 获取数据中心全部负载均衡器信息
- */
-export const getApiV1Loadbalancer = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1LoadbalancerData, ThrowOnError>,
-) =>
-    (options?.client ?? client).get<GetApiV1LoadbalancerResponses, GetApiV1LoadbalancerErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/loadbalancer",
-        ...options,
-    });
-
-/**
- * 修改当前用户密码
- */
-export const putApiV1UserPassword = <ThrowOnError extends boolean = false>(
-    options?: Options<PutApiV1UserPasswordData, ThrowOnError>,
-) =>
-    (options?.client ?? client).put<PutApiV1UserPasswordResponses, PutApiV1UserPasswordErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/user/password",
-        ...options,
-        headers: {
-            "Content-Type": "application/json",
-            ...options?.headers,
-        },
-    });
-
-/**
- * 启动/停止/重启 云服务器
- */
-export const postApiV1ServerAction = <ThrowOnError extends boolean = false>(
-    options?: Options<PostApiV1ServerActionData, ThrowOnError>,
-) =>
-    (options?.client ?? client).post<PostApiV1ServerActionResponses, PostApiV1ServerActionErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/server/action",
-        ...options,
-        headers: {
-            "Content-Type": "application/json",
-            ...options?.headers,
-        },
-    });
-
-/**
- * 修改指定云服务器实例配置
- */
-export const postApiV1ServerConfig = <ThrowOnError extends boolean = false>(
-    options?: Options<PostApiV1ServerConfigData, ThrowOnError>,
-) =>
-    (options?.client ?? client).post<PostApiV1ServerConfigResponses, PostApiV1ServerConfigErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/server/config",
-        ...options,
-        headers: {
-            "Content-Type": "application/json",
-            ...options?.headers,
-        },
-    });
-
-/**
- * 获取数据中心全部数据库(RDS)列表[仅基础字段]
- */
-export const getApiV1DatabaseList = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1DatabaseListData, ThrowOnError>,
-) =>
-    (options?.client ?? client).get<GetApiV1DatabaseListResponses, GetApiV1DatabaseListErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/database/list",
-        ...options,
-    });
-
-/**
- * 获取指定region的资源配额
- */
-export const getApiV1AccountQuota = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1AccountQuotaData, ThrowOnError>,
-) =>
-    (options.client ?? client).get<GetApiV1AccountQuotaResponses, GetApiV1AccountQuotaErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/account/quota",
-        ...options,
-    });
-
-/**
- * 删除存储桶(S3 Bucket)
- */
-export const deleteApiV1StorageBucket = <ThrowOnError extends boolean = false>(
-    options?: Options<DeleteApiV1StorageBucketData, ThrowOnError>,
-) =>
-    (options?.client ?? client).delete<DeleteApiV1StorageBucketResponses, DeleteApiV1StorageBucketErrors, ThrowOnError>(
-        {
-            security: [{ scheme: "bearer", type: "http" }],
-            url: "/api/v1/storage/bucket",
-            ...options,
-            headers: {
-                "Content-Type": "application/json",
-                ...options?.headers,
-            },
-        },
-    );
-
-/**
- * 获取全部存储桶(Bucket)信息
- */
-export const getApiV1StorageBucket = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1StorageBucketData, ThrowOnError>,
-) =>
-    (options?.client ?? client).get<GetApiV1StorageBucketResponses, GetApiV1StorageBucketErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/storage/bucket",
-        ...options,
-    });
-
-/**
- * 新增存储桶(S3 Bucket)
- */
-export const postApiV1StorageBucket = <ThrowOnError extends boolean = false>(
-    options?: Options<PostApiV1StorageBucketData, ThrowOnError>,
-) =>
-    (options?.client ?? client).post<PostApiV1StorageBucketResponses, PostApiV1StorageBucketErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/storage/bucket",
-        ...options,
-        headers: {
-            "Content-Type": "application/json",
-            ...options?.headers,
-        },
-    });
-
-/**
- * 删除磁盘(EBS Volume)
- */
-export const deleteApiV1StorageVolume = <ThrowOnError extends boolean = false>(
-    options?: Options<DeleteApiV1StorageVolumeData, ThrowOnError>,
-) =>
-    (options?.client ?? client).delete<DeleteApiV1StorageVolumeResponses, DeleteApiV1StorageVolumeErrors, ThrowOnError>(
-        {
-            security: [{ scheme: "bearer", type: "http" }],
-            url: "/api/v1/storage/volume",
-            ...options,
-            headers: {
-                "Content-Type": "application/json",
-                ...options?.headers,
-            },
-        },
-    );
-
-/**
- * 获取数据中心全部块存储信息
- */
-export const getApiV1StorageVolume = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1StorageVolumeData, ThrowOnError>,
-) =>
-    (options?.client ?? client).get<GetApiV1StorageVolumeResponses, GetApiV1StorageVolumeErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/storage/volume",
-        ...options,
-    });
-
-/**
- * 新增磁盘(EBS Volume)
- */
-export const postApiV1StorageVolume = <ThrowOnError extends boolean = false>(
-    options?: Options<PostApiV1StorageVolumeData, ThrowOnError>,
-) =>
-    (options?.client ?? client).post<PostApiV1StorageVolumeResponses, PostApiV1StorageVolumeErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/storage/volume",
-        ...options,
-        headers: {
-            "Content-Type": "application/json",
-            ...options?.headers,
-        },
-    });
-
-/**
- * 获取Easyun管理的数据中心列表[仅基础字段]
- */
-export const getApiV1DatacenterList = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1DatacenterListData, ThrowOnError>,
-) =>
-    (options?.client ?? client).get<GetApiV1DatacenterListResponses, GetApiV1DatacenterListErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter/list",
-        ...options,
-    });
-
-/**
- * 获取异步任务执行结果
- */
-export const getApiV1DatacenterTask = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DatacenterTaskData, ThrowOnError>,
-) =>
-    (options.client ?? client).get<GetApiV1DatacenterTaskResponses, GetApiV1DatacenterTaskErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter/task",
-        ...options,
-    });
-
-/**
- * 云服务器关联和解绑安全组(secgroup)
- */
-export const putApiV1ServerSecgroup = <ThrowOnError extends boolean = false>(
-    options?: Options<PutApiV1ServerSecgroupData, ThrowOnError>,
-) =>
-    (options?.client ?? client).put<PutApiV1ServerSecgroupResponses, PutApiV1ServerSecgroupErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/server/secgroup",
-        ...options,
-        headers: {
-            "Content-Type": "application/json",
-            ...options?.headers,
-        },
-    });
-
-/**
  * 从指定数据中心删除keypair
  */
 export const deleteApiV1AccountKeypair = <ThrowOnError extends boolean = false>(
@@ -842,132 +401,62 @@ export const postApiV1AccountKeypair = <ThrowOnError extends boolean = false>(
     });
 
 /**
- * 获取可用的Region列表
+ * 获取指定数据中心的keypair列表[仅基础字段]
  */
-export const getApiV1DatacenterRegion = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1DatacenterRegionData, ThrowOnError>,
+export const getApiV1AccountKeypairList = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1AccountKeypairListData, ThrowOnError>,
 ) =>
-    (options?.client ?? client).get<GetApiV1DatacenterRegionResponses, GetApiV1DatacenterRegionErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter/region",
-        ...options,
-    });
-
-/**
- * 删除 指定子网subnet
- */
-export const deleteApiV1DatacenterSubnet = <ThrowOnError extends boolean = false>(
-    options?: Options<DeleteApiV1DatacenterSubnetData, ThrowOnError>,
-) =>
-    (options?.client ?? client).delete<
-        DeleteApiV1DatacenterSubnetResponses,
-        DeleteApiV1DatacenterSubnetErrors,
+    (options?.client ?? client).get<
+        GetApiV1AccountKeypairListResponses,
+        GetApiV1AccountKeypairListErrors,
         ThrowOnError
     >({
         security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter/subnet",
-        ...options,
-        headers: {
-            "Content-Type": "application/json",
-            ...options?.headers,
-        },
-    });
-
-/**
- * 获取 全部subnet子网信息
- */
-export const getApiV1DatacenterSubnet = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1DatacenterSubnetData, ThrowOnError>,
-) =>
-    (options?.client ?? client).get<GetApiV1DatacenterSubnetResponses, GetApiV1DatacenterSubnetErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter/subnet",
+        url: "/api/v1/account/keypair/list",
         ...options,
     });
 
 /**
- * 新增 子网Subnet
+ * 获取指定的 keypair 文件下载
  */
-export const postApiV1DatacenterSubnet = <ThrowOnError extends boolean = false>(
-    options?: Options<PostApiV1DatacenterSubnetData, ThrowOnError>,
+export const getApiV1AccountKeypairStoreByKeyName = <ThrowOnError extends boolean = false>(
+    options: Options<GetApiV1AccountKeypairStoreByKeyNameData, ThrowOnError>,
 ) =>
-    (options?.client ?? client).post<PostApiV1DatacenterSubnetResponses, PostApiV1DatacenterSubnetErrors, ThrowOnError>(
-        {
-            security: [{ scheme: "bearer", type: "http" }],
-            url: "/api/v1/datacenter/subnet",
-            ...options,
-            headers: {
-                "Content-Type": "application/json",
-                ...options?.headers,
-            },
-        },
-    );
-
-/**
- * 修改数据中心 Subnet 属性
- */
-export const putApiV1DatacenterSubnet = <ThrowOnError extends boolean = false>(
-    options?: Options<PutApiV1DatacenterSubnetData, ThrowOnError>,
-) =>
-    (options?.client ?? client).put<PutApiV1DatacenterSubnetResponses, PutApiV1DatacenterSubnetErrors, ThrowOnError>({
+    (options.client ?? client).get<
+        GetApiV1AccountKeypairStoreByKeyNameResponses,
+        GetApiV1AccountKeypairStoreByKeyNameErrors,
+        ThrowOnError
+    >({
         security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter/subnet",
-        ...options,
-        headers: {
-            "Content-Type": "application/json",
-            ...options?.headers,
-        },
-    });
-
-/**
- * 修改指定云服务器protection
- */
-export const putApiV1ServerProtection = <ThrowOnError extends boolean = false>(
-    options?: Options<PutApiV1ServerProtectionData, ThrowOnError>,
-) =>
-    (options?.client ?? client).put<PutApiV1ServerProtectionResponses, PutApiV1ServerProtectionErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/server/protection",
-        ...options,
-        headers: {
-            "Content-Type": "application/json",
-            ...options?.headers,
-        },
-    });
-
-/**
- * 获取S3可用的Region列表
- */
-export const getApiV1StorageS3Region = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1StorageS3RegionData, ThrowOnError>,
-) =>
-    (options?.client ?? client).get<GetApiV1StorageS3RegionResponses, GetApiV1StorageS3RegionErrors, ThrowOnError>({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/storage/s3-region",
+        url: "/api/v1/account/keypair/store/{key_name}",
         ...options,
     });
 
 /**
- * 获取指定数据库(RDS)详细信息
+ * 获取指定的keypair信息
  */
-export const getApiV1DatabaseByRdsId = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DatabaseByRdsIdData, ThrowOnError>,
+export const getApiV1AccountKeypairByKeyName = <ThrowOnError extends boolean = false>(
+    options: Options<GetApiV1AccountKeypairByKeyNameData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<GetApiV1DatabaseByRdsIdResponses, GetApiV1DatabaseByRdsIdErrors, ThrowOnError>({
+    (options.client ?? client).get<
+        GetApiV1AccountKeypairByKeyNameResponses,
+        GetApiV1AccountKeypairByKeyNameErrors,
+        ThrowOnError
+    >({
         security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/database/{rds_id}",
+        url: "/api/v1/account/keypair/{key_name}",
         ...options,
     });
 
 /**
- * 获取数据中心全部负载均衡器列表[仅基础字段]
+ * 获取指定region的资源配额
  */
-export const getApiV1LoadbalancerList = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1LoadbalancerListData, ThrowOnError>,
+export const getApiV1AccountQuota = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1AccountQuotaData, ThrowOnError>,
 ) =>
-    (options?.client ?? client).get<GetApiV1LoadbalancerListResponses, GetApiV1LoadbalancerListErrors, ThrowOnError>({
+    (options?.client ?? client).get<GetApiV1AccountQuotaResponses, GetApiV1AccountQuotaErrors, ThrowOnError>({
         security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/loadbalancer/list",
+        url: "/api/v1/account/quota",
         ...options,
     });
 
@@ -984,46 +473,460 @@ export const getApiV1AccountQuotaAll = <ThrowOnError extends boolean = false>(
     });
 
 /**
+ * 获取云账号的Credits提醒【to-be-done】
+ */
+export const getApiV1AccountReminderCredit = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1AccountReminderCreditData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<
+        GetApiV1AccountReminderCreditResponses,
+        GetApiV1AccountReminderCreditErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/account/reminder/credit",
+        ...options,
+    });
+
+/**
+ * 设置云账号的Credits提醒【to-be-done】
+ */
+export const putApiV1AccountReminderCredit = <ThrowOnError extends boolean = false>(
+    options: Options<PutApiV1AccountReminderCreditData, ThrowOnError>,
+) =>
+    (options.client ?? client).put<
+        PutApiV1AccountReminderCreditResponses,
+        PutApiV1AccountReminderCreditErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/account/reminder/credit",
+        ...options,
+    });
+
+/**
+ * 获取云账号的FreeTier 提醒
+ */
+export const getApiV1AccountReminderFreetier = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1AccountReminderFreetierData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<
+        GetApiV1AccountReminderFreetierResponses,
+        GetApiV1AccountReminderFreetierErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/account/reminder/freetier",
+        ...options,
+    });
+
+/**
+ * 修改云账号的FreeTier 提醒
+ */
+export const putApiV1AccountReminderFreetier = <ThrowOnError extends boolean = false>(
+    options?: Options<PutApiV1AccountReminderFreetierData, ThrowOnError>,
+) =>
+    (options?.client ?? client).put<
+        PutApiV1AccountReminderFreetierResponses,
+        PutApiV1AccountReminderFreetierErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/account/reminder/freetier",
+        ...options,
+        headers: {
+            "Content-Type": "application/json",
+            ...options?.headers,
+        },
+    });
+
+/**
+ * 获取数据中心资源明细(Inventory)
+ */
+export const getApiV1DashboardInventoryByResource = <ThrowOnError extends boolean = false>(
+    options: Options<GetApiV1DashboardInventoryByResourceData, ThrowOnError>,
+) =>
+    (options.client ?? client).get<
+        GetApiV1DashboardInventoryByResourceResponses,
+        GetApiV1DashboardInventoryByResourceErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/dashboard/inventory/{resource}",
+        ...options,
+    });
+
+/**
+ * 获取数据中心 Summary信息
+ */
+export const getApiV1DashboardSummaryDatacenter = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1DashboardSummaryDatacenterData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<
+        GetApiV1DashboardSummaryDatacenterResponses,
+        GetApiV1DashboardSummaryDatacenterErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/dashboard/summary/datacenter",
+        ...options,
+    });
+
+/**
+ * 获取健康状态 Summary信息
+ */
+export const getApiV1DashboardSummaryHealth = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1DashboardSummaryHealthData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<
+        GetApiV1DashboardSummaryHealthResponses,
+        GetApiV1DashboardSummaryHealthErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/dashboard/summary/health",
+        ...options,
+    });
+
+/**
+ * 获取所有IaaS资源 Summary信息
+ */
+export const getApiV1DashboardSummaryResource = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1DashboardSummaryResourceData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<
+        GetApiV1DashboardSummaryResourceResponses,
+        GetApiV1DashboardSummaryResourceErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/dashboard/summary/resource",
+        ...options,
+    });
+
+/**
+ * 获取数据中心全部数据库(RDS)信息
+ */
+export const getApiV1Database = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1DatabaseData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<GetApiV1DatabaseResponses, GetApiV1DatabaseErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/database",
+        ...options,
+    });
+
+/**
+ * 获取数据中心全部数据库(RDS)列表[仅基础字段]
+ */
+export const getApiV1DatabaseList = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1DatabaseListData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<GetApiV1DatabaseListResponses, GetApiV1DatabaseListErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/database/list",
+        ...options,
+    });
+
+/**
+ * 获取指定数据库(RDS)详细信息
+ */
+export const getApiV1DatabaseByRdsId = <ThrowOnError extends boolean = false>(
+    options: Options<GetApiV1DatabaseByRdsIdData, ThrowOnError>,
+) =>
+    (options.client ?? client).get<GetApiV1DatabaseByRdsIdResponses, GetApiV1DatabaseByRdsIdErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/database/{rds_id}",
+        ...options,
+    });
+
+/**
+ * 删除 Datacenter 及基础资源[异步]
+ */
+export const deleteApiV1Datacenter = <ThrowOnError extends boolean = false>(
+    options?: Options<DeleteApiV1DatacenterData, ThrowOnError>,
+) =>
+    (options?.client ?? client).delete<DeleteApiV1DatacenterResponses, DeleteApiV1DatacenterErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter",
+        ...options,
+        headers: {
+            "Content-Type": "application/json",
+            ...options?.headers,
+        },
+    });
+
+/**
+ * 获取Easyun管理的所有数据中心信息
+ */
+export const getApiV1Datacenter = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1DatacenterData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<GetApiV1DatacenterResponses, GetApiV1DatacenterErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter",
+        ...options,
+    });
+
+/**
+ * 创建 Datacenter 及基础资源[异步]
+ */
+export const postApiV1Datacenter = <ThrowOnError extends boolean = false>(
+    options?: Options<PostApiV1DatacenterData, ThrowOnError>,
+) =>
+    (options?.client ?? client).post<PostApiV1DatacenterResponses, PostApiV1DatacenterErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter",
+        ...options,
+        headers: {
+            "Content-Type": "application/json",
+            ...options?.headers,
+        },
+    });
+
+/**
  * 获取创建云数据中心默认参数
  */
 export const getApiV1DatacenterDefault = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DatacenterDefaultData, ThrowOnError>,
+    options?: Options<GetApiV1DatacenterDefaultData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<GetApiV1DatacenterDefaultResponses, GetApiV1DatacenterDefaultErrors, ThrowOnError>({
+    (options?.client ?? client).get<GetApiV1DatacenterDefaultResponses, GetApiV1DatacenterDefaultErrors, ThrowOnError>({
         security: [{ scheme: "bearer", type: "http" }],
         url: "/api/v1/datacenter/default",
         ...options,
     });
 
 /**
- * 获取可用的AMI列表(包含 System Disk信息)
+ * 获取全部Internet网关(igw)信息
  */
-export const getApiV1ServerParamImage = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1ServerParamImageData, ThrowOnError>,
+export const getApiV1DatacenterGatewayInternet = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1DatacenterGatewayInternetData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<GetApiV1ServerParamImageResponses, GetApiV1ServerParamImageErrors, ThrowOnError>({
+    (options?.client ?? client).get<
+        GetApiV1DatacenterGatewayInternetResponses,
+        GetApiV1DatacenterGatewayInternetErrors,
+        ThrowOnError
+    >({
         security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/server/param/image",
+        url: "/api/v1/datacenter/gateway/internet",
         ...options,
     });
 
 /**
- * 新增存储桶(S3 Bucket)[Cloudcontrol]
+ * 新建 Internet Gateway
  */
-export const postApiV1StorageBucketAdd = <ThrowOnError extends boolean = false>(
-    options?: Options<PostApiV1StorageBucketAddData, ThrowOnError>,
+export const postApiV1DatacenterGatewayInternet = <ThrowOnError extends boolean = false>(
+    options?: Options<PostApiV1DatacenterGatewayInternetData, ThrowOnError>,
 ) =>
-    (options?.client ?? client).post<PostApiV1StorageBucketAddResponses, PostApiV1StorageBucketAddErrors, ThrowOnError>(
-        {
-            security: [{ scheme: "bearer", type: "http" }],
-            url: "/api/v1/storage/bucket/add",
-            ...options,
-            headers: {
-                "Content-Type": "application/json",
-                ...options?.headers,
-            },
+    (options?.client ?? client).post<
+        PostApiV1DatacenterGatewayInternetResponses,
+        PostApiV1DatacenterGatewayInternetErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter/gateway/internet",
+        ...options,
+        headers: {
+            "Content-Type": "application/json",
+            ...options?.headers,
         },
-    );
+    });
+
+/**
+ * 查看 Internet Gateway 详细信息
+ */
+export const getApiV1DatacenterGatewayInternetByIgwId = <ThrowOnError extends boolean = false>(
+    options: Options<GetApiV1DatacenterGatewayInternetByIgwIdData, ThrowOnError>,
+) =>
+    (options.client ?? client).get<
+        GetApiV1DatacenterGatewayInternetByIgwIdResponses,
+        GetApiV1DatacenterGatewayInternetByIgwIdErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter/gateway/internet/{igw_id}",
+        ...options,
+    });
+
+/**
+ * 获取全部NAT网关(natgw)信息
+ */
+export const getApiV1DatacenterGatewayNat = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1DatacenterGatewayNatData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<
+        GetApiV1DatacenterGatewayNatResponses,
+        GetApiV1DatacenterGatewayNatErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter/gateway/nat",
+        ...options,
+    });
+
+/**
+ * 新建 NAT Gateway
+ */
+export const postApiV1DatacenterGatewayNat = <ThrowOnError extends boolean = false>(
+    options?: Options<PostApiV1DatacenterGatewayNatData, ThrowOnError>,
+) =>
+    (options?.client ?? client).post<
+        PostApiV1DatacenterGatewayNatResponses,
+        PostApiV1DatacenterGatewayNatErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter/gateway/nat",
+        ...options,
+        headers: {
+            "Content-Type": "application/json",
+            ...options?.headers,
+        },
+    });
+
+/**
+ * 查看 Internet Gateway 详细信息
+ */
+export const getApiV1DatacenterGatewayNatByNatgwId = <ThrowOnError extends boolean = false>(
+    options: Options<GetApiV1DatacenterGatewayNatByNatgwIdData, ThrowOnError>,
+) =>
+    (options.client ?? client).get<
+        GetApiV1DatacenterGatewayNatByNatgwIdResponses,
+        GetApiV1DatacenterGatewayNatByNatgwIdErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter/gateway/nat/{natgw_id}",
+        ...options,
+    });
+
+/**
+ * 获取Easyun管理的数据中心列表[仅基础字段]
+ */
+export const getApiV1DatacenterList = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1DatacenterListData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<GetApiV1DatacenterListResponses, GetApiV1DatacenterListErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter/list",
+        ...options,
+    });
+
+/**
+ * 获取可用的Region列表
+ */
+export const getApiV1DatacenterRegion = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1DatacenterRegionData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<GetApiV1DatacenterRegionResponses, GetApiV1DatacenterRegionErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter/region",
+        ...options,
+    });
+
+/**
+ * 获取可用的Region列表
+ */
+export const getApiV1DatacenterRegionZones = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1DatacenterRegionZonesData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<
+        GetApiV1DatacenterRegionZonesResponses,
+        GetApiV1DatacenterRegionZonesErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter/region/zones",
+        ...options,
+    });
+
+/**
+ * 删除指定 RouteTable 路由表
+ */
+export const deleteApiV1DatacenterRoutetable = <ThrowOnError extends boolean = false>(
+    options?: Options<DeleteApiV1DatacenterRoutetableData, ThrowOnError>,
+) =>
+    (options?.client ?? client).delete<
+        DeleteApiV1DatacenterRoutetableResponses,
+        DeleteApiV1DatacenterRoutetableErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter/routetable",
+        ...options,
+        headers: {
+            "Content-Type": "application/json",
+            ...options?.headers,
+        },
+    });
+
+/**
+ * 获取 全部RouteTable路由表信息
+ */
+export const getApiV1DatacenterRoutetable = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1DatacenterRoutetableData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<
+        GetApiV1DatacenterRoutetableResponses,
+        GetApiV1DatacenterRoutetableErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter/routetable",
+        ...options,
+    });
+
+/**
+ * 新增 RouteTable 路由表
+ */
+export const postApiV1DatacenterRoutetable = <ThrowOnError extends boolean = false>(
+    options?: Options<PostApiV1DatacenterRoutetableData, ThrowOnError>,
+) =>
+    (options?.client ?? client).post<
+        PostApiV1DatacenterRoutetableResponses,
+        PostApiV1DatacenterRoutetableErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter/routetable",
+        ...options,
+        headers: {
+            "Content-Type": "application/json",
+            ...options?.headers,
+        },
+    });
+
+/**
+ * 获取 全部RouteTable路由表[仅基础字段]
+ */
+export const getApiV1DatacenterRoutetableList = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1DatacenterRoutetableListData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<
+        GetApiV1DatacenterRoutetableListResponses,
+        GetApiV1DatacenterRoutetableListErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter/routetable/list",
+        ...options,
+    });
+
+/**
+ * 获取指定 RouteTable 路由表详细信息
+ */
+export const getApiV1DatacenterRoutetableByRtbId = <ThrowOnError extends boolean = false>(
+    options: Options<GetApiV1DatacenterRoutetableByRtbIdData, ThrowOnError>,
+) =>
+    (options.client ?? client).get<
+        GetApiV1DatacenterRoutetableByRtbIdResponses,
+        GetApiV1DatacenterRoutetableByRtbIdErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter/routetable/{rtb_id}",
+        ...options,
+    });
 
 /**
  * 删除 SecurityGroup
@@ -1102,6 +1005,38 @@ export const putApiV1DatacenterSecgroup = <ThrowOnError extends boolean = false>
     });
 
 /**
+ * 获取 全部SecurityGroup列表[仅基础字段]
+ */
+export const getApiV1DatacenterSecgroupList = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1DatacenterSecgroupListData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<
+        GetApiV1DatacenterSecgroupListResponses,
+        GetApiV1DatacenterSecgroupListErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter/secgroup/list",
+        ...options,
+    });
+
+/**
+ * 查看 SecurityGroup 详细信息
+ */
+export const getApiV1DatacenterSecgroupBySgId = <ThrowOnError extends boolean = false>(
+    options: Options<GetApiV1DatacenterSecgroupBySgIdData, ThrowOnError>,
+) =>
+    (options.client ?? client).get<
+        GetApiV1DatacenterSecgroupBySgIdResponses,
+        GetApiV1DatacenterSecgroupBySgIdErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter/secgroup/{sg_id}",
+        ...options,
+    });
+
+/**
  * 删除 指定静态IP(EIP)
  */
 export const deleteApiV1DatacenterStaticip = <ThrowOnError extends boolean = false>(
@@ -1158,27 +1093,401 @@ export const postApiV1DatacenterStaticip = <ThrowOnError extends boolean = false
     });
 
 /**
- * 获取全部存储桶(Bucket)列表
+ * 获取 全部静态IP列表(EIP)[仅基础字段]
  */
-export const getApiV1StorageBucketList = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1StorageBucketListData, ThrowOnError>,
+export const getApiV1DatacenterStaticipList = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1DatacenterStaticipListData, ThrowOnError>,
 ) =>
-    (options?.client ?? client).get<GetApiV1StorageBucketListResponses, GetApiV1StorageBucketListErrors, ThrowOnError>({
+    (options?.client ?? client).get<
+        GetApiV1DatacenterStaticipListResponses,
+        GetApiV1DatacenterStaticipListErrors,
+        ThrowOnError
+    >({
         security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/storage/bucket/list",
+        url: "/api/v1/datacenter/staticip/list",
         ...options,
     });
 
 /**
- * 获取数据中心全部块存储列表[仅基础字段]
+ * 获取 指定静态IP(EIP)信息
  */
-export const getApiV1StorageVolumeList = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1StorageVolumeListData, ThrowOnError>,
+export const getApiV1DatacenterStaticipByEipId = <ThrowOnError extends boolean = false>(
+    options: Options<GetApiV1DatacenterStaticipByEipIdData, ThrowOnError>,
 ) =>
-    (options?.client ?? client).get<GetApiV1StorageVolumeListResponses, GetApiV1StorageVolumeListErrors, ThrowOnError>({
+    (options.client ?? client).get<
+        GetApiV1DatacenterStaticipByEipIdResponses,
+        GetApiV1DatacenterStaticipByEipIdErrors,
+        ThrowOnError
+    >({
         security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/storage/volume/list",
+        url: "/api/v1/datacenter/staticip/{eip_id}",
         ...options,
+    });
+
+/**
+ * 删除 指定子网subnet
+ */
+export const deleteApiV1DatacenterSubnet = <ThrowOnError extends boolean = false>(
+    options?: Options<DeleteApiV1DatacenterSubnetData, ThrowOnError>,
+) =>
+    (options?.client ?? client).delete<
+        DeleteApiV1DatacenterSubnetResponses,
+        DeleteApiV1DatacenterSubnetErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter/subnet",
+        ...options,
+        headers: {
+            "Content-Type": "application/json",
+            ...options?.headers,
+        },
+    });
+
+/**
+ * 获取 全部subnet子网信息
+ */
+export const getApiV1DatacenterSubnet = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1DatacenterSubnetData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<GetApiV1DatacenterSubnetResponses, GetApiV1DatacenterSubnetErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter/subnet",
+        ...options,
+    });
+
+/**
+ * 新增 子网Subnet
+ */
+export const postApiV1DatacenterSubnet = <ThrowOnError extends boolean = false>(
+    options?: Options<PostApiV1DatacenterSubnetData, ThrowOnError>,
+) =>
+    (options?.client ?? client).post<PostApiV1DatacenterSubnetResponses, PostApiV1DatacenterSubnetErrors, ThrowOnError>(
+        {
+            security: [{ scheme: "bearer", type: "http" }],
+            url: "/api/v1/datacenter/subnet",
+            ...options,
+            headers: {
+                "Content-Type": "application/json",
+                ...options?.headers,
+            },
+        },
+    );
+
+/**
+ * 修改数据中心 Subnet 属性
+ */
+export const putApiV1DatacenterSubnet = <ThrowOnError extends boolean = false>(
+    options?: Options<PutApiV1DatacenterSubnetData, ThrowOnError>,
+) =>
+    (options?.client ?? client).put<PutApiV1DatacenterSubnetResponses, PutApiV1DatacenterSubnetErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter/subnet",
+        ...options,
+        headers: {
+            "Content-Type": "application/json",
+            ...options?.headers,
+        },
+    });
+
+/**
+ * 获取 全部subnet子网列表[仅基础字段]
+ */
+export const getApiV1DatacenterSubnetList = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1DatacenterSubnetListData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<
+        GetApiV1DatacenterSubnetListResponses,
+        GetApiV1DatacenterSubnetListErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter/subnet/list",
+        ...options,
+    });
+
+/**
+ * 获取 指定subnet子网详细信息
+ */
+export const getApiV1DatacenterSubnetBySubnetId = <ThrowOnError extends boolean = false>(
+    options: Options<GetApiV1DatacenterSubnetBySubnetIdData, ThrowOnError>,
+) =>
+    (options.client ?? client).get<
+        GetApiV1DatacenterSubnetBySubnetIdResponses,
+        GetApiV1DatacenterSubnetBySubnetIdErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter/subnet/{subnet_id}",
+        ...options,
+    });
+
+/**
+ * 获取指定的数据中心VPC基础服务统计信息
+ */
+export const getApiV1DatacenterSummaryBasic = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1DatacenterSummaryBasicData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<
+        GetApiV1DatacenterSummaryBasicResponses,
+        GetApiV1DatacenterSummaryBasicErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter/summary/basic",
+        ...options,
+    });
+
+/**
+ * 获取指定的数据中心成本及用量统计信息
+ */
+export const getApiV1DatacenterSummaryCost = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1DatacenterSummaryCostData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<
+        GetApiV1DatacenterSummaryCostResponses,
+        GetApiV1DatacenterSummaryCostErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter/summary/cost",
+        ...options,
+    });
+
+/**
+ * 获取指定的数据中心Resource统计信息
+ */
+export const getApiV1DatacenterSummaryResource = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1DatacenterSummaryResourceData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<
+        GetApiV1DatacenterSummaryResourceResponses,
+        GetApiV1DatacenterSummaryResourceErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter/summary/resource",
+        ...options,
+    });
+
+/**
+ * 获取异步任务执行结果
+ */
+export const getApiV1DatacenterTask = <ThrowOnError extends boolean = false>(
+    options: Options<GetApiV1DatacenterTaskData, ThrowOnError>,
+) =>
+    (options.client ?? client).get<GetApiV1DatacenterTaskResponses, GetApiV1DatacenterTaskErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/datacenter/task",
+        ...options,
+    });
+
+/**
+ * 获取数据中心全部负载均衡器信息
+ */
+export const getApiV1Loadbalancer = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1LoadbalancerData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<GetApiV1LoadbalancerResponses, GetApiV1LoadbalancerErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/loadbalancer",
+        ...options,
+    });
+
+/**
+ * 获取数据中心全部负载均衡器列表[仅基础字段]
+ */
+export const getApiV1LoadbalancerList = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1LoadbalancerListData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<GetApiV1LoadbalancerListResponses, GetApiV1LoadbalancerListErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/loadbalancer/list",
+        ...options,
+    });
+
+/**
+ * 获取指定负载均衡器(ELB)详细信息
+ */
+export const getApiV1LoadbalancerByElbId = <ThrowOnError extends boolean = false>(
+    options: Options<GetApiV1LoadbalancerByElbIdData, ThrowOnError>,
+) =>
+    (options.client ?? client).get<
+        GetApiV1LoadbalancerByElbIdResponses,
+        GetApiV1LoadbalancerByElbIdErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/loadbalancer/{elb_id}",
+        ...options,
+    });
+
+/**
+ * 删除(Terminate)云服务器
+ */
+export const deleteApiV1Server = <ThrowOnError extends boolean = false>(
+    options?: Options<DeleteApiV1ServerData, ThrowOnError>,
+) =>
+    (options?.client ?? client).delete<DeleteApiV1ServerResponses, DeleteApiV1ServerErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/server",
+        ...options,
+        headers: {
+            "Content-Type": "application/json",
+            ...options?.headers,
+        },
+    });
+
+/**
+ * 获取数据中心全部云服务器信息
+ */
+export const getApiV1Server = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1ServerData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<GetApiV1ServerResponses, GetApiV1ServerErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/server",
+        ...options,
+    });
+
+/**
+ * 新建云服务器(EC2)
+ */
+export const postApiV1Server = <ThrowOnError extends boolean = false>(
+    options?: Options<PostApiV1ServerData, ThrowOnError>,
+) =>
+    (options?.client ?? client).post<PostApiV1ServerResponses, PostApiV1ServerErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/server",
+        ...options,
+        headers: {
+            "Content-Type": "application/json",
+            ...options?.headers,
+        },
+    });
+
+/**
+ * 启动/停止/重启 云服务器
+ */
+export const postApiV1ServerAction = <ThrowOnError extends boolean = false>(
+    options?: Options<PostApiV1ServerActionData, ThrowOnError>,
+) =>
+    (options?.client ?? client).post<PostApiV1ServerActionResponses, PostApiV1ServerActionErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/server/action",
+        ...options,
+        headers: {
+            "Content-Type": "application/json",
+            ...options?.headers,
+        },
+    });
+
+/**
+ * 修改指定云服务器实例配置
+ */
+export const postApiV1ServerConfig = <ThrowOnError extends boolean = false>(
+    options?: Options<PostApiV1ServerConfigData, ThrowOnError>,
+) =>
+    (options?.client ?? client).post<PostApiV1ServerConfigResponses, PostApiV1ServerConfigErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/server/config",
+        ...options,
+        headers: {
+            "Content-Type": "application/json",
+            ...options?.headers,
+        },
+    });
+
+/**
+ * 获取指定云服务器详情信息
+ */
+export const getApiV1ServerDetailBySvrId = <ThrowOnError extends boolean = false>(
+    options: Options<GetApiV1ServerDetailBySvrIdData, ThrowOnError>,
+) =>
+    (options.client ?? client).get<
+        GetApiV1ServerDetailBySvrIdResponses,
+        GetApiV1ServerDetailBySvrIdErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/server/detail/{svr_id}",
+        ...options,
+    });
+
+/**
+ * 云服务器关联与解绑磁盘(volume)
+ */
+export const putApiV1ServerDisk = <ThrowOnError extends boolean = false>(
+    options?: Options<PutApiV1ServerDiskData, ThrowOnError>,
+) =>
+    (options?.client ?? client).put<PutApiV1ServerDiskResponses, PutApiV1ServerDiskErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/server/disk",
+        ...options,
+        headers: {
+            "Content-Type": "application/json",
+            ...options?.headers,
+        },
+    });
+
+/**
+ * 云服务器关联和解绑静态IP(eip)
+ */
+export const putApiV1ServerEip = <ThrowOnError extends boolean = false>(
+    options?: Options<PutApiV1ServerEipData, ThrowOnError>,
+) =>
+    (options?.client ?? client).put<PutApiV1ServerEipResponses, PutApiV1ServerEipErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/server/eip",
+        ...options,
+        headers: {
+            "Content-Type": "application/json",
+            ...options?.headers,
+        },
+    });
+
+/**
+ * 获取指定云服务器实例参数
+ */
+export const getApiV1ServerInstypeBySvrId = <ThrowOnError extends boolean = false>(
+    options: Options<GetApiV1ServerInstypeBySvrIdData, ThrowOnError>,
+) =>
+    (options.client ?? client).get<
+        GetApiV1ServerInstypeBySvrIdResponses,
+        GetApiV1ServerInstypeBySvrIdErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/server/instype/{svr_id}",
+        ...options,
+    });
+
+/**
+ * 获取数据中心全部云服务器列表[仅基础字段]
+ */
+export const getApiV1ServerList = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1ServerListData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<GetApiV1ServerListResponses, GetApiV1ServerListErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/server/list",
+        ...options,
+    });
+
+/**
+ * 修改指定云服务器名称
+ */
+export const putApiV1ServerName = <ThrowOnError extends boolean = false>(
+    options?: Options<PutApiV1ServerNameData, ThrowOnError>,
+) =>
+    (options?.client ?? client).put<PutApiV1ServerNameResponses, PutApiV1ServerNameErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/server/name",
+        ...options,
+        headers: {
+            "Content-Type": "application/json",
+            ...options?.headers,
+        },
     });
 
 /**
@@ -1190,6 +1499,18 @@ export const getApiV1ServerNameBySvrId = <ThrowOnError extends boolean = false>(
     (options.client ?? client).get<GetApiV1ServerNameBySvrIdResponses, GetApiV1ServerNameBySvrIdErrors, ThrowOnError>({
         security: [{ scheme: "bearer", type: "http" }],
         url: "/api/v1/server/name/{svr_id}",
+        ...options,
+    });
+
+/**
+ * 获取可用的AMI列表(包含 System Disk信息)
+ */
+export const getApiV1ServerParamImage = <ThrowOnError extends boolean = false>(
+    options: Options<GetApiV1ServerParamImageData, ThrowOnError>,
+) =>
+    (options.client ?? client).get<GetApiV1ServerParamImageResponses, GetApiV1ServerParamImageErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/server/param/image",
         ...options,
     });
 
@@ -1206,6 +1527,70 @@ export const getApiV1ServerParamInstype = <ThrowOnError extends boolean = false>
             ...options,
         },
     );
+
+/**
+ * 获取可用的Instance Family列表
+ */
+export const getApiV1ServerParamInstypeFamily = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1ServerParamInstypeFamilyData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<
+        GetApiV1ServerParamInstypeFamilyResponses,
+        GetApiV1ServerParamInstypeFamilyErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/server/param/instype/family",
+        ...options,
+    });
+
+/**
+ * 获取可用的Instance Types列表(不含成本)
+ */
+export const getApiV1ServerParamInstypeList = <ThrowOnError extends boolean = false>(
+    options: Options<GetApiV1ServerParamInstypeListData, ThrowOnError>,
+) =>
+    (options.client ?? client).get<
+        GetApiV1ServerParamInstypeListResponses,
+        GetApiV1ServerParamInstypeListErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/server/param/instype/list",
+        ...options,
+    });
+
+/**
+ * 修改指定云服务器protection
+ */
+export const putApiV1ServerProtection = <ThrowOnError extends boolean = false>(
+    options?: Options<PutApiV1ServerProtectionData, ThrowOnError>,
+) =>
+    (options?.client ?? client).put<PutApiV1ServerProtectionResponses, PutApiV1ServerProtectionErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/server/protection",
+        ...options,
+        headers: {
+            "Content-Type": "application/json",
+            ...options?.headers,
+        },
+    });
+
+/**
+ * 云服务器关联和解绑安全组(secgroup)
+ */
+export const putApiV1ServerSecgroup = <ThrowOnError extends boolean = false>(
+    options?: Options<PutApiV1ServerSecgroupData, ThrowOnError>,
+) =>
+    (options?.client ?? client).put<PutApiV1ServerSecgroupResponses, PutApiV1ServerSecgroupErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/server/secgroup",
+        ...options,
+        headers: {
+            "Content-Type": "application/json",
+            ...options?.headers,
+        },
+    });
 
 /**
  * 为指定云服务器删除用户Tags
@@ -1256,34 +1641,44 @@ export const putApiV1ServerTagsBySvrId = <ThrowOnError extends boolean = false>(
     });
 
 /**
- * 获取指定数据中心的keypair列表[仅基础字段]
+ * 删除存储桶(S3 Bucket)
  */
-export const getApiV1AccountKeypairList = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1AccountKeypairListData, ThrowOnError>,
+export const deleteApiV1StorageBucket = <ThrowOnError extends boolean = false>(
+    options?: Options<DeleteApiV1StorageBucketData, ThrowOnError>,
 ) =>
-    (options?.client ?? client).get<
-        GetApiV1AccountKeypairListResponses,
-        GetApiV1AccountKeypairListErrors,
-        ThrowOnError
-    >({
+    (options?.client ?? client).delete<DeleteApiV1StorageBucketResponses, DeleteApiV1StorageBucketErrors, ThrowOnError>(
+        {
+            security: [{ scheme: "bearer", type: "http" }],
+            url: "/api/v1/storage/bucket",
+            ...options,
+            headers: {
+                "Content-Type": "application/json",
+                ...options?.headers,
+            },
+        },
+    );
+
+/**
+ * 获取全部存储桶(Bucket)信息
+ */
+export const getApiV1StorageBucket = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1StorageBucketData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<GetApiV1StorageBucketResponses, GetApiV1StorageBucketErrors, ThrowOnError>({
         security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/account/keypair/list",
+        url: "/api/v1/storage/bucket",
         ...options,
     });
 
 /**
- * 删除指定 RouteTable 路由表
+ * 新增存储桶(S3 Bucket)
  */
-export const deleteApiV1DatacenterRoutetable = <ThrowOnError extends boolean = false>(
-    options?: Options<DeleteApiV1DatacenterRoutetableData, ThrowOnError>,
+export const postApiV1StorageBucket = <ThrowOnError extends boolean = false>(
+    options?: Options<PostApiV1StorageBucketData, ThrowOnError>,
 ) =>
-    (options?.client ?? client).delete<
-        DeleteApiV1DatacenterRoutetableResponses,
-        DeleteApiV1DatacenterRoutetableErrors,
-        ThrowOnError
-    >({
+    (options?.client ?? client).post<PostApiV1StorageBucketResponses, PostApiV1StorageBucketErrors, ThrowOnError>({
         security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter/routetable",
+        url: "/api/v1/storage/bucket",
         ...options,
         headers: {
             "Content-Type": "application/json",
@@ -1292,34 +1687,190 @@ export const deleteApiV1DatacenterRoutetable = <ThrowOnError extends boolean = f
     });
 
 /**
- * 获取 全部RouteTable路由表信息
+ * 新增存储桶(S3 Bucket)[Cloudcontrol]
  */
-export const getApiV1DatacenterRoutetable = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1DatacenterRoutetableData, ThrowOnError>,
+export const postApiV1StorageBucketAdd = <ThrowOnError extends boolean = false>(
+    options?: Options<PostApiV1StorageBucketAddData, ThrowOnError>,
 ) =>
-    (options?.client ?? client).get<
-        GetApiV1DatacenterRoutetableResponses,
-        GetApiV1DatacenterRoutetableErrors,
-        ThrowOnError
-    >({
+    (options?.client ?? client).post<PostApiV1StorageBucketAddResponses, PostApiV1StorageBucketAddErrors, ThrowOnError>(
+        {
+            security: [{ scheme: "bearer", type: "http" }],
+            url: "/api/v1/storage/bucket/add",
+            ...options,
+            headers: {
+                "Content-Type": "application/json",
+                ...options?.headers,
+            },
+        },
+    );
+
+/**
+ * 获取全部存储桶(Bucket)列表
+ */
+export const getApiV1StorageBucketList = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1StorageBucketListData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<GetApiV1StorageBucketListResponses, GetApiV1StorageBucketListErrors, ThrowOnError>({
         security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter/routetable",
+        url: "/api/v1/storage/bucket/list",
         ...options,
     });
 
 /**
- * 新增 RouteTable 路由表
+ * 查询存储桶名称全局范围是否可用
  */
-export const postApiV1DatacenterRoutetable = <ThrowOnError extends boolean = false>(
-    options?: Options<PostApiV1DatacenterRoutetableData, ThrowOnError>,
+export const getApiV1StorageBucketVaildate = <ThrowOnError extends boolean = false>(
+    options: Options<GetApiV1StorageBucketVaildateData, ThrowOnError>,
 ) =>
-    (options?.client ?? client).post<
-        PostApiV1DatacenterRoutetableResponses,
-        PostApiV1DatacenterRoutetableErrors,
+    (options.client ?? client).get<
+        GetApiV1StorageBucketVaildateResponses,
+        GetApiV1StorageBucketVaildateErrors,
         ThrowOnError
     >({
         security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter/routetable",
+        url: "/api/v1/storage/bucket/vaildate",
+        ...options,
+    });
+
+/**
+ * 获取指定存储桶(Bucket)的详细信息
+ */
+export const getApiV1StorageBucketByBucketId = <ThrowOnError extends boolean = false>(
+    options: Options<GetApiV1StorageBucketByBucketIdData, ThrowOnError>,
+) =>
+    (options.client ?? client).get<
+        GetApiV1StorageBucketByBucketIdResponses,
+        GetApiV1StorageBucketByBucketIdErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/storage/bucket/{bucket_id}",
+        ...options,
+    });
+
+/**
+ * 获取指定存储桶(Bucket)内所有对象文件列表
+ */
+export const getApiV1StorageBucketByBucketIdObject = <ThrowOnError extends boolean = false>(
+    options: Options<GetApiV1StorageBucketByBucketIdObjectData, ThrowOnError>,
+) =>
+    (options.client ?? client).get<
+        GetApiV1StorageBucketByBucketIdObjectResponses,
+        GetApiV1StorageBucketByBucketIdObjectErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/storage/bucket/{bucket_id}/object",
+        ...options,
+    });
+
+/**
+ * 修改存储桶的Public Block Policy
+ */
+export const putApiV1StorageBucketByBucketIdPermission = <ThrowOnError extends boolean = false>(
+    options: Options<PutApiV1StorageBucketByBucketIdPermissionData, ThrowOnError>,
+) =>
+    (options.client ?? client).put<
+        PutApiV1StorageBucketByBucketIdPermissionResponses,
+        PutApiV1StorageBucketByBucketIdPermissionErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/storage/bucket/{bucket_id}/permission",
+        ...options,
+        headers: {
+            "Content-Type": "application/json",
+            ...options.headers,
+        },
+    });
+
+/**
+ * 修改存储桶(S3 Bucket)属性
+ */
+export const putApiV1StorageBucketByBucketIdProperty = <ThrowOnError extends boolean = false>(
+    options: Options<PutApiV1StorageBucketByBucketIdPropertyData, ThrowOnError>,
+) =>
+    (options.client ?? client).put<
+        PutApiV1StorageBucketByBucketIdPropertyResponses,
+        PutApiV1StorageBucketByBucketIdPropertyErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/storage/bucket/{bucket_id}/property",
+        ...options,
+        headers: {
+            "Content-Type": "application/json",
+            ...options.headers,
+        },
+    });
+
+/**
+ * 获取指定存储桶(Bucket)内单个对象文件信息
+ */
+export const getApiV1StorageBucketByBucketIdByObjectKey = <ThrowOnError extends boolean = false>(
+    options: Options<GetApiV1StorageBucketByBucketIdByObjectKeyData, ThrowOnError>,
+) =>
+    (options.client ?? client).get<
+        GetApiV1StorageBucketByBucketIdByObjectKeyResponses,
+        GetApiV1StorageBucketByBucketIdByObjectKeyErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/storage/bucket/{bucket_id}/{object_key}",
+        ...options,
+    });
+
+/**
+ * 获取S3可用的Region列表
+ */
+export const getApiV1StorageS3Region = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1StorageS3RegionData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<GetApiV1StorageS3RegionResponses, GetApiV1StorageS3RegionErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/storage/s3-region",
+        ...options,
+    });
+
+/**
+ * 删除磁盘(EBS Volume)
+ */
+export const deleteApiV1StorageVolume = <ThrowOnError extends boolean = false>(
+    options?: Options<DeleteApiV1StorageVolumeData, ThrowOnError>,
+) =>
+    (options?.client ?? client).delete<DeleteApiV1StorageVolumeResponses, DeleteApiV1StorageVolumeErrors, ThrowOnError>(
+        {
+            security: [{ scheme: "bearer", type: "http" }],
+            url: "/api/v1/storage/volume",
+            ...options,
+            headers: {
+                "Content-Type": "application/json",
+                ...options?.headers,
+            },
+        },
+    );
+
+/**
+ * 获取数据中心全部块存储信息
+ */
+export const getApiV1StorageVolume = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1StorageVolumeData, ThrowOnError>,
+) =>
+    (options?.client ?? client).get<GetApiV1StorageVolumeResponses, GetApiV1StorageVolumeErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/storage/volume",
+        ...options,
+    });
+
+/**
+ * 新增磁盘(EBS Volume)
+ */
+export const postApiV1StorageVolume = <ThrowOnError extends boolean = false>(
+    options?: Options<PostApiV1StorageVolumeData, ThrowOnError>,
+) =>
+    (options?.client ?? client).post<PostApiV1StorageVolumeResponses, PostApiV1StorageVolumeErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/storage/volume",
         ...options,
         headers: {
             "Content-Type": "application/json",
@@ -1368,330 +1919,14 @@ export const putApiV1StorageVolumeDetach = <ThrowOnError extends boolean = false
     });
 
 /**
- * 获取指定负载均衡器(ELB)详细信息
+ * 获取数据中心全部块存储列表[仅基础字段]
  */
-export const getApiV1LoadbalancerByElbId = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1LoadbalancerByElbIdData, ThrowOnError>,
+export const getApiV1StorageVolumeList = <ThrowOnError extends boolean = false>(
+    options?: Options<GetApiV1StorageVolumeListData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<
-        GetApiV1LoadbalancerByElbIdResponses,
-        GetApiV1LoadbalancerByElbIdErrors,
-        ThrowOnError
-    >({
+    (options?.client ?? client).get<GetApiV1StorageVolumeListResponses, GetApiV1StorageVolumeListErrors, ThrowOnError>({
         security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/loadbalancer/{elb_id}",
-        ...options,
-    });
-
-/**
- * 获取 全部subnet子网列表[仅基础字段]
- */
-export const getApiV1DatacenterSubnetList = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1DatacenterSubnetListData, ThrowOnError>,
-) =>
-    (options?.client ?? client).get<
-        GetApiV1DatacenterSubnetListResponses,
-        GetApiV1DatacenterSubnetListErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter/subnet/list",
-        ...options,
-    });
-
-/**
- * 获取全部NAT网关(natgw)信息
- */
-export const getApiV1DatacenterGatewayNat = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1DatacenterGatewayNatData, ThrowOnError>,
-) =>
-    (options?.client ?? client).get<
-        GetApiV1DatacenterGatewayNatResponses,
-        GetApiV1DatacenterGatewayNatErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter/gateway/nat",
-        ...options,
-    });
-
-/**
- * 新建 NAT Gateway
- */
-export const postApiV1DatacenterGatewayNat = <ThrowOnError extends boolean = false>(
-    options?: Options<PostApiV1DatacenterGatewayNatData, ThrowOnError>,
-) =>
-    (options?.client ?? client).post<
-        PostApiV1DatacenterGatewayNatResponses,
-        PostApiV1DatacenterGatewayNatErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter/gateway/nat",
-        ...options,
-        headers: {
-            "Content-Type": "application/json",
-            ...options?.headers,
-        },
-    });
-
-/**
- * 获取指定云服务器详情信息
- */
-export const getApiV1ServerDetailBySvrId = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1ServerDetailBySvrIdData, ThrowOnError>,
-) =>
-    (options.client ?? client).get<
-        GetApiV1ServerDetailBySvrIdResponses,
-        GetApiV1ServerDetailBySvrIdErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/server/detail/{svr_id}",
-        ...options,
-    });
-
-/**
- * 获取可用的Region列表
- */
-export const getApiV1DatacenterRegionZones = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1DatacenterRegionZonesData, ThrowOnError>,
-) =>
-    (options?.client ?? client).get<
-        GetApiV1DatacenterRegionZonesResponses,
-        GetApiV1DatacenterRegionZonesErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter/region/zones",
-        ...options,
-    });
-
-/**
- * 获取指定的数据中心成本及用量统计信息
- */
-export const getApiV1DatacenterSummaryCost = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1DatacenterSummaryCostData, ThrowOnError>,
-) =>
-    (options?.client ?? client).get<
-        GetApiV1DatacenterSummaryCostResponses,
-        GetApiV1DatacenterSummaryCostErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter/summary/cost",
-        ...options,
-    });
-
-/**
- * 获取指定云服务器实例参数
- */
-export const getApiV1ServerInstypeBySvrId = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1ServerInstypeBySvrIdData, ThrowOnError>,
-) =>
-    (options.client ?? client).get<
-        GetApiV1ServerInstypeBySvrIdResponses,
-        GetApiV1ServerInstypeBySvrIdErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/server/instype/{svr_id}",
-        ...options,
-    });
-
-/**
- * 查询存储桶名称全局范围是否可用
- */
-export const getApiV1StorageBucketVaildate = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1StorageBucketVaildateData, ThrowOnError>,
-) =>
-    (options.client ?? client).get<
-        GetApiV1StorageBucketVaildateResponses,
-        GetApiV1StorageBucketVaildateErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/storage/bucket/vaildate",
-        ...options,
-    });
-
-/**
- * 获取云账号的Credits提醒【to-be-done】
- */
-export const getApiV1AccountReminderCredit = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1AccountReminderCreditData, ThrowOnError>,
-) =>
-    (options?.client ?? client).get<
-        GetApiV1AccountReminderCreditResponses,
-        GetApiV1AccountReminderCreditErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/account/reminder/credit",
-        ...options,
-    });
-
-/**
- * 设置云账号的Credits提醒【to-be-done】
- */
-export const putApiV1AccountReminderCredit = <ThrowOnError extends boolean = false>(
-    options: Options<PutApiV1AccountReminderCreditData, ThrowOnError>,
-) =>
-    (options.client ?? client).put<
-        PutApiV1AccountReminderCreditResponses,
-        PutApiV1AccountReminderCreditErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/account/reminder/credit",
-        ...options,
-    });
-
-/**
- * 获取指定的数据中心VPC基础服务统计信息
- */
-export const getApiV1DatacenterSummaryBasic = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1DatacenterSummaryBasicData, ThrowOnError>,
-) =>
-    (options?.client ?? client).get<
-        GetApiV1DatacenterSummaryBasicResponses,
-        GetApiV1DatacenterSummaryBasicErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter/summary/basic",
-        ...options,
-    });
-
-/**
- * 获取 全部SecurityGroup列表[仅基础字段]
- */
-export const getApiV1DatacenterSecgroupList = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1DatacenterSecgroupListData, ThrowOnError>,
-) =>
-    (options?.client ?? client).get<
-        GetApiV1DatacenterSecgroupListResponses,
-        GetApiV1DatacenterSecgroupListErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter/secgroup/list",
-        ...options,
-    });
-
-/**
- * 获取 全部静态IP列表(EIP)[仅基础字段]
- */
-export const getApiV1DatacenterStaticipList = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1DatacenterStaticipListData, ThrowOnError>,
-) =>
-    (options?.client ?? client).get<
-        GetApiV1DatacenterStaticipListResponses,
-        GetApiV1DatacenterStaticipListErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter/staticip/list",
-        ...options,
-    });
-
-/**
- * 获取健康状态 Summary信息
- */
-export const getApiV1DashboardSummaryHealth = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1DashboardSummaryHealthData, ThrowOnError>,
-) =>
-    (options?.client ?? client).get<
-        GetApiV1DashboardSummaryHealthResponses,
-        GetApiV1DashboardSummaryHealthErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/dashboard/summary/health",
-        ...options,
-    });
-
-/**
- * 获取可用的Instance Types列表(不含成本)
- */
-export const getApiV1ServerParamInstypeList = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1ServerParamInstypeListData, ThrowOnError>,
-) =>
-    (options.client ?? client).get<
-        GetApiV1ServerParamInstypeListResponses,
-        GetApiV1ServerParamInstypeListErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/server/param/instype/list",
-        ...options,
-    });
-
-/**
- * 获取云账号的FreeTier 提醒
- */
-export const getApiV1AccountReminderFreetier = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1AccountReminderFreetierData, ThrowOnError>,
-) =>
-    (options?.client ?? client).get<
-        GetApiV1AccountReminderFreetierResponses,
-        GetApiV1AccountReminderFreetierErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/account/reminder/freetier",
-        ...options,
-    });
-
-/**
- * 修改云账号的FreeTier 提醒
- */
-export const putApiV1AccountReminderFreetier = <ThrowOnError extends boolean = false>(
-    options?: Options<PutApiV1AccountReminderFreetierData, ThrowOnError>,
-) =>
-    (options?.client ?? client).put<
-        PutApiV1AccountReminderFreetierResponses,
-        PutApiV1AccountReminderFreetierErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/account/reminder/freetier",
-        ...options,
-        headers: {
-            "Content-Type": "application/json",
-            ...options?.headers,
-        },
-    });
-
-/**
- * 获取 全部RouteTable路由表[仅基础字段]
- */
-export const getApiV1DatacenterRoutetableList = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1DatacenterRoutetableListData, ThrowOnError>,
-) =>
-    (options?.client ?? client).get<
-        GetApiV1DatacenterRoutetableListResponses,
-        GetApiV1DatacenterRoutetableListErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter/routetable/list",
-        ...options,
-    });
-
-/**
- * 获取指定存储桶(Bucket)的详细信息
- */
-export const getApiV1StorageBucketByBucketId = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1StorageBucketByBucketIdData, ThrowOnError>,
-) =>
-    (options.client ?? client).get<
-        GetApiV1StorageBucketByBucketIdResponses,
-        GetApiV1StorageBucketByBucketIdErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/storage/bucket/{bucket_id}",
+        url: "/api/v1/storage/volume/list",
         ...options,
     });
 
@@ -1712,82 +1947,12 @@ export const getApiV1StorageVolumeByVolumeId = <ThrowOnError extends boolean = f
     });
 
 /**
- * 获取所有IaaS资源 Summary信息
+ * 删除指定用户
  */
-export const getApiV1DashboardSummaryResource = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1DashboardSummaryResourceData, ThrowOnError>,
-) =>
-    (options?.client ?? client).get<
-        GetApiV1DashboardSummaryResourceResponses,
-        GetApiV1DashboardSummaryResourceErrors,
-        ThrowOnError
-    >({
+export const deleteAUser = <ThrowOnError extends boolean = false>(options?: Options<DeleteAuserData, ThrowOnError>) =>
+    (options?.client ?? client).delete<DeleteAuserResponses, DeleteAuserErrors, ThrowOnError>({
         security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/dashboard/summary/resource",
-        ...options,
-    });
-
-/**
- * 获取指定的keypair信息
- */
-export const getApiV1AccountKeypairByKeyName = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1AccountKeypairByKeyNameData, ThrowOnError>,
-) =>
-    (options.client ?? client).get<
-        GetApiV1AccountKeypairByKeyNameResponses,
-        GetApiV1AccountKeypairByKeyNameErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/account/keypair/{key_name}",
-        ...options,
-    });
-
-/**
- * 获取指定的数据中心Resource统计信息
- */
-export const getApiV1DatacenterSummaryResource = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1DatacenterSummaryResourceData, ThrowOnError>,
-) =>
-    (options?.client ?? client).get<
-        GetApiV1DatacenterSummaryResourceResponses,
-        GetApiV1DatacenterSummaryResourceErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter/summary/resource",
-        ...options,
-    });
-
-/**
- * 获取全部Internet网关(igw)信息
- */
-export const getApiV1DatacenterGatewayInternet = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1DatacenterGatewayInternetData, ThrowOnError>,
-) =>
-    (options?.client ?? client).get<
-        GetApiV1DatacenterGatewayInternetResponses,
-        GetApiV1DatacenterGatewayInternetErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter/gateway/internet",
-        ...options,
-    });
-
-/**
- * 新建 Internet Gateway
- */
-export const postApiV1DatacenterGatewayInternet = <ThrowOnError extends boolean = false>(
-    options?: Options<PostApiV1DatacenterGatewayInternetData, ThrowOnError>,
-) =>
-    (options?.client ?? client).post<
-        PostApiV1DatacenterGatewayInternetResponses,
-        PostApiV1DatacenterGatewayInternetErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter/gateway/internet",
+        url: "/api/v1/user",
         ...options,
         headers: {
             "Content-Type": "application/json",
@@ -1796,233 +1961,68 @@ export const postApiV1DatacenterGatewayInternet = <ThrowOnError extends boolean 
     });
 
 /**
- * 查看 SecurityGroup 详细信息
+ * 添加新用户
  */
-export const getApiV1DatacenterSecgroupBySgId = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DatacenterSecgroupBySgIdData, ThrowOnError>,
-) =>
-    (options.client ?? client).get<
-        GetApiV1DatacenterSecgroupBySgIdResponses,
-        GetApiV1DatacenterSecgroupBySgIdErrors,
-        ThrowOnError
-    >({
+export const addNewUser = <ThrowOnError extends boolean = false>(options?: Options<AddNewUserData, ThrowOnError>) =>
+    (options?.client ?? client).post<AddNewUserResponses, AddNewUserErrors, ThrowOnError>({
         security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter/secgroup/{sg_id}",
-        ...options,
-    });
-
-/**
- * 获取可用的Instance Family列表
- */
-export const getApiV1ServerParamInstypeFamily = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1ServerParamInstypeFamilyData, ThrowOnError>,
-) =>
-    (options.client ?? client).get<
-        GetApiV1ServerParamInstypeFamilyResponses,
-        GetApiV1ServerParamInstypeFamilyErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/server/param/instype/family",
-        ...options,
-    });
-
-/**
- * 获取 指定静态IP(EIP)信息
- */
-export const getApiV1DatacenterStaticipByEipId = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DatacenterStaticipByEipIdData, ThrowOnError>,
-) =>
-    (options.client ?? client).get<
-        GetApiV1DatacenterStaticipByEipIdResponses,
-        GetApiV1DatacenterStaticipByEipIdErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter/staticip/{eip_id}",
-        ...options,
-    });
-
-/**
- * 获取数据中心 Summary信息
- */
-export const getApiV1DashboardSummaryDatacenter = <ThrowOnError extends boolean = false>(
-    options?: Options<GetApiV1DashboardSummaryDatacenterData, ThrowOnError>,
-) =>
-    (options?.client ?? client).get<
-        GetApiV1DashboardSummaryDatacenterResponses,
-        GetApiV1DashboardSummaryDatacenterErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/dashboard/summary/datacenter",
-        ...options,
-    });
-
-/**
- * 获取 指定subnet子网详细信息
- */
-export const getApiV1DatacenterSubnetBySubnetId = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DatacenterSubnetBySubnetIdData, ThrowOnError>,
-) =>
-    (options.client ?? client).get<
-        GetApiV1DatacenterSubnetBySubnetIdResponses,
-        GetApiV1DatacenterSubnetBySubnetIdErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter/subnet/{subnet_id}",
-        ...options,
-    });
-
-/**
- * 获取指定 RouteTable 路由表详细信息
- */
-export const getApiV1DatacenterRoutetableByRtbId = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DatacenterRoutetableByRtbIdData, ThrowOnError>,
-) =>
-    (options.client ?? client).get<
-        GetApiV1DatacenterRoutetableByRtbIdResponses,
-        GetApiV1DatacenterRoutetableByRtbIdErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter/routetable/{rtb_id}",
-        ...options,
-    });
-
-/**
- * 获取数据中心资源明细(Inventory)
- */
-export const getApiV1DashboardInventoryByResource = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DashboardInventoryByResourceData, ThrowOnError>,
-) =>
-    (options.client ?? client).get<
-        GetApiV1DashboardInventoryByResourceResponses,
-        GetApiV1DashboardInventoryByResourceErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/dashboard/inventory/{resource}",
-        ...options,
-    });
-
-/**
- * 获取指定的 keypair 文件下载
- */
-export const getApiV1AccountKeypairStoreByKeyName = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1AccountKeypairStoreByKeyNameData, ThrowOnError>,
-) =>
-    (options.client ?? client).get<
-        GetApiV1AccountKeypairStoreByKeyNameResponses,
-        GetApiV1AccountKeypairStoreByKeyNameErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/account/keypair/store/{key_name}",
-        ...options,
-    });
-
-/**
- * 查看 Internet Gateway 详细信息
- */
-export const getApiV1DatacenterGatewayNatByNatgwId = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DatacenterGatewayNatByNatgwIdData, ThrowOnError>,
-) =>
-    (options.client ?? client).get<
-        GetApiV1DatacenterGatewayNatByNatgwIdResponses,
-        GetApiV1DatacenterGatewayNatByNatgwIdErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter/gateway/nat/{natgw_id}",
-        ...options,
-    });
-
-/**
- * 获取指定存储桶(Bucket)内所有对象文件列表
- */
-export const getApiV1StorageBucketByBucketIdObject = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1StorageBucketByBucketIdObjectData, ThrowOnError>,
-) =>
-    (options.client ?? client).get<
-        GetApiV1StorageBucketByBucketIdObjectResponses,
-        GetApiV1StorageBucketByBucketIdObjectErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/storage/bucket/{bucket_id}/object",
-        ...options,
-    });
-
-/**
- * 修改存储桶(S3 Bucket)属性
- */
-export const putApiV1StorageBucketByBucketIdProperty = <ThrowOnError extends boolean = false>(
-    options: Options<PutApiV1StorageBucketByBucketIdPropertyData, ThrowOnError>,
-) =>
-    (options.client ?? client).put<
-        PutApiV1StorageBucketByBucketIdPropertyResponses,
-        PutApiV1StorageBucketByBucketIdPropertyErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/storage/bucket/{bucket_id}/property",
+        url: "/api/v1/user",
         ...options,
         headers: {
             "Content-Type": "application/json",
-            ...options.headers,
+            ...options?.headers,
         },
     });
 
 /**
- * 查看 Internet Gateway 详细信息
+ * 用户登录 (auth token)
  */
-export const getApiV1DatacenterGatewayInternetByIgwId = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1DatacenterGatewayInternetByIgwIdData, ThrowOnError>,
+export const postApiV1UserAuth = <ThrowOnError extends boolean = false>(
+    options?: Options<PostApiV1UserAuthData, ThrowOnError>,
 ) =>
-    (options.client ?? client).get<
-        GetApiV1DatacenterGatewayInternetByIgwIdResponses,
-        GetApiV1DatacenterGatewayInternetByIgwIdErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/datacenter/gateway/internet/{igw_id}",
-        ...options,
-    });
-
-/**
- * 修改存储桶的Public Block Policy
- */
-export const putApiV1StorageBucketByBucketIdPermission = <ThrowOnError extends boolean = false>(
-    options: Options<PutApiV1StorageBucketByBucketIdPermissionData, ThrowOnError>,
-) =>
-    (options.client ?? client).put<
-        PutApiV1StorageBucketByBucketIdPermissionResponses,
-        PutApiV1StorageBucketByBucketIdPermissionErrors,
-        ThrowOnError
-    >({
-        security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/storage/bucket/{bucket_id}/permission",
+    (options?.client ?? client).post<PostApiV1UserAuthResponses, PostApiV1UserAuthErrors, ThrowOnError>({
+        url: "/api/v1/user/auth",
         ...options,
         headers: {
             "Content-Type": "application/json",
-            ...options.headers,
+            ...options?.headers,
         },
     });
 
 /**
- * 获取指定存储桶(Bucket)内单个对象文件信息
+ * 查询当前用户列表
  */
-export const getApiV1StorageBucketByBucketIdByObjectKey = <ThrowOnError extends boolean = false>(
-    options: Options<GetApiV1StorageBucketByBucketIdByObjectKeyData, ThrowOnError>,
-) =>
-    (options.client ?? client).get<
-        GetApiV1StorageBucketByBucketIdByObjectKeyResponses,
-        GetApiV1StorageBucketByBucketIdByObjectKeyErrors,
-        ThrowOnError
-    >({
+export const listAllUsers = <ThrowOnError extends boolean = false>(options?: Options<ListAllUsersData, ThrowOnError>) =>
+    (options?.client ?? client).get<ListAllUsersResponses, ListAllUsersErrors, ThrowOnError>({
         security: [{ scheme: "bearer", type: "http" }],
-        url: "/api/v1/storage/bucket/{bucket_id}/{object_key}",
+        url: "/api/v1/user/list",
         ...options,
+    });
+
+/**
+ * 注销当前用户 (revoke token)
+ */
+export const deleteApiV1UserLogout = <ThrowOnError extends boolean = false>(
+    options?: Options<DeleteApiV1UserLogoutData, ThrowOnError>,
+) =>
+    (options?.client ?? client).delete<DeleteApiV1UserLogoutResponses, DeleteApiV1UserLogoutErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/user/logout",
+        ...options,
+    });
+
+/**
+ * 修改当前用户密码
+ */
+export const putApiV1UserPassword = <ThrowOnError extends boolean = false>(
+    options?: Options<PutApiV1UserPasswordData, ThrowOnError>,
+) =>
+    (options?.client ?? client).put<PutApiV1UserPasswordResponses, PutApiV1UserPasswordErrors, ThrowOnError>({
+        security: [{ scheme: "bearer", type: "http" }],
+        url: "/api/v1/user/password",
+        ...options,
+        headers: {
+            "Content-Type": "application/json",
+            ...options?.headers,
+        },
     });

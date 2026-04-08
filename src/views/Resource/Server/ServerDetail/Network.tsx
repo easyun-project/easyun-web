@@ -29,7 +29,7 @@ export default function Network(): JSX.Element {
     useEffect(
         () => {
             if (dc) {
-                (getApiV1DatacenterStaticipList as any)({ query: { dc } }).then(({ data }: any) => data?.detail).then(
+                (getApiV1DatacenterStaticipList as any)({ }).then(({ data }: any) => data?.detail).then(
                     (res) => {
                         changeEips(res);
                     },
@@ -99,7 +99,7 @@ export default function Network(): JSX.Element {
                                 <button onClick={() => {
                                     changeIsModalVisible(true);
                                     // fix-me: 不应该写死‘Easyun’
-                                    (getApiV1DatacenterStaticipList as any)({ query: { dc: 'Easyun' } }).then(({ data }: any) => data?.detail).then(
+                                    (getApiV1DatacenterStaticipList as any)({ }).then(({ data }: any) => data?.detail).then(
                                         (res) => {
                                             changeEips(res);
                                         },

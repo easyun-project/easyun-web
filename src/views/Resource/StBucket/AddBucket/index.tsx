@@ -37,7 +37,7 @@ const AddBucket = (): JSX.Element => {
         clearTimeout(refTimer.current);
         // 重新开启一个定时器
         refTimer.current = setTimeout(
-            () => (getApiV1StorageBucketVaildate as any)({ query: { dc: dcName, bucket_id: bucketId } }).then(({ data }) => setValid(data?.detail as any)), 1000);
+            () => (getApiV1StorageBucketVaildate as any)({ query: { bucket_id: bucketId } }).then(({ data }) => setValid(data?.detail as any)), 1000);
     }, [ bucketId ]);
 
     return (

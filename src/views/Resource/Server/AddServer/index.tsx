@@ -142,8 +142,8 @@ const AddServer = (): JSX.Element => {
     };
 
     useEffect(() => {
-        getApiV1DatacenterSecgroupList({ query: { dc } as any }).then(({ data }) => changeSecgroups(data?.detail as any));
-        getApiV1DatacenterSubnetList({ query: { dc } as any }).then(({ data }) => changeSubnets(data?.detail as any));
+        getApiV1DatacenterSecgroupList({ }).then(({ data }) => changeSecgroups(data?.detail as any));
+        getApiV1DatacenterSubnetList({ }).then(({ data }) => changeSubnets(data?.detail as any));
         getApiV1AccountKeypairList({} as any).then(({ data }: any) => changeKeyPairs(data?.detail));
     }, []);
 

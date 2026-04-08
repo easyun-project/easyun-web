@@ -29,8 +29,8 @@ export const listAllDataCenter = createAsyncThunk('cloud/listDataCenter', async 
 
 export const getDataCenterParams = createAsyncThunk(
     'cloud/getDataCenterParms',
-    async (params: { dc: string; region?: string }) => {
-        const { data } = await getApiV1DatacenterDefault({ query: params as any });
+    async () => {
+        const { data } = await getApiV1DatacenterDefault();
         return data?.detail as DefaultParmsOut | undefined;
     }
 );
